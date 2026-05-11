@@ -1,8 +1,11 @@
 'use client';
 
+import type { LocalUserChoices } from '@livekit/components-core';
+import { PreJoin } from '@livekit/components-react';
+import { Box, Center, Container, Loader, Paper, Stack, Text } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
-import { toast } from 'sonner';
+import { useEffect, useState } from 'react';
 
 import { useRoomToken } from '@/entities/room';
 import { useCurrentUser } from '@/entities/user';
@@ -14,6 +17,7 @@ const RoomRoute = () => {
   const name = params.get('name');
   const { session } = useCurrentUser();
   const query = useRoomToken({ roomName: name, accessToken: session?.access_token ?? null });
+  const [choices, setChoices] = useState<LocalUserChoices | null>(null);
 
   useEffect(() => {
     if (!name) {
@@ -21,7 +25,11 @@ const RoomRoute = () => {
       return;
     }
     if (query.error) {
-      toast.error(query.error.message);
+      notifications.show({
+        color: 'red',
+        title: 'Room error',
+        message: query.error.message,
+      });
       router.replace('/lobby');
     }
   }, [name, query.error, router]);
@@ -30,19 +38,62 @@ const RoomRoute = () => {
 
   if (query.isLoading || !query.data) {
     return (
-      <div className="flex h-full items-center justify-center text-muted-foreground text-sm">
-        Connecting to "{name}"...
-      </div>
+      <Center h="100%">
+        <Stack align="center" gap="sm">
+          <Loader size="sm" />
+          <Text c="dimmed" size="sm">
+            Connecting to "{name}"...
+          </Text>
+        </Stack>
+      </Center>
+    );
+  }
+
+  if (!choices) {
+    return (
+      <Box p="md" h="100%">
+        <Container size="md" h="100%" p={0}>
+          <Paper
+            withBorder
+            radius="md"
+            h="100%"
+            style={{ overflow: 'hidden' }}
+            data-lk-theme="default"
+          >
+            <PreJoin
+              defaults={{
+                username: session?.user.email ?? 'guest',
+                audioEnabled: true,
+                videoEnabled: false,
+              }}
+              onSubmit={setChoices}
+              persistUserChoices
+            />
+          </Paper>
+        </Container>
+      </Box>
     );
   }
 
   return (
-    <VoiceRoom
-      token={query.data.token}
-      serverUrl={query.data.url}
-      roomName={name}
-      onLeave={() => router.replace('/lobby')}
-    />
+    <Box p="md" h="100%">
+      <Container size="full" h="100%" p={0}>
+        <Paper
+          withBorder
+          radius="md"
+          h="100%"
+          style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+        >
+          <VoiceRoom
+            token={query.data.token}
+            serverUrl={query.data.url}
+            roomName={name}
+            userChoices={choices}
+            onLeave={() => router.replace('/lobby')}
+          />
+        </Paper>
+      </Container>
+    </Box>
   );
 };
 

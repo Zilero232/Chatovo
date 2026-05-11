@@ -32,7 +32,6 @@ export const useAuthStore = create<AuthState>((set) => ({
 
 export const bootstrapAuth = async () => {
   const { data } = await supabase.auth.getSession();
-  console.log(data);
   useAuthStore.getState().setSession(data.session);
 
   supabase.auth.onAuthStateChange((_event, session) => {

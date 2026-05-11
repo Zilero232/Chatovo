@@ -1,11 +1,16 @@
+import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
+import './globals.css';
+import '@livekit/components-styles';
+
+import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
-import { Toaster } from '@/shared/ui/sonner';
+import { theme } from '@/shared/ui/theme';
 
 import { Providers } from './providers';
-import './globals.css';
-import '@livekit/components-styles';
 
 export const metadata: Metadata = {
   title: 'Solvex',
@@ -13,10 +18,15 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: { children: ReactNode }) => (
-  <html lang="en">
+  <html lang="en" {...mantineHtmlProps}>
+    <head>
+      <ColorSchemeScript defaultColorScheme="dark" />
+    </head>
     <body>
-      <Providers>{children}</Providers>
-      <Toaster richColors closeButton position="top-right" />
+      <MantineProvider theme={theme} defaultColorScheme="dark">
+        <Notifications position="top-right" />
+        <Providers>{children}</Providers>
+      </MantineProvider>
     </body>
   </html>
 );

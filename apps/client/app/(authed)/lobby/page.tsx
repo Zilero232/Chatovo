@@ -1,43 +1,55 @@
 'use client';
 
+import { Container, Paper, ScrollArea, SimpleGrid, Stack, Text, Title } from '@mantine/core';
+
 import { useCurrentUser } from '@/entities/user';
 import { CreateRoomForm } from '@/features/create-room';
 import { JoinRoomForm } from '@/features/join-room';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
-import { Topbar } from '@/widgets/topbar';
 
 const LobbyRoute = () => {
   const { isAdmin } = useCurrentUser();
 
   return (
-    <div className="flex h-full flex-col">
-      <Topbar />
-      <main className="flex flex-1 items-start justify-center p-6">
-        <div className="grid w-full max-w-3xl gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Join a room</CardTitle>
-              <CardDescription>Enter an existing room name</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <JoinRoomForm />
-            </CardContent>
-          </Card>
+    <ScrollArea h="100%" type="hover">
+      <Container size="md" py="xl">
+        <Stack gap="lg">
+          <Stack gap={4}>
+            <Title order={2}>Lobby</Title>
+            <Text c="dimmed" size="sm">
+              Join an existing voice room or{' '}
+              {isAdmin ? 'create a new one' : 'ask admin to create one'}
+            </Text>
+          </Stack>
+          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
+            <Paper withBorder p="lg" radius="md">
+              <Stack gap="md">
+                <Stack gap={2}>
+                  <Title order={4}>Join a room</Title>
+                  <Text c="dimmed" size="xs">
+                    Enter an existing room name
+                  </Text>
+                </Stack>
+                <JoinRoomForm />
+              </Stack>
+            </Paper>
 
-          {isAdmin ? (
-            <Card>
-              <CardHeader>
-                <CardTitle>Create a room</CardTitle>
-                <CardDescription>Admin only — creates room on first connect</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <CreateRoomForm />
-              </CardContent>
-            </Card>
-          ) : null}
-        </div>
-      </main>
-    </div>
+            {isAdmin ? (
+              <Paper withBorder p="lg" radius="md">
+                <Stack gap="md">
+                  <Stack gap={2}>
+                    <Title order={4}>Create a room</Title>
+                    <Text c="dimmed" size="xs">
+                      Admin only — creates room on first connect
+                    </Text>
+                  </Stack>
+                  <CreateRoomForm />
+                </Stack>
+              </Paper>
+            ) : null}
+          </SimpleGrid>
+        </Stack>
+      </Container>
+    </ScrollArea>
   );
 };
 

@@ -1,11 +1,11 @@
 'use client';
 
+import { Center, Paper, Stack, Text, Title } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 import { useAuthStore } from '@/entities/user';
 import { AuthByEmailForm } from '@/features/auth-by-email';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
 
 const AuthRoute = () => {
   const router = useRouter();
@@ -16,17 +16,19 @@ const AuthRoute = () => {
   }, [session, router]);
 
   return (
-    <div className="flex h-full items-center justify-center p-6">
-      <Card className="w-full max-w-sm">
-        <CardHeader>
-          <CardTitle className="text-2xl">Solvex</CardTitle>
-          <CardDescription>Sign in to join voice rooms</CardDescription>
-        </CardHeader>
-        <CardContent>
+    <Center h="100vh" p="md">
+      <Paper withBorder shadow="md" p="xl" radius="md" w="100%" maw={400}>
+        <Stack gap="lg">
+          <Stack gap={4}>
+            <Title order={2}>Solvex</Title>
+            <Text c="dimmed" size="sm">
+              Sign in to join voice rooms
+            </Text>
+          </Stack>
           <AuthByEmailForm />
-        </CardContent>
-      </Card>
-    </div>
+        </Stack>
+      </Paper>
+    </Center>
   );
 };
 

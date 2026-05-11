@@ -27,7 +27,7 @@ export const Providers = ({ children }: { children: ReactNode }) => {
     <QueryClientProvider client={queryClient}>
       {isLoading ? <BootSplash /> : children}
       {process.env.NODE_ENV === 'development' ? (
-        <ReactQueryDevtools buttonPosition="bottom-left" />
+        <ReactQueryDevtools buttonPosition="bottom-right" />
       ) : null}
     </QueryClientProvider>
   );
