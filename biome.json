@@ -9,10 +9,11 @@
     "includes": [
       "**",
       "!**/dist",
+      "!**/.next",
+      "!**/out",
       "!apps/desktop",
-      "!apps/client/src/app/router/route-tree.gen.ts",
-      "!**/node_modules",
-      "!apps/client/.tanstack"
+      "!apps/client/next-env.d.ts",
+      "!**/node_modules"
     ]
   },
   "formatter": {
@@ -43,6 +44,11 @@
       "style": {
         "noNonNullAssertion": "warn",
         "useImportType": "error",
+        "useExportType": "error",
+        "useConsistentTypeDefinitions": {
+          "level": "error",
+          "options": { "style": "type" }
+        },
         "noRestrictedImports": {
           "level": "error",
           "options": {
@@ -53,8 +59,7 @@
               "@/widgets/*/ui/*": "Import via barrel: '@/widgets/<slice>'",
               "@/widgets/*/model/*": "Import via barrel: '@/widgets/<slice>'",
               "@/entities/*/ui/*": "Import via barrel: '@/entities/<slice>'",
-              "@/entities/*/model/*": "Import via barrel: '@/entities/<slice>'",
-              "@/pages/*/ui/*": "Import via barrel: '@/pages/<slice>'"
+              "@/entities/*/model/*": "Import via barrel: '@/entities/<slice>'"
             }
           }
         }
@@ -72,7 +77,22 @@
     "enabled": true,
     "actions": {
       "source": {
-        "organizeImports": "on"
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              [":BUN:", ":NODE:"],
+              ":BLANK_LINE:",
+              [":PACKAGE:", "!@solvex/**", "!@/**"],
+              ":BLANK_LINE:",
+              ["@solvex/**"],
+              ":BLANK_LINE:",
+              ["@/**"],
+              ":BLANK_LINE:",
+              [":PATH:"]
+            ]
+          }
+        }
       }
     }
   }

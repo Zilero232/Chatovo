@@ -1,7 +1,9 @@
 import { zValidator } from '@hono/zod-validator';
-import { tokenRequestSchema } from '@solvex/shared';
 import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
+
+import { tokenRequestSchema } from '@solvex/shared';
+
 import { type AuthVariables, requireSupabaseUser } from '@/middleware/auth';
 import { issueLiveKitToken, type ParticipantRole } from '@/services/livekit';
 

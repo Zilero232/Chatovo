@@ -7,10 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Deps
 node_modules
+*.local
+
+# Build output
 dist
 dist-ssr
-*.local
+.next
+out
+*.tsbuildinfo
+
+# Tauri / Rust
+apps/desktop/target
+apps/desktop/gen
 
 # Editor directories and files
 .vscode/*
@@ -27,4 +37,3 @@ dist-ssr
 .env
 .env.local
 .env.*.local
-

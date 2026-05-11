@@ -4,7 +4,7 @@ import { defineConfig } from 'steiger';
 export default defineConfig([
   ...fsd.configs.recommended,
   {
-    ignores: ['./src/app/router/route-tree.gen.ts', './src/app/router/routes/**'],
+    ignores: ['./app/**', './public/**', './out/**', './.next/**', './node_modules/**'],
   },
   {
     rules: {

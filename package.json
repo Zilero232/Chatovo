@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "bun --filter @solvex/client dev",
     "build": "bun --filter @solvex/client build",
-    "preview": "bun --filter @solvex/client preview",
+    "start": "bun --filter @solvex/client start",
     "tauri": "bun --filter @solvex/desktop tauri",
     "desktop": "bun --filter @solvex/desktop dev",
     "desktop:build": "bun --filter @solvex/desktop build",

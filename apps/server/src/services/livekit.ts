@@ -1,14 +1,15 @@
 import { AccessToken } from 'livekit-server-sdk';
+
 import { env } from '@/env';
 
 export type ParticipantRole = 'admin' | 'user';
 
-interface IssueTokenInput {
+type IssueTokenInput = {
   room: string;
   identity: string;
   name: string;
   role: ParticipantRole;
-}
+};
 
 export const issueLiveKitToken = async ({ room, identity, name, role }: IssueTokenInput) => {
   const at = new AccessToken(env.LIVEKIT_API_KEY, env.LIVEKIT_API_SECRET, {

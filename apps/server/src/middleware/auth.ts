@@ -1,11 +1,12 @@
 import type { User } from '@supabase/supabase-js';
 import { createMiddleware } from 'hono/factory';
 import { HTTPException } from 'hono/http-exception';
+
 import { supabaseAdmin } from '@/services/supabase';
 
-export interface AuthVariables {
+export type AuthVariables = {
   user: User;
-}
+};
 
 export const requireSupabaseUser = createMiddleware<{ Variables: AuthVariables }>(
   async (c, next) => {

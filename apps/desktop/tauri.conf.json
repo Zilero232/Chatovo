@@ -5,9 +5,9 @@
   "identifier": "com.react.solvex",
   "build": {
     "beforeDevCommand": "bun --filter @solvex/client dev",
-    "devUrl": "http://localhost:1420",
+    "devUrl": "http://localhost:3000",
     "beforeBuildCommand": "bun --filter @solvex/client build",
-    "frontendDist": "../client/dist"
+    "frontendDist": "../client/out"
   },
   "app": {
     "windows": [
