@@ -1,0 +1,24 @@
+{
+  "name": "solvex",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "bun --filter @solvex/client dev",
+    "build": "bun --filter @solvex/client build",
+    "preview": "bun --filter @solvex/client preview",
+    "tauri": "bun --filter @solvex/desktop tauri",
+    "desktop": "bun --filter @solvex/desktop dev",
+    "desktop:build": "bun --filter @solvex/desktop build",
+    "server": "bun run --hot --env-file=apps/server/.env apps/server/src/index.ts",
+    "lint": "biome check ./apps ./packages",
+    "lint:fix": "biome check --write ./apps ./packages",
+    "format": "biome format --write ./apps ./packages",
+    "fsd": "bun --filter @solvex/client fsd"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.15",
+    "@feature-sliced/steiger-plugin": "^0.5.7"
+  }
+}
