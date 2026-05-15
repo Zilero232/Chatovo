@@ -11,7 +11,7 @@ import { useRef } from 'react';
 
 import type { VoiceRoomProps } from './VoiceRoom.types';
 
-import { Stage } from './components/Stage';
+import { Stage } from './components';
 import { voiceRoomStyles as s } from './VoiceRoom.styles';
 
 const FAILURE_REASONS = new Set<DisconnectReason>([

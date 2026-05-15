@@ -78,13 +78,14 @@ widgets/voice-room/ui/
   VoiceRoom.styles.ts    ← Tailwind class-строки / cva-варианты
 ```
 
-**Одноразовые подкомпоненты** — каждый в своей папке внутри `components/`:
+**Одноразовые подкомпоненты** — каждый в своей папке внутри `components/`, плюс **обязательный** `components/index.ts` barrel:
 
 ```
 widgets/channels-panel/ui/
   ChannelsPanel.tsx              ← главный, плоско
   ChannelsPanel.styles.ts
   components/
+    index.ts                     ← barrel слоя: re-exports всех подкомпонентов
     ChannelsHeader/
       ChannelsHeader.tsx
       ChannelsHeader.types.ts
@@ -98,9 +99,21 @@ widgets/channels-panel/ui/
     ...
 ```
 
+Родитель импортирует один barrel:
+
+```ts
+// ✓ ОК
+import { ChannelsHeader, ChannelsList, ChannelsFooter } from './components';
+
+// ✗ НЕ ОК
+import { ChannelsHeader } from './components/ChannelsHeader';
+import { ChannelsList } from './components/ChannelsList';
+```
+
 **Почему так:**
 - Главный entry без папки — короткий импорт `@/widgets/voice-room/ui/VoiceRoom` сразу резолвится в `.tsx`.
 - Подкомпоненты — папка + `index.ts` для группировки трёх файлов и чистого относительного импорта `./components/ChannelsHeader` без `.tsx` хвоста.
+- `components/index.ts` barrel — родитель импортирует одной строкой, плюс служит явным public API слоя подкомпонентов.
 - `*.types.ts` рядом — IDE сразу даёт перейти к Props.
 - `*.styles.ts` отдельно — JSX чистый.
 
@@ -628,7 +641,197 @@ return <VoiceRoom />;
 
 ---
 
-## 17. Запреты
+## 17. Shared схемы — `@solvex/schemas`
+
+Все Zod схемы и типы общие между client/server живут в `packages/schemas`:
+
+```text
+packages/schemas/src/
+  livekit/
+    inputs.ts          ← tokenRequestSchema
+    outputs.ts         ← tokenResponseSchema
+    types.ts           ← TokenRequest, TokenResponse
+    index.ts
+  rooms/
+    inputs.ts          ← createRoomInputSchema
+    outputs.ts         ← roomSchema
+    types.ts           ← Room, CreateRoomInput, CreateRoomRawInput
+    index.ts
+```
+
+Импорт **прямой** из package, не через `@/shared/api`:
+
+```ts
+// ✓ ОК
+import { createRoomInputSchema, type Room } from '@solvex/schemas/rooms';
+
+// ✗ НЕ ОК — `shared/api` re-export схем удалён
+import { Room } from '@/shared/api';
+```
+
+`@/shared/api` экспортирует **только runtime функции** (RPC wrappers, supabase client): `createRoom`, `deleteRoom`, `listRooms`, `fetchLiveKitToken`, `getFreshAccessToken`, `supabase`.
+
+**Input vs Output типы:**
+
+- `CreateRoomInput = z.output<typeof schema>` — после `.parse()`, defaults применены, required.
+- `CreateRoomRawInput = z.input<typeof schema>` — raw form value, optionals до defaults.
+- Используй `CreateRoomRawInput` для `defaultValues` формы, `CreateRoomInput` для submit / API body.
+
+---
+
+## 18. Формы — react-hook-form + zodResolver
+
+Все формы строятся через `useForm` + `zodResolver`. Никаких самописных `useState` для полей.
+
+```tsx
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { createRoomInputSchema, type CreateRoomInput, type CreateRoomRawInput } from '@solvex/schemas/rooms';
+
+const DEFAULT_VALUES: CreateRoomRawInput = { name: '', isPrivate: false };
+
+const {
+  formState: { errors },
+  handleSubmit,
+  register,
+  reset,
+  watch,
+  setError,
+} = useForm<CreateRoomRawInput, unknown, CreateRoomInput>({
+  resolver: zodResolver(createRoomInputSchema),
+  defaultValues: DEFAULT_VALUES,
+});
+```
+
+**Правила:**
+
+- Схема живёт в `@solvex/schemas/<resource>`, не inline в форме (исключение — мелкие form-local schemas в `*.styles.ts` рядом).
+- `defaultValues` типизирован `RawInput`, generic `useForm<RawInput, _, Output>` — RHF держит state в input shape, `handleSubmit` callback получает output.
+- Server-side ошибки через `setError('field', { message: err.message })`.
+- Boolean toggles вне формы (`isSignup`, `isPrivate` modal mode) — `useBoolean` из `@siberiacancode/reactuse`, не useState.
+
+---
+
+## 19. Conditional render — ts-pattern
+
+Множественные условные ветки render — через `match` + discriminated union state, не вложенные `if (...) return`:
+
+```tsx
+import { match } from 'ts-pattern';
+
+type RoomState =
+  | { kind: 'loading' }
+  | { kind: 'not-found' }
+  | { kind: 'password'; roomId: string; displayName: string }
+  | { kind: 'active'; token: string; url: string };
+
+const state: RoomState = !room && rooms.isLoading
+  ? { kind: 'loading' }
+  : !room
+    ? { kind: 'not-found' }
+    : /* ... */;
+
+return match(state)
+  .with({ kind: 'loading' }, () => <RoomLoader text="Loading..." />)
+  .with({ kind: 'not-found' }, () => <RoomNotFound />)
+  .with({ kind: 'password' }, ({ roomId, displayName }) => (
+    <RoomPasswordForm displayName={displayName} roomId={roomId} />
+  ))
+  .with({ kind: 'active' }, ({ token, url }) => <RoomActive token={token} url={url} />)
+  .exhaustive();
+```
+
+`.exhaustive()` — TS error если добавили state но забыли case.
+
+**Когда НЕ нужен `match`:** один-два guard early return (`if (!id) return null;`). Только при 3+ ветках render.
+
+**Derived state выносить в hook.** View не должен содержать логику вычисления `state` — только `match`. Тернарные цепочки вычисления + `useEffect` живут в `model/use-<name>-state.ts`:
+
+```tsx
+// ✓ ОК — view только match
+export const RoomPage = () => {
+  const state = useRoomState();
+
+  return match(state)
+    .with({ kind: 'loading' }, () => <RoomLoadingFallback />)
+    .with(/* ... */)
+    .exhaustive();
+};
+
+// ✗ НЕ ОК — condition hell в самом view
+export const RoomPage = () => {
+  const state = !roomId ? { kind: 'no-id' } : !room ? /* ... */ : /* ... */;
+  // ...
+};
+```
+
+---
+
+## 20. Drill cleanup — данные через хуки в leaf, не props
+
+Если данные доступны через глобальный хук (`useCurrentUser`, `useRooms`, `useRouter`), **leaf компонент сам вызывает хук**, а не принимает props.
+
+```tsx
+// ✗ ПЛОХО — drilling
+<ChannelsPanel>
+  <ChannelsList displayName={x} initial={y} isAdmin={z} rooms={r} onDelete={d} />
+</ChannelsPanel>
+
+// ✓ ОК — leaf берёт сам
+const ChannelsList = () => {
+  const rooms = useRooms();
+  // ...
+};
+```
+
+**Не делать параметризированные generic компоненты.** Если контент статичный — пиши его прямо в компоненте, не передавай через prop:
+
+```tsx
+// ✗ НЕ ОК — text всегда один и тот же на месте вызова
+<RoomLoader text="Loading room..." />
+
+// ✓ ОК — два specific компонента
+<RoomLoadingFallback />            // содержит "Loading room..." внутри
+<RoomConnecting displayName="x" /> // только динамическая часть как prop
+```
+
+Pass через prop **только динамические значения**. Статичные строки — внутри компонента.
+
+**Когда оставлять props:**
+
+- Данные приходят из родителя который сам их получает по событию (`room` в `<ChannelsRoomItem room={room} />` из `.map`).
+- UI state шеллов (`channelsOpened` в `ServerRail` — orchestrator state).
+- Колбэк который требует контекст родителя.
+
+`useCurrentUser` возвращает derived поля прямо в hook: `displayName`, `initial`, `isAdmin`, `isAuthenticated` — не вычисляй в каждом компоненте.
+
+---
+
+## 21. Server routes — OpenAPI
+
+Server использует `@hono/zod-openapi`. Структура per-resource:
+
+```text
+apps/server/src/routes/
+  shared/
+    schemas.ts         ← errorSchema (общий)
+  rooms/
+    routes.ts          ← createRoute({...}) определения
+    handlers.ts        ← RouteHandler<typeof route, Env>
+    index.ts           ← OpenAPIHono().openapi(route, handler)
+  livekit/
+    ...
+```
+
+`routes.ts` чистый — только route definitions. `handlers.ts` — типизированные handlers через `RouteHandler<typeof route, Env>`. `index.ts` связывает.
+
+Validation **внутри** `createRoute({ request: { body: { content: { ... schema } } } })` — не отдельный middleware `zValidator`. Все ответы (включая 4xx/5xx) описаны в `responses` с error schema.
+
+Swagger UI на `/docs`, OpenAPI JSON на `/openapi.json`.
+
+---
+
+## 22. Запреты
 
 - `console.log` оставлять в коммите (можно только локально для дебага).
 - `any` (`@typescript-eslint/no-explicit-any: error`).
@@ -637,6 +840,10 @@ return <VoiceRoom />;
 - Cross-import между слайсами одного слоя.
 - Prettier, Biome, CSS-in-JS (emotion/styled-components). Только Tailwind + ESLint (siberiacancode).
 - `axios` / ручной `fetch` для бизнес-вызовов. Только Hono RPC client (`shared/api/http`).
+- Дублирование схем между client/server. Только `@solvex/schemas`.
+- Самописный form state (`useState` для name/email/password). Только `react-hook-form`.
+- Вложенные `if (...) return <X />` цепочки на 3+ ветки. Используй `ts-pattern` `match`.
+- Drill пропсов когда leaf может сам вызвать hook.
 
 ---
 

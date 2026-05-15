@@ -3,7 +3,7 @@
 import { CreateRoomForm } from '@/features/create-room';
 import { ScrollArea } from '@/shared/ui';
 
-import { LobbyCard } from './components/LobbyCard';
+import { LobbyCard } from './components';
 import { lobbyPageStyles as s } from './LobbyPage.styles';
 
 export const LobbyPage = () => (

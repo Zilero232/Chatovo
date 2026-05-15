@@ -1,15 +1,15 @@
 model Room {
-  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
-  name         String   @unique
-  passwordHash String?  @map("password_hash")
-  isPrivate    Boolean  @default(false) @map("is_private")
+  name         String  @unique
+  passwordHash String? @map("password_hash")
+  isPrivate    Boolean @default(false) @map("is_private")
 
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  createdById  String   @map("created_by") @db.Uuid
-  createdBy    User     @relation("RoomCreator", fields: [createdById], references: [id])
+  createdById String @map("created_by") @db.Uuid
+  createdBy   User   @relation("RoomCreator", fields: [createdById], references: [id])
 
   @@map("rooms")
   @@schema("public")

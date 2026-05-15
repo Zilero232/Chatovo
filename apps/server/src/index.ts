@@ -1,4 +1,5 @@
-import { Hono } from 'hono';
+import { swaggerUI } from '@hono/swagger-ui';
+import { OpenAPIHono } from '@hono/zod-openapi';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 
@@ -7,7 +8,15 @@ import { authMiddleware } from './middleware/auth';
 import { livekitRouter } from './routes/livekit';
 import { roomsRouter } from './routes/rooms';
 
-const app = new Hono()
+const app = new OpenAPIHono();
+
+app.openAPIRegistry.registerComponent('securitySchemes', 'bearerAuth', {
+  type: 'http',
+  scheme: 'bearer',
+  bearerFormat: 'JWT',
+});
+
+export const routes = app
   .use('*', logger())
   .use(
     '*',
@@ -21,7 +30,14 @@ const app = new Hono()
   .route('/api/rooms', roomsRouter)
   .route('/api/livekit', livekitRouter);
 
-export type App = typeof app;
+app.doc('/openapi.json', {
+  openapi: '3.0.0',
+  info: { title: 'Solvex API', version: '0.1.0' },
+});
+
+app.get('/docs', swaggerUI({ url: '/openapi.json' }));
+
+export type App = typeof routes;
 
 export default {
   port: env.PORT,
