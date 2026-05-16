@@ -1,18 +1,14 @@
 'use client';
 
-import type { LocalUserChoices } from '@livekit/components-core';
-
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { useRooms, useRoomToken } from '@/entities/room';
-import { useCurrentUser } from '@/entities/user';
+import { usePublicRoomToken, useRooms, useRoomTokenMutation } from '@/entities/room';
 import { ROUTES } from '@/shared/constants';
 
 export type RoomState =
   | {
       kind: 'active';
-      choices: LocalUserChoices;
       displayName: string;
       onConnectFailure: () => void;
       onLeave: () => void;
@@ -37,41 +33,19 @@ export const useRoomState = (): RoomState => {
   const router = useRouter();
   const params = useSearchParams();
 
-  const { session } = useCurrentUser();
-
   const rooms = useRooms();
-  const tokenMutation = useRoomToken();
+  const tokenMutation = useRoomTokenMutation();
 
   const roomId = params.get('id');
   const room = rooms.data?.find((r) => r.id === roomId);
   const displayName = room?.name ?? roomId ?? '';
 
-  const { reset } = tokenMutation;
+  const publicToken = usePublicRoomToken(roomId, !!room && !room.isPrivate);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: roomId is the trigger — reset() must run on every room switch, not just on mount
+  // biome-ignore lint/correctness/useExhaustiveDependencies: redirect must fire only on roomId change; router is a stable ref
   useEffect(() => {
-    reset();
-  }, [roomId, reset]);
-
-  useEffect(() => {
-    if (!roomId) {
-      router.replace(ROUTES.lobby);
-
-      return;
-    }
-
-    if (
-      !room ||
-      room.isPrivate ||
-      tokenMutation.data ||
-      tokenMutation.isPending ||
-      tokenMutation.isError
-    ) {
-      return;
-    }
-
-    tokenMutation.mutate({ roomId });
-  }, [roomId, room, tokenMutation, router]);
+    if (!roomId) router.replace(ROUTES.lobby);
+  }, [roomId]);
 
   if (!roomId) return { kind: 'no-id' };
 
@@ -92,21 +66,14 @@ export const useRoomState = (): RoomState => {
     };
   }
 
-  if (tokenMutation.isPending || !tokenMutation.data) {
+  const tokenData = room.isPrivate ? tokenMutation.data : publicToken.data;
+
+  if (!tokenData) {
     return { kind: 'connecting', displayName };
   }
 
-  const choices: LocalUserChoices = {
-    username: session?.user.email ?? 'guest',
-    audioEnabled: true,
-    videoEnabled: false,
-    audioDeviceId: '',
-    videoDeviceId: '',
-  };
-
   return {
     kind: 'active',
-    choices,
     displayName,
     onConnectFailure: () => {
       tokenMutation.reset();
@@ -114,7 +81,7 @@ export const useRoomState = (): RoomState => {
     },
     onLeave: () => router.replace(ROUTES.lobby),
     roomId,
-    token: tokenMutation.data.token,
-    url: tokenMutation.data.url,
+    token: tokenData.token,
+    url: tokenData.url,
   };
 };

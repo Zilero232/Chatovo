@@ -8,11 +8,6 @@ import { VoiceRoom } from '@/widgets/voice-room';
 import { useRoomState } from '../model/use-room-state';
 import { RoomConnecting, RoomLoadingFallback, RoomNotFound, RoomPasswordForm } from './components';
 
-const styles = {
-  root: 'h-full p-4',
-  frame: 'flex h-full flex-col overflow-hidden rounded-lg border',
-} as const;
-
 export const RoomPage = () => {
   const state = useRoomState();
 
@@ -29,26 +24,18 @@ export const RoomPage = () => {
       />
     ))
     .with({ kind: 'connecting' }, ({ displayName }) => <RoomConnecting displayName={displayName} />)
-    .with(
-      { kind: 'active' },
-      ({ choices, displayName, onConnectFailure, onLeave, roomId, token, url }) => (
-        <div className={styles.root}>
-          <div className={styles.frame}>
-            <VoiceRoom
-              key={roomId}
-              roomName={displayName}
-              serverUrl={url}
-              token={token}
-              userChoices={choices}
-              onConnectFailure={(reason) => {
-                toast.error('Failed to join room', { description: `LiveKit: ${reason}` });
-                onConnectFailure();
-              }}
-              onLeave={onLeave}
-            />
-          </div>
-        </div>
-      ),
-    )
+    .with({ kind: 'active' }, ({ displayName, onConnectFailure, onLeave, roomId, token, url }) => (
+      <VoiceRoom
+        key={roomId}
+        roomName={displayName}
+        serverUrl={url}
+        token={token}
+        onConnectFailure={(reason) => {
+          toast.error('Failed to join room', { description: `LiveKit: ${reason}` });
+          onConnectFailure();
+        }}
+        onLeave={onLeave}
+      />
+    ))
     .exhaustive();
 };
