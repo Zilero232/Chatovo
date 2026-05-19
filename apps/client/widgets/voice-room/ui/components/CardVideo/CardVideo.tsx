@@ -5,13 +5,12 @@ import { useFullscreen } from '@siberiacancode/reactuse';
 import { Expand } from 'lucide-react';
 import type { KeyboardEvent } from 'react';
 
-import { participantCardStyles as s } from './ParticipantCard.styles';
+import { cardVideoStyles as s } from './CardVideo.styles';
 
 interface CardVideoProps {
   trackRef: TrackReference;
 }
 
-/** A single fullscreen-able video pane (camera or screen-share). */
 export const CardVideo = ({ trackRef }: CardVideoProps) => {
   const { ref, toggle } = useFullscreen<HTMLDivElement>();
   const muted = useIsMuted(trackRef);
@@ -23,14 +22,14 @@ export const CardVideo = ({ trackRef }: CardVideoProps) => {
     }
   };
 
-  // A muted camera track is still published; show nothing for it so the avatar wins.
+  // A muted camera track is still published; show nothing for it.
   if (muted) return null;
 
   return (
     // biome-ignore lint/a11y/useSemanticElements: <button> cannot wrap a <video>; div + role=button is the valid composite
     <div
       ref={ref}
-      className={s.videoPane}
+      className={s.pane}
       onClick={toggle}
       onKeyDown={handleKeyDown}
       role="button"

@@ -41,9 +41,17 @@ export const tokenHandler: RouteHandler<typeof tokenRoute, Env> = async (c) => {
   const role = readRole(data.user.app_metadata);
   const isAdmin = role === 'admin';
 
+  // display_name is set by the user at sign-up; fall back to the email local part.
+  const displayName =
+    (data.user.user_metadata?.display_name as string | undefined)?.trim() ||
+    email?.split('@')[0] ||
+    userId;
+
   const at = new AccessToken(env.LIVEKIT_API_KEY, env.LIVEKIT_API_SECRET, {
     identity: userId,
-    name: email ?? userId,
+    name: displayName,
+    // Travels to every other participant via participant.metadata.
+    metadata: JSON.stringify({ email: email ?? null }),
     ttl: 60 * 60,
   });
 

@@ -10,7 +10,13 @@ export const LogoutButton = () => {
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
 
-    if (error) toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+
+      return;
+    }
+
+    toast.success('Signed out');
   };
 
   return (

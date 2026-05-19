@@ -1,11 +1,10 @@
 'use client';
 
-import { BarVisualizer, useParticipantTracks } from '@livekit/components-react';
+import { BarVisualizer, useIsSpeaking, useParticipantTracks } from '@livekit/components-react';
 import { Track } from 'livekit-client';
 import { MicOff } from 'lucide-react';
 
-import { CardVideo } from './CardVideo';
-import { ParticipantAvatar } from './ParticipantAvatar';
+import { CardVideo } from '../CardVideo';
 import { participantCardStyles as s } from './ParticipantCard.styles';
 import type { ParticipantCardProps } from './ParticipantCard.types';
 
@@ -14,6 +13,7 @@ export const ParticipantCard = ({ participant }: ParticipantCardProps) => {
   const [screenTrack] = useParticipantTracks([Track.Source.ScreenShare], participant.identity);
   const [micTrack] = useParticipantTracks([Track.Source.Microphone], participant.identity);
 
+  const isSpeaking = useIsSpeaking(participant);
   const displayName = participant.name || participant.identity;
 
   // A track may be published but muted; the *Enabled getters account for that.
@@ -22,7 +22,7 @@ export const ParticipantCard = ({ participant }: ParticipantCardProps) => {
   const hasVideo = hasCamera || hasScreen;
 
   return (
-    <div className={s.root}>
+    <div className={s.root} data-speaking={isSpeaking}>
       <div className={s.stage}>
         {hasVideo ? (
           <div className={s.videoGrid}>
@@ -30,14 +30,12 @@ export const ParticipantCard = ({ participant }: ParticipantCardProps) => {
             {hasScreen && screenTrack ? <CardVideo trackRef={screenTrack} /> : null}
           </div>
         ) : (
-          <ParticipantAvatar name={displayName} />
+          <div className={s.audioStage}>
+            <BarVisualizer barCount={5} className={s.visualizer} track={micTrack}>
+              <span className={s.bar} />
+            </BarVisualizer>
+          </div>
         )}
-
-        {!hasVideo && micTrack ? (
-          <BarVisualizer barCount={5} className={s.visualizer} track={micTrack}>
-            <span className={s.bar} />
-          </BarVisualizer>
-        ) : null}
       </div>
 
       <div className={s.metadata}>

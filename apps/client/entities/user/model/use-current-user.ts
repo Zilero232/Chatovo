@@ -23,7 +23,11 @@ export const useCurrentUser = () => {
 
   const user = session?.user ?? null;
   const role = readRole(user);
-  const displayName = user?.email?.split('@')[0] ?? 'you';
+  // display_name is chosen at sign-up; fall back to the email local part.
+  const displayName =
+    (user?.user_metadata?.display_name as string | undefined)?.trim() ||
+    user?.email?.split('@')[0] ||
+    'you';
   const initial = displayName.charAt(0).toUpperCase();
 
   return {
