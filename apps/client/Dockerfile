@@ -46,6 +46,12 @@ COPY packages/schemas ./packages/schemas
 COPY apps/server ./apps/server
 COPY apps/client ./apps/client
 
+# The client imports types from apps/server (which references the Prisma client
+# at apps/server/generated/). Generate it before the Next.js typecheck runs.
+# prisma.config.ts loads DIRECT_URL via env(); generate doesn't connect, so a
+# placeholder satisfies the loader without baking any secret into the image.
+RUN cd apps/server && DIRECT_URL="postgresql://placeholder" bunx prisma generate
+
 # Produce the static export -> apps/client/out
 RUN bun --filter @chatovo/client build
 

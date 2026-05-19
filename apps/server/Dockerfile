@@ -46,7 +46,10 @@ COPY apps/server ./apps/server
 WORKDIR /app/apps/server
 
 # Generate the Prisma client now that the schema is present.
-RUN bunx prisma generate
+# prisma.config.ts resolves DIRECT_URL via prisma/config's env() helper, which
+# throws if the variable is unset. `prisma generate` does not actually connect
+# to the database, so a placeholder value is enough to satisfy the loader.
+RUN DIRECT_URL="postgresql://placeholder" bunx prisma generate
 
 EXPOSE 4000
 
