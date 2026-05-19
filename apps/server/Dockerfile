@@ -34,12 +34,14 @@ RUN bun install --frozen-lockfile --ignore-scripts
 FROM base AS runner
 ENV NODE_ENV=production
 
-# Bring in the installed node_modules from the deps stage.
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/server/node_modules ./apps/server/node_modules
+# Bring the fully installed monorepo (root + every workspace's node_modules)
+# from the deps stage. Bun workspaces nest dependencies under each package's
+# own node_modules — for example packages/schemas declares `zod`, so it lives
+# in packages/schemas/node_modules/zod and must be present at runtime.
+# Copying the whole tree is the simplest way to keep the resolution graph intact.
+COPY --from=deps /app /app
 
-# Copy the source needed at runtime.
-COPY package.json bun.lock ./
+# Overlay the actual source on top of the deps stage's manifest-only layout.
 COPY packages/schemas ./packages/schemas
 COPY apps/server ./apps/server
 
