@@ -21,6 +21,11 @@ FROM base AS deps
 COPY package.json bun.lock ./
 COPY apps/server/package.json ./apps/server/package.json
 COPY packages/schemas/package.json ./packages/schemas/package.json
+# Bun's --frozen-lockfile validates the on-disk workspace topology against the
+# lockfile, so every workspace member in bun.lock must have its manifest
+# present — even those not used by this image.
+COPY apps/client/package.json ./apps/client/package.json
+COPY apps/tauri/package.json ./apps/tauri/package.json
 # `bun install` triggers the server's `postinstall` (prisma generate); the schema
 # is not copied yet, so disable lifecycle scripts here and run generate later.
 RUN bun install --frozen-lockfile --ignore-scripts

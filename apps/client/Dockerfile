@@ -35,6 +35,10 @@ COPY package.json bun.lock ./
 COPY apps/client/package.json ./apps/client/package.json
 COPY apps/server/package.json ./apps/server/package.json
 COPY packages/schemas/package.json ./packages/schemas/package.json
+# Bun's --frozen-lockfile validates the on-disk workspace topology against the
+# lockfile, so apps/tauri's manifest must be present even though this image
+# doesn't use it.
+COPY apps/tauri/package.json ./apps/tauri/package.json
 RUN bun install --frozen-lockfile --ignore-scripts
 
 # Copy the source needed to build the client.
