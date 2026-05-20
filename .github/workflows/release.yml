@@ -139,13 +139,11 @@ jobs:
           NEXT_PUBLIC_LIVEKIT_URL: ${{ secrets.NEXT_PUBLIC_LIVEKIT_URL }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
-          # macOS code signing & notarization (optional — skipped if unset).
-          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
-          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          # macOS code signing & notarization is not configured yet — leaving the
+          # APPLE_* env vars unset produces an unsigned .app (Gatekeeper warning
+          # on first launch, but it installs). Re-add them when Apple Developer
+          # account secrets are set. Passing empty strings here would make
+          # tauri-action try to import an empty certificate and fail the build.
         with:
           projectPath: apps/tauri
           tagName: app-v${{ needs.resolve-version.outputs.version }}
