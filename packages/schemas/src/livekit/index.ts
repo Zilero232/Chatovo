@@ -1,3 +1,12 @@
 export { tokenRequestSchema } from './inputs';
-export { tokenResponseSchema } from './outputs';
-export type { TokenRequest, TokenResponse } from './types';
+export {
+  roomParticipantSchema,
+  roomParticipantsResponseSchema,
+  tokenResponseSchema,
+} from './outputs';
+export type {
+  RoomParticipant,
+  RoomParticipantsResponse,
+  TokenRequest,
+  TokenResponse,
+} from './types';

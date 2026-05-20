@@ -4,9 +4,10 @@ import { Lock, Trash2, Volume2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 
-import { useDeleteRoom } from '@/entities/room';
+import { useDeleteRoom, useRoomParticipants } from '@/entities/room';
 import { useCurrentUser } from '@/entities/user';
 import { buildRoomHref, ROUTES } from '@/shared/constants';
+import { getInitials } from '@/shared/lib';
 import {
   Avatar,
   AvatarFallback,
@@ -22,12 +23,14 @@ export const ChannelsRoomItem = ({ room }: ChannelsRoomItemProps) => {
   const router = useRouter();
   const params = useSearchParams();
 
-  const { displayName, initial, isAdmin } = useCurrentUser();
+  const { isAdmin } = useCurrentUser();
 
   const deleteMutation = useDeleteRoom();
 
   const activeRoomId = params.get('id');
   const isActive = activeRoomId === room.id;
+
+  const { data: participants } = useRoomParticipants(room.id);
 
   const handleClick = () => router.push(buildRoomHref(room.id));
 
@@ -64,12 +67,18 @@ export const ChannelsRoomItem = ({ room }: ChannelsRoomItemProps) => {
           </ContextMenuContent>
         ) : null}
       </ContextMenu>
-      {isActive ? (
-        <div className={s.participant}>
-          <Avatar className={s.participantAvatar}>
-            <AvatarFallback className={s.participantFallback}>{initial}</AvatarFallback>
-          </Avatar>
-          <span className={s.participantName}>{displayName}</span>
+      {participants && participants.length > 0 ? (
+        <div className={s.participants}>
+          {participants.map((p) => (
+            <div key={p.identity} className={s.participant}>
+              <Avatar className={s.participantAvatar}>
+                <AvatarFallback className={s.participantFallback}>
+                  {getInitials(p.name)}
+                </AvatarFallback>
+              </Avatar>
+              <span className={s.participantName}>{p.name}</span>
+            </div>
+          ))}
         </div>
       ) : null}
     </div>

@@ -1,13 +1,13 @@
-import type { TokenResponse } from '@chatovo/schemas/livekit';
+import type { RoomParticipantsResponse, TokenResponse } from '@chatovo/schemas/livekit';
 import type { RouteHandler } from '@hono/zod-openapi';
 
-import { AccessToken } from 'livekit-server-sdk';
+import { AccessToken, RoomServiceClient } from 'livekit-server-sdk';
 import { env } from '../../lib/env';
 import { verifyPassword } from '../../lib/password';
 import { prisma } from '../../lib/prisma';
 import { supabaseAdmin } from '../../lib/supabase';
 import type { AuthVars } from '../../middleware/auth';
-import type { tokenRoute } from './routes';
+import type { roomParticipantsRoute, tokenRoute } from './routes';
 
 type Env = {
   Variables: AuthVars;
@@ -70,4 +70,32 @@ export const tokenHandler: RouteHandler<typeof tokenRoute, Env> = async (c) => {
   };
 
   return c.json(payload, 200);
+};
+
+const roomService = new RoomServiceClient(
+  env.LIVEKIT_URL,
+  env.LIVEKIT_API_KEY,
+  env.LIVEKIT_API_SECRET,
+);
+
+export const roomParticipantsHandler: RouteHandler<typeof roomParticipantsRoute, Env> = async (
+  c,
+) => {
+  const { roomId } = c.req.valid('param');
+
+  try {
+    const participants = await roomService.listParticipants(roomId);
+
+    const payload: RoomParticipantsResponse = {
+      participants: participants.map((p) => ({
+        identity: p.identity,
+        name: p.name || p.identity,
+      })),
+    };
+
+    return c.json(payload, 200);
+  } catch {
+    // listParticipants throws when the room has no active session — treat as empty.
+    return c.json({ participants: [] }, 200);
+  }
 };

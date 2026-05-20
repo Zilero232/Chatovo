@@ -1,1 +1,1 @@
-export { fetchLiveKitToken } from './livekit';
+export { fetchLiveKitToken, fetchRoomParticipants } from './livekit';

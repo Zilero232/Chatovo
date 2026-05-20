@@ -1,7 +1,15 @@
-import { tokenRequestSchema, tokenResponseSchema } from '@chatovo/schemas/livekit';
-import { createRoute } from '@hono/zod-openapi';
+import {
+  roomParticipantsResponseSchema,
+  tokenRequestSchema,
+  tokenResponseSchema,
+} from '@chatovo/schemas/livekit';
+import { createRoute, z } from '@hono/zod-openapi';
 
 import { errorSchema } from '../shared/schemas';
+
+const roomIdParamSchema = z.object({
+  roomId: z.uuid().openapi({ param: { name: 'roomId', in: 'path' } }),
+});
 
 export const tokenRoute = createRoute({
   method: 'post',
@@ -31,6 +39,25 @@ export const tokenRoute = createRoute({
     404: {
       description: 'Room not found',
       content: { 'application/json': { schema: errorSchema } },
+    },
+    500: {
+      description: 'Server error',
+      content: { 'application/json': { schema: errorSchema } },
+    },
+  },
+});
+
+export const roomParticipantsRoute = createRoute({
+  method: 'get',
+  path: '/rooms/{roomId}/participants',
+  tags: ['livekit'],
+  summary: 'List participants currently connected to a LiveKit room',
+  security: [{ bearerAuth: [] }],
+  request: { params: roomIdParamSchema },
+  responses: {
+    200: {
+      description: 'Participants list',
+      content: { 'application/json': { schema: roomParticipantsResponseSchema } },
     },
     500: {
       description: 'Server error',

@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 
 import { subscribeAuth, useCurrentUser } from '@/entities/user';
+import { AppUpdater } from '@/features/check-app-update';
 import { queryClient } from '@/shared/api';
 
 const BootSplash = () => (
@@ -26,6 +27,7 @@ const AuthBootstrap = ({ children }: { children: ReactNode }) => {
 
 export const Providers = ({ children }: { children: ReactNode }) => (
   <QueryClientProvider client={queryClient}>
+    <AppUpdater />
     <AuthBootstrap>{children}</AuthBootstrap>
     {process.env.NODE_ENV === 'development' && <ReactQueryDevtools buttonPosition="bottom-right" />}
   </QueryClientProvider>
