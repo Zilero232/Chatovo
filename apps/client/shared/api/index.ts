@@ -1,6 +1,6 @@
 export { getFreshAccessToken } from './auth';
-export type { GitHubRelease, GitHubReleaseAsset } from './github-releases';
-export { getLatestRelease } from './github-releases';
+export type { GitHubRelease, GitHubReleaseAsset } from './github';
+export { getLatestRelease } from './github';
 export { fetchLiveKitToken } from './livekit';
 export { queryClient } from './query-client';
 export { createRoom, deleteRoom, getRoom, listRooms } from './rooms';

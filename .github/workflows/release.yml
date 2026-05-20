@@ -5,15 +5,17 @@ name: Release Desktop App
 # apps/tauri/tauri.conf.json) reads `latest.json` from the same release, so
 # users get auto-updates once the release goes live.
 #
-# Trigger: manual via "Run workflow" in the GitHub Actions UI. Bump
-# `apps/tauri/package.json#version` and `apps/tauri/tauri.conf.json#version`
-# before triggering — the release is named after that version (tag `app-vX.Y.Z`).
+# Trigger: automatically on push to master when `apps/tauri/package.json` changes,
+# or manually via "Run workflow" in the GitHub Actions UI. The version is read
+# from `apps/tauri/package.json#version` and the release is tagged `app-vX.Y.Z`.
+# If a release with that tag already exists, the build is skipped (idempotent —
+# safe to re-run on merges that don't actually bump the version).
 #
 # Required GitHub repository secrets:
-#   TAURI_SIGNING_PRIVATE_KEY           Minisign private key (matches `plugins.updater.pubkey`
-#                                       already committed in tauri.conf.json).
-#                                       Generate once with: bun tauri signer generate -w ~/.tauri/chatovo.key
-#   TAURI_SIGNING_PRIVATE_KEY_PASSWORD  Password set when generating the key (use "" if none).
+#   TAURI_SIGNING_PRIVATE_KEY  Minisign private key (matches `plugins.updater.pubkey`
+#                              already committed in tauri.conf.json).
+#                              Generate once with: bun run signer:generate (in apps/tauri).
+#                              Key is created without a password — see apps/tauri/package.json.
 #
 # NEXT_PUBLIC_* values that get baked into the static Next.js export consumed
 # by Tauri are read from the same secrets used by the web deploy workflow.
@@ -25,19 +27,48 @@ name: Release Desktop App
 #   APPLE_ID, APPLE_PASSWORD, APPLE_TEAM_ID   for notarization
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Release version (e.g. 0.1.1) — must match apps/tauri/package.json'
-        required: true
-        type: string
-
-concurrency:
-  group: release-desktop-${{ github.event.inputs.version }}
-  cancel-in-progress: false
+  push:
+    branches: [master]
+    paths:
+      - 'apps/tauri/package.json'
+  workflow_dispatch: {}
 
 jobs:
+  resolve-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      version: ${{ steps.read.outputs.version }}
+      should_release: ${{ steps.check.outputs.should_release }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # `jq -r` extracts the raw value; passes 0.1.0 (without quotes) to the next jobs.
+      - name: Read version from apps/tauri/package.json
+        id: read
+        run: echo "version=$(jq -r .version apps/tauri/package.json)" >> "$GITHUB_OUTPUT"
+
+      # Skip the build if a release with this tag already exists. Keeps the
+      # push trigger idempotent — merges that touch package.json without
+      # bumping the version won't double-release.
+      - name: Check if release already exists
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="app-v${{ steps.read.outputs.version }}"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $tag already exists — skipping build."
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Release $tag does not exist — proceeding."
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
+    needs: resolve-version
+    if: needs.resolve-version.outputs.should_release == 'true'
     permissions:
       contents: write
     strategy:
@@ -92,12 +123,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
           # NEXT_PUBLIC_* are baked into the static export that Tauri ships.
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_LIVEKIT_URL: ${{ secrets.NEXT_PUBLIC_LIVEKIT_URL }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
-          NEXT_PUBLIC_LIVEKIT_URL: ${{ secrets.NEXT_PUBLIC_LIVEKIT_URL }}
           # macOS code signing & notarization (optional — skipped if unset).
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
@@ -107,10 +137,10 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         with:
           projectPath: apps/tauri
-          tagName: app-v${{ github.event.inputs.version }}
-          releaseName: 'Chatovo v${{ github.event.inputs.version }}'
+          tagName: app-v${{ needs.resolve-version.outputs.version }}
+          releaseName: 'Chatovo v${{ needs.resolve-version.outputs.version }}'
           releaseBody: |
-            Desktop builds of Chatovo v${{ github.event.inputs.version }}.
+            Desktop builds of Chatovo v${{ needs.resolve-version.outputs.version }}.
 
             - Windows: `.msi` installer
             - macOS: `.dmg` (universal: Apple Silicon + Intel)

@@ -6,7 +6,12 @@
   "scripts": {
     "tauri": "tauri",
     "dev": "tauri dev",
-    "build": "tauri build"
+    "build": "tauri build",
+    "build:debug": "tauri build --debug",
+    "info": "tauri info",
+    "icon": "tauri icon",
+    "signer:sign": "tauri signer sign",
+    "signer:generate": "tauri signer generate -w ~/.tauri/chatovo.key --password \"\""
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2"
