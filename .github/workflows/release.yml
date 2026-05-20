@@ -113,10 +113,18 @@ jobs:
             patchelf \
             libssl-dev
 
-      # Same pattern as the web deploy: skip postinstall (prisma generate)
-      # because Tauri build doesn't need it and CI lacks DIRECT_URL.
+      # Skip postinstall (which runs `prisma generate` and reads DIRECT_URL)
+      # because CI lacks DIRECT_URL.
       - name: Install dependencies
         run: bun install --frozen-lockfile --ignore-scripts
+
+      # Tauri ships the client's static export. The client's tsc step type-checks
+      # apps/server (transitive types), which imports the generated Prisma client.
+      # Generate it explicitly here — `prisma generate` itself doesn't need
+      # DIRECT_URL, it only reads the schema.
+      - name: Generate Prisma client
+        working-directory: apps/server
+        run: bunx prisma generate
 
       - name: Build & release desktop app
         uses: tauri-apps/tauri-action@v0
