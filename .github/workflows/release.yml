@@ -120,10 +120,13 @@ jobs:
 
       # Tauri ships the client's static export. The client's tsc step type-checks
       # apps/server (transitive types), which imports the generated Prisma client.
-      # Generate it explicitly here — `prisma generate` itself doesn't need
-      # DIRECT_URL, it only reads the schema.
+      # Generate it explicitly — `prisma generate` doesn't connect to the DB, but
+      # prisma.config.ts resolves `env('DIRECT_URL')` at load time and crashes if
+      # unset, so we pass a dummy value just to satisfy the resolver.
       - name: Generate Prisma client
         working-directory: apps/server
+        env:
+          DIRECT_URL: 'postgresql://ci:ci@localhost:5432/ci'
         run: bunx prisma generate
 
       - name: Build & release desktop app
