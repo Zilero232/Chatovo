@@ -1,9 +1,9 @@
 'use client';
 
 import { Slider, Switch } from '@/shared/ui';
-import type { AppSettings, SoundCategory } from '../../model';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 import { SettingRow } from '../components/SettingRow';
+import type { AppSettings, SoundCategory } from '../../model';
 
 type SoundsSettingsProps = {
   settings: AppSettings;

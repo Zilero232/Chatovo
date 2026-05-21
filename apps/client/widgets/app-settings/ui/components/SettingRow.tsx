@@ -1,7 +1,7 @@
 'use client';
 
-import type { ReactNode } from 'react';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import type { ReactNode } from 'react';
 
 type SettingRowProps = {
   label: string;

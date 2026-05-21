@@ -5,7 +5,11 @@ import { cn } from '@/shared/lib/cn';
 import type * as React from 'react';
 
 const Tabs = ({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Root>) => (
-  <TabsPrimitive.Root className={cn('flex flex-col gap-3', className)} data-slot="tabs" {...props} />
+  <TabsPrimitive.Root
+    className={cn('flex flex-col gap-3', className)}
+    data-slot="tabs"
+    {...props}
+  />
 );
 
 const TabsList = ({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.List>) => (

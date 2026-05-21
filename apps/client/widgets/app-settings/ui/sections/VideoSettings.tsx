@@ -1,10 +1,10 @@
 'use client';
 
 import { Switch } from '@/shared/ui';
-import type { AppSettings } from '../../model';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 import { DeviceSelect } from '../components/DeviceSelect';
 import { SettingRow } from '../components/SettingRow';
+import type { AppSettings } from '../../model';
 
 type VideoSettingsProps = {
   settings: AppSettings;
