@@ -1,0 +1,75 @@
+# Chatovo — Caddy config for LOCAL DEVELOPMENT.
+#
+# Mirrors the production Caddyfile (separate site per service, reverse-proxy,
+# CORS, HTTPS/HTTP-2) so cross-origin / proxy / HTTP-2 bugs surface locally
+# instead of only on the VPS. Difference from prod: *.localhost domains with
+# a locally-issued cert (`tls internal`), and the web/API targets are
+# `bun dev` on the host, not containers.
+#
+# Browsers resolve any *.localhost name to 127.0.0.1 automatically — no hosts
+# file edit needed. Three origins are used so the browser performs real CORS
+# preflight, exactly as between chatovo.ru and api.chatovo.ru in prod.
+#
+# --- One-time TLS trust setup ---
+# `tls internal` makes Caddy run its own CA. The browser will not trust it
+# until that CA's root certificate is installed. After the caddy container
+# is up once, extract and trust the root CA (PowerShell, run as admin):
+#
+#   docker cp chatovo-caddy-dev:/data/caddy/pki/authorities/local/root.crt caddy-root.crt
+#   Import-Certificate -FilePath caddy-root.crt -CertStoreLocation Cert:\LocalMachine\Root
+#   Remove-Item caddy-root.crt
+#
+# Then restart the browser. https://chatovo.localhost works without warnings.
+#
+# Run with the dev compose file:
+#   docker compose -f docker-compose.dev.yml up
+#
+# Then open https://chatovo.localhost  (NOT localhost:3000 — go through Caddy).
+#
+# Local env values to match this setup:
+#   apps/client/.env :
+#     NEXT_PUBLIC_API_URL=https://api.chatovo.localhost
+#     NEXT_PUBLIC_LIVEKIT_URL=wss://livekit.chatovo.localhost
+#   apps/server/.env :
+#     CORS_ORIGINS=https://chatovo.localhost
+#     LIVEKIT_URL=ws://localhost:7880
+
+# Caddy runs in a container; `bun dev` (client :3000, server :4000) runs on the
+# host. host.docker.internal bridges the container to the host — see the
+# extra_hosts entry in docker-compose.dev.yml.
+
+# --- Web client (Next.js dev server on the host) ---
+chatovo.localhost {
+	tls internal
+	reverse_proxy host.docker.internal:3000
+}
+
+# --- API server (Hono / bun dev on the host) ---
+api.chatovo.localhost {
+	tls internal
+	reverse_proxy host.docker.internal:4000
+}
+
+# --- LiveKit SFU (the livekit container in this same compose file) ---
+livekit.chatovo.localhost {
+	tls internal
+
+	# The LiveKit client makes a plain fetch to /rtc/v1/validate, which is
+	# cross-origin (chatovo.localhost -> livekit.chatovo.localhost) and so
+	# subject to CORS — same as prod. LiveKit emits its own
+	# `Access-Control-Allow-Origin: *`; strip it (header_down -...) so it
+	# does not collide with the single value Caddy sets, otherwise the
+	# browser rejects the duplicated header and drops the user from the room.
+	@cors_web header Origin https://chatovo.localhost
+	header @cors_web Access-Control-Allow-Origin "https://chatovo.localhost"
+
+	@cors_preflight method OPTIONS
+	handle @cors_preflight {
+		header Access-Control-Allow-Methods "GET, POST, OPTIONS"
+		header Access-Control-Allow-Headers "Authorization, Content-Type"
+		header Access-Control-Max-Age "3600"
+		respond 204
+	}
+
+	reverse_proxy livekit:7880
+}

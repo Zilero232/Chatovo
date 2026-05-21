@@ -1,18 +1,21 @@
-# LiveKit SFU for LOCAL DEVELOPMENT.
+# LiveKit SFU + Caddy proxy for LOCAL DEVELOPMENT.
 #
 # The production stack (docker-compose.yml) runs LiveKit with
 # network_mode: host — which does not work on Docker Desktop (Windows/macOS),
 # where the engine lives in a VM. This dev file uses a normal bridge network
 # with explicit port mappings instead, so it works on every OS.
 #
-# It also runs LiveKit ALONE — the web and server you run locally with
-# `bun dev`, not in Docker. This file just provides the SFU.
+# The web and server you still run on the host with `bun dev` (fast hot
+# reload). This file provides the SFU and a Caddy reverse-proxy that mirrors
+# the production proxy layer — so cross-origin / CORS / proxy bugs surface
+# locally instead of only on the VPS.
 #
 # Start:  docker compose -f docker-compose.dev.yml up
 # Stop:   docker compose -f docker-compose.dev.yml down
 #
-# Then run the API and client locally (bun dev) with the local LiveKit env —
-# see livekit.dev.yaml for the values to put in apps/server/.env.
+# Then run the API and client on the host (bun dev) and open the app at
+# http://chatovo.localhost — NOT localhost:3000 — so traffic goes through
+# Caddy. See infra/caddy/Caddyfile.dev for the matching env values.
 
 services:
   livekit:
@@ -22,11 +25,30 @@ services:
     ports:
       - "7880:7880" # WebSocket signalling
       - "7881:7881" # TCP fallback for WebRTC media
-      # UDP media range. Must match port_range_start/end in livekit.dev.yaml.
+      # UDP media range. Must match port_range_start/end in infra/livekit/livekit.dev.yaml.
       - "50000-50100:50000-50100/udp"
     volumes:
-      - ./livekit.dev.yaml:/etc/livekit.yaml:ro
+      - ./infra/livekit/livekit.dev.yaml:/etc/livekit.yaml:ro
     # Lets the container reach the API running on the host (bun dev, :4000)
     # for webhook delivery. Implicit on Docker Desktop, explicit here for Linux.
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: chatovo-caddy-dev
+    ports:
+      - "80:80" # HTTP — Caddy redirects to HTTPS
+      - "443:443" # HTTPS — all three *.localhost sites (HTTP/2)
+    volumes:
+      - ./infra/caddy/Caddyfile.dev:/etc/caddy/Caddyfile:ro
+      # Persists the locally-issued CA + certs so the trusted root survives
+      # container restarts (otherwise the CA regenerates and trust breaks).
+      - caddy_dev_data:/data
+    # Caddy proxies chatovo.localhost / api.chatovo.localhost to `bun dev`
+    # running on the host; livekit.chatovo.localhost to the SFU container.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  caddy_dev_data:
