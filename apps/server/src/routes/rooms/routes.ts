@@ -59,22 +59,3 @@ export const createRoomRoute = createRoute({
   },
 });
 
-export const deleteRoomRoute = createRoute({
-  method: 'delete',
-  path: '/{id}',
-  tags: ['rooms'],
-  summary: 'Delete room',
-  security: [{ bearerAuth: [] }],
-  request: { params: idParamSchema },
-  responses: {
-    204: { description: 'Deleted' },
-    403: {
-      description: 'Forbidden',
-      content: { 'application/json': { schema: errorSchema } },
-    },
-    404: {
-      description: 'Not found',
-      content: { 'application/json': { schema: errorSchema } },
-    },
-  },
-});

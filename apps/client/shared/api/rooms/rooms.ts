@@ -32,13 +32,3 @@ export const getRoom = async (id: string): Promise<Room> => {
 
   return res.json();
 };
-
-export const deleteRoom = async (id: string): Promise<void> => {
-  const res = await api.rooms[':id'].$delete({ param: { id } });
-
-  if (!res.ok) {
-    const err = (await res.json().catch(() => null)) as { error?: string } | null;
-
-    throw new Error(err?.error ?? `Failed to delete room: ${res.status}`);
-  }
-};

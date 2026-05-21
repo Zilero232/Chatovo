@@ -8,9 +8,6 @@ model Room {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  createdById String @map("created_by") @db.Uuid
-  createdBy   User   @relation("RoomCreator", fields: [createdById], references: [id], onDelete: Cascade)
-
   @@map("rooms")
   @@schema("public")
 }
