@@ -25,9 +25,12 @@ export const useRoomsPresenceStream = (enabled: boolean) => {
 
     let source: EventSource | null = null;
     let cancelled = false;
+    let reconnectTimer: ReturnType<typeof setTimeout> | undefined;
 
     const connect = async () => {
       try {
+        // The token is short-lived; fetch a fresh one on every (re)connect so a
+        // reconnect after a long drop doesn't replay an expired URL.
         const url = await buildPresenceStreamUrl();
 
         if (cancelled) return;
@@ -43,6 +46,17 @@ export const useRoomsPresenceStream = (enabled: boolean) => {
             // Ignore malformed frames; the next snapshot replaces state wholesale.
           }
         });
+
+        // A proxy-dropped stream surfaces here. EventSource would retry with a
+        // stale URL, so close it and reconnect ourselves with a fresh token.
+        source.addEventListener('error', () => {
+          if (cancelled) return;
+
+          source?.close();
+          source = null;
+          clearTimeout(reconnectTimer);
+          reconnectTimer = setTimeout(connect, 3_000);
+        });
       } catch {
         // No valid session — leave the participant map empty.
       }
@@ -52,6 +66,7 @@ export const useRoomsPresenceStream = (enabled: boolean) => {
 
     return () => {
       cancelled = true;
+      clearTimeout(reconnectTimer);
       source?.close();
     };
   }, [enabled]);
