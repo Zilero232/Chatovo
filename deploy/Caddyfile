@@ -31,6 +31,32 @@ livekit.chatovo.ru {
 	# (mapped to host.docker.internal — see docker-compose.yml). Port 7880 is
 	# LiveKit's WebSocket signalling port; Caddy handles WSS upgrade natively,
 	# no extra config needed.
+	#
+	# The WSS signalling connection is exempt from CORS, but the LiveKit
+	# client also makes a plain fetch to /rtc/v1/validate, which is not — so
+	# CORS headers are required here. The allowed origins must match the API
+	# server's CORS_ORIGINS: the web client (https://chatovo.ru) and the
+	# Tauri desktop webview (tauri://localhost, http://tauri.localhost).
+	# Allow-Origin must echo the request's Origin (a single value, never a
+	# list), so the request Origin is matched against the allowed set and
+	# reflected back.
+
+	@cors_web header Origin https://chatovo.ru
+	@cors_tauri header Origin tauri://localhost
+	@cors_tauri_win header Origin http://tauri.localhost
+
+	header @cors_web Access-Control-Allow-Origin "https://chatovo.ru"
+	header @cors_tauri Access-Control-Allow-Origin "tauri://localhost"
+	header @cors_tauri_win Access-Control-Allow-Origin "http://tauri.localhost"
+
+	@cors_preflight method OPTIONS
+	handle @cors_preflight {
+		header Access-Control-Allow-Methods "GET, POST, OPTIONS"
+		header Access-Control-Allow-Headers "Authorization, Content-Type"
+		header Access-Control-Max-Age "3600"
+		respond 204
+	}
+
 	reverse_proxy host.docker.internal:7880
 }
 
