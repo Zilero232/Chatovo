@@ -1,5 +1,5 @@
 import { api } from '../http';
-import type { CreateRoomRequest, Room } from '@chatovo/schemas/rooms';
+import type { CreateRoomRequest, Room } from '@chatovo/schemas';
 
 export const listRooms = async (): Promise<Room[]> => {
   const res = await api.rooms.$get();

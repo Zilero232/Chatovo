@@ -32,7 +32,8 @@
       "nameMax": "Максимум 32 символа",
       "emailInvalid": "Некорректный email",
       "passwordMin": "Минимум 8 символов",
-      "passwordsMismatch": "Пароли не совпадают"
+      "passwordsMismatch": "Пароли не совпадают",
+      "urlInvalid": "Введите корректную ссылку"
     }
   },
   "lobby": {
@@ -83,6 +84,9 @@
     "messagePlaceholder": "Сообщение…",
     "send": "Отправить сообщение"
   },
+  "user": {
+    "verified": "Подтверждённый аккаунт"
+  },
   "participant": {
     "muteForMe": "Заглушить для себя",
     "unmuteForMe": "Включить звук для себя",
@@ -130,7 +134,10 @@
       "displayNameLabel": "Отображаемое имя",
       "displayNameHint": "Имя, которое другие видят в голосовых комнатах.",
       "save": "Сохранить",
-      "saved": "Имя обновлено",
+      "saved": "Профиль обновлён",
+      "profileUrlLabel": "Ссылка на профиль",
+      "profileUrlPlaceholder": "https://...",
+      "profileUrlHint": "Если заполнено, ваше имя станет кликабельной ссылкой. Очистите, чтобы убрать.",
       "emailSoon": "Email — скоро",
       "passwordSoon": "Пароль — скоро"
     },

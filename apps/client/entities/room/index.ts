@@ -1,4 +1,5 @@
-export { filterAndOrderRooms, groupRooms, type RoomSection } from './model/group-rooms';
+export { filterAndOrderRooms, groupRooms, type RoomSection } from './lib/group-rooms';
+export { readParticipantMeta } from './lib/participant-meta';
 export { LeaveSoundProvider, useLeaveSound } from './model/leave-sound';
 export { RoomsPresenceProvider, useRoomsPresence } from './model/rooms-presence';
 export { useCreateRoom } from './model/use-create-room';

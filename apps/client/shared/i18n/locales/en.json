@@ -32,7 +32,8 @@
       "nameMax": "Max 32 characters",
       "emailInvalid": "Invalid email",
       "passwordMin": "Min 8 characters",
-      "passwordsMismatch": "Passwords do not match"
+      "passwordsMismatch": "Passwords do not match",
+      "urlInvalid": "Enter a valid URL"
     }
   },
   "lobby": {
@@ -83,6 +84,9 @@
     "messagePlaceholder": "Message…",
     "send": "Send message"
   },
+  "user": {
+    "verified": "Verified account"
+  },
   "participant": {
     "muteForMe": "Mute for me",
     "unmuteForMe": "Unmute for me",
@@ -130,7 +134,10 @@
       "displayNameLabel": "Display name",
       "displayNameHint": "The name other people see in voice rooms.",
       "save": "Save",
-      "saved": "Display name updated",
+      "saved": "Profile updated",
+      "profileUrlLabel": "Profile link",
+      "profileUrlPlaceholder": "https://...",
+      "profileUrlHint": "When set, your name becomes a clickable link. Leave empty to remove.",
       "emailSoon": "Email — coming soon",
       "passwordSoon": "Password — coming soon"
     },

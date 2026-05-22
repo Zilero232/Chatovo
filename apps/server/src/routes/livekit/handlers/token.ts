@@ -1,15 +1,32 @@
 import { AccessToken } from 'livekit-server-sdk';
+import { filter, first, isString, map, pipe } from 'remeda';
 import { readRole } from '../../../lib/auth';
 import { env } from '../../../lib/env';
 import { verifyPassword } from '../../../lib/password';
 import { prisma } from '../../../lib/prisma';
 import { supabaseAdmin } from '../../../lib/supabase';
-import type { TokenResponse } from '@chatovo/schemas/livekit';
+import type { ParticipantMetadata, TokenResponse } from '@chatovo/schemas';
 import type { RouteHandler } from '@hono/zod-openapi';
 import type { Env } from '../../shared/types';
 import type { tokenRoute } from '../routes';
 
-/** Issues a short-lived LiveKit access token for a room, gating private rooms. */
+const resolveString = (value: unknown): string | null =>
+  isString(value) && value.trim().length > 0 ? value.trim() : null;
+
+const resolveDisplayName = (
+  metadata: Record<string, unknown>,
+  email: string | undefined,
+  userId: string,
+): string =>
+  pipe(
+    [metadata.display_name, metadata.full_name, metadata.name],
+    map(resolveString),
+    filter(isString),
+    first(),
+  ) ??
+  email?.split('@')[0] ??
+  userId;
+
 export const tokenHandler: RouteHandler<typeof tokenRoute, Env> = async (c) => {
   const userId = c.get('userId');
   const email = c.get('email');
@@ -32,23 +49,24 @@ export const tokenHandler: RouteHandler<typeof tokenRoute, Env> = async (c) => {
 
   if (error || !data.user) return c.json({ error: 'User lookup failed' }, 500);
 
-  const isAdmin = readRole(data.user.app_metadata) === 'admin';
+  const appMetadata = data.user.app_metadata ?? {};
+  const userMetadata = data.user.user_metadata ?? {};
 
-  // display_name is set at email sign-up; Google sign-in stores the name under
-  // full_name/name instead. Fall back to the email local part as a last resort.
-  const metadata = data.user.user_metadata ?? {};
-  const displayName =
-    [metadata.display_name, metadata.full_name, metadata.name]
-      .map((value) => (typeof value === 'string' ? value.trim() : ''))
-      .find(Boolean) ||
-    email?.split('@')[0] ||
-    userId;
+  const isAdmin = readRole(appMetadata) === 'admin';
+  const verified = appMetadata.verified === true;
+  const displayName = resolveDisplayName(userMetadata, email, userId);
+  const profileUrl = resolveString(userMetadata.profile_url);
+
+  const participantMetadata: ParticipantMetadata = {
+    email: email ?? null,
+    verified,
+    profileUrl,
+  };
 
   const at = new AccessToken(env.LIVEKIT_API_KEY, env.LIVEKIT_API_SECRET, {
     identity: userId,
     name: displayName,
-    // Travels to every other participant via participant.metadata.
-    metadata: JSON.stringify({ email: email ?? null }),
+    metadata: JSON.stringify(participantMetadata),
     ttl: 60 * 60,
   });
 

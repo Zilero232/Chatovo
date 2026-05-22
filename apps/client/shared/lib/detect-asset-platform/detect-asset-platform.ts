@@ -1,4 +1,3 @@
-/** Returns the platform value mapped by the asset's file extension, or null. */
 export const detectAssetPlatform = <T extends string>(
   filename: string,
   extensionMap: Record<string, T>,

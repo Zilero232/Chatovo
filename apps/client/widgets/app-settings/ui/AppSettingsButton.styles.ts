@@ -33,13 +33,14 @@ export const appSettingsStyles = {
   micTestFill: 'h-full rounded-full bg-primary transition-[width] duration-75',
 
   // Profile tab: own container with generous spacing — overrides the tight
-  // tabPanel gap so the editor, its hint and the placeholder rows breathe.
+  // tabPanel gap so the editor, its hints and the placeholder rows breathe.
   profilePanel: 'flex flex-col gap-6 pt-2',
+  profileForm: 'flex flex-col gap-4',
   profileField: 'flex flex-col gap-2',
   profileLabel: 'font-medium text-sm',
   profileHint: 'text-muted-foreground text-xs',
   profileError: 'text-destructive text-xs',
-  profileInputRow: 'flex items-center gap-2',
+  profileSubmit: 'self-start',
   profileSpinner: 'mr-1.5 size-4 animate-spin',
   // The "coming soon" placeholders, grouped with a small gap between them.
   profileSoon: 'flex flex-col gap-2',

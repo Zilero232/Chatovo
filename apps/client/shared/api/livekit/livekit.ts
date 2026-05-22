@@ -1,5 +1,5 @@
 import { api } from '../http';
-import type { TokenRequest, TokenResponse } from '@chatovo/schemas/livekit';
+import type { TokenRequest, TokenResponse } from '@chatovo/schemas';
 
 export const fetchLiveKitToken = async (body: TokenRequest): Promise<TokenResponse> => {
   const res = await api.livekit.token.$post({ json: body });

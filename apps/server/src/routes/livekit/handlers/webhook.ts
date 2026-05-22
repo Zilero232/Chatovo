@@ -1,19 +1,20 @@
 import { WebhookReceiver } from 'livekit-server-sdk';
 import { match } from 'ts-pattern';
 import { env } from '../../../lib/env';
-import { addParticipant, clearRoom, removeParticipant, syncRoom } from '../presence';
+import {
+  addParticipant,
+  clearRoom,
+  parseParticipantMeta,
+  removeParticipant,
+  syncRoom,
+} from '../presence';
 import type { Handler } from 'hono';
 import type { Env } from '../../shared/types';
 
 const webhookReceiver = new WebhookReceiver(env.LIVEKIT_API_KEY, env.LIVEKIT_API_SECRET);
 
-/**
- * Receives LiveKit server webhooks and updates the in-memory presence store.
- *
- * Not bearer-authed — LiveKit signs the body with the API secret, which
- * WebhookReceiver verifies. Registered as a plain POST route (not OpenAPI):
- * the body is read raw, so it must not go through zod-openapi validation.
- */
+// Not bearer-authed: LiveKit signs the body with the API secret. Registered as
+// a plain POST route (not OpenAPI) because the body must be read raw.
 export const webhookHandler: Handler<Env> = async (c) => {
   const body = await c.req.text();
   const authHeader = c.req.header('Authorization');
@@ -40,6 +41,7 @@ export const webhookHandler: Handler<Env> = async (c) => {
         addParticipant(roomId, {
           identity: participant.identity,
           name: participant.name || participant.identity,
+          ...parseParticipantMeta(participant.metadata),
         });
       }
     })

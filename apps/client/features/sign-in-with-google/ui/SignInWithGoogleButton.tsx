@@ -4,7 +4,7 @@ import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { Button, GoogleIcon } from '@/shared/ui';
-import { GoogleSignInCancelled } from '../model/errors';
+import { GoogleSignInCancelled } from '../lib/errors';
 import { useSignInWithGoogle } from '../model/use-sign-in-with-google';
 import { signInWithGoogleButtonStyles as s } from './SignInWithGoogleButton.styles';
 

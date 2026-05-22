@@ -1,6 +1,5 @@
-import type { AppSettings, DeviceSettings } from './types';
+import type { AppSettings, DeviceSettings } from '../model/types';
 
-// Bridges the DOM's MediaDeviceKind and our persisted DeviceSettings slots.
 export const KIND_TO_SLOT: Record<MediaDeviceKind, keyof DeviceSettings> = {
   audioinput: 'audioInput',
   audiooutput: 'audioOutput',
@@ -21,7 +20,6 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
     mirrorVideo: false,
   },
   devices: {
-    // Empty string = follow the system default device.
     audioInput: '',
     audioOutput: '',
     videoInput: '',

@@ -1,4 +1,4 @@
-import type { Room } from '@chatovo/schemas/rooms';
+import type { Room } from '@chatovo/schemas';
 
 export type LobbyRoomCardProps = {
   room: Room;

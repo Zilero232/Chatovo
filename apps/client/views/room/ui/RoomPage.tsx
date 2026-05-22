@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
+import { isNonNullish } from 'remeda';
 import { toast } from 'sonner';
 import { match, P } from 'ts-pattern';
 import { useRoomById, useRoomToken } from '@/entities/room';
@@ -20,6 +21,10 @@ export const RoomPage = () => {
 
   const { room, isLoading, displayName, isPrivate } = useRoomById(roomId);
 
+  // Wait for room data before isPrivate is meaningful — otherwise a private
+  // room reads as public for one render and useRoomToken fires unauthenticated.
+  const roomReady = isNonNullish(room);
+
   // data dep: password feeds useRoomToken below
   const [password, setPassword] = useState<string>();
 
@@ -29,7 +34,7 @@ export const RoomPage = () => {
     isFetching: tokenFetching,
     error: tokenError,
     refetch: refetchToken,
-  } = useRoomToken(roomId, { isPrivate, password });
+  } = useRoomToken(roomReady ? roomId : null, { isPrivate, password });
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: redirect must fire only on roomId change; router is a stable ref
   useEffect(() => {

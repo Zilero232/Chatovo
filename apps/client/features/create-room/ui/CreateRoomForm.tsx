@@ -1,6 +1,6 @@
 'use client';
 
-import { createRoomInputSchema } from '@chatovo/schemas/rooms';
+import { createRoomInputSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import { useCreateRoom, useEnterRoom } from '@/entities/room';
 import { Button, Input, Label } from '@/shared/ui';
 import { createRoomFormStyles as s } from './CreateRoomForm.styles';
-import type { CreateRoomRequest } from '@chatovo/schemas/rooms';
+import type { CreateRoomRequest } from '@chatovo/schemas';
 
 const DEFAULT_VALUES: CreateRoomRequest = { name: '', isPrivate: false };
 

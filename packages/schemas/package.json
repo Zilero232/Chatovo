@@ -5,9 +5,7 @@
   "private": true,
   "main": "src/index.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./livekit": "./src/livekit/index.ts",
-    "./rooms": "./src/rooms/index.ts"
+    ".": "./src/index.ts"
   },
   "dependencies": {
     "zod": "^4.4.3"

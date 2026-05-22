@@ -7,10 +7,10 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { useFieldError } from '@/entities/locale';
 import {
-  type DisplayNameValues,
-  displayNameSchema,
+  type ProfileValues,
+  profileSchema,
   useCurrentUser,
-  useUpdateDisplayName,
+  useUpdateProfile,
 } from '@/entities/user';
 import { Button, Input, Label } from '@/shared/ui';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
@@ -19,24 +19,24 @@ export const ProfileTab = () => {
   const t = useTranslations('settings.profile');
   const fieldError = useFieldError('auth');
 
-  const { displayName } = useCurrentUser();
-  const { isPending, mutate } = useUpdateDisplayName();
+  const { displayName, profileUrl } = useCurrentUser();
+  const { isPending, mutate } = useUpdateProfile();
 
   const {
     formState: { errors, isDirty },
     handleSubmit,
     register,
     reset,
-  } = useForm<DisplayNameValues>({
-    resolver: zodResolver(displayNameSchema),
-    defaultValues: { name: displayName },
+  } = useForm<ProfileValues>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: { name: displayName, profileUrl: profileUrl ?? '' },
   });
 
   const onSubmit = handleSubmit((values) => {
     mutate(values, {
       onSuccess: () => {
         toast.success(t('saved'));
-        // Re-baseline the form so the field is no longer "dirty".
+        // Re-baseline the form so the fields are no longer "dirty".
         reset(values);
       },
       onError: (err: Error) => toast.error(err.message),
@@ -45,24 +45,45 @@ export const ProfileTab = () => {
 
   return (
     <div className={s.profilePanel}>
-      <form className={s.profileField} onSubmit={onSubmit}>
-        <Label className={s.profileLabel} htmlFor="profile-display-name">
-          {t('displayNameLabel')}
-        </Label>
+      <form className={s.profileForm} onSubmit={onSubmit}>
+        <div className={s.profileField}>
+          <Label className={s.profileLabel} htmlFor="profile-display-name">
+            {t('displayNameLabel')}
+          </Label>
 
-        <div className={s.profileInputRow}>
           <Input autoComplete="name" id="profile-display-name" {...register('name')} />
-          <Button disabled={!isDirty || isPending} type="submit">
-            {isPending && <Loader2 className={s.profileSpinner} />}
-            {t('save')}
-          </Button>
+
+          {errors.name ? (
+            <p className={s.profileError}>{fieldError(errors.name)}</p>
+          ) : (
+            <p className={s.profileHint}>{t('displayNameHint')}</p>
+          )}
         </div>
 
-        {errors.name ? (
-          <p className={s.profileError}>{fieldError(errors.name)}</p>
-        ) : (
-          <p className={s.profileHint}>{t('displayNameHint')}</p>
-        )}
+        <div className={s.profileField}>
+          <Label className={s.profileLabel} htmlFor="profile-url">
+            {t('profileUrlLabel')}
+          </Label>
+
+          <Input
+            autoComplete="url"
+            id="profile-url"
+            placeholder={t('profileUrlPlaceholder')}
+            type="url"
+            {...register('profileUrl')}
+          />
+
+          {errors.profileUrl ? (
+            <p className={s.profileError}>{fieldError(errors.profileUrl)}</p>
+          ) : (
+            <p className={s.profileHint}>{t('profileUrlHint')}</p>
+          )}
+        </div>
+
+        <Button className={s.profileSubmit} disabled={!isDirty || isPending} type="submit">
+          {isPending && <Loader2 className={s.profileSpinner} />}
+          {t('save')}
+        </Button>
       </form>
 
       {/* Placeholders for editors shipping later. */}

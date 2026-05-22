@@ -13,7 +13,6 @@ const AVATAR_COLORS = [
   'bg-rose-600',
 ] as const;
 
-/** First letters of the first two words, uppercased. Falls back to '?'. */
 export const getInitials = (name: string): string => {
   const words = name.trim().split(/\s+/).filter(Boolean);
 
@@ -25,7 +24,6 @@ export const getInitials = (name: string): string => {
     .join('');
 };
 
-/** Deterministic Tailwind background class derived from the name. */
 export const getAvatarColor = (name: string): string => {
   let hash = 0;
 

@@ -3,7 +3,7 @@
 import { useLocalStorage } from '@siberiacancode/reactuse';
 import { mergeDeep } from 'remeda';
 import { STORAGE_KEYS } from '@/shared/constants';
-import { DEFAULT_APP_SETTINGS } from './config';
+import { DEFAULT_APP_SETTINGS } from '../config/config';
 import type { AppSettings, UseAppSettings } from './types';
 
 export const useAppSettings = (): UseAppSettings => {

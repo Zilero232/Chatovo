@@ -255,6 +255,13 @@ export { VoiceRoom } from './VoiceRoom';
 export type { VoiceRoomProps } from './VoiceRoom.types';
 ```
 
+**Подсистема в `model/`:** если хук собран из нескольких файлов в подпапке, `index.ts` рядом с ними экспортирует только публичную точку входа — Provider и хук. Внутренние модули и типы наружу не идут.
+
+```ts
+// entities/room/model/rooms-presence/index.ts
+export { RoomsPresenceProvider, useRoomsPresence } from './rooms-presence-context';
+```
+
 Wildcard-экспорты (`export * from`) — запрещены. Только явные именованные.
 
 ---
@@ -380,26 +387,43 @@ const tokenMutation = useRoomTokenMutation();
 
 ## 10. Сегменты `model/`, `lib/`, `api/`
 
-**`model/`** — хуки, Zustand store, типы стейта:
+**`model/`** — хуки, Zustand store, контекст-провайдеры, типы стейта.
 
 ```
 entities/room/model/
-  use-enter-room.ts
+  use-enter-room.ts          ← одиночный хук = файл
   use-room-token.ts
-  types.ts
+  rooms-presence/            ← подсистема = папка
+    index.ts                 ← barrel: { RoomsPresenceProvider, useRoomsPresence }
+    rooms-presence-context.tsx
+    use-rooms-presence-stream.ts
+  types.ts                   ← публичные типы слайса (если используются снаружи)
 ```
 
 Файлы — kebab-case. Функции внутри — camelCase.
+
+**Плоско по умолчанию, папка когда нужна.** Одиночный хук → файл. Подсистема (Provider + context + хук, либо хук + 2+ модуля только для него) → папка с `index.ts`. Не плоди папки под одиночные файлы — лишний `index.ts` без причины.
+
+**Типы:**
+
+- Локальные типы одного хука (`Props`, ввод/вывод, internal unions) — **рядом в том же файле**, не выносить.
+- Публичные типы слайса (используются другими слайсами через barrel) — в `model/types.ts`.
+- Если у подсистемы-папки свои внутренние типы — `model/<subsystem>/types.ts`.
+
+Не создавай отдельный сегмент `types/` или `hooks/` — это разделение по форме файла, а не по природе кода (антипаттерн FSD).
 
 **`lib/`** — чистые функции без React-зависимостей:
 
 ```
 entities/room/lib/
-  cache.ts       ← readRoomTokenCache / writeRoomTokenCache
-  validation.ts  ← isRoomNameValid
+  cache.ts          ← readRoomTokenCache / writeRoomTokenCache
+  validation.ts     ← isRoomNameValid
+  group-rooms.ts    ← фильтрация + сортировка коллекций
 ```
 
 Если функция возвращает JSX — это компонент, переместить в `ui/`.
+
+**Эвристика `lib/` vs `model/`:** функция использует React (`useState`, `useEffect`, контекст) → `model/`. Чистая (получает аргументы, возвращает значение) → `lib/`. Класс ошибки, парсеры, мапперы — `lib/`. Набор значений-настроек/констант — `config/`.
 
 **`api/` в слайсе** — интеграция с внешним сервисом, привязанная к домену слайса: подписки, мапперы, сервис-специфичные обёртки. Отличие от `model/` — `api/` это I/O-граница (network, realtime, push-сервис), `model/` — хуки и типы стейта.
 

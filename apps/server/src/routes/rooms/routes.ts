@@ -1,4 +1,4 @@
-import { createRoomInputSchema, roomSchema } from '@chatovo/schemas/rooms';
+import { createRoomInputSchema, roomSchema } from '@chatovo/schemas';
 import { createRoute, z } from '@hono/zod-openapi';
 import { errorSchema } from '../shared/schemas';
 

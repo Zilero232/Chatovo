@@ -1,12 +1,14 @@
+import { readParticipantMeta } from '@/entities/room';
 import { cn } from '@/shared/lib/cn';
 import { formatMessageTime } from '@/shared/lib/format-date';
 import { getAvatarColor, getInitials } from '@/shared/lib/initials';
-import { Avatar, AvatarFallback } from '@/shared/ui';
+import { Avatar, AvatarFallback, UserName } from '@/shared/ui';
 import { chatMessageItemStyles as s } from './ChatMessageItem.styles';
 import type { ChatMessageItemProps } from './ChatMessageItem.types';
 
 export const ChatMessageItem = ({ message, isOwn, isGrouped }: ChatMessageItemProps) => {
   const author = message.from?.name || message.from?.identity || 'Guest';
+  const { profileUrl, verified } = readParticipantMeta(message.from?.metadata);
   const showHeader = !isGrouped;
 
   return (
@@ -25,7 +27,14 @@ export const ChatMessageItem = ({ message, isOwn, isGrouped }: ChatMessageItemPr
       <div className={s.column} data-own={isOwn}>
         {showHeader && (
           <div className={s.meta}>
-            {!isOwn && <span className={s.author}>{author}</span>}
+            {!isOwn && (
+              <UserName
+                className={s.author}
+                name={author}
+                profileUrl={profileUrl}
+                verified={verified}
+              />
+            )}
             <span className={s.time}>{formatMessageTime(message.timestamp)}</span>
           </div>
         )}

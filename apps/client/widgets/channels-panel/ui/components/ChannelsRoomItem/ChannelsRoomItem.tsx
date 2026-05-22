@@ -6,7 +6,7 @@ import { isEmpty } from 'remeda';
 import { useRoomParticipants } from '@/entities/room';
 import { buildRoomHref } from '@/shared/constants';
 import { getInitials } from '@/shared/lib';
-import { Avatar, AvatarFallback } from '@/shared/ui';
+import { Avatar, AvatarFallback, UserName } from '@/shared/ui';
 import { channelsRoomItemStyles as s } from './ChannelsRoomItem.styles';
 import type { ChannelsRoomItemProps } from './ChannelsRoomItem.types';
 
@@ -48,7 +48,12 @@ export const ChannelsRoomItem = ({ room }: ChannelsRoomItemProps) => {
                   {getInitials(p.name)}
                 </AvatarFallback>
               </Avatar>
-              <span className={s.participantName}>{p.name}</span>
+              <UserName
+                className={s.participantName}
+                name={p.name}
+                profileUrl={p.profileUrl}
+                verified={p.verified}
+              />
             </div>
           ))}
         </div>

@@ -9,12 +9,7 @@ import type { Env } from '../../shared/types';
 // that window, with room to spare if a single ping is lost.
 const PING_INTERVAL_MS = 8_000;
 
-/**
- * Streams live room presence to the client over Server-Sent Events.
- *
- * EventSource cannot send custom headers, so this route authorizes via a
- * `token` query param instead of the shared bearer-header middleware.
- */
+// EventSource cannot send custom headers, so auth is via `token` query param.
 export const presenceHandler: Handler<Env> = async (c) => {
   const user = await verifyAccessToken(c.req.query('token'));
 

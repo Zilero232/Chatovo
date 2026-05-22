@@ -5,7 +5,6 @@ import { GoogleSignInCancelled } from './errors';
 export const openPopup = (): Window => {
   const popup = window.open('about:blank', 'oauth-google', POPUP_FEATURES);
 
-  // A blocker may return null, or return a window it closes immediately.
   if (!popup || popup.closed) {
     throw new Error('Popup blocked — allow popups for this site');
   }

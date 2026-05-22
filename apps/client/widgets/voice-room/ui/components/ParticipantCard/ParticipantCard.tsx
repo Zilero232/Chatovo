@@ -4,6 +4,8 @@ import { BarVisualizer, useIsSpeaking, useParticipantTracks } from '@livekit/com
 import { Track } from 'livekit-client';
 import { MicOff } from 'lucide-react';
 import { isNonNullish } from 'remeda';
+import { readParticipantMeta } from '@/entities/room';
+import { UserName } from '@/shared/ui';
 import { CardVideo } from '../CardVideo';
 import { ParticipantCardMenu } from '../ParticipantCardMenu';
 import { participantCardStyles as s } from './ParticipantCard.styles';
@@ -16,6 +18,7 @@ export const ParticipantCard = ({ participant }: ParticipantCardProps) => {
 
   const isSpeaking = useIsSpeaking(participant);
   const displayName = participant.name || participant.identity;
+  const { profileUrl, verified } = readParticipantMeta(participant.metadata);
 
   // A track may be published but muted; the *Enabled getters account for that.
   const hasCamera = isNonNullish(cameraTrack) && participant.isCameraEnabled;
@@ -42,7 +45,12 @@ export const ParticipantCard = ({ participant }: ParticipantCardProps) => {
 
         <div className={s.metadata}>
           {!participant.isMicrophoneEnabled && <MicOff className={s.micIcon} />}
-          <span className={s.name}>{displayName}</span>
+          <UserName
+            className={s.name}
+            name={displayName}
+            profileUrl={profileUrl}
+            verified={verified}
+          />
         </div>
       </div>
     </ParticipantCardMenu>

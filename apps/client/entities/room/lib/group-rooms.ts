@@ -1,11 +1,9 @@
 import { isEmpty, sortBy } from 'remeda';
-import type { RoomsParticipantsSnapshot } from '@chatovo/schemas/livekit';
-import type { Room } from '@chatovo/schemas/rooms';
+import type { Room, RoomsParticipantsSnapshot } from '@chatovo/schemas';
 
 type RoomsPresenceMap = RoomsParticipantsSnapshot['rooms'];
 
-// `key` doubles as the i18n key for the section heading (room.sections.*) —
-// the heading text is resolved by the consuming component, not stored here.
+// `key` doubles as the i18n key for the section heading (room.sections.*).
 export type RoomSection = {
   key: 'private' | 'public';
   rooms: Room[];
@@ -14,9 +12,6 @@ export type RoomSection = {
 const participantCount = (presence: RoomsPresenceMap, roomId: string) =>
   presence[roomId]?.length ?? 0;
 
-// Filters rooms by a search query and orders them: busiest first (by live
-// participant count), then alphabetical. The shared room ordering used wherever
-// rooms are listed — the lobby grid and the channels sidebar.
 export const filterAndOrderRooms = (
   rooms: Room[],
   presence: RoomsPresenceMap,
@@ -35,8 +30,6 @@ export const filterAndOrderRooms = (
   );
 };
 
-// Splits the filtered, ordered rooms into Public and Private sections. Empty
-// sections are dropped so a search result never leaves a dangling header.
 export const groupRooms = (
   rooms: Room[],
   presence: RoomsPresenceMap,

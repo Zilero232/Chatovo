@@ -1,12 +1,7 @@
 import { env } from '@/shared/config';
 import { getFreshAccessToken } from '../auth';
 
-/**
- * Builds the SSE endpoint URL for the rooms-presence stream.
- *
- * EventSource cannot send an Authorization header, so the access token is
- * passed as a query param — the server validates it the same way.
- */
+// EventSource cannot send an Authorization header — the token goes as a query param.
 export const buildPresenceStreamUrl = async (): Promise<string> => {
   const token = await getFreshAccessToken();
   const base = env.NEXT_PUBLIC_API_URL.replace(/\/$/, '');

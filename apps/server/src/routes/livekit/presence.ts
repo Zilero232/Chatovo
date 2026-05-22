@@ -1,19 +1,10 @@
+import { participantMetadataSchema, safeJsonParse } from '@chatovo/schemas';
 import { RoomServiceClient } from 'livekit-server-sdk';
 import { env } from '../../lib/env';
-import type { RoomParticipant, RoomsParticipantsSnapshot } from '@chatovo/schemas/livekit';
-
-/**
- * In-memory presence store for LiveKit rooms.
- *
- * LiveKit webhooks keep this up to date in real time; SSE subscribers receive
- * a fresh snapshot on every change. The store lives only in this process —
- * acceptable for a single-instance server. Scaling horizontally would require
- * moving this to Redis pub/sub.
- */
+import type { RoomParticipant, RoomsParticipantsSnapshot } from '@chatovo/schemas';
 
 type Listener = (snapshot: RoomsParticipantsSnapshot) => void;
 
-// roomId -> (identity -> participant). Map keeps identities unique per room.
 const rooms = new Map<string, Map<string, RoomParticipant>>();
 const listeners = new Set<Listener>();
 
@@ -22,6 +13,14 @@ const roomService = new RoomServiceClient(
   env.LIVEKIT_API_KEY,
   env.LIVEKIT_API_SECRET,
 );
+
+export const parseParticipantMeta = (
+  metadata: string | undefined,
+): Pick<RoomParticipant, 'verified' | 'profileUrl'> => {
+  const { verified, profileUrl } = participantMetadataSchema.parse(safeJsonParse(metadata));
+
+  return { verified, profileUrl };
+};
 
 const buildSnapshot = (): RoomsParticipantsSnapshot => {
   const result: RoomsParticipantsSnapshot['rooms'] = {};
@@ -75,23 +74,21 @@ export const clearRoom = (roomId: string) => {
   if (rooms.delete(roomId)) emit();
 };
 
-/**
- * Reconciles the in-memory store with LiveKit's actual state for one room.
- *
- * Webhooks can be missed (server restart, network blip); this pulls the source
- * of truth. Called lazily when a room is first observed and on server boot.
- */
+// Reconciles the in-memory store with LiveKit's actual state — webhooks can be
+// missed (server restart, network blip). Called lazily and on server boot.
 export const syncRoom = async (roomId: string) => {
   try {
     const live = await roomService.listParticipants(roomId);
     const participants = new Map<string, RoomParticipant>(
-      live.map((p) => [p.identity, { identity: p.identity, name: p.name || p.identity }]),
+      live.map((p) => [
+        p.identity,
+        { identity: p.identity, name: p.name || p.identity, ...parseParticipantMeta(p.metadata) },
+      ]),
     );
 
     if (participants.size > 0) rooms.set(roomId, participants);
     else rooms.delete(roomId);
   } catch {
-    // listParticipants throws when the room has no active session — treat as empty.
     rooms.delete(roomId);
   }
 
