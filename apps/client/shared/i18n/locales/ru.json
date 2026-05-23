@@ -114,6 +114,8 @@
     "lobby": "Лобби",
     "downloadApp": "Скачать приложение",
     "downloadAppLabel": "Скачать десктоп-приложение",
+    "github": "GitHub",
+    "githubLabel": "Открыть проект на GitHub",
     "logout": "Выйти",
     "signedOut": "Выход выполнен",
     "showChannels": "Показать каналы",

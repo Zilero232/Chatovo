@@ -114,6 +114,8 @@
     "lobby": "Lobby",
     "downloadApp": "Download app",
     "downloadAppLabel": "Download desktop app",
+    "github": "GitHub",
+    "githubLabel": "Open project on GitHub",
     "logout": "Logout",
     "signedOut": "Signed out",
     "showChannels": "Show channels",
