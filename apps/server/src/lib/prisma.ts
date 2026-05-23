@@ -8,7 +8,9 @@ import { ConflictError, NotFoundError } from './errors';
 // or undefined for raw queries — used to phrase a readable error message.
 type PrismaModel = string | undefined;
 
-const label = (model: PrismaModel) => model ?? 'Resource';
+const label = (model: PrismaModel) => {
+  return model ?? 'Resource';
+};
 
 // Maps a known Prisma request error to a domain error by its code. Codes we
 // don't translate yield `undefined` and bubble up unchanged. To handle a new
@@ -17,11 +19,12 @@ const label = (model: PrismaModel) => model ?? 'Resource';
 const mapPrismaError = (
   error: Prisma.PrismaClientKnownRequestError,
   model: PrismaModel,
-): Error | undefined =>
-  match(error.code)
+): Error | undefined => {
+  return match(error.code)
     .with('P2002', () => new ConflictError(`${label(model)} already exists`))
     .with('P2025', () => new NotFoundError(`${label(model)} not found`))
     .otherwise(() => undefined);
+};
 
 const createClient = () => {
   const adapter = new PrismaPg({ connectionString: env.DATABASE_URL });

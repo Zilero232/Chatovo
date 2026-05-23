@@ -9,8 +9,9 @@ export type RoomSection = {
   rooms: Room[];
 };
 
-const participantCount = (presence: RoomsPresenceMap, roomId: string) =>
-  presence[roomId]?.length ?? 0;
+const participantCount = (presence: RoomsPresenceMap, roomId: string) => {
+  return presence[roomId]?.length ?? 0;
+};
 
 export const filterAndOrderRooms = (
   rooms: Room[],

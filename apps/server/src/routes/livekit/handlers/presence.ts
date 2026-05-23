@@ -52,8 +52,11 @@ export const presenceHandler: Handler<Env> = async (c) => {
       return writeChain;
     };
 
-    const sendSnapshot = (snapshot: unknown) =>
-      enqueue(() => stream.writeSSE({ event: 'snapshot', data: JSON.stringify(snapshot) }));
+    const sendSnapshot = (snapshot: unknown) => {
+      return enqueue(() => {
+        return stream.writeSSE({ event: 'snapshot', data: JSON.stringify(snapshot) });
+      });
+    };
 
     // Push the current state immediately so the client renders without waiting.
     await sendSnapshot(getSnapshot());

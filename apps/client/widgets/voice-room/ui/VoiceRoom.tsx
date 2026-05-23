@@ -28,11 +28,11 @@ const FAILURE_REASONS = new Set<DisconnectReason>([
 ]);
 
 export const VoiceRoom = ({
-  token,
-  serverUrl,
   roomName,
-  onLeave,
+  serverUrl,
+  token,
   onConnectFailure,
+  onLeave,
 }: VoiceRoomProps) => {
   const t = useTranslations('chat');
   const hasConnectedRef = useRef(false);

@@ -5,7 +5,7 @@ import { formatBytes } from '@/shared/lib/format-bytes';
 import { platformCardStyles as s } from './PlatformCard.styles';
 import type { PlatformCardProps } from './PlatformCard.types';
 
-export const PlatformCard = ({ Icon, asset, label }: PlatformCardProps) => {
+export const PlatformCard = ({ label, Icon, asset }: PlatformCardProps) => {
   const t = useTranslations('downloadApp');
 
   if (!asset) {

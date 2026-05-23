@@ -41,7 +41,7 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
           <>
             <div className={s.grid}>
               {DESKTOP_PLATFORMS.map(({ id, label, Icon }) => (
-                <PlatformCard key={id} Icon={Icon} asset={release.assets[id]} label={label} />
+                <PlatformCard key={id} label={label} Icon={Icon} asset={release.assets[id]} />
               ))}
             </div>
 

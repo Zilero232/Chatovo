@@ -6,11 +6,12 @@ import { DEEP_LINK_CALLBACK } from '../lib/config';
 import { signInWithGoogleViaDeepLink } from '../lib/deep-link';
 import { openPopup, waitForSignIn } from '../lib/popup';
 
-const startOAuth = (redirectTo: string) =>
-  supabase.auth.signInWithOAuth({
+const startOAuth = (redirectTo: string) => {
+  return supabase.auth.signInWithOAuth({
     provider: 'google',
     options: { redirectTo, skipBrowserRedirect: true },
   });
+};
 
 const signInViaPopup = async () => {
   const popup = openPopup();
@@ -40,7 +41,8 @@ const signInViaSystemBrowser = async () => {
   return signInWithGoogleViaDeepLink(data.url);
 };
 
-export const useSignInWithGoogle = () =>
-  useMutation({
+export const useSignInWithGoogle = () => {
+  return useMutation({
     mutationFn: () => (isTauri() ? signInViaSystemBrowser() : signInViaPopup()),
   });
+};

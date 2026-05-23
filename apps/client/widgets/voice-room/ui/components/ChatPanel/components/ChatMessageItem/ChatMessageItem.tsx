@@ -1,14 +1,12 @@
 import { readParticipantMeta } from '@/entities/room';
-import { cn } from '@/shared/lib/cn';
+import { UserAvatar, UserName } from '@/entities/user';
 import { formatMessageTime } from '@/shared/lib/format-date';
-import { getAvatarColor, getInitials } from '@/shared/lib/initials';
-import { Avatar, AvatarFallback, UserName } from '@/shared/ui';
 import { chatMessageItemStyles as s } from './ChatMessageItem.styles';
 import type { ChatMessageItemProps } from './ChatMessageItem.types';
 
 export const ChatMessageItem = ({ message, isOwn, isGrouped }: ChatMessageItemProps) => {
   const author = message.from?.name || message.from?.identity || 'Guest';
-  const { profileUrl, verified } = readParticipantMeta(message.from?.metadata);
+  const { profileUrl, verified, avatarUrl } = readParticipantMeta(message.from?.metadata);
   const showHeader = !isGrouped;
 
   return (
@@ -17,11 +15,14 @@ export const ChatMessageItem = ({ message, isOwn, isGrouped }: ChatMessageItemPr
         (isGrouped ? (
           <span aria-hidden className={s.spacer} />
         ) : (
-          <Avatar className={s.avatar} size="sm">
-            <AvatarFallback className={cn(s.avatarFallback, getAvatarColor(author))}>
-              {getInitials(author)}
-            </AvatarFallback>
-          </Avatar>
+          <UserAvatar
+            name={author}
+            src={avatarUrl}
+            size="sm"
+            colorize
+            className={s.avatar}
+            fallbackClassName={s.avatarFallback}
+          />
         ))}
 
       <div className={s.column} data-own={isOwn}>
@@ -29,10 +30,10 @@ export const ChatMessageItem = ({ message, isOwn, isGrouped }: ChatMessageItemPr
           <div className={s.meta}>
             {!isOwn && (
               <UserName
-                className={s.author}
                 name={author}
-                profileUrl={profileUrl}
                 verified={verified}
+                profileUrl={profileUrl}
+                className={s.author}
               />
             )}
             <span className={s.time}>{formatMessageTime(message.timestamp)}</span>

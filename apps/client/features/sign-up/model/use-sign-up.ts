@@ -19,8 +19,8 @@ export const signUpSchema = z
 
 export type SignUpValues = z.infer<typeof signUpSchema>;
 
-export const useSignUp = () =>
-  useMutation({
+export const useSignUp = () => {
+  return useMutation({
     mutationFn: async ({ email, password, name }: SignUpValues) => {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -34,3 +34,4 @@ export const useSignUp = () =>
       return data;
     },
   });
+};

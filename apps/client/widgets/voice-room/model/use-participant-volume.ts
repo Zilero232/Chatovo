@@ -27,7 +27,9 @@ type ParticipantVolume = {
   setVolume: (next: number) => void;
 };
 
-const clampVolume = (value: number) => Math.min(Math.max(value, 0), MAX_VOLUME);
+const clampVolume = (value: number) => {
+  return Math.min(Math.max(value, 0), MAX_VOLUME);
+};
 
 export const useParticipantVolume = (participant: Participant): ParticipantVolume => {
   const isControllable = participant instanceof RemoteParticipant;

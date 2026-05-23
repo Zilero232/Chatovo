@@ -5,7 +5,7 @@ import { Track } from 'livekit-client';
 import { MicOff } from 'lucide-react';
 import { isNonNullish } from 'remeda';
 import { readParticipantMeta } from '@/entities/room';
-import { UserName } from '@/shared/ui';
+import { UserName } from '@/entities/user';
 import { CardVideo } from '../CardVideo';
 import { ParticipantCardMenu } from '../ParticipantCardMenu';
 import { participantCardStyles as s } from './ParticipantCard.styles';
@@ -46,10 +46,10 @@ export const ParticipantCard = ({ participant }: ParticipantCardProps) => {
         <div className={s.metadata}>
           {!participant.isMicrophoneEnabled && <MicOff className={s.micIcon} />}
           <UserName
-            className={s.name}
             name={displayName}
-            profileUrl={profileUrl}
             verified={verified}
+            profileUrl={profileUrl}
+            className={s.name}
           />
         </div>
       </div>

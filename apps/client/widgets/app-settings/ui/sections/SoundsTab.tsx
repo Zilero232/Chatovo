@@ -19,7 +19,8 @@ export const SoundsTab = () => {
   return (
     <div className={s.tabPanel}>
       <SettingRow
-        stacked
+        label={t('volumeLabel')}
+        hint={t('volumeHint')}
         control={
           <div className={s.sliderRow}>
             <Slider
@@ -33,21 +34,20 @@ export const SoundsTab = () => {
             <span className={s.sliderValue}>{Math.round(sounds.volume * 100)}%</span>
           </div>
         }
-        hint={t('volumeHint')}
-        label={t('volumeLabel')}
+        stacked
       />
 
       {SOUND_CATEGORIES.map((category) => (
         <SettingRow
           key={category}
+          label={t(category)}
+          hint={t(`${category}Hint`)}
           control={
             <Switch
               checked={sounds.enabled[category]}
               onCheckedChange={() => toggleSound(category)}
             />
           }
-          hint={t(`${category}Hint`)}
-          label={t(category)}
         />
       ))}
     </div>

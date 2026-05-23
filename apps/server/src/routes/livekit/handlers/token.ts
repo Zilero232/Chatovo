@@ -10,22 +10,26 @@ import type { RouteHandler } from '@hono/zod-openapi';
 import type { Env } from '../../shared/types';
 import type { tokenRoute } from '../routes';
 
-const resolveString = (value: unknown): string | null =>
-  isString(value) && value.trim().length > 0 ? value.trim() : null;
+const resolveString = (value: unknown): string | null => {
+  return isString(value) && value.trim().length > 0 ? value.trim() : null;
+};
 
 const resolveDisplayName = (
   metadata: Record<string, unknown>,
   email: string | undefined,
   userId: string,
-): string =>
-  pipe(
-    [metadata.display_name, metadata.full_name, metadata.name],
-    map(resolveString),
-    filter(isString),
-    first(),
-  ) ??
-  email?.split('@')[0] ??
-  userId;
+): string => {
+  return (
+    pipe(
+      [metadata.display_name, metadata.full_name, metadata.name],
+      map(resolveString),
+      filter(isString),
+      first(),
+    ) ??
+    email?.split('@')[0] ??
+    userId
+  );
+};
 
 export const tokenHandler: RouteHandler<typeof tokenRoute, Env> = async (c) => {
   const userId = c.get('userId');
@@ -56,11 +60,19 @@ export const tokenHandler: RouteHandler<typeof tokenRoute, Env> = async (c) => {
   const verified = appMetadata.verified === true;
   const displayName = resolveDisplayName(userMetadata, email, userId);
   const profileUrl = resolveString(userMetadata.profile_url);
+  const avatarUrl =
+    pipe(
+      [userMetadata.avatar_url, userMetadata.picture],
+      map(resolveString),
+      filter(isString),
+      first(),
+    ) ?? null;
 
   const participantMetadata: ParticipantMetadata = {
     email: email ?? null,
     verified,
     profileUrl,
+    avatarUrl,
   };
 
   const at = new AccessToken(env.LIVEKIT_API_KEY, env.LIVEKIT_API_SECRET, {

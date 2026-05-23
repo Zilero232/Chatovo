@@ -13,5 +13,6 @@ export const LOCALE_LABELS: Record<Locale, string> = {
 
 // Narrows an arbitrary string (e.g. a stale persisted value) to a known Locale,
 // falling back to the default — so an unknown code never breaks the app.
-export const resolveLocale = (value: string | undefined): Locale =>
-  LOCALES.includes(value as Locale) ? (value as Locale) : DEFAULT_LOCALE;
+export const resolveLocale = (value: string | undefined): Locale => {
+  return LOCALES.includes(value as Locale) ? (value as Locale) : DEFAULT_LOCALE;
+};

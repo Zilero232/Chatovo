@@ -12,8 +12,8 @@ export const openPopup = (): Window => {
   return popup;
 };
 
-export const waitForSignIn = (popup: Window) =>
-  new Promise<void>((resolve, reject) => {
+export const waitForSignIn = (popup: Window) => {
+  return new Promise<void>((resolve, reject) => {
     const cleanup = () => {
       clearTimeout(timer);
       clearInterval(poll);
@@ -43,3 +43,4 @@ export const waitForSignIn = (popup: Window) =>
       reject(new GoogleSignInCancelled());
     }, POPUP_POLL_MS);
   });
+};

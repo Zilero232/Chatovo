@@ -16,21 +16,21 @@ export const VideoTab = () => {
   return (
     <div className={s.tabPanel}>
       <SettingRow
-        stacked
-        control={<DeviceSelect kind="videoinput" />}
-        hint={t('cameraHint')}
         label={t('camera')}
+        hint={t('cameraHint')}
+        control={<DeviceSelect kind="videoinput" />}
+        stacked
       />
 
       <SettingRow
+        label={t('mirror')}
+        hint={t('mirrorHint')}
         control={
           <Switch
             checked={video.mirrorVideo}
             onCheckedChange={(value) => setGroup('video', { mirrorVideo: value })}
           />
         }
-        hint={t('mirrorHint')}
-        label={t('mirror')}
       />
     </div>
   );

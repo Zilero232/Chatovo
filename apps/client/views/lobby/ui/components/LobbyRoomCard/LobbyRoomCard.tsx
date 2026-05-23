@@ -4,9 +4,8 @@ import { Lock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useRoomParticipants } from '@/entities/room';
+import { UserAvatar } from '@/entities/user';
 import { buildRoomHref } from '@/shared/constants';
-import { getInitials } from '@/shared/lib';
-import { Avatar, AvatarFallback } from '@/shared/ui';
 import { lobbyRoomCardStyles as s } from './LobbyRoomCard.styles';
 import type { LobbyRoomCardProps } from './LobbyRoomCard.types';
 
@@ -44,11 +43,13 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
         <div className={s.participants}>
           <div className={s.avatars}>
             {shown.map((participant) => (
-              <Avatar key={participant.identity} className={s.avatar}>
-                <AvatarFallback className={s.avatarFallback}>
-                  {getInitials(participant.name)}
-                </AvatarFallback>
-              </Avatar>
+              <UserAvatar
+                key={participant.identity}
+                name={participant.name}
+                src={participant.avatarUrl}
+                className={s.avatar}
+                fallbackClassName={s.avatarFallback}
+              />
             ))}
             {overflow > 0 && <span className={s.overflow}>+{overflow}</span>}
           </div>

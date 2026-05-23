@@ -16,10 +16,12 @@ const roomService = new RoomServiceClient(
 
 export const parseParticipantMeta = (
   metadata: string | undefined,
-): Pick<RoomParticipant, 'verified' | 'profileUrl'> => {
-  const { verified, profileUrl } = participantMetadataSchema.parse(safeJsonParse(metadata));
+): Pick<RoomParticipant, 'verified' | 'profileUrl' | 'avatarUrl'> => {
+  const { verified, profileUrl, avatarUrl } = participantMetadataSchema.parse(
+    safeJsonParse(metadata),
+  );
 
-  return { verified, profileUrl };
+  return { verified, profileUrl, avatarUrl };
 };
 
 const buildSnapshot = (): RoomsParticipantsSnapshot => {
@@ -43,7 +45,9 @@ export const getSnapshot = buildSnapshot;
 export const subscribe = (listener: Listener): (() => void) => {
   listeners.add(listener);
 
-  return () => listeners.delete(listener);
+  return () => {
+    return listeners.delete(listener);
+  };
 };
 
 export const addParticipant = (roomId: string, participant: RoomParticipant) => {

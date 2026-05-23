@@ -23,7 +23,9 @@ const useApplyDevices = (room: Room, devices: DeviceSettings) => {
   useEffect(() => {
     if (room.state === 'connected') applyDevices(room, devices);
 
-    const onConnected = () => applyDevices(room, devices);
+    const onConnected = () => {
+      return applyDevices(room, devices);
+    };
     room.on(RoomEvent.Connected, onConnected);
 
     return () => {

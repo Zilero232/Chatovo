@@ -26,13 +26,14 @@ const barsFromRtt = (rtt: number): number => {
 };
 
 // Fallback when no RTT sample exists yet — derives bars from the quality enum.
-const barsFromQuality = (quality: ConnectionQuality): number =>
-  match(quality)
+const barsFromQuality = (quality: ConnectionQuality): number => {
+  return match(quality)
     .with(ConnectionQuality.Excellent, () => 5)
     .with(ConnectionQuality.Good, () => 3)
     .with(ConnectionQuality.Poor, () => 1)
     .with(ConnectionQuality.Lost, () => 0)
     .otherwise(() => 0);
+};
 
 export const ConnectionIndicator = () => {
   const t = useTranslations('room.connection');

@@ -26,68 +26,68 @@ export const AudioTab = () => {
   return (
     <div className={s.tabPanel}>
       <SettingRow
-        stacked
-        control={<DeviceSelect kind="audioinput" />}
-        hint={t('microphoneHint')}
         label={t('microphone')}
+        hint={t('microphoneHint')}
+        control={<DeviceSelect kind="audioinput" />}
+        stacked
       />
 
       <SettingRow
-        stacked
-        control={<DeviceSelect emptyLabel={tDevices('systemDefault')} kind="audiooutput" />}
-        hint={t('speakersHint')}
         label={t('speakers')}
-      />
-
-      <SettingRow
+        hint={t('speakersHint')}
+        control={<DeviceSelect kind="audiooutput" emptyLabel={tDevices('systemDefault')} />}
         stacked
-        control={<MicTest audio={audio} deviceId={settings.devices.audioInput} />}
-        hint={t('testMicHint')}
-        label={t('testMic')}
       />
 
       <SettingRow
+        label={t('testMic')}
+        hint={t('testMicHint')}
+        control={<MicTest deviceId={settings.devices.audioInput} audio={audio} />}
+        stacked
+      />
+
+      <SettingRow
+        label={t('noiseSuppression')}
+        hint={t('noiseSuppressionHint')}
         control={
           <Switch
             checked={audio.noiseSuppression}
             onCheckedChange={(value) => setFlag('noiseSuppression', value)}
           />
         }
-        hint={t('noiseSuppressionHint')}
-        label={t('noiseSuppression')}
       />
 
       <SettingRow
+        label={t('echoCancellation')}
+        hint={t('echoCancellationHint')}
         control={
           <Switch
             checked={audio.echoCancellation}
             onCheckedChange={(value) => setFlag('echoCancellation', value)}
           />
         }
-        hint={t('echoCancellationHint')}
-        label={t('echoCancellation')}
       />
 
       <SettingRow
+        label={t('autoGainControl')}
+        hint={t('autoGainControlHint')}
         control={
           <Switch
             checked={audio.autoGainControl}
             onCheckedChange={(value) => setFlag('autoGainControl', value)}
           />
         }
-        hint={t('autoGainControlHint')}
-        label={t('autoGainControl')}
       />
 
       <SettingRow
+        label={t('voiceIsolation')}
+        hint={t('voiceIsolationHint')}
         control={
           <Switch
             checked={audio.voiceIsolation}
             onCheckedChange={(value) => setFlag('voiceIsolation', value)}
           />
         }
-        hint={t('voiceIsolationHint')}
-        label={t('voiceIsolation')}
       />
     </div>
   );

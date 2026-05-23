@@ -14,11 +14,12 @@ const AVATAR_COLORS = [
 ] as const;
 
 export const getInitials = (name: string): string => {
-  const words = name.trim().split(/\s+/).filter(Boolean);
+  const trimmed = name.trim();
 
-  if (isEmpty(words)) return '?';
+  if (isEmpty(trimmed)) return '?';
 
-  return words
+  return trimmed
+    .split(/\s+/)
     .slice(0, 2)
     .map((word) => word[0]?.toUpperCase() ?? '')
     .join('');

@@ -282,9 +282,111 @@ export type ChatMessage =
   | { type: 'file'; url: string; name: string; size: number; mime: string };
 ```
 
+### 8.1 Порядок полей в Props и деструктуризации
+
+Один порядок во всех трёх местах: **`type Props`**, **деструктуризация параметров**, **JSX-вызов компонента**. Так глаз ищет одно и то же одинаково.
+
+Порядок:
+
+1. **Данные** — string, number, boolean, объекты, refs, `children`.
+2. **Идентификаторы / стили** — `id`, `className`, `style`.
+3. **Обработчики событий** — `onClick`, `onSubmit`, `onChange`, любые `on<Event>`.
+
+```ts
+// ✓ ОК
+export type UserNameProps = {
+  name: string;
+  verified?: boolean;
+  profileUrl?: string | null;
+  size?: 'sm' | 'md';
+  className?: string;
+  onClick?: () => void;
+};
+
+export const UserName = ({
+  name,
+  verified,
+  profileUrl,
+  size = 'sm',
+  className,
+  onClick,
+}: UserNameProps) => {
+  ...
+};
+
+// JSX:
+<UserName
+  name={author}
+  profileUrl={profileUrl}
+  verified={verified}
+  className={s.author}
+  onClick={handleClick}
+/>
+```
+
+Логика: «что показываем» → «как выглядит» → «что делает». Сначала смысл, потом форма, потом поведение.
+
+Внутри каждой группы порядок свободный, но **в трёх местах должен совпадать** (Props ↔ destructuring ↔ JSX). Расхождение ловится на ревью.
+
 ---
 
-## 9. React-конвенции
+## 9. Arrow-функции: тело
+
+**Все объявления (top-level и модульные) — block body с `return`.** Однострочные expression body запрещены: вид `=> { return ... }` единообразен независимо от размера тела, не приходится переписывать когда логика растёт.
+
+```ts
+// ✓ ОК
+const readRole = (user: User | null): UserRole => {
+  return user?.app_metadata?.role === 'admin' ? 'admin' : 'user';
+};
+
+const resolveDisplayName = (user: User | null): string => {
+  return (
+    firstNonEmptyString([meta.display_name, meta.full_name, meta.name]) ??
+    user?.email?.split('@')[0] ??
+    'you'
+  );
+};
+
+// ✗ НЕ ОК
+const readRole = (user: User | null): UserRole =>
+  user?.app_metadata?.role === 'admin' ? 'admin' : 'user';
+```
+
+**Исключения — оставляем expression body:**
+
+- **React-компоненты, возвращающие JSX напрямую** — JSX сам по себе является «телом», обёртка `{ return }` визуально дублирует:
+
+  ```tsx
+  // ✓ ОК
+  export const Avatar = ({ src }: Props) => <img src={src} />;
+
+  export const Foo = (props: P) => (
+    <div>
+      <span>{props.text}</span>
+    </div>
+  );
+  ```
+
+- **Inline-колбэки** (аргументы функций, JSX-пропсы, методы хуков):
+
+  ```ts
+  // ✓ ОК — это аргумент, не объявление
+  arr.map((x) => x.id);
+  arr.filter((x) => x.active);
+  pipe(xs, filter((x) => x > 0));
+  useEffect(() => setOpen(true), []);
+  <Button onClick={() => router.push('/foo')} />
+  match(state).with('idle', () => null)
+  ```
+
+- **shadcn-примитивы в `shared/ui/`** — там своя конвенция, не трогать.
+
+**Правило для review:** если стрелка справа от `=` (объявление функции) — block body. Если стрелка внутри `(...)` или `{...}` (аргумент) — на усмотрение, обычно expression.
+
+---
+
+## 10. React-конвенции
 
 - Функциональные компоненты, arrow-функции.
 - `'use client'` в каждом файле с хуками/state/event handlers.
@@ -385,7 +487,7 @@ const tokenMutation = useRoomTokenMutation();
 
 ---
 
-## 10. Сегменты `model/`, `lib/`, `api/`
+## 11. Сегменты `model/`, `lib/`, `api/`
 
 **`model/`** — хуки, Zustand store, контекст-провайдеры, типы стейта.
 
@@ -468,7 +570,7 @@ export const createRoom = async (input: CreateRoomInput): Promise<Room> => {
 
 ---
 
-## 11. Tailwind v4
+## 12. Tailwind v4
 
 - Темы — CSS variables в `globals.css` (`:root` + `.dark`).
 - Тёмная тема — `<html className="dark">` хардкодом (несовместимо с `next-themes` + Tauri).
@@ -477,7 +579,7 @@ export const createRoom = async (input: CreateRoomInput): Promise<Room> => {
 
 ---
 
-## 12. Пустые строки между логическими шагами
+## 13. Пустые строки между логическими шагами
 
 Biome не автофиксит `padding-line-between-statements`. Соблюдаем руками.
 
@@ -528,7 +630,7 @@ return <VoiceRoom />;
 
 ---
 
-## 13. Shared схемы — `@chatovo/schemas`
+## 14. Shared схемы — `@chatovo/schemas`
 
 Zod схемы и типы, общие для client/server, — в `packages/schemas`:
 
@@ -562,7 +664,7 @@ import { Room } from '@/shared/api';
 
 ---
 
-## 14. Формы — react-hook-form + zodResolver
+## 15. Формы — react-hook-form + zodResolver
 
 ```tsx
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -587,7 +689,7 @@ const { formState: { errors }, handleSubmit, register, reset } = useForm<
 
 ---
 
-## 15. Conditional render — ts-pattern
+## 16. Conditional render — ts-pattern
 
 3+ ветки render → `match`, не вложенные `if (...) return <X />` и не цепочки тернарников в JSX.
 
@@ -676,7 +778,7 @@ return !roomId ? null : roomById.isLoading ? <Loading /> : !room ? <NotFound /> 
 
 ---
 
-## 16. Drill cleanup
+## 17. Drill cleanup
 
 Если данные доступны через глобальный хук — leaf берёт сам, не принимает props:
 
@@ -711,7 +813,7 @@ const ChannelsList = () => {
 
 ---
 
-## 17. Server routes — OpenAPI
+## 18. Server routes — OpenAPI
 
 ```
 apps/server/src/routes/
@@ -734,7 +836,7 @@ apps/server/src/routes/
 
 ---
 
-## 18. Запреты
+## 19. Запреты
 
 - `console.log` в коммите. Biome `noConsole: warn` (`shared/ui/**`, `scripts/**` — off).
 - `any` — Biome `noExplicitAny: error`. Используй `unknown`.
@@ -750,7 +852,7 @@ apps/server/src/routes/
 
 ---
 
-## 19. Чек-лист перед коммитом
+## 20. Чек-лист перед коммитом
 
 ```bash
 bun lint:fix                               # Biome: формат + organize imports + safe fixes

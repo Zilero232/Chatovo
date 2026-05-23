@@ -33,9 +33,9 @@ export const ChatPanel = ({ isOpen, onClose }: ChatPanelProps) => {
               return (
                 <ChatMessageItem
                   key={`${message.timestamp}-${message.from?.identity ?? 'unknown'}`}
-                  isGrouped={isGrouped}
-                  isOwn={isOwn}
                   message={message}
+                  isOwn={isOwn}
+                  isGrouped={isGrouped}
                 />
               );
             })}

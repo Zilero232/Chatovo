@@ -2,6 +2,8 @@ import { swaggerUI } from '@hono/swagger-ui';
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
+import { filter, map, pipe } from 'remeda';
+import { match, P } from 'ts-pattern';
 import { env } from './lib/env';
 import { ConflictError, NotFoundError } from './lib/errors';
 import { authMiddleware } from './middleware/auth';
@@ -16,14 +18,17 @@ app.openAPIRegistry.registerComponent('securitySchemes', 'bearerAuth', {
   bearerFormat: 'JWT',
 });
 
-// Web client origins come from env (comma-separated); Tauri origins are always allowed
-// so the desktop app can reach the same API as the website.
-const tauriOrigins = ['tauri://localhost', 'http://tauri.localhost'];
+// Web client origins come from env (comma-separated); Tauri origins are always
+// allowed so the desktop app can reach the same API as the website.
+const TAURI_ORIGINS = ['tauri://localhost', 'http://tauri.localhost'];
+
 const allowedOrigins = [
-  ...env.CORS_ORIGINS.split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean),
-  ...tauriOrigins,
+  ...pipe(
+    env.CORS_ORIGINS.split(','),
+    map((origin) => origin.trim()),
+    filter((origin) => origin.length > 0),
+  ),
+  ...TAURI_ORIGINS,
 ];
 
 export const routes = app
@@ -50,21 +55,17 @@ export const routes = app
   .route('/livekit', livekitRouter);
 
 // Single place that turns thrown errors into HTTP responses. Domain errors
-// map to their status; anything else is an unexpected failure -> 500, without
-// leaking a stack trace to the client.
-app.onError((error, c) => {
-  if (error instanceof ConflictError) {
-    return c.json({ error: error.message }, 409);
-  }
+// map to their status; anything else is an unexpected failure -> 500.
+app.onError((error, c) =>
+  match(error)
+    .with(P.instanceOf(ConflictError), (e) => c.json({ error: e.message }, 409))
+    .with(P.instanceOf(NotFoundError), (e) => c.json({ error: e.message }, 404))
+    .otherwise((e) => {
+      console.error(e);
 
-  if (error instanceof NotFoundError) {
-    return c.json({ error: error.message }, 404);
-  }
-
-  console.error(error);
-
-  return c.json({ error: 'Internal server error' }, 500);
-});
+      return c.json({ error: 'Internal server error' }, 500);
+    }),
+);
 
 app.doc('/openapi.json', {
   openapi: '3.0.0',

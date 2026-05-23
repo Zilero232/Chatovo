@@ -12,8 +12,8 @@ type Options = {
 // Public: fetches once roomId is known. Private: stays idle until a password
 // is supplied, then fetches. Password is closed over (not in queryKey) so it
 // never lands in the cache/devtools — call refetch() to retry with a new one.
-export const useRoomToken = (roomId: string | null, { isPrivate, password }: Options) =>
-  useQuery({
+export const useRoomToken = (roomId: string | null, { isPrivate, password }: Options) => {
+  return useQuery({
     queryKey: QUERY_KEYS.livekitToken(roomId),
     queryFn: () => fetchLiveKitToken({ roomId: roomId as string, password }),
     select: ({ token }) => token,
@@ -21,3 +21,4 @@ export const useRoomToken = (roomId: string | null, { isPrivate, password }: Opt
     retry: false,
     staleTime: 0,
   });
+};

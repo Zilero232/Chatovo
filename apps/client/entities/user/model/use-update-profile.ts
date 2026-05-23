@@ -18,8 +18,8 @@ export type ProfileValues = z.infer<typeof profileSchema>;
 // Updates the signed-in user's display name and profile link in a single
 // Supabase call, then patches the cached session so useCurrentUser reflects
 // the change at once.
-export const useUpdateProfile = () =>
-  useMutation({
+export const useUpdateProfile = () => {
+  return useMutation({
     mutationFn: async ({ name, profileUrl }: ProfileValues) => {
       const { data, error } = await supabase.auth.updateUser({
         data: { display_name: name, profile_url: profileUrl.trim() },
@@ -36,3 +36,4 @@ export const useUpdateProfile = () =>
       return data.user;
     },
   });
+};

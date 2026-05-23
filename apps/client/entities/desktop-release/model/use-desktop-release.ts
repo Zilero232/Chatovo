@@ -7,8 +7,8 @@ import type { DesktopPlatform, DesktopRelease, DesktopReleaseAsset } from './typ
 
 // `enabled` keeps the GitHub API request from firing on page load — it runs
 // only once the download dialog is actually opened.
-export const useDesktopRelease = (enabled = true) =>
-  useQuery({
+export const useDesktopRelease = (enabled = true) => {
+  return useQuery({
     queryKey: QUERY_KEYS.desktopRelease(),
     enabled,
     staleTime: 5 * 60_000,
@@ -39,3 +39,4 @@ export const useDesktopRelease = (enabled = true) =>
       };
     },
   });
+};

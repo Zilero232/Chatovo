@@ -62,13 +62,15 @@ export const useVoiceRoomSounds = (isChatOpen: boolean) => {
 
   // mute/unmute share one toggle; the leave clip lives at the app root, so it
   // has no useAudio element here — its volume is governed by useLeaveSound.
-  const guardedPlay = (category: SoundCategory, key: keyof typeof audioRef.current) => () => {
-    const { enabled, volume } = soundsRef.current;
-    if (!enabled[category]) return;
+  const guardedPlay = (category: SoundCategory, key: keyof typeof audioRef.current) => {
+    return () => {
+      const { enabled, volume } = soundsRef.current;
+      if (!enabled[category]) return;
 
-    const audio = audioRef.current[key];
-    audio.setVolume(volume);
-    void audio.play();
+      const audio = audioRef.current[key];
+      audio.setVolume(volume);
+      void audio.play();
+    };
   };
 
   const playRef = useRef({
@@ -101,8 +103,12 @@ export const useVoiceRoomSounds = (isChatOpen: boolean) => {
       playRef.current.leave();
     };
 
-    const onConnected = () => void playRef.current.join();
-    const onReconnecting = () => void playRef.current.reconnect();
+    const onConnected = () => {
+      return void playRef.current.join();
+    };
+    const onReconnecting = () => {
+      return void playRef.current.reconnect();
+    };
 
     room.on(RoomEvent.Connected, onConnected);
     room.on(RoomEvent.Disconnected, playLeave);
@@ -141,8 +147,12 @@ export const useVoiceRoomSounds = (isChatOpen: boolean) => {
 
   // Remote participants joining / leaving the room.
   useEffect(() => {
-    const onJoin = () => void playRef.current.join();
-    const onLeave = () => void playRef.current.leave();
+    const onJoin = () => {
+      return void playRef.current.join();
+    };
+    const onLeave = () => {
+      return void playRef.current.leave();
+    };
 
     room.on(RoomEvent.ParticipantConnected, onJoin);
     room.on(RoomEvent.ParticipantDisconnected, onLeave);

@@ -12,8 +12,8 @@ export const signInSchema = z.object({
 
 export type SignInValues = z.infer<typeof signInSchema>;
 
-export const useSignIn = () =>
-  useMutation({
+export const useSignIn = () => {
+  return useMutation({
     mutationFn: async (values: SignInValues) => {
       const { data, error } = await supabase.auth.signInWithPassword(values);
 
@@ -22,3 +22,4 @@ export const useSignIn = () =>
       return data;
     },
   });
+};

@@ -8,8 +8,9 @@ type VerifiedUser = {
   role: UserRole;
 };
 
-export const readRole = (metadata: Record<string, unknown> | undefined): UserRole =>
-  metadata?.role === 'admin' ? 'admin' : 'user';
+export const readRole = (metadata: Record<string, unknown> | undefined): UserRole => {
+  return metadata?.role === 'admin' ? 'admin' : 'user';
+};
 
 export const verifyAccessToken = async (
   token: string | undefined,
