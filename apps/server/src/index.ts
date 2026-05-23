@@ -3,7 +3,6 @@ import { OpenAPIHono } from '@hono/zod-openapi';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { filter, map, pipe } from 'remeda';
-import { match, P } from 'ts-pattern';
 import { env } from './lib/env';
 import { ConflictError, NotFoundError } from './lib/errors';
 import { authMiddleware } from './middleware/auth';
@@ -56,16 +55,12 @@ export const routes = app
 
 // Single place that turns thrown errors into HTTP responses. Domain errors
 // map to their status; anything else is an unexpected failure -> 500.
-app.onError((error, c) =>
-  match(error)
-    .with(P.instanceOf(ConflictError), (e) => c.json({ error: e.message }, 409))
-    .with(P.instanceOf(NotFoundError), (e) => c.json({ error: e.message }, 404))
-    .otherwise((e) => {
-      console.error(e);
+app.onError((error, c) => {
+  if (error instanceof ConflictError) return c.json({ error: error.message }, 409);
+  if (error instanceof NotFoundError) return c.json({ error: error.message }, 404);
 
-      return c.json({ error: 'Internal server error' }, 500);
-    }),
-);
+  return c.json({ error: 'Internal server error' }, 500);
+});
 
 app.doc('/openapi.json', {
   openapi: '3.0.0',
