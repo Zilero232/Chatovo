@@ -1,5 +1,5 @@
-import type { Avatar } from '@/shared/ui';
 import type { ComponentProps } from 'react';
+import type { Avatar } from '@/shared/ui';
 
 export type UserAvatarProps = {
   name: string;

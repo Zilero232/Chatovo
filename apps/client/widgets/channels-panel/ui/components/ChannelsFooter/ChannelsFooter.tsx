@@ -1,6 +1,6 @@
 'use client';
 
-import { useCurrentUser, UserAvatar, UserName } from '@/entities/user';
+import { UserAvatar, UserName, useCurrentUser } from '@/entities/user';
 import { AppSettingsButton } from '@/widgets/app-settings';
 import { channelsFooterStyles as s } from './ChannelsFooter.styles';
 
