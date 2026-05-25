@@ -3,8 +3,8 @@
 import { Lock } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { isEmpty } from 'remeda';
-import { useRoomParticipants } from '@/entities/room/room';
 import { UserAvatar, UserName } from '@/entities/auth/user';
+import { useRoomParticipants } from '@/entities/room/room';
 import { buildRoomHref } from '@/shared/constants';
 import { channelsRoomItemStyles as s } from './ChannelsRoomItem.styles';
 import type { ChannelsRoomItemProps } from './ChannelsRoomItem.types';

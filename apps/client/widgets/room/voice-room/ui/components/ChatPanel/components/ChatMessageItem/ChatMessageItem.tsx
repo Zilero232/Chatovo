@@ -1,5 +1,5 @@
-import { readParticipantMeta } from '@/entities/room/room';
 import { UserAvatar, UserName } from '@/entities/auth/user';
+import { readParticipantMeta } from '@/entities/room/room';
 import { formatMessageTime } from '@/shared/lib/format-date';
 import { chatMessageItemStyles as s } from './ChatMessageItem.styles';
 import type { ChatMessageItemProps } from './ChatMessageItem.types';

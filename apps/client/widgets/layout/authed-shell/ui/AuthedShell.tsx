@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
 import { useCurrentUser } from '@/entities/auth/user';
 import { ROUTES } from '@/shared/constants';
-import { ChannelsPanel } from '@/widgets/room/channels-panel';
 import { ServerRail } from '@/widgets/app/server-rail';
+import { ChannelsPanel } from '@/widgets/room/channels-panel';
 import { authedShellStyles as s } from './AuthedShell.styles';
 import type { AuthedShellProps } from './AuthedShell.types';
 

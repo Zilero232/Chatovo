@@ -4,8 +4,8 @@ import { BarVisualizer, useIsSpeaking, useParticipantTracks } from '@livekit/com
 import { Track } from 'livekit-client';
 import { MicOff } from 'lucide-react';
 import { isNonNullish } from 'remeda';
-import { readParticipantMeta } from '@/entities/room/room';
 import { UserName } from '@/entities/auth/user';
+import { readParticipantMeta } from '@/entities/room/room';
 import { CardVideo } from '../CardVideo';
 import { ParticipantCardMenu } from '../ParticipantCardMenu';
 import { participantCardStyles as s } from './ParticipantCard.styles';
