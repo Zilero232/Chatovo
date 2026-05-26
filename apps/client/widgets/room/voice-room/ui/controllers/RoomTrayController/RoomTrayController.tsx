@@ -2,26 +2,42 @@
 
 import { useLocalParticipant } from '@livekit/components-react';
 import { isTauri } from '@tauri-apps/api/core';
-import { getCurrentWindow } from '@tauri-apps/api/window';
 import { useEffect } from 'react';
 import { isNullish } from 'remeda';
 import { useTrayMenuItem } from '@/features/app/system-tray';
-import { TAURI_EVENTS } from '@/shared/constants';
-import { useSubscription } from '@/shared/hooks';
+import { appBus } from '@/shared/lib';
 import { useAppSettings } from '@/widgets/app/app-settings';
+import { toggleMicStream } from '../../../lib/toggle-mic-stream';
 
-export const RoomTraySync = () => {
+export const RoomTrayController = () => {
   const { localParticipant, isMicrophoneEnabled } = useLocalParticipant();
   const muteItem = useTrayMenuItem('mute');
   const { settings } = useAppSettings();
 
   const isPtt = settings.audio.activationMode === 'pushToTalk';
+  const active = isTauri() && !isNullish(localParticipant);
+
+  appBus.useSubscribe('trayMuteToggle', async () => {
+    if (!active) return;
+
+    try {
+      const next = !localParticipant.isMicrophoneEnabled;
+      await localParticipant.setMicrophoneEnabled(next);
+
+      if (isPtt && next) {
+        toggleMicStream(localParticipant, false);
+      }
+    } catch (err) {
+      console.error('tray mute toggle failed', err);
+    }
+  });
 
   useEffect(() => {
     if (isNullish(muteItem)) return;
 
-    // PTT: the mic state is transient (key-hold) — keep the tray checkbox
-    // pinned to unchecked instead of flickering with every press.
+    // In PTT mode the publication stays unmuted, so `isMicrophoneEnabled` is
+    // always true while the user is "live but silent". Tray checkbox should
+    // still reflect explicit user mute — which only happens in voiceActivity.
     const next = isPtt ? false : !isMicrophoneEnabled;
 
     (async () => {
@@ -32,19 +48,6 @@ export const RoomTraySync = () => {
       }
     })();
   }, [muteItem, isMicrophoneEnabled, isPtt]);
-
-  useSubscription(
-    () =>
-      getCurrentWindow().listen(TAURI_EVENTS.trayMuteToggle, async () => {
-        try {
-          await localParticipant.setMicrophoneEnabled(!localParticipant.isMicrophoneEnabled);
-        } catch (err) {
-          console.error('tray mute toggle failed', err);
-        }
-      }),
-    [localParticipant],
-    isTauri() && !isNullish(localParticipant) && !isPtt,
-  );
 
   return null;
 };

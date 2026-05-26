@@ -1,10 +1,10 @@
 'use client';
 
-import { isRegistered, register, unregister } from '@tauri-apps/plugin-global-shortcut';
+import { register, unregister } from '@tauri-apps/plugin-global-shortcut';
 import { TriangleAlert, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { entries, isNullish } from 'remeda';
+import { entries, isNullish, values } from 'remeda';
 import { toast } from 'sonner';
 import { match, P } from 'ts-pattern';
 import { useShortcutConflict } from '@/features/app/shortcuts';
@@ -18,7 +18,7 @@ type ShortcutRowProps = {
   label: string;
   binding: ShortcutBinding;
   allBindings: ShortcutSettings;
-  onChange: (next: ShortcutBinding) => void;
+  onPatch: (patch: Partial<ShortcutSettings>) => void;
 };
 
 const findConflict = (
@@ -33,11 +33,9 @@ export const ShortcutRow = ({
   label,
   binding,
   allBindings,
-  onChange,
+  onPatch,
 }: ShortcutRowProps) => {
   const t = useTranslations('settings.shortcuts');
-  const tActions = useTranslations('settings.shortcuts.actions');
-
   const [recording, setRecording] = useState(false);
   const hasConflict = useShortcutConflict(binding);
 
@@ -51,17 +49,10 @@ export const ShortcutRow = ({
         return;
       }
 
-      const conflict = findConflict(accelerator, actionId, allBindings);
-      if (conflict !== null) {
-        toast.error(t('errors.duplicate', { action: tActions(conflict) }));
-        setRecording(false);
-        return;
-      }
-
-      // Skip OS-availability probe if our own bridge already owns this
-      // accelerator — register() would throw "HotKey already registered"
-      // for ourselves and we'd misreport it as systemTaken.
-      const ownedByUs = await isRegistered(accelerator).catch(() => false);
+      // Skip OS-availability probe if any of our own actions already hold
+      // this accelerator — bridge owns the registration, so a probe would
+      // throw "already registered" against ourselves and misreport it.
+      const ownedByUs = values(allBindings).includes(accelerator);
       if (!ownedByUs) {
         try {
           await register(accelerator, () => {});
@@ -73,7 +64,10 @@ export const ShortcutRow = ({
         }
       }
 
-      onChange(accelerator);
+      const stolenFrom = findConflict(accelerator, actionId, allBindings);
+      const patch: Partial<ShortcutSettings> = { [actionId]: accelerator };
+      if (stolenFrom !== null) patch[stolenFrom] = null;
+      onPatch(patch);
       setRecording(false);
     },
   });
@@ -131,7 +125,7 @@ export const ShortcutRow = ({
           tabIndex={clearVisible ? 0 : -1}
           type="button"
           variant="ghost"
-          onClick={() => onChange(null)}
+          onClick={() => onPatch({ [actionId]: null })}
         >
           <X />
         </Button>

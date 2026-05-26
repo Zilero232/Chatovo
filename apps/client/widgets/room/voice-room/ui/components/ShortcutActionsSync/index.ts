@@ -1,1 +1,0 @@
-export { ShortcutActionsSync } from './ShortcutActionsSync';

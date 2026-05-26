@@ -58,7 +58,7 @@ export const ShortcutsTab = () => {
           allBindings={bindings}
           binding={bindings[actionId]}
           label={tActions(actionId)}
-          onChange={(next) => setGroup('shortcuts', { ...bindings, [actionId]: next })}
+          onPatch={(patch) => setGroup('shortcuts', { ...bindings, ...patch })}
         />
       ))}
     </div>

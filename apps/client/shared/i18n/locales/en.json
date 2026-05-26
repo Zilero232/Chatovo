@@ -74,6 +74,9 @@
       "required": "Password required",
       "wrong": "Wrong password",
       "join": "Join"
+    },
+    "shortcuts": {
+      "pttBlockedByMute": "Microphone is muted — unmute to use push-to-talk"
     }
   },
   "chat": {
@@ -155,7 +158,7 @@
       "activationHint": "When to transmit your voice.",
       "activationVoice": "Voice activity",
       "activationPtt": "Push-to-talk",
-      "activationPttNoBinding": "Assign a key in the Hotkeys tab to use this mode.",
+      "activationPttNoBinding": "Assign a key in the <link>Hotkeys tab</link> to use this mode.",
       "microphone": "Microphone",
       "microphoneHint": "The microphone used to capture your voice.",
       "speakers": "Speakers",
@@ -206,7 +209,6 @@
       "recording": "Press a combination… (Esc to cancel)",
       "clear": "Clear",
       "errors": {
-        "duplicate": "This combination is already used by: {action}",
         "needsModifier": "Use a combination with Ctrl/Shift/Alt or F1-F12 keys",
         "systemTaken": "This combination is reserved by another application"
       }

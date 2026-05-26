@@ -12,16 +12,9 @@ import {
 } from 'livekit-client';
 import { useEffect, useRef } from 'react';
 import { useLeaveSound } from '@/entities/room/room';
+import { appBus } from '@/shared/lib';
 import { type SoundCategory, useAppSettings } from '@/widgets/app/app-settings';
 
-// Plays Discord-style feedback sounds for room lifecycle events:
-//   - join: the local participant and every remote participant
-//   - leave: the local participant and every remote participant — via
-//     useLeaveSound, whose element lives at the app root so the clip survives
-//     the room teardown that fires on the local participant's disconnect
-//   - reconnect: the local connection dropping (signal or media level)
-//   - mute / unmute: the local participant's microphone toggling
-//   - message: a remote participant's chat message while the panel is closed
 export const useVoiceRoomSounds = (isChatOpen: boolean) => {
   const room = useRoomContext();
   const { localParticipant } = useLocalParticipant();
@@ -30,26 +23,22 @@ export const useVoiceRoomSounds = (isChatOpen: boolean) => {
 
   const { settings } = useAppSettings();
 
-  // `interrupt` rewinds the clip so rapid consecutive triggers always fire.
   const joinAudio = useAudio('/audios/user_join.mp3', { interrupt: true });
   const reconnectAudio = useAudio('/audios/reconnect.mp3', { interrupt: true });
   const muteAudio = useAudio('/audios/mute.mp3', { interrupt: true });
   const unmuteAudio = useAudio('/audios/unmute.mp3', { interrupt: true });
+  const pttAudio = useAudio('/audios/ptt.mp3', { interrupt: true });
   const messageAudio = useAudio('/audios/notification.mp3', { interrupt: true });
 
-  // Sound settings change at runtime; the event-listener effects below capture
-  // their callbacks once, so the latest values are read through a ref.
   const soundsRef = useRef(settings.sounds);
   soundsRef.current = settings.sounds;
 
-  // useAudio's `play`/`setVolume` are fresh functions each render but always
-  // drive the same internal audio element. The ref is refreshed every render
-  // so the guarded wrappers below always call the current functions.
   const audioRef = useRef({
     join: joinAudio,
     reconnect: reconnectAudio,
     mute: muteAudio,
     unmute: unmuteAudio,
+    ptt: pttAudio,
     message: messageAudio,
   });
   audioRef.current = {
@@ -57,11 +46,10 @@ export const useVoiceRoomSounds = (isChatOpen: boolean) => {
     reconnect: reconnectAudio,
     mute: muteAudio,
     unmute: unmuteAudio,
+    ptt: pttAudio,
     message: messageAudio,
   };
 
-  // mute/unmute share one toggle; the leave clip lives at the app root, so it
-  // has no useAudio element here — its volume is governed by useLeaveSound.
   const guardedPlay = (category: SoundCategory, key: keyof typeof audioRef.current) => {
     return () => {
       const { enabled, volume } = soundsRef.current;
@@ -81,17 +69,13 @@ export const useVoiceRoomSounds = (isChatOpen: boolean) => {
     reconnect: guardedPlay('reconnect', 'reconnect'),
     mute: guardedPlay('mute', 'mute'),
     unmute: guardedPlay('mute', 'unmute'),
+    ptt: guardedPlay('mute', 'ptt'),
     message: guardedPlay('message', 'message'),
   });
 
-  // Read through a ref so the chat effect stays stable across open/close.
   const isChatOpenRef = useRef(isChatOpen);
   isChatOpenRef.current = isChatOpen;
 
-  // The local participant connecting / disconnecting / reconnecting. Leave is
-  // also played from cleanup: RoomEvent.Disconnected can arrive after the
-  // listener is gone on room switch, so cleanup is the reliable trigger.
-  // `hasLeft` guards against playing twice when both paths fire.
   useEffect(() => {
     if (room.state === 'connected') void playRef.current.join();
 
@@ -125,15 +109,20 @@ export const useVoiceRoomSounds = (isChatOpen: boolean) => {
     };
   }, [room]);
 
-  // The local participant's microphone toggling. Mute/unmute events also fire
-  // for camera/screen-share, so the source is checked before playing.
+  // Mic mute/unmute → plays mute/unmute clip. PTT does NOT mute the LiveKit
+  // publication (it flips MediaStreamTrack.enabled instead), so this listener
+  // only fires for explicit user mute.
   useEffect(() => {
     const onMuted = (publication: TrackPublication) => {
-      if (publication.source === Track.Source.Microphone) void playRef.current.mute();
+      if (publication.source !== Track.Source.Microphone) return;
+
+      void playRef.current.mute();
     };
 
     const onUnmuted = (publication: TrackPublication) => {
-      if (publication.source === Track.Source.Microphone) void playRef.current.unmute();
+      if (publication.source !== Track.Source.Microphone) return;
+
+      void playRef.current.unmute();
     };
 
     localParticipant.on(ParticipantEvent.TrackMuted, onMuted);
@@ -145,7 +134,12 @@ export const useVoiceRoomSounds = (isChatOpen: boolean) => {
     };
   }, [localParticipant]);
 
-  // Remote participants joining / leaving the room.
+  // PTT press/release → dedicated PTT clip (track stays unmuted at the
+  // publication level so no mute/unmute event fires from the listener above).
+  appBus.useSubscribe('pttHold', () => {
+    void playRef.current.ptt();
+  });
+
   useEffect(() => {
     const onJoin = () => {
       return void playRef.current.join();
@@ -163,7 +157,6 @@ export const useVoiceRoomSounds = (isChatOpen: boolean) => {
     };
   }, [room]);
 
-  // A remote participant's chat message, only while the panel is closed.
   useEffect(() => {
     const onMessage = (_message: unknown, participant?: RemoteParticipant | LocalParticipant) => {
       const isOwn = participant?.identity === localParticipant.identity;

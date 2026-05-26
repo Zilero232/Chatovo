@@ -4,6 +4,7 @@ import { useBoolean } from '@siberiacancode/reactuse';
 import { isTauri } from '@tauri-apps/api/core';
 import { Keyboard, Mic, Settings, Settings2, User, Video, Volume2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -34,6 +35,7 @@ export const AppSettingsButton = () => {
   const t = useTranslations('settings');
 
   const [isOpen, toggleOpen] = useBoolean(false);
+  const [activeTab, setActiveTab] = useState('profile');
 
   const showSystemTab = isTauri();
 
@@ -61,7 +63,12 @@ export const AppSettingsButton = () => {
             <DialogDescription>{t('description')}</DialogDescription>
           </DialogHeader>
 
-          <Tabs className={s.tabs} defaultValue="profile" orientation="vertical">
+          <Tabs
+            className={s.tabs}
+            orientation="vertical"
+            value={activeTab}
+            onValueChange={setActiveTab}
+          >
             <TabsList className={s.tabsList}>
               <TabsTrigger className={s.tabsTrigger} value="profile">
                 <User />
@@ -96,7 +103,7 @@ export const AppSettingsButton = () => {
             </TabsContent>
 
             <TabsContent className={s.tabsContent} value="audio">
-              <AudioTab />
+              <AudioTab onJumpToShortcuts={() => setActiveTab('shortcuts')} />
             </TabsContent>
 
             <TabsContent className={s.tabsContent} value="video">

@@ -5,6 +5,7 @@ export {
   isPureModifier,
   prettyAccelerator,
 } from './accelerator/accelerator';
+export { appBus } from './app-bus';
 export { cn } from './cn';
 export { detectAssetPlatform } from './detect-asset-platform';
 export { formatBytes } from './format-bytes';

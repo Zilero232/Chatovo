@@ -1,6 +1,6 @@
 'use client';
 
-import { Lock } from 'lucide-react';
+import { Headphones, Lock } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { isEmpty } from 'remeda';
 import { UserAvatar, UserName } from '@/entities/auth/user';
@@ -30,7 +30,7 @@ export const ChannelsRoomItem = ({ room }: ChannelsRoomItemProps) => {
           {room.isPrivate && <Lock className={s.privateIcon} />}
         </span>
         {isActive ? (
-          <span className={s.joinedBadge}>joined</span>
+          <Headphones className={s.joinedIcon} />
         ) : (
           !isEmpty(participants) && (
             <span className={s.count}>

@@ -2,7 +2,8 @@
 
 import { useMicActivationMode } from '../../../model/hooks/use-mic-activation-mode';
 
-export const MicActivationSync = () => {
+export const MicActivationController = () => {
   useMicActivationMode();
+
   return null;
 };

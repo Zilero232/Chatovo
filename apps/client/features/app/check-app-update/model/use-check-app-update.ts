@@ -7,8 +7,7 @@ import { check } from '@tauri-apps/plugin-updater';
 import { useEffect, useRef, useState } from 'react';
 import { clamp } from 'remeda';
 import { match } from 'ts-pattern';
-import { APP_EVENTS } from '@/shared/constants';
-import { raceWithTimeout } from '@/shared/lib';
+import { appBus, raceWithTimeout } from '@/shared/lib';
 import { APP_UPDATE_CONFIG } from '../config/config';
 import type { Update } from '@tauri-apps/plugin-updater';
 import type { UpdateInfo } from './types';
@@ -109,18 +108,12 @@ export const useCheckAppUpdate = () => {
     };
   }, [recheckTick.value]);
 
-  useEffect(() => {
+  appBus.useSubscribe('recheckUpdate', () => {
     if (!isTauri()) return;
 
-    const onRecheck = () => {
-      isManualRef.current = true;
-      recheckTick.inc();
-    };
-
-    window.addEventListener(APP_EVENTS.recheckUpdate, onRecheck);
-
-    return () => window.removeEventListener(APP_EVENTS.recheckUpdate, onRecheck);
-  }, [recheckTick.inc]);
+    isManualRef.current = true;
+    recheckTick.inc();
+  });
 
   const install = async () => {
     if (!update) return;

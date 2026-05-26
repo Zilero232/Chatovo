@@ -27,6 +27,7 @@ const killWindows = () => {
     .filter((pid) => !protect.has(pid));
   for (const pid of pids) {
     run(`taskkill /F /PID ${pid}`);
+    // biome-ignore lint/suspicious/noConsole: standalone CLI script, console is the output channel
     console.log(`[kill-stale] killed chatovo.exe PID ${pid}`);
   }
 };

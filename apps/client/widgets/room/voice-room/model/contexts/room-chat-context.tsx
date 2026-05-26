@@ -12,6 +12,8 @@ export const RoomChatProvider = ({ children }: { children: ReactNode }) => (
 
 export const useRoomChat = () => {
   const value = use();
+
   if (!value) throw new Error('useRoomChat must be used within RoomChatProvider');
+
   return value;
 };

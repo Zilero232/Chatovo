@@ -11,7 +11,11 @@ import { DeviceSelect } from '../components/DeviceSelect';
 import { MicTest } from '../components/MicTest';
 import { SettingRow } from '../components/SettingRow';
 
-export const AudioTab = () => {
+type AudioTabProps = {
+  onJumpToShortcuts: () => void;
+};
+
+export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
   const t = useTranslations('settings.audio');
   const tDevices = useTranslations('settings.devices');
   const { settings, setGroup } = useAppSettings();
@@ -58,7 +62,19 @@ export const AudioTab = () => {
         }
       />
       {pttBindingMissing && (
-        <span className={`${s.rowHint} -mt-1`}>{t('activationPttNoBinding')}</span>
+        <span className={`${s.rowHint} -mt-1`}>
+          {t.rich('activationPttNoBinding', {
+            link: (chunks) => (
+              <button
+                className="underline underline-offset-2 hover:text-foreground"
+                type="button"
+                onClick={onJumpToShortcuts}
+              >
+                {chunks}
+              </button>
+            ),
+          })}
+        </span>
       )}
       <SettingRow
         label={t('microphone')}
