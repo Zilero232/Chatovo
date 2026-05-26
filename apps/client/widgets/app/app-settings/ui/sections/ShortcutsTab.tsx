@@ -3,11 +3,12 @@
 import { isTauri } from '@tauri-apps/api/core';
 import { Info } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { isNullish } from 'remeda';
+import { formatBindingDisplay, type ShortcutActionId, ShortcutRow } from '@/entities/app/shortcut';
+import { useShortcutConflict, useShortcutRecording } from '@/features/app/shortcuts';
 import { EXTERNAL_LINKS } from '@/shared/constants';
 import { useAppSettings } from '../../model';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
-import { ShortcutRow } from '../components/ShortcutRow';
-import type { ShortcutActionId } from '../../model/types';
 
 const ACTIONS: ShortcutActionId[] = ['muteToggle', 'pttHold'];
 
@@ -35,12 +36,47 @@ const WebNotice = () => {
   );
 };
 
-export const ShortcutsTab = () => {
+type ActionRowProps = {
+  actionId: ShortcutActionId;
+};
+
+// Wires the stateless entity row to feature hooks (recording flow + conflict
+// store) and to the settings store. Lives here, not in the entity, because
+// FSD forbids entities from pulling features.
+const ActionRow = ({ actionId }: ActionRowProps) => {
+  const t = useTranslations('settings.shortcuts');
   const tActions = useTranslations('settings.shortcuts.actions');
   const { settings, setGroup } = useAppSettings();
 
   const bindings = settings.shortcuts;
+  const binding = bindings[actionId];
 
+  const { recording, start } = useShortcutRecording({
+    actionId,
+    allBindings: bindings,
+    onPatch: (patch) => setGroup('shortcuts', { ...bindings, ...patch }),
+  });
+  const hasConflict = useShortcutConflict(binding);
+
+  const display = formatBindingDisplay(recording, binding, {
+    recording: t('recording'),
+    unassigned: t('unassigned'),
+  });
+
+  return (
+    <ShortcutRow
+      clearVisible={!isNullish(binding) && !recording}
+      display={display}
+      label={tActions(actionId)}
+      recording={recording}
+      showConflictHint={hasConflict && !recording}
+      onClear={() => setGroup('shortcuts', { ...bindings, [actionId]: null })}
+      onRecord={start}
+    />
+  );
+};
+
+export const ShortcutsTab = () => {
   if (!isTauri()) {
     return (
       <div className={s.tabPanel}>
@@ -52,14 +88,7 @@ export const ShortcutsTab = () => {
   return (
     <div className={s.tabPanel}>
       {ACTIONS.map((actionId) => (
-        <ShortcutRow
-          key={actionId}
-          actionId={actionId}
-          allBindings={bindings}
-          binding={bindings[actionId]}
-          label={tActions(actionId)}
-          onPatch={(patch) => setGroup('shortcuts', { ...bindings, ...patch })}
-        />
+        <ActionRow key={actionId} actionId={actionId} />
       ))}
     </div>
   );

@@ -1,55 +1,90 @@
+// Bridges user shortcut settings into Tauri's OS-level global-shortcut plugin.
+//
+//   registered = combos this module currently holds in the OS
+//   desired    = combos the user's settings ask for
+//
+// Each sync = diff + apply: drop (registered − desired), then add (desired − registered).
+//
+// Extra machinery beyond a flat register/unregister exists because:
+//   1. The plugin rejects parallel calls on one accelerator → single promise queue.
+//   2. Two actions can share one accelerator (mute + ptt on Ctrl+M) → group, fan out in callback.
+//   3. Another OS app may already hold the combo → record in a store so the UI can show it.
+
 import { register, unregister, unregisterAll } from '@tauri-apps/plugin-global-shortcut';
 import { entries, isNullish } from 'remeda';
 import { conflictsActions } from '../model/stores/conflicts';
 import { dispatchShortcut } from './dispatch-shortcut';
-import type { ShortcutActionId } from '@/widgets/app/app-settings/model/types';
+import type { ShortcutActionId } from '@/entities/app/shortcut';
 
 type Bindings = Partial<Record<ShortcutActionId, string | null>>;
 type SyncSignal = { cancelled: boolean };
+type AccelToActions = Map<string, ShortcutActionId[]>;
 
-// Accelerators currently registered with the Tauri plugin. Module-level so
-// the set survives HMR — a hot-reloaded effect reconciles against prior state.
-const owned = new Set<string>();
+// Module-level so it survives HMR — a hot-reloaded effect reconciles against prior state.
+const registered = new Set<string>();
 
-// Serializes register/unregister calls so React StrictMode double-mounts and
-// fast settings changes never race. Without this, a teardown could wipe a
-// registration the next sync just made, or two syncs could collide on the
-// same accelerator.
-let tail: Promise<unknown> = Promise.resolve();
+// ───────── promise queue ─────────
+// Every public call goes through `enqueue`. Tasks run strictly one after another,
+// even if a previous one rejected.
 
-const serialize = <T>(task: () => Promise<T>): Promise<T> => {
-  const next = tail.then(task, task);
-  tail = next.catch(() => {});
+let queue: Promise<unknown> = Promise.resolve();
+
+const enqueue = <T>(task: () => Promise<T>): Promise<T> => {
+  const next = queue.then(task, task);
+  queue = next.catch(() => {});
 
   return next;
 };
 
+// ───────── primitives ─────────
+
 const isAlreadyRegisteredError = (err: unknown): boolean => {
-  // Tauri's `invoke` rejects with a plain string payload from the Rust side,
-  // not an Error instance — check both shapes.
+  // Tauri rejects with a plain string from Rust, not an Error instance.
   const msg =
     typeof err === 'string' ? err : err instanceof Error ? err.message : String(err ?? '');
 
   return msg.includes('already registered');
 };
 
-// Always issue an unregister call. `isRegistered` only reflects this plugin's
-// JS-side bookkeeping, while OS-level hotkeys can survive HMR or app restart
-// and still occupy the combo.
-const safeUnregister = async (accelerator: string) => {
+const drop = async (accelerator: string) => {
   try {
     await unregister(accelerator);
   } catch {
-    // expected when nothing was registered for this accelerator
+    // Nothing was registered — fine.
   }
 
-  owned.delete(accelerator);
+  registered.delete(accelerator);
 };
 
-// Dedupe by accelerator — plugin rejects same combo registered twice. When
-// two actions share a binding, fan-out happens inside the handler.
-const groupBindings = (bindings: Bindings): Map<string, ShortcutActionId[]> => {
-  const result = new Map<string, ShortcutActionId[]>();
+const add = async (accelerator: string, actionIds: ShortcutActionId[]) => {
+  await drop(accelerator);
+
+  try {
+    await register(accelerator, (event) => {
+      for (const id of actionIds) {
+        dispatchShortcut(id, event.state);
+      }
+    });
+
+    registered.add(accelerator);
+    conflictsActions.remove(accelerator);
+  } catch (err) {
+    if (isAlreadyRegisteredError(err)) {
+      // External app holds the combo; UI reads this store to show a tooltip.
+      conflictsActions.add(accelerator);
+
+      return;
+    }
+
+    console.error(`shortcuts: register failed (${accelerator})`, err);
+  }
+};
+
+// ───────── diff + apply ─────────
+
+// Two actions can share one accelerator → register once, fan out in callback.
+const groupByAccelerator = (bindings: Bindings): AccelToActions => {
+  const result: AccelToActions = new Map();
 
   for (const [actionId, accelerator] of entries(bindings)) {
     if (isNullish(accelerator)) continue;
@@ -62,40 +97,14 @@ const groupBindings = (bindings: Bindings): Map<string, ShortcutActionId[]> => {
   return result;
 };
 
-const registerOne = async (accelerator: string, actionIds: ShortcutActionId[]) => {
-  await safeUnregister(accelerator);
-
-  try {
-    await register(accelerator, (event) => {
-      for (const id of actionIds) {
-        dispatchShortcut(id, event.state);
-      }
-    });
-    owned.add(accelerator);
-    conflictsActions.remove(accelerator);
-  } catch (err) {
-    if (isAlreadyRegisteredError(err)) {
-      // Combo held by an external process — the OS won't yield it.
-      conflictsActions.add(accelerator);
-
-      return;
-    }
-
-    console.error(`shortcuts: register failed (${accelerator})`, err);
-  }
-};
-
 const runSync = async (bindings: Bindings, signal: SyncSignal) => {
-  if (signal.cancelled) return;
+  const desired = groupByAccelerator(bindings);
 
-  const desired = groupBindings(bindings);
-
-  for (const accelerator of owned) {
+  for (const accelerator of registered) {
     if (signal.cancelled) return;
+    if (desired.has(accelerator)) continue;
 
-    if (!desired.has(accelerator)) {
-      await safeUnregister(accelerator);
-    }
+    await drop(accelerator);
   }
 
   conflictsActions.keep(desired.keys());
@@ -103,7 +112,7 @@ const runSync = async (bindings: Bindings, signal: SyncSignal) => {
   for (const [accelerator, actionIds] of desired) {
     if (signal.cancelled) return;
 
-    await registerOne(accelerator, actionIds);
+    await add(accelerator, actionIds);
   }
 };
 
@@ -114,15 +123,19 @@ const runTeardown = async () => {
     console.error('shortcuts: cleanup failed', err);
   }
 
-  owned.clear();
+  registered.clear();
 };
 
+// ───────── public API ─────────
+
 // Reconciles OS-level registration with the given bindings. Idempotent.
-// `signal` lets a React effect abort mid-sync on teardown.
+// `signal` lets a React effect bail out mid-sync on unmount.
 export const syncShortcuts = (bindings: Bindings, signal: SyncSignal) => {
-  return serialize(() => runSync(bindings, signal));
+  return enqueue(() => {
+    return runSync(bindings, signal);
+  });
 };
 
 export const teardownShortcuts = () => {
-  return serialize(runTeardown);
+  return enqueue(runTeardown);
 };

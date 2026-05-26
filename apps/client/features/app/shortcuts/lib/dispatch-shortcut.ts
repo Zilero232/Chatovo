@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 import { appBus } from '@/shared/lib';
-import type { ShortcutActionId } from '@/widgets/app/app-settings/model/types';
+import type { ShortcutActionId } from '@/entities/app/shortcut';
 
 type KeyState = 'Pressed' | 'Released';
 

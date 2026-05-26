@@ -1,4 +1,5 @@
 import type { AudioCaptureOptions } from 'livekit-client';
+import type { ShortcutSettings } from '@/entities/app/shortcut';
 
 // Categories of voice-room lifecycle sounds the user can toggle independently.
 export type SoundCategory = 'join' | 'leave' | 'mute' | 'reconnect' | 'message';
@@ -70,15 +71,9 @@ export type SystemSettings = {
 
 // --- Shortcuts -----------------------------------------------------------
 
-// Stable IDs for user-bindable actions. Add new entries here when expanding
-// the shortcut surface; the bridge and consumers stay generic.
-export type ShortcutActionId = 'muteToggle' | 'pttHold';
-
-// Tauri accelerator string ('Ctrl+Shift+M', 'F8') or null when the user has
-// not assigned anything to the action.
-export type ShortcutBinding = string | null;
-
-export type ShortcutSettings = Record<ShortcutActionId, ShortcutBinding>;
+// Domain types live in the entity layer; re-exported here so app-settings
+// consumers keep a single import surface.
+export type { ShortcutActionId, ShortcutBinding, ShortcutSettings } from '@/entities/app/shortcut';
 
 // --- Root ----------------------------------------------------------------
 
