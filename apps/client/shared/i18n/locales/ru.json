@@ -125,7 +125,9 @@
     "signedOut": "Выход выполнен",
     "showChannels": "Показать каналы",
     "hideChannels": "Скрыть каналы",
-    "toggleChannels": "Переключить каналы"
+    "toggleChannels": "Переключить каналы",
+    "menu": "Меню",
+    "openMenu": "Открыть меню"
   },
   "settings": {
     "title": "Настройки",

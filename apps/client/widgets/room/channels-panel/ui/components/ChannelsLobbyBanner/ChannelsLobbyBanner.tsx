@@ -10,10 +10,14 @@ import { buildRoomHref } from '@/shared/constants';
 import { Button } from '@/shared/ui';
 import { channelsLobbyBannerStyles as s } from './ChannelsLobbyBanner.styles';
 
+type ChannelsLobbyBannerProps = {
+  onNavigate?: () => void;
+};
+
 // Shown in place of the room list while on the lobby — the rooms are already
 // laid out on the page itself, so this slot becomes a hub: live stats, a
 // one-click jump into the busiest room, and a create-room CTA.
-export const ChannelsLobbyBanner = () => {
+export const ChannelsLobbyBanner = ({ onNavigate }: ChannelsLobbyBannerProps = {}) => {
   const t = useTranslations('channels.banner');
   const router = useRouter();
   const { rooms } = useRooms();
@@ -65,7 +69,10 @@ export const ChannelsLobbyBanner = () => {
         <button
           className={s.quickJoin}
           type="button"
-          onClick={() => router.push(buildRoomHref(busiest.id))}
+          onClick={() => {
+            router.push(buildRoomHref(busiest.id));
+            onNavigate?.();
+          }}
         >
           <span className={s.quickJoinDot} />
           <span className={s.quickJoinText}>

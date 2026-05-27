@@ -9,7 +9,7 @@ import { buildRoomHref } from '@/shared/constants';
 import { channelsRoomItemStyles as s } from './ChannelsRoomItem.styles';
 import type { ChannelsRoomItemProps } from './ChannelsRoomItem.types';
 
-export const ChannelsRoomItem = ({ room }: ChannelsRoomItemProps) => {
+export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) => {
   const router = useRouter();
   const params = useSearchParams();
 
@@ -19,7 +19,8 @@ export const ChannelsRoomItem = ({ room }: ChannelsRoomItemProps) => {
   const participants = useRoomParticipants(room.id);
 
   const handleClick = () => {
-    return router.push(buildRoomHref(room.id));
+    router.push(buildRoomHref(room.id));
+    onNavigate?.();
   };
 
   return (

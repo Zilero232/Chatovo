@@ -22,7 +22,11 @@ const SectionLabel = ({
   </p>
 );
 
-export const ChannelsList = () => {
+type ChannelsListProps = {
+  onNavigate?: () => void;
+};
+
+export const ChannelsList = ({ onNavigate }: ChannelsListProps = {}) => {
   const t = useTranslations('channels');
   const tSections = useTranslations('room.sections');
 
@@ -59,7 +63,7 @@ export const ChannelsList = () => {
                   <SectionLabel offset={index > 0}>{tSections(section.key)}</SectionLabel>
 
                   {section.rooms.map((room) => (
-                    <ChannelsRoomItem key={room.id} room={room} />
+                    <ChannelsRoomItem key={room.id} room={room} onNavigate={onNavigate} />
                   ))}
                 </div>
               )),

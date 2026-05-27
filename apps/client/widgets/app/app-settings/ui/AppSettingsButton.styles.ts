@@ -2,18 +2,20 @@ export const appSettingsStyles = {
   // A flex column capped at viewport height: the header stays fixed while the
   // sidebar + active panel split the remaining space. Wider than the default
   // dialog (`sm:max-w-lg`) so the vertical tab sidebar fits comfortably.
-  content: 'flex max-h-[calc(100vh-4rem)] flex-col gap-4 sm:max-w-3xl',
+  content: 'flex max-h-[calc(100dvh-2rem)] flex-col gap-4 p-4 sm:max-w-3xl sm:p-6',
 
-  // Fills the space left by the header. Two columns: vertical tabs sidebar
-  // on the left, scrollable panel on the right.
-  tabs: 'flex min-h-0 flex-1 flex-row gap-4',
+  // Mobile: stack — horizontal scrollable tab pills on top, panel below.
+  // Desktop (sm+): two columns — vertical tabs sidebar left, panel right.
+  tabs: 'flex min-h-0 flex-1 flex-col gap-3 sm:flex-row sm:gap-4',
   tabsList:
-    'flex h-auto w-44 shrink-0 flex-col items-stretch gap-1 self-start rounded-lg bg-muted p-1',
-  tabsTrigger: 'w-full flex-none justify-start gap-2 px-3 py-1.5',
+    'flex w-full shrink-0 flex-row items-stretch gap-1 overflow-x-auto rounded-lg bg-muted p-1 sm:h-auto sm:w-44 sm:flex-col sm:self-start',
+  tabsTrigger: 'flex-none shrink-0 justify-start gap-2 px-3 py-1.5 sm:w-full',
   tabsContent: 'min-w-0 flex-1',
 
   // The scrollable panel; -mr/pr keeps the scrollbar off the content edge.
-  tabPanel: '-mr-2 flex max-h-[24rem] flex-col gap-1 overflow-y-auto pr-2 pt-1',
+  // Caps at viewport height on mobile so the dialog never blows past the screen.
+  tabPanel:
+    '-mr-2 flex max-h-[calc(100dvh-14rem)] flex-col gap-1 overflow-y-auto pr-2 pt-1 sm:max-h-[24rem]',
 
   // A labelled control row: text on the left, control on the right.
   row: 'flex items-center justify-between gap-4 py-2',

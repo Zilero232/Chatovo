@@ -125,7 +125,9 @@
     "signedOut": "Signed out",
     "showChannels": "Show channels",
     "hideChannels": "Hide channels",
-    "toggleChannels": "Toggle channels"
+    "toggleChannels": "Toggle channels",
+    "menu": "Menu",
+    "openMenu": "Open menu"
   },
   "settings": {
     "title": "Settings",

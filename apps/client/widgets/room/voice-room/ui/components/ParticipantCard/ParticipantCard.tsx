@@ -2,7 +2,7 @@
 
 import { BarVisualizer, useIsSpeaking, useParticipantTracks } from '@livekit/components-react';
 import { Track } from 'livekit-client';
-import { MicOff } from 'lucide-react';
+import { MicOff, ScreenShare } from 'lucide-react';
 import { isNonNullish } from 'remeda';
 import { UserName } from '@/entities/auth/user';
 import { readParticipantMeta } from '@/entities/room/room';
@@ -42,6 +42,15 @@ export const ParticipantCard = ({ participant }: ParticipantCardProps) => {
             </div>
           )}
         </div>
+
+        {hasScreen && (
+          <div className={s.badges}>
+            <span className={s.badge}>
+              <ScreenShare className={s.badgeIcon} />
+              share
+            </span>
+          </div>
+        )}
 
         <div className={s.metadata}>
           {!participant.isMicrophoneEnabled && <MicOff className={s.micIcon} />}
