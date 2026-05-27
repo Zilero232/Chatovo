@@ -50,7 +50,7 @@ export const useShortcutRecording = ({ actionId, allBindings, onPatch }: Options
 
     if (isTauri()) {
       isTornDownRef.current = true;
-      
+
       teardownShortcuts();
     }
   };
