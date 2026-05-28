@@ -21,14 +21,14 @@ export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
   const state = useConnectionState();
 
   // `null` once connected — the overlay clears and the grid shows through.
+  // Disconnected also clears: it's the leave/teardown state, where VoiceRoom's
+  // onDisconnected navigates away — showing "connecting" there is wrong.
   const text = match(state)
-    .with(ConnectionState.Connected, () => null)
+    .with(ConnectionState.Connected, ConnectionState.Disconnected, () => null)
     .with(ConnectionState.Reconnecting, ConnectionState.SignalReconnecting, () =>
       t('reconnecting', { name: roomName }),
     )
-    .with(ConnectionState.Connecting, ConnectionState.Disconnected, () =>
-      t('connecting', { name: roomName }),
-    )
+    .with(ConnectionState.Connecting, () => t('connecting', { name: roomName }))
     .exhaustive();
 
   if (text === null) return null;
