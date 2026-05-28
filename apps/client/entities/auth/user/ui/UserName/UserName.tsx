@@ -1,10 +1,13 @@
 'use client';
 
+import { isTauri } from '@tauri-apps/api/core';
+import { openUrl } from '@tauri-apps/plugin-opener';
 import { BadgeCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/shared/lib/cn';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
 import { checkSizes, userNameStyles as s } from './UserName.styles';
+import type { MouseEvent } from 'react';
 import type { UserNameProps } from './UserName.types';
 
 export const UserName = ({
@@ -27,6 +30,18 @@ export const UserName = ({
     </Tooltip>
   ) : null;
 
+  // Inside Tauri the webview ignores `target="_blank"` on plain anchors —
+  // route the click through the opener plugin so the OS handles the URL.
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.stopPropagation();
+
+    if (!profileUrl || !isTauri()) return;
+
+    event.preventDefault();
+    
+    void openUrl(profileUrl);
+  };
+
   return (
     <span className={s.root}>
       {profileUrl ? (
@@ -35,7 +50,7 @@ export const UserName = ({
           rel="noreferrer noopener"
           target="_blank"
           className={cn(s.link, className)}
-          onClick={(event) => event.stopPropagation()}
+          onClick={handleClick}
         >
           {name}
         </a>

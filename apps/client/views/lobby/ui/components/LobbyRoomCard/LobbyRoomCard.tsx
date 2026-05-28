@@ -29,7 +29,11 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
 
   return (
     <div className={s.root}>
-      <button className={s.enter} type="button" onClick={() => router.push(buildRoomHref(room.id))}>
+      <button
+        className={s.enter({ owner: isOwner })}
+        type="button"
+        onClick={() => router.push(buildRoomHref(room.id))}
+      >
         <div className={s.header}>
           <span className={s.name}>
             {room.name}

@@ -1,11 +1,25 @@
+import { cva } from 'class-variance-authority';
+
 export const lobbyRoomCardStyles = {
   // Outer wrapper is `relative` so the manage menu can float over the card's
   // top-right corner without sitting inside the navigate button (button-in-button
   // is invalid HTML and breaks Radix focus management).
   root: 'group/card relative rounded-lg border bg-card transition-colors hover:border-primary/50 hover:bg-accent/40',
 
-  enter:
-    'flex w-full flex-col gap-3 rounded-lg p-4 text-left outline-none transition-[padding] focus-visible:ring-2 focus-visible:ring-primary/50 group-has-[[data-state=open]]/card:pr-12 group-hover/card:pr-12 group-focus-within/card:pr-12',
+  // Only owners get the hover/focus padding shift — non-owners have no menu,
+  // so reserving space leaves a confusing empty strip on the right.
+  enter: cva(
+    'flex w-full flex-col gap-3 rounded-lg p-4 text-left outline-none transition-[padding] focus-visible:ring-2 focus-visible:ring-primary/50',
+    {
+      variants: {
+        owner: {
+          true: 'group-focus-within/card:pr-12 group-hover/card:pr-12 group-has-[[data-state=open]]/card:pr-12',
+          false: '',
+        },
+      },
+      defaultVariants: { owner: false },
+    },
+  ),
 
   header: 'flex items-center justify-between gap-2',
   headerBadges: 'flex shrink-0 items-center gap-1.5',
