@@ -1,12 +1,11 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { useFieldError } from '@/entities/app/locale';
-import { Button, Input, Label } from '@/shared/ui';
-import { passwordSchema, roomPasswordFormStyles as s } from './RoomPasswordForm.styles';
+import { FormField, Input, Row, Stack, SubmitButton } from '@/shared/ui';
+import { passwordSchema } from './RoomPasswordForm.styles';
 import type { z } from 'zod';
 import type { RoomPasswordFormProps } from './RoomPasswordForm.types';
 
@@ -36,24 +35,21 @@ export const RoomPasswordForm = ({
   const fieldError = passwordError(errors.password) ?? error;
 
   return (
-    <div className={s.root}>
-      <form className={s.box} onSubmit={submit}>
-        <p className={s.text}>{t('title', { name: displayName })}</p>
-        <div className={s.field}>
-          <Label htmlFor="room-password">{t('label')}</Label>
+    <Row justify="center" align="center" className="h-full">
+      <Stack as="form" align="center" gap="3" className="w-full max-w-xs" onSubmit={submit}>
+        <p className="text-muted-foreground text-sm">{t('title', { name: displayName })}</p>
+
+        <FormField htmlFor="room-password" label={t('label')} error={fieldError} className="w-full">
           <Input
             disabled={isSubmitting}
             id="room-password"
             type="password"
             {...register('password')}
           />
-          {fieldError && <p className={s.error}>{fieldError}</p>}
-        </div>
-        <Button disabled={isSubmitting} type="submit">
-          {isSubmitting && <Loader2 className={s.spinner} />}
-          {t('join')}
-        </Button>
-      </form>
-    </div>
+        </FormField>
+
+        <SubmitButton isPending={isSubmitting}>{t('join')}</SubmitButton>
+      </Stack>
+    </Row>
   );
 };

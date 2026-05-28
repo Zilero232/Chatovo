@@ -29,7 +29,6 @@ export const channelsRoomItemStyles = {
     'absolute top-1/2 right-1 -translate-y-1/2 opacity-0 transition-opacity group-hover/room:opacity-100 focus-within:opacity-100 data-[state=open]:opacity-100',
   participants: 'flex flex-col',
   participant: 'flex items-center gap-2 py-1 pr-2 pl-8',
-  participantAvatarWrapper: 'relative',
   participantAvatar: 'size-5',
   participantFallback: 'bg-primary text-[10px] text-primary-foreground',
   participantName: 'truncate text-muted-foreground text-xs',

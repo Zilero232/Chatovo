@@ -63,6 +63,7 @@
       "private": "Private"
     },
     "loading": "Loading room...",
+    "authorizing": "Authorizing access...",
     "connecting": "Connecting to \"{name}\"...",
     "reconnecting": "Reconnecting to \"{name}\"...",
     "notFound": "Room not found",

@@ -66,7 +66,7 @@ export const RoomPage = () => {
         onSubmit={submitPassword}
       />
     ))
-    .with({ token: P.nullish }, () => <RoomConnecting displayName={displayName} />)
+    .with({ token: P.nullish }, () => <RoomConnecting />)
     .with({ roomId: P.string, token: P.nonNullable, room: P.nonNullable }, ({ roomId, token }) => (
       <VoiceRoom
         key={roomId}

@@ -3,20 +3,23 @@
 import { MicOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/shared/lib/cn';
-import { micMutedBadgeStyles as s } from './MicMutedBadge.styles';
 import type { MicMutedBadgeProps } from './MicMutedBadge.types';
 
+// Floating overlay badge anchored to the bottom-right of an avatar.
 export const MicMutedBadge = ({ className }: MicMutedBadgeProps) => {
   const t = useTranslations('lobby.card');
 
   return (
     <span
       aria-label={t('micMuted')}
-      className={cn(s.root, className)}
+      className={cn(
+        'absolute -right-1 -bottom-1 z-10 flex size-3.5 items-center justify-center rounded-full bg-background ring-1 ring-background',
+        className,
+      )}
       role="img"
       title={t('micMuted')}
     >
-      <MicOff className={s.icon} />
+      <MicOff className="size-2.5 text-destructive" />
     </span>
   );
 };

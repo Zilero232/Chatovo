@@ -2,13 +2,11 @@
 
 import { createRoomInputSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { useCreateRoom, useEnterRoom } from '@/entities/room/room';
-import { Button, Input, Label } from '@/shared/ui';
-import { createRoomFormStyles as s } from './CreateRoomForm.styles';
+import { FormField, Input, Row, Stack, SubmitButton } from '@/shared/ui';
 import type { CreateRoomRequest } from '@chatovo/schemas';
 
 const DEFAULT_VALUES: CreateRoomRequest = { name: '', isPrivate: false };
@@ -55,21 +53,22 @@ export const CreateRoomForm = ({ onCreated }: CreateRoomFormProps) => {
   });
 
   return (
-    <form className={s.form} onSubmit={onSubmit}>
-      <div className={s.field}>
-        <Label htmlFor="create-room-name">{t('nameLabel')}</Label>
+    <Stack as="form" gap="3" onSubmit={onSubmit}>
+      <FormField htmlFor="create-room-name" label={t('nameLabel')} error={errors.name?.message}>
         <Input
           autoComplete="off"
           id="create-room-name"
           placeholder={t('namePlaceholder')}
           {...register('name')}
         />
-        {errors.name && <p className={s.error}>{errors.name.message}</p>}
-      </div>
+      </FormField>
 
       {isPrivate && (
-        <div className={s.field}>
-          <Label htmlFor="create-room-password">{t('passwordLabel')}</Label>
+        <FormField
+          htmlFor="create-room-password"
+          label={t('passwordLabel')}
+          error={errors.password?.message}
+        >
           <Input
             autoComplete="new-password"
             id="create-room-password"
@@ -77,19 +76,17 @@ export const CreateRoomForm = ({ onCreated }: CreateRoomFormProps) => {
             type="password"
             {...register('password')}
           />
-          {errors.password && <p className={s.error}>{errors.password.message}</p>}
-        </div>
+        </FormField>
       )}
 
-      <label className={s.checkboxRow}>
-        <input className={s.checkbox} type="checkbox" {...register('isPrivate')} />
+      <Row as="label" gap="2">
+        <input className="size-4 accent-primary" type="checkbox" {...register('isPrivate')} />
         <span>{t('privateLabel')}</span>
-      </label>
+      </Row>
 
-      <Button disabled={isPending || !name?.trim()} type="submit" variant="secondary">
-        {isPending && <Loader2 className={s.spinner} />}
+      <SubmitButton disabled={!name?.trim()} isPending={isPending} variant="secondary">
         {t('submit')}
-      </Button>
-    </form>
+      </SubmitButton>
+    </Stack>
   );
 };

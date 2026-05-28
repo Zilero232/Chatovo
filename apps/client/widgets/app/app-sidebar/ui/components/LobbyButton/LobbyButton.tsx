@@ -4,7 +4,7 @@ import { Home } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { ROUTES } from '@/shared/constants';
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+import { IconButtonWithTooltip } from '@/shared/ui';
 import type { LobbyButtonProps } from './LobbyButton.types';
 
 export const LobbyButton = ({ onNavigate }: LobbyButtonProps = {}) => {
@@ -16,14 +16,5 @@ export const LobbyButton = ({ onNavigate }: LobbyButtonProps = {}) => {
     onNavigate?.();
   };
 
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button aria-label={t('lobby')} size="icon" variant="ghost" onClick={handleClick}>
-          <Home />
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent side="right">{t('lobby')}</TooltipContent>
-    </Tooltip>
-  );
+  return <IconButtonWithTooltip icon={<Home />} label={t('lobby')} onClick={handleClick} />;
 };

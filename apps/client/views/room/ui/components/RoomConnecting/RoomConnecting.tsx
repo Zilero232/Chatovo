@@ -1,19 +1,13 @@
 'use client';
 
-import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { roomConnectingStyles as s } from './RoomConnecting.styles';
-import type { RoomConnectingProps } from './RoomConnecting.types';
+import { CenteredState, Spinner } from '@/shared/ui';
 
-export const RoomConnecting = ({ displayName }: RoomConnectingProps) => {
+// Rendered while the LiveKit access token is being fetched from the API.
+// LiveKit-handshake state is handled separately by ConnectingOverlay inside
+// VoiceRoom — see widgets/room/voice-room/ui/components/ConnectingOverlay.
+export const RoomConnecting = () => {
   const t = useTranslations('room');
 
-  return (
-    <div className={s.root}>
-      <div className={s.box}>
-        <Loader2 className={s.icon} />
-        <p className={s.text}>{t('connecting', { name: displayName })}</p>
-      </div>
-    </div>
-  );
+  return <CenteredState icon={<Spinner size="sm" />} size="sm" title={t('authorizing')} />;
 };

@@ -2,13 +2,11 @@
 
 import { updateRoomInputSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { useUpdateRoom } from '@/entities/room/room';
-import { Button, Input, Label } from '@/shared/ui';
-import { editRoomFormStyles as s } from './EditRoomDialog.styles';
+import { FormField, Input, Row, Stack, SubmitButton } from '@/shared/ui';
 import type { UpdateRoomRequest } from '@chatovo/schemas';
 import type { EditRoomFormProps } from './EditRoomDialog.types';
 
@@ -37,7 +35,6 @@ export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
       {
         onSuccess: (updated) => {
           toast.success(t('saved'), { description: `"${updated.name}"` });
-
           onUpdated?.();
         },
         onError: (err: Error) => toast.error(err.message),
@@ -46,38 +43,37 @@ export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
   });
 
   return (
-    <form className={s.form} onSubmit={onSubmit}>
-      <div className={s.field}>
-        <Label htmlFor="edit-room-name">{t('nameLabel')}</Label>
+    <Stack as="form" gap="3" onSubmit={onSubmit}>
+      <FormField htmlFor="edit-room-name" label={t('nameLabel')} error={errors.name?.message}>
         <Input autoComplete="off" id="edit-room-name" {...register('name')} />
-        {errors.name && <p className={s.error}>{errors.name.message}</p>}
-      </div>
+      </FormField>
 
       {isPrivate && (
-        <div className={s.field}>
-          <Label htmlFor="edit-room-password">{t('passwordLabel')}</Label>
+        <FormField
+          htmlFor="edit-room-password"
+          label={t('passwordLabel')}
+          hint={t('passwordHint')}
+          error={errors.password?.message}
+        >
           <Input
             autoComplete="new-password"
             id="edit-room-password"
             type="password"
             {...register('password')}
           />
-          <p className={s.hint}>{t('passwordHint')}</p>
-          {errors.password && <p className={s.error}>{errors.password.message}</p>}
-        </div>
+        </FormField>
       )}
 
-      <label className={s.checkboxRow}>
-        <input className={s.checkbox} type="checkbox" {...register('isPrivate')} />
+      <Row as="label" gap="2">
+        <input className="size-4 accent-primary" type="checkbox" {...register('isPrivate')} />
         <span>{t('privateLabel')}</span>
-      </label>
+      </Row>
 
-      <div className={s.footer}>
-        <Button disabled={isPending || !isDirty} type="submit">
-          {isPending && <Loader2 className={s.spinner} />}
+      <Row justify="end" gap="2" className="pt-2">
+        <SubmitButton disabled={!isDirty} isPending={isPending}>
           {t('submit')}
-        </Button>
-      </div>
-    </form>
+        </SubmitButton>
+      </Row>
+    </Stack>
   );
 };

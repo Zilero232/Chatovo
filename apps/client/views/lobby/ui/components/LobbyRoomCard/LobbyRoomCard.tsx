@@ -7,6 +7,7 @@ import { UserAvatar, useCurrentUser } from '@/entities/auth/user';
 import { OwnerBadge, OwnerCrown, useRoomParticipants } from '@/entities/room/room';
 import { ManageRoomMenu } from '@/features/room/manage';
 import { buildRoomHref } from '@/shared/constants';
+import { AvatarWithBadges, Badge } from '@/shared/ui';
 import { lobbyRoomCardStyles as s } from './LobbyRoomCard.styles';
 import type { LobbyRoomCardProps } from './LobbyRoomCard.types';
 
@@ -43,12 +44,12 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
           <div className={s.headerBadges}>
             {isOwner && <OwnerBadge />}
             {isLive ? (
-              <span className={s.liveBadge}>
-                <span className={s.liveDot} />
+              <Badge tone="primary">
+                <span className="size-1.5 animate-pulse rounded-full bg-primary" />
                 {t('live')}
-              </span>
+              </Badge>
             ) : (
-              <span className={s.idleBadge}>{t('empty')}</span>
+              <Badge tone="muted">{t('empty')}</Badge>
             )}
           </div>
         </div>
@@ -57,17 +58,23 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
           <div className={s.participants}>
             <div className={s.avatars}>
               {shown.map((participant) => (
-                <div key={participant.identity} className={s.avatarWrapper}>
-                  {participant.identity === room.ownerId && <OwnerCrown />}
+                <AvatarWithBadges
+                  key={participant.identity}
+                  topLeft={participant.identity === room.ownerId ? <OwnerCrown /> : null}
+                >
                   <UserAvatar
                     name={participant.name}
                     src={participant.avatarUrl}
                     className={s.avatar}
                     fallbackClassName={s.avatarFallback}
                   />
-                </div>
+                </AvatarWithBadges>
               ))}
-              {overflow > 0 && <span className={s.overflow}>+{overflow}</span>}
+              {overflow > 0 && (
+                <Badge size="sm" tone="muted">
+                  +{overflow}
+                </Badge>
+              )}
             </div>
             <span className={s.countLabel}>{t('people', { count: participants.length })}</span>
           </div>

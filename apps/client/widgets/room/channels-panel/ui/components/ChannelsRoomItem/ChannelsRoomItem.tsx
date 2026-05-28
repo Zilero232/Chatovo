@@ -7,6 +7,7 @@ import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
 import { MicMutedBadge, OwnerCrown, useRoomParticipants } from '@/entities/room/room';
 import { ManageRoomMenu } from '@/features/room/manage';
 import { buildRoomHref } from '@/shared/constants';
+import { AvatarWithBadges } from '@/shared/ui';
 import { channelsRoomItemStyles as s } from './ChannelsRoomItem.styles';
 import type { ChannelsRoomItemProps } from './ChannelsRoomItem.types';
 
@@ -50,16 +51,17 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
         <div className={s.participants}>
           {participants.map((p) => (
             <div key={p.identity} className={s.participant}>
-              <div className={s.participantAvatarWrapper}>
-                {p.identity === room.ownerId && <OwnerCrown />}
-                {p.micMuted && <MicMutedBadge />}
+              <AvatarWithBadges
+                topLeft={p.identity === room.ownerId ? <OwnerCrown /> : null}
+                bottomRight={p.micMuted ? <MicMutedBadge /> : null}
+              >
                 <UserAvatar
                   name={p.name}
                   src={p.avatarUrl}
                   className={s.participantAvatar}
                   fallbackClassName={s.participantFallback}
                 />
-              </div>
+              </AvatarWithBadges>
               <UserName
                 name={p.name}
                 verified={p.verified}

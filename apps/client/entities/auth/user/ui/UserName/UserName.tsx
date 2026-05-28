@@ -38,7 +38,7 @@ export const UserName = ({
     if (!profileUrl || !isTauri()) return;
 
     event.preventDefault();
-    
+
     void openUrl(profileUrl);
   };
 

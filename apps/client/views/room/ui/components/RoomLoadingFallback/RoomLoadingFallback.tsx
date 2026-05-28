@@ -1,18 +1,10 @@
 'use client';
 
-import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { roomLoadingFallbackStyles as s } from './RoomLoadingFallback.styles';
+import { CenteredState, Spinner } from '@/shared/ui';
 
 export const RoomLoadingFallback = () => {
   const t = useTranslations('room');
 
-  return (
-    <div className={s.root}>
-      <div className={s.box}>
-        <Loader2 className={s.icon} />
-        <p className={s.text}>{t('loading')}</p>
-      </div>
-    </div>
-  );
+  return <CenteredState icon={<Spinner size="sm" />} size="sm" title={t('loading')} />;
 };

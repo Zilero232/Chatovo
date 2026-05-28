@@ -1,14 +1,12 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { useFieldError } from '@/entities/app/locale';
-import { Button, Input, Label, PasswordInput } from '@/shared/ui';
+import { FormField, Input, PasswordInput, Stack, SubmitButton } from '@/shared/ui';
 import { type SignUpValues, signUpSchema, useSignUp } from '../model/use-sign-up';
-import { signUpFormStyles as s } from './SignUpForm.styles';
 
 const DEFAULT_VALUES: SignUpValues = {
   name: '',
@@ -39,39 +37,46 @@ export const SignUpForm = () => {
   });
 
   return (
-    <form className={s.form} onSubmit={onSubmit}>
-      <div className={s.field}>
-        <Label htmlFor="signup-name">{t('fields.name')}</Label>
+    <Stack as="form" gap="4" onSubmit={onSubmit}>
+      <FormField
+        htmlFor="signup-name"
+        label={t('fields.name')}
+        error={errors.name && fieldError(errors.name)}
+      >
         <Input autoComplete="name" id="signup-name" type="text" {...register('name')} />
-        {errors.name && <p className={s.error}>{fieldError(errors.name)}</p>}
-      </div>
+      </FormField>
 
-      <div className={s.field}>
-        <Label htmlFor="signup-email">{t('fields.email')}</Label>
+      <FormField
+        htmlFor="signup-email"
+        label={t('fields.email')}
+        error={errors.email && fieldError(errors.email)}
+      >
         <Input autoComplete="email" id="signup-email" type="email" {...register('email')} />
-        {errors.email && <p className={s.error}>{fieldError(errors.email)}</p>}
-      </div>
+      </FormField>
 
-      <div className={s.field}>
-        <Label htmlFor="signup-password">{t('fields.password')}</Label>
+      <FormField
+        htmlFor="signup-password"
+        label={t('fields.password')}
+        error={errors.password && fieldError(errors.password)}
+      >
         <PasswordInput autoComplete="new-password" id="signup-password" {...register('password')} />
-        {errors.password && <p className={s.error}>{fieldError(errors.password)}</p>}
-      </div>
+      </FormField>
 
-      <div className={s.field}>
-        <Label htmlFor="signup-confirm-password">{t('fields.confirmPassword')}</Label>
+      <FormField
+        htmlFor="signup-confirm-password"
+        label={t('fields.confirmPassword')}
+        error={errors.confirmPassword && fieldError(errors.confirmPassword)}
+      >
         <PasswordInput
           autoComplete="new-password"
           id="signup-confirm-password"
           {...register('confirmPassword')}
         />
-        {errors.confirmPassword && <p className={s.error}>{fieldError(errors.confirmPassword)}</p>}
-      </div>
+      </FormField>
 
-      <Button className={s.submit} disabled={isPending} type="submit">
-        {isPending && <Loader2 className={s.submitSpinner} />}
+      <SubmitButton className="w-full" isPending={isPending}>
         {t('signUp')}
-      </Button>
-    </form>
+      </SubmitButton>
+    </Stack>
   );
 };
