@@ -1,3 +1,6 @@
+'use client';
+
+import { useMediaQuery } from '@siberiacancode/reactuse';
 import { Tooltip as TooltipPrimitive } from 'radix-ui';
 import { cn } from '@/shared/lib/cn';
 import type * as React from 'react';
@@ -13,9 +16,14 @@ const TooltipProvider = ({
   />
 );
 
-const Tooltip = ({ ...props }: React.ComponentProps<typeof TooltipPrimitive.Root>) => (
-  <TooltipPrimitive.Root data-slot="tooltip" {...props} />
-);
+const Tooltip = ({ open, ...props }: React.ComponentProps<typeof TooltipPrimitive.Root>) => {
+  // Touch devices have no hover — Radix tooltips fire on tap and linger, so
+  // force them closed there. `useMediaQuery` is false during SSR/first paint,
+  // which is the safe default (server is never a touch device).
+  const isTouch = useMediaQuery('(hover: none), (pointer: coarse)');
+
+  return <TooltipPrimitive.Root data-slot="tooltip" open={isTouch ? false : open} {...props} />;
+};
 
 const TooltipTrigger = ({ ...props }: React.ComponentProps<typeof TooltipPrimitive.Trigger>) => (
   <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
