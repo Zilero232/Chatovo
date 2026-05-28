@@ -16,12 +16,12 @@ const rootVariants = cva(
 );
 
 const iconBoxVariants = cva(
-  'flex items-center justify-center rounded-full bg-muted text-muted-foreground',
+  'flex items-center justify-center rounded-2xl glass text-foreground/85',
   {
     variants: {
       size: {
-        sm: 'size-8',
-        md: 'size-12',
+        sm: 'size-10',
+        md: 'size-14 shadow-glow-violet',
       },
     },
     defaultVariants: { size: 'md' },

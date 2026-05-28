@@ -12,7 +12,7 @@ const Separator = ({
 }: React.ComponentProps<typeof SeparatorPrimitive.Root>) => (
   <SeparatorPrimitive.Root
     className={cn(
-      'shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px',
+      'shrink-0 bg-linear-to-r from-transparent via-white/15 to-transparent data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px data-[orientation=vertical]:bg-linear-to-b data-[orientation=vertical]:from-transparent data-[orientation=vertical]:via-white/15 data-[orientation=vertical]:to-transparent',
       className,
     )}
     data-slot="separator"

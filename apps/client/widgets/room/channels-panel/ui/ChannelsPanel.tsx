@@ -14,11 +14,7 @@ export const ChannelsPanel = ({ variant = 'desktop', onNavigate }: ChannelsPanel
   return (
     <div className={s.root({ variant })}>
       <ChannelsHeader compact={variant === 'drawer'} />
-      {isLobby ? (
-        <ChannelsLobbyBanner onNavigate={onNavigate} />
-      ) : (
-        <ChannelsList onNavigate={onNavigate} />
-      )}
+      {isLobby ? <ChannelsLobbyBanner /> : <ChannelsList onNavigate={onNavigate} />}
       <ChannelsFooter />
     </div>
   );

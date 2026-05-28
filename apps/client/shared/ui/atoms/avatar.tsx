@@ -39,7 +39,7 @@ const AvatarFallback = ({
 }: React.ComponentProps<typeof AvatarPrimitive.Fallback>) => (
   <AvatarPrimitive.Fallback
     className={cn(
-      'flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground group-data-[size=sm]/avatar:text-xs',
+      'flex size-full items-center justify-center rounded-full bg-linear-to-br from-brand-violet/40 to-brand-cyan/40 text-sm font-medium text-foreground group-data-[size=sm]/avatar:text-xs',
       className,
     )}
     data-slot="avatar-fallback"
@@ -50,7 +50,7 @@ const AvatarFallback = ({
 const AvatarBadge = ({ className, ...props }: React.ComponentProps<'span'>) => (
   <span
     className={cn(
-      'absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground ring-2 ring-background select-none',
+      'absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-brand-cyan text-background ring-2 ring-background select-none shadow-[0_0_10px_-2px_oklch(0.82_0.16_200/0.7)]',
       'group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden',
       'group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2',
       'group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2',
@@ -75,7 +75,7 @@ const AvatarGroup = ({ className, ...props }: React.ComponentProps<'div'>) => (
 const AvatarGroupCount = ({ className, ...props }: React.ComponentProps<'div'>) => (
   <div
     className={cn(
-      'relative flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-sm text-muted-foreground ring-2 ring-background group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 [&>svg]:size-4 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3',
+      'relative flex size-8 shrink-0 items-center justify-center rounded-full bg-white/8 text-sm font-medium text-foreground/80 ring-2 ring-background backdrop-blur-md group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 [&>svg]:size-4 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3',
       className,
     )}
     data-slot="avatar-group-count"

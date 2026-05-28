@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { isEmpty as isEmptyList } from 'remeda';
 import { match } from 'ts-pattern';
 import { groupRooms, useRooms, useRoomsPresence } from '@/entities/room/room';
-import { Input, ScrollArea } from '@/shared/ui';
+import { ScrollArea } from '@/shared/ui';
 import { ChannelsRoomItem } from '../ChannelsRoomItem';
 import { channelsListStyles as s } from './ChannelsList.styles';
 
@@ -40,15 +40,15 @@ export const ChannelsList = ({ onNavigate }: ChannelsListProps = {}) => {
   return (
     <>
       <div className={s.search}>
-        <div className={s.searchField}>
+        <label className={s.searchField}>
           <Search className={s.searchIcon} />
-          <Input
+          <input
             className={s.searchInput}
             placeholder={t('searchPlaceholder')}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
-        </div>
+        </label>
       </div>
 
       <ScrollArea className={s.scroll}>

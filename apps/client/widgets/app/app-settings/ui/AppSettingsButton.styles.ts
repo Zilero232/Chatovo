@@ -8,7 +8,7 @@ export const appSettingsStyles = {
   // Desktop (sm+): two columns — vertical tabs sidebar left, panel right.
   tabs: 'flex min-h-0 flex-1 flex-col gap-3 sm:flex-row sm:gap-4',
   tabsList:
-    'flex w-full shrink-0 flex-row items-stretch gap-1 overflow-x-auto rounded-lg bg-muted p-1 sm:h-auto sm:w-44 sm:flex-col sm:self-start',
+    'flex w-full shrink-0 flex-row items-stretch gap-1 overflow-x-auto rounded-xl border border-white/10 bg-white/5 p-1 backdrop-blur-md sm:h-auto sm:w-48 sm:flex-col sm:self-start',
   tabsTrigger: 'flex-none shrink-0 justify-start gap-2 px-3 py-1.5 sm:w-full',
   tabsContent: 'min-w-0 flex-1',
 
@@ -27,7 +27,7 @@ export const appSettingsStyles = {
   stackedRow: 'flex flex-col gap-2 py-2',
 
   deviceTrigger:
-    'flex w-full items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm disabled:opacity-50',
+    'flex w-full items-center justify-between gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm backdrop-blur-md transition-all hover:border-white/20 hover:bg-white/8 disabled:opacity-50',
   deviceTriggerLabel: 'truncate text-left',
   deviceMenu: 'max-h-64 w-(--radix-dropdown-menu-trigger-width) overflow-y-auto',
 
@@ -36,8 +36,9 @@ export const appSettingsStyles = {
 
   // Mic test: a live level bar next to the loopback toggle button.
   micTest: 'flex items-center gap-3',
-  micTestBar: 'h-2 flex-1 overflow-hidden rounded-full bg-muted',
-  micTestFill: 'h-full rounded-full bg-primary transition-[width] duration-75',
+  micTestBar: 'h-2 flex-1 overflow-hidden rounded-full bg-white/8 shadow-inner shadow-black/30',
+  micTestFill:
+    'h-full rounded-full bg-brand-cyan shadow-[0_0_8px_oklch(0.82_0.16_200/0.6)] transition-[width] duration-75',
 
   // Profile tab: own container with generous spacing — overrides the tight
   // tabPanel gap so the editor, its hints and the placeholder rows breathe.
@@ -51,6 +52,7 @@ export const appSettingsStyles = {
   profileSpinner: 'mr-1.5 size-4 animate-spin',
   // The "coming soon" placeholders, grouped with a small gap between them.
   profileSoon: 'flex flex-col gap-2',
-  profileSoonRow: 'flex items-center justify-between rounded-md border border-dashed px-3 py-2.5',
+  profileSoonRow:
+    'flex items-center justify-between rounded-lg border border-dashed border-white/10 bg-white/3 px-3 py-2.5',
   profileSoonLabel: 'text-muted-foreground text-sm',
 } as const;

@@ -35,9 +35,17 @@ export const RoomPasswordForm = ({
   const fieldError = passwordError(errors.password) ?? error;
 
   return (
-    <Row justify="center" align="center" className="h-full">
-      <Stack as="form" align="center" gap="3" className="w-full max-w-xs" onSubmit={submit}>
-        <p className="text-muted-foreground text-sm">{t('title', { name: displayName })}</p>
+    <Row justify="center" align="center" className="h-full p-6">
+      <Stack
+        as="form"
+        align="center"
+        gap="4"
+        className="glass w-full max-w-sm rounded-2xl p-8 shadow-glow-violet"
+        onSubmit={submit}
+      >
+        <p className="text-center text-foreground/85 text-sm">
+          {t('title', { name: displayName })}
+        </p>
 
         <FormField htmlFor="room-password" label={t('label')} error={fieldError} className="w-full">
           <Input
@@ -48,7 +56,9 @@ export const RoomPasswordForm = ({
           />
         </FormField>
 
-        <SubmitButton isPending={isSubmitting}>{t('join')}</SubmitButton>
+        <SubmitButton className="w-full" isPending={isSubmitting}>
+          {t('join')}
+        </SubmitButton>
       </Stack>
     </Row>
   );

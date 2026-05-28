@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  ControlBar,
-  LiveKitRoom,
-  RoomAudioRenderer,
-  useParticipants,
-} from '@livekit/components-react';
+import { ControlBar, LiveKitRoom, RoomAudioRenderer } from '@livekit/components-react';
 import { useBoolean } from '@siberiacancode/reactuse';
 import { AudioLines, MessageSquare } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -23,8 +18,6 @@ import type { VoiceRoomProps } from './VoiceRoom.types';
 // Renders the live participant count inside the room header. Must live below
 // the LiveKitRoom so `useParticipants` has its required context.
 const RoomHeader = ({ name }: { name: string }) => {
-  const participants = useParticipants();
-
   return (
     <div className={s.header}>
       <span aria-hidden className={s.headerIcon}>
@@ -33,10 +26,6 @@ const RoomHeader = ({ name }: { name: string }) => {
 
       <div className={s.headerInfo}>
         <span className={s.headerTitle}>{name}</span>
-        <span className={s.headerCount}>
-          <span className={s.headerCountDot} />
-          {participants.length}
-        </span>
       </div>
 
       <ConnectionIndicator />

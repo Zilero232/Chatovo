@@ -38,12 +38,6 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
             {isOwner && <Crown className={s.ownerIcon} />}
           </span>
           {isActive && <Headphones className={s.joinedIcon} />}
-          {!isActive && !isEmpty(participants) && (
-            <span className={s.count}>
-              <span className={s.countDot} />
-              {participants.length}
-            </span>
-          )}
         </button>
         <ManageRoomMenu className={s.manageSlot} room={room} />
       </div>

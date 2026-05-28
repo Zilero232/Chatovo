@@ -3,13 +3,12 @@ import { cva } from 'class-variance-authority';
 export const channelsRoomItemStyles = {
   row: 'group/room relative',
   trigger: cva(
-    'flex w-full items-center justify-between gap-2 rounded-md px-2 py-1.5 text-sm transition-[colors,padding] group-focus-within/room:pr-8 group-hover/room:pr-8 group-has-[[data-state=open]]/room:pr-8',
+    'relative flex w-full items-center justify-between gap-2 rounded-lg px-2.5 py-2 text-sm transition-all group-focus-within/room:pr-8 group-hover/room:pr-8 group-has-[[data-state=open]]/room:pr-8',
     {
       variants: {
         active: {
-          true: 'bg-sidebar-accent text-sidebar-accent-foreground',
-          false:
-            'text-sidebar-foreground/80 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground',
+          true: 'bg-linear-to-r from-brand-violet/25 to-brand-cyan/15 text-foreground shadow-[inset_0_0_0_1px_oklch(0.7_0.2_270/0.35)]',
+          false: 'text-sidebar-foreground/75 hover:bg-white/6 hover:text-sidebar-foreground',
         },
       },
       defaultVariants: { active: false },
@@ -17,19 +16,13 @@ export const channelsRoomItemStyles = {
   ),
   triggerLabel: 'flex items-center gap-2',
   privateIcon: 'size-3 text-muted-foreground',
-  ownerIcon: 'size-3 fill-amber-300 text-amber-300',
-  icon: cva('size-3.5', {
-    variants: { active: { true: 'text-green-500', false: '' } },
-    defaultVariants: { active: false },
-  }),
-  joinedIcon: 'size-3.5 text-green-500',
-  count: 'flex items-center gap-1 text-muted-foreground text-xs tabular-nums',
-  countDot: 'size-1.5 rounded-full bg-green-500',
+  ownerIcon: 'size-3 fill-amber-300 text-amber-300 drop-shadow-[0_0_4px_oklch(0.85_0.18_85/0.6)]',
+  joinedIcon: 'size-3.5 text-brand-cyan drop-shadow-[0_0_6px_oklch(0.82_0.16_200/0.6)]',
   manageSlot:
     'absolute top-1/2 right-1 -translate-y-1/2 opacity-0 transition-opacity group-hover/room:opacity-100 focus-within:opacity-100 data-[state=open]:opacity-100',
   participants: 'flex flex-col',
   participant: 'flex items-center gap-2 py-1 pr-2 pl-8',
   participantAvatar: 'size-5',
-  participantFallback: 'bg-primary text-[10px] text-primary-foreground',
+  participantFallback: 'text-[10px]',
   participantName: 'truncate text-muted-foreground text-xs',
 } as const;

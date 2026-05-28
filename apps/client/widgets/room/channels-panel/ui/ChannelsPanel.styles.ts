@@ -1,10 +1,10 @@
 import { cva } from 'class-variance-authority';
 
 export const channelsPanelStyles = {
-  root: cva('flex h-full flex-col bg-sidebar', {
+  root: cva('flex h-full flex-col', {
     variants: {
       variant: {
-        desktop: 'w-60 border-r',
+        desktop: 'glass w-64 rounded-2xl',
         drawer: 'w-full',
       },
     },

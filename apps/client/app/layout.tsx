@@ -1,3 +1,4 @@
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import { JsonLdScript } from '@/shared/seo';
 import { Toaster, TooltipProvider } from '@/shared/ui';
 import { Providers } from './providers';
@@ -9,12 +10,24 @@ import './globals.css';
 
 export { defaultMetadata as metadata, defaultViewport as viewport } from '@/shared/seo';
 
+const sans = Inter({
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+const mono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+});
+
 const RootLayout = ({ children }: { children: ReactNode }) => (
-  <html suppressHydrationWarning className="dark" lang="en">
+  <html suppressHydrationWarning className={`dark ${sans.variable} ${mono.variable}`} lang="en">
     <head>
       <JsonLdScript />
     </head>
-    <body>
+    <body className="font-sans">
       <Providers>
         <TooltipProvider>{children}</TooltipProvider>
         <Toaster />

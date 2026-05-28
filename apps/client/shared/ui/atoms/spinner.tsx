@@ -3,18 +3,21 @@ import { Loader2 } from 'lucide-react';
 import { cn } from '@/shared/lib/cn';
 import type { ComponentProps } from 'react';
 
-const spinnerVariants = cva('animate-spin', {
-  variants: {
-    size: {
-      xs: 'size-3',
-      sm: 'size-4',
-      md: 'size-5',
-      lg: 'size-6',
-      xl: 'size-8',
+const spinnerVariants = cva(
+  'animate-spin text-brand-violet drop-shadow-[0_0_8px_oklch(0.7_0.22_295/0.6)]',
+  {
+    variants: {
+      size: {
+        xs: 'size-3',
+        sm: 'size-4',
+        md: 'size-5',
+        lg: 'size-6',
+        xl: 'size-8',
+      },
     },
+    defaultVariants: { size: 'sm' },
   },
-  defaultVariants: { size: 'sm' },
-});
+);
 
 export type SpinnerProps = Omit<ComponentProps<typeof Loader2>, 'size'> &
   VariantProps<typeof spinnerVariants>;

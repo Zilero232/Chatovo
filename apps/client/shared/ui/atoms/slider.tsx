@@ -14,13 +14,13 @@ const Slider = ({ className, ...props }: React.ComponentProps<typeof SliderPrimi
     {...props}
   >
     <SliderPrimitive.Track
-      className="relative h-1.5 grow overflow-hidden rounded-full bg-muted"
+      className="relative h-2 grow overflow-hidden rounded-full bg-white/8 shadow-inner shadow-black/30"
       data-slot="slider-track"
     >
-      <SliderPrimitive.Range className="absolute h-full bg-primary" data-slot="slider-range" />
+      <SliderPrimitive.Range className="absolute h-full bg-brand-violet" data-slot="slider-range" />
     </SliderPrimitive.Track>
     <SliderPrimitive.Thumb
-      className="block size-3.5 shrink-0 rounded-full border border-primary bg-background shadow-sm transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none"
+      className="block size-4 shrink-0 rounded-full border-2 border-white bg-brand-violet shadow-[0_0_14px_-2px_oklch(0.7_0.22_295/0.7)] transition-all outline-none hover:scale-110 focus-visible:ring-2 focus-visible:ring-brand-violet/50 disabled:pointer-events-none"
       data-slot="slider-thumb"
     />
   </SliderPrimitive.Root>

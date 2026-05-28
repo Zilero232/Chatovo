@@ -16,8 +16,13 @@ type FormFieldProps = {
 
 export const FormField = ({ htmlFor, label, children, hint, error, className }: FormFieldProps) => {
   return (
-    <div className={cn('flex flex-col gap-2', className)}>
-      <Label htmlFor={htmlFor}>{label}</Label>
+    <div className={cn('flex flex-col gap-1.5', className)}>
+      <Label
+        className="text-xs font-medium tracking-wide text-foreground/70 uppercase"
+        htmlFor={htmlFor}
+      >
+        {label}
+      </Label>
       {children}
       {hint && <p className="text-muted-foreground text-xs">{hint}</p>}
       {error && <p className="text-destructive text-xs">{error}</p>}

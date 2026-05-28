@@ -4,7 +4,7 @@ import { Sparkles } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useCurrentUser } from '@/entities/auth/user';
 import { env } from '@/shared/config';
-import { Badge, Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
 import { lobbyHeaderStyles as s } from './LobbyHeader.styles';
 
 export const LobbyHeader = () => {
@@ -21,12 +21,10 @@ export const LobbyHeader = () => {
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Badge tone="outline">
-            <Sparkles className="size-3.5 text-primary" />
-            <span className="font-medium tabular-nums tracking-wide">
-              v{env.NEXT_PUBLIC_APP_VERSION}
-            </span>
-          </Badge>
+          <button className={s.versionPill} type="button">
+            <Sparkles className={s.versionIcon} />
+            <span className={s.versionText}>v{env.NEXT_PUBLIC_APP_VERSION}</span>
+          </button>
         </TooltipTrigger>
         <TooltipContent>{t('appVersion')}</TooltipContent>
       </Tooltip>

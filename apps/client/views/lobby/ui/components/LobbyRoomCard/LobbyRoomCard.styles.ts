@@ -4,12 +4,10 @@ export const lobbyRoomCardStyles = {
   // Outer wrapper is `relative` so the manage menu can float over the card's
   // top-right corner without sitting inside the navigate button (button-in-button
   // is invalid HTML and breaks Radix focus management).
-  root: 'group/card relative rounded-lg border bg-card transition-colors hover:border-primary/50 hover:bg-accent/40',
+  root: 'group/card glass glass-hover relative overflow-hidden rounded-2xl hover:border-brand-violet/40 hover:shadow-glow-violet',
 
-  // Only owners get the hover/focus padding shift — non-owners have no menu,
-  // so reserving space leaves a confusing empty strip on the right.
   enter: cva(
-    'flex w-full flex-col gap-3 rounded-lg p-4 text-left outline-none transition-[padding] focus-visible:ring-2 focus-visible:ring-primary/50',
+    'flex w-full flex-col gap-3 rounded-2xl p-5 text-left outline-none transition-[padding] focus-visible:ring-2 focus-visible:ring-brand-violet/50',
     {
       variants: {
         owner: {
@@ -23,13 +21,13 @@ export const lobbyRoomCardStyles = {
 
   header: 'flex items-center justify-between gap-2',
   headerBadges: 'flex shrink-0 items-center gap-1.5',
-  name: 'flex min-w-0 items-center gap-1.5 truncate font-semibold text-sm',
+  name: 'flex min-w-0 items-center gap-1.5 truncate font-semibold text-base',
   privateIcon: 'size-3.5 shrink-0 text-muted-foreground',
 
   participants: 'flex items-center gap-2',
   avatars: 'flex items-center -space-x-2',
-  avatar: 'size-7 ring-2 ring-card',
-  avatarFallback: 'bg-primary text-[10px] text-primary-foreground',
+  avatar: 'size-7 ring-2 ring-[var(--surface-1)]',
+  avatarFallback: 'text-[10px]',
   countLabel: 'text-muted-foreground text-xs',
 
   emptyHint: 'text-muted-foreground text-xs',

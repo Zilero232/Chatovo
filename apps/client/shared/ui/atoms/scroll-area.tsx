@@ -40,7 +40,7 @@ const ScrollBar = ({
     {...props}
   >
     <ScrollAreaPrimitive.ScrollAreaThumb
-      className="relative flex-1 rounded-full bg-border"
+      className="relative flex-1 rounded-full bg-white/15 hover:bg-white/25 transition-colors"
       data-slot="scroll-area-thumb"
     />
   </ScrollAreaPrimitive.ScrollAreaScrollbar>

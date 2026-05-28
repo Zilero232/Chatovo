@@ -9,11 +9,11 @@ export const chatMessageItemStyles = {
   meta: 'flex items-center gap-2 px-1 text-[11px] text-muted-foreground',
   author: 'font-medium text-foreground/80',
   time: 'tabular-nums',
-  bubble: cva('whitespace-pre-wrap break-words rounded-2xl px-3 py-1.5 text-sm', {
+  bubble: cva('whitespace-pre-wrap break-words rounded-2xl px-3.5 py-2 text-sm shadow-sm', {
     variants: {
       own: {
-        true: 'rounded-br-md bg-primary text-primary-foreground',
-        false: 'rounded-bl-md bg-sidebar-accent text-sidebar-accent-foreground',
+        true: 'rounded-br-md bg-brand-violet text-white shadow-[0_4px_14px_-4px_oklch(0.7_0.2_270/0.55)]',
+        false: 'rounded-bl-md border border-white/10 bg-white/8 text-foreground backdrop-blur-md',
       },
     },
     defaultVariants: { own: false },

@@ -1,11 +1,11 @@
 import { cva } from 'class-variance-authority';
 
 export const appSidebarStyles = {
-  root: cva('flex gap-2 bg-sidebar', {
+  root: cva('glass flex gap-2 rounded-2xl', {
     variants: {
       orientation: {
-        vertical: 'h-full w-18 flex-col items-center border-r py-3',
-        horizontal: 'w-full flex-row items-center border-b px-3 py-2',
+        vertical: 'h-full w-16 flex-col items-center py-3',
+        horizontal: 'w-full flex-row items-center px-3 py-2',
       },
     },
     defaultVariants: { orientation: 'vertical' },

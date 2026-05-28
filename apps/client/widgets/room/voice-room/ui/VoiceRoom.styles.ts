@@ -1,32 +1,23 @@
 export const voiceRoomStyles = {
   root: 'h-full p-2 sm:p-4',
-  frame: 'flex h-full flex-col overflow-hidden rounded-xl border bg-card shadow-sm sm:rounded-2xl',
+  frame: 'glass flex h-full flex-col overflow-hidden rounded-2xl',
   room: 'flex h-full flex-col',
 
-  // Header — room icon + name + live participant count + connection bars.
   header:
-    'flex items-center gap-2 border-b bg-gradient-to-b from-card to-card/60 px-3 py-2 sm:px-4 sm:py-3',
+    'flex items-center gap-2 border-b border-white/8 bg-linear-to-b from-white/4 to-transparent px-3 py-2.5 sm:px-4 sm:py-3.5',
   headerIcon:
-    'flex size-8 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary',
+    'flex size-9 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-brand-violet/30 to-brand-cyan/30 text-foreground shadow-[0_4px_16px_-4px_oklch(0.7_0.22_295/0.5)]',
   headerInfo: 'flex min-w-0 flex-1 flex-col leading-tight',
   headerTitle: 'truncate font-semibold text-sm sm:text-base',
-  headerCount: 'flex items-center gap-1 text-muted-foreground text-xs',
-  headerCountDot: 'size-1.5 animate-pulse rounded-full bg-emerald-400',
 
-  // `relative` anchors the ConnectingOverlay, which covers the grid until the
-  // LiveKit connection is established.
   body: 'relative flex min-h-0 flex-1 flex-col',
 
-  // ControlBar centred; the chat toggle pinned to the right edge.
-  controls: 'relative flex items-center justify-center border-t bg-card/40 p-2',
+  controls:
+    'relative flex items-center justify-center border-t border-white/8 bg-linear-to-t from-white/4 to-transparent p-2.5',
   controlBar: 'flex justify-center',
-  // PTT mode: keep the mic button visible but mute its colour so it reads as
-  // "hotkey-driven" — not an interactive mute toggle.
   controlBarPttIdle:
-    '[&_button[data-lk-source="microphone"]]:!bg-muted/40 [&_button[data-lk-source="microphone"]]:!text-muted-foreground',
-  // PTT key currently held — solid emerald fill so the user has unambiguous
-  // feedback they're transmitting right now.
+    '[&_button[data-lk-source="microphone"]]:!bg-white/8 [&_button[data-lk-source="microphone"]]:!text-muted-foreground',
   controlBarPttActive:
-    '[&_button[data-lk-source="microphone"]]:!bg-emerald-500/15 [&_button[data-lk-source="microphone"]]:!text-emerald-300',
+    '[&_button[data-lk-source="microphone"]]:!bg-brand-cyan/20 [&_button[data-lk-source="microphone"]]:!text-brand-cyan [&_button[data-lk-source="microphone"]]:!shadow-[0_0_18px_-4px_oklch(0.82_0.16_200/0.7)]',
   chatButton: 'absolute right-2',
 } as const;

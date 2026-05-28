@@ -1,9 +1,24 @@
 import { supabase } from '@/shared/api';
-import { POPUP_FEATURES, POPUP_POLL_MS, POPUP_TIMEOUT_MS } from './config';
+import { POPUP_HEIGHT, POPUP_POLL_MS, POPUP_TIMEOUT_MS, POPUP_WIDTH } from './config';
 import { GoogleSignInCancelled } from './errors';
 
+const buildCenteredFeatures = (width: number, height: number): string => {
+  // Multi-monitor aware: window.screen[Left|Top] reports the active screen origin;
+  // outerWidth/outerHeight fall back to inner dimensions when chromeless.
+  const screenLeft = window.screenLeft ?? window.screenX ?? 0;
+  const screenTop = window.screenTop ?? window.screenY ?? 0;
+  const viewportWidth = window.outerWidth ?? window.innerWidth;
+  const viewportHeight = window.outerHeight ?? window.innerHeight;
+
+  const left = Math.round(screenLeft + (viewportWidth - width) / 2);
+  const top = Math.round(screenTop + (viewportHeight - height) / 2);
+
+  return `width=${width},height=${height},left=${left},top=${top},menubar=no,toolbar=no,location=no,status=no`;
+};
+
 export const openPopup = (): Window => {
-  const popup = window.open('about:blank', 'oauth-google', POPUP_FEATURES);
+  const features = buildCenteredFeatures(POPUP_WIDTH, POPUP_HEIGHT);
+  const popup = window.open('about:blank', 'oauth-google', features);
 
   if (!popup || popup.closed) {
     throw new Error('Popup blocked — allow popups for this site');
