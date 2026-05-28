@@ -4,22 +4,28 @@ export const tokenResponseSchema = z.object({
   token: z.string(),
 });
 
-// Shape of the JSON string carried in LiveKit participant.metadata. Set when
-// the access token is issued and broadcast to every other participant by
-// LiveKit — the only channel for per-user data like the verified mark.
-export const participantMetadataSchema = z.object({
-  email: z.string().nullable().default(null),
+// Profile facts that travel with a participant — embedded in LiveKit metadata
+// at token issue and re-emitted by the presence SSE stream. Kept as a base
+// schema so both responses extend the same source.
+const participantProfileSchema = z.object({
   verified: z.boolean().default(false),
   profileUrl: z.string().nullable().default(null),
   avatarUrl: z.string().nullable().default(null),
 });
 
-export const roomParticipantSchema = z.object({
+// Shape of the JSON string carried in LiveKit participant.metadata. The only
+// channel for per-user data like the verified mark.
+export const participantMetadataSchema = participantProfileSchema.extend({
+  email: z.string().nullable().default(null),
+});
+
+export const roomParticipantSchema = participantProfileSchema.extend({
   identity: z.string(),
   name: z.string(),
-  verified: z.boolean().default(false),
-  profileUrl: z.string().nullable().default(null),
-  avatarUrl: z.string().nullable().default(null),
+  // True when the participant has no published, unmuted microphone track.
+  // Includes the "joined but mic never published yet" case, which is still
+  // effectively silent for everyone else in the room.
+  micMuted: z.boolean().default(true),
 });
 
 // SSE payload pushed to clients: the full participant list of every active

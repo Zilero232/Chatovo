@@ -1,7 +1,15 @@
 import { z } from 'zod';
 
+// Canonical room shape — the row clients see (no password). Inputs derive from
+// this via `.pick()` / `.partial()` so field rules stay in one place.
 export const roomSchema = z.object({
   id: z.uuid(),
-  name: z.string().min(1).max(64),
+  name: z
+    .string()
+    .trim()
+    .min(1, 'Name required')
+    .max(64, 'Max 64 chars')
+    .regex(/^[\w\s-]+$/, 'Only letters, digits, spaces, _ and -'),
   isPrivate: z.boolean(),
+  ownerId: z.uuid(),
 });

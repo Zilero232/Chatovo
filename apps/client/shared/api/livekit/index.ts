@@ -1,2 +1,2 @@
-export { fetchLiveKitToken } from './livekit';
+export { fetchLiveKitToken, reportMicState } from './livekit';
 export { buildPresenceStreamUrl } from './presence';

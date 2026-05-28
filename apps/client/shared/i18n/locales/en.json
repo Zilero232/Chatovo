@@ -39,6 +39,7 @@
   "lobby": {
     "welcome": "Welcome back, {name}",
     "subtitle": "Jump into a voice room or start your own",
+    "appVersion": "App version",
     "roomsHeading": "Rooms",
     "searchPlaceholder": "Search rooms...",
     "nothingFound": "No rooms match \"{query}\"",
@@ -50,7 +51,10 @@
       "live": "Live",
       "empty": "Empty",
       "emptyHint": "No one here yet — be the first",
-      "people": "{count, plural, one {# person} other {# people}}"
+      "people": "{count, plural, one {# person} other {# people}}",
+      "yours": "Yours",
+      "ownerTooltip": "Room owner",
+      "micMuted": "Microphone muted"
     }
   },
   "room": {
@@ -236,6 +240,30 @@
     "privateLabel": "Private (password required to join)",
     "submit": "Create room",
     "created": "Room created"
+  },
+  "manageRoom": {
+    "menu": {
+      "open": "Manage room",
+      "edit": "Edit room",
+      "delete": "Delete room"
+    },
+    "edit": {
+      "title": "Edit room",
+      "description": "Change name, password, or privacy.",
+      "nameLabel": "Name",
+      "passwordLabel": "New password",
+      "passwordHint": "Leave empty to keep the current password.",
+      "privateLabel": "Private (password required to join)",
+      "submit": "Save changes",
+      "saved": "Room updated"
+    },
+    "delete": {
+      "title": "Delete \"{name}\"?",
+      "description": "Anyone currently inside will be disconnected. This cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleted": "Room deleted"
+    }
   },
   "downloadApp": {
     "title": "Download Chatovo",

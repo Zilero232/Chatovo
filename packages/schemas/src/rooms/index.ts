@@ -1,3 +1,3 @@
-export { createRoomInputSchema } from './inputs';
+export { createRoomInputSchema, updateRoomInputSchema } from './inputs';
 export { roomSchema } from './outputs';
-export type { CreateRoomRequest, Room } from './types';
+export type { CreateRoomRequest, Room, UpdateRoomRequest } from './types';

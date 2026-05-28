@@ -70,6 +70,7 @@ export const RoomPage = () => {
     .with({ roomId: P.string, token: P.nonNullable, room: P.nonNullable }, ({ roomId, token }) => (
       <VoiceRoom
         key={roomId}
+        roomId={roomId}
         roomName={displayName}
         serverUrl={env.NEXT_PUBLIC_LIVEKIT_URL}
         token={token}

@@ -4,7 +4,7 @@ import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { filter, map, pipe } from 'remeda';
 import { env } from './lib/env';
-import { ConflictError, NotFoundError } from './lib/errors';
+import { ConflictError, ForbiddenError, NotFoundError } from './lib/errors';
 import { authMiddleware } from './middleware/auth';
 import { livekitRouter } from './routes/livekit';
 import { roomsRouter } from './routes/rooms';
@@ -60,6 +60,7 @@ export const routes = app
 app.onError((error, c) => {
   if (error instanceof ConflictError) return c.json({ error: error.message }, 409);
   if (error instanceof NotFoundError) return c.json({ error: error.message }, 404);
+  if (error instanceof ForbiddenError) return c.json({ error: error.message }, 403);
 
   return c.json({ error: 'Internal server error' }, 500);
 });

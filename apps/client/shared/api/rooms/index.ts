@@ -1,1 +1,1 @@
-export { createRoom, getRoom, listRooms } from './rooms';
+export { createRoom, deleteRoom, getRoom, listRooms, updateRoom } from './rooms';

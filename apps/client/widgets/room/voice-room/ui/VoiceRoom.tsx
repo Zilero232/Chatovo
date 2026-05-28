@@ -45,6 +45,7 @@ const RoomHeader = ({ name }: { name: string }) => {
 };
 
 export const VoiceRoom = ({
+  roomId,
   roomName,
   serverUrl,
   token,
@@ -122,7 +123,7 @@ export const VoiceRoom = ({
             <ChatPanel isOpen={isChatOpen} onClose={() => toggleChat(false)} />
 
             <RoomAudioRenderer />
-            <RoomControllers isChatOpen={isChatOpen} />
+            <RoomControllers isChatOpen={isChatOpen} roomId={roomId} />
           </RoomChatProvider>
         </LiveKitRoom>
       </div>

@@ -1,9 +1,11 @@
 import { verifyAccessToken } from '../lib/auth';
 import type { MiddlewareHandler } from 'hono';
+import type { UserRole } from '../lib/auth';
 
 export type AuthVars = {
   email?: string;
   userId: string;
+  role: UserRole;
 };
 
 export const authMiddleware: MiddlewareHandler<{ Variables: AuthVars }> = async (c, next) => {
@@ -17,6 +19,7 @@ export const authMiddleware: MiddlewareHandler<{ Variables: AuthVars }> = async 
 
   c.set('userId', user.userId);
   c.set('email', user.email);
+  c.set('role', user.role);
 
   await next();
 };

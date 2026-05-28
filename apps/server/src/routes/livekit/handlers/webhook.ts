@@ -1,11 +1,13 @@
-import { WebhookReceiver } from 'livekit-server-sdk';
+import { TrackSource, WebhookReceiver } from 'livekit-server-sdk';
 import { match } from 'ts-pattern';
 import { env } from '../../../lib/env';
 import {
   addParticipant,
   clearRoom,
+  isMicMuted,
   parseParticipantMeta,
   removeParticipant,
+  setParticipantMicMuted,
   syncRoom,
 } from '../presence';
 import type { Handler } from 'hono';
@@ -34,6 +36,8 @@ export const webhookHandler: Handler<Env> = async (c) => {
   if (!roomId) return c.json({ ok: true }, 200);
 
   const participant = event.participant;
+  const track = event.track;
+  const isMicTrack = track?.source === TrackSource.MICROPHONE;
 
   await match(event.event)
     .with('participant_joined', () => {
@@ -41,6 +45,7 @@ export const webhookHandler: Handler<Env> = async (c) => {
         addParticipant(roomId, {
           identity: participant.identity,
           name: participant.name || participant.identity,
+          micMuted: isMicMuted(participant.tracks),
           ...parseParticipantMeta(participant.metadata),
         });
       }
@@ -48,11 +53,23 @@ export const webhookHandler: Handler<Env> = async (c) => {
     .with('participant_left', () => {
       if (participant) removeParticipant(roomId, participant.identity);
     })
+    // LiveKit does NOT emit `track_muted` / `track_unmuted` webhooks — only the
+    // publish lifecycle. Live mute toggles arrive via the explicit
+    // POST /livekit/mic-state endpoint from the client instead.
+    .with('track_published', () => {
+      if (participant && isMicTrack && track) {
+        setParticipantMicMuted(roomId, participant.identity, track.muted);
+      }
+    })
+    .with('track_unpublished', () => {
+      if (participant && isMicTrack) {
+        setParticipantMicMuted(roomId, participant.identity, true);
+      }
+    })
     .with('room_finished', () => clearRoom(roomId))
     // Reconcile in case participant_joined events were missed before boot.
     .with('room_started', () => syncRoom(roomId))
-    // Other event types (track_published, egress, etc.) don't affect presence.
-    .otherwise(() => {});
+    .otherwise(() => undefined);
 
   return c.json({ ok: true }, 200);
 };

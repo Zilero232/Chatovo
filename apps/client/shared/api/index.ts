@@ -1,7 +1,7 @@
 export { getFreshAccessToken } from './auth';
 export { getLatestRelease } from './github';
-export { buildPresenceStreamUrl, fetchLiveKitToken } from './livekit';
+export { buildPresenceStreamUrl, fetchLiveKitToken, reportMicState } from './livekit';
 export { queryClient } from './query-client';
-export { createRoom, getRoom, listRooms } from './rooms';
+export { createRoom, deleteRoom, getRoom, listRooms, updateRoom } from './rooms';
 export { supabase } from './supabase';
 export type { GitHubRelease, GitHubReleaseAsset } from './github';

@@ -1,4 +1,4 @@
-export { tokenRequestSchema } from './inputs';
+export { micStateRequestSchema, tokenRequestSchema } from './inputs';
 export {
   participantMetadataSchema,
   roomParticipantSchema,
@@ -6,6 +6,7 @@ export {
   tokenResponseSchema,
 } from './outputs';
 export type {
+  MicStateRequest,
   ParticipantMetadata,
   RoomParticipant,
   RoomsParticipantsSnapshot,

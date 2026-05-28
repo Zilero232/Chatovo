@@ -2,7 +2,6 @@ import { AccessToken } from 'livekit-server-sdk';
 import { filter, first, isString, map, pipe } from 'remeda';
 import { readRole } from '../../../lib/auth';
 import { env } from '../../../lib/env';
-import { verifyPassword } from '../../../lib/password';
 import { prisma } from '../../../lib/prisma';
 import { supabaseAdmin } from '../../../lib/supabase';
 import type { ParticipantMetadata, TokenResponse } from '@chatovo/schemas';
@@ -42,11 +41,8 @@ export const tokenHandler: RouteHandler<typeof tokenRoute, Env> = async (c) => {
 
   if (room.isPrivate) {
     if (!password) return c.json({ error: 'Password required' }, 401);
-    if (!room.passwordHash) return c.json({ error: 'Room misconfigured' }, 500);
-
-    const ok = await verifyPassword(password, room.passwordHash);
-
-    if (!ok) return c.json({ error: 'Invalid password' }, 403);
+    if (!room.password) return c.json({ error: 'Room misconfigured' }, 500);
+    if (password !== room.password) return c.json({ error: 'Invalid password' }, 403);
   }
 
   const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);

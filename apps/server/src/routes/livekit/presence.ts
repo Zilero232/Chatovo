@@ -1,7 +1,8 @@
 import { participantMetadataSchema, safeJsonParse } from '@chatovo/schemas';
-import { RoomServiceClient } from 'livekit-server-sdk';
+import { RoomServiceClient, TrackSource } from 'livekit-server-sdk';
 import { env } from '../../lib/env';
 import type { RoomParticipant, RoomsParticipantsSnapshot } from '@chatovo/schemas';
+import type { ParticipantInfo, TrackInfo } from 'livekit-server-sdk';
 
 type Listener = (snapshot: RoomsParticipantsSnapshot) => void;
 
@@ -22,6 +23,14 @@ export const parseParticipantMeta = (
   );
 
   return { verified, profileUrl, avatarUrl };
+};
+
+// Mic counts as live only if an unmuted microphone track is published.
+// No track published yet → effectively silent for the room.
+export const isMicMuted = (tracks: TrackInfo[] | undefined): boolean => {
+  const mic = tracks?.find((track) => track.source === TrackSource.MICROPHONE);
+
+  return !mic || mic.muted;
 };
 
 const buildSnapshot = (): RoomsParticipantsSnapshot => {
@@ -59,6 +68,20 @@ export const addParticipant = (roomId: string, participant: RoomParticipant) => 
   }
 
   participants.set(participant.identity, participant);
+  
+  emit();
+};
+
+// Mic-only update — caller already knows the participant's identity from the
+// webhook payload; we only flip the flag and broadcast.
+export const setParticipantMicMuted = (roomId: string, identity: string, micMuted: boolean) => {
+  const participants = rooms.get(roomId);
+  const current = participants?.get(identity);
+
+  if (!current || current.micMuted === micMuted) return;
+
+  participants?.set(identity, { ...current, micMuted });
+
   emit();
 };
 
@@ -78,16 +101,22 @@ export const clearRoom = (roomId: string) => {
   if (rooms.delete(roomId)) emit();
 };
 
+const toRoomParticipant = (p: ParticipantInfo): RoomParticipant => {
+  return {
+    identity: p.identity,
+    name: p.name || p.identity,
+    micMuted: isMicMuted(p.tracks),
+    ...parseParticipantMeta(p.metadata),
+  };
+};
+
 // Reconciles the in-memory store with LiveKit's actual state — webhooks can be
 // missed (server restart, network blip). Called lazily and on server boot.
 export const syncRoom = async (roomId: string) => {
   try {
     const live = await roomService.listParticipants(roomId);
     const participants = new Map<string, RoomParticipant>(
-      live.map((p) => [
-        p.identity,
-        { identity: p.identity, name: p.name || p.identity, ...parseParticipantMeta(p.metadata) },
-      ]),
+      live.map((p) => [p.identity, toRoomParticipant(p)]),
     );
 
     if (participants.size > 0) rooms.set(roomId, participants);

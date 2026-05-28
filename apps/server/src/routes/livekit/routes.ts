@@ -1,5 +1,5 @@
-import { tokenRequestSchema, tokenResponseSchema } from '@chatovo/schemas';
-import { createRoute } from '@hono/zod-openapi';
+import { micStateRequestSchema, tokenRequestSchema, tokenResponseSchema } from '@chatovo/schemas';
+import { createRoute, z } from '@hono/zod-openapi';
 import { errorSchema } from '../shared/schemas';
 
 export const tokenRoute = createRoute({
@@ -34,6 +34,26 @@ export const tokenRoute = createRoute({
     500: {
       description: 'Server error',
       content: { 'application/json': { schema: errorSchema } },
+    },
+  },
+});
+
+export const micStateRoute = createRoute({
+  method: 'post',
+  path: '/mic-state',
+  tags: ['livekit'],
+  summary: 'Report current microphone state',
+  security: [{ bearerAuth: [] }],
+  request: {
+    body: {
+      required: true,
+      content: { 'application/json': { schema: micStateRequestSchema } },
+    },
+  },
+  responses: {
+    200: {
+      description: 'Accepted',
+      content: { 'application/json': { schema: z.object({ ok: z.boolean() }) } },
     },
   },
 });

@@ -17,3 +17,11 @@ export class NotFoundError extends Error {
     this.name = 'NotFoundError';
   }
 }
+
+// The caller is authenticated but not allowed to perform the action. Maps to HTTP 403.
+export class ForbiddenError extends Error {
+  constructor(message = 'Forbidden') {
+    super(message);
+    this.name = 'ForbiddenError';
+  }
+}

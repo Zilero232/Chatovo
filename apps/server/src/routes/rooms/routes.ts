@@ -1,4 +1,4 @@
-import { createRoomInputSchema, roomSchema } from '@chatovo/schemas';
+import { createRoomInputSchema, roomSchema, updateRoomInputSchema } from '@chatovo/schemas';
 import { createRoute, z } from '@hono/zod-openapi';
 import { errorSchema } from '../shared/schemas';
 
@@ -58,6 +58,59 @@ export const createRoomRoute = createRoute({
     },
     409: {
       description: 'A room with this name already exists',
+      content: { 'application/json': { schema: errorSchema } },
+    },
+  },
+});
+
+export const updateRoomRoute = createRoute({
+  method: 'patch',
+  path: '/{id}',
+  tags: ['rooms'],
+  summary: 'Update room (owner only)',
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: idParamSchema,
+    body: {
+      required: true,
+      content: { 'application/json': { schema: updateRoomInputSchema } },
+    },
+  },
+  responses: {
+    200: {
+      description: 'Updated',
+      content: { 'application/json': { schema: roomSchema } },
+    },
+    403: {
+      description: 'Not the owner',
+      content: { 'application/json': { schema: errorSchema } },
+    },
+    404: {
+      description: 'Not found',
+      content: { 'application/json': { schema: errorSchema } },
+    },
+    409: {
+      description: 'A room with this name already exists',
+      content: { 'application/json': { schema: errorSchema } },
+    },
+  },
+});
+
+export const deleteRoomRoute = createRoute({
+  method: 'delete',
+  path: '/{id}',
+  tags: ['rooms'],
+  summary: 'Delete room (owner only)',
+  security: [{ bearerAuth: [] }],
+  request: { params: idParamSchema },
+  responses: {
+    204: { description: 'Deleted' },
+    403: {
+      description: 'Not the owner',
+      content: { 'application/json': { schema: errorSchema } },
+    },
+    404: {
+      description: 'Not found',
       content: { 'application/json': { schema: errorSchema } },
     },
   },
