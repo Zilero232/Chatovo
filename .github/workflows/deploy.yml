@@ -39,7 +39,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.3.14
@@ -56,7 +56,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # Lowercase the image name — ghcr.io rejects uppercase letters.
       - name: Normalize image name
@@ -91,7 +91,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Normalize image name
         run: echo "API_IMAGE=${API_IMAGE,,}" >> "$GITHUB_ENV"
@@ -119,7 +119,7 @@ jobs:
     needs: [build-web, build-api]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Configure SSH
         run: |

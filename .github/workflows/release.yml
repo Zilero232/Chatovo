@@ -46,7 +46,7 @@ jobs:
       version: ${{ steps.read.outputs.version }}
       should_release: ${{ steps.check.outputs.should_release }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # Root package.json is the single source of truth for the desktop app version.
       # `jq -r` extracts the raw value (e.g. 0.1.2 without quotes) for downstream jobs.
@@ -89,7 +89,7 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: oven-sh/setup-bun@v2
         with:
