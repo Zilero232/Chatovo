@@ -61,6 +61,12 @@ services:
     # the env_file path ever diverges from the root .env.
     env_file:
       - ./.env
+    # Published so external clients (e.g. TablePlus) can connect directly.
+    # SECURITY: this exposes Postgres to the public internet. Use a strong
+    # POSTGRES_PASSWORD and restrict port 5432 with a firewall (allow only
+    # trusted IPs) — a weak password on an open 5432 is brute-forced fast.
+    ports:
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:

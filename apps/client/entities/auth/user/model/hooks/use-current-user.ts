@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { isNonNullish } from 'remeda';
-import { authClient, getUserProfile } from '@/shared/api';
+import { authClient, getAuthToken, getUserProfile } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 import { firstNonEmpty } from '@/shared/lib';
 import type { UserRole } from '../types';
@@ -10,12 +10,12 @@ export const useCurrentUser = () => {
 
   const user = session?.user ?? null;
   const userId = user?.id ?? null;
-  const sessionToken = session?.session?.token ?? null;
+  const hasToken = getAuthToken().length > 0;
 
   const { data: profile } = useQuery({
     queryKey: QUERY_KEYS.userProfile(userId ?? ''),
     queryFn: () => getUserProfile(userId as string),
-    enabled: isNonNullish(userId) && isNonNullish(sessionToken),
+    enabled: isNonNullish(userId) && hasToken,
   });
 
   const role: UserRole = user?.role === 'admin' ? 'admin' : 'user';
