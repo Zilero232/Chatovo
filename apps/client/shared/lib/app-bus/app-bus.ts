@@ -2,6 +2,7 @@ import { createEventEmitter } from '@siberiacancode/reactuse';
 
 type AppBusEvents = {
   recheckUpdate: undefined;
+  updateCheckSettled: undefined;
   trayMuteToggle: undefined;
   muteToggle: undefined;
   deafenToggle: undefined;

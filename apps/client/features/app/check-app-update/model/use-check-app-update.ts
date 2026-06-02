@@ -64,7 +64,9 @@ export const useCheckAppUpdate = () => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: recheckTick.value is the manual re-trigger; bumping it must re-run the effect
   useEffect(() => {
-    if (!isTauri()) return;
+    if (!isTauri()) {
+      return;
+    }
 
     let cancelled = false;
 
@@ -73,17 +75,23 @@ export const useCheckAppUpdate = () => {
 
       setSilent(!isManual);
 
-      if (!hasCheckedOnceRef.current) setStatus('checking');
+      if (!hasCheckedOnceRef.current) {
+        setStatus('checking');
+      }
 
       try {
         const result = await raceWithTimeout(check(), APP_UPDATE_CONFIG.checkTimeoutMs);
 
-        if (cancelled) return;
+        if (cancelled) {
+          return;
+        }
 
         hasCheckedOnceRef.current = true;
 
         if (!result.ok || !result.value) {
-          if (isManual) toast.success(t('upToDate'));
+          if (isManual) {
+            toast.success(t('upToDate'));
+          }
 
           return setStatus('unavailable');
         }
@@ -102,9 +110,15 @@ export const useCheckAppUpdate = () => {
           hasCheckedOnceRef.current = true;
           setStatus('unavailable');
 
-          if (isManualRef.current) toast.error(t('checkFailed'));
+          if (isManualRef.current) {
+            toast.error(t('checkFailed'));
+          }
         }
       } finally {
+        if (isManualRef.current) {
+          appBus.push('updateCheckSettled', undefined);
+        }
+
         isManualRef.current = false;
       }
     };
@@ -117,14 +131,18 @@ export const useCheckAppUpdate = () => {
   }, [recheckTick.value]);
 
   appBus.useSubscribe('recheckUpdate', () => {
-    if (!isTauri()) return;
+    if (!isTauri()) {
+      return;
+    }
 
     isManualRef.current = true;
     recheckTick.inc();
   });
 
   const install = async () => {
-    if (!update) return;
+    if (!update) {
+      return;
+    }
 
     await runInstall(update);
   };
