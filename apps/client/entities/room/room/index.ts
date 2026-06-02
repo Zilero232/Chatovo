@@ -6,7 +6,6 @@ export {
   useEnterRoom,
   useRecentRooms,
   useRoomById,
-  useRoomId,
   useRoomParticipants,
   useRooms,
   useRoomToken,

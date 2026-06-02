@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { UserAvatar, useCurrentUser } from '@/entities/auth/user';
 import { OwnerBadge, OwnerCrown, useRoomParticipants } from '@/entities/room/room';
 import { ManageRoomMenu } from '@/features/room/manage';
-import { ROUTES } from '@/shared/constants';
+import { buildRoomHref } from '@/shared/constants';
 import { AvatarWithBadges, Badge } from '@/shared/ui';
 import { lobbyRoomCardStyles as s } from './LobbyRoomCard.styles';
 import type { LobbyRoomCardProps } from './LobbyRoomCard.types';
@@ -29,7 +29,11 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
 
   return (
     <div className={s.root}>
-      <button className={s.enter()} type="button" onClick={() => router.push(ROUTES.room(room.id))}>
+      <button
+        className={s.enter()}
+        type="button"
+        onClick={() => router.push(buildRoomHref(room.id))}
+      >
         <div className={s.header}>
           <span className={s.name}>
             {room.name}
