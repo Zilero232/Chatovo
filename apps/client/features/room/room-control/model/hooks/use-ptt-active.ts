@@ -15,7 +15,9 @@ export const usePttActive = (): PttState => {
     setHeld(payload.phase === 'pressed');
   });
 
-  if (settings.audio.activationMode !== 'pushToTalk') return 'off';
+  if (settings.audio.activationMode !== 'pushToTalk') {
+    return 'off';
+  }
 
   return held ? 'active' : 'idle';
 };

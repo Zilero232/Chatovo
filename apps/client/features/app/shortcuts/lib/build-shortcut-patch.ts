@@ -21,7 +21,9 @@ export const buildShortcutPatch = (
 
 export const isOwnedByUs = (hotkey: string, current: ShortcutSettings): boolean => {
   for (const id in current) {
-    if (current[id as ShortcutActionId] === hotkey) return true;
+    if (current[id as ShortcutActionId] === hotkey) {
+      return true;
+    }
   }
 
   return false;

@@ -8,7 +8,9 @@ import type { AvatarZoomProps } from './AvatarZoom.types';
 export const AvatarZoom = ({ src, name, children }: AvatarZoomProps) => {
   const t = useTranslations('profileCard');
 
-  if (!src) return <>{children}</>;
+  if (!src) {
+    return <>{children}</>;
+  }
 
   return (
     <Dialog>

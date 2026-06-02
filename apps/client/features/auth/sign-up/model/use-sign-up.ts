@@ -21,7 +21,9 @@ export const useSignUp = () => {
     mutationFn: async ({ email, password, name }: SignUpValues) => {
       const { data, error } = await authClient.signUp.email({ email, password, name });
 
-      if (error) throw new Error(error.message ?? 'Sign up failed');
+      if (error) {
+        throw new Error(error.message ?? 'Sign up failed');
+      }
 
       return data;
     },

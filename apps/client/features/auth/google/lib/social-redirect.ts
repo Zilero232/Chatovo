@@ -5,7 +5,9 @@ import { ROUTES } from '@/shared/constants';
 const TAURI_AUTH_TARGET = 'chatovo://auth';
 
 const finalTarget = (): string => {
-  if (isTauri()) return TAURI_AUTH_TARGET;
+  if (isTauri()) {
+    return TAURI_AUTH_TARGET;
+  }
 
   return `${window.location.origin}${ROUTES.auth}`;
 };

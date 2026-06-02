@@ -16,11 +16,15 @@ export const useConnectionRtt = (): number | null => {
     const sample = async () => {
       const publisher = room.engine?.pcManager?.publisher;
 
-      if (!publisher) return;
+      if (!publisher) {
+        return;
+      }
 
       const stats = await publisher.getStats();
 
-      if (cancelled) return;
+      if (cancelled) {
+        return;
+      }
 
       for (const report of stats.values()) {
         if (

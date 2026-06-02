@@ -16,17 +16,27 @@ export const tokenHandler: RouteHandler<typeof tokenRoute, Env> = async (c) => {
 
   const room = await prisma.room.findUnique({ where: { id: roomId } });
 
-  if (!room) return c.json({ error: 'Room not found' }, 404);
+  if (!room) {
+    return c.json({ error: 'Room not found' }, 404);
+  }
 
   if (room.isPrivate) {
-    if (!password) return c.json({ error: 'Password required' }, 401);
-    if (!room.password) return c.json({ error: 'Room misconfigured' }, 500);
-    if (password !== room.password) return c.json({ error: 'Invalid password' }, 403);
+    if (!password) {
+      return c.json({ error: 'Password required' }, 401);
+    }
+    if (!room.password) {
+      return c.json({ error: 'Room misconfigured' }, 500);
+    }
+    if (password !== room.password) {
+      return c.json({ error: 'Invalid password' }, 403);
+    }
   }
 
   const user = await prisma.user.findUnique({ where: { id: userId }, include: { profile: true } });
 
-  if (!user) return c.json({ error: 'User lookup failed' }, 500);
+  if (!user) {
+    return c.json({ error: 'User lookup failed' }, 500);
+  }
 
   const isAdmin = role === 'admin';
   const { name, verified, profileUrl, avatarUrl, bannerColor } = toUserProfile(user);

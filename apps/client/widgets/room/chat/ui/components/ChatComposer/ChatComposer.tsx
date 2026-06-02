@@ -22,7 +22,9 @@ export const ChatComposer = ({
   const submit = async () => {
     const value = draft.trim();
 
-    if (!value || busy) return;
+    if (!value || busy) {
+      return;
+    }
 
     clear();
 
@@ -36,7 +38,9 @@ export const ChatComposer = ({
   };
 
   useKeyboard(ref, (event) => {
-    if (event.key !== 'Enter' || event.shiftKey) return;
+    if (event.key !== 'Enter' || event.shiftKey) {
+      return;
+    }
 
     event.preventDefault();
     submit();

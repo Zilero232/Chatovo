@@ -72,7 +72,9 @@ export const VoiceRoom = ({
           }}
           onDisconnected={(reason) => {
             if (!hasConnectedRef.current) {
-              if (reason !== undefined && FAILURE_REASONS.has(reason)) onConnectFailure(reason);
+              if (reason !== undefined && FAILURE_REASONS.has(reason)) {
+                onConnectFailure(reason);
+              }
 
               return;
             }

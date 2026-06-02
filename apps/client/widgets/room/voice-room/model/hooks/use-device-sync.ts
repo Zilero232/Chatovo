@@ -10,13 +10,17 @@ const applyDevices = (room: Room, devices: DeviceSettings) => {
   for (const kind of keys(KIND_TO_SLOT)) {
     const deviceId = devices[KIND_TO_SLOT[kind]];
 
-    if (deviceId) room.switchActiveDevice(kind, deviceId);
+    if (deviceId) {
+      room.switchActiveDevice(kind, deviceId);
+    }
   }
 };
 
 const useApplyDevices = (room: Room, devices: DeviceSettings) => {
   useEffect(() => {
-    if (room.state === 'connected') applyDevices(room, devices);
+    if (room.state === 'connected') {
+      applyDevices(room, devices);
+    }
 
     const onConnected = () => {
       return applyDevices(room, devices);
@@ -41,7 +45,9 @@ const useMirrorActiveDevice = (room: Room) => {
   useEffect(() => {
     const onActiveDeviceChanged = (kind: MediaDeviceKind, deviceId: string) => {
       const slot = KIND_TO_SLOT[kind];
-      if (devicesRef.current[slot] === deviceId) return;
+      if (devicesRef.current[slot] === deviceId) {
+        return;
+      }
 
       setGroupRef.current('devices', { [slot]: deviceId });
     };

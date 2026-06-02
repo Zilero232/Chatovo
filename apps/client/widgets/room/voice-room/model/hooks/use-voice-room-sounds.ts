@@ -36,7 +36,9 @@ export const useVoiceRoomSounds = () => {
 
   const play = (key: SoundKey) => {
     const { enabled, volume } = soundsRef.current;
-    if (!enabled[SOUND_CATEGORY[key]]) return;
+    if (!enabled[SOUND_CATEGORY[key]]) {
+      return;
+    }
 
     const audio = audioRef.current[key];
     audio.setVolume(volume);
@@ -44,12 +46,16 @@ export const useVoiceRoomSounds = () => {
   };
 
   const playLeaveSound = () => {
-    if (soundsRef.current.enabled.leave) playLeave();
+    if (soundsRef.current.enabled.leave) {
+      playLeave();
+    }
   };
 
   const hasLeftRef = useRef(false);
   const playOwnLeaveOnce = () => {
-    if (hasLeftRef.current) return;
+    if (hasLeftRef.current) {
+      return;
+    }
     hasLeftRef.current = true;
 
     playLeaveSound();
@@ -64,7 +70,9 @@ export const useVoiceRoomSounds = () => {
   const prevDeafened = usePrevious(isDeafened);
 
   useEffect(() => {
-    if (prevDeafened === undefined || prevDeafened === isDeafened) return;
+    if (prevDeafened === undefined || prevDeafened === isDeafened) {
+      return;
+    }
 
     playRef.current.play(isDeafened ? 'deafen' : 'undeafen');
   }, [isDeafened, prevDeafened]);
@@ -72,7 +80,9 @@ export const useVoiceRoomSounds = () => {
   useEffect(() => {
     hasLeftRef.current = false;
 
-    if (room.state === 'connected') playRef.current.play('join');
+    if (room.state === 'connected') {
+      playRef.current.play('join');
+    }
 
     return () => playRef.current.playOwnLeaveOnce();
   }, [room]);
@@ -88,7 +98,9 @@ export const useVoiceRoomSounds = () => {
     localParticipant,
     ParticipantEvent.TrackMuted,
     (publication: TrackPublication) => {
-      if (publication.source === Track.Source.Microphone) playRef.current.play('mute');
+      if (publication.source === Track.Source.Microphone) {
+        playRef.current.play('mute');
+      }
     },
   );
 
@@ -96,7 +108,9 @@ export const useVoiceRoomSounds = () => {
     localParticipant,
     ParticipantEvent.TrackUnmuted,
     (publication: TrackPublication) => {
-      if (publication.source === Track.Source.Microphone) playRef.current.play('unmute');
+      if (publication.source === Track.Source.Microphone) {
+        playRef.current.play('unmute');
+      }
     },
   );
 };

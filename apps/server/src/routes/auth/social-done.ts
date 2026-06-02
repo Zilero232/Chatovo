@@ -4,11 +4,15 @@ import type { Handler } from 'hono';
 export const socialDoneHandler: Handler = async (c) => {
   const redirectTo = c.req.query('redirect');
 
-  if (!redirectTo) return c.json({ error: 'Missing redirect' }, 400);
+  if (!redirectTo) {
+    return c.json({ error: 'Missing redirect' }, 400);
+  }
 
   const session = await auth.api.getSession({ headers: c.req.raw.headers });
 
-  if (!session) return c.redirect(appendParam(redirectTo, 'error', 'session_missing'));
+  if (!session) {
+    return c.redirect(appendParam(redirectTo, 'error', 'session_missing'));
+  }
 
   const { token } = await auth.api.generateOneTimeToken({ headers: c.req.raw.headers });
 

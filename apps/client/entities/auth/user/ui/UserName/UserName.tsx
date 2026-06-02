@@ -33,7 +33,9 @@ export const UserName = ({
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.stopPropagation();
 
-    if (!profileUrl || !isTauri()) return;
+    if (!profileUrl || !isTauri()) {
+      return;
+    }
 
     event.preventDefault();
 

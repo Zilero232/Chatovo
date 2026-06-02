@@ -14,7 +14,9 @@ export const useChatMessageSound = () => {
 
   useEffect(() => {
     const latest = last(chatMessages);
-    if (isNullish(latest)) return;
+    if (isNullish(latest)) {
+      return;
+    }
 
     const key = latest.id ?? `${latest.timestamp}-${latest.from?.identity ?? 'unknown'}`;
 
@@ -23,10 +25,14 @@ export const useChatMessageSound = () => {
       return;
     }
 
-    if (lastSeenRef.current === key) return;
+    if (lastSeenRef.current === key) {
+      return;
+    }
     lastSeenRef.current = key;
 
-    if (latest.from?.identity === localParticipant.identity) return;
+    if (latest.from?.identity === localParticipant.identity) {
+      return;
+    }
 
     appBus.push('chatMessage', undefined);
   }, [chatMessages, localParticipant.identity]);

@@ -13,7 +13,9 @@ export const useAvatarDraft = (storedUrl: string | null) => {
 
   const clearPreview = () => {
     setPreview((prev) => {
-      if (prev) URL.revokeObjectURL(prev);
+      if (prev) {
+        URL.revokeObjectURL(prev);
+      }
 
       return null;
     });

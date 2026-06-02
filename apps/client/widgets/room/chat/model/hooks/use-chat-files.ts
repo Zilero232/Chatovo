@@ -33,7 +33,9 @@ export const useChatFiles = ({ roomId, disabled, onSend }: UseChatFilesParams) =
   });
 
   const sendFiles = (files: File[]) => {
-    if (disabled || isPending || files.length === 0) return;
+    if (disabled || isPending || files.length === 0) {
+      return;
+    }
 
     const tooLarge = files.find((file) => file.size > ATTACHMENT_MAX_BYTES);
 
@@ -47,17 +49,23 @@ export const useChatFiles = ({ roomId, disabled, onSend }: UseChatFilesParams) =
   };
 
   const { open } = useFileDialog((value) => {
-    if (value) sendFiles(Array.from(value));
+    if (value) {
+      sendFiles(Array.from(value));
+    }
   });
 
   const { ref, overed } = useDropZone<HTMLElement>((files) => {
-    if (files) sendFiles(files);
+    if (files) {
+      sendFiles(files);
+    }
   });
 
   const onPaste = (event: ClipboardEvent) => {
     const files = Array.from(event.clipboardData.files);
 
-    if (files.length === 0) return;
+    if (files.length === 0) {
+      return;
+    }
 
     event.preventDefault();
     sendFiles(files);

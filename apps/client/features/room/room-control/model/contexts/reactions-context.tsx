@@ -53,7 +53,9 @@ export const ReactionsProvider = ({ children }: { children: ReactNode }) => (
 export const useReactions = () => {
   const value = use();
 
-  if (!value) throw new Error('useReactions must be used within ReactionsProvider');
+  if (!value) {
+    throw new Error('useReactions must be used within ReactionsProvider');
+  }
 
   return value;
 };

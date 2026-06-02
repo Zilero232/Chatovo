@@ -13,7 +13,9 @@ const MESSAGES: Record<Locale, typeof en> = { en, ru };
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
   const { locale, isReady } = useLocale();
 
-  if (!isReady) return <AppSplash />;
+  if (!isReady) {
+    return <AppSplash />;
+  }
 
   return (
     <NextIntlClientProvider locale={locale} messages={MESSAGES[locale]}>

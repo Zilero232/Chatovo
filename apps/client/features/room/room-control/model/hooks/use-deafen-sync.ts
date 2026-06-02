@@ -11,6 +11,8 @@ export const useDeafenSync = () => {
   });
 
   appBus.useSubscribe('micActivated', () => {
-    if (isDeafened) undeafen();
+    if (isDeafened) {
+      undeafen();
+    }
   });
 };

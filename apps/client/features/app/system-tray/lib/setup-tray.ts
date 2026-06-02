@@ -16,7 +16,9 @@ type SetupTrayResult = {
 export const setupTray = async ({ tooltip, menu }: SetupTrayArgs): Promise<SetupTrayResult> => {
   const existing = await TrayIcon.getById(TRAY_ID);
 
-  if (existing) await existing.close();
+  if (existing) {
+    await existing.close();
+  }
 
   const icon = await defaultWindowIcon();
 

@@ -33,7 +33,9 @@ export const webhookHandler: Handler<Env> = async (c) => {
   // Every presence event is room-scoped, so without it there is nothing to do.
   const roomId = event.room?.name;
 
-  if (!roomId) return c.json({ ok: true }, 200);
+  if (!roomId) {
+    return c.json({ ok: true }, 200);
+  }
 
   const participant = event.participant;
   const track = event.track;
@@ -52,7 +54,9 @@ export const webhookHandler: Handler<Env> = async (c) => {
       }
     })
     .with('participant_left', () => {
-      if (participant) removeParticipant(roomId, participant.identity);
+      if (participant) {
+        removeParticipant(roomId, participant.identity);
+      }
     })
     // LiveKit does NOT emit `track_muted` / `track_unmuted` webhooks — only the
     // publish lifecycle. Live mute toggles arrive via the explicit

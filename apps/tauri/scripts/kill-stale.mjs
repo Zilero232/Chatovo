@@ -37,5 +37,8 @@ const killUnix = () => {
   run('pkill -9 -x chatovo');
 };
 
-if (platform() === 'win32') killWindows();
-else killUnix();
+if (platform() === 'win32') {
+  killWindows();
+} else {
+  killUnix();
+}

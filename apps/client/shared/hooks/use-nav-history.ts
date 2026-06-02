@@ -12,11 +12,15 @@ export const useNavHistory = () => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: track pathname only; set is a new ref each render
   useEffect(() => {
-    if (pathname !== value) set(pathname);
+    if (pathname !== value) {
+      set(pathname);
+    }
   }, [pathname, value]);
 
   const goBack = () => {
-    if (!canUndo) return;
+    if (!canUndo) {
+      return;
+    }
 
     back();
 
@@ -24,7 +28,9 @@ export const useNavHistory = () => {
   };
 
   const goForward = () => {
-    if (!canRedo) return;
+    if (!canRedo) {
+      return;
+    }
 
     forward();
 

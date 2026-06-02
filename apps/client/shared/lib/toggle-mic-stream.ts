@@ -4,7 +4,9 @@ export const toggleMicStream = (participant: LocalParticipant, enabled: boolean)
   const publication = participant.getTrackPublication(Track.Source.Microphone);
   const stream = publication?.track?.mediaStreamTrack;
 
-  if (!stream) return false;
+  if (!stream) {
+    return false;
+  }
 
   stream.enabled = enabled;
 

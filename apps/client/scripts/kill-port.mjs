@@ -19,7 +19,9 @@ try {
     for (const line of out.split(/\r?\n/)) {
       const m = line.match(/\s+(\d+)\s*$/);
 
-      if (m && line.includes('LISTENING')) pids.add(m[1]);
+      if (m && line.includes('LISTENING')) {
+        pids.add(m[1]);
+      }
     }
 
     for (const pid of pids) {

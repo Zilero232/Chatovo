@@ -9,13 +9,17 @@ import type { Env } from '../../shared/types';
 export const presenceHandler: Handler<Env> = async (c) => {
   const token = c.req.query('token');
 
-  if (!token) return c.json({ error: 'Unauthorized' }, 401);
+  if (!token) {
+    return c.json({ error: 'Unauthorized' }, 401);
+  }
 
   const session = await auth.api.getSession({
     headers: new Headers({ Authorization: `Bearer ${token}` }),
   });
 
-  if (!session) return c.json({ error: 'Unauthorized' }, 401);
+  if (!session) {
+    return c.json({ error: 'Unauthorized' }, 401);
+  }
 
   const userId = session.user.id;
 
@@ -28,7 +32,9 @@ export const presenceHandler: Handler<Env> = async (c) => {
 
     // Tear down once: drop the subscription, stop the keepalive.
     const teardown = () => {
-      if (closed) return;
+      if (closed) {
+        return;
+      }
 
       closed = true;
       clearInterval(ping);
@@ -45,7 +51,9 @@ export const presenceHandler: Handler<Env> = async (c) => {
 
     const enqueue = (write: () => Promise<void>): Promise<void> => {
       writeChain = writeChain.then(async () => {
-        if (closed) return;
+        if (closed) {
+          return;
+        }
 
         try {
           await write();

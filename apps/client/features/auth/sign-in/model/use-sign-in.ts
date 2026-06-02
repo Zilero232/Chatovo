@@ -14,7 +14,9 @@ export const useSignIn = () => {
     mutationFn: async (values: SignInValues) => {
       const { data, error } = await authClient.signIn.email(values);
 
-      if (error) throw new Error(error.message ?? 'Sign in failed');
+      if (error) {
+        throw new Error(error.message ?? 'Sign in failed');
+      }
 
       return data;
     },

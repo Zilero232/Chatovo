@@ -11,7 +11,9 @@ export const TitleBar = () => {
   const { canGoBack, canGoForward, goBack, goForward } = useNavHistory();
   const { isMaximized, minimize, toggleMaximize, close } = useWindowControls();
 
-  if (!platform) return null;
+  if (!platform) {
+    return null;
+  }
 
   const showControls = platform !== 'macos';
 

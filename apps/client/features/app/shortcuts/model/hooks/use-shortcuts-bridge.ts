@@ -9,13 +9,17 @@ export const useShortcutsBridge = () => {
   const { settings } = useAppSettings();
 
   useEffect(() => {
-    if (!isTauri()) return;
+    if (!isTauri()) {
+      return;
+    }
 
     syncShortcuts(settings.shortcuts);
   }, [settings.shortcuts]);
 
   useEffect(() => {
-    if (!isTauri()) return;
+    if (!isTauri()) {
+      return;
+    }
 
     return () => {
       teardownShortcuts();

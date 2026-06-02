@@ -32,12 +32,16 @@ export const useRoomControls = () => {
 
   const run = (action: (participant: LocalParticipant) => Promise<unknown>) => {
     return async () => {
-      if (isNullish(localParticipant)) return;
+      if (isNullish(localParticipant)) {
+        return;
+      }
 
       try {
         await action(localParticipant);
       } catch (err) {
-        if (isCancelled(err)) return;
+        if (isCancelled(err)) {
+          return;
+        }
 
         console.error('room control action failed', err);
       }
@@ -48,8 +52,12 @@ export const useRoomControls = () => {
     const next = !p.isMicrophoneEnabled;
     await p.setMicrophoneEnabled(next);
 
-    if (next && isDeafened) undeafen();
-    if (isPtt && next) toggleMicStream(p, false);
+    if (next && isDeafened) {
+      undeafen();
+    }
+    if (isPtt && next) {
+      toggleMicStream(p, false);
+    }
   });
 
   return {

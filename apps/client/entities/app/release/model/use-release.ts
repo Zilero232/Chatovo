@@ -18,7 +18,9 @@ export const useRelease = (enabled = true) => {
       for (const asset of data.assets) {
         const platform = detectAssetPlatform(asset.name, EXTENSION_TO_PLATFORM);
 
-        if (!platform || assets[platform]) continue;
+        if (!platform || assets[platform]) {
+          continue;
+        }
 
         assets[platform] = {
           platform,

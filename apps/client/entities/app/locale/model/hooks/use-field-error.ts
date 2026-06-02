@@ -9,7 +9,9 @@ export const useFieldError = (namespace: string) => {
   const t = useTranslations() as unknown as LooseTranslator;
 
   return (error: FieldError | undefined): string | undefined => {
-    if (!error?.message) return undefined;
+    if (!error?.message) {
+      return undefined;
+    }
 
     return t(`${namespace}.${error.message}`);
   };

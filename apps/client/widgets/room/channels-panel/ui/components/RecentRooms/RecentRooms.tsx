@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { isEmpty } from 'remeda';
 import { useRecentRooms, useRooms, useRoomsPresence } from '@/entities/room/room';
-import { buildRoomHref } from '@/shared/constants';
+import { ROUTES } from '@/shared/constants';
 import { recentRoomsStyles as s } from './RecentRooms.styles';
 import type { RecentRoomsProps } from './RecentRooms.types';
 
@@ -21,7 +21,9 @@ export const RecentRooms = ({ onNavigate }: RecentRoomsProps = {}) => {
     .map((entry) => rooms.find((room) => room.id === entry.id))
     .filter((room) => room !== undefined);
 
-  if (isEmpty(entries)) return null;
+  if (isEmpty(entries)) {
+    return null;
+  }
 
   return (
     <div className={s.root}>
@@ -40,7 +42,7 @@ export const RecentRooms = ({ onNavigate }: RecentRoomsProps = {}) => {
               className={s.item}
               type="button"
               onClick={() => {
-                router.push(buildRoomHref(room.id));
+                router.push(ROUTES.room(room.id));
                 onNavigate?.();
               }}
             >

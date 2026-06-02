@@ -47,7 +47,9 @@ export const useMicTest = ({ deviceId, audio }: MicTestArgs): UseMicTest => {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: constraints });
 
         if (cancelled) {
-          for (const t of stream.getTracks()) t.stop();
+          for (const t of stream.getTracks()) {
+            t.stop();
+          }
 
           return;
         }
@@ -69,7 +71,9 @@ export const useMicTest = ({ deviceId, audio }: MicTestArgs): UseMicTest => {
         calcVolumeRef.current = analyser.calculateVolume;
         cleanup = analyser.cleanup;
       } catch {
-        if (!cancelled) setError(true);
+        if (!cancelled) {
+          setError(true);
+        }
       }
     };
 
@@ -83,14 +87,18 @@ export const useMicTest = ({ deviceId, audio }: MicTestArgs): UseMicTest => {
       track?.stop();
 
       const sink = sinkRef.current;
-      if (sink) sink.srcObject = null;
+      if (sink) {
+        sink.srcObject = null;
+      }
 
       setLevel(0);
     };
   }, [deviceId, audio]);
 
   useInterval(() => {
-    if (calcVolumeRef.current) setLevel(calcVolumeRef.current());
+    if (calcVolumeRef.current) {
+      setLevel(calcVolumeRef.current());
+    }
   }, LEVEL_INTERVAL_MS);
 
   const toggleLoopback = () => {
@@ -98,7 +106,9 @@ export const useMicTest = ({ deviceId, audio }: MicTestArgs): UseMicTest => {
       const next = !on;
 
       const sink = sinkRef.current;
-      if (sink) sink.muted = !next;
+      if (sink) {
+        sink.muted = !next;
+      }
 
       return next;
     });

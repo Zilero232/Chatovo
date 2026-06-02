@@ -36,7 +36,9 @@ export const getRoomHandler: RouteHandler<typeof getRoomRoute, Env> = async (c) 
     select: roomSelect,
   });
 
-  if (isNullish(room)) return c.json({ error: 'Room not found' }, 404);
+  if (isNullish(room)) {
+    return c.json({ error: 'Room not found' }, 404);
+  }
 
   return c.json(room, 200);
 };
@@ -63,8 +65,12 @@ const assertCanManage = async (roomId: string, userId: string) => {
     select: { ownerId: true, isPrivate: true, password: true },
   });
 
-  if (isNullish(room)) throw new HTTPException(404, { message: 'Room not found' });
-  if (room.ownerId !== userId) throw new HTTPException(403, { message: 'Forbidden' });
+  if (isNullish(room)) {
+    throw new HTTPException(404, { message: 'Room not found' });
+  }
+  if (room.ownerId !== userId) {
+    throw new HTTPException(403, { message: 'Forbidden' });
+  }
 
   return room;
 };
@@ -82,18 +88,24 @@ export const updateRoomHandler: RouteHandler<typeof updateRoomRoute, Env> = asyn
   //   - keeping isPrivate true without a new password leaves the existing one
   const data: Prisma.RoomUpdateInput = {};
 
-  if (isNonNullish(body.name)) data.name = body.name;
+  if (isNonNullish(body.name)) {
+    data.name = body.name;
+  }
 
   if (isNonNullish(body.isPrivate)) {
     data.isPrivate = body.isPrivate;
 
-    if (body.isPrivate === false) data.password = null;
+    if (body.isPrivate === false) {
+      data.password = null;
+    }
   }
 
   if (isNonNullish(body.password)) {
     const willBePrivate = body.isPrivate ?? current.isPrivate;
 
-    if (willBePrivate) data.password = body.password;
+    if (willBePrivate) {
+      data.password = body.password;
+    }
   }
 
   const room = await prisma.room.update({

@@ -12,7 +12,9 @@ export const getUserProfileHandler: RouteHandler<typeof getUserProfileRoute, Env
 
   const user = await prisma.user.findUnique({ where: { id }, include: { profile: true } });
 
-  if (!user) return c.json({ error: 'User not found' }, 404);
+  if (!user) {
+    return c.json({ error: 'User not found' }, 404);
+  }
 
   return c.json(toUserProfile(user), 200);
 };
@@ -31,15 +33,21 @@ export const updateProfileHandler: RouteHandler<typeof updateProfileRoute, Env> 
   const userId = c.get('userId');
   const { displayName, profileUrl, bannerColor, bio, avatar, removeAvatar } = c.req.valid('form');
 
-  if (displayName.trim().length < 2) return c.json({ error: 'Invalid name' }, 400);
+  if (displayName.trim().length < 2) {
+    return c.json({ error: 'Invalid name' }, 400);
+  }
 
   let avatarUrl: string | null | undefined;
 
   if (avatar instanceof File && avatar.size > 0) {
     const { type, size } = avatar;
 
-    if (!type.startsWith('image/')) return c.json({ error: 'Not an image' }, 400);
-    if (size > AVATAR_MAX_BYTES) return c.json({ error: 'Image too large' }, 400);
+    if (!type.startsWith('image/')) {
+      return c.json({ error: 'Not an image' }, 400);
+    }
+    if (size > AVATAR_MAX_BYTES) {
+      return c.json({ error: 'Image too large' }, 400);
+    }
 
     avatarUrl = await uploadAvatar(userId, avatar);
   } else if (removeAvatar === 'true') {
@@ -62,7 +70,9 @@ export const updateProfileHandler: RouteHandler<typeof updateProfileRoute, Env> 
 
   const user = await prisma.user.findUnique({ where: { id: userId }, include: { profile: true } });
 
-  if (!user) return c.json({ error: 'User not found' }, 404);
+  if (!user) {
+    return c.json({ error: 'User not found' }, 404);
+  }
 
   return c.json(toUserProfile(user), 200);
 };

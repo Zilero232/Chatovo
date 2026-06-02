@@ -1,9 +1,7 @@
 export const ROUTES = {
   lobby: '/',
   auth: '/auth',
-  room: '/room',
+  room: (roomId: string) => {
+    return `/room/${encodeURIComponent(roomId)}`;
+  },
 } as const;
-
-export const buildRoomHref = (roomId: string) => {
-  return `${ROUTES.room}?id=${encodeURIComponent(roomId)}`;
-};

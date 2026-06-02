@@ -17,7 +17,9 @@ export const useParticipantRoom = (identity: string): ParticipantRoom | null => 
     find(([, participants]) => participants.some((p) => p.identity === identity)),
   );
 
-  if (isNullish(entry)) return null;
+  if (isNullish(entry)) {
+    return null;
+  }
 
   const [roomId] = entry;
   const roomName = find(rooms, (room) => room.id === roomId)?.name ?? roomId;

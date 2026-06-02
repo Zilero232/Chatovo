@@ -15,7 +15,9 @@ export const useTraySetup = (): TrayMenuValue | null => {
   const [value, setValue] = useState<TrayMenuValue | null>(null);
 
   useEffect(() => {
-    if (!isTauri()) return;
+    if (!isTauri()) {
+      return;
+    }
 
     let cancelled = false;
     let dispose: (() => Promise<void>) | null = null;
