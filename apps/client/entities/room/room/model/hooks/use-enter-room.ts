@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { fetchLiveKitToken } from '@/shared/api';
-import { buildRoomHref, QUERY_KEYS } from '@/shared/constants';
+import { QUERY_KEYS, ROUTES } from '@/shared/constants';
 
 export type EnterRoomInput = {
   password?: string;
@@ -18,7 +18,7 @@ export const useEnterRoom = () => {
 
       queryClient.setQueryData(QUERY_KEYS.livekitToken(roomId), response);
 
-      router.push(buildRoomHref(roomId));
+      router.push(ROUTES.room(roomId));
     },
   });
 };

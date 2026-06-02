@@ -1,36 +1,36 @@
 'use client';
 
 import { Crown, Headphones, Lock } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { isEmpty } from 'remeda';
 import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
 import {
   DeafenedBadge,
   MicMutedBadge,
   OwnerCrown,
+  useRoomId,
   useRoomParticipants,
 } from '@/entities/room/room';
 import { ManageRoomMenu } from '@/features/room/manage';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
-import { buildRoomHref } from '@/shared/constants';
+import { ROUTES } from '@/shared/constants';
 import { AvatarWithBadges } from '@/shared/ui';
 import { channelsRoomItemStyles as s } from './ChannelsRoomItem.styles';
 import type { ChannelsRoomItemProps } from './ChannelsRoomItem.types';
 
 export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) => {
   const router = useRouter();
-  const params = useSearchParams();
+  const activeRoomId = useRoomId();
 
   const { user } = useCurrentUser();
 
-  const activeRoomId = params.get('id');
   const isActive = activeRoomId === room.id;
   const isOwner = user?.id === room.ownerId;
 
   const participants = useRoomParticipants(room.id);
 
   const handleClick = () => {
-    router.push(buildRoomHref(room.id));
+    router.push(ROUTES.room(room.id));
     onNavigate?.();
   };
 

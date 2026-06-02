@@ -1,23 +1,22 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { isNonNullish } from 'remeda';
 import { toast } from 'sonner';
 import { match, P } from 'ts-pattern';
-import { useRoomById, useRoomToken } from '@/entities/room/room';
+import { useRoomById, useRoomId, useRoomToken } from '@/entities/room/room';
 import { env } from '@/shared/config';
 import { ROUTES } from '@/shared/constants';
 import { VoiceRoom } from '@/widgets/room/voice-room';
 import { RoomConnecting, RoomLoadingFallback, RoomNotFound, RoomPasswordForm } from './components';
 
 export const RoomPage = () => {
-  const router = useRouter();
-  const params = useSearchParams();
   const t = useTranslations('room');
 
-  const roomId = params.get('id');
+  const router = useRouter();
+  const roomId = useRoomId();
 
   const { room, isLoading, displayName, isPrivate } = useRoomById(roomId);
 
@@ -35,12 +34,16 @@ export const RoomPage = () => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: redirect must fire only on roomId change; router is a stable ref
   useEffect(() => {
-    if (!roomId) router.replace(ROUTES.lobby);
+    if (!roomId) {
+      router.replace(ROUTES.lobby);
+    }
   }, [roomId]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: redirect must fire only when a public-room token fetch fails; router is a stable ref
   useEffect(() => {
-    if (!isPrivate && tokenFailed) router.replace(ROUTES.lobby);
+    if (!isPrivate && tokenFailed) {
+      router.replace(ROUTES.lobby);
+    }
   }, [isPrivate, tokenFailed]);
 
   const submitPassword = (value: string) => {
