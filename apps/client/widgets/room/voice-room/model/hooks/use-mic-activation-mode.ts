@@ -13,8 +13,12 @@ export const useMicActivationMode = () => {
   const mode = settings.audio.activationMode;
 
   useAsyncEffect(async () => {
-    if (isNullish(localParticipant)) return;
-    if (mode !== 'pushToTalk') return;
+    if (isNullish(localParticipant)) {
+      return;
+    }
+    if (mode !== 'pushToTalk') {
+      return;
+    }
 
     try {
       await localParticipant.setMicrophoneEnabled(true);

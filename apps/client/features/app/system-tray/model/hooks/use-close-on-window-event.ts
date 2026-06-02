@@ -13,7 +13,9 @@ export const useCloseOnWindowEvent = () => {
   closeToTrayRef.current = settings.system.tray.closeToTray;
 
   useEffect(() => {
-    if (!isTauri()) return;
+    if (!isTauri()) {
+      return;
+    }
 
     let cancelled = false;
     let unlisten: (() => void) | null = null;
@@ -21,15 +23,20 @@ export const useCloseOnWindowEvent = () => {
     const subscribe = async () => {
       try {
         const off = await getCurrentWindow().onCloseRequested((event) => {
-          if (!closeToTrayRef.current) return;
+          if (!closeToTrayRef.current) {
+            return;
+          }
 
           event.preventDefault();
 
           hideMainWindow();
         });
 
-        if (cancelled) off();
-        else unlisten = off;
+        if (cancelled) {
+          off();
+        } else {
+          unlisten = off;
+        }
       } catch (error) {
         console.error('Failed to subscribe to onCloseRequested', error);
       }

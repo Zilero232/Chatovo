@@ -56,11 +56,15 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
     setVolumeState(clamped);
     persist(participant.identity, clamped);
 
-    if (participant instanceof RemoteParticipant) participant.setVolume(clamped);
+    if (participant instanceof RemoteParticipant) {
+      participant.setVolume(clamped);
+    }
   };
 
   const setVolume = (next: number) => {
-    if (next > 0) volumeBeforeMute.current = next;
+    if (next > 0) {
+      volumeBeforeMute.current = next;
+    }
 
     apply(next);
   };
@@ -76,7 +80,9 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
   };
 
   useEffect(() => {
-    if (participant instanceof RemoteParticipant) participant.setVolume(clampVolume(volume));
+    if (participant instanceof RemoteParticipant) {
+      participant.setVolume(clampVolume(volume));
+    }
   }, [participant, volume]);
 
   return {

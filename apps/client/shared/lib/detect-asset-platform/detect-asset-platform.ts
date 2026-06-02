@@ -4,7 +4,9 @@ export const detectAssetPlatform = <T extends string>(
 ): T | null => {
   const ext = filename.split('.').pop()?.toLowerCase();
 
-  if (!ext) return null;
+  if (!ext) {
+    return null;
+  }
 
   return extensionMap[ext] ?? null;
 };

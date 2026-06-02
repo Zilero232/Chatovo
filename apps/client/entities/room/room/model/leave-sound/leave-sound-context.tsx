@@ -22,7 +22,9 @@ export const LeaveSoundProvider = ({ children }: { children: ReactNode }) => (
 export const useLeaveSound = () => {
   const value = use();
 
-  if (!value) throw new Error('useLeaveSound must be used within LeaveSoundProvider');
+  if (!value) {
+    throw new Error('useLeaveSound must be used within LeaveSoundProvider');
+  }
 
   return value;
 };

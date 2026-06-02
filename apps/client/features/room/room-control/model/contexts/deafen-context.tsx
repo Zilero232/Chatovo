@@ -21,7 +21,9 @@ export const DeafenProvider = ({ children }: { children: ReactNode }) => (
 export const useDeafenContext = () => {
   const value = use();
 
-  if (!value) throw new Error('useDeafenContext must be used within DeafenProvider');
+  if (!value) {
+    throw new Error('useDeafenContext must be used within DeafenProvider');
+  }
 
   return value;
 };

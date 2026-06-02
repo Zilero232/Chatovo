@@ -23,7 +23,9 @@ export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
     .with(ConnectionState.Connecting, () => t('connecting', { name: roomName }))
     .exhaustive();
 
-  if (text === null) return null;
+  if (text === null) {
+    return null;
+  }
 
   return (
     <div className={s.root}>

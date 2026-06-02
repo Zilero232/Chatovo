@@ -13,7 +13,9 @@ export const MessageAttachment = ({ attachment, isOwn }: MessageAttachmentProps)
   const { url, name, size, mime } = attachment;
 
   const handleOpen = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (!isTauri()) return;
+    if (!isTauri()) {
+      return;
+    }
 
     event.preventDefault();
     openUrl(url);

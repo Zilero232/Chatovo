@@ -16,7 +16,9 @@ const AVATAR_COLORS = [
 export const getInitials = (name: string): string => {
   const trimmed = name.trim();
 
-  if (isEmpty(trimmed)) return '?';
+  if (isEmpty(trimmed)) {
+    return '?';
+  }
 
   return trimmed
     .split(/\s+/)

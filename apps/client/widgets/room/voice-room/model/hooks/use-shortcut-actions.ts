@@ -17,13 +17,17 @@ export const useShortcutActions = () => {
   const enabled = isTauri() && !isNullish(localParticipant);
 
   appBus.useSubscribe('muteToggle', async () => {
-    if (!enabled) return;
+    if (!enabled) {
+      return;
+    }
 
     try {
       const next = !localParticipant.isMicrophoneEnabled;
       await localParticipant.setMicrophoneEnabled(next);
 
-      if (next) appBus.push('micActivated', undefined);
+      if (next) {
+        appBus.push('micActivated', undefined);
+      }
       if (mode === 'pushToTalk' && next) {
         toggleMicStream(localParticipant, false);
       }
@@ -33,10 +37,14 @@ export const useShortcutActions = () => {
   });
 
   appBus.useSubscribe('pttKey', (payload) => {
-    if (!enabled || mode !== 'pushToTalk') return;
+    if (!enabled || mode !== 'pushToTalk') {
+      return;
+    }
 
     if (!localParticipant.isMicrophoneEnabled) {
-      if (payload.phase === 'pressed') toast.info(t('pttBlockedByMute'));
+      if (payload.phase === 'pressed') {
+        toast.info(t('pttBlockedByMute'));
+      }
       return;
     }
 

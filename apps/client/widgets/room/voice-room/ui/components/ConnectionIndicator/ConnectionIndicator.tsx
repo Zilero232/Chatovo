@@ -16,10 +16,18 @@ import { connectionIndicatorStyles as s } from './ConnectionIndicator.styles';
 const BAR_HEIGHTS = [4, 7, 10, 13, 16] as const;
 
 const barsFromRtt = (rtt: number): number => {
-  if (rtt < 50) return 5;
-  if (rtt < 100) return 4;
-  if (rtt < 150) return 3;
-  if (rtt < 250) return 2;
+  if (rtt < 50) {
+    return 5;
+  }
+  if (rtt < 100) {
+    return 4;
+  }
+  if (rtt < 150) {
+    return 3;
+  }
+  if (rtt < 250) {
+    return 2;
+  }
 
   return 1;
 };
@@ -41,7 +49,9 @@ export const ConnectionIndicator = () => {
   const connectionState = useConnectionState();
   const rtt = useConnectionRtt();
 
-  if (connectionState !== ConnectionState.Connected) return null;
+  if (connectionState !== ConnectionState.Connected) {
+    return null;
+  }
 
   const hasRtt = isNonNullish(rtt);
   const bars = hasRtt ? barsFromRtt(rtt) : barsFromQuality(quality);

@@ -12,7 +12,9 @@ export const ChannelsHeader = ({ compact = false }: ChannelsHeaderProps = {}) =>
   const { isAdmin } = useCurrentUser();
 
   if (compact) {
-    if (!isAdmin) return null;
+    if (!isAdmin) {
+      return null;
+    }
 
     return (
       <div className={s.root}>

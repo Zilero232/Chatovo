@@ -16,7 +16,9 @@ export const RoomsPresenceProvider = ({ children }: { children: ReactNode }) => 
 export const useRoomsPresence = () => {
   const value = use();
 
-  if (!value) throw new Error('useRoomsPresence must be used within RoomsPresenceProvider');
+  if (!value) {
+    throw new Error('useRoomsPresence must be used within RoomsPresenceProvider');
+  }
 
   return value.rooms;
 };
@@ -24,7 +26,9 @@ export const useRoomsPresence = () => {
 export const useLobbyOnline = () => {
   const value = use();
 
-  if (!value) throw new Error('useLobbyOnline must be used within RoomsPresenceProvider');
+  if (!value) {
+    throw new Error('useLobbyOnline must be used within RoomsPresenceProvider');
+  }
 
   return value.lobbyOnline;
 };

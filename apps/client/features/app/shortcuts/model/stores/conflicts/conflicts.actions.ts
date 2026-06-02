@@ -3,7 +3,9 @@ import { conflictsStoreApi } from './conflicts.store';
 const add = (hotkey: string) => {
   const current = conflictsStoreApi.get().items;
 
-  if (current.has(hotkey)) return;
+  if (current.has(hotkey)) {
+    return;
+  }
 
   conflictsStoreApi.set({ items: new Set(current).add(hotkey) });
 };
@@ -11,7 +13,9 @@ const add = (hotkey: string) => {
 const remove = (hotkey: string) => {
   const current = conflictsStoreApi.get().items;
 
-  if (!current.has(hotkey)) return;
+  if (!current.has(hotkey)) {
+    return;
+  }
 
   const next = new Set(current);
   next.delete(hotkey);
@@ -35,7 +39,9 @@ const keep = (hotkeys: Iterable<string>) => {
     }
   }
 
-  if (!changed) return;
+  if (!changed) {
+    return;
+  }
 
   conflictsStoreApi.set({ items: next });
 };

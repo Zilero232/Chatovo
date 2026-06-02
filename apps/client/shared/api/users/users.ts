@@ -13,7 +13,9 @@ export const getUserProfile = async (id: string): Promise<UserProfile> => {
 
     return await res.json();
   } catch (error) {
-    if (error instanceof Error) throw error;
+    if (error instanceof Error) {
+      throw error;
+    }
 
     throw new Error('Failed to get user profile');
   }

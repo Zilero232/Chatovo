@@ -8,13 +8,17 @@ export const usePointerParallax = <T extends HTMLElement>() => {
   const frameRef = useRef<number | null>(null);
 
   useMouse<T>(({ clientX, clientY }) => {
-    if (frameRef.current !== null) return;
+    if (frameRef.current !== null) {
+      return;
+    }
 
     frameRef.current = requestAnimationFrame(() => {
       frameRef.current = null;
 
       const node = ref.current;
-      if (!node) return;
+      if (!node) {
+        return;
+      }
 
       const x = clientX / window.innerWidth - 0.5;
       const y = clientY / window.innerHeight - 0.5;

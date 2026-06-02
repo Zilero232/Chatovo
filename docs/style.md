@@ -403,6 +403,27 @@ const readRole = (user: User | null): UserRole =>
 
 **Правило для review:** если стрелка справа от `=` (объявление функции) — block body. Если стрелка внутри `(...)` или `{...}` (аргумент) — на усмотрение, обычно expression.
 
+### 9.5 `if` / `else` — всегда с фигурными скобками
+
+**Тело `if`, `else if`, `else` всегда в `{}`, даже на одну строку.** Однострочный `if (cond) doThing();` запрещён: добавление второго стейтмента в ветку не требует переписывать структуру, диффы чище, нет ловушки «забыл скобки». Enforced биомом (`style/useBlockStatements`, `error`) — `bun lint:fix` чинит автоматически.
+
+```ts
+// ✓ ОК
+if (!isTauri()) {
+  return;
+}
+
+if (isManual) {
+  toast.success(t('upToDate'));
+}
+
+// ✗ НЕ ОК
+if (!isTauri()) return;
+if (isManual) toast.success(t('upToDate'));
+```
+
+Тернарник для возврата значения — по-прежнему ОК (это выражение, не стейтмент): `return a ? b : c;`.
+
 ---
 
 ## 10. React-конвенции

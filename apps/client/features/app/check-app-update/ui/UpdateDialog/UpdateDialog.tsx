@@ -45,19 +45,27 @@ export const UpdateDialog = ({
     <Dialog
       open={open}
       onOpenChange={(next) => {
-        if (!next && !isBusy) onDismiss();
+        if (!next && !isBusy) {
+          onDismiss();
+        }
       }}
     >
       <DialogContent
         showCloseButton={!isBusy}
         onEscapeKeyDown={(event) => {
-          if (isBusy) event.preventDefault();
+          if (isBusy) {
+            event.preventDefault();
+          }
         }}
         onPointerDownOutside={(event) => {
-          if (isBusy) event.preventDefault();
+          if (isBusy) {
+            event.preventDefault();
+          }
         }}
         onInteractOutside={(event) => {
-          if (isBusy) event.preventDefault();
+          if (isBusy) {
+            event.preventDefault();
+          }
         }}
       >
         <DialogHeader>

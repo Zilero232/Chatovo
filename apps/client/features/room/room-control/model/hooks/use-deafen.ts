@@ -24,15 +24,21 @@ export const useDeafen = () => {
   };
 
   const disableDeafen = async (p: LocalParticipant) => {
-    if (!micBeforeDeafen.current) return;
+    if (!micBeforeDeafen.current) {
+      return;
+    }
 
     await p.setMicrophoneEnabled(true);
 
-    if (isPtt) toggleMicStream(p, false);
+    if (isPtt) {
+      toggleMicStream(p, false);
+    }
   };
 
   const setDeafened = async (next: boolean) => {
-    if (isNullish(localParticipant)) return;
+    if (isNullish(localParticipant)) {
+      return;
+    }
 
     setIsDeafened(next);
     reportPresenceState({ roomId: room.name, deafened: next });

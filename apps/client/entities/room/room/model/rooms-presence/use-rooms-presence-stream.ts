@@ -25,7 +25,9 @@ export const useRoomsPresenceStream = (enabled: boolean) => {
       try {
         const next = await buildPresenceStreamUrl();
 
-        if (!cancelled) setUrl(next);
+        if (!cancelled) {
+          setUrl(next);
+        }
       } catch {}
     })();
 
@@ -39,7 +41,9 @@ export const useRoomsPresenceStream = (enabled: boolean) => {
     retry: true,
   });
 
-  if (!isString(data)) return EMPTY;
+  if (!isString(data)) {
+    return EMPTY;
+  }
 
   const parsed = roomsParticipantsSnapshotSchema.safeParse(safeJsonParse(data));
 

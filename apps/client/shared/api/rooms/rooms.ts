@@ -5,11 +5,15 @@ export const listRooms = async (): Promise<Room[]> => {
   try {
     const res = await api.rooms.$get();
 
-    if (!res.ok) throw new Error(`Failed to list rooms: ${res.status}`);
+    if (!res.ok) {
+      throw new Error(`Failed to list rooms: ${res.status}`);
+    }
 
     return await res.json();
   } catch (error) {
-    if (error instanceof Error) throw error;
+    if (error instanceof Error) {
+      throw error;
+    }
 
     throw new Error('Failed to list rooms');
   }
@@ -27,7 +31,9 @@ export const createRoom = async (input: CreateRoomRequest): Promise<Room> => {
 
     return await res.json();
   } catch (error) {
-    if (error instanceof Error) throw error;
+    if (error instanceof Error) {
+      throw error;
+    }
 
     throw new Error('Failed to create room');
   }
@@ -45,7 +51,9 @@ export const getRoom = async (id: string): Promise<Room> => {
 
     return await res.json();
   } catch (error) {
-    if (error instanceof Error) throw error;
+    if (error instanceof Error) {
+      throw error;
+    }
 
     throw new Error('Failed to get room');
   }
@@ -63,7 +71,9 @@ export const updateRoom = async (id: string, input: UpdateRoomRequest): Promise<
 
     return await res.json();
   } catch (error) {
-    if (error instanceof Error) throw error;
+    if (error instanceof Error) {
+      throw error;
+    }
 
     throw new Error('Failed to update room');
   }
@@ -79,7 +89,9 @@ export const deleteRoom = async (id: string): Promise<void> => {
       throw new Error(message ?? `Failed to delete room: ${res.status}`);
     }
   } catch (error) {
-    if (error instanceof Error) throw error;
+    if (error instanceof Error) {
+      throw error;
+    }
 
     throw new Error('Failed to delete room');
   }

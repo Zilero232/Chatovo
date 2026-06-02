@@ -53,7 +53,9 @@ export const useShortcutRecording = ({ actionId, allBindings, onPatch }: Options
 
   useEffect(() => {
     return () => {
-      if (isTauri() && isTornDownRef.current) syncShortcuts(bindingsRef.current);
+      if (isTauri() && isTornDownRef.current) {
+        syncShortcuts(bindingsRef.current);
+      }
     };
   }, []);
 
@@ -64,12 +66,18 @@ export const useShortcutRecording = ({ actionId, allBindings, onPatch }: Options
       e.preventDefault();
       e.stopPropagation();
 
-      if (e.key === 'Escape') return cancel();
+      if (e.key === 'Escape') {
+        return cancel();
+      }
 
-      if (isPureModifier(e.key)) return;
+      if (isPureModifier(e.key)) {
+        return;
+      }
 
       const hotkey = formatHotkey(e);
-      if (!hotkey) return;
+      if (!hotkey) {
+        return;
+      }
 
       if (!hasModifier(hotkey)) {
         toast.error(t('errors.needsModifier'));

@@ -21,7 +21,9 @@ const readPort = () => {
     const raw = readFileSync(envPath, 'utf8');
     const match = raw.match(/^\s*PORT\s*=\s*(\d+)\s*$/m);
 
-    if (match) return Number(match[1]);
+    if (match) {
+      return Number(match[1]);
+    }
   } catch {
     // .env may not exist on a fresh checkout — fall through to default
   }
@@ -46,7 +48,9 @@ const killWindows = (port) => {
   const pids = new Set();
 
   for (const match of out.matchAll(pattern)) {
-    if (!protect.has(match[1])) pids.add(match[1]);
+    if (!protect.has(match[1])) {
+      pids.add(match[1]);
+    }
   }
 
   for (const pid of pids) {
@@ -58,7 +62,9 @@ const killWindows = (port) => {
 
 const killUnix = (port) => {
   const out = spawnSync('lsof', ['-ti', `tcp:${port}`], { encoding: 'utf8' });
-  if (out.status !== 0) return;
+  if (out.status !== 0) {
+    return;
+  }
 
   const pids = out.stdout
     .split('\n')
@@ -74,5 +80,8 @@ const killUnix = (port) => {
 
 const port = readPort();
 
-if (platform() === 'win32') killWindows(port);
-else killUnix(port);
+if (platform() === 'win32') {
+  killWindows(port);
+} else {
+  killUnix(port);
+}

@@ -17,9 +17,13 @@ export const useGoogleAuth = () => {
         errorCallbackURL: `${window.location.origin}${ROUTES.auth}`,
       });
 
-      if (error) throw new Error(error.message ?? 'Google sign-in failed');
+      if (error) {
+        throw new Error(error.message ?? 'Google sign-in failed');
+      }
 
-      if (desktop && data?.url) await openUrl(data.url);
+      if (desktop && data?.url) {
+        await openUrl(data.url);
+      }
     },
   });
 };

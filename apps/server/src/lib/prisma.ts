@@ -46,7 +46,9 @@ const createClient = () => {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
               const mapped = mapPrismaError(error, model);
 
-              if (mapped) throw mapped;
+              if (mapped) {
+                throw mapped;
+              }
             }
 
             throw error;
@@ -62,4 +64,6 @@ const globalForPrisma = globalThis as unknown as GlobalForPrisma;
 
 export const prisma = globalForPrisma.prisma ?? createClient();
 
-if (env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+if (env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = prisma;
+}

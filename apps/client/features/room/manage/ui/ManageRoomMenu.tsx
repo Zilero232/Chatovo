@@ -26,7 +26,9 @@ export const ManageRoomMenu = ({ room, className }: ManageRoomMenuProps) => {
 
   const isOwner = user?.id === room.ownerId;
 
-  if (!isOwner) return null;
+  if (!isOwner) {
+    return null;
+  }
 
   return (
     <>

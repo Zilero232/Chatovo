@@ -21,7 +21,9 @@ export const AvatarField = ({ name, src, onPick, onRemove }: AvatarFieldProps) =
     (files) => {
       const file = files?.[0];
 
-      if (!file) return;
+      if (!file) {
+        return;
+      }
 
       if (!file.type.startsWith('image/')) {
         toast.error(t('avatarInvalidType'));

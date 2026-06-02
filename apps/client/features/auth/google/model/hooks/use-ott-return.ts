@@ -31,7 +31,9 @@ export const useOttReturn = () => {
     let cancelled = false;
 
     const complete = async (ott: string) => {
-      if (consumed.current) return;
+      if (consumed.current) {
+        return;
+      }
 
       consumed.current = true;
 
@@ -39,7 +41,9 @@ export const useOttReturn = () => {
         await exchangeOtt(ott);
         await refetch();
       } catch (error) {
-        if (!cancelled) toast.error(error instanceof Error ? error.message : 'Sign-in failed');
+        if (!cancelled) {
+          toast.error(error instanceof Error ? error.message : 'Sign-in failed');
+        }
       }
     };
 
@@ -52,13 +56,17 @@ export const useOttReturn = () => {
       return;
     }
 
-    if (!isTauri()) return;
+    if (!isTauri()) {
+      return;
+    }
 
     const unlistenPromise = onOpenUrl((urls) => {
       const url = urls.find((u) => u.startsWith('chatovo://auth'));
       const ott = url ? readOtt(url) : null;
 
-      if (ott) complete(ott);
+      if (ott) {
+        complete(ott);
+      }
     });
 
     return () => {

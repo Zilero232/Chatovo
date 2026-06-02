@@ -63,7 +63,9 @@ export const routes = app
 // Single place that turns thrown errors into HTTP responses. HTTPExceptions
 // carry their own status; anything else is an unexpected failure -> 500.
 app.onError((error, c) => {
-  if (error instanceof HTTPException) return c.json({ error: error.message }, error.status);
+  if (error instanceof HTTPException) {
+    return c.json({ error: error.message }, error.status);
+  }
 
   return c.json({ error: 'Internal server error' }, 500);
 });

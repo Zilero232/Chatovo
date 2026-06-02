@@ -29,10 +29,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: redirect must fire only on target change; router is a stable ref
   useEffect(() => {
-    if (target) router.replace(target);
+    if (target) {
+      router.replace(target);
+    }
   }, [target]);
 
-  if (isLoading || target) return <AppSplash message={t('signingIn')} />;
+  if (isLoading || target) {
+    return <AppSplash message={t('signingIn')} />;
+  }
 
   return children;
 };

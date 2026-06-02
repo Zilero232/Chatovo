@@ -17,13 +17,17 @@ export const RoomTrayController = () => {
   const active = isTauri() && !isNullish(localParticipant);
 
   appBus.useSubscribe('trayMuteToggle', async () => {
-    if (!active) return;
+    if (!active) {
+      return;
+    }
 
     try {
       const next = !localParticipant.isMicrophoneEnabled;
       await localParticipant.setMicrophoneEnabled(next);
 
-      if (next) appBus.push('micActivated', undefined);
+      if (next) {
+        appBus.push('micActivated', undefined);
+      }
       if (isPtt && next) {
         toggleMicStream(localParticipant, false);
       }
@@ -33,7 +37,9 @@ export const RoomTrayController = () => {
   });
 
   useEffect(() => {
-    if (isNullish(muteItem)) return;
+    if (isNullish(muteItem)) {
+      return;
+    }
 
     const next = isPtt ? false : !isMicrophoneEnabled;
 

@@ -18,7 +18,9 @@ export const useWindowControls = () => {
   const [isMaximized, setIsMaximized] = useState(false);
 
   useEffect(() => {
-    if (!isTauri()) return;
+    if (!isTauri()) {
+      return;
+    }
 
     let unlisten: (() => void) | undefined;
 

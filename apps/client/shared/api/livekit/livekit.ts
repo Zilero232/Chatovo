@@ -13,7 +13,9 @@ export const fetchLiveKitToken = async (body: TokenRequest): Promise<TokenRespon
 
     return await res.json();
   } catch (error) {
-    if (error instanceof Error) throw error;
+    if (error instanceof Error) {
+      throw error;
+    }
 
     throw new Error('LiveKit token failed');
   }
@@ -29,7 +31,9 @@ export const reportPresenceState = async (body: PresenceStateRequest): Promise<v
       throw new Error(message ?? `presence-state failed: ${res.status}`);
     }
   } catch (error) {
-    if (error instanceof Error) throw error;
+    if (error instanceof Error) {
+      throw error;
+    }
 
     throw new Error('presence-state failed');
   }

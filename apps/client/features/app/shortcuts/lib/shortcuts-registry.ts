@@ -37,7 +37,9 @@ export const syncShortcuts = async (actionToHotkey: ActionToHotkey) => {
       const actions = actionsByHotkey[hotkey];
 
       await register(hotkey, ({ state }) => {
-        for (const action of actions) dispatchShortcut(action, state);
+        for (const action of actions) {
+          dispatchShortcut(action, state);
+        }
       });
 
       activeHotkeys.add(hotkey);

@@ -45,7 +45,9 @@ const TooltipContent = ({
 }: React.ComponentProps<typeof TooltipPrimitive.Content>) => {
   const isTouch = useMediaQuery('(hover: none), (pointer: coarse)');
 
-  if (isTouch) return null;
+  if (isTouch) {
+    return null;
+  }
 
   return (
     <TooltipPrimitive.Portal>

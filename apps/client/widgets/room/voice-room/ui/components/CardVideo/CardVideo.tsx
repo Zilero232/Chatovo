@@ -26,7 +26,9 @@ export const CardVideo = ({ trackRef }: CardVideoProps) => {
     }
   };
 
-  if (muted) return null;
+  if (muted) {
+    return null;
+  }
 
   return (
     // biome-ignore lint/a11y/useSemanticElements: <button> cannot wrap a <video>; div + role=button is the valid composite

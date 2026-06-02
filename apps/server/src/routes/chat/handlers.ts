@@ -13,7 +13,9 @@ import type { listMessagesRoute, sendMessageRoute, uploadAttachmentRoute } from 
 const assertRoomExists = async (roomId: string): Promise<void> => {
   const room = await prisma.room.findUnique({ where: { id: roomId }, select: { id: true } });
 
-  if (isNullish(room)) throw new HTTPException(404, { message: 'Room not found' });
+  if (isNullish(room)) {
+    throw new HTTPException(404, { message: 'Room not found' });
+  }
 };
 
 export const uploadAttachmentHandler: RouteHandler<typeof uploadAttachmentRoute, Env> = async (
@@ -22,8 +24,12 @@ export const uploadAttachmentHandler: RouteHandler<typeof uploadAttachmentRoute,
   const { roomId, file } = c.req.valid('form');
   const { size, type, name } = file;
 
-  if (size === 0) throw new HTTPException(400, { message: 'Empty file' });
-  if (size > ATTACHMENT_MAX_BYTES) throw new HTTPException(400, { message: 'File too large' });
+  if (size === 0) {
+    throw new HTTPException(400, { message: 'Empty file' });
+  }
+  if (size > ATTACHMENT_MAX_BYTES) {
+    throw new HTTPException(400, { message: 'File too large' });
+  }
 
   await assertRoomExists(roomId);
 

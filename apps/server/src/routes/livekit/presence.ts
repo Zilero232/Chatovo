@@ -41,7 +41,9 @@ const buildSnapshot = (): RoomsParticipantsSnapshot => {
   const result: RoomsParticipantsSnapshot['rooms'] = {};
 
   for (const [roomId, participants] of rooms) {
-    if (participants.size > 0) result[roomId] = [...participants.values()];
+    if (participants.size > 0) {
+      result[roomId] = [...participants.values()];
+    }
   }
 
   return { rooms: result, lobbyOnline: lobbyConnections.size };
@@ -53,13 +55,17 @@ export const addLobbyConnection = (userId: string) => {
 
   lobbyConnections.set(userId, current + 1);
 
-  if (isNewUser) emit();
+  if (isNewUser) {
+    emit();
+  }
 };
 
 export const removeLobbyConnection = (userId: string) => {
   const current = lobbyConnections.get(userId);
 
-  if (!current) return;
+  if (!current) {
+    return;
+  }
 
   if (current <= 1) {
     lobbyConnections.delete(userId);
@@ -74,7 +80,9 @@ export const removeLobbyConnection = (userId: string) => {
 const emit = () => {
   const snapshot = buildSnapshot();
 
-  for (const listener of listeners) listener(snapshot);
+  for (const listener of listeners) {
+    listener(snapshot);
+  }
 };
 
 export const getSnapshot = buildSnapshot;
@@ -108,11 +116,15 @@ export const patchParticipant = (roomId: string, identity: string, patch: Partic
   const participants = rooms.get(roomId);
   const current = participants?.get(identity);
 
-  if (!participants || !current) return;
+  if (!participants || !current) {
+    return;
+  }
 
   const next = { ...current, ...patch };
 
-  if (next.micMuted === current.micMuted && next.deafened === current.deafened) return;
+  if (next.micMuted === current.micMuted && next.deafened === current.deafened) {
+    return;
+  }
 
   participants.set(identity, next);
 
@@ -122,17 +134,23 @@ export const patchParticipant = (roomId: string, identity: string, patch: Partic
 export const removeParticipant = (roomId: string, identity: string) => {
   const participants = rooms.get(roomId);
 
-  if (!participants) return;
+  if (!participants) {
+    return;
+  }
 
   participants.delete(identity);
 
-  if (participants.size === 0) rooms.delete(roomId);
+  if (participants.size === 0) {
+    rooms.delete(roomId);
+  }
 
   emit();
 };
 
 export const clearRoom = (roomId: string) => {
-  if (rooms.delete(roomId)) emit();
+  if (rooms.delete(roomId)) {
+    emit();
+  }
 };
 
 const toRoomParticipant = (p: ParticipantInfo): RoomParticipant => {
@@ -154,8 +172,11 @@ export const syncRoom = async (roomId: string) => {
       live.map((p) => [p.identity, toRoomParticipant(p)]),
     );
 
-    if (participants.size > 0) rooms.set(roomId, participants);
-    else rooms.delete(roomId);
+    if (participants.size > 0) {
+      rooms.set(roomId, participants);
+    } else {
+      rooms.delete(roomId);
+    }
   } catch {
     rooms.delete(roomId);
   }

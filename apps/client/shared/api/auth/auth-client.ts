@@ -4,13 +4,17 @@ import { env } from '@/shared/config';
 import { STORAGE_KEYS } from '@/shared/constants';
 
 export const getAuthToken = (): string => {
-  if (typeof window === 'undefined') return '';
+  if (typeof window === 'undefined') {
+    return '';
+  }
 
   return window.localStorage.getItem(STORAGE_KEYS.authToken) ?? '';
 };
 
 export const clearToken = (): void => {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined') {
+    return;
+  }
 
   window.localStorage.removeItem(STORAGE_KEYS.authToken);
 };
