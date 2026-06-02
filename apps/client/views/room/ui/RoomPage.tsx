@@ -1,22 +1,23 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { isNonNullish } from 'remeda';
 import { toast } from 'sonner';
 import { match, P } from 'ts-pattern';
-import { useRoomById, useRoomId, useRoomToken } from '@/entities/room/room';
+import { useRoomById, useRoomToken } from '@/entities/room/room';
 import { env } from '@/shared/config';
 import { ROUTES } from '@/shared/constants';
 import { VoiceRoom } from '@/widgets/room/voice-room';
 import { RoomConnecting, RoomLoadingFallback, RoomNotFound, RoomPasswordForm } from './components';
 
 export const RoomPage = () => {
+  const router = useRouter();
+  const params = useSearchParams();
   const t = useTranslations('room');
 
-  const router = useRouter();
-  const roomId = useRoomId();
+  const roomId = params.get('id');
 
   const { room, isLoading, displayName, isPrivate } = useRoomById(roomId);
 

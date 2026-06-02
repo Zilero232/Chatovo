@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_APP_VERSION: rootPackage.version,
   },
-  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
+  output: 'export',
   reactCompiler: true,
   images: {
     unoptimized: true,
