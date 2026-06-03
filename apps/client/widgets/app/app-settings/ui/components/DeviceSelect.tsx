@@ -4,6 +4,7 @@ import { useMediaDeviceSelect } from '@livekit/components-react';
 import { ChevronDownIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { isEmpty } from 'remeda';
+import { KIND_TO_SLOT, useAppSettings } from '@/entities/app/settings';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,8 +12,6 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@/shared/ui';
-import { KIND_TO_SLOT } from '../../config/config';
-import { useAppSettings } from '../../model/hooks';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 
 type DeviceSelectProps = {

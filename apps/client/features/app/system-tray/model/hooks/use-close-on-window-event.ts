@@ -3,8 +3,8 @@
 import { isTauri } from '@tauri-apps/api/core';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { useEffect, useRef } from 'react';
+import { useAppSettings } from '@/entities/app/settings';
 import { hideMainWindow } from '@/shared/lib';
-import { useAppSettings } from '@/widgets/app/app-settings';
 
 export const useCloseOnWindowEvent = () => {
   const { settings } = useAppSettings();

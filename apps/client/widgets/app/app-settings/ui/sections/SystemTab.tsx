@@ -1,8 +1,8 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useAppSettings } from '@/entities/app/settings';
 import { Switch } from '@/shared/ui';
-import { useAppSettings } from '../../model/hooks';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 import { SettingRow } from '../components/SettingRow';
 

@@ -1,9 +1,8 @@
 import { HTTPException } from 'hono/http-exception';
 import { StatusCodes } from 'http-status-codes';
-import { isNonNullish, isNullish } from 'remeda';
-import { prisma } from '../../core';
+import { isNullish } from 'remeda';
+import { createRoom, deleteRoom, getRoom, listRooms, updateRoom } from './rooms.service';
 import type { RouteHandler } from '@hono/zod-openapi';
-import type { Prisma } from '../../../generated';
 import type { Env } from '../../shared/types';
 import type {
   createRoomRoute,
@@ -13,117 +12,39 @@ import type {
   updateRoomRoute,
 } from './routes';
 
-const roomSelect = {
-  id: true,
-  name: true,
-  isPrivate: true,
-  ownerId: true,
-} satisfies Prisma.RoomSelect;
-
 export const listRoomsHandler: RouteHandler<typeof listRoomsRoute, Env> = async (c) => {
-  const rooms = await prisma.room.findMany({
-    orderBy: { createdAt: 'desc' },
-    select: roomSelect,
-  });
-
-  return c.json(rooms, StatusCodes.OK);
+  return c.json(await listRooms(), StatusCodes.OK);
 };
 
 export const getRoomHandler: RouteHandler<typeof getRoomRoute, Env> = async (c) => {
   const { id } = c.req.valid('param');
 
-  const room = await prisma.room.findUnique({
-    where: { id },
-    select: roomSelect,
-  });
+  const room = await getRoom(id);
 
   if (isNullish(room)) {
-    return c.json({ error: 'Room not found' }, StatusCodes.NOT_FOUND);
+    throw new HTTPException(StatusCodes.NOT_FOUND, { message: 'Room not found' });
   }
 
   return c.json(room, StatusCodes.OK);
 };
 
 export const createRoomHandler: RouteHandler<typeof createRoomRoute, Env> = async (c) => {
-  const { isPrivate, name, password } = c.req.valid('json');
-  const ownerId = c.get('userId');
-
-  // Public rooms never carry a password — drop whatever the client sent.
-  const storedPassword = isPrivate ? (password ?? null) : null;
-
-  const room = await prisma.room.create({
-    data: { name, isPrivate, password: storedPassword, ownerId },
-    select: roomSelect,
-  });
+  const room = await createRoom(c.req.valid('json'), c.get('userId'));
 
   return c.json(room, StatusCodes.CREATED);
 };
 
-// Only the owner may rename, change password, or flip privacy.
-const assertCanManage = async (roomId: string, userId: string) => {
-  const room = await prisma.room.findUnique({
-    where: { id: roomId },
-    select: { ownerId: true, isPrivate: true, password: true },
-  });
-
-  if (isNullish(room)) {
-    throw new HTTPException(StatusCodes.NOT_FOUND, { message: 'Room not found' });
-  }
-  if (room.ownerId !== userId) {
-    throw new HTTPException(StatusCodes.FORBIDDEN, { message: 'Forbidden' });
-  }
-
-  return room;
-};
-
 export const updateRoomHandler: RouteHandler<typeof updateRoomRoute, Env> = async (c) => {
   const { id } = c.req.valid('param');
-  const body = c.req.valid('json');
-  const userId = c.get('userId');
-
-  const current = await assertCanManage(id, userId);
-
-  // Privacy and password are coupled:
-  //   - turning private OFF clears the stored password so joins skip the check
-  //   - a new password replaces the stored one when room stays/becomes private
-  //   - keeping isPrivate true without a new password leaves the existing one
-  const data: Prisma.RoomUpdateInput = {};
-
-  if (isNonNullish(body.name)) {
-    data.name = body.name;
-  }
-
-  if (isNonNullish(body.isPrivate)) {
-    data.isPrivate = body.isPrivate;
-
-    if (body.isPrivate === false) {
-      data.password = null;
-    }
-  }
-
-  if (isNonNullish(body.password)) {
-    const willBePrivate = body.isPrivate ?? current.isPrivate;
-
-    if (willBePrivate) {
-      data.password = body.password;
-    }
-  }
-
-  const room = await prisma.room.update({
-    where: { id },
-    data,
-    select: roomSelect,
-  });
+  const room = await updateRoom(id, c.req.valid('json'), c.get('userId'));
 
   return c.json(room, StatusCodes.OK);
 };
 
 export const deleteRoomHandler: RouteHandler<typeof deleteRoomRoute, Env> = async (c) => {
   const { id } = c.req.valid('param');
-  const userId = c.get('userId');
 
-  await assertCanManage(id, userId);
-  await prisma.room.delete({ where: { id } });
+  await deleteRoom(id, c.get('userId'));
 
   return c.body(null, 204);
 };

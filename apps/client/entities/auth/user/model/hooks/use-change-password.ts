@@ -1,21 +1,11 @@
 'use client';
 
+import { type ChangePasswordValues, changePasswordSchema } from '@chatovo/schemas';
 import { useMutation } from '@tanstack/react-query';
-import { z } from 'zod';
 import { authClient } from '@/shared/api';
 
-export const changePasswordSchema = z
-  .object({
-    currentPassword: z.string().min(1, 'validation.required'),
-    newPassword: z.string().min(8, 'validation.passwordMin'),
-    confirmPassword: z.string(),
-  })
-  .refine((values) => values.newPassword === values.confirmPassword, {
-    message: 'validation.passwordsMismatch',
-    path: ['confirmPassword'],
-  });
-
-export type ChangePasswordValues = z.infer<typeof changePasswordSchema>;
+export type { ChangePasswordValues };
+export { changePasswordSchema };
 
 export const useChangePassword = () => {
   return useMutation({

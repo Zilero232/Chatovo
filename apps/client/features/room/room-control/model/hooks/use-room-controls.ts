@@ -3,8 +3,8 @@
 import { useLocalParticipant, useRoomContext } from '@livekit/components-react';
 import { isTauri } from '@tauri-apps/api/core';
 import { isNullish } from 'remeda';
+import { useAppSettings } from '@/entities/app/settings';
 import { prettyHotkey, toggleMicStream } from '@/shared/lib';
-import { useAppSettings } from '@/widgets/app/app-settings';
 import { resolveMicVisual } from '../../lib/mic-visual';
 import { useDeafen } from './use-deafen';
 import { usePttActive } from './use-ptt-active';

@@ -3,7 +3,7 @@
 import { useLocalParticipant } from '@livekit/components-react';
 import { useEffect, useRef } from 'react';
 import { isNullish, last } from 'remeda';
-import { appBus } from '@/shared/lib';
+import { appEvents } from '@/shared/lib';
 import { useRoomChat } from '../contexts';
 
 export const useChatMessageSound = () => {
@@ -34,6 +34,6 @@ export const useChatMessageSound = () => {
       return;
     }
 
-    appBus.push('chatMessage', undefined);
+    appEvents.emit.chatMessage();
   }, [chatMessages, localParticipant.identity]);
 };

@@ -2,7 +2,6 @@
 
 import { format } from 'date-fns';
 import { useTranslations } from 'next-intl';
-import { match, P } from 'ts-pattern';
 import { useDateLocale } from '@/entities/app/locale';
 import {
   Button,
@@ -12,10 +11,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  Progress,
 } from '@/shared/ui';
 import { parseTauriDate } from '../../lib/parse-tauri-date';
 import { updateDialogStyles as s } from './UpdateDialog.styles';
+import { UpdateProgress } from './UpdateProgress';
 import type { UpdateDialogProps } from './UpdateDialog.types';
 
 export const UpdateDialog = ({
@@ -41,6 +40,12 @@ export const UpdateDialog = ({
 
   const releaseDate = parsedDate ? format(parsedDate, 'd MMM yyyy', { locale: dateLocale }) : date;
 
+  const preventWhenBusy = (event: { preventDefault: () => void }) => {
+    if (isBusy) {
+      event.preventDefault();
+    }
+  };
+
   return (
     <Dialog
       open={open}
@@ -52,21 +57,9 @@ export const UpdateDialog = ({
     >
       <DialogContent
         showCloseButton={!isBusy}
-        onEscapeKeyDown={(event) => {
-          if (isBusy) {
-            event.preventDefault();
-          }
-        }}
-        onPointerDownOutside={(event) => {
-          if (isBusy) {
-            event.preventDefault();
-          }
-        }}
-        onInteractOutside={(event) => {
-          if (isBusy) {
-            event.preventDefault();
-          }
-        }}
+        onEscapeKeyDown={preventWhenBusy}
+        onPointerDownOutside={preventWhenBusy}
+        onInteractOutside={preventWhenBusy}
       >
         <DialogHeader>
           <DialogTitle>{t('title')}</DialogTitle>
@@ -84,22 +77,7 @@ export const UpdateDialog = ({
           {releaseDate && <span>{t('releasedOn', { date: releaseDate })}</span>}
         </div>
 
-        {match(status)
-          .with(P.union('downloading', 'installing'), (current) => (
-            <div className={s.progressWrap}>
-              <Progress value={current === 'installing' ? 100 : progress} />
-
-              <div className={s.progressLabel}>
-                <span>
-                  {current === 'installing'
-                    ? t('installing')
-                    : t('downloading', { percent: progress })}
-                </span>
-              </div>
-            </div>
-          ))
-          .with('error', () => <p className={s.error}>{t('failed')}</p>)
-          .otherwise(() => null)}
+        <UpdateProgress status={status} progress={progress} />
 
         {!isBusy && (
           <DialogFooter>

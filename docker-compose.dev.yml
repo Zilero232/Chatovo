@@ -46,6 +46,22 @@ services:
       retries: 5
       start_period: 30s
 
+  mailpit:
+    # Local SMTP sink for `bun dev`. Catches every outgoing email instead of
+    # delivering it — useful because many ISPs block outbound SMTP ports
+    # (25/465/587), and you can read the rendered messages in a web UI.
+    # The API runs on the host and connects to localhost:1025 (no TLS, no auth):
+    #   SMTP_HOST=localhost SMTP_PORT=1025 SMTP_SECURE=false
+    # Inbox UI: http://localhost:8025
+    image: axllent/mailpit:latest
+    container_name: chatovo-mailpit-dev
+    ports:
+      - "1025:1025" # SMTP
+      - "8025:8025" # Web UI
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: "true"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "true"
+
   livekit:
     image: livekit/livekit-server:v1.12.0
     container_name: chatovo-livekit-dev

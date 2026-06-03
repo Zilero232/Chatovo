@@ -12,9 +12,10 @@ import {
   useCurrentUser,
   useUpdateProfile,
 } from '@/entities/auth/user';
-import { Button, Input, Label, Textarea } from '@/shared/ui';
+import { Button } from '@/shared/ui';
 import { useAvatarDraft } from '../../model/hooks';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import { ProfileTextField } from '../components/ProfileTextField';
 import { AvatarField } from '../fields/AvatarField';
 import { BannerColorField } from '../fields/BannerColorField';
 
@@ -70,58 +71,36 @@ export const ProfileTab = () => {
           onRemove={avatar.remove}
         />
 
-        <div className={s.profileField}>
-          <Label className={s.profileLabel} htmlFor="profile-display-name">
-            {t('displayNameLabel')}
-          </Label>
+        <ProfileTextField
+          id="profile-display-name"
+          label={t('displayNameLabel')}
+          hint={t('displayNameHint')}
+          error={errors.displayName && fieldError(errors.displayName)}
+          registration={register('displayName')}
+          autoComplete="name"
+        />
 
-          <Input autoComplete="name" id="profile-display-name" {...register('displayName')} />
+        <ProfileTextField
+          id="profile-url"
+          label={t('profileUrlLabel')}
+          hint={t('profileUrlHint')}
+          error={errors.profileUrl && fieldError(errors.profileUrl)}
+          registration={register('profileUrl')}
+          autoComplete="url"
+          placeholder={t('profileUrlPlaceholder')}
+          type="url"
+        />
 
-          {errors.displayName ? (
-            <p className={s.profileError}>{fieldError(errors.displayName)}</p>
-          ) : (
-            <p className={s.profileHint}>{t('displayNameHint')}</p>
-          )}
-        </div>
-
-        <div className={s.profileField}>
-          <Label className={s.profileLabel} htmlFor="profile-url">
-            {t('profileUrlLabel')}
-          </Label>
-
-          <Input
-            autoComplete="url"
-            id="profile-url"
-            placeholder={t('profileUrlPlaceholder')}
-            type="url"
-            {...register('profileUrl')}
-          />
-
-          {errors.profileUrl ? (
-            <p className={s.profileError}>{fieldError(errors.profileUrl)}</p>
-          ) : (
-            <p className={s.profileHint}>{t('profileUrlHint')}</p>
-          )}
-        </div>
-
-        <div className={s.profileField}>
-          <Label className={s.profileLabel} htmlFor="profile-bio">
-            {t('bioLabel')}
-          </Label>
-
-          <Textarea
-            id="profile-bio"
-            placeholder={t('bioPlaceholder')}
-            rows={3}
-            {...register('bio')}
-          />
-
-          {errors.bio ? (
-            <p className={s.profileError}>{fieldError(errors.bio)}</p>
-          ) : (
-            <p className={s.profileHint}>{t('bioHint')}</p>
-          )}
-        </div>
+        <ProfileTextField
+          id="profile-bio"
+          label={t('bioLabel')}
+          hint={t('bioHint')}
+          error={errors.bio && fieldError(errors.bio)}
+          registration={register('bio')}
+          placeholder={t('bioPlaceholder')}
+          rows={3}
+          multiline
+        />
 
         <Controller
           control={control}

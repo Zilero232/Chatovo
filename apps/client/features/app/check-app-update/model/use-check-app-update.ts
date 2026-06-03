@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import { clamp } from 'remeda';
 import { toast } from 'sonner';
 import { match } from 'ts-pattern';
-import { appBus, raceWithTimeout } from '@/shared/lib';
+import { appEvents, raceWithTimeout } from '@/shared/lib';
 import { APP_UPDATE_CONFIG } from '../config/config';
 import type { Update } from '@tauri-apps/plugin-updater';
 import type { UpdateInfo } from './types';
@@ -116,7 +116,7 @@ export const useCheckAppUpdate = () => {
         }
       } finally {
         if (isManualRef.current) {
-          appBus.push('updateCheckSettled', undefined);
+          appEvents.emit.updateCheckSettled();
         }
 
         isManualRef.current = false;
@@ -130,7 +130,7 @@ export const useCheckAppUpdate = () => {
     };
   }, [recheckTick.value]);
 
-  appBus.useSubscribe('recheckUpdate', () => {
+  appEvents.on.recheckUpdate(() => {
     if (!isTauri()) {
       return;
     }

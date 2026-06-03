@@ -1,16 +1,16 @@
 'use client';
 
-import { appBus } from '@/shared/lib';
+import { appEvents } from '@/shared/lib';
 import { useDeafen } from './use-deafen';
 
 export const useDeafenSync = () => {
   const { isDeafened, toggle, undeafen } = useDeafen();
 
-  appBus.useSubscribe('deafenToggle', () => {
+  appEvents.on.deafenToggle(() => {
     toggle();
   });
 
-  appBus.useSubscribe('micActivated', () => {
+  appEvents.on.micActivated(() => {
     if (isDeafened) {
       undeafen();
     }

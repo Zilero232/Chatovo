@@ -2,13 +2,9 @@
 
 import { NextIntlClientProvider } from 'next-intl';
 import { useLocale } from '@/entities/app/locale';
-import en from '@/shared/i18n/locales/en.json';
-import ru from '@/shared/i18n/locales/ru.json';
+import { messages } from '@/shared/i18n';
 import { AppSplash } from '@/shared/ui';
 import type { ReactNode } from 'react';
-import type { Locale } from '@/shared/i18n';
-
-const MESSAGES: Record<Locale, typeof en> = { en, ru };
 
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
   const { locale, isReady } = useLocale();
@@ -18,7 +14,7 @@ export const I18nProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <NextIntlClientProvider locale={locale} messages={MESSAGES[locale]}>
+    <NextIntlClientProvider locale={locale} messages={messages[locale]}>
       {children}
     </NextIntlClientProvider>
   );
