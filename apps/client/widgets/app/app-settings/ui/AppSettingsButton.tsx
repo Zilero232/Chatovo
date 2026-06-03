@@ -2,7 +2,16 @@
 
 import { useBoolean } from '@siberiacancode/reactuse';
 import { isTauri } from '@tauri-apps/api/core';
-import { Keyboard, Mic, Settings, Settings2, User, Video, Volume2 } from 'lucide-react';
+import {
+  Keyboard,
+  Mic,
+  Settings,
+  Settings2,
+  ShieldCheck,
+  User,
+  Video,
+  Volume2,
+} from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import {
@@ -23,6 +32,7 @@ import {
 import { appSettingsStyles as s } from './AppSettingsButton.styles';
 import { AudioTab } from './sections/AudioTab';
 import { ProfileTab } from './sections/ProfileTab';
+import { SecurityTab } from './sections/SecurityTab';
 import { ShortcutsTab } from './sections/ShortcutsTab';
 import { SoundsTab } from './sections/SoundsTab';
 import { SystemTab } from './sections/SystemTab';
@@ -89,6 +99,10 @@ export const AppSettingsButton = () => {
                   {t('tabs.system')}
                 </TabsTrigger>
               )}
+              <TabsTrigger className={s.tabsTrigger} value="security">
+                <ShieldCheck />
+                {t('tabs.security')}
+              </TabsTrigger>
               <TabsTrigger className={s.tabsTrigger} value="shortcuts">
                 <Keyboard />
                 {t('tabs.shortcuts')}
@@ -116,6 +130,10 @@ export const AppSettingsButton = () => {
                 <SystemTab />
               </TabsContent>
             )}
+
+            <TabsContent className={s.tabsContent} value="security">
+              <SecurityTab />
+            </TabsContent>
 
             <TabsContent className={s.tabsContent} value="shortcuts">
               <ShortcutsTab />

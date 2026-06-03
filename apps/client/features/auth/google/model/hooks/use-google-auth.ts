@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { isTauri } from '@tauri-apps/api/core';
 import { openUrl } from '@tauri-apps/plugin-opener';
 import { authClient } from '@/shared/api';
-import { ROUTES } from '@/shared/constants';
+import { buildAbsoluteUrl, ROUTES } from '@/shared/constants';
 import { socialCallbackURL } from '../../lib/social-redirect';
 
 export const useGoogleAuth = () => {
@@ -14,7 +14,7 @@ export const useGoogleAuth = () => {
         provider: 'google',
         disableRedirect: desktop,
         callbackURL: socialCallbackURL(),
-        errorCallbackURL: `${window.location.origin}${ROUTES.auth}`,
+        errorCallbackURL: buildAbsoluteUrl(ROUTES.auth),
       });
 
       if (error) {

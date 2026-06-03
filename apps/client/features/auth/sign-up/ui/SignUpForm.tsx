@@ -1,11 +1,13 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { MailCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { useFieldError } from '@/entities/app/locale';
-import { FormField, Input, PasswordInput, Stack, SubmitButton } from '@/shared/ui';
+import { CenteredState, FormField, Input, PasswordInput, Stack, SubmitButton } from '@/shared/ui';
 import { type SignUpValues, signUpSchema, useSignUp } from '../model/use-sign-up';
 
 const DEFAULT_VALUES: SignUpValues = {
@@ -20,6 +22,8 @@ export const SignUpForm = () => {
   const fieldError = useFieldError('auth');
   const { isPending, mutate } = useSignUp();
 
+  const [sentTo, setSentTo] = useState<string | null>(null);
+
   const {
     formState: { errors },
     handleSubmit,
@@ -31,10 +35,20 @@ export const SignUpForm = () => {
 
   const onSubmit = handleSubmit((values) => {
     mutate(values, {
-      onSuccess: () => toast.success(t('accountCreated')),
+      onSuccess: () => setSentTo(values.email),
       onError: (err: Error) => toast.error(err.message),
     });
   });
+
+  if (sentTo) {
+    return (
+      <CenteredState
+        icon={<MailCheck />}
+        title={t('verifyEmailTitle')}
+        description={t('verifyEmailDescription', { email: sentTo })}
+      />
+    );
+  }
 
   return (
     <Stack as="form" gap="4" onSubmit={onSubmit}>

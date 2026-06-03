@@ -1,7 +1,13 @@
 export {
+  type ChangeEmailValues,
+  type ChangePasswordValues,
+  changeEmailSchema,
+  changePasswordSchema,
   type ProfileValues,
   profileSchema,
   type UpdateProfileInput,
+  useChangeEmail,
+  useChangePassword,
   useCurrentUser,
   useUpdateProfile,
 } from './model/hooks';

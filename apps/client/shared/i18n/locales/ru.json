@@ -21,6 +21,23 @@
     "continueWithGoogle": "Продолжить через Google",
     "signedIn": "Вход выполнен",
     "accountCreated": "Аккаунт создан",
+    "verifyEmailTitle": "Проверьте почту",
+    "verifyEmailDescription": "Мы отправили ссылку для подтверждения на {email}. Подтвердите её, чтобы завершить регистрацию.",
+    "forgotPassword": "Забыли пароль?",
+    "forgotPasswordTitle": "Сброс пароля",
+    "forgotPasswordSubtitle": "Введите email, и мы пришлём ссылку для сброса",
+    "sendResetLink": "Отправить ссылку",
+    "resetEmailSent": "Если такой email существует, мы отправили ссылку для сброса",
+    "backToSignIn": "Вернуться ко входу",
+    "resetPasswordTitle": "Новый пароль",
+    "resetPasswordSubtitle": "Придумайте новый пароль для вашего аккаунта",
+    "resetPassword": "Сбросить пароль",
+    "passwordReset": "Пароль изменён",
+    "resetDoneTitle": "Пароль изменён",
+    "resetDoneSubtitle": "Ваш пароль обновлён. Войдите с новым паролем.",
+    "openInApp": "Открыть в приложении",
+    "signInInBrowser": "Войти в браузере",
+    "resetTokenMissing": "Ссылка недействительна или устарела",
     "tagline": "Твой голос, в реальном времени",
     "features": {
       "rooms": {
@@ -49,7 +66,8 @@
       "passwordMin": "Минимум 8 символов",
       "passwordsMismatch": "Пароли не совпадают",
       "urlInvalid": "Введите корректную ссылку",
-      "bioMax": "Максимум 280 символов"
+      "bioMax": "Максимум 280 символов",
+      "required": "Обязательное поле"
     }
   },
   "lobby": {
@@ -124,6 +142,14 @@
       "speakerDevice": "Выбрать колонки",
       "pttHint": "Зажми и говори",
       "leave": "Выйти"
+    },
+    "pip": {
+      "popOut": "Открыть мини-окно",
+      "mute": "Выключить",
+      "unmute": "Включить",
+      "deafen": "Заглушить звук",
+      "undeafen": "Включить звук",
+      "leave": "Выйти"
     }
   },
   "chat": {
@@ -197,6 +223,7 @@
     "description": "Устройства и звуковые предпочтения. Сохраняются на этом устройстве.",
     "tabs": {
       "profile": "Профиль",
+      "security": "Безопасность",
       "audio": "Аудио",
       "video": "Видео",
       "sounds": "Звуки",
@@ -221,9 +248,22 @@
       "profileUrlHint": "Если заполнено, ваше имя станет кликабельной ссылкой. Очистите, чтобы убрать.",
       "bioLabel": "О себе",
       "bioPlaceholder": "Расскажите немного о себе...",
-      "bioHint": "Показывается в карточке профиля. До 280 символов.",
-      "emailSoon": "Email — скоро",
-      "passwordSoon": "Пароль — скоро"
+      "bioHint": "Показывается в карточке профиля. До 280 символов."
+    },
+    "security": {
+      "emailTitle": "Email",
+      "currentEmailLabel": "Текущий email",
+      "newEmailLabel": "Новый email",
+      "newEmailPlaceholder": "you@example.com",
+      "emailChangeHint": "Мы отправим ссылку для подтверждения на текущий email.",
+      "emailChangeRequested": "Проверьте текущий email, чтобы подтвердить смену",
+      "changeEmail": "Сменить email",
+      "passwordTitle": "Пароль",
+      "currentPasswordLabel": "Текущий пароль",
+      "newPasswordLabel": "Новый пароль",
+      "confirmPasswordLabel": "Повторите новый пароль",
+      "changePassword": "Сменить пароль",
+      "passwordChanged": "Пароль обновлён"
     },
     "devices": {
       "systemDefault": "Системное по умолчанию",

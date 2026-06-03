@@ -10,7 +10,11 @@ import { type SignInValues, signInSchema, useSignIn } from '../model/use-sign-in
 
 const DEFAULT_VALUES: SignInValues = { email: '', password: '' };
 
-export const SignInForm = () => {
+type SignInFormProps = {
+  onForgotPassword: () => void;
+};
+
+export const SignInForm = ({ onForgotPassword }: SignInFormProps) => {
   const t = useTranslations('auth');
   const fieldError = useFieldError('auth');
   const { isPending, mutate } = useSignIn();
@@ -52,6 +56,14 @@ export const SignInForm = () => {
           {...register('password')}
         />
       </FormField>
+
+      <button
+        className="-mt-2 self-end text-muted-foreground text-sm hover:text-foreground"
+        type="button"
+        onClick={onForgotPassword}
+      >
+        {t('forgotPassword')}
+      </button>
 
       <SubmitButton className="w-full" isPending={isPending}>
         {t('signIn')}

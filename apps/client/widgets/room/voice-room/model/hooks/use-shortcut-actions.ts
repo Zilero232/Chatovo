@@ -43,7 +43,7 @@ export const useShortcutActions = () => {
 
     if (!localParticipant.isMicrophoneEnabled) {
       if (payload.phase === 'pressed') {
-        toast.info(t('pttBlockedByMute'));
+        toast.info(t('pttBlockedByMute'), { id: 'ptt-blocked-by-mute' });
       }
       return;
     }

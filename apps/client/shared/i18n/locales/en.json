@@ -21,6 +21,23 @@
     "continueWithGoogle": "Continue with Google",
     "signedIn": "Signed in",
     "accountCreated": "Account created",
+    "verifyEmailTitle": "Check your email",
+    "verifyEmailDescription": "We sent a verification link to {email}. Confirm it to finish signing up.",
+    "forgotPassword": "Forgot password?",
+    "forgotPasswordTitle": "Reset password",
+    "forgotPasswordSubtitle": "Enter your email and we'll send a reset link",
+    "sendResetLink": "Send reset link",
+    "resetEmailSent": "If this email exists, we sent a reset link",
+    "backToSignIn": "Back to sign in",
+    "resetPasswordTitle": "New password",
+    "resetPasswordSubtitle": "Choose a new password for your account",
+    "resetPassword": "Reset password",
+    "passwordReset": "Password changed",
+    "resetDoneTitle": "Password changed",
+    "resetDoneSubtitle": "Your password has been updated. Sign in with your new password.",
+    "openInApp": "Open in app",
+    "signInInBrowser": "Sign in in browser",
+    "resetTokenMissing": "This link is invalid or expired",
     "tagline": "Your voice, in real time",
     "features": {
       "rooms": {
@@ -49,7 +66,8 @@
       "passwordMin": "Min 8 characters",
       "passwordsMismatch": "Passwords do not match",
       "urlInvalid": "Enter a valid URL",
-      "bioMax": "Max 280 characters"
+      "bioMax": "Max 280 characters",
+      "required": "Required"
     }
   },
   "lobby": {
@@ -124,6 +142,14 @@
       "speakerDevice": "Select speakers",
       "pttHint": "Push-to-talk",
       "leave": "Leave"
+    },
+    "pip": {
+      "popOut": "Pop out call",
+      "mute": "Mute",
+      "unmute": "Unmute",
+      "deafen": "Deafen",
+      "undeafen": "Undeafen",
+      "leave": "Leave"
     }
   },
   "chat": {
@@ -197,6 +223,7 @@
     "description": "Devices and sound preferences. Saved on this device.",
     "tabs": {
       "profile": "Profile",
+      "security": "Security",
       "audio": "Audio",
       "video": "Video",
       "sounds": "Sounds",
@@ -221,9 +248,22 @@
       "profileUrlHint": "When set, your name becomes a clickable link. Leave empty to remove.",
       "bioLabel": "About me",
       "bioPlaceholder": "Tell others a bit about yourself...",
-      "bioHint": "Shown on your profile card. Up to 280 characters.",
-      "emailSoon": "Email — coming soon",
-      "passwordSoon": "Password — coming soon"
+      "bioHint": "Shown on your profile card. Up to 280 characters."
+    },
+    "security": {
+      "emailTitle": "Email",
+      "currentEmailLabel": "Current email",
+      "newEmailLabel": "New email",
+      "newEmailPlaceholder": "you@example.com",
+      "emailChangeHint": "We'll send a confirmation link to your current email to approve the change.",
+      "emailChangeRequested": "Check your current email to approve the change",
+      "changeEmail": "Change email",
+      "passwordTitle": "Password",
+      "currentPasswordLabel": "Current password",
+      "newPasswordLabel": "New password",
+      "confirmPasswordLabel": "Confirm new password",
+      "changePassword": "Change password",
+      "passwordChanged": "Password updated"
     },
     "devices": {
       "systemDefault": "System default",

@@ -134,15 +134,6 @@ export const ProfileTab = () => {
           {t('save')}
         </Button>
       </form>
-
-      <div className={s.profileSoon}>
-        <div className={s.profileSoonRow}>
-          <span className={s.profileSoonLabel}>{t('emailSoon')}</span>
-        </div>
-        <div className={s.profileSoonRow}>
-          <span className={s.profileSoonLabel}>{t('passwordSoon')}</span>
-        </div>
-      </div>
     </div>
   );
 };
