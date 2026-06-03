@@ -5,8 +5,8 @@ import { isTauri } from '@tauri-apps/api/core';
 import { useTranslations } from 'next-intl';
 import { isNullish } from 'remeda';
 import { toast } from 'sonner';
-import { appBus, toggleMicStream } from '@/shared/lib';
-import { useAppSettings } from '@/widgets/app/app-settings';
+import { useAppSettings } from '@/entities/app/settings';
+import { appEvents, toggleMicStream } from '@/shared/lib';
 
 export const useShortcutActions = () => {
   const { localParticipant } = useLocalParticipant();
@@ -16,7 +16,7 @@ export const useShortcutActions = () => {
   const mode = settings.audio.activationMode;
   const enabled = isTauri() && !isNullish(localParticipant);
 
-  appBus.useSubscribe('muteToggle', async () => {
+  appEvents.on.muteToggle(async () => {
     if (!enabled) {
       return;
     }
@@ -26,7 +26,7 @@ export const useShortcutActions = () => {
       await localParticipant.setMicrophoneEnabled(next);
 
       if (next) {
-        appBus.push('micActivated', undefined);
+        appEvents.emit.micActivated();
       }
       if (mode === 'pushToTalk' && next) {
         toggleMicStream(localParticipant, false);
@@ -36,7 +36,7 @@ export const useShortcutActions = () => {
     }
   });
 
-  appBus.useSubscribe('pttKey', (payload) => {
+  appEvents.on.pttKey((payload) => {
     if (!enabled || mode !== 'pushToTalk') {
       return;
     }
@@ -48,7 +48,7 @@ export const useShortcutActions = () => {
       return;
     }
 
-    appBus.push('pttHold', payload);
+    appEvents.emit.pttHold(payload);
 
     toggleMicStream(localParticipant, payload.phase === 'pressed');
   });

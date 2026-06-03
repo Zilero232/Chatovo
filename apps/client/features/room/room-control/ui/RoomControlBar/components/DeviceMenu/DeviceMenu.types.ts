@@ -1,4 +1,4 @@
-import type { DeviceSettings } from '@/widgets/app/app-settings';
+import type { DeviceSettings } from '@/entities/app/settings';
 
 export type DeviceMenuProps = {
   kind: MediaDeviceKind;

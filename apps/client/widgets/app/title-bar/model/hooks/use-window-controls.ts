@@ -2,6 +2,7 @@
 
 import { isTauri } from '@tauri-apps/api/core';
 import { useEffect, useState } from 'react';
+import { useAppSettings } from '@/entities/app/settings';
 import {
   closeMainWindow,
   hideMainWindow,
@@ -10,7 +11,6 @@ import {
   onMainWindowResized,
   toggleMaximizeMainWindow,
 } from '@/shared/lib';
-import { useAppSettings } from '@/widgets/app/app-settings';
 
 export const useWindowControls = () => {
   const { settings } = useAppSettings();

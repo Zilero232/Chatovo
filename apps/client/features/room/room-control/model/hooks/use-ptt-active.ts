@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { appBus } from '@/shared/lib';
-import { useAppSettings } from '@/widgets/app/app-settings';
+import { useAppSettings } from '@/entities/app/settings';
+import { appEvents } from '@/shared/lib';
 
 export type PttState = 'off' | 'idle' | 'active';
 
@@ -11,7 +11,7 @@ export const usePttActive = (): PttState => {
 
   const { settings } = useAppSettings();
 
-  appBus.useSubscribe('pttHold', (payload) => {
+  appEvents.on.pttHold((payload) => {
     setHeld(payload.phase === 'pressed');
   });
 

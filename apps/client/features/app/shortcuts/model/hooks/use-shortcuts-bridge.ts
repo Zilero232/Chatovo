@@ -2,7 +2,7 @@
 
 import { isTauri } from '@tauri-apps/api/core';
 import { useEffect } from 'react';
-import { useAppSettings } from '@/widgets/app/app-settings';
+import { useAppSettings } from '@/entities/app/settings';
 import { syncShortcuts, teardownShortcuts } from '../../lib/shortcuts-registry';
 
 export const useShortcutsBridge = () => {

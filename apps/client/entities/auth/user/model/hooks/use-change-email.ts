@@ -1,14 +1,11 @@
 'use client';
 
+import { type ChangeEmailValues, changeEmailSchema } from '@chatovo/schemas';
 import { useMutation } from '@tanstack/react-query';
-import { z } from 'zod';
 import { authClient } from '@/shared/api';
 
-export const changeEmailSchema = z.object({
-  newEmail: z.email('validation.emailInvalid').trim().toLowerCase(),
-});
-
-export type ChangeEmailValues = z.infer<typeof changeEmailSchema>;
+export type { ChangeEmailValues };
+export { changeEmailSchema };
 
 export const useChangeEmail = () => {
   return useMutation({

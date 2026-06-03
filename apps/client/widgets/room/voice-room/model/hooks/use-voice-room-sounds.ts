@@ -4,11 +4,11 @@ import { useLocalParticipant, useRoomContext } from '@livekit/components-react';
 import { useAudio, usePrevious } from '@siberiacancode/reactuse';
 import { ParticipantEvent, RoomEvent, Track, type TrackPublication } from 'livekit-client';
 import { useEffect, useRef } from 'react';
+import { useAppSettings } from '@/entities/app/settings';
 import { useLeaveSound } from '@/entities/room/room';
 import { useDeafen } from '@/features/room/room-control';
 import { useEmitterEvent } from '@/shared/hooks';
-import { appBus } from '@/shared/lib';
-import { useAppSettings } from '@/widgets/app/app-settings';
+import { appEvents } from '@/shared/lib';
 import { SOUND_CATEGORY, SOUND_SRC, type SoundKey } from '../../config';
 
 export const useVoiceRoomSounds = () => {
@@ -64,8 +64,8 @@ export const useVoiceRoomSounds = () => {
   const playRef = useRef({ play, playLeaveSound, playOwnLeaveOnce });
   playRef.current = { play, playLeaveSound, playOwnLeaveOnce };
 
-  appBus.useSubscribe('pttHold', () => playRef.current.play('ptt'));
-  appBus.useSubscribe('chatMessage', () => playRef.current.play('message'));
+  appEvents.on.pttHold(() => playRef.current.play('ptt'));
+  appEvents.on.chatMessage(() => playRef.current.play('message'));
 
   const prevDeafened = usePrevious(isDeafened);
 

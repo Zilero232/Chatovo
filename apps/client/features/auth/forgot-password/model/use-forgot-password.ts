@@ -1,13 +1,10 @@
+import { type ForgotPasswordValues, forgotPasswordSchema } from '@chatovo/schemas';
 import { useMutation } from '@tanstack/react-query';
-import { z } from 'zod';
 import { authClient } from '@/shared/api';
 import { buildAbsoluteUrl, ROUTES } from '@/shared/constants';
 
-export const forgotPasswordSchema = z.object({
-  email: z.email('validation.emailInvalid'),
-});
-
-export type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
+export type { ForgotPasswordValues };
+export { forgotPasswordSchema };
 
 export const useForgotPassword = () => {
   return useMutation({

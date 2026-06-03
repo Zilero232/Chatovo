@@ -13,11 +13,19 @@ const envSchema = z.object({
   GOOGLE_CLIENT_ID: z.string().min(1),
   GOOGLE_CLIENT_SECRET: z.string().min(1),
 
-  RESEND_API_KEY: z.string().min(1),
+  SMTP_HOST: z.string().min(1),
+  SMTP_PORT: z.coerce.number().default(465),
+  // true = implicit TLS (port 465); false = STARTTLS (port 587).
+  SMTP_SECURE: z
+    .enum(['true', 'false'])
+    .default('true')
+    .transform((value) => value === 'true'),
+  SMTP_USER: z.string().min(1),
+  SMTP_PASSWORD: z.string().min(1),
   EMAIL_FROM: z.string().min(1),
 
-  // Dev-only: redirect every outgoing email to this address. Lets the Resend
-  // sandbox sender work without a verified domain. Ignored in production.
+  // Dev-only: redirect every outgoing email to this address. Lets you test
+  // without spamming real users. Ignored in production.
   DEV_EMAIL_OVERRIDE: z.email().optional(),
 
   LIVEKIT_API_KEY: z.string().min(1),
