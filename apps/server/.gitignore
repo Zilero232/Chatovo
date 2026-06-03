@@ -5,4 +5,4 @@ generated/
 dist/
 
 # User uploads (avatars, chat attachments)
-uploads/
+/uploads/
