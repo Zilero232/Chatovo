@@ -90,7 +90,7 @@ export const useCheckAppUpdate = () => {
 
         if (!result.ok || !result.value) {
           if (isManual) {
-            toast.success(t('upToDate'));
+            toast.success(t('upToDate'), { id: 'app-update-check' });
           }
 
           return setStatus('unavailable');
@@ -111,7 +111,7 @@ export const useCheckAppUpdate = () => {
           setStatus('unavailable');
 
           if (isManualRef.current) {
-            toast.error(t('checkFailed'));
+            toast.error(t('checkFailed'), { id: 'app-update-check' });
           }
         }
       } finally {

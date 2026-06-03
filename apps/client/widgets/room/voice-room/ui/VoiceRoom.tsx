@@ -2,7 +2,7 @@
 
 import { LiveKitRoom } from '@livekit/components-react';
 import { useBoolean } from '@siberiacancode/reactuse';
-import { AudioLines, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRef } from 'react';
 import { useRecentRooms } from '@/entities/room/room';
@@ -17,26 +17,10 @@ import { Button } from '@/shared/ui';
 import { useAppSettings } from '@/widgets/app/app-settings';
 import { ChatPanel, RoomChatProvider } from '@/widgets/room/chat';
 import { FAILURE_REASONS } from '../config';
-import { ConnectingOverlay, ConnectionIndicator, ParticipantsView } from './components';
+import { ConnectingOverlay, ParticipantsView, RoomHeader, RoomPip } from './components';
 import { RoomControllers } from './controllers';
 import { voiceRoomStyles as s } from './VoiceRoom.styles';
 import type { VoiceRoomProps } from './VoiceRoom.types';
-
-const RoomHeader = ({ name }: { name: string }) => {
-  return (
-    <div className={s.header}>
-      <span aria-hidden className={s.headerIcon}>
-        <AudioLines className="size-4" />
-      </span>
-
-      <div className={s.headerInfo}>
-        <span className={s.headerTitle}>{name}</span>
-      </div>
-
-      <ConnectionIndicator />
-    </div>
-  );
-};
 
 export const VoiceRoom = ({
   roomId,
@@ -97,6 +81,8 @@ export const VoiceRoom = ({
                   <div className={s.controlBarWrap}>
                     <RoomControlBar />
                   </div>
+
+                  <RoomPip />
 
                   <Button
                     aria-label={isChatOpen ? t('hide') : t('open')}

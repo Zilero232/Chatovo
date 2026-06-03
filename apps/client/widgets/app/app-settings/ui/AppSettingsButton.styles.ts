@@ -59,8 +59,6 @@ export const appSettingsStyles = {
   profileError: 'text-destructive text-xs',
   profileSubmit: 'self-start',
   profileSpinner: 'mr-1.5 size-4 animate-spin',
-  profileSoon: 'flex flex-col gap-2',
-  profileSoonRow:
-    'flex items-center justify-between rounded-lg border border-dashed border-white/10 bg-white/3 px-3 py-2.5',
-  profileSoonLabel: 'text-muted-foreground text-sm',
+  profileSection: 'flex flex-col gap-4',
+  profileSectionTitle: 'font-semibold text-sm',
 } as const;

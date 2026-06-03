@@ -3,7 +3,7 @@
 import { useMouse } from '@siberiacancode/reactuse';
 import { useRef } from 'react';
 
-export const usePointerParallax = <T extends HTMLElement>() => {
+const usePointerParallax = <T extends HTMLElement>() => {
   const ref = useRef<T>(null);
   const frameRef = useRef<number | null>(null);
 
@@ -29,4 +29,17 @@ export const usePointerParallax = <T extends HTMLElement>() => {
   });
 
   return ref;
+};
+
+export const AuthBackground = () => {
+  const bgRef = usePointerParallax<HTMLDivElement>();
+
+  return (
+    <div ref={bgRef} className="auth-bg">
+      <div className="auth-grid" />
+      <div className="auth-aurora" />
+      <div className="auth-orb auth-orb-1" />
+      <div className="auth-orb auth-orb-2" />
+    </div>
+  );
 };

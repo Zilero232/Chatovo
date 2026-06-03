@@ -1,15 +1,13 @@
 import { isTauri } from '@tauri-apps/api/core';
 import { env } from '@/shared/config';
-import { ROUTES } from '@/shared/constants';
-
-const TAURI_AUTH_TARGET = 'chatovo://auth';
+import { buildAbsoluteUrl, DEEP_LINKS, ROUTES } from '@/shared/constants';
 
 const finalTarget = (): string => {
   if (isTauri()) {
-    return TAURI_AUTH_TARGET;
+    return DEEP_LINKS.auth;
   }
 
-  return `${window.location.origin}${ROUTES.auth}`;
+  return buildAbsoluteUrl(ROUTES.auth);
 };
 
 export const socialCallbackURL = (): string => {

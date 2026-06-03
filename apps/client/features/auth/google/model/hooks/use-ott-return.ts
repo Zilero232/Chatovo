@@ -5,6 +5,7 @@ import { onOpenUrl } from '@tauri-apps/plugin-deep-link';
 import { useEffect, useRef } from 'react';
 import { toast } from 'sonner';
 import { authClient } from '@/shared/api';
+import { DEEP_LINKS } from '@/shared/constants';
 import { exchangeOtt } from '../../lib/exchange-ott';
 
 const readOtt = (url: string): string | null => {
@@ -61,7 +62,7 @@ export const useOttReturn = () => {
     }
 
     const unlistenPromise = onOpenUrl((urls) => {
-      const url = urls.find((u) => u.startsWith('chatovo://auth'));
+      const url = urls.find((u) => u.startsWith(DEEP_LINKS.auth));
       const ott = url ? readOtt(url) : null;
 
       if (ott) {
