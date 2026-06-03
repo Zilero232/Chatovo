@@ -4,18 +4,17 @@ import { serveStatic } from 'hono/bun';
 import { cors } from 'hono/cors';
 import { HTTPException } from 'hono/http-exception';
 import { logger } from 'hono/logger';
+import { StatusCodes } from 'http-status-codes';
 import { allowedOrigins } from './config/cors';
-import { auth } from './lib/auth';
-import { env } from './lib/env';
-import { UPLOADS_DIR } from './lib/uploads';
-import { authMiddleware } from './middleware/auth';
-import { livekitAuthMiddleware } from './middleware/livekit-gate';
-import { socialDoneHandler } from './routes/auth/social-done';
-import { chatRouter } from './routes/chat';
-import { githubRouter } from './routes/github';
-import { livekitRouter } from './routes/livekit';
-import { roomsRouter } from './routes/rooms';
-import { usersRouter } from './routes/users';
+import { env } from './core';
+import { authMiddleware, livekitAuthMiddleware } from './middleware';
+import { auth, socialDoneHandler } from './modules/auth';
+import { chatRouter } from './modules/chat';
+import { githubRouter } from './modules/github';
+import { livekitRouter } from './modules/livekit';
+import { roomsRouter } from './modules/rooms';
+import { UPLOADS_DIR } from './modules/uploads';
+import { usersRouter } from './modules/users';
 
 const serveUploads = serveStatic({
   root: UPLOADS_DIR,
@@ -25,7 +24,10 @@ const serveUploads = serveStatic({
 const app = new OpenAPIHono({
   defaultHook: (result, c) => {
     if (!result.success) {
-      return c.json({ error: result.error.issues[0]?.message ?? 'Invalid input' }, 400);
+      return c.json(
+        { error: result.error.issues[0]?.message ?? 'Invalid input' },
+        StatusCodes.BAD_REQUEST,
+      );
     }
   },
 });
@@ -67,7 +69,7 @@ app.onError((error, c) => {
     return c.json({ error: error.message }, error.status);
   }
 
-  return c.json({ error: 'Internal server error' }, 500);
+  return c.json({ error: 'Internal server error' }, StatusCodes.INTERNAL_SERVER_ERROR);
 });
 
 app.doc('/openapi.json', {

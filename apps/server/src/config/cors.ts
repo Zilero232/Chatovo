@@ -1,5 +1,5 @@
 import { filter, map, pipe } from 'remeda';
-import { env } from '../lib/env';
+import { env } from '../core';
 
 // Web client origins come from env (comma-separated); Tauri origins are always
 // allowed so the desktop app can reach the same API as the website.
