@@ -1,4 +1,13 @@
 export {
+  changeEmailSchema,
+  changePasswordSchema,
+  forgotPasswordSchema,
+  profileSchema,
+  resetPasswordSchema,
+  signInSchema,
+  signUpSchema,
+} from './auth';
+export {
   chatAttachmentSchema,
   chatMessageSchema,
   chatMessagesPageSchema,
@@ -8,7 +17,7 @@ export {
   listMessagesQuerySchema,
   sendMessageInputSchema,
 } from './chat';
-export { gitHubReleaseAssetSchema, gitHubReleaseSchema } from './github';
+export { gitHubReleaseSchema } from './github';
 export { safeJsonParse } from './json';
 export {
   participantMetadataSchema,
@@ -18,8 +27,23 @@ export {
   tokenRequestSchema,
   tokenResponseSchema,
 } from './livekit';
-export { createRoomInputSchema, roomSchema, updateRoomInputSchema } from './rooms';
+export {
+  createRoomInputSchema,
+  roomPasswordSchema,
+  roomSchema,
+  updateRoomInputSchema,
+} from './rooms';
 export { updateProfileInputSchema, userProfileSchema } from './users';
+export type {
+  ChangeEmailValues,
+  ChangePasswordValues,
+  ForgotPasswordValues,
+  ProfileValues,
+  ResetPasswordValues,
+  SignInValues,
+  SignUpValues,
+  UpdateProfileInput,
+} from './auth';
 export type {
   ChatAttachment,
   ChatMessage,
@@ -27,7 +51,7 @@ export type {
   ListMessagesQuery,
   SendMessageInput,
 } from './chat';
-export type { GitHubRelease, GitHubReleaseAsset } from './github';
+export type { GitHubRelease } from './github';
 export type {
   ParticipantMetadata,
   PresenceStateRequest,

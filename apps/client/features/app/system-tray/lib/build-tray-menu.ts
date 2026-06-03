@@ -1,6 +1,6 @@
 import { CheckMenuItem, Menu, MenuItem, PredefinedMenuItem } from '@tauri-apps/api/menu';
 import { exit } from '@tauri-apps/plugin-process';
-import { appBus, showMainWindow } from '@/shared/lib';
+import { appEvents, showMainWindow } from '@/shared/lib';
 import { TRAY_MENU_ID } from '../config/menu-ids';
 
 type TrayMenuLabels = {
@@ -23,7 +23,7 @@ export const buildTrayMenu = async (labels: TrayMenuLabels) => {
     checked: false,
     enabled: true,
     action: () => {
-      appBus.push('trayMuteToggle', undefined);
+      appEvents.emit.trayMuteToggle();
     },
   });
 
@@ -31,7 +31,7 @@ export const buildTrayMenu = async (labels: TrayMenuLabels) => {
     id: TRAY_MENU_ID.checkUpdates,
     text: labels.checkUpdates,
     action: async () => {
-      appBus.push('recheckUpdate', undefined);
+      appEvents.emit.recheckUpdate();
 
       try {
         await showMainWindow();

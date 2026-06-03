@@ -4,17 +4,24 @@ import { isTauri } from '@tauri-apps/api/core';
 import { useTranslations } from 'next-intl';
 import { useId } from 'react';
 import { isNullish } from 'remeda';
+import { useAppSettings } from '@/entities/app/settings';
 import { RadioGroup, RadioGroupItem, Switch } from '@/shared/ui';
-import { useAppSettings } from '../../model/hooks';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 import { DeviceSelect } from '../components/DeviceSelect';
 import { MicTest } from '../components/MicTest';
 import { SettingRow } from '../components/SettingRow';
-import type { AudioSettings, MicActivationMode } from '../../model/types';
+import type { AudioSettings, MicActivationMode } from '@/entities/app/settings';
 
 type AudioTabProps = {
   onJumpToShortcuts: () => void;
 };
+
+const AUDIO_FLAGS = [
+  'noiseSuppression',
+  'echoCancellation',
+  'autoGainControl',
+  'voiceIsolation',
+] satisfies (keyof AudioSettings)[];
 
 export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
   const t = useTranslations('settings.audio');
@@ -95,49 +102,16 @@ export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
         stacked
       />
 
-      <SettingRow
-        label={t('noiseSuppression')}
-        hint={t('noiseSuppressionHint')}
-        control={
-          <Switch
-            checked={audio.noiseSuppression}
-            onCheckedChange={(value) => setFlag('noiseSuppression', value)}
-          />
-        }
-      />
-
-      <SettingRow
-        label={t('echoCancellation')}
-        hint={t('echoCancellationHint')}
-        control={
-          <Switch
-            checked={audio.echoCancellation}
-            onCheckedChange={(value) => setFlag('echoCancellation', value)}
-          />
-        }
-      />
-
-      <SettingRow
-        label={t('autoGainControl')}
-        hint={t('autoGainControlHint')}
-        control={
-          <Switch
-            checked={audio.autoGainControl}
-            onCheckedChange={(value) => setFlag('autoGainControl', value)}
-          />
-        }
-      />
-
-      <SettingRow
-        label={t('voiceIsolation')}
-        hint={t('voiceIsolationHint')}
-        control={
-          <Switch
-            checked={audio.voiceIsolation}
-            onCheckedChange={(value) => setFlag('voiceIsolation', value)}
-          />
-        }
-      />
+      {AUDIO_FLAGS.map((flag) => (
+        <SettingRow
+          key={flag}
+          label={t(flag)}
+          hint={t(`${flag}Hint`)}
+          control={
+            <Switch checked={audio[flag]} onCheckedChange={(value) => setFlag(flag, value)} />
+          }
+        />
+      ))}
     </div>
   );
 };

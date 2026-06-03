@@ -1,10 +1,7 @@
 import { resolveDisplayName } from '../users/profile';
 import type { ChatMessage } from '@chatovo/schemas';
 import type { Prisma } from '../../../generated';
-
-export const senderSelect = {
-  select: { email: true, name: true, profile: { select: { displayName: true } } },
-} as const;
+import type { senderSelect } from '../../lib';
 
 export type MessageWithSender = Prisma.MessageGetPayload<{
   include: { sender: typeof senderSelect };

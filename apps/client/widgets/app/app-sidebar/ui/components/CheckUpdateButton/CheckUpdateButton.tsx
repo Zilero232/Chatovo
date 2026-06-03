@@ -3,7 +3,7 @@
 import { RefreshCw } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { appBus } from '@/shared/lib';
+import { appEvents } from '@/shared/lib';
 import { IconButtonWithTooltip } from '@/shared/ui';
 
 export const CheckUpdateButton = () => {
@@ -11,11 +11,11 @@ export const CheckUpdateButton = () => {
 
   const [checking, setChecking] = useState(false);
 
-  appBus.useSubscribe('updateCheckSettled', () => setChecking(false));
+  appEvents.on.updateCheckSettled(() => setChecking(false));
 
   const handleClick = () => {
     setChecking(true);
-    appBus.push('recheckUpdate', undefined);
+    appEvents.emit.recheckUpdate();
   };
 
   return (

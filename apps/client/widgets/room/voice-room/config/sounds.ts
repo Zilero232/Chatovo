@@ -1,4 +1,4 @@
-import type { SoundCategory } from '@/widgets/app/app-settings';
+import type { SoundCategory } from '@/entities/app/settings';
 
 export const SOUND_SRC = {
   join: '/audios/user_join.mp3',

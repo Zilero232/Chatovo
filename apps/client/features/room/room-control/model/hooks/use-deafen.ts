@@ -2,9 +2,9 @@
 
 import { useLocalParticipant, useRoomContext } from '@livekit/components-react';
 import { isNullish } from 'remeda';
+import { useAppSettings } from '@/entities/app/settings';
 import { reportPresenceState } from '@/shared/api';
 import { toggleMicStream } from '@/shared/lib';
-import { useAppSettings } from '@/widgets/app/app-settings';
 import { useDeafenContext } from '../contexts/deafen-context';
 import type { LocalParticipant } from 'livekit-client';
 

@@ -37,14 +37,38 @@ import { ShortcutsTab } from './sections/ShortcutsTab';
 import { SoundsTab } from './sections/SoundsTab';
 import { SystemTab } from './sections/SystemTab';
 import { VideoTab } from './sections/VideoTab';
+import type { ReactNode } from 'react';
+
+type TabId = 'profile' | 'audio' | 'video' | 'sounds' | 'system' | 'security' | 'shortcuts';
+
+type TabConfig = {
+  id: TabId;
+  icon: ReactNode;
+  tauriOnly?: boolean;
+  render: (controls: { jumpTo: (id: TabId) => void }) => ReactNode;
+};
+
+const TABS: TabConfig[] = [
+  { id: 'profile', icon: <User />, render: () => <ProfileTab /> },
+  {
+    id: 'audio',
+    icon: <Mic />,
+    render: ({ jumpTo }) => <AudioTab onJumpToShortcuts={() => jumpTo('shortcuts')} />,
+  },
+  { id: 'video', icon: <Video />, render: () => <VideoTab /> },
+  { id: 'sounds', icon: <Volume2 />, render: () => <SoundsTab /> },
+  { id: 'system', icon: <Settings2 />, tauriOnly: true, render: () => <SystemTab /> },
+  { id: 'security', icon: <ShieldCheck />, render: () => <SecurityTab /> },
+  { id: 'shortcuts', icon: <Keyboard />, render: () => <ShortcutsTab /> },
+];
 
 export const AppSettingsButton = () => {
   const t = useTranslations('settings');
 
   const [isOpen, toggleOpen] = useBoolean(false);
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState<TabId>('profile');
 
-  const showSystemTab = isTauri();
+  const tabs = TABS.filter((tab) => !tab.tauriOnly || isTauri());
 
   return (
     <>
@@ -74,70 +98,22 @@ export const AppSettingsButton = () => {
             className={s.tabs}
             orientation="vertical"
             value={activeTab}
-            onValueChange={setActiveTab}
+            onValueChange={(value) => setActiveTab(value as TabId)}
           >
             <TabsList className={s.tabsList}>
-              <TabsTrigger className={s.tabsTrigger} value="profile">
-                <User />
-                {t('tabs.profile')}
-              </TabsTrigger>
-              <TabsTrigger className={s.tabsTrigger} value="audio">
-                <Mic />
-                {t('tabs.audio')}
-              </TabsTrigger>
-              <TabsTrigger className={s.tabsTrigger} value="video">
-                <Video />
-                {t('tabs.video')}
-              </TabsTrigger>
-              <TabsTrigger className={s.tabsTrigger} value="sounds">
-                <Volume2 />
-                {t('tabs.sounds')}
-              </TabsTrigger>
-              {showSystemTab && (
-                <TabsTrigger className={s.tabsTrigger} value="system">
-                  <Settings2 />
-                  {t('tabs.system')}
+              {tabs.map((tab) => (
+                <TabsTrigger key={tab.id} className={s.tabsTrigger} value={tab.id}>
+                  {tab.icon}
+                  {t(`tabs.${tab.id}`)}
                 </TabsTrigger>
-              )}
-              <TabsTrigger className={s.tabsTrigger} value="security">
-                <ShieldCheck />
-                {t('tabs.security')}
-              </TabsTrigger>
-              <TabsTrigger className={s.tabsTrigger} value="shortcuts">
-                <Keyboard />
-                {t('tabs.shortcuts')}
-              </TabsTrigger>
+              ))}
             </TabsList>
 
-            <TabsContent className={s.tabsContent} value="profile">
-              <ProfileTab />
-            </TabsContent>
-
-            <TabsContent className={s.tabsContent} value="audio">
-              <AudioTab onJumpToShortcuts={() => setActiveTab('shortcuts')} />
-            </TabsContent>
-
-            <TabsContent className={s.tabsContent} value="video">
-              <VideoTab />
-            </TabsContent>
-
-            <TabsContent className={s.tabsContent} value="sounds">
-              <SoundsTab />
-            </TabsContent>
-
-            {showSystemTab && (
-              <TabsContent className={s.tabsContent} value="system">
-                <SystemTab />
+            {tabs.map((tab) => (
+              <TabsContent key={tab.id} className={s.tabsContent} value={tab.id}>
+                {tab.render({ jumpTo: setActiveTab })}
               </TabsContent>
-            )}
-
-            <TabsContent className={s.tabsContent} value="security">
-              <SecurityTab />
-            </TabsContent>
-
-            <TabsContent className={s.tabsContent} value="shortcuts">
-              <ShortcutsTab />
-            </TabsContent>
+            ))}
           </Tabs>
         </DialogContent>
       </Dialog>

@@ -1,13 +1,15 @@
 'use client';
 
+import { roomPasswordSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { useFieldError } from '@/entities/app/locale';
 import { FormField, Input, Row, Stack, SubmitButton } from '@/shared/ui';
-import { passwordSchema } from './RoomPasswordForm.styles';
-import type { z } from 'zod';
 import type { RoomPasswordFormProps } from './RoomPasswordForm.types';
+
+const passwordSchema = z.object({ password: roomPasswordSchema });
 
 type PasswordValues = z.infer<typeof passwordSchema>;
 

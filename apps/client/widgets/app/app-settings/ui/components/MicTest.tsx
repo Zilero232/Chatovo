@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/shared/ui';
 import { useMicTest } from '../../model/hooks';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
-import type { AudioSettings } from '../../model/types';
+import type { AudioSettings } from '@/entities/app/settings';
 
 type MicTestProps = {
   deviceId: string;

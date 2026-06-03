@@ -1,11 +1,11 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useAppSettings } from '@/entities/app/settings';
 import { Slider, Switch } from '@/shared/ui';
-import { useAppSettings } from '../../model/hooks';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 import { SettingRow } from '../components/SettingRow';
-import type { SoundCategory } from '../../model/types';
+import type { SoundCategory } from '@/entities/app/settings';
 
 const SOUND_CATEGORIES: SoundCategory[] = ['join', 'leave', 'mute', 'reconnect', 'message'];
 

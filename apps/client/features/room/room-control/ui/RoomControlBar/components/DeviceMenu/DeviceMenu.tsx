@@ -4,6 +4,7 @@ import { useMediaDeviceSelect } from '@livekit/components-react';
 import { Check, ChevronUp } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { isEmpty } from 'remeda';
+import { useAppSettings } from '@/entities/app/settings';
 import { cn } from '@/shared/lib/cn';
 import {
   DropdownMenu,
@@ -12,7 +13,6 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@/shared/ui';
-import { useAppSettings } from '@/widgets/app/app-settings';
 import { deviceMenuStyles as s } from './DeviceMenu.styles';
 import { deviceIcon } from './lib/device-icon';
 import type { DeviceMenuProps } from './DeviceMenu.types';

@@ -1,13 +1,9 @@
+import { type SignInValues, signInSchema } from '@chatovo/schemas';
 import { useMutation } from '@tanstack/react-query';
-import { z } from 'zod';
 import { authClient } from '@/shared/api';
 
-export const signInSchema = z.object({
-  email: z.email('validation.emailInvalid'),
-  password: z.string().min(8, 'validation.passwordMin'),
-});
-
-export type SignInValues = z.infer<typeof signInSchema>;
+export type { SignInValues };
+export { signInSchema };
 
 export const useSignIn = () => {
   return useMutation({

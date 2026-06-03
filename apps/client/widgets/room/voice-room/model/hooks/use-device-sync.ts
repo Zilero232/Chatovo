@@ -4,7 +4,7 @@ import { useRoomContext } from '@livekit/components-react';
 import { type Room, RoomEvent } from 'livekit-client';
 import { useEffect, useRef } from 'react';
 import { keys } from 'remeda';
-import { type DeviceSettings, KIND_TO_SLOT, useAppSettings } from '@/widgets/app/app-settings';
+import { type DeviceSettings, KIND_TO_SLOT, useAppSettings } from '@/entities/app/settings';
 
 const applyDevices = (room: Room, devices: DeviceSettings) => {
   for (const kind of keys(KIND_TO_SLOT)) {

@@ -1,14 +1,17 @@
 import { z } from 'zod';
 import { roomSchema } from './outputs';
 
+// Shared room-password rule (min 4). Used by the join form where the field is
+// required; the create/update path wraps it as optional below.
+export const roomPasswordSchema = z
+  .string()
+  .trim()
+  .min(4, 'validation.passwordMin')
+  .max(128, 'validation.passwordMax');
+
 // Treat empty string as "no password" so an untouched form field never fails
 // the (min 4) check; downstream code only needs to handle `string | undefined`.
-const passwordSchema = z
-  .string()
-  .min(4, 'Min 4 chars')
-  .max(128, 'Max 128 chars')
-  .optional()
-  .or(z.literal('').transform(() => undefined));
+const passwordSchema = roomPasswordSchema.optional().or(z.literal('').transform(() => undefined));
 
 // Create / update share the same writable fields — name, privacy, password.
 // `password` is not part of `roomSchema` (server hides it), so merge it in.

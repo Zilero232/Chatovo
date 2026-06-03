@@ -5,6 +5,7 @@ import { useBoolean } from '@siberiacancode/reactuse';
 import { MessageSquare } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRef } from 'react';
+import { useAppSettings } from '@/entities/app/settings';
 import { useRecentRooms } from '@/entities/room/room';
 import {
   DeafenProvider,
@@ -14,7 +15,6 @@ import {
   RoomControlBar,
 } from '@/features/room/room-control';
 import { Button } from '@/shared/ui';
-import { useAppSettings } from '@/widgets/app/app-settings';
 import { ChatPanel, RoomChatProvider } from '@/widgets/room/chat';
 import { FAILURE_REASONS } from '../config';
 import { ConnectingOverlay, ParticipantsView, RoomHeader, RoomPip } from './components';

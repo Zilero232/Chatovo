@@ -14,58 +14,29 @@ Chatovo — real-time voice rooms (web + desktop). Bun-workspaces monorepo.
 
 ## Layout
 
-```
+```text
 apps/
-├── client/          # Next.js — FSD architecture
-├── server/          # Hono API (routes/, middleware/, lib/)
-└── tauri/           # Rust shell (src/), capabilities/, tauri.conf.json
-packages/schemas/    # Zod schemas, imported by both client and server
+├── client/          # Next.js — FSD architecture (CLAUDE.md)
+├── server/          # Hono API — modules/ (routes+handlers+service), lib/, core/, middleware/ (CLAUDE.md)
+└── tauri/           # Rust shell (src/), capabilities/, tauri.conf.json (CLAUDE.md)
+packages/schemas/    # Zod schemas (@chatovo/schemas), imported by client and server; grouped by domain
 docs/
-├── fsd.md           # Frontend architecture — read before structural changes
+├── fsd.md           # Frontend (apps/client) architecture — read before structural changes
 └── style.md         # Code style, import order, naming
 infra/               # Caddy + LiveKit configs
 ```
 
-## Frontend architecture (apps/client)
+Each app folder has its own `CLAUDE.md` (see [Per-app guidance](#per-app-guidance)).
 
-**Feature-Sliced Design** with two local tweaks:
+## Per-app guidance
 
-1. `pages/` layer renamed to `views/` (collision with Next.js Pages Router avoided).
-2. Slices grouped by **business domain** inside `features/`, `entities/`, `widgets/`:
-   - `auth/` — sign-in, sign-up, google, user
-   - `room/` — rooms, voice, chat, presence
-   - `app/` — release, locale, system-tray, shortcuts, check-app-update, download-app
-   - `layout/` (widgets only) — root shell
+Each app has its own `CLAUDE.md` (auto-loaded when working in its folder) with the detailed map and local conventions:
 
-**Import alias**: `@/*` → `apps/client/*`.
+- **[apps/client/CLAUDE.md](apps/client/CLAUDE.md)** — Feature-Sliced Design layers, public-API/barrel rules, naming, i18n, shadcn. Full FSD spec in [docs/fsd.md](docs/fsd.md), code style in [docs/style.md](docs/style.md).
+- **[apps/server/CLAUDE.md](apps/server/CLAUDE.md)** — module convention (routes / handlers / service / `lib`), error handling, LiveKit/Prisma specifics.
+- **[apps/tauri/CLAUDE.md](apps/tauri/CLAUDE.md)** — Rust shell, plugins, `isTauri()` gating.
 
-**Public API**: import to the slice level, not the domain group:
-- ✓ `@/features/auth/sign-in`
-- ✓ `@/entities/room/room`
-- ✗ `@/features/auth` (group folder is not a barrel)
-- ✗ `@/features/auth/sign-in/ui/SignInForm` (deep import bypasses slice barrel)
-
-**Layer hierarchy** (import direction, top → bottom):
-`app → views → widgets → features → entities → shared`
-
-Never import upward or sideways within the same layer. Cross-entity refs use `@x` pattern.
-
-Full rules in [docs/fsd.md](docs/fsd.md).
-
-## Code style essentials
-
-Full guide in [docs/style.md](docs/style.md). Highlights:
-
-- **Files**: kebab-case for slices/segments. PascalCase for component folders/files (`VoiceRoom/VoiceRoom.tsx`). camelCase for hooks/utils.
-- **Component slice layout**: `ui/`, `model/`, `lib/`, `api/`, `config/`. Custom segments OK if named by purpose.
-- **`model/` barrel rule**: each `model/` subfolder (`hooks/`, `contexts/`, `stores/`, subsystems) has its OWN `index.ts`; there is NO slice-level `model/index.ts`. Import via the subfolder barrel — `from '../model/hooks'`, `from './model/contexts'` — never deep (`../model/hooks/use-x`) and never a bare `../model`. Flat `model/` (no subfolders, e.g. just `use-x.ts` + `types.ts`) keeps no barrel: import the file directly (`./model/use-x`, `./model/types`).
-- **Styles**: separate `*.styles.ts` file exporting `xxxStyles` const, imported `as s`.
-- **Types**: `*.types.ts` next to component or `model/types.ts` for shared.
-- **Imports** sorted by biome (groups: external value, local value, styles, types). Run `bun lint:fix` to apply.
-- **i18n**: all user-facing strings via `useTranslations('namespace')` from `next-intl`. Keys live in `messages.d.ts` + JSON locale files.
-- **shadcn**: components live in `shared/ui/` (per `components.json`, `ui` alias → `shared/ui/atoms`). `style: new-york`, `baseColor: neutral`, `iconLibrary: lucide`.
-- **shared/ui is atomic**: `atoms/` (shadcn primitives + Badge/Spinner/Stack/Row), `molecules/` (FormField, SubmitButton, IconButtonWithTooltip, AvatarWithBadges), `organisms/` (ConfirmDialog, CenteredState), `icons/`. Import from the single root barrel `@/shared/ui` — not per-primitive.
-- **shared/hooks**: project-agnostic reusable React hooks (e.g. `useNavHistory`) live in `shared/hooks/`, imported via `@/shared/hooks`. Business-domain hooks stay in their slice's `model/`.
+The rules below apply repo-wide (every app and `packages/`).
 
 ## Reuse over reinvention
 
@@ -155,17 +126,10 @@ cd apps/client && bun x tsc --noEmit
 - **Commits**: Conventional Commits style (see git log).
 - **Branches**: feature branches off `master`. PRs target `master`.
 
-## Tauri specifics
+## Things to avoid (repo-wide)
 
-- The Tauri shell loads the Next.js client at `apps/tauri/tauri.conf.json` → `frontendDist`.
-- Desktop-only features (system tray, global shortcuts, deep links, updater) live in `apps/client/features/app/`. They use `@tauri-apps/api` + plugins and must gate runtime detection with `isTauri()` before calling Tauri APIs.
-- Web build must work without Tauri — `isTauri()` returns false in the browser.
-
-## Things to avoid
-
-- **Don't add `'use client'` to `app/**/page.tsx` or `layout.tsx`** — keep route files server-side, delegate UI to `views/`.
-- **Don't deep-import past slice barrel** — always import from `@/<layer>/<domain>/<slice>`. For shared UI use the root barrel `@/shared/ui`, not `@/shared/ui/atoms/<primitive>`.
-- **Don't put business logic in `shared/`** — `shared/` is project-agnostic. Business-domain hooks/types belong in `features/` or `entities/`.
-- **Don't bundle Tauri APIs unconditionally** — gate with `isTauri()` to keep the web build working.
-- **Don't edit `messages.d.ts` directly** — it's generated from locale JSON.
 - **No emojis in code** unless explicitly requested.
+- **Don't put business logic in `shared/`** (client) — it's project-agnostic; domain hooks/types belong in `features/` or `entities/`.
+- **Don't bundle Tauri APIs unconditionally** — gate with `isTauri()` so the web build keeps working.
+
+App-specific "don'ts" (route files server-side, no deep imports past barrels, don't edit generated `messages.d.ts`, etc.) live in the per-app `CLAUDE.md` files above.

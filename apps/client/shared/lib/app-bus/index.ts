@@ -1,1 +1,1 @@
-export { appBus } from './app-bus';
+export { appEvents } from './app-bus';
