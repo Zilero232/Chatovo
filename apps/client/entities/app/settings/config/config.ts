@@ -13,6 +13,8 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
     autoGainControl: true,
     voiceIsolation: false,
     activationMode: 'voiceActivity',
+    autoSensitivity: true,
+    micThreshold: 0.15,
   },
   video: {
     mirrorVideo: false,

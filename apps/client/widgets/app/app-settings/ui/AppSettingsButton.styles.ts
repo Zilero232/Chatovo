@@ -25,10 +25,16 @@ export const appSettingsStyles = {
   sliderRow: 'flex items-center gap-3',
   sliderValue: 'w-10 shrink-0 text-right text-xs tabular-nums text-muted-foreground',
 
-  micTest: 'flex items-center gap-3',
-  micTestBar: 'h-2 flex-1 overflow-hidden rounded-full bg-white/8 shadow-inner shadow-black/30',
-  micTestFill:
-    'h-full rounded-full bg-brand-cyan shadow-[0_0_8px_oklch(0.82_0.16_200/0.6)] transition-[width] duration-75',
+  meterRow: 'flex items-center gap-3',
+  meterTrack:
+    'relative h-2 flex-1 grow overflow-hidden rounded-full bg-white/8 shadow-inner shadow-black/30',
+  meterFill:
+    'h-full rounded-full bg-white/25 transition-all duration-100 data-[open=true]:bg-emerald-400 data-[open=true]:shadow-[0_0_8px_oklch(0.82_0.18_150/0.6)]',
+
+  sensitivitySlider:
+    'relative flex w-full touch-none select-none items-center py-1.5 data-disabled:opacity-50',
+  sensitivityThumb:
+    'block h-4 w-1.5 shrink-0 rounded-full border border-white/80 bg-white shadow-[0_0_10px_-1px_oklch(1_0_0/0.7)] outline-none transition-transform hover:scale-y-110 focus-visible:ring-2 focus-visible:ring-white/50',
 
   profilePanel:
     '-mr-2 flex max-h-[calc(100dvh-14rem)] flex-col gap-6 overflow-y-auto pr-2 pt-2 sm:max-h-[24rem]',

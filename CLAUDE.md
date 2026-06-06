@@ -63,6 +63,7 @@ The rules below apply repo-wide (every app and `packages/`).
 17. Animated number transitions → **`@number-flow/react`** (lobby stats, counters). No hand-tweened number rollups.
 18. Keyboard event → human-readable combo string → **`keyboard-event-to-string`** (shortcut recording UI). No hand-rolled key formatter.
 19. Cross-app pub/sub events → typed **`appBus`** in `shared/lib/app-bus` (built on reactuse `createEventEmitter`). For app-wide events (mute/deafen toggle, PTT, recheck-update) use the bus instead of `window` `CustomEvent` — types are enforced in `AppBusEvents`.
+20. Calling a fresh callback/prop from inside `useEffect` without making the effect re-run → **`useEffectEvent`** (React 19.2+). Do NOT hand-roll the `const cbRef = useRef(cb); cbRef.current = cb;` pattern to read a "latest" callback — `useEffectEvent` is the idiomatic replacement (the effect omits the event from its deps). The ref-latest pattern is only acceptable for non-callback mutable values that genuinely can't use an Effect Event.
 
 **When to roll your own:**
 

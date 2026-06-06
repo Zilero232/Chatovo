@@ -1,0 +1,1 @@
+export { VoiceGateController } from './VoiceGateController';
