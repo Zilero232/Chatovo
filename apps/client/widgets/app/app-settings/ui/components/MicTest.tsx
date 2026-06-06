@@ -2,6 +2,7 @@
 
 import { Mic, MicOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { formatPercent } from '@/shared/lib';
 import { Button } from '@/shared/ui';
 import { useMicTest } from '../../model/hooks';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
@@ -17,9 +18,13 @@ export const MicTest = ({ deviceId, audio }: MicTestProps) => {
   const { level, isLoopback, toggleLoopback, error } = useMicTest({ deviceId, audio });
 
   return (
-    <div className={s.micTest}>
-      <div className={s.micTestBar}>
-        <div className={s.micTestFill} style={{ width: `${Math.round(level * 100)}%` }} />
+    <div className={s.meterRow}>
+      <div className={s.meterTrack}>
+        <div
+          className={s.meterFill}
+          data-open={level > 0.01}
+          style={{ width: formatPercent(level) }}
+        />
       </div>
 
       <Button

@@ -12,6 +12,8 @@ export type AudioSettings = {
   >]-?: boolean;
 } & {
   activationMode: MicActivationMode;
+  autoSensitivity: boolean;
+  micThreshold: number;
 };
 
 export type VideoSettings = {

@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem, Switch } from '@/shared/ui';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 import { DeviceSelect } from '../components/DeviceSelect';
 import { MicTest } from '../components/MicTest';
+import { SensitivityControl } from '../components/SensitivityControl';
 import { SettingRow } from '../components/SettingRow';
 import type { AudioSettings, MicActivationMode } from '@/entities/app/settings';
 
@@ -66,6 +67,7 @@ export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
           </RadioGroup>
         }
       />
+
       {pttBindingMissing && (
         <span className={`${s.rowHint} -mt-1`}>
           {t.rich('activationPttNoBinding', {
@@ -81,6 +83,7 @@ export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
           })}
         </span>
       )}
+
       <SettingRow
         label={t('microphone')}
         hint={t('microphoneHint')}
@@ -94,6 +97,30 @@ export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
         control={<DeviceSelect kind="audiooutput" emptyLabel={tDevices('systemDefault')} />}
         stacked
       />
+
+      {audio.activationMode === 'voiceActivity' && (
+        <>
+          <SettingRow
+            label={t('autoSensitivity')}
+            hint={t('autoSensitivityHint')}
+            control={
+              <Switch
+                checked={audio.autoSensitivity}
+                onCheckedChange={(value) => setGroup('audio', { autoSensitivity: value })}
+              />
+            }
+          />
+
+          {!audio.autoSensitivity && (
+            <SettingRow
+              label={t('sensitivity')}
+              hint={t('sensitivityHint')}
+              control={<SensitivityControl audio={audio} deviceId={settings.devices.audioInput} />}
+              stacked
+            />
+          )}
+        </>
+      )}
 
       <SettingRow
         label={t('testMic')}

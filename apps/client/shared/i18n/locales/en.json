@@ -276,6 +276,10 @@
       "activationVoice": "Voice activity",
       "activationPtt": "Push-to-talk",
       "activationPttNoBinding": "Assign a key in the <link>Hotkeys tab</link> to use this mode.",
+      "autoSensitivity": "Automatically determine input sensitivity",
+      "autoSensitivityHint": "Adapts the threshold to your background noise. Turn off to set it manually.",
+      "sensitivity": "Input sensitivity",
+      "sensitivityHint": "Drag the handle: audio is sent when the bar passes it. Green means you are being heard.",
       "microphone": "Microphone",
       "microphoneHint": "The microphone used to capture your voice.",
       "speakers": "Speakers",
@@ -405,5 +409,19 @@
     "maximize": "Maximize",
     "restore": "Restore",
     "close": "Close"
+  },
+  "feedback": {
+    "title": "Report a problem",
+    "description": "Describe what went wrong. Optionally attach a screenshot.",
+    "descriptionLabel": "Problem description",
+    "descriptionPlaceholder": "What happened and what you were doing…",
+    "screenshotLabel": "Screenshot",
+    "screenshotHint": "Optional. Image up to 5 MB.",
+    "submit": "Send",
+    "sent": "Thanks! Your report has been sent.",
+    "validation": {
+      "feedbackMin": "At least 10 characters",
+      "feedbackMax": "At most 2000 characters"
+    }
   }
 }

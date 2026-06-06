@@ -24,6 +24,9 @@ const envSchema = z.object({
   SMTP_PASSWORD: z.string().min(1),
   EMAIL_FROM: z.string().min(1),
 
+  // Address that receives user bug reports / feedback ("Report a problem").
+  SUPPORT_EMAIL: z.email(),
+
   // Dev-only: redirect every outgoing email to this address. Lets you test
   // without spamming real users. Ignored in production.
   DEV_EMAIL_OVERRIDE: z.email().optional(),

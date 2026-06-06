@@ -7,6 +7,7 @@ import { RoomDeviceController } from '../RoomDeviceController';
 import { RoomSoundsController } from '../RoomSoundsController';
 import { RoomTrayController } from '../RoomTrayController';
 import { ShortcutActionsController } from '../ShortcutActionsController';
+import { VoiceGateController } from '../VoiceGateController';
 
 type RoomControllersProps = {
   roomId: string;
@@ -18,6 +19,7 @@ export const RoomControllers = ({ roomId }: RoomControllersProps) => (
     <RoomTrayController />
     <ShortcutActionsController />
     <MicActivationController />
+    <VoiceGateController />
     <MicStateController roomId={roomId} />
     <RoomSoundsController />
     <DeafenSyncController />

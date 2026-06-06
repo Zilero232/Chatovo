@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useAppSettings } from '@/entities/app/settings';
+import { formatPercent } from '@/shared/lib';
 import { Slider, Switch } from '@/shared/ui';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 import { SettingRow } from '../components/SettingRow';
@@ -30,7 +31,7 @@ export const SoundsTab = () => {
               value={[sounds.volume]}
               onValueChange={([value]) => setGroup('sounds', { volume: value })}
             />
-            <span className={s.sliderValue}>{Math.round(sounds.volume * 100)}%</span>
+            <span className={s.sliderValue}>{formatPercent(sounds.volume)}</span>
           </div>
         }
         stacked

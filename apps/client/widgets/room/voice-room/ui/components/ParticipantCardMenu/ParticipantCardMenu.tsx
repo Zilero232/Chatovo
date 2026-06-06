@@ -4,6 +4,7 @@ import { useCopy } from '@siberiacancode/reactuse';
 import { Copy, Volume1, Volume2, VolumeX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+import { formatPercent } from '@/shared/lib';
 import {
   ContextMenu,
   ContextMenuContent,
@@ -55,7 +56,7 @@ export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMe
                   <Volume1 />
                   {t('volume')}
                 </span>
-                <span className={s.volumeValue}>{Math.round(volume * 100)}%</span>
+                <span className={s.volumeValue}>{formatPercent(volume)}</span>
               </div>
 
               <Slider

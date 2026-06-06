@@ -1,11 +1,8 @@
 'use client';
 
-import { useInterval } from '@siberiacancode/reactuse';
-import { createAudioAnalyser, LocalAudioTrack } from 'livekit-client';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useMicAnalyser } from './use-mic-analyser';
 import type { AudioSettings } from '@/entities/app/settings';
-
-const LEVEL_INTERVAL_MS = 60;
 
 type UseMicTest = {
   level: number;
@@ -20,94 +17,39 @@ type MicTestArgs = {
 };
 
 export const useMicTest = ({ deviceId, audio }: MicTestArgs): UseMicTest => {
-  const [level, setLevel] = useState(0);
   const [isLoopback, setIsLoopback] = useState(false);
   const [error, setError] = useState(false);
 
   const sinkRef = useRef<HTMLAudioElement | null>(null);
   if (sinkRef.current === null && typeof Audio !== 'undefined') {
     sinkRef.current = new Audio();
-    sinkRef.current.muted = true;
   }
 
-  const calcVolumeRef = useRef<(() => number) | null>(null);
-
-  useEffect(() => {
-    let track: LocalAudioTrack | undefined;
-    let cleanup: (() => Promise<void>) | undefined;
-    let cancelled = false;
-
-    const constraints: MediaTrackConstraints = {
-      ...audio,
-      ...(deviceId && { deviceId: { exact: deviceId } }),
-    };
-
-    const start = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: constraints });
-
-        if (cancelled) {
-          for (const t of stream.getTracks()) {
-            t.stop();
-          }
-
-          return;
-        }
-
-        setError(false);
-
-        track = new LocalAudioTrack(stream.getAudioTracks()[0]);
-
-        const sink = sinkRef.current;
-        if (sink) {
-          sink.srcObject = stream;
-
-          try {
-            await sink.play();
-          } catch {}
-        }
-
-        const analyser = createAudioAnalyser(track);
-        calcVolumeRef.current = analyser.calculateVolume;
-        cleanup = analyser.cleanup;
-      } catch {
-        if (!cancelled) {
-          setError(true);
-        }
-      }
-    };
-
-    start();
-
-    return () => {
-      cancelled = true;
-
-      calcVolumeRef.current = null;
-      cleanup?.();
-      track?.stop();
+  const level = useMicAnalyser({
+    deviceId,
+    audio,
+    active: isLoopback,
+    onReady: (stream) => {
+      setError(false);
 
       const sink = sinkRef.current;
       if (sink) {
-        sink.srcObject = null;
+        sink.srcObject = stream;
+        sink.play().catch(() => {});
       }
-
-      setLevel(0);
-    };
-  }, [deviceId, audio]);
-
-  useInterval(() => {
-    if (calcVolumeRef.current) {
-      setLevel(calcVolumeRef.current());
-    }
-  }, LEVEL_INTERVAL_MS);
+    },
+    onError: () => setError(true),
+  });
 
   const toggleLoopback = () => {
     setIsLoopback((on) => {
       const next = !on;
 
-      const sink = sinkRef.current;
-      if (sink) {
-        sink.muted = !next;
+      if (!next) {
+        const sink = sinkRef.current;
+        if (sink) {
+          sink.srcObject = null;
+        }
       }
 
       return next;
