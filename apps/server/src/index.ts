@@ -10,6 +10,7 @@ import { env } from './core';
 import { authMiddleware, livekitAuthMiddleware } from './middleware';
 import { auth, socialDoneHandler } from './modules/auth';
 import { chatRouter } from './modules/chat';
+import { feedbackRouter } from './modules/feedback';
 import { githubRouter } from './modules/github';
 import { livekitRouter } from './modules/livekit';
 import { roomsRouter } from './modules/rooms';
@@ -55,10 +56,12 @@ export const routes = app
   .use('/rooms/*', authMiddleware)
   .use('/users/*', authMiddleware)
   .use('/chat/*', authMiddleware)
+  .use('/feedback/*', authMiddleware)
   .use('/livekit/*', livekitAuthMiddleware)
   .route('/rooms', roomsRouter)
   .route('/users', usersRouter)
   .route('/chat', chatRouter)
+  .route('/feedback', feedbackRouter)
   .route('/github', githubRouter)
   .route('/livekit', livekitRouter);
 

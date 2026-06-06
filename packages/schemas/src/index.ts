@@ -17,6 +17,7 @@ export {
   listMessagesQuerySchema,
   sendMessageInputSchema,
 } from './chat';
+export { reportProblemFormSchema, reportProblemSchema } from './feedback';
 export { gitHubReleaseSchema } from './github';
 export { safeJsonParse } from './json';
 export {
@@ -51,6 +52,7 @@ export type {
   ListMessagesQuery,
   SendMessageInput,
 } from './chat';
+export type { ReportProblemFormValues, ReportProblemValues } from './feedback';
 export type { GitHubRelease } from './github';
 export type {
   ParticipantMetadata,

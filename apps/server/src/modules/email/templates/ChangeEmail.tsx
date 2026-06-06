@@ -1,3 +1,4 @@
+import { Text } from 'react-email';
 import { BaseEmail } from './BaseEmail';
 
 type ChangeEmailProps = {
@@ -12,8 +13,10 @@ export const ChangeEmail = ({ newEmail, url }: ChangeEmailProps) => {
       heading="Approve email change"
       action={{ url, label: 'Approve change' }}
     >
-      Confirm changing your account email to {newEmail}. If you did not request this, ignore this
-      message.
+      <Text className="m-0 mb-6 text-neutral-600 text-sm leading-6">
+        Confirm changing your account email to {newEmail}. If you did not request this, ignore this
+        message.
+      </Text>
     </BaseEmail>
   );
 };
