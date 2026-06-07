@@ -8,16 +8,18 @@ export const KIND_TO_SLOT: Record<MediaDeviceKind, keyof DeviceSettings> = {
 
 export const DEFAULT_APP_SETTINGS: AppSettings = {
   audio: {
+    micThreshold: 0.15,
     noiseSuppression: true,
     echoCancellation: true,
     autoGainControl: true,
     voiceIsolation: false,
-    activationMode: 'voiceActivity',
     autoSensitivity: true,
-    micThreshold: 0.15,
+    activationMode: 'voiceActivity',
   },
   video: {
     mirrorVideo: false,
+    cameraQuality: '1080p',
+    screenQuality: '1080p30',
   },
   devices: {
     audioInput: '',
@@ -32,6 +34,7 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
       mute: true,
       reconnect: true,
       message: true,
+      reaction: true,
     },
   },
   system: {
@@ -43,5 +46,6 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
     muteToggle: 'Ctrl+Shift+M',
     deafenToggle: 'Ctrl+Shift+D',
     pttHold: 'Alt+L',
+    chatToggle: 'Ctrl+Shift+C',
   },
 };

@@ -22,11 +22,12 @@ export const ParticipantsView = () => {
   return (
     <div className={s.root}>
       <div className={s.grid}>
-        {participants.map((participant) => (
+        {participants.map((participant, index) => (
           <ParticipantCard
             key={participant.identity}
             participant={participant}
             deafened={deafenedIds.has(participant.identity)}
+            index={index}
           />
         ))}
       </div>

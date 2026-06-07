@@ -14,8 +14,13 @@ export const lobbyRoomsStyles = {
     'hidden shrink-0 items-center gap-1 rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground sm:flex',
 
   sections: 'flex flex-col gap-6',
-  section: 'flex flex-col gap-3',
-  sectionLabel: 'font-semibold text-foreground/70 text-xs uppercase tracking-[0.14em]',
+  section:
+    'flex animate-in flex-col gap-3 fill-mode-both fade-in slide-in-from-bottom-3 duration-500',
+  sectionHeader: 'flex items-center gap-3',
+  sectionLabel: 'shrink-0 font-semibold text-foreground/70 text-xs uppercase tracking-[0.14em]',
+  sectionCount:
+    'flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 px-1.5 font-semibold text-[10px] text-muted-foreground tabular-nums',
+  sectionRule: 'h-px flex-1 bg-linear-to-r from-white/10 to-transparent',
 
   grid: 'grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5',
 

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  BarVisualizer,
   useIsMuted,
   useIsSpeaking,
   useParticipantInfo,
@@ -10,34 +9,42 @@ import {
 import { Track } from 'livekit-client';
 import { HeadphoneOff, MicOff, ScreenShare } from 'lucide-react';
 import { isNonNullish } from 'remeda';
-import { UserName } from '@/entities/auth/user';
+import { UserAvatar, UserName } from '@/entities/auth/user';
 import { readParticipantMeta } from '@/entities/room/room';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
+import { cn } from '@/shared/lib';
 import { CardVideo } from '../CardVideo';
 import { ParticipantCardMenu } from '../ParticipantCardMenu';
+import { getCardTint } from './lib';
 import { participantCardStyles as s } from './ParticipantCard.styles';
 import type { ParticipantCardProps } from './ParticipantCard.types';
 
-export const ParticipantCard = ({ participant, deafened }: ParticipantCardProps) => {
+export const ParticipantCard = ({ participant, deafened, index = 0 }: ParticipantCardProps) => {
   const [cameraTrack] = useParticipantTracks([Track.Source.Camera], participant.identity);
   const [screenTrack] = useParticipantTracks([Track.Source.ScreenShare], participant.identity);
   const [micTrack] = useParticipantTracks([Track.Source.Microphone], participant.identity);
 
   const isSpeaking = useIsSpeaking(participant);
   const micMuted = useIsMuted(micTrack ?? { participant, source: Track.Source.Microphone });
+  const cameraMuted = useIsMuted(cameraTrack ?? { participant, source: Track.Source.Camera });
+  const screenMuted = useIsMuted(screenTrack ?? { participant, source: Track.Source.ScreenShare });
 
   const { name, metadata } = useParticipantInfo({ participant });
-  const { verified } = readParticipantMeta(metadata);
+  const { verified, avatarUrl, bannerColor } = readParticipantMeta(metadata);
 
   const displayName = name || participant.identity;
 
-  const hasCamera = isNonNullish(cameraTrack);
-  const hasScreen = isNonNullish(screenTrack);
+  const hasCamera = isNonNullish(cameraTrack) && !cameraMuted;
+  const hasScreen = isNonNullish(screenTrack) && !screenMuted;
   const hasVideo = hasCamera || hasScreen;
 
   return (
     <ParticipantCardMenu participant={participant}>
-      <div className={s.root} data-speaking={isSpeaking}>
+      <div
+        className={s.root}
+        data-speaking={isSpeaking}
+        style={{ animationDelay: `${Math.min(index, 8) * 50}ms` }}
+      >
         <div className={s.stage}>
           {hasVideo ? (
             <div className={s.videoGrid}>
@@ -46,9 +53,15 @@ export const ParticipantCard = ({ participant, deafened }: ParticipantCardProps)
             </div>
           ) : (
             <div className={s.audioStage}>
-              <BarVisualizer barCount={5} className={s.visualizer} track={micTrack}>
-                <span className={s.bar} />
-              </BarVisualizer>
+              <span aria-hidden className={s.tint} style={getCardTint(bannerColor)} />
+              <span aria-hidden className={cn(s.avatarHalo, isSpeaking && s.avatarHaloSpeaking)} />
+
+              <UserAvatar
+                name={displayName}
+                src={avatarUrl}
+                className={cn(s.avatar, isSpeaking && s.avatarSpeaking)}
+                fallbackClassName={s.avatarFallback}
+              />
             </div>
           )}
         </div>

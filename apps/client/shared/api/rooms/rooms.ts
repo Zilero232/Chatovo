@@ -6,7 +6,9 @@ export const listRooms = async (): Promise<Room[]> => {
     const res = await api.rooms.$get();
 
     if (!res.ok) {
-      throw new Error(`Failed to list rooms: ${res.status}`);
+      const message = await readErrorMessage(res);
+
+      throw new Error(message ?? `Failed to list rooms: ${res.status}`);
     }
 
     return await res.json();

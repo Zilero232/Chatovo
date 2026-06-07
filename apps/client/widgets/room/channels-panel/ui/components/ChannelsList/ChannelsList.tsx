@@ -62,8 +62,14 @@ export const ChannelsList = ({ onNavigate }: ChannelsListProps = {}) => {
                 <div key={section.key}>
                   <SectionLabel offset={index > 0}>{tSections(section.key)}</SectionLabel>
 
-                  {section.rooms.map((room) => (
-                    <ChannelsRoomItem key={room.id} room={room} onNavigate={onNavigate} />
+                  {section.rooms.map((room, roomIndex) => (
+                    <div
+                      key={room.id}
+                      className={s.itemAnim}
+                      style={{ animationDelay: `${Math.min(roomIndex, 10) * 30}ms` }}
+                    >
+                      <ChannelsRoomItem room={room} onNavigate={onNavigate} />
+                    </div>
                   ))}
                 </div>
               )),

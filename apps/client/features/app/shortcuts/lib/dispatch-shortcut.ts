@@ -15,5 +15,8 @@ export const dispatchShortcut = (actionId: ShortcutActionId, state: KeyState) =>
     .with({ actionId: 'deafenToggle', state: 'Pressed' }, () => {
       appEvents.emit.deafenToggle();
     })
+    .with({ actionId: 'chatToggle', state: 'Pressed' }, () => {
+      appEvents.emit.chatToggle();
+    })
     .otherwise(() => {});
 };

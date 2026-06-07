@@ -8,7 +8,14 @@ import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 import { SettingRow } from '../components/SettingRow';
 import type { SoundCategory } from '@/entities/app/settings';
 
-const SOUND_CATEGORIES: SoundCategory[] = ['join', 'leave', 'mute', 'reconnect', 'message'];
+const SOUND_CATEGORIES: SoundCategory[] = [
+  'join',
+  'leave',
+  'mute',
+  'reconnect',
+  'message',
+  'reaction',
+];
 
 export const SoundsTab = () => {
   const t = useTranslations('settings.sounds');

@@ -5,7 +5,7 @@ import { useBoolean } from '@siberiacancode/reactuse';
 import { MessageSquare } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRef } from 'react';
-import { useAppSettings } from '@/entities/app/settings';
+import { getPublishDefaults, useAppSettings } from '@/entities/app/settings';
 import { useRecentRooms } from '@/entities/room/room';
 import {
   DeafenProvider,
@@ -14,6 +14,7 @@ import {
   RoomAudio,
   RoomControlBar,
 } from '@/features/room/room-control';
+import { appEvents } from '@/shared/lib';
 import { Button } from '@/shared/ui';
 import { ChatPanel, RoomChatProvider } from '@/widgets/room/chat';
 import { FAILURE_REASONS } from '../config';
@@ -36,8 +37,13 @@ export const VoiceRoom = ({
 
   const [isChatOpen, toggleChat] = useBoolean(false);
 
+  appEvents.on.chatToggle(() => toggleChat());
+
   const hasConnectedRef = useRef(false);
   const audioCaptureRef = useRef(settings.audio);
+  const publishDefaultsRef = useRef(
+    getPublishDefaults(settings.video.cameraQuality, settings.video.screenQuality),
+  );
 
   return (
     <div className={s.root}>
@@ -46,7 +52,7 @@ export const VoiceRoom = ({
           connect
           audio={audioCaptureRef.current}
           className={s.room}
-          options={{ webAudioMix: true }}
+          options={{ webAudioMix: true, publishDefaults: publishDefaultsRef.current }}
           serverUrl={serverUrl}
           token={token}
           video={false}

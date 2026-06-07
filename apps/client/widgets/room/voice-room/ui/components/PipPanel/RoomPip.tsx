@@ -1,6 +1,7 @@
 'use client';
 
 import { useConnectionState } from '@livekit/components-react';
+import { isTauri } from '@tauri-apps/api/core';
 import { ConnectionState } from 'livekit-client';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
@@ -20,6 +21,10 @@ export const RoomPip = () => {
       setIsOpen(false);
     }
   }, [isConnected]);
+
+  if (isTauri()) {
+    return null;
+  }
 
   return (
     <PictureInPicture

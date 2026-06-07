@@ -1,10 +1,16 @@
 'use client';
 
 import { useRoomContext } from '@livekit/components-react';
-import { type Room, RoomEvent } from 'livekit-client';
+import { LocalVideoTrack, type Room, RoomEvent, Track } from 'livekit-client';
 import { useEffect, useRef } from 'react';
 import { keys } from 'remeda';
-import { type DeviceSettings, KIND_TO_SLOT, useAppSettings } from '@/entities/app/settings';
+import {
+  type DeviceSettings,
+  getCameraCaptureOptions,
+  getPublishDefaults,
+  KIND_TO_SLOT,
+  useAppSettings,
+} from '@/entities/app/settings';
 
 const applyDevices = (room: Room, devices: DeviceSettings) => {
   for (const kind of keys(KIND_TO_SLOT)) {
@@ -65,10 +71,42 @@ const useApplyAudioFlags = (room: Room) => {
   const { audio } = settings;
 
   useEffect(() => {
+    room.options.audioCaptureDefaults = {
+      ...room.options.audioCaptureDefaults,
+      ...audio,
+    };
+
     if (room.localParticipant.isMicrophoneEnabled) {
       room.localParticipant.setMicrophoneEnabled(true, audio);
     }
   }, [room, audio]);
+};
+
+const useApplyVideoQuality = (room: Room) => {
+  const { settings } = useAppSettings();
+  const { cameraQuality, screenQuality } = settings.video;
+
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    room.options.publishDefaults = {
+      ...room.options.publishDefaults,
+      ...getPublishDefaults(cameraQuality, screenQuality),
+    };
+
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+      return;
+    }
+
+    const cameraTrack = room.localParticipant.getTrackPublication(Track.Source.Camera)?.videoTrack;
+
+    if (cameraTrack instanceof LocalVideoTrack) {
+      cameraTrack.restartTrack(getCameraCaptureOptions(cameraQuality)).catch((err) => {
+        console.error('failed to apply camera quality', err);
+      });
+    }
+  }, [room, cameraQuality, screenQuality]);
 };
 
 export const useDeviceSync = () => {
@@ -77,6 +115,7 @@ export const useDeviceSync = () => {
   const { settings } = useAppSettings();
 
   useApplyAudioFlags(room);
+  useApplyVideoQuality(room);
   useMirrorActiveDevice(room);
   useApplyDevices(room, settings.devices);
 };

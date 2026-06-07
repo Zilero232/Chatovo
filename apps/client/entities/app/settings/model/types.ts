@@ -1,7 +1,7 @@
 import type { AudioCaptureOptions } from 'livekit-client';
 import type { ShortcutSettings } from '@/entities/app/shortcut';
 
-export type SoundCategory = 'join' | 'leave' | 'mute' | 'reconnect' | 'message';
+export type SoundCategory = 'join' | 'leave' | 'mute' | 'reconnect' | 'message' | 'reaction';
 
 export type MicActivationMode = 'voiceActivity' | 'pushToTalk';
 
@@ -16,8 +16,14 @@ export type AudioSettings = {
   micThreshold: number;
 };
 
+export type VideoQuality = '720p' | '1080p' | '1440p' | '4k';
+
+export type ScreenQuality = '1080p15' | '1080p30' | '1440p30' | '4k30';
+
 export type VideoSettings = {
   mirrorVideo: boolean;
+  cameraQuality: VideoQuality;
+  screenQuality: ScreenQuality;
 };
 
 export type DeviceSettings = {

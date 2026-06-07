@@ -9,6 +9,7 @@ export const SOUND_SRC = {
   deafen: '/audios/deafen.mp3',
   undeafen: '/audios/undeafen.mp3',
   message: '/audios/notification.mp3',
+  reaction: '/audios/reaction.mp3',
 } as const;
 
 export type SoundKey = keyof typeof SOUND_SRC;
@@ -22,4 +23,5 @@ export const SOUND_CATEGORY: Record<SoundKey, SoundCategory> = {
   deafen: 'mute',
   undeafen: 'mute',
   message: 'message',
+  reaction: 'reaction',
 };

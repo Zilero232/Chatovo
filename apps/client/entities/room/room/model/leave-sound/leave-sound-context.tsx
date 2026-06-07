@@ -4,10 +4,11 @@ import { createContextHook, useAudio } from '@siberiacancode/reactuse';
 import type { ReactNode } from 'react';
 
 const useLeaveSoundValue = () => {
-  const { play } = useAudio('/audios/user_leave.mp3', { interrupt: true });
+  const { play, setVolume } = useAudio('/audios/user_leave.mp3', { interrupt: true });
 
-  return async () => {
+  return async (volume = 1) => {
     try {
+      setVolume(volume);
       await play();
     } catch {}
   };

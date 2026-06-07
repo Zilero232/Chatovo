@@ -50,9 +50,17 @@ export const LobbyRooms = () => {
         ))
         .otherwise(() => (
           <div className={s.sections}>
-            {sections.map((section) => (
-              <section key={section.key} className={s.section}>
-                <h4 className={s.sectionLabel}>{tSections(section.key)}</h4>
+            {sections.map((section, sectionIndex) => (
+              <section
+                key={section.key}
+                className={s.section}
+                style={{ animationDelay: `${sectionIndex * 90}ms` }}
+              >
+                <div className={s.sectionHeader}>
+                  <h4 className={s.sectionLabel}>{tSections(section.key)}</h4>
+                  <span className={s.sectionCount}>{section.rooms.length}</span>
+                  <span aria-hidden className={s.sectionRule} />
+                </div>
 
                 <div className={s.grid}>
                   {section.rooms.map((room) => (

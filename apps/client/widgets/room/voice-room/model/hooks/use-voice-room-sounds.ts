@@ -29,6 +29,7 @@ export const useVoiceRoomSounds = () => {
     deafen: useAudio(SOUND_SRC.deafen, { interrupt: true }),
     undeafen: useAudio(SOUND_SRC.undeafen, { interrupt: true }),
     message: useAudio(SOUND_SRC.message, { interrupt: true }),
+    reaction: useAudio(SOUND_SRC.reaction, { interrupt: true }),
   });
 
   const soundsRef = useRef(settings.sounds);
@@ -47,7 +48,7 @@ export const useVoiceRoomSounds = () => {
 
   const playLeaveSound = () => {
     if (soundsRef.current.enabled.leave) {
-      playLeave();
+      playLeave(soundsRef.current.volume);
     }
   };
 
@@ -66,6 +67,7 @@ export const useVoiceRoomSounds = () => {
 
   appEvents.on.pttHold(() => playRef.current.play('ptt'));
   appEvents.on.chatMessage(() => playRef.current.play('message'));
+  appEvents.on.reaction(() => playRef.current.play('reaction'));
 
   const prevDeafened = usePrevious(isDeafened);
 

@@ -3,7 +3,11 @@
 import { useLocalParticipant, useRoomContext } from '@livekit/components-react';
 import { isTauri } from '@tauri-apps/api/core';
 import { isNullish } from 'remeda';
-import { useAppSettings } from '@/entities/app/settings';
+import {
+  getCameraCaptureOptions,
+  getScreenCaptureOptions,
+  useAppSettings,
+} from '@/entities/app/settings';
 import { prettyHotkey, toggleMicStream } from '@/shared/lib';
 import { resolveMicVisual } from '../../lib/mic-visual';
 import { useDeafen } from './use-deafen';
@@ -65,11 +69,21 @@ export const useRoomControls = () => {
     deafen: { active: isDeafened, toggle: toggleDeafen },
     camera: {
       enabled: isCameraEnabled,
-      toggle: run((p) => p.setCameraEnabled(!p.isCameraEnabled)),
+      toggle: run((p) =>
+        p.setCameraEnabled(
+          !p.isCameraEnabled,
+          getCameraCaptureOptions(settings.video.cameraQuality),
+        ),
+      ),
     },
     screen: {
       enabled: isScreenShareEnabled,
-      toggle: run((p) => p.setScreenShareEnabled(!p.isScreenShareEnabled)),
+      toggle: run((p) =>
+        p.setScreenShareEnabled(
+          !p.isScreenShareEnabled,
+          getScreenCaptureOptions(settings.video.screenQuality),
+        ),
+      ),
     },
     leave: () => {
       room.disconnect();

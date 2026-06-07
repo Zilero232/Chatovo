@@ -13,6 +13,9 @@ type AppBusEvents = {
   pttHold: { phase: 'pressed' | 'released' };
   // chat
   chatMessage: undefined;
+  chatToggle: undefined;
+  // reactions
+  reaction: undefined;
 };
 
 type EventName = keyof AppBusEvents;

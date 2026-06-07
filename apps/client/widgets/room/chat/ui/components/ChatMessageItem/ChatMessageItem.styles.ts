@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const chatMessageItemStyles = {
-  root: 'flex items-end gap-2 data-[own=true]:flex-row-reverse',
+  root: 'flex items-end gap-2 animate-in fade-in slide-in-from-bottom-2 duration-200 data-[own=true]:flex-row-reverse',
   column: 'flex min-w-0 max-w-[85%] flex-col gap-1 data-[own=true]:items-end',
   meta: 'flex items-center gap-2 px-1 text-[11px] text-muted-foreground',
   nameTrigger:

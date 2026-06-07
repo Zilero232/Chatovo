@@ -71,7 +71,6 @@ export const issueRoomToken = async (input: IssueTokenInput): Promise<TokenRespo
   at.addGrant({
     room: room.id,
     roomJoin: true,
-    roomCreate: true,
     canPublish: true,
     canSubscribe: true,
     canPublishData: true,
