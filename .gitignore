@@ -36,6 +36,10 @@ node_modules
 *.key
 *.key.pub
 
+# Superpowers brainstorming artifacts (companion mockups, session state, specs)
+.superpowers/
+docs/superpowers/
+
 # Package-specific build output is ignored by each package's own .gitignore:
 #   apps/client/.gitignore   — .next/, out/, dist/
 #   apps/server/.gitignore   — generated/, dist/

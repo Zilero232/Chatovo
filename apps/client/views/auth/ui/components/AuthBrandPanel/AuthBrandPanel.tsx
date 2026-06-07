@@ -1,7 +1,7 @@
 'use client';
 
-import { Sparkles } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { LogoMark } from '@/shared/ui';
 import { AUTH_EQ_BARS, AUTH_FEATURES } from '../../../config';
 import { authBrandPanelStyles as s } from './AuthBrandPanel.styles';
 
@@ -14,7 +14,7 @@ export const AuthBrandPanel = () => {
 
       <div className={s.top}>
         <span className={s.mark}>
-          <Sparkles className="size-5" />
+          <LogoMark className="text-white" size={26} />
         </span>
         <span className={s.wordmark}>{t('appName')}</span>
       </div>
