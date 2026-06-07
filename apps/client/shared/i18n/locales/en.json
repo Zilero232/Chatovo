@@ -165,7 +165,20 @@
     "uploading": "Uploading…",
     "uploadFailed": "Failed to upload file",
     "fileTooLarge": "File is too large (max 25 MB)",
-    "persistFailed": "Message sent but not saved — it may disappear on refresh"
+    "persistFailed": "Message sent but not saved — it may disappear on refresh",
+    "edit": "Edit",
+    "delete": "Delete",
+    "edited": "edited",
+    "editHint": "Enter to save · Esc to cancel",
+    "save": "Save",
+    "deletedPlaceholder": "Message deleted",
+    "deleteTitle": "Delete message?",
+    "deleteDescription": "This message will be permanently removed for everyone. This action cannot be undone.",
+    "cancel": "Cancel",
+    "editFailed": "Failed to edit message",
+    "deleteFailed": "Failed to delete message",
+    "today": "Today",
+    "yesterday": "Yesterday"
   },
   "user": {
     "verified": "Verified account"

@@ -8,7 +8,7 @@ export type MessageWithSender = Prisma.MessageGetPayload<{
 }>;
 
 export const toChatMessage = (row: MessageWithSender): ChatMessage => {
-  const { id, roomId, senderId, sender, body, createdAt } = row;
+  const { id, roomId, senderId, sender, body, createdAt, editedAt, deletedAt } = row;
 
   return {
     id,
@@ -23,7 +23,9 @@ export const toChatMessage = (row: MessageWithSender): ChatMessage => {
             userId: senderId,
           })
         : 'Deleted user',
-    body,
+    body: deletedAt ? '' : body,
     createdAt: createdAt.toISOString(),
+    editedAt: editedAt?.toISOString() ?? null,
+    deletedAt: deletedAt?.toISOString() ?? null,
   };
 };

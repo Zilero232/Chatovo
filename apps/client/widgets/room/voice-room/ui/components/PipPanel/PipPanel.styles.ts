@@ -9,7 +9,7 @@ export const pipPanelStyles = {
 } as const;
 
 export const roomPipStyles = {
-  trigger: 'size-9! shrink-0 sm:size-10!',
+  trigger: 'size-9! shrink-0 sm:size-10! [@media(hover:none)]:hidden',
 } as const;
 
 export const pipGridStyle: CSSProperties = {

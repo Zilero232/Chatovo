@@ -1,12 +1,15 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { messageLink, messageContentStyles as s } from './MessageContent.styles';
 import type { Components } from 'react-markdown';
 import type { MessageContentProps } from './MessageContent.types';
 
-export const MessageContent = ({ message, isOwn }: MessageContentProps) => {
+export const MessageContent = ({ message, isOwn, isEdited }: MessageContentProps) => {
+  const t = useTranslations('chat');
+
   const components: Components = {
     a: ({ href, children }) => (
       <a
@@ -27,6 +30,7 @@ export const MessageContent = ({ message, isOwn }: MessageContentProps) => {
       <Markdown components={components} remarkPlugins={[remarkGfm]}>
         {message}
       </Markdown>
+      {isEdited && <span className={s.edited}>{t('edited')}</span>}
     </div>
   );
 };

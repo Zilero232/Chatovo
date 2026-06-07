@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { match } from 'ts-pattern';
 import { useCurrentUser } from '@/entities/auth/user';
 import { useOttReturn } from '@/features/auth/google';
@@ -19,10 +19,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const { isLoading, isAuthenticated } = useCurrentUser();
 
+  const hasResolvedRef = useRef(false);
+
+  if (!isLoading) {
+    hasResolvedRef.current = true;
+  }
+
+  const isInitialLoading = isLoading && !hasResolvedRef.current;
+
   const isGuestZone = pathname === ROUTES.auth;
 
-  const target = match({ isGuestZone, isLoading, isAuthenticated })
-    .with({ isLoading: true }, () => null)
+  const target = match({ isGuestZone, isInitialLoading, isAuthenticated })
+    .with({ isInitialLoading: true }, () => null)
     .with({ isGuestZone: true, isAuthenticated: true }, () => ROUTES.lobby)
     .with({ isGuestZone: false, isAuthenticated: false }, () => ROUTES.auth)
     .otherwise(() => null);
@@ -34,7 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [target]);
 
-  if (isLoading || target) {
+  if (isInitialLoading || target) {
     return <AppSplash message={t('signingIn')} />;
   }
 

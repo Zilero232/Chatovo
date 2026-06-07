@@ -15,6 +15,8 @@ export const chatMessageSchema = z.object({
   senderName: z.string(),
   body: z.string(),
   createdAt: z.string(),
+  editedAt: z.string().nullable(),
+  deletedAt: z.string().nullable(),
 });
 
 export const chatMessagesPageSchema = z.object({

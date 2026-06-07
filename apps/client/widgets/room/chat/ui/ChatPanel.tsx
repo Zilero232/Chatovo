@@ -4,36 +4,26 @@ import { useLocalParticipant } from '@livekit/components-react';
 import { useAutoScroll } from '@siberiacancode/reactuse';
 import { Paperclip } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { Fragment } from 'react';
 import { isEmpty, sortBy } from 'remeda';
-import { toast } from 'sonner';
-import { sendChatMessage } from '@/shared/api';
 import { useRoomChat } from '../model/contexts';
-import { useChatFiles, useChatHistory } from '../model/hooks';
-import { liveMessageToChatLine } from '../model/lib';
+import { useChatFiles, useChatHistory, useChatSend, useChatSync } from '../model/hooks';
+import { groupChatLines, liveMessageToChatLine } from '../model/lib';
 import { chatPanelStyles as s } from './ChatPanel.styles';
-import { ChatComposer, ChatEmpty, ChatHeader, ChatMessageItem } from './components';
+import { ChatComposer, ChatEmpty, ChatHeader, ChatMessageItem, DateDivider } from './components';
 import type { ChatPanelProps } from './ChatPanel.types';
 
 export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
   const t = useTranslations('chat');
 
-  const { isSending, chatMessages, send } = useRoomChat();
+  const { isSending, chatMessages } = useRoomChat();
   const { localParticipant } = useLocalParticipant();
 
   const history = useChatHistory(roomId);
+  const { sendAndPersist } = useChatSend(roomId);
+  const { edit, remove } = useChatSync(roomId);
 
   const listRef = useAutoScroll<HTMLDivElement>();
-
-  const sendAndPersist = async (body: string) => {
-    await send(body);
-
-    try {
-      await sendChatMessage(roomId, body);
-    } catch (error) {
-      console.error(error);
-      toast.error(t('persistFailed'));
-    }
-  };
 
   const { dropRef, overed, isUploading, openPicker, onPaste } = useChatFiles({
     roomId,
@@ -43,11 +33,13 @@ export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
 
   const liveLines = chatMessages.map(liveMessageToChatLine);
 
-  const liveIds = new Set(liveLines.map((line) => line.id));
+  const historyIds = new Set(history.map((line) => line.id));
   const messages = sortBy(
-    [...history.filter((line) => !liveIds.has(line.id)), ...liveLines],
+    [...history, ...liveLines.filter((line) => !historyIds.has(line.id))],
     (line) => line.timestamp,
   );
+
+  const grouped = groupChatLines(messages, localParticipant.identity);
 
   return (
     <aside ref={dropRef} className={s.root} data-open={isOpen} inert={!isOpen}>
@@ -65,19 +57,20 @@ export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
           <ChatEmpty />
         ) : (
           <div className={s.list}>
-            {messages.map((message, index) => {
-              const isOwn = message.from?.identity === localParticipant.identity;
-              const isGrouped = messages[index - 1]?.from?.identity === message.from?.identity;
-
-              return (
+            {grouped.map(({ line, isOwn, isGrouped, isTail, showDivider }) => (
+              <Fragment key={line.id}>
+                {showDivider && <DateDivider timestamp={line.timestamp} />}
                 <ChatMessageItem
-                  key={message.id}
-                  message={message}
+                  message={line}
                   isOwn={isOwn}
                   isGrouped={isGrouped}
+                  isTail={isTail}
+                  canManage={isOwn && historyIds.has(line.id)}
+                  onEdit={edit}
+                  onDelete={remove}
                 />
-              );
-            })}
+              </Fragment>
+            ))}
           </div>
         )}
       </div>

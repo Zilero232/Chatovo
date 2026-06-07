@@ -22,6 +22,9 @@ export const clearToken = (): void => {
 export const authClient = createAuthClient({
   baseURL: env.NEXT_PUBLIC_API_URL,
   basePath: '/auth',
+  session: {
+    refetchOnWindowFocus: false,
+  },
   plugins: [
     inferAdditionalFields({
       user: {

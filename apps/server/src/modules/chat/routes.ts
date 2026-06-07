@@ -2,7 +2,9 @@ import {
   chatAttachmentSchema,
   chatMessageSchema,
   chatMessagesPageSchema,
+  editMessageInputSchema,
   listMessagesQuerySchema,
+  messageIdParamSchema,
   sendMessageInputSchema,
 } from '@chatovo/schemas';
 import { createRoute, z } from '@hono/zod-openapi';
@@ -83,6 +85,58 @@ export const listMessagesRoute = createRoute({
     },
     404: {
       description: 'Room not found',
+      content: { 'application/json': { schema: errorSchema } },
+    },
+  },
+});
+
+export const editMessageRoute = createRoute({
+  method: 'patch',
+  path: '/messages/{id}',
+  tags: ['chat'],
+  summary: 'Edit own chat message',
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: messageIdParamSchema,
+    body: {
+      required: true,
+      content: { 'application/json': { schema: editMessageInputSchema } },
+    },
+  },
+  responses: {
+    200: {
+      description: 'Edited message',
+      content: { 'application/json': { schema: chatMessageSchema } },
+    },
+    403: {
+      description: 'Not your message',
+      content: { 'application/json': { schema: errorSchema } },
+    },
+    404: {
+      description: 'Message not found',
+      content: { 'application/json': { schema: errorSchema } },
+    },
+  },
+});
+
+export const deleteMessageRoute = createRoute({
+  method: 'delete',
+  path: '/messages/{id}',
+  tags: ['chat'],
+  summary: 'Delete own chat message',
+  security: [{ bearerAuth: [] }],
+  request: { params: messageIdParamSchema },
+  responses: {
+    200: {
+      description: 'Deleted message',
+      content: { 'application/json': { schema: chatMessageSchema } },
+    },
+    403: {
+      description: 'Not your message',
+      content: { 'application/json': { schema: errorSchema } },
+    },
+    404: {
+      description: 'Message not found',
       content: { 'application/json': { schema: errorSchema } },
     },
   },

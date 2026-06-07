@@ -1,1 +1,7 @@
-export { fetchChatMessages, sendChatMessage, uploadChatAttachment } from './chat';
+export {
+  deleteChatMessage,
+  editChatMessage,
+  fetchChatMessages,
+  sendChatMessage,
+  uploadChatAttachment,
+} from './chat';
