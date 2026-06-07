@@ -10,6 +10,7 @@ import type {
   ChatAttachment,
   ChatMessage,
   ChatMessagesPage,
+  EditMessageInput,
   ListMessagesQuery,
   SendMessageInput,
 } from '@chatovo/schemas';
@@ -39,12 +40,14 @@ export const sendMessage = async (
   input: SendMessageInput,
   senderId: string,
 ): Promise<ChatMessage> => {
-  const { roomId, body } = input;
+  const { id, roomId, body } = input;
 
   await assertRoomExists(roomId);
 
-  const message = await prisma.message.create({
-    data: { roomId, senderId, body },
+  const message = await prisma.message.upsert({
+    where: { id },
+    create: { id, roomId, senderId, body },
+    update: {},
     include: { sender: senderSelect },
   });
 
@@ -71,4 +74,45 @@ export const listMessages = async (query: ListMessagesQuery): Promise<ChatMessag
     items: page.reverse().map(toChatMessage),
     nextCursor: hasMore ? (page[0]?.id ?? null) : null,
   };
+};
+
+const getOwnMessageOrThrow = async (messageId: string, senderId: string) => {
+  const message = await prisma.message.findUnique({ where: { id: messageId } });
+
+  if (!message || message.deletedAt) {
+    throw new HTTPException(StatusCodes.NOT_FOUND, { message: 'Message not found' });
+  }
+  if (message.senderId !== senderId) {
+    throw new HTTPException(StatusCodes.FORBIDDEN, { message: 'Not your message' });
+  }
+
+  return message;
+};
+
+export const editMessage = async (
+  messageId: string,
+  input: EditMessageInput,
+  senderId: string,
+): Promise<ChatMessage> => {
+  await getOwnMessageOrThrow(messageId, senderId);
+
+  const message = await prisma.message.update({
+    where: { id: messageId },
+    data: { body: input.body, editedAt: new Date() },
+    include: { sender: senderSelect },
+  });
+
+  return toChatMessage(message);
+};
+
+export const deleteMessage = async (messageId: string, senderId: string): Promise<ChatMessage> => {
+  await getOwnMessageOrThrow(messageId, senderId);
+
+  const message = await prisma.message.update({
+    where: { id: messageId },
+    data: { deletedAt: new Date() },
+    include: { sender: senderSelect },
+  });
+
+  return toChatMessage(message);
 };

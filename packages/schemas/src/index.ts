@@ -12,9 +12,11 @@ export {
   chatMessageSchema,
   chatMessagesPageSchema,
   decodeChatAttachment,
+  editMessageInputSchema,
   encodeChatAttachment,
   isImageMime,
   listMessagesQuerySchema,
+  messageIdParamSchema,
   sendMessageInputSchema,
 } from './chat';
 export { reportProblemFormSchema, reportProblemSchema } from './feedback';
@@ -49,7 +51,9 @@ export type {
   ChatAttachment,
   ChatMessage,
   ChatMessagesPage,
+  EditMessageInput,
   ListMessagesQuery,
+  MessageIdParam,
   SendMessageInput,
 } from './chat';
 export type { ReportProblemFormValues, ReportProblemValues } from './feedback';

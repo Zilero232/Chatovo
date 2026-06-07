@@ -1,5 +1,11 @@
 export { authClient, clearToken, getAuthToken } from './auth';
-export { fetchChatMessages, sendChatMessage, uploadChatAttachment } from './chat';
+export {
+  deleteChatMessage,
+  editChatMessage,
+  fetchChatMessages,
+  sendChatMessage,
+  uploadChatAttachment,
+} from './chat';
 export { reportProblem } from './feedback';
 export { getLatestRelease } from './github';
 export { buildPresenceStreamUrl, fetchLiveKitToken, reportPresenceState } from './livekit';
