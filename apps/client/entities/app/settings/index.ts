@@ -1,6 +1,11 @@
 export { DEFAULT_APP_SETTINGS, KIND_TO_SLOT } from './config/config';
 export { audioConstraints } from './lib/audio-constraints';
 export {
+  getCameraCaptureOptions,
+  getPublishDefaults,
+  getScreenCaptureOptions,
+} from './lib/video-quality';
+export {
   VOICE_GATE_MANUAL_RANGE,
   VoiceGateProcessor,
 } from './lib/voice-gate/voice-gate-processor';
@@ -11,6 +16,7 @@ export type {
   AudioSettings,
   DeviceSettings,
   MicActivationMode,
+  ScreenQuality,
   ShortcutActionId,
   ShortcutBinding,
   ShortcutSettings,
@@ -18,5 +24,6 @@ export type {
   SoundSettings,
   SystemSettings,
   TraySettings,
+  VideoQuality,
   VideoSettings,
 } from './model/types';

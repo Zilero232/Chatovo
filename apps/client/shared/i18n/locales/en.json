@@ -94,6 +94,7 @@
       "live": "Live",
       "empty": "Empty",
       "emptyHint": "No one here yet — be the first",
+      "joinFirst": "Be the first",
       "people": "{count, plural, one {# person} other {# people}}",
       "yours": "Yours",
       "ownerTooltip": "Room owner",
@@ -163,7 +164,8 @@
     "dropToSend": "Drop to send",
     "uploading": "Uploading…",
     "uploadFailed": "Failed to upload file",
-    "fileTooLarge": "File is too large (max 25 MB)"
+    "fileTooLarge": "File is too large (max 25 MB)",
+    "persistFailed": "Message sent but not saved — it may disappear on refresh"
   },
   "user": {
     "verified": "Verified account"
@@ -299,6 +301,22 @@
     "video": {
       "camera": "Camera",
       "cameraHint": "The camera used when you turn on video.",
+      "cameraQuality": "Camera quality",
+      "cameraQualityHint": "Resolution of your camera video. Higher quality uses more network and CPU.",
+      "cameraQualityOptions": {
+        "720p": "720p",
+        "1080p": "1080p (Full HD)",
+        "1440p": "1440p (2K)",
+        "4k": "4K (Ultra HD)"
+      },
+      "screenQuality": "Screen share quality",
+      "screenQualityHint": "Resolution and frame rate when sharing your screen. 30 fps suits fast-moving content.",
+      "screenQualityOptions": {
+        "1080p15": "1080p · 15 fps",
+        "1080p30": "1080p · 30 fps",
+        "1440p30": "1440p · 30 fps",
+        "4k30": "4K · 30 fps"
+      },
       "mirror": "Mirror my video",
       "mirrorHint": "Flips your own preview. Other participants always see you unmirrored."
     },
@@ -314,7 +332,9 @@
       "reconnect": "Reconnect",
       "reconnectHint": "When your connection drops and recovers.",
       "message": "Chat message",
-      "messageHint": "A new message while the chat is closed."
+      "messageHint": "A new message while the chat is closed.",
+      "reaction": "Reaction",
+      "reactionHint": "When someone sends an emoji reaction."
     },
     "system": {
       "closeToTray": "Minimize to tray on close",
@@ -325,7 +345,8 @@
       "actions": {
         "muteToggle": "Toggle microphone",
         "deafenToggle": "Toggle deafen",
-        "pttHold": "Push-to-talk (hold)"
+        "pttHold": "Push-to-talk (hold)",
+        "chatToggle": "Toggle chat"
       },
       "unassigned": "Not assigned",
       "recording": "Press a combination… (Esc to cancel)",

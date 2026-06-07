@@ -8,7 +8,7 @@ export const useNavHistory = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { value, index, history, canUndo, canRedo, set, back, forward } = useStateHistory(pathname);
+  const { value, index, history, canUndo, canRedo, set, undo, redo } = useStateHistory(pathname);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: track pathname only; set is a new ref each render
   useEffect(() => {
@@ -22,7 +22,7 @@ export const useNavHistory = () => {
       return;
     }
 
-    back();
+    undo();
 
     router.push(history[index - 1]);
   };
@@ -32,7 +32,7 @@ export const useNavHistory = () => {
       return;
     }
 
-    forward();
+    redo();
 
     router.push(history[index + 1]);
   };

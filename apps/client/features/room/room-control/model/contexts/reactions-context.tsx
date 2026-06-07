@@ -3,6 +3,7 @@
 import { useDataChannel } from '@livekit/components-react';
 import { createContextHook } from '@siberiacancode/reactuse';
 import { useRef, useState } from 'react';
+import { appEvents } from '@/shared/lib';
 import { REACTIONS_TOPIC } from '../../config/keys';
 import type { ReactNode } from 'react';
 
@@ -23,6 +24,8 @@ const useReactionsState = () => {
 
   const spawn = (emoji: string) => {
     const id = nextId.current++;
+
+    appEvents.emit.reaction();
 
     setReactions((prev) => [...prev, { id, emoji, offset: (id % 4) * 6 }]);
 

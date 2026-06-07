@@ -5,6 +5,7 @@ import { useAutoScroll } from '@siberiacancode/reactuse';
 import { Paperclip } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { isEmpty, sortBy } from 'remeda';
+import { toast } from 'sonner';
 import { sendChatMessage } from '@/shared/api';
 import { useRoomChat } from '../model/contexts';
 import { useChatFiles, useChatHistory } from '../model/hooks';
@@ -28,7 +29,10 @@ export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
 
     try {
       await sendChatMessage(roomId, body);
-    } catch {}
+    } catch (error) {
+      console.error(error);
+      toast.error(t('persistFailed'));
+    }
   };
 
   const { dropRef, overed, isUploading, openPicker, onPaste } = useChatFiles({
@@ -67,7 +71,7 @@ export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
 
               return (
                 <ChatMessageItem
-                  key={`${message.timestamp}-${message.from?.identity ?? 'unknown'}`}
+                  key={message.id}
                   message={message}
                   isOwn={isOwn}
                   isGrouped={isGrouped}

@@ -3,7 +3,7 @@
 import NumberFlow from '@number-flow/react';
 import { Radio, Sparkles, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useCurrentUser } from '@/entities/auth/user';
+import { UserAvatar, useCurrentUser } from '@/entities/auth/user';
 import { useLobbyOnline, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { env } from '@/shared/config';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
@@ -13,7 +13,7 @@ export const LobbyHeader = () => {
   const t = useTranslations('lobby');
   const tStats = useTranslations('lobby.stats');
 
-  const { displayName } = useCurrentUser();
+  const { displayName, avatarUrl } = useCurrentUser();
   const { rooms } = useRooms();
   const presence = useRoomsPresence();
   const lobbyOnline = useLobbyOnline();
@@ -22,14 +22,26 @@ export const LobbyHeader = () => {
 
   return (
     <div className={s.root}>
+      <div aria-hidden className={s.grid} />
       <div aria-hidden className={s.glow} />
       <div aria-hidden className={s.glowAlt} />
 
       <div className={s.inner}>
         <div className={s.topRow}>
-          <div className={s.text}>
-            <h2 className={s.title}>{t('welcome', { name: displayName })}</h2>
-            <p className={s.subtitle}>{t('subtitle')}</p>
+          <div className={s.identity}>
+            <div className={s.avatarWrap}>
+              <UserAvatar
+                name={displayName}
+                src={avatarUrl}
+                className={s.avatar}
+                fallbackClassName={s.avatarFallback}
+              />
+            </div>
+
+            <div className={s.text}>
+              <h2 className={s.title}>{t('welcome', { name: displayName })}</h2>
+              <p className={s.subtitle}>{t('subtitle')}</p>
+            </div>
           </div>
 
           <Tooltip>
@@ -48,28 +60,30 @@ export const LobbyHeader = () => {
             <span className={s.statIconWrap}>
               <Users className={s.statIconMuted} />
             </span>
-            <NumberFlow className={s.statValue} value={rooms.length} />
-            <span className={s.statLabel}>{tStats('rooms')}</span>
+            <span className={s.statTextWrap}>
+              <NumberFlow className={s.statValue} value={rooms.length} />
+              <span className={s.statLabel}>{tStats('rooms')}</span>
+            </span>
           </div>
-
-          <span aria-hidden className={s.statDivider} />
 
           <div className={s.stat} style={{ animationDelay: '140ms' }}>
             <span className={s.statIconWrap}>
               <Radio className={liveRooms > 0 ? s.statIconLive : s.statIconMuted} />
             </span>
-            <NumberFlow className={s.statValue} value={liveRooms} />
-            <span className={s.statLabel}>{tStats('live')}</span>
+            <span className={s.statTextWrap}>
+              <NumberFlow className={s.statValue} value={liveRooms} />
+              <span className={s.statLabel}>{tStats('live')}</span>
+            </span>
           </div>
-
-          <span aria-hidden className={s.statDivider} />
 
           <div className={s.stat} style={{ animationDelay: '220ms' }}>
             <span className={s.statIconWrap}>
               <span className={s.statPulse} />
             </span>
-            <NumberFlow className={s.statValue} value={lobbyOnline} />
-            <span className={s.statLabel}>{tStats('online')}</span>
+            <span className={s.statTextWrap}>
+              <NumberFlow className={s.statValue} value={lobbyOnline} />
+              <span className={s.statLabel}>{tStats('online')}</span>
+            </span>
           </div>
         </div>
       </div>

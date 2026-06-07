@@ -1,7 +1,10 @@
 import { cva } from 'class-variance-authority';
 
 export const lobbyRoomCardStyles = {
-  root: 'group/card glass glass-hover relative flex h-full min-h-[140px] flex-col overflow-hidden rounded-2xl hover:border-brand-violet/40 hover:shadow-glow-violet',
+  root: 'group/card glass glass-hover relative flex h-full min-h-[140px] flex-col overflow-hidden rounded-2xl transition-transform hover:-translate-y-0.5 hover:border-brand-violet/40 hover:shadow-glow-violet data-[live=true]:hover:border-brand-cyan/45 data-[live=true]:hover:shadow-glow-cyan',
+
+  liveAccent:
+    'pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-brand-cyan/60 to-transparent opacity-0 transition-opacity group-hover/card:opacity-100',
 
   enter: cva(
     'flex h-full w-full flex-col gap-3 rounded-2xl p-5 pr-12 text-left outline-none focus-visible:ring-2 focus-visible:ring-brand-violet/50',
@@ -21,6 +24,11 @@ export const lobbyRoomCardStyles = {
   countLabel: 'text-muted-foreground text-xs',
 
   emptyHint: 'text-muted-foreground text-xs',
+  emptySlots: 'flex items-center gap-2',
+  emptyAvatars: 'flex items-center -space-x-2',
+  emptySlot:
+    'size-7 rounded-full border border-white/12 border-dashed bg-white/3 transition-colors group-hover/card:border-brand-violet/30',
+  emptyJoin: 'text-muted-foreground text-xs transition-colors group-hover/card:text-foreground/80',
 
   menu: 'absolute top-3 right-3 opacity-0 transition-opacity group-hover/card:opacity-100 focus-within:opacity-100 data-[state=open]:opacity-100',
 } as const;

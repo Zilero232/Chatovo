@@ -12,7 +12,11 @@ export const ToggleChannelsButton = ({ opened, onToggle }: ToggleChannelsButtonP
     <Tooltip>
       <TooltipTrigger asChild>
         <Button aria-label={t('toggleChannels')} size="icon" variant="ghost" onClick={onToggle}>
-          {opened ? <PanelLeftClose /> : <PanelLeftOpen />}
+          {opened ? (
+            <PanelLeftClose key="close" className="fade-in zoom-in-75 animate-in duration-200" />
+          ) : (
+            <PanelLeftOpen key="open" className="fade-in zoom-in-75 animate-in duration-200" />
+          )}
         </Button>
       </TooltipTrigger>
       <TooltipContent side="right">{opened ? t('hideChannels') : t('showChannels')}</TooltipContent>

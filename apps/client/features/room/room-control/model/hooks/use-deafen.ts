@@ -41,7 +41,9 @@ export const useDeafen = () => {
     }
 
     setIsDeafened(next);
-    reportPresenceState({ roomId: room.name, deafened: next });
+    reportPresenceState({ roomId: room.name, deafened: next }).catch((err) => {
+      console.error('reportPresenceState failed', err);
+    });
 
     try {
       await (next ? enableDeafen(localParticipant) : disableDeafen(localParticipant));

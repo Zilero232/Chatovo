@@ -12,6 +12,7 @@ import { lobbyRoomCardStyles as s } from './LobbyRoomCard.styles';
 import type { LobbyRoomCardProps } from './LobbyRoomCard.types';
 
 const MAX_AVATARS = 4;
+const EMPTY_SLOTS = ['a', 'b', 'c'];
 
 export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
   const t = useTranslations('lobby.card');
@@ -28,7 +29,9 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
   const isOwner = user?.id === room.ownerId;
 
   return (
-    <div className={s.root}>
+    <div className={s.root} data-live={isLive}>
+      {isLive && <span aria-hidden className={s.liveAccent} />}
+
       <button
         className={s.enter()}
         type="button"
@@ -79,7 +82,14 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
               <span className={s.countLabel}>{t('people', { count: participants.length })}</span>
             </div>
           ) : (
-            <span className={s.emptyHint}>{t('emptyHint')}</span>
+            <div className={s.emptySlots}>
+              <div className={s.emptyAvatars}>
+                {EMPTY_SLOTS.map((slot) => (
+                  <span key={slot} className={s.emptySlot} />
+                ))}
+              </div>
+              <span className={s.emptyJoin}>{t('joinFirst')}</span>
+            </div>
           )}
         </div>
       </button>
