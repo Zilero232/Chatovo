@@ -1,6 +1,5 @@
 'use client';
 
-import { Sparkles } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { match } from 'ts-pattern';
@@ -8,7 +7,7 @@ import { ForgotPasswordForm } from '@/features/auth/forgot-password';
 import { GoogleAuthButton } from '@/features/auth/google';
 import { SignInForm } from '@/features/auth/sign-in';
 import { SignUpForm } from '@/features/auth/sign-up';
-import { AuthBackground } from '@/shared/ui';
+import { AuthBackground, LogoMark } from '@/shared/ui';
 import { authPageStyles as s } from './AuthPage.styles';
 import { AuthBrandPanel } from './components';
 
@@ -29,7 +28,7 @@ export const AuthPage = () => {
 
         <div className={s.panel}>
           <span className={s.mobileMark}>
-            <Sparkles className="size-6" />
+            <LogoMark className="text-white" size={30} />
           </span>
 
           <div className={s.header}>

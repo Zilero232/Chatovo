@@ -1,13 +1,13 @@
 'use client';
 
-import { CheckCircle2, Sparkles } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { ResetPasswordForm } from '@/features/auth/reset-password';
 import { DEEP_LINKS, ROUTES } from '@/shared/constants';
-import { AuthBackground, Button } from '@/shared/ui';
+import { AuthBackground, Button, LogoMark } from '@/shared/ui';
 import { resetPasswordPageStyles as s } from './ResetPasswordPage.styles';
 
 export const ResetPasswordPage = () => {
@@ -40,7 +40,11 @@ export const ResetPasswordPage = () => {
       <div className={s.shell}>
         <div className={s.panel}>
           <span className={s.mark}>
-            {done ? <CheckCircle2 className="size-6" /> : <Sparkles className="size-6" />}
+            {done ? (
+              <CheckCircle2 className="size-6" />
+            ) : (
+              <LogoMark className="text-white" size={30} />
+            )}
           </span>
 
           <div className={s.header}>
