@@ -1,33 +1,65 @@
-import { bold, fmt } from '@grammyjs/parse-mode';
-import { Bot } from 'grammy';
-import { env, prisma } from '../../core';
-import type { VoiceJoinNotification } from './types';
+import { bold, code, fmt, link } from '@grammyjs/parse-mode';
+import { send } from './bot';
+import { roomUrl } from './links';
+import type {
+  ProblemReportNotification,
+  RoomCreatedNotification,
+  RoomDeletedNotification,
+  UserSignupNotification,
+  VoiceEmptyNotification,
+  VoiceJoinNotification,
+} from './types';
 
-const bot = env.TELEGRAM_BOT_TOKEN ? new Bot(env.TELEGRAM_BOT_TOKEN) : null;
-
-export const notifyVoiceJoin = async ({
+export const notifyVoiceJoin = ({
   roomId,
+  roomName,
   participantName,
 }: VoiceJoinNotification): Promise<void> => {
-  const chatId = env.TELEGRAM_CHAT_ID;
+  return send(
+    fmt`🎙 ${bold()}${participantName}${bold()} зашёл в голосовой канал ${link(roomUrl(roomId))}${roomName}${link(roomUrl(roomId))}`,
+  );
+};
 
-  if (!bot || !chatId) {
-    return;
-  }
+export const notifyVoiceEmpty = ({ roomName }: VoiceEmptyNotification): Promise<void> => {
+  return send(fmt`🔇 Голосовой канал ${bold()}${roomName}${bold()} опустел`);
+};
 
-  const room = await prisma.room.findUnique({ where: { id: roomId }, select: { name: true } });
-  const roomName = room?.name ?? roomId;
+export const notifyUserSignup = ({ name, email }: UserSignupNotification): Promise<void> => {
+  return send(fmt`✨ Новый пользователь: ${bold()}${name}${bold()} (${email})`);
+};
 
-  const message = fmt`🎙 ${bold()}${participantName}${bold()} зашёл в голосовой канал ${bold()}${roomName}${bold()}`;
+export const notifyRoomCreated = ({
+  roomName,
+  ownerName,
+  isPrivate,
+  password,
+}: RoomCreatedNotification): Promise<void> => {
+  const badge = isPrivate ? '🔒 приватная' : '🌐 публичная';
+  const passwordLine = isPrivate && password ? fmt`\nПароль: ${code()}${password}${code()}` : '';
 
-  try {
-    await bot.api.sendMessage(chatId, message.text, {
-      entities: message.entities,
-      link_preview_options: { is_disabled: true },
-    });
-  } catch (error) {
-    const reason = error instanceof Error ? error.message : 'unknown error';
+  return send(
+    fmt`➕ ${bold()}${ownerName}${bold()} создал комнату ${bold()}${roomName}${bold()} (${badge})${passwordLine}`,
+  );
+};
 
-    console.error(`Telegram sendMessage error: ${reason}`);
-  }
+export const notifyRoomDeleted = ({
+  roomName,
+  ownerName,
+}: RoomDeletedNotification): Promise<void> => {
+  return send(fmt`➖ ${bold()}${ownerName}${bold()} удалил комнату ${bold()}${roomName}${bold()}`);
+};
+
+export const notifyProblemReport = ({
+  reporter,
+  email,
+  description,
+  platform,
+  appVersion,
+}: ProblemReportNotification): Promise<void> => {
+  const trimmed = description.length > 500 ? `${description.slice(0, 500)}…` : description;
+  const meta = [platform, appVersion].filter(Boolean).join(' · ');
+
+  return send(
+    fmt`🐞 Жалоба от ${bold()}${reporter}${bold()} (${email})${meta ? fmt` — ${meta}` : ''}\n\n${trimmed}`,
+  );
 };

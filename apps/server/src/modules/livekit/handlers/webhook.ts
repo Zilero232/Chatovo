@@ -2,7 +2,8 @@ import { StatusCodes } from 'http-status-codes';
 import { TrackSource, WebhookReceiver } from 'livekit-server-sdk';
 import { match } from 'ts-pattern';
 import { env } from '../../../core';
-import { notifyVoiceJoin } from '../../telegram';
+import { getRoomName } from '../../../lib';
+import { notifyVoiceEmpty, notifyVoiceJoin } from '../../telegram';
 import {
   addParticipant,
   clearRoom,
@@ -56,7 +57,9 @@ export const webhookHandler: Handler<Env> = async (c) => {
           ...parseParticipantMeta(participant.metadata),
         });
 
-        notifyVoiceJoin({ roomId, participantName: name });
+        getRoomName(roomId).then((roomName) =>
+          notifyVoiceJoin({ roomId, roomName, participantName: name }),
+        );
       }
     })
     .with('participant_left', () => {
@@ -77,7 +80,10 @@ export const webhookHandler: Handler<Env> = async (c) => {
         patchParticipant(roomId, participant.identity, { micMuted: true });
       }
     })
-    .with('room_finished', () => clearRoom(roomId))
+    .with('room_finished', () => {
+      clearRoom(roomId);
+      getRoomName(roomId).then((roomName) => notifyVoiceEmpty({ roomName }));
+    })
     // Reconcile in case participant_joined events were missed before boot.
     .with('room_started', () => syncRoom(roomId))
     .otherwise(() => undefined);

@@ -1,1 +1,8 @@
-export { notifyVoiceJoin } from './telegram.service';
+export {
+  notifyProblemReport,
+  notifyRoomCreated,
+  notifyRoomDeleted,
+  notifyUserSignup,
+  notifyVoiceEmpty,
+  notifyVoiceJoin,
+} from './telegram.service';
