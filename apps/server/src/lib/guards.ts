@@ -2,6 +2,7 @@ import { HTTPException } from 'hono/http-exception';
 import { StatusCodes } from 'http-status-codes';
 import { isNullish } from 'remeda';
 import { prisma } from '../core';
+import { resolveDisplayName } from '../modules/users/profile';
 import { userWithProfileInclude } from './selectors';
 import type { UserWithProfile } from '../modules/users/profile';
 
@@ -42,4 +43,24 @@ export const getUserWithProfileOrThrow = async (userId: string): Promise<UserWit
   }
 
   return user;
+};
+
+export const getRoomName = async (roomId: string): Promise<string> => {
+  const room = await prisma.room.findUnique({ where: { id: roomId }, select: { name: true } });
+
+  return room?.name ?? roomId;
+};
+
+export const getUserDisplayName = async (userId: string): Promise<string> => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { name: true, email: true, profile: { select: { displayName: true } } },
+  });
+
+  return resolveDisplayName({
+    displayName: user?.profile?.displayName,
+    name: user?.name,
+    email: user?.email,
+    userId,
+  });
 };

@@ -1,6 +1,7 @@
 import { isNonNullish } from 'remeda';
 import { prisma } from '../../core';
-import { assertCanManageRoom, roomSelect } from '../../lib';
+import { assertCanManageRoom, getUserDisplayName, roomSelect } from '../../lib';
+import { notifyRoomCreated, notifyRoomDeleted } from '../telegram';
 import type { CreateRoomRequest, UpdateRoomRequest } from '@chatovo/schemas';
 import type { Prisma } from '../../../generated';
 
@@ -12,16 +13,27 @@ export const getRoom = (id: string) => {
   return prisma.room.findUnique({ where: { id }, select: roomSelect });
 };
 
-export const createRoom = (input: CreateRoomRequest, ownerId: string) => {
+export const createRoom = async (input: CreateRoomRequest, ownerId: string) => {
   const { isPrivate, name, password } = input;
 
   // Public rooms never carry a password — drop whatever the client sent.
   const storedPassword = isPrivate ? (password ?? null) : null;
 
-  return prisma.room.create({
+  const room = await prisma.room.create({
     data: { name, isPrivate, password: storedPassword, ownerId },
     select: roomSelect,
   });
+
+  getUserDisplayName(ownerId).then((owner) =>
+    notifyRoomCreated({
+      roomName: room.name,
+      ownerName: owner,
+      isPrivate: room.isPrivate,
+      password: storedPassword,
+    }),
+  );
+
+  return room;
 };
 
 export const updateRoom = async (id: string, input: UpdateRoomRequest, userId: string) => {
@@ -57,6 +69,10 @@ export const updateRoom = async (id: string, input: UpdateRoomRequest, userId: s
 };
 
 export const deleteRoom = async (id: string, userId: string) => {
-  await assertCanManageRoom(id, userId);
-  await prisma.room.delete({ where: { id } });
+  const room = await assertCanManageRoom(id, userId);
+  const deleted = await prisma.room.delete({ where: { id }, select: { name: true } });
+
+  getUserDisplayName(room.ownerId).then((owner) =>
+    notifyRoomDeleted({ roomName: deleted.name, ownerName: owner }),
+  );
 };

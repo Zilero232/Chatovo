@@ -4,6 +4,7 @@ import { ATTACHMENT_MAX_BYTES } from '../../config/uploads';
 import { env } from '../../core';
 import { getUserWithProfileOrThrow } from '../../lib';
 import { BugReport, sendEmail } from '../email';
+import { notifyProblemReport } from '../telegram';
 import { resolveDisplayName } from '../users/profile';
 import type { ReportProblemValues } from '@chatovo/schemas';
 import type Mail from 'nodemailer/lib/mailer';
@@ -48,4 +49,6 @@ export const reportProblem = async (
     }),
     attachments: attachments.length > 0 ? attachments : undefined,
   });
+
+  notifyProblemReport({ reporter, email: user.email, description, platform, appVersion });
 };

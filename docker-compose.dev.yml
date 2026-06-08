@@ -70,7 +70,8 @@ services:
       - "7880:7880" # WebSocket signalling
       - "7881:7881" # TCP fallback for WebRTC media
       # UDP media range. Must match port_range_start/end in infra/livekit/livekit.dev.yaml.
-      - "50000-50100:50000-50100/udp"
+      # 50100-50200 avoids the Windows WinNAT reserved range (50000-50059).
+      - "50100-50200:50100-50200/udp"
     volumes:
       - ./infra/livekit/livekit.dev.yaml:/etc/livekit.yaml:ro
     # Lets the container reach the API running on the host (bun dev, :4000)

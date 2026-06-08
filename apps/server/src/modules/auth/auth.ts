@@ -5,6 +5,7 @@ import { createElement } from 'react';
 import { allowedOrigins } from '../../config/cors';
 import { env, prisma } from '../../core';
 import { ChangeEmail, ResetPassword, sendEmail, VerifyEmail } from '../email';
+import { notifyUserSignup } from '../telegram';
 
 export type UserRole = 'admin' | 'user';
 
@@ -78,6 +79,8 @@ export const auth = betterAuth({
           await prisma.profile.create({
             data: { userId: user.id, displayName: user.name },
           });
+
+          notifyUserSignup({ name: user.name, email: user.email });
         },
       },
     },

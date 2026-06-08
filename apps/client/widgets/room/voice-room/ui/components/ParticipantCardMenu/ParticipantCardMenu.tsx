@@ -63,7 +63,7 @@ export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMe
                 aria-label={t('volumeFor', { name: displayName })}
                 max={1}
                 min={0}
-                step={0.05}
+                step={0.01}
                 value={[volume]}
                 onValueChange={([next]) => setVolume(next)}
               />

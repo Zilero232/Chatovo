@@ -291,6 +291,7 @@
       "activationVoice": "Voice activity",
       "activationPtt": "Push-to-talk",
       "activationPttNoBinding": "Assign a key in the <link>Hotkeys tab</link> to use this mode.",
+      "activationPttDesktopOnly": "Push-to-talk is only available in the desktop app.",
       "autoSensitivity": "Automatically determine input sensitivity",
       "autoSensitivityHint": "Adapts the threshold to your background noise. Turn off to set it manually.",
       "sensitivity": "Input sensitivity",

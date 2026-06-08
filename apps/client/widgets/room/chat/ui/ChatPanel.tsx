@@ -7,8 +7,14 @@ import { useTranslations } from 'next-intl';
 import { Fragment } from 'react';
 import { isEmpty, sortBy } from 'remeda';
 import { useRoomChat } from '../model/contexts';
-import { useChatFiles, useChatHistory, useChatSend, useChatSync } from '../model/hooks';
-import { groupChatLines, liveMessageToChatLine } from '../model/lib';
+import {
+  useChatFiles,
+  useChatHistory,
+  useChatLiveMerge,
+  useChatSend,
+  useChatSync,
+} from '../model/hooks';
+import { groupChatLines } from '../model/lib';
 import { chatPanelStyles as s } from './ChatPanel.styles';
 import { ChatComposer, ChatEmpty, ChatHeader, ChatMessageItem, DateDivider } from './components';
 import type { ChatPanelProps } from './ChatPanel.types';
@@ -16,8 +22,10 @@ import type { ChatPanelProps } from './ChatPanel.types';
 export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
   const t = useTranslations('chat');
 
-  const { isSending, chatMessages } = useRoomChat();
+  const { isSending } = useRoomChat();
   const { localParticipant } = useLocalParticipant();
+
+  useChatLiveMerge(roomId);
 
   const history = useChatHistory(roomId);
   const { sendAndPersist } = useChatSend(roomId);
@@ -31,13 +39,7 @@ export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
     onSend: sendAndPersist,
   });
 
-  const liveLines = chatMessages.map(liveMessageToChatLine);
-
-  const historyIds = new Set(history.map((line) => line.id));
-  const messages = sortBy(
-    [...history, ...liveLines.filter((line) => !historyIds.has(line.id))],
-    (line) => line.timestamp,
-  );
+  const messages = sortBy(history, (line) => line.timestamp);
 
   const grouped = groupChatLines(messages, localParticipant.identity);
 
@@ -65,7 +67,7 @@ export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
                   isOwn={isOwn}
                   isGrouped={isGrouped}
                   isTail={isTail}
-                  canManage={isOwn && historyIds.has(line.id)}
+                  canManage={isOwn}
                   onEdit={edit}
                   onDelete={remove}
                 />
