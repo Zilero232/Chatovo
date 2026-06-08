@@ -35,6 +35,11 @@ const envSchema = z.object({
   LIVEKIT_API_SECRET: z.string().min(1),
   LIVEKIT_URL: z.url(),
 
+  // Optional Telegram bot for voice-join notifications. Leave both unset to
+  // disable — the notifier becomes a no-op and nothing else is affected.
+  TELEGRAM_BOT_TOKEN: z.string().min(1).optional(),
+  TELEGRAM_CHAT_ID: z.string().min(1).optional(),
+
   // Public origin where uploaded files are served from (e.g. https://api.chatovo.ru).
   // Used to build absolute URLs stored in the DB and returned to clients.
   PUBLIC_FILES_URL: z.url().default('http://localhost:4000'),

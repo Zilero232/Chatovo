@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@chatovo/schemas": "workspace:*",
+    "@grammyjs/parse-mode": "^2.3.0",
     "@hono/swagger-ui": "^0.6.1",
     "@hono/zod-openapi": "^1.4.0",
     "@prisma/adapter-pg": "^7.8.0",
@@ -30,6 +31,7 @@
     "@prisma/client-runtime-utils": "^7.8.0",
     "@react-email/render": "^2.0.8",
     "better-auth": "^1.6.13",
+    "grammy": "^1.43.0",
     "hono": "^4.12.23",
     "http-status-codes": "^2.3.0",
     "livekit-server-sdk": "^2.15.4",

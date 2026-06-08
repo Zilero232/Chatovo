@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { TrackSource, WebhookReceiver } from 'livekit-server-sdk';
 import { match } from 'ts-pattern';
 import { env } from '../../../core';
+import { notifyVoiceJoin } from '../../telegram';
 import {
   addParticipant,
   clearRoom,
@@ -45,13 +46,17 @@ export const webhookHandler: Handler<Env> = async (c) => {
   await match(event.event)
     .with('participant_joined', () => {
       if (participant) {
+        const name = participant.name || participant.identity;
+
         addParticipant(roomId, {
           identity: participant.identity,
-          name: participant.name || participant.identity,
+          name,
           micMuted: isMicMuted(participant.tracks),
           deafened: participant.attributes?.deafened === 'true',
           ...parseParticipantMeta(participant.metadata),
         });
+
+        notifyVoiceJoin({ roomId, participantName: name });
       }
     })
     .with('participant_left', () => {
