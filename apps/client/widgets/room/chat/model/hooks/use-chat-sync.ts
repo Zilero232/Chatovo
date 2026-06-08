@@ -4,6 +4,7 @@ import { safeJsonParse } from '@chatovo/schemas';
 import { useDataChannel } from '@livekit/components-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
+import { useEffectEvent } from 'react';
 import { toast } from 'sonner';
 import { deleteChatMessage, editChatMessage } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
@@ -57,13 +58,15 @@ export const useChatSync = (roomId: string) => {
     );
   };
 
-  const { send } = useDataChannel(CHAT_SYNC_TOPIC, (msg) => {
+  const onMessage = useEffectEvent((msg: { payload: Uint8Array }) => {
     const event = parseSyncEvent(decoder.decode(msg.payload));
 
     if (event) {
       apply(event);
     }
   });
+
+  const { send } = useDataChannel(CHAT_SYNC_TOPIC, onMessage);
 
   const broadcast = (event: ChatSyncEvent) => {
     send(encoder.encode(JSON.stringify(event)), { reliable: true });
