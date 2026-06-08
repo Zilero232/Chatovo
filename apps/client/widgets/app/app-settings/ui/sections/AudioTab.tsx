@@ -4,6 +4,7 @@ import { isTauri } from '@tauri-apps/api/core';
 import { useTranslations } from 'next-intl';
 import { useId } from 'react';
 import { isNullish } from 'remeda';
+import { toast } from 'sonner';
 import { useAppSettings } from '@/entities/app/settings';
 import { RadioGroup, RadioGroupItem, Switch } from '@/shared/ui';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
@@ -33,12 +34,22 @@ export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
   const pttId = useId();
 
   const audio = settings.audio;
-  const showPttOption = isTauri();
+  const isDesktop = isTauri();
   const pttBindingMissing =
     audio.activationMode === 'pushToTalk' && isNullish(settings.shortcuts.pttHold);
 
   const setFlag = (key: keyof AudioSettings, value: boolean) => {
     setGroup('audio', { [key]: value });
+  };
+
+  const setActivationMode = (value: MicActivationMode) => {
+    if (value === 'pushToTalk' && !isDesktop) {
+      toast.info(t('activationPttDesktopOnly'));
+
+      return;
+    }
+
+    setGroup('audio', { activationMode: value });
   };
 
   return (
@@ -50,20 +61,16 @@ export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
           <RadioGroup
             className="flex flex-row flex-wrap items-center gap-x-5 gap-y-2"
             value={audio.activationMode}
-            onValueChange={(value) =>
-              setGroup('audio', { activationMode: value as MicActivationMode })
-            }
+            onValueChange={(value) => setActivationMode(value as MicActivationMode)}
           >
             <label className="flex items-center gap-2 text-sm" htmlFor={voiceId}>
               <RadioGroupItem id={voiceId} value="voiceActivity" />
               {t('activationVoice')}
             </label>
-            {showPttOption && (
-              <label className="flex items-center gap-2 text-sm" htmlFor={pttId}>
-                <RadioGroupItem id={pttId} value="pushToTalk" />
-                {t('activationPtt')}
-              </label>
-            )}
+            <label className="flex items-center gap-2 text-sm" htmlFor={pttId}>
+              <RadioGroupItem id={pttId} value="pushToTalk" />
+              {t('activationPtt')}
+            </label>
           </RadioGroup>
         }
       />
