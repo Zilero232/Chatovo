@@ -1,4 +1,5 @@
 import { Inter, JetBrains_Mono } from 'next/font/google';
+import { SITE } from '@/shared/config';
 import { JsonLdScript } from '@/shared/seo';
 import { Providers } from './providers';
 import type { ReactNode } from 'react';
@@ -20,7 +21,11 @@ const mono = JetBrains_Mono({
 });
 
 const RootLayout = ({ children }: { children: ReactNode }) => (
-  <html suppressHydrationWarning className={`dark ${sans.variable} ${mono.variable}`} lang="en">
+  <html
+    suppressHydrationWarning
+    className={`dark ${sans.variable} ${mono.variable}`}
+    lang={SITE.lang}
+  >
     <head>
       <JsonLdScript />
     </head>

@@ -12,6 +12,7 @@ const bot = env.TELEGRAM_BOT_TOKEN
 
 export const send = async (message: FormattedString): Promise<void> => {
   if (env.NODE_ENV === 'development') {
+    // biome-ignore lint/suspicious/noConsole: dev-only notification stub
     console.info(`[telegram:dev] ${message.text}`);
 
     return;

@@ -17,6 +17,14 @@ export const defaultMetadata: Metadata = {
   publisher: 'Alexandr Artemev',
   category: 'communication',
   formatDetection: { email: false, address: false, telephone: false },
+  icons: {
+    icon: [
+      { url: '/brand/favicon.svg', type: 'image/svg+xml' },
+      { url: '/brand/app-icon-1024.png', type: 'image/png', sizes: '1024x1024' },
+    ],
+    shortcut: '/brand/favicon.svg',
+    apple: [{ url: '/brand/app-icon-1024.png', sizes: '1024x1024', type: 'image/png' }],
+  },
   alternates: {
     canonical: '/',
     languages: { 'en-US': '/', 'x-default': '/' },
@@ -28,21 +36,11 @@ export const defaultMetadata: Metadata = {
     siteName: SITE.name,
     title: SITE.title,
     description: SITE.description,
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: SITE.title,
-        type: 'image/png',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE.title,
     description: SITE.description,
-    images: ['/og-image.png'],
     creator: SITE.social.twitter,
     site: SITE.social.twitter,
   },
