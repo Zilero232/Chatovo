@@ -6,6 +6,7 @@ import { readParticipantMeta } from '@/entities/room/room';
 import { chatMessageItemStyles as s } from './ChatMessageItem.styles';
 import {
   DeleteMessageDialog,
+  EditMessageDialog,
   MessageActions,
   MessageBody,
   MessageBubble,
@@ -55,7 +56,6 @@ export const ChatMessageItem = ({
 
         <div className={s.bodyRow} data-own={isOwn}>
           <MessageBody
-            message={message}
             bubble={
               <MessageBubble
                 message={message}
@@ -70,9 +70,6 @@ export const ChatMessageItem = ({
               />
             }
             isDeleted={isDeleted}
-            isEditing={isEditing}
-            onEdit={onEdit}
-            onStopEdit={() => setIsEditing(false)}
           />
 
           {showActions && (
@@ -84,6 +81,14 @@ export const ChatMessageItem = ({
           )}
         </div>
       </div>
+
+      <EditMessageDialog
+        key={message.message}
+        open={isEditing}
+        initialValue={message.message}
+        onOpenChange={setIsEditing}
+        onSave={(body) => onEdit(message.id, body)}
+      />
 
       <DeleteMessageDialog
         open={isConfirmingDelete}

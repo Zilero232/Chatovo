@@ -1,7 +1,7 @@
 'use client';
 
 import { useLocalParticipant } from '@livekit/components-react';
-import { useAutoScroll } from '@siberiacancode/reactuse';
+import { target, useAutoScroll, useEventListener } from '@siberiacancode/reactuse';
 import { Paperclip } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Fragment } from 'react';
@@ -24,6 +24,25 @@ export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
 
   const { isSending } = useRoomChat();
   const { localParticipant } = useLocalParticipant();
+
+  useEventListener(target(window), 'keydown', (event) => {
+    if (!isOpen || event.key !== 'Escape' || event.defaultPrevented) {
+      return;
+    }
+
+    const active = document.activeElement;
+    const isEditing =
+      active instanceof HTMLTextAreaElement ||
+      active instanceof HTMLInputElement ||
+      (active instanceof HTMLElement && active.isContentEditable);
+
+    if (isEditing) {
+      return;
+    }
+
+    event.preventDefault();
+    onClose();
+  });
 
   useChatLiveMerge(roomId);
 

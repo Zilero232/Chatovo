@@ -2,9 +2,21 @@ import { Bot } from 'grammy';
 import { env } from '../../core';
 import type { FormattedString } from '@grammyjs/parse-mode';
 
-const bot = env.TELEGRAM_BOT_TOKEN ? new Bot(env.TELEGRAM_BOT_TOKEN) : null;
+const baseFetchConfig = env.TELEGRAM_PROXY_URL
+  ? ({ proxy: env.TELEGRAM_PROXY_URL } as RequestInit)
+  : undefined;
+
+const bot = env.TELEGRAM_BOT_TOKEN
+  ? new Bot(env.TELEGRAM_BOT_TOKEN, { client: { baseFetchConfig } })
+  : null;
 
 export const send = async (message: FormattedString): Promise<void> => {
+  if (env.NODE_ENV === 'development') {
+    console.info(`[telegram:dev] ${message.text}`);
+
+    return;
+  }
+
   const chatId = env.TELEGRAM_CHAT_ID;
 
   if (!bot || !chatId) {

@@ -1,10 +1,10 @@
 export { DeleteMessageDialog } from './DeleteMessageDialog';
+export { EditMessageDialog } from './EditMessageDialog';
 export { MessageActions } from './MessageActions';
 export { MessageAttachment } from './MessageAttachment';
 export { MessageBody } from './MessageBody';
 export { MessageBubble } from './MessageBubble';
 export { MessageContent } from './MessageContent';
 export { MessageContextMenu } from './MessageContextMenu';
-export { MessageEditor } from './MessageEditor';
 export { MessageMenuItems } from './MessageMenuItems';
 export { MessageMeta } from './MessageMeta';

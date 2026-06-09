@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const messageBubbleStyles = cva(
-  'max-w-full whitespace-pre-wrap break-words rounded-xl text-sm leading-relaxed',
+  'max-w-full break-words rounded-xl text-[15px] leading-relaxed',
   {
     variants: {
       own: {

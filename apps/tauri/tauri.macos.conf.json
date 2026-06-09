@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Chatovo",
+        "width": 1280,
+        "height": 800,
+        "center": true,
+        "minWidth": 940,
+        "minHeight": 560,
+        "backgroundColor": "#09090b",
+        "decorations": true,
+        "titleBarStyle": "Overlay",
+        "hiddenTitle": true,
+        "dragDropEnabled": false
+      }
+    ]
+  }
+}

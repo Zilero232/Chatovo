@@ -40,6 +40,12 @@ const envSchema = z.object({
   TELEGRAM_BOT_TOKEN: z.string().min(1).optional(),
   TELEGRAM_CHAT_ID: z.string().min(1).optional(),
 
+  // Optional outbound proxy for reaching api.telegram.org. Needed on hosts where
+  // the Bot API is network-blocked (e.g. RU datacenters). Accepts an http(s) or
+  // socks5 URL, e.g. socks5://127.0.0.1:1080 or http://user:pass@host:3128.
+  // Unset = direct connection.
+  TELEGRAM_PROXY_URL: z.string().min(1).optional(),
+
   // Public origin where uploaded files are served from (e.g. https://api.chatovo.ru).
   // Used to build absolute URLs stored in the DB and returned to clients.
   PUBLIC_FILES_URL: z.url().default('http://localhost:4000'),
