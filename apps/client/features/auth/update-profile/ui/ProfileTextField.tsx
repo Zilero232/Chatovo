@@ -1,7 +1,7 @@
 'use client';
 
 import { Input, Label, Textarea } from '@/shared/ui';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import { updateProfileFormStyles as s } from './UpdateProfileForm.styles';
 import type { HTMLInputTypeAttribute, ReactNode } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
@@ -31,8 +31,8 @@ export const ProfileTextField = ({
   multiline,
 }: ProfileTextFieldProps) => {
   return (
-    <div className={s.profileField}>
-      <Label className={s.profileLabel} htmlFor={id}>
+    <div className={s.field}>
+      <Label className={s.label} htmlFor={id}>
         {label}
       </Label>
 
@@ -48,7 +48,7 @@ export const ProfileTextField = ({
         />
       )}
 
-      {error ? <p className={s.profileError}>{error}</p> : <p className={s.profileHint}>{hint}</p>}
+      {error ? <p className={s.error}>{error}</p> : <p className={s.hint}>{hint}</p>}
     </div>
   );
 };

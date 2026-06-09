@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { HexColorPicker } from 'react-colorful';
 import { cn } from '@/shared/lib/cn';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import { updateProfileFormStyles as s } from './UpdateProfileForm.styles';
 
 const PRESETS = ['#7c5cff', '#22d3ee', '#f43f5e', '#f59e0b', '#10b981', '#64748b'];
 
@@ -21,9 +21,9 @@ export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => 
   const current = value ?? PRESETS[0];
 
   return (
-    <div className={s.profileField}>
-      <span className={s.profileLabel}>{t('bannerLabel')}</span>
-      <span className={s.profileHint}>{t('bannerHint')}</span>
+    <div className={s.field}>
+      <span className={s.label}>{t('bannerLabel')}</span>
+      <span className={s.hint}>{t('bannerHint')}</span>
 
       <div className={s.bannerRow}>
         {PRESETS.map((color) => (
@@ -55,7 +55,7 @@ export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => 
       </div>
 
       {value && (
-        <button className={s.profileAvatarRemove} type="button" onClick={() => onChange(null)}>
+        <button className={s.avatarRemove} type="button" onClick={() => onChange(null)}>
           {t('bannerReset')}
         </button>
       )}

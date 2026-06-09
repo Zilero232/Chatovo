@@ -12,7 +12,7 @@ import {
   useChangePassword,
 } from '@/entities/auth/user';
 import { Button, Input, Label } from '@/shared/ui';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import { changePasswordFormStyles as s } from './ChangePasswordForm.styles';
 
 export const ChangePasswordForm = () => {
   const t = useTranslations('settings.security');
@@ -41,9 +41,9 @@ export const ChangePasswordForm = () => {
   });
 
   return (
-    <form className={s.profileForm} onSubmit={onSubmit}>
-      <div className={s.profileField}>
-        <Label className={s.profileLabel} htmlFor="current-password">
+    <form className={s.form} onSubmit={onSubmit}>
+      <div className={s.field}>
+        <Label className={s.label} htmlFor="current-password">
           {t('currentPasswordLabel')}
         </Label>
 
@@ -54,13 +54,11 @@ export const ChangePasswordForm = () => {
           {...register('currentPassword')}
         />
 
-        {errors.currentPassword && (
-          <p className={s.profileError}>{fieldError(errors.currentPassword)}</p>
-        )}
+        {errors.currentPassword && <p className={s.error}>{fieldError(errors.currentPassword)}</p>}
       </div>
 
-      <div className={s.profileField}>
-        <Label className={s.profileLabel} htmlFor="new-password">
+      <div className={s.field}>
+        <Label className={s.label} htmlFor="new-password">
           {t('newPasswordLabel')}
         </Label>
 
@@ -71,11 +69,11 @@ export const ChangePasswordForm = () => {
           {...register('newPassword')}
         />
 
-        {errors.newPassword && <p className={s.profileError}>{fieldError(errors.newPassword)}</p>}
+        {errors.newPassword && <p className={s.error}>{fieldError(errors.newPassword)}</p>}
       </div>
 
-      <div className={s.profileField}>
-        <Label className={s.profileLabel} htmlFor="confirm-password">
+      <div className={s.field}>
+        <Label className={s.label} htmlFor="confirm-password">
           {t('confirmPasswordLabel')}
         </Label>
 
@@ -86,13 +84,11 @@ export const ChangePasswordForm = () => {
           {...register('confirmPassword')}
         />
 
-        {errors.confirmPassword && (
-          <p className={s.profileError}>{fieldError(errors.confirmPassword)}</p>
-        )}
+        {errors.confirmPassword && <p className={s.error}>{fieldError(errors.confirmPassword)}</p>}
       </div>
 
-      <Button className={s.profileSubmit} disabled={!isDirty || isPending} type="submit">
-        {isPending && <Loader2 className={s.profileSpinner} />}
+      <Button className={s.submit} disabled={!isDirty || isPending} type="submit">
+        {isPending && <Loader2 className={s.spinner} />}
         {t('changePassword')}
       </Button>
     </form>

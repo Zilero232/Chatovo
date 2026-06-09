@@ -5,7 +5,7 @@ import { Camera } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { UserAvatar } from '@/entities/auth/user';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import { updateProfileFormStyles as s } from './UpdateProfileForm.styles';
 
 type AvatarFieldProps = {
   name: string;
@@ -37,25 +37,25 @@ export const AvatarField = ({ name, src, onPick, onRemove }: AvatarFieldProps) =
   );
 
   return (
-    <div className={s.profileAvatarRow}>
+    <div className={s.avatarRow}>
       <button
         aria-label={t('avatarLabel')}
-        className={s.profileAvatarButton}
+        className={s.avatarButton}
         type="button"
         onClick={() => open()}
       >
-        <UserAvatar className={s.profileAvatar} colorize name={name} size="lg" src={src} />
+        <UserAvatar className={s.avatar} colorize name={name} size="lg" src={src} />
 
-        <span className={s.profileAvatarOverlay}>
-          <Camera className={s.profileAvatarOverlayIcon} />
+        <span className={s.avatarOverlay}>
+          <Camera className={s.avatarOverlayIcon} />
         </span>
       </button>
 
-      <div className={s.profileAvatarMeta}>
-        <span className={s.profileLabel}>{t('avatarLabel')}</span>
-        <span className={s.profileHint}>{t('avatarHint')}</span>
+      <div className={s.avatarMeta}>
+        <span className={s.label}>{t('avatarLabel')}</span>
+        <span className={s.hint}>{t('avatarHint')}</span>
         {src && (
-          <button className={s.profileAvatarRemove} type="button" onClick={onRemove}>
+          <button className={s.avatarRemove} type="button" onClick={onRemove}>
             {t('avatarRemove')}
           </button>
         )}

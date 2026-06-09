@@ -13,7 +13,7 @@ import {
   useCurrentUser,
 } from '@/entities/auth/user';
 import { Button, Input, Label } from '@/shared/ui';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import { changeEmailFormStyles as s } from './ChangeEmailForm.styles';
 
 export const ChangeEmailForm = () => {
   const t = useTranslations('settings.security');
@@ -45,17 +45,17 @@ export const ChangeEmailForm = () => {
   });
 
   return (
-    <form className={s.profileForm} onSubmit={onSubmit}>
-      <div className={s.profileField}>
-        <Label className={s.profileLabel} htmlFor="current-email">
+    <form className={s.form} onSubmit={onSubmit}>
+      <div className={s.field}>
+        <Label className={s.label} htmlFor="current-email">
           {t('currentEmailLabel')}
         </Label>
 
         <Input disabled id="current-email" type="email" value={currentEmail} />
       </div>
 
-      <div className={s.profileField}>
-        <Label className={s.profileLabel} htmlFor="new-email">
+      <div className={s.field}>
+        <Label className={s.label} htmlFor="new-email">
           {t('newEmailLabel')}
         </Label>
 
@@ -68,14 +68,14 @@ export const ChangeEmailForm = () => {
         />
 
         {errors.newEmail ? (
-          <p className={s.profileError}>{fieldError(errors.newEmail)}</p>
+          <p className={s.error}>{fieldError(errors.newEmail)}</p>
         ) : (
-          <p className={s.profileHint}>{t('emailChangeHint')}</p>
+          <p className={s.hint}>{t('emailChangeHint')}</p>
         )}
       </div>
 
-      <Button className={s.profileSubmit} disabled={!isDirty || isPending} type="submit">
-        {isPending && <Loader2 className={s.profileSpinner} />}
+      <Button className={s.submit} disabled={!isDirty || isPending} type="submit">
+        {isPending && <Loader2 className={s.spinner} />}
         {t('changeEmail')}
       </Button>
     </form>

@@ -1,10 +1,10 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { ChangeEmailForm } from '@/features/auth/change-email';
+import { ChangePasswordForm } from '@/features/auth/change-password';
 import { Separator } from '@/shared/ui';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
-import { ChangeEmailForm } from './ChangeEmailForm';
-import { ChangePasswordForm } from './ChangePasswordForm';
 
 export const SecurityTab = () => {
   const t = useTranslations('settings.security');

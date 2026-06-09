@@ -38,33 +38,6 @@ export const appSettingsStyles = {
 
   profilePanel:
     '-mr-2 flex max-h-[calc(100dvh-14rem)] flex-col gap-6 overflow-y-auto pr-2 pt-2 sm:max-h-[24rem]',
-  profileForm: 'flex flex-col gap-4',
-  profileAvatarRow: 'flex items-center gap-4',
-  profileAvatarButton:
-    'group/avatar-edit relative size-16 shrink-0 rounded-full outline-hidden focus-visible:ring-2 focus-visible:ring-brand-cyan',
-  profileAvatar: 'size-16!',
-  profileAvatarOverlay:
-    'absolute inset-0 flex items-center justify-center rounded-full bg-black/50 opacity-0 transition-opacity group-hover/avatar-edit:opacity-100',
-  profileAvatarOverlayIcon: 'size-5 text-white',
-  profileAvatarSpinner:
-    'absolute inset-0 flex items-center justify-center rounded-full bg-black/50',
-  profileAvatarMeta: 'flex flex-col gap-1',
-  profileAvatarRemove:
-    'self-start text-destructive text-xs underline-offset-2 hover:underline disabled:opacity-50',
-  profileField: 'flex flex-col gap-2',
-  bannerRow: 'flex flex-wrap items-center gap-2',
-  bannerSwatch:
-    'size-7 rounded-full border border-white/15 outline-hidden transition-transform hover:scale-110 focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-50',
-  bannerSwatchActive: 'ring-2 ring-white ring-offset-2 ring-offset-background',
-  bannerCustomTrigger:
-    'flex size-7 items-center justify-center rounded-full border border-white/30 border-dashed outline-hidden transition-transform hover:scale-110 focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-50',
-  bannerCustomIcon: 'size-3.5 text-white mix-blend-difference',
-  bannerPickerPopover: 'w-auto p-3',
-  profileLabel: 'font-medium text-sm',
-  profileHint: 'text-muted-foreground text-xs',
-  profileError: 'text-destructive text-xs',
-  profileSubmit: 'self-start',
-  profileSpinner: 'mr-1.5 size-4 animate-spin',
   profileSection: 'flex flex-col gap-4',
   profileSectionTitle: 'font-semibold text-sm',
 } as const;

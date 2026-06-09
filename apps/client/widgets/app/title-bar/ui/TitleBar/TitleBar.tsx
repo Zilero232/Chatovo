@@ -11,29 +11,41 @@ export const TitleBar = () => {
   const { canGoBack, canGoForward, goBack, goForward } = useNavHistory();
   const { isMaximized, minimize, toggleMaximize, close } = useWindowControls();
 
-  if (!platform || platform === 'macos') {
+  if (!platform) {
     return null;
   }
 
+  const isMacos = platform === 'macos';
+  const variant = isMacos ? 'macos' : platform === 'windows' ? 'windows' : 'linux';
+
   return (
-    <div className={s.root({ platform: 'windows' })}>
-      <div className={s.navButtons}>
-        <button type="button" className={s.navButton} disabled={!canGoBack} onClick={goBack}>
-          <ChevronLeft className={s.navIcon} />
-        </button>
-        <button type="button" className={s.navButton} disabled={!canGoForward} onClick={goForward}>
-          <ChevronRight className={s.navIcon} />
-        </button>
-      </div>
+    <div className={s.root({ platform: variant })}>
+      {!isMacos && (
+        <div className={s.navButtons}>
+          <button type="button" className={s.navButton} disabled={!canGoBack} onClick={goBack}>
+            <ChevronLeft className={s.navIcon} />
+          </button>
+          <button
+            type="button"
+            className={s.navButton}
+            disabled={!canGoForward}
+            onClick={goForward}
+          >
+            <ChevronRight className={s.navIcon} />
+          </button>
+        </div>
+      )}
 
       <div className={s.dragRegion} data-tauri-drag-region />
 
-      <TitleBarControls
-        isMaximized={isMaximized}
-        onClose={close}
-        onMinimize={minimize}
-        onToggleMaximize={toggleMaximize}
-      />
+      {!isMacos && (
+        <TitleBarControls
+          isMaximized={isMaximized}
+          onClose={close}
+          onMinimize={minimize}
+          onToggleMaximize={toggleMaximize}
+        />
+      )}
     </div>
   );
 };
