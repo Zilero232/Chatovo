@@ -1,10 +1,19 @@
-import { MessageSquare } from 'lucide-react';
-import { chatEmptyStyles as s } from './ChatEmpty.styles';
+'use client';
 
-export const ChatEmpty = () => (
-  <div className={s.root}>
-    <MessageSquare className={s.icon} />
-    <p className={s.title}>It's quiet here</p>
-    <p className={s.hint}>Be the first to send a message in this room.</p>
-  </div>
-);
+import { MessageSquare } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { CenteredState } from '@/shared/ui';
+
+export const ChatEmpty = () => {
+  const t = useTranslations('chat.empty');
+
+  return (
+    <CenteredState
+      className="py-10"
+      description={t('description')}
+      icon={<MessageSquare className="size-5" />}
+      size="sm"
+      title={t('title')}
+    />
+  );
+};

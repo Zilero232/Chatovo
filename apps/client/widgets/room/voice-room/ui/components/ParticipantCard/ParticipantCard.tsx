@@ -33,6 +33,7 @@ export const ParticipantCard = ({ participant, deafened, index = 0 }: Participan
   const { verified, avatarUrl, bannerColor } = readParticipantMeta(metadata);
 
   const displayName = name || participant.identity;
+  const isLocal = participant.isLocal;
 
   const hasCamera = isNonNullish(cameraTrack) && !cameraMuted;
   const hasScreen = isNonNullish(screenTrack) && !screenMuted;
@@ -42,6 +43,7 @@ export const ParticipantCard = ({ participant, deafened, index = 0 }: Participan
     <ParticipantCardMenu participant={participant}>
       <div
         className={s.root}
+        data-local={isLocal}
         data-speaking={isSpeaking}
         style={{ animationDelay: `${Math.min(index, 8) * 50}ms` }}
       >
@@ -54,7 +56,14 @@ export const ParticipantCard = ({ participant, deafened, index = 0 }: Participan
           ) : (
             <div className={s.audioStage}>
               <span aria-hidden className={s.tint} style={getCardTint(bannerColor)} />
-              <span aria-hidden className={cn(s.avatarHalo, isSpeaking && s.avatarHaloSpeaking)} />
+              <span
+                aria-hidden
+                className={cn(
+                  s.avatarHalo,
+                  isSpeaking && s.avatarHaloSpeaking,
+                  isLocal && isSpeaking && s.avatarHaloLocalSpeaking,
+                )}
+              />
 
               <UserAvatar
                 name={displayName}

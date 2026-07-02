@@ -13,6 +13,7 @@ import {
   DeepLinkProvider,
   I18nProvider,
   ShortcutsProvider,
+  TauriDesktopDocumentClass,
   TauriMobileInsets,
   TrayMenuProvider,
   UpdateProvider,
@@ -25,6 +26,7 @@ export const Providers = ({ children }: { children: ReactNode }) => (
   <QueryClientProvider client={queryClient}>
     <I18nProvider>
       <TauriMobileInsets />
+      <TauriDesktopDocumentClass />
       <TooltipProvider>
         <div className="flex h-full flex-col">
           {isTauriDesktop() && <TitleBar />}

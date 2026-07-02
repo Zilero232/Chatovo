@@ -1,0 +1,64 @@
+'use client';
+
+import { useCopy } from '@siberiacancode/reactuse';
+import { Check, Link2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { useEffect, useRef, useState } from 'react';
+import { buildRoomHref } from '@/shared/constants';
+import { buildPublicAppUrl } from '@/shared/lib/app-url';
+import { cn } from '@/shared/lib/cn';
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+import { roomInviteButtonStyles as s } from './RoomInviteButton.styles';
+import type { RoomInviteButtonProps } from './RoomInviteButton.types';
+
+const COPIED_RESET_MS = 2000;
+
+export const RoomInviteButton = ({ roomId, size = 'lg' }: RoomInviteButtonProps) => {
+  const t = useTranslations('room.invite');
+  const { copy } = useCopy();
+  const [copied, setCopied] = useState(false);
+  const resetTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => {
+    return () => {
+      if (resetTimerRef.current) {
+        clearTimeout(resetTimerRef.current);
+      }
+    };
+  }, []);
+
+  const copyInviteLink = () => {
+    copy(buildPublicAppUrl(buildRoomHref(roomId)));
+    setCopied(true);
+
+    if (resetTimerRef.current) {
+      clearTimeout(resetTimerRef.current);
+    }
+
+    resetTimerRef.current = setTimeout(() => {
+      setCopied(false);
+    }, COPIED_RESET_MS);
+  };
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          aria-label={copied ? t('linkCopied') : t('copyLink')}
+          className={cn(
+            s.button,
+            size === 'sm' ? s.buttonSm : s.buttonLg,
+            copied && s.buttonCopied,
+          )}
+          size={size === 'sm' ? 'icon-sm' : 'icon-lg'}
+          type="button"
+          variant="ghost"
+          onClick={copyInviteLink}
+        >
+          {copied ? <Check /> : <Link2 />}
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>{copied ? t('linkCopied') : t('tooltip')}</TooltipContent>
+    </Tooltip>
+  );
+};

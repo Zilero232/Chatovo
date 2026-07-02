@@ -68,6 +68,18 @@
   --safe-area-right: env(safe-area-inset-right, 0px);
   --safe-area-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
   --safe-area-left: env(safe-area-inset-left, 0px);
+
+  --toast-gap: 0.875rem;
+  --toast-title-bar: 0px;
+  --toast-bottom-extra: 0px;
+  --toast-offset-top: calc(var(--safe-area-top) + var(--toast-title-bar) + var(--toast-gap));
+  --toast-offset-bottom: calc(
+    var(--safe-area-bottom) +
+    var(--toast-bottom-extra) +
+    var(--toast-gap)
+  );
+  --toast-offset-right: max(var(--toast-gap), var(--safe-area-right));
+  --toast-offset-left: max(var(--toast-gap), var(--safe-area-left));
 }
 
 .dark {
@@ -174,6 +186,16 @@
 
 @utility right-safe-offset {
   right: calc(var(--safe-area-right) + 0.875rem);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --toast-bottom-extra: 3.75rem;
+  }
+}
+
+html.tauri-desktop {
+  --toast-title-bar: 2rem;
 }
 
 @utility scrollbar-thin {

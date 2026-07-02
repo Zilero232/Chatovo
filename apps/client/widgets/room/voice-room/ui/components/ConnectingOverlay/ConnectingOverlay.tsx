@@ -2,14 +2,11 @@
 
 import { useConnectionState } from '@livekit/components-react';
 import { ConnectionState } from 'livekit-client';
-import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { match } from 'ts-pattern';
+import { Spinner } from '@/shared/ui';
 import { connectingOverlayStyles as s } from './ConnectingOverlay.styles';
-
-type ConnectingOverlayProps = {
-  roomName: string;
-};
+import type { ConnectingOverlayProps } from './ConnectingOverlay.types';
 
 export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
   const t = useTranslations('room');
@@ -30,7 +27,7 @@ export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
   return (
     <div className={s.root}>
       <div className={s.box}>
-        <Loader2 className={s.icon} />
+        <Spinner size="lg" />
         <p className={s.text}>{text}</p>
       </div>
     </div>

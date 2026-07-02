@@ -1,0 +1,1 @@
+export { VoiceRoomChatButton } from './VoiceRoomChatButton';

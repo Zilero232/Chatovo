@@ -5,5 +5,5 @@ export { useRecentRooms } from './use-recent-rooms';
 export { useRoomById } from './use-room-by-id';
 export { useRoomParticipants } from './use-room-participants';
 export { useRoomToken } from './use-room-token';
-export { useRooms } from './use-rooms';
+export { prefetchRooms, useRooms } from './use-rooms';
 export { useUpdateRoom } from './use-update-room';

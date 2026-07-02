@@ -7,7 +7,7 @@ import { chatMessageToChatLine } from '../lib';
 import type { ChatLine } from '../types';
 
 export const useChatHistory = (roomId: string, enabled = true) => {
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: QUERY_KEYS.chatMessages(roomId),
     enabled: enabled && roomId.length > 0,
     staleTime: Number.POSITIVE_INFINITY,
@@ -18,5 +18,5 @@ export const useChatHistory = (roomId: string, enabled = true) => {
     },
   });
 
-  return data ?? [];
+  return { messages: data ?? [], isPending };
 };

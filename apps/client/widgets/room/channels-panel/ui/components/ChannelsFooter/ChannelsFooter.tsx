@@ -1,11 +1,13 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
 import { ReportProblemButton } from '@/features/app/report-problem';
 import { AppSettingsButton } from '@/widgets/app/app-settings';
 import { channelsFooterStyles as s } from './ChannelsFooter.styles';
 
 export const ChannelsFooter = () => {
+  const t = useTranslations('channels');
   const { avatarUrl, displayName, verified } = useCurrentUser();
 
   return (
@@ -23,7 +25,7 @@ export const ChannelsFooter = () => {
             <span className={s.dotPing} />
             <span className={s.dotCore} />
           </span>
-          online
+          {t('online')}
         </span>
       </div>
 
