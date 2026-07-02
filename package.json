@@ -20,12 +20,12 @@
     "dev:full": "docker compose -f docker-compose.dev.yml up -d && bun dev",
     "build": "bun --filter @chatovo/server build && bun --filter @chatovo/client build",
     "tauri": "bun --filter @chatovo/tauri tauri",
+    "tauri:icon": "bun --filter @chatovo/tauri icon",
     "tauri:dev": "bun --filter '@chatovo/server' --filter '@chatovo/tauri' --parallel dev",
     "tauri:build": "bun --filter @chatovo/client build && bun --filter @chatovo/tauri build",
     "tauri:android:init": "bun --filter @chatovo/tauri android:init",
     "tauri:android:dev": "bun --filter @chatovo/tauri android:dev",
-    "tauri:android:build": "bun --filter @chatovo/client build && bun --filter @chatovo/tauri android:build:aab",
-    "tauri:icon": "bun --filter @chatovo/tauri icon"
+    "tauri:android:build": "bun --filter @chatovo/client build && bun --filter @chatovo/tauri android:build:aab"
   },
   "dependencies": {
     "babel-plugin-react-compiler": "^1.0.0"

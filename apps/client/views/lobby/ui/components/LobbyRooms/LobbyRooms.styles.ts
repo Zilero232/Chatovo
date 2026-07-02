@@ -24,8 +24,8 @@ export const lobbyRoomsStyles = {
 
   grid: 'grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5',
 
-  loader: 'flex justify-center py-12',
-  loaderIcon: 'size-5 animate-spin text-muted-foreground',
+  skeletonCard: 'min-h-[140px] rounded-2xl',
 
-  nothingFound: 'py-12 text-center text-muted-foreground text-sm',
+  cardAnim: 'animate-in fade-in slide-in-from-bottom-2 fill-mode-both duration-300',
+  nothingFoundState: 'py-8',
 } as const;

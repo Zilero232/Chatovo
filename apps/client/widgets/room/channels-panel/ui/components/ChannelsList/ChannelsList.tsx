@@ -1,14 +1,16 @@
 'use client';
 
-import { Loader2, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { isEmpty as isEmptyList } from 'remeda';
 import { match } from 'ts-pattern';
-import { groupRooms, useRooms, useRoomsPresence } from '@/entities/room/room';
-import { ScrollArea } from '@/shared/ui';
+import { groupRooms, RoomsListError, useRooms, useRoomsPresence } from '@/entities/room/room';
+import { CenteredState, ScrollArea, Skeleton } from '@/shared/ui';
 import { ChannelsRoomItem } from '../ChannelsRoomItem';
 import { channelsListStyles as s } from './ChannelsList.styles';
+
+const CHANNELS_SKELETON_KEYS = ['a', 'b', 'c', 'd', 'e'] as const;
 
 const SectionLabel = ({
   children,
@@ -22,6 +24,14 @@ const SectionLabel = ({
   </p>
 );
 
+const ChannelsListSkeleton = () => (
+  <div className={s.skeletonList}>
+    {CHANNELS_SKELETON_KEYS.map((key) => (
+      <Skeleton key={key} className={s.skeletonItem} />
+    ))}
+  </div>
+);
+
 type ChannelsListProps = {
   onNavigate?: () => void;
 };
@@ -30,7 +40,7 @@ export const ChannelsList = ({ onNavigate }: ChannelsListProps = {}) => {
   const t = useTranslations('channels');
   const tSections = useTranslations('room.sections');
 
-  const { rooms, isLoading, isEmpty } = useRooms();
+  const { rooms, isLoading, isEmpty, isError } = useRooms();
   const presence = useRoomsPresence();
 
   const [query, setQuery] = useState('');
@@ -53,10 +63,24 @@ export const ChannelsList = ({ onNavigate }: ChannelsListProps = {}) => {
 
       <ScrollArea className={s.scroll}>
         <div className={s.list}>
-          {match({ isLoading, isEmpty, nothingFound: isEmptyList(sections) })
-            .with({ isLoading: true }, () => <Loader2 className={s.loaderIcon} />)
-            .with({ isEmpty: true }, () => <p className={s.emptyHint}>{t('noRoomsYet')}</p>)
-            .with({ nothingFound: true }, () => <p className={s.emptyHint}>{t('nothingFound')}</p>)
+          {match({ isLoading, isError, isEmpty, nothingFound: isEmptyList(sections) })
+            .with({ isLoading: true }, () => <ChannelsListSkeleton />)
+            .with({ isError: true }, () => (
+              <div className={s.emptyState}>
+                <RoomsListError />
+              </div>
+            ))
+            .with({ isEmpty: true }, () => (
+              <CenteredState
+                className={s.emptyState}
+                description={t('banner.hint')}
+                size="sm"
+                title={t('noRoomsYet')}
+              />
+            ))
+            .with({ nothingFound: true }, () => (
+              <CenteredState className={s.emptyState} size="sm" title={t('nothingFound')} />
+            ))
             .otherwise(() =>
               sections.map((section, index) => (
                 <div key={section.key}>

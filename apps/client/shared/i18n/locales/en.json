@@ -284,6 +284,13 @@
     "roomsHeading": "Rooms",
     "searchPlaceholder": "Search rooms...",
     "nothingFound": "No rooms match \"{query}\"",
+    "nothingFoundTitle": "Nothing found",
+    "clearSearch": "Clear search",
+    "roomsError": {
+      "title": "Could not load rooms",
+      "description": "Check your connection and try again.",
+      "retry": "Try again"
+    },
     "empty": {
       "title": "No rooms yet",
       "text": "Create the first voice room and invite people to join."
@@ -312,6 +319,12 @@
     "notFound": "Room not found",
     "backToLobby": "Back to lobby",
     "joinFailed": "Failed to join room",
+    "invite": {
+      "copyLink": "Copy invite link",
+      "tooltip": "Copy a link to invite others",
+      "linkCopied": "Invite link copied",
+      "soloSlot": "Invite someone"
+    },
     "connection": {
       "measuring": "Measuring connection…",
       "ping": "Connection: {ms} ms"
@@ -369,7 +382,11 @@
     "editFailed": "Failed to edit message",
     "deleteFailed": "Failed to delete message",
     "today": "Today",
-    "yesterday": "Yesterday"
+    "yesterday": "Yesterday",
+    "empty": {
+      "title": "It's quiet here",
+      "description": "Be the first to send a message in this room."
+    }
   },
   "user": {
     "verified": "Verified account"
@@ -395,6 +412,7 @@
     "searchPlaceholder": "Search rooms...",
     "noRoomsYet": "No rooms yet",
     "nothingFound": "Nothing found",
+    "online": "online",
     "banner": {
       "title": "You're in the lobby",
       "hint": "Pick a room from the page, or start a new one.",

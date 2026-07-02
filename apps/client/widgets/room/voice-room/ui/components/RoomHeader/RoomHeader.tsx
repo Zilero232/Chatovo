@@ -2,13 +2,11 @@
 
 import { AudioLines } from 'lucide-react';
 import { ConnectionIndicator } from '../ConnectionIndicator';
+import { RoomInviteButton } from '../RoomInviteButton';
 import { roomHeaderStyles as s } from './RoomHeader.styles';
+import type { RoomHeaderProps } from './RoomHeader.types';
 
-type RoomHeaderProps = {
-  name: string;
-};
-
-export const RoomHeader = ({ name }: RoomHeaderProps) => {
+export const RoomHeader = ({ name, roomId }: RoomHeaderProps) => {
   return (
     <div className={s.root}>
       <span aria-hidden className={s.icon}>
@@ -19,7 +17,12 @@ export const RoomHeader = ({ name }: RoomHeaderProps) => {
         <span className={s.title}>{name}</span>
       </div>
 
-      <ConnectionIndicator />
+      <div className={s.actions}>
+        <div className={s.mobileInvite}>
+          <RoomInviteButton roomId={roomId} size="sm" />
+        </div>
+        <ConnectionIndicator />
+      </div>
     </div>
   );
 };

@@ -2,8 +2,6 @@
 
 import { LiveKitRoom } from '@livekit/components-react';
 import { useBoolean } from '@siberiacancode/reactuse';
-import { MessageSquare } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 import { useRef } from 'react';
 import { getPublishDefaults, useAppSettings } from '@/entities/app/settings';
 import { useRecentRooms } from '@/entities/room/room';
@@ -15,10 +13,15 @@ import {
   RoomControlBar,
 } from '@/features/room/room-control';
 import { appEvents } from '@/shared/lib';
-import { Button } from '@/shared/ui';
 import { ChatPanel, RoomChatProvider } from '@/widgets/room/chat';
 import { FAILURE_REASONS } from '../config';
-import { ConnectingOverlay, ParticipantsView, RoomHeader } from './components';
+import {
+  ConnectingOverlay,
+  ParticipantsView,
+  RoomHeader,
+  RoomInviteButton,
+  VoiceRoomChatButton,
+} from './components';
 import { RoomControllers } from './controllers';
 import { voiceRoomStyles as s } from './VoiceRoom.styles';
 import type { VoiceRoomProps } from './VoiceRoom.types';
@@ -31,7 +34,6 @@ export const VoiceRoom = ({
   onConnectFailure,
   onLeave,
 }: VoiceRoomProps) => {
-  const t = useTranslations('chat');
   const { settings } = useAppSettings();
   const { push: pushRecent } = useRecentRooms();
 
@@ -75,10 +77,10 @@ export const VoiceRoom = ({
           <RoomChatProvider>
             <DeafenProvider>
               <ReactionsProvider>
-                <RoomHeader name={roomName} />
+                <RoomHeader name={roomName} roomId={roomId} />
 
                 <div className={s.body}>
-                  <ParticipantsView />
+                  <ParticipantsView roomId={roomId} />
                   <ReactionsOverlay />
                   <ConnectingOverlay roomName={roomName} />
                 </div>
@@ -88,17 +90,12 @@ export const VoiceRoom = ({
                     <RoomControlBar />
                   </div>
 
-                  <Button
-                    aria-label={isChatOpen ? t('hide') : t('open')}
-                    aria-pressed={isChatOpen}
-                    className={s.chatButton}
-                    size="icon-lg"
-                    type="button"
-                    variant={isChatOpen ? 'secondary' : 'ghost'}
-                    onClick={() => toggleChat()}
-                  >
-                    <MessageSquare />
-                  </Button>
+                  <div className={s.sideActions}>
+                    <div className={s.desktopInvite}>
+                      <RoomInviteButton roomId={roomId} />
+                    </div>
+                    <VoiceRoomChatButton isOpen={isChatOpen} onToggle={() => toggleChat()} />
+                  </div>
                 </div>
 
                 <ChatPanel roomId={roomId} isOpen={isChatOpen} onClose={() => toggleChat(false)} />

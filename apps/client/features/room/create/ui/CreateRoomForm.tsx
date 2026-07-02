@@ -3,10 +3,10 @@
 import { createRoomInputSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { useCreateRoom, useEnterRoom } from '@/entities/room/room';
-import { FormField, Input, Row, Stack, SubmitButton } from '@/shared/ui';
+import { FormField, Input, Label, Row, Stack, SubmitButton, Switch } from '@/shared/ui';
 import type { CreateRoomRequest } from '@chatovo/schemas';
 
 const DEFAULT_VALUES: CreateRoomRequest = { name: '', isPrivate: false };
@@ -21,6 +21,7 @@ export const CreateRoomForm = ({ onCreated }: CreateRoomFormProps) => {
   const enterMutation = useEnterRoom();
 
   const {
+    control,
     formState: { errors },
     handleSubmit,
     register,
@@ -78,9 +79,19 @@ export const CreateRoomForm = ({ onCreated }: CreateRoomFormProps) => {
         </FormField>
       )}
 
-      <Row as="label" gap="2">
-        <input className="size-4 accent-primary" type="checkbox" {...register('isPrivate')} />
-        <span>{t('privateLabel')}</span>
+      <Row className="items-center" gap="2">
+        <Controller
+          control={control}
+          name="isPrivate"
+          render={({ field }) => (
+            <Switch
+              checked={field.value}
+              id="create-room-private"
+              onCheckedChange={field.onChange}
+            />
+          )}
+        />
+        <Label htmlFor="create-room-private">{t('privateLabel')}</Label>
       </Row>
 
       <SubmitButton disabled={!name?.trim()} isPending={isPending} variant="secondary">

@@ -3,7 +3,7 @@
 import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
 import { getBannerStyle } from '../../lib/banner-style';
 import { useUserProfile } from '../../model/use-user-profile';
-import { AvatarZoom, ProfileVoiceBlock } from './components';
+import { AvatarZoom, ProfileCardSkeleton, ProfileVoiceBlock } from './components';
 import { profileCardStyles as s } from './ProfileCard.styles';
 import type { ProfileCardProps } from './ProfileCard.types';
 
@@ -13,6 +13,11 @@ export const ProfileCard = ({ identity, name }: ProfileCardProps) => {
   const { data: profile, isLoading } = useUserProfile(identity);
 
   const isSelf = user?.id === identity;
+
+  if (isLoading) {
+    return <ProfileCardSkeleton />;
+  }
+
   const displayName = profile?.name ?? name;
 
   return (
@@ -44,7 +49,7 @@ export const ProfileCard = ({ identity, name }: ProfileCardProps) => {
 
         {profile?.bio && <p className={s.bio}>{profile.bio}</p>}
 
-        <ProfileVoiceBlock identity={identity} isSelf={isSelf} isLoading={isLoading} />
+        <ProfileVoiceBlock identity={identity} isSelf={isSelf} isLoading={false} />
       </div>
     </div>
   );

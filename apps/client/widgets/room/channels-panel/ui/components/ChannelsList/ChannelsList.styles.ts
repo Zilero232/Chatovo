@@ -2,6 +2,9 @@ export const channelsListStyles = {
   scroll: 'flex-1',
   list: 'flex flex-col gap-0.5 p-2',
   itemAnim: 'animate-in fade-in slide-in-from-left-2 fill-mode-both duration-300',
+  skeletonList: 'flex flex-col gap-1.5 px-2 py-1',
+  skeletonItem: 'h-9 rounded-lg',
+  emptyState: 'min-h-32 py-6',
   sectionLabel:
     'px-2 py-1 text-muted-foreground/80 text-[10px] uppercase tracking-[0.12em] font-semibold',
   sectionLabelOffset: 'mt-3',

@@ -16,7 +16,14 @@ import {
 } from '../model/hooks';
 import { groupChatLines } from '../model/lib';
 import { chatPanelStyles as s } from './ChatPanel.styles';
-import { ChatComposer, ChatEmpty, ChatHeader, ChatMessageItem, DateDivider } from './components';
+import {
+  ChatComposer,
+  ChatEmpty,
+  ChatHeader,
+  ChatLoadingSkeleton,
+  ChatMessageItem,
+  DateDivider,
+} from './components';
 import type { ChatPanelProps } from './ChatPanel.types';
 
 export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
@@ -46,7 +53,7 @@ export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
 
   useChatLiveMerge(roomId);
 
-  const history = useChatHistory(roomId);
+  const { messages: history, isPending: isHistoryPending } = useChatHistory(roomId);
   const { sendAndPersist } = useChatSend(roomId);
   const { edit, remove } = useChatSync(roomId);
 
@@ -63,46 +70,59 @@ export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
   const grouped = groupChatLines(messages, localParticipant.identity);
 
   return (
-    <aside ref={dropRef} className={s.root} data-open={isOpen} inert={!isOpen}>
-      <ChatHeader onClose={onClose} />
+    <>
+      <button
+        aria-label={t('close')}
+        className={s.scrim}
+        data-open={isOpen}
+        tabIndex={isOpen ? 0 : -1}
+        type="button"
+        onClick={onClose}
+      />
 
-      {overed && (
-        <div className={s.dropOverlay}>
-          <Paperclip className="size-6" />
-          {t('dropToSend')}
-        </div>
-      )}
+      <aside ref={dropRef} className={s.root} data-open={isOpen} inert={!isOpen}>
+        <ChatHeader onClose={onClose} />
 
-      <div ref={listRef} className={s.scroll}>
-        {isEmpty(messages) ? (
-          <ChatEmpty />
-        ) : (
-          <div className={s.list}>
-            {grouped.map(({ line, isOwn, isGrouped, isTail, showDivider }) => (
-              <Fragment key={line.id}>
-                {showDivider && <DateDivider timestamp={line.timestamp} />}
-                <ChatMessageItem
-                  message={line}
-                  isOwn={isOwn}
-                  isGrouped={isGrouped}
-                  isTail={isTail}
-                  canManage={isOwn}
-                  onEdit={edit}
-                  onDelete={remove}
-                />
-              </Fragment>
-            ))}
+        {overed && (
+          <div className={s.dropOverlay}>
+            <Paperclip className="size-6" />
+            {t('dropToSend')}
           </div>
         )}
-      </div>
 
-      <ChatComposer
-        isSending={isSending}
-        isUploading={isUploading}
-        onSend={sendAndPersist}
-        onAttach={openPicker}
-        onPaste={onPaste}
-      />
-    </aside>
+        <div ref={listRef} className={s.scroll}>
+          {isHistoryPending ? (
+            <ChatLoadingSkeleton />
+          ) : isEmpty(messages) ? (
+            <ChatEmpty />
+          ) : (
+            <div className={s.list}>
+              {grouped.map(({ line, isOwn, isGrouped, isTail, showDivider }) => (
+                <Fragment key={line.id}>
+                  {showDivider && <DateDivider timestamp={line.timestamp} />}
+                  <ChatMessageItem
+                    message={line}
+                    isOwn={isOwn}
+                    isGrouped={isGrouped}
+                    isTail={isTail}
+                    canManage={isOwn}
+                    onEdit={edit}
+                    onDelete={remove}
+                  />
+                </Fragment>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <ChatComposer
+          isSending={isSending}
+          isUploading={isUploading}
+          onSend={sendAndPersist}
+          onAttach={openPicker}
+          onPaste={onPaste}
+        />
+      </aside>
+    </>
   );
 };

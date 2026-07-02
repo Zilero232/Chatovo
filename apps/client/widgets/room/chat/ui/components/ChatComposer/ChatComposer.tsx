@@ -3,6 +3,7 @@
 import { useKeyboard, useTextareaAutosize } from '@siberiacancode/reactuse';
 import { Paperclip, SendHorizontal } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { cn } from '@/shared/lib/cn';
 import { Button, Spinner } from '@/shared/ui';
 import { chatComposerStyles as s } from './ChatComposer.styles';
 import type { ChatComposerProps } from './ChatComposer.types';
@@ -79,8 +80,14 @@ export const ChatComposer = ({
         onPaste={onPaste}
       />
 
-      <Button aria-label={t('send')} disabled={!canSend} size="icon-sm" type="submit">
-        <SendHorizontal />
+      <Button
+        aria-label={t('send')}
+        className={cn(canSend && s.sendActive)}
+        disabled={!canSend}
+        size="icon-sm"
+        type="submit"
+      >
+        <SendHorizontal className={cn(canSend && s.sendIconActive)} />
       </Button>
     </form>
   );
