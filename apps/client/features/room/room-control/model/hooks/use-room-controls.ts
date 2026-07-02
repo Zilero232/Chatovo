@@ -1,14 +1,13 @@
 'use client';
 
 import { useLocalParticipant, useRoomContext } from '@livekit/components-react';
-import { isTauri } from '@tauri-apps/api/core';
 import { isNullish } from 'remeda';
 import {
   getCameraCaptureOptions,
   getScreenCaptureOptions,
   useAppSettings,
 } from '@/entities/app/settings';
-import { prettyHotkey, toggleMicStream } from '@/shared/lib';
+import { isTauriDesktop, prettyHotkey, toggleMicStream } from '@/shared/lib';
 import { resolveMicVisual } from '../../lib/mic-visual';
 import { useDeafen } from './use-deafen';
 import { usePttActive } from './use-ptt-active';
@@ -32,7 +31,7 @@ export const useRoomControls = () => {
   const mic = resolveMicVisual(pttState, isMicrophoneEnabled);
 
   const pttBinding = settings.shortcuts.pttHold;
-  const pttKey = isPtt && isTauri() && pttBinding ? prettyHotkey(pttBinding) : undefined;
+  const pttKey = isPtt && isTauriDesktop() && pttBinding ? prettyHotkey(pttBinding) : undefined;
 
   const run = (action: (participant: LocalParticipant) => Promise<unknown>) => {
     return async () => {

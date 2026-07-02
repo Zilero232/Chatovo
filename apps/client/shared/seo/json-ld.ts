@@ -34,7 +34,7 @@ export const siteJsonLd = {
         'Real-time voice rooms',
         'Real-time video rooms',
         'Password-protected private rooms',
-        'Google and email sign-in',
+        'Email sign-in',
         'Native desktop app',
         'Self-hostable',
       ],

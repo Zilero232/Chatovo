@@ -4,18 +4,16 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { match } from 'ts-pattern';
 import { ForgotPasswordForm } from '@/features/auth/forgot-password';
-import { GoogleAuthButton } from '@/features/auth/google';
 import { SignInForm } from '@/features/auth/sign-in';
 import { SignUpForm } from '@/features/auth/sign-up';
 import { AuthBackground, LogoMark } from '@/shared/ui';
 import { authPageStyles as s } from './AuthPage.styles';
-import { AuthBrandPanel } from './components';
+import { AuthBrandPanel, AuthLegalFooter } from './components';
 
 type AuthMode = 'signin' | 'signup' | 'forgot';
 
 export const AuthPage = () => {
   const t = useTranslations('auth');
-  const tCommon = useTranslations('common');
 
   const [mode, setMode] = useState<AuthMode>('signin');
 
@@ -56,27 +54,19 @@ export const AuthPage = () => {
           </div>
 
           {mode !== 'forgot' && (
-            <>
-              <div className={s.divider}>
-                <span className={s.dividerLine} />
-                <span className={s.dividerText}>{tCommon('or')}</span>
-                <span className={s.dividerLine} />
-              </div>
-
-              <GoogleAuthButton />
-
-              <p className={s.toggle}>
-                {t(mode === 'signup' ? 'hasAccount' : 'noAccount')}{' '}
-                <button
-                  className={s.toggleButton}
-                  type="button"
-                  onClick={() => setMode(mode === 'signup' ? 'signin' : 'signup')}
-                >
-                  {t(mode === 'signup' ? 'signIn' : 'signUp')}
-                </button>
-              </p>
-            </>
+            <p className={s.toggle}>
+              {t(mode === 'signup' ? 'hasAccount' : 'noAccount')}{' '}
+              <button
+                className={s.toggleButton}
+                type="button"
+                onClick={() => setMode(mode === 'signup' ? 'signin' : 'signup')}
+              >
+                {t(mode === 'signup' ? 'signIn' : 'signUp')}
+              </button>
+            </p>
           )}
+
+          <AuthLegalFooter />
         </div>
       </div>
     </div>

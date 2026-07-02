@@ -1,12 +1,12 @@
 'use client';
 
-import { isTauri } from '@tauri-apps/api/core';
 import { useEffect, useState } from 'react';
 import { useAppSettings } from '@/entities/app/settings';
 import {
   closeMainWindow,
   hideMainWindow,
   isMainWindowMaximized,
+  isTauriDesktop,
   minimizeMainWindow,
   onMainWindowResized,
   toggleMaximizeMainWindow,
@@ -18,7 +18,7 @@ export const useWindowControls = () => {
   const [isMaximized, setIsMaximized] = useState(false);
 
   useEffect(() => {
-    if (!isTauri()) {
+    if (!isTauriDesktop()) {
       return;
     }
 

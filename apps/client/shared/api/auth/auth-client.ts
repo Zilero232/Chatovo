@@ -1,4 +1,4 @@
-import { inferAdditionalFields, oneTimeTokenClient } from 'better-auth/client/plugins';
+import { inferAdditionalFields } from 'better-auth/client/plugins';
 import { createAuthClient } from 'better-auth/react';
 import { env } from '@/shared/config';
 import { STORAGE_KEYS } from '@/shared/constants';
@@ -9,6 +9,14 @@ export const getAuthToken = (): string => {
   }
 
   return window.localStorage.getItem(STORAGE_KEYS.authToken) ?? '';
+};
+
+export const saveAuthToken = (token: string | null | undefined): void => {
+  if (typeof window === 'undefined' || !token) {
+    return;
+  }
+
+  window.localStorage.setItem(STORAGE_KEYS.authToken, token);
 };
 
 export const clearToken = (): void => {
@@ -32,7 +40,6 @@ export const authClient = createAuthClient({
         verified: { type: 'boolean', input: false },
       },
     }),
-    oneTimeTokenClient(),
   ],
   fetchOptions: {
     auth: {
@@ -42,9 +49,7 @@ export const authClient = createAuthClient({
     onSuccess: (ctx) => {
       const token = ctx.response.headers.get('set-auth-token');
 
-      if (token && typeof window !== 'undefined') {
-        window.localStorage.setItem(STORAGE_KEYS.authToken, token);
-      }
+      saveAuthToken(token);
     },
   },
 });

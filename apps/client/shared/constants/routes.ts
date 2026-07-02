@@ -7,6 +7,8 @@ export const ROUTES = {
   auth: AUTH_PATH,
   resetPassword: `${AUTH_PATH}/reset-password`,
   room: '/room',
+  privacy: '/privacy',
+  terms: '/terms',
 } as const;
 
 export const DEEP_LINKS = {

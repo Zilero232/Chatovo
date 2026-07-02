@@ -22,7 +22,7 @@ const mismatchIssue = {
 };
 
 export const signInSchema = z.object({
-  email: z.email('validation.emailInvalid'),
+  email: emailSchema,
   password: passwordSchema,
 });
 
@@ -36,7 +36,7 @@ export const signUpSchema = z
   .refine(passwordsMatch, mismatchIssue);
 
 export const forgotPasswordSchema = z.object({
-  email: z.email('validation.emailInvalid'),
+  email: emailSchema,
 });
 
 export const resetPasswordSchema = z

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { resolveMobileDevUrl } from '@/shared/lib/resolve-mobile-dev-url';
 
 const clientSchema = z.object({
   NEXT_PUBLIC_API_URL: z.string().min(1).default('http://localhost:4000'),
@@ -18,4 +19,14 @@ if (!parsed.success) {
   throw new Error('Missing or invalid client env. See .env.example.');
 }
 
-export const env = parsed.data;
+const base = parsed.data;
+
+export const env = {
+  get NEXT_PUBLIC_API_URL() {
+    return resolveMobileDevUrl(base.NEXT_PUBLIC_API_URL);
+  },
+  get NEXT_PUBLIC_LIVEKIT_URL() {
+    return resolveMobileDevUrl(base.NEXT_PUBLIC_LIVEKIT_URL);
+  },
+  NEXT_PUBLIC_APP_VERSION: base.NEXT_PUBLIC_APP_VERSION,
+};

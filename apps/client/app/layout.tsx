@@ -1,5 +1,6 @@
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import { SITE } from '@/shared/config';
+import { getTauriMobileHmrShim } from '@/shared/lib/tauri-mobile-hmr-shim';
 import { JsonLdScript } from '@/shared/seo';
 import { Providers } from './providers';
 import type { ReactNode } from 'react';
@@ -20,6 +21,8 @@ const mono = JetBrains_Mono({
   display: 'swap',
 });
 
+const tauriMobileHmrShim = getTauriMobileHmrShim();
+
 const RootLayout = ({ children }: { children: ReactNode }) => (
   <html
     suppressHydrationWarning
@@ -27,6 +30,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => (
     lang={SITE.lang}
   >
     <head>
+      {tauriMobileHmrShim ? (
+        <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: tauriMobileHmrShim }} />
+      ) : null}
       <JsonLdScript />
     </head>
     <body className="font-sans">

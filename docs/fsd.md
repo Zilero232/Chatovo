@@ -85,7 +85,7 @@ App → Views → Widgets → Features → Entities → Shared
 
 **Доменные группы (Chatovo):** слои `features/`, `entities/`, `widgets/` группируют слайсы по бизнес-домену:
 
-- `auth/` — авторизация (sign-in, sign-up, google, user)
+- `auth/` — авторизация (sign-in, sign-up, user)
 - `room/` — комнаты, голос, чат, presence
 - `app/` — инфраструктура приложения (release, locale, system-tray, shortcuts, check-app-update)
 - `layout/` (только widgets) — корневой shell

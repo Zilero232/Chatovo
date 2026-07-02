@@ -9,6 +9,7 @@ export { formatHotkey, hasModifier, isPureModifier, prettyHotkey } from './hotke
 export { getAvatarColor, getInitials } from './initials';
 export { openCenteredPopup } from './open-centered-popup';
 export { raceWithTimeout } from './race-with-timeout';
+export { isTauriDesktop, isTauriMobile } from './tauri-platform';
 export { toggleMicStream } from './toggle-mic-stream';
 export {
   closeMainWindow,

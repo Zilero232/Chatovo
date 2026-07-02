@@ -1,2 +1,2 @@
-export { auth, type UserRole } from './auth';
-export { socialDoneHandler } from './social-done';
+export { auth } from './auth';
+export type { UserRole } from './auth';

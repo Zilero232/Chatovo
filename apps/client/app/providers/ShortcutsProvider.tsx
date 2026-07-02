@@ -1,10 +1,19 @@
 'use client';
 
 import { useShortcutsBridge } from '@/features/app/shortcuts';
+import { isTauriDesktop } from '@/shared/lib';
 import type { ReactNode } from 'react';
 
-export const ShortcutsProvider = ({ children }: { children: ReactNode }) => {
+const ShortcutsBridge = ({ children }: { children: ReactNode }) => {
   useShortcutsBridge();
 
   return <>{children}</>;
+};
+
+export const ShortcutsProvider = ({ children }: { children: ReactNode }) => {
+  if (!isTauriDesktop()) {
+    return <>{children}</>;
+  }
+
+  return <ShortcutsBridge>{children}</ShortcutsBridge>;
 };

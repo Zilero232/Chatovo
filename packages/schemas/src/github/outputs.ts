@@ -13,3 +13,13 @@ export const gitHubReleaseSchema = z.object({
   published_at: z.string(),
   tag_name: z.string(),
 });
+
+export const gitHubReleaseListSchema = z.array(gitHubReleaseSchema);
+
+export const appDownloadsSchema = z.object({
+  version: z.string(),
+  html_url: z.url(),
+  published_at: z.string(),
+  desktop_assets: z.array(gitHubReleaseAssetSchema),
+  mobile_assets: z.array(gitHubReleaseAssetSchema),
+});

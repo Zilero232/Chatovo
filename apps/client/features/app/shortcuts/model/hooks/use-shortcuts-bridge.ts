@@ -1,15 +1,15 @@
 'use client';
 
-import { isTauri } from '@tauri-apps/api/core';
 import { useEffect } from 'react';
 import { useAppSettings } from '@/entities/app/settings';
+import { isTauriDesktop } from '@/shared/lib';
 import { syncShortcuts, teardownShortcuts } from '../../lib/shortcuts-registry';
 
 export const useShortcutsBridge = () => {
   const { settings } = useAppSettings();
 
   useEffect(() => {
-    if (!isTauri()) {
+    if (!isTauriDesktop()) {
       return;
     }
 
@@ -17,7 +17,7 @@ export const useShortcutsBridge = () => {
   }, [settings.shortcuts]);
 
   useEffect(() => {
-    if (!isTauri()) {
+    if (!isTauriDesktop()) {
       return;
     }
 

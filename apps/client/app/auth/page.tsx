@@ -5,7 +5,7 @@ import { AuthPage } from '@/views/auth';
 export const metadata = createPageMetadata({
   title: 'Sign in',
   description:
-    'Sign in to Chatovo with Google or email to create and join private voice and video rooms in one click.',
+    'Sign in to Chatovo with email to create and join private voice and video rooms in one click.',
   path: ROUTES.auth,
   index: false,
 });

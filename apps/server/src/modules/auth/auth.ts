@@ -1,17 +1,18 @@
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
-import { bearer, oneTimeToken } from 'better-auth/plugins';
+import { bearer } from 'better-auth/plugins';
 import { createElement } from 'react';
 import { allowedOrigins } from '../../config/cors';
 import { env, prisma } from '../../core';
 import { ChangeEmail, ResetPassword, sendEmail, VerifyEmail } from '../email';
 import { notifyUserSignup } from '../telegram';
+import { authBaseURL } from './auth-base-url';
 
 export type UserRole = 'admin' | 'user';
 
 export const auth = betterAuth({
   basePath: '/auth',
-  baseURL: env.BETTER_AUTH_URL,
+  baseURL: authBaseURL(),
   secret: env.BETTER_AUTH_SECRET,
   trustedOrigins: allowedOrigins,
   account: {
@@ -20,7 +21,7 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: true,
+    requireEmailVerification: false,
     sendResetPassword: async ({ user, url }) => {
       await sendEmail({
         to: user.email,
@@ -31,6 +32,7 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendOnSignUp: true,
+    sendOnSignIn: false,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url }) => {
       await sendEmail({
@@ -38,12 +40,6 @@ export const auth = betterAuth({
         subject: 'Verify your email',
         react: createElement(VerifyEmail, { url }),
       });
-    },
-  },
-  socialProviders: {
-    google: {
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
     },
   },
   user: {
@@ -85,6 +81,6 @@ export const auth = betterAuth({
       },
     },
   },
-  plugins: [bearer(), oneTimeToken()],
+  plugins: [bearer()],
   database: prismaAdapter(prisma, { provider: 'postgresql' }),
 });

@@ -28,4 +28,11 @@ Cargo.toml            # Rust deps (tauri + plugins)
 ```bash
 bun tauri:dev          # run the desktop dev shell
 bun tauri:build        # produce a native binary
+bun tauri:android:init # init Android project (requires SDK + NDK)
+bun tauri:android:dev  # run on Android device/emulator
+bun tauri:android:build # build Play Store AAB
 ```
+
+Android setup: install Android Studio (SDK + NDK), copy `apps/tauri/.env.example` → `.env`, set `NDK_HOME` to your installed NDK folder, then `bun tauri:android:init`. See [docs/play-store/README.md](../../docs/play-store/README.md).
+
+**Android dev:** `bun dev:server` + `bun tauri:android:dev`. HMR shim in client `layout.tsx` (`getTauriMobileHmrShim`).

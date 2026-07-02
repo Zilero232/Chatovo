@@ -1,0 +1,1 @@
+export { AuthLegalFooter } from './AuthLegalFooter';

@@ -31,7 +31,7 @@ Three ideas hold it together:
 
 - **Instant voice & video rooms** — low-latency WebRTC over a LiveKit SFU backbone.
 - **Private password-protected rooms** — only those who know the password can join.
-- **One-click sign-in** via Google or classic email + password — better-auth under the hood.
+- **Sign-in** via email + password — better-auth under the hood.
 - **Lightweight desktop app on Tauri** — a native binary, not a bundled browser. Ships with auto-updates.
 - **A single, consistent UI** across web and desktop — designed to feel calm rather than crowded.
 - **Self-hostable** — one `docker-compose.yml`, automatic TLS from Let's Encrypt.
@@ -102,7 +102,7 @@ cp apps/client/.env.example apps/client/.env
 
 What you need to provide:
 
-- **Auth** — `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` and `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` (server)
+- **Auth** — `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` (server)
 - **LiveKit** — `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET` (server) and `NEXT_PUBLIC_LIVEKIT_URL` (client)
 - **Postgres** — `DATABASE_URL` and `DIRECT_URL` (same value for a self-hosted single instance)
 - **Uploads** — `UPLOADS_DIR` for avatars and chat attachments served under `/uploads`
@@ -187,7 +187,7 @@ Desktop releases (Windows / macOS / Linux) are built by GitHub Actions on every 
 - [x] Voice & video rooms
 - [x] Private password-protected rooms
 - [x] Web + desktop from one codebase
-- [x] Google & email sign-in
+- [x] Email sign-in
 - [x] Desktop client auto-updates
 - [ ] Text chat alongside voice
 - [ ] Screen sharing
@@ -223,6 +223,6 @@ The full license text is available in [LICENSE](LICENSE) and at <https://www.gnu
 
 <div align="center">
 
-Made with care by <a href="mailto:alexandr.artemev.me@gmail.com">Alexandr Artemev</a>
+Made with care by <a href="mailto:zilero@chatovo.ru">Alexandr Artemev</a>
 
 </div>
