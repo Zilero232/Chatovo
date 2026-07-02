@@ -1,5 +1,6 @@
 'use client';
 
+import { isTauri } from '@tauri-apps/api/core';
 import { CheckCircle2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -7,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { ResetPasswordForm } from '@/features/auth/reset-password';
 import { DEEP_LINKS, ROUTES } from '@/shared/constants';
+import { buildDeepLinkUrl } from '@/shared/lib/deep-link';
 import { AuthBackground, Button, LogoMark } from '@/shared/ui';
 import { resetPasswordPageStyles as s } from './ResetPasswordPage.styles';
 
@@ -17,6 +19,7 @@ export const ResetPasswordPage = () => {
 
   const token = params.get('token');
   const invalid = !token || params.has('error');
+  const openInAppHref = token ? buildDeepLinkUrl(ROUTES.resetPassword, { token }) : DEEP_LINKS.auth;
 
   const [done, setDone] = useState(false);
 
@@ -57,7 +60,7 @@ export const ResetPasswordPage = () => {
           {done ? (
             <div className={s.actions}>
               <Button asChild className="w-full">
-                <a href={DEEP_LINKS.auth}>{t('openInApp')}</a>
+                <a href={openInAppHref}>{t('openInApp')}</a>
               </Button>
 
               <button
@@ -71,6 +74,12 @@ export const ResetPasswordPage = () => {
           ) : (
             <div className={s.form}>
               <ResetPasswordForm token={token} onSuccess={() => setDone(true)} />
+
+              {!isTauri() && (
+                <a className={s.openInAppLink} href={openInAppHref}>
+                  {t('openInApp')}
+                </a>
+              )}
             </div>
           )}
         </div>

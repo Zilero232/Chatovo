@@ -1,6 +1,7 @@
 export { appEvents } from './app-bus';
-export { buildPublicAppUrl, getPublicAppOrigin } from './app-url';
+export { buildPasswordResetRedirectUrl, buildPublicAppUrl, getPublicAppOrigin } from './app-url';
 export { cn } from './cn';
+export { buildDeepLinkUrl, parseDeepLinkToAppPath } from './deep-link';
 export { detectAssetPlatform } from './detect-asset-platform';
 export { firstNonEmpty } from './first-non-empty';
 export { formatBytes } from './format-bytes';

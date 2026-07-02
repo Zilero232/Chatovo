@@ -10,6 +10,7 @@ import { Toaster, TooltipProvider } from '@/shared/ui';
 import { TitleBar } from '@/widgets/app/title-bar';
 import {
   AuthProvider,
+  DeepLinkProvider,
   I18nProvider,
   ShortcutsProvider,
   TauriMobileInsets,
@@ -32,11 +33,13 @@ export const Providers = ({ children }: { children: ReactNode }) => (
             <TrayMenuProvider>
               <ShortcutsProvider>
                 <UpdateProvider>
-                  <AuthProvider>
-                    <RoomsPresenceProvider>
-                      <LeaveSoundProvider>{children}</LeaveSoundProvider>
-                    </RoomsPresenceProvider>
-                  </AuthProvider>
+                  <DeepLinkProvider>
+                    <AuthProvider>
+                      <RoomsPresenceProvider>
+                        <LeaveSoundProvider>{children}</LeaveSoundProvider>
+                      </RoomsPresenceProvider>
+                    </AuthProvider>
+                  </DeepLinkProvider>
                 </UpdateProvider>
               </ShortcutsProvider>
             </TrayMenuProvider>

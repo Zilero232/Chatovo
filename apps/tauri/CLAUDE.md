@@ -11,7 +11,7 @@ src/
 ├── main.rs           # binary entry — calls lib::run()
 └── lib.rs            # Tauri builder: registers plugins, deep-link scheme, single-instance
 capabilities/         # permission sets granted to the webview
-icons/                # app icons
+icons/                # generated — source: apps/client/app/icon.svg (`bun tauri:icon`)
 tauri.conf.json       # config — frontendDist points at the built client, bundle/updater settings
 Cargo.toml            # Rust deps (tauri + plugins)
 ```

@@ -137,6 +137,10 @@ jobs:
           DIRECT_URL: postgresql://ci:ci@localhost:5432/ci
         run: bunx prisma generate
 
+      - name: Apply app icons
+        working-directory: apps/tauri
+        run: bunx tauri icon ../client/app/icon.svg -o icons
+
       - name: Build & upload desktop app
         uses: tauri-apps/tauri-action@v0
         env:
@@ -229,6 +233,10 @@ jobs:
         env:
           NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: bunx tauri android init
+
+      - name: Apply app icons
+        working-directory: apps/tauri
+        run: bunx tauri icon ../client/app/icon.svg -o icons
 
       - name: Setup Android release signing
         working-directory: apps/tauri/gen/android

@@ -5,6 +5,8 @@ import { env } from '../core';
 // allowed so the desktop app can reach the same API as the website.
 // macOS/Linux Tauri webview uses `tauri://localhost`; Windows uses
 // `http(s)://tauri.localhost` depending on the WebView2 build.
+const DEEP_LINK_ORIGINS = ['chatovo://auth', 'chatovo://'];
+
 const TAURI_ORIGINS = [
   'tauri://localhost',
   'http://tauri.localhost',
@@ -22,4 +24,5 @@ export const allowedOrigins = [
     filter((origin) => origin.length > 0),
   ),
   ...TAURI_ORIGINS,
+  ...DEEP_LINK_ORIGINS,
 ];

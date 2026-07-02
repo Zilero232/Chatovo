@@ -24,7 +24,8 @@
     "tauri:build": "bun --filter @chatovo/client build && bun --filter @chatovo/tauri build",
     "tauri:android:init": "bun --filter @chatovo/tauri android:init",
     "tauri:android:dev": "bun --filter @chatovo/tauri android:dev",
-    "tauri:android:build": "bun --filter @chatovo/client build && bun --filter @chatovo/tauri android:build:aab"
+    "tauri:android:build": "bun --filter @chatovo/client build && bun --filter @chatovo/tauri android:build:aab",
+    "tauri:icon": "bun --filter @chatovo/tauri icon"
   },
   "dependencies": {
     "babel-plugin-react-compiler": "^1.0.0"
