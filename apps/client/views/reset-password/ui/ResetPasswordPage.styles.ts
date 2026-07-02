@@ -1,5 +1,5 @@
 export const resetPasswordPageStyles = {
-  root: 'relative flex h-full items-center justify-center overflow-hidden p-4',
+  root: 'relative flex h-full items-center justify-center overflow-hidden inset-page-x inset-page-y',
 
   shell: 'relative z-10 w-full max-w-md overflow-hidden rounded-[1.75rem] glass shadow-glow-violet',
 

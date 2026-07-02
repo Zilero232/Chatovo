@@ -9,6 +9,7 @@
     "os:default",
     "opener:default",
     "process:default",
-    "deep-link:default"
+    "deep-link:default",
+    "safe-area-insets-css:default"
   ]
 }

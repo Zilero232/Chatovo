@@ -1,5 +1,5 @@
 export const legalDocumentStyles = {
-  root: 'flex h-full justify-center p-4 sm:p-6',
+  root: 'flex h-full justify-center inset-page-x inset-page-y',
   shell:
     'glass flex h-full w-full max-w-3xl flex-col overflow-hidden rounded-[1.75rem] shadow-glow-violet',
   top: 'shrink-0 border-b border-white/8 px-6 py-5 sm:px-8 sm:py-6',

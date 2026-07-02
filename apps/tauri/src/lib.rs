@@ -17,7 +17,7 @@ pub fn run() {
         }));
 
     #[cfg(not(desktop))]
-    let builder = tauri::Builder::default();
+    let builder = tauri::Builder::default().plugin(tauri_plugin_safe_area_insets_css::init());
 
     builder
         .plugin(tauri_plugin_os::init())

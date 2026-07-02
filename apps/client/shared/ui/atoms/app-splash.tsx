@@ -11,7 +11,7 @@ export const AppSplash = ({ message, progress }: AppSplashProps) => {
   const hasProgress = isNonNullish(progress);
 
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-6 px-6">
+    <div className="flex h-full flex-col items-center justify-center gap-6 px-6 pt-safe pb-safe">
       <div className="flex size-16 items-center justify-center rounded-2xl glass shadow-glow-violet">
         <Spinner size="lg" />
       </div>

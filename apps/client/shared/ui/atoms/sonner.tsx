@@ -42,6 +42,7 @@ const Toaster = ({ ...props }: ToasterProps) => (
       },
     }}
     className="toaster group"
+    offset={{ top: 'var(--safe-area-top)', bottom: 'var(--safe-area-bottom)' }}
     position="top-right"
     theme="dark"
     {...props}

@@ -24,23 +24,25 @@ export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <div className={s.topBar}>
-        <SheetTrigger asChild>
-          <Button
-            aria-label={t('openMenu')}
-            className={s.menuButton}
-            size="icon"
-            variant="ghost"
-            type="button"
-          >
-            <Menu />
-          </Button>
-        </SheetTrigger>
+        <div className={s.topBarInner}>
+          <SheetTrigger asChild>
+            <Button
+              aria-label={t('openMenu')}
+              className={s.menuButton}
+              size="icon"
+              variant="ghost"
+              type="button"
+            >
+              <Menu />
+            </Button>
+          </SheetTrigger>
 
-        <div className={s.brand}>
-          <span className={s.brandTitle}>Chatovo</span>
+          <div className={s.brand}>
+            <span className={s.brandTitle}>Chatovo</span>
+          </div>
+
+          <LanguageSwitcher />
         </div>
-
-        <LanguageSwitcher />
       </div>
 
       <SheetContent className={s.sheet} side="left" showCloseButton={false}>

@@ -1,5 +1,5 @@
 export const authPageStyles = {
-  root: 'relative flex h-full items-center justify-center overflow-hidden p-4',
+  root: 'relative flex h-full items-center justify-center overflow-hidden inset-page-x inset-page-y',
 
   shell:
     'relative z-10 grid w-full max-w-5xl overflow-hidden rounded-[1.75rem] glass shadow-glow-violet lg:grid-cols-[1.05fr_1fr]',

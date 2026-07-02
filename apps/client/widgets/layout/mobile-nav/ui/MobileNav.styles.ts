@@ -1,5 +1,6 @@
 export const mobileNavStyles = {
-  topBar: 'glass flex h-14 shrink-0 items-center gap-3 rounded-2xl px-3 md:hidden',
+  topBar: 'glass-strong z-40 flex shrink-0 flex-col border-b border-white/8 pt-safe md:hidden',
+  topBarInner: 'flex h-14 items-center gap-3 px-4',
   menuButton: 'shrink-0',
   brand: 'flex min-w-0 flex-1 items-center gap-2',
   brandIcon:

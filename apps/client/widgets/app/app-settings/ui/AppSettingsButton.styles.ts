@@ -1,5 +1,5 @@
 export const appSettingsStyles = {
-  content: 'flex max-h-[calc(100dvh-2rem)] flex-col gap-4 p-4 sm:max-w-3xl sm:p-6',
+  content: 'flex max-h-dvh-safe flex-col gap-4 p-4 sm:max-w-3xl sm:p-6',
 
   tabs: 'flex min-h-0 flex-1 flex-col gap-3 sm:flex-row sm:gap-4',
   tabsList:
@@ -8,7 +8,7 @@ export const appSettingsStyles = {
   tabsContent: 'min-w-0 flex-1',
 
   tabPanel:
-    '-mr-2 flex max-h-[calc(100dvh-14rem)] flex-col gap-1 overflow-y-auto pr-2 pt-1 sm:max-h-[24rem]',
+    '-mr-2 flex max-h-[calc(100dvh-var(--safe-area-top)-var(--safe-area-bottom)-14rem)] flex-col gap-1 overflow-y-auto pr-2 pt-1 sm:max-h-[24rem]',
 
   row: 'flex items-center justify-between gap-4 py-2',
   rowText: 'flex min-w-0 flex-col gap-0.5',
@@ -37,7 +37,7 @@ export const appSettingsStyles = {
     'block h-4 w-1.5 shrink-0 rounded-full border border-white/80 bg-white shadow-[0_0_10px_-1px_oklch(1_0_0/0.7)] outline-none transition-transform hover:scale-y-110 focus-visible:ring-2 focus-visible:ring-white/50',
 
   profilePanel:
-    '-mr-2 flex max-h-[calc(100dvh-14rem)] flex-col gap-6 overflow-y-auto pr-2 pt-2 sm:max-h-[24rem]',
+    '-mr-2 flex max-h-[calc(100dvh-var(--safe-area-top)-var(--safe-area-bottom)-14rem)] flex-col gap-6 overflow-y-auto pr-2 pt-2 sm:max-h-[24rem]',
   profileSection: 'flex flex-col gap-4',
   profileSectionTitle: 'font-semibold text-sm',
 } as const;
