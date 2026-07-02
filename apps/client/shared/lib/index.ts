@@ -1,4 +1,5 @@
 export { appEvents } from './app-bus';
+export { buildPublicAppUrl, getPublicAppOrigin } from './app-url';
 export { cn } from './cn';
 export { detectAssetPlatform } from './detect-asset-platform';
 export { firstNonEmpty } from './first-non-empty';

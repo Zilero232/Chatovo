@@ -20,10 +20,10 @@ export const DEEP_LINKS = {
   auth: `${APP_SCHEME}://auth`,
 } as const;
 
+import { buildPublicAppUrl } from '@/shared/lib/app-url';
+
 export const buildRoomHref = (roomId: string) => {
   return `${ROUTES.room}?id=${encodeURIComponent(roomId)}`;
 };
 
-export const buildAbsoluteUrl = (path: string) => {
-  return `${window.location.origin}${path}`;
-};
+export const buildAbsoluteUrl = (path: string) => buildPublicAppUrl(path);
