@@ -31,7 +31,11 @@ const RootLayout = ({ children }: { children: ReactNode }) => (
   >
     <head>
       {tauriMobileHmrShim ? (
-        <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: tauriMobileHmrShim }} />
+        <script
+          suppressHydrationWarning
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: dev-only inline HMR shim for Tauri Android WebView
+          dangerouslySetInnerHTML={{ __html: tauriMobileHmrShim }}
+        />
       ) : null}
       <JsonLdScript />
     </head>

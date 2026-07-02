@@ -35,11 +35,11 @@ bun tauri:android:build
 
 ## CI (GitHub Actions)
 
-| Workflow | Tag | Contents |
-|----------|-----|----------|
-| `release-web.yml` | `web-vX.Y.Z` | Web/API version marker (deploy via `deploy.yml`) |
-| `release-desktop.yml` | `desktop-vX.Y.Z` | Windows / macOS / Linux installers + updater |
-| `release-mobile.yml` | `mobile-vX.Y.Z` | Android `.apk` (prerelease) |
+| Workflow | Trigger | Contents |
+|----------|---------|----------|
+| `release-web.yml` | push to `master` | Web client + API deploy to VPS (GHCR → docker compose) |
+| `release-desktop.yml` | `package.json` bump | `desktop-vX.Y.Z` — Windows / macOS / Linux installers + updater |
+| `release-mobile.yml` | `package.json` bump | `mobile-vX.Y.Z` — Android `.apk` (prerelease) |
 
 Play Store signed AAB is separate — see `signing.md`.
 
