@@ -13,8 +13,8 @@ Checklist and copy-paste materials for publishing `chatovo.app`.
 | Desktop-only UI gated | Done (`isTauriDesktop()`) |
 | CORS for Android WebView | Done (`http(s)://localhost`) |
 | `gen/android/` project | Run `bun tauri:android:init` locally / in CI (gitignored) |
-| Release keystore | See `signing.md` (Play Store only, not CI) |
-| GitHub Actions | `release-web.yml`, `release-desktop.yml`, `release-mobile.yml` |
+| Release keystore | Required for CI APK sideload — see `signing.md` |
+| GitHub Actions | `deploy-web.yml`, `release-app.yml` |
 | Play Console listing | See `listing.md` |
 | Data safety answers | See `data-safety.md` |
 | Review demo account | See `review-account.md` |
@@ -37,9 +37,8 @@ bun tauri:android:build
 
 | Workflow | Trigger | Contents |
 |----------|---------|----------|
-| `release-web.yml` | push to `master` | Web client + API deploy to VPS (GHCR → docker compose) |
-| `release-desktop.yml` | `package.json` bump | `desktop-vX.Y.Z` — Windows / macOS / Linux installers + updater |
-| `release-mobile.yml` | `package.json` bump | `mobile-vX.Y.Z` — Android `.apk` (prerelease) |
+| `deploy-web.yml` | push to `master` | Web client + API deploy to VPS (no GitHub Release) |
+| `release-app.yml` | `package.json` bump | Unified `vX.Y.Z` — desktop installers + Android APK |
 
 Play Store signed AAB is separate — see `signing.md`.
 

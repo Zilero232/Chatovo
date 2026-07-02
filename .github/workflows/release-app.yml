@@ -1,0 +1,308 @@
+name: Release App
+
+# Unified desktop + mobile release on package.json version bump → GitHub Release `vX.Y.Z`.
+# - Desktop: Windows / macOS / Linux (+ Tauri updater `latest.json`)
+# - Mobile: Android APK
+#
+# Web deploy (no version tag) → deploy-web.yml on every push to master.
+#
+# Secrets: TAURI_SIGNING_PRIVATE_KEY, NEXT_PUBLIC_API_URL, NEXT_PUBLIC_LIVEKIT_URL,
+#          ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD, ANDROID_KEY_BASE64
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'package.json'
+  workflow_dispatch: {}
+
+concurrency:
+  group: release-app
+  cancel-in-progress: false
+
+jobs:
+  resolve-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      version: ${{ steps.read.outputs.version }}
+      should_release: ${{ steps.check.outputs.should_release }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Read version from root package.json
+        id: read
+        run: echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Skip if release already exists
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="v${{ steps.read.outputs.version }}"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  create-release:
+    needs: resolve-version
+    if: needs.resolve-version.outputs.should_release == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Create draft GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ needs.resolve-version.outputs.version }}
+          name: Chatovo v${{ needs.resolve-version.outputs.version }}
+          draft: true
+          prerelease: false
+          body: |
+            Chatovo v${{ needs.resolve-version.outputs.version }}
+
+            **Desktop** — Windows `.msi`, macOS `.dmg`, Linux `.deb` / `.AppImage` (Tauri auto-update)
+
+            **Mobile** — Android `.apk` for manual install
+
+  build-desktop:
+    needs: [resolve-version, create-release]
+    if: needs.resolve-version.outputs.should_release == 'true'
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macos-latest
+            args: '--target universal-apple-darwin'
+          - platform: ubuntu-22.04
+            args: ''
+          - platform: windows-latest
+            args: ''
+
+    runs-on: ${{ matrix.platform }}
+    env:
+      NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+      NEXT_PUBLIC_LIVEKIT_URL: ${{ secrets.NEXT_PUBLIC_LIVEKIT_URL }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Sync Tauri version from root package.json
+        shell: bash
+        working-directory: apps/tauri
+        run: |
+          version="${{ needs.resolve-version.outputs.version }}"
+          jq --arg v "$version" '.version = $v' package.json > package.json.tmp && mv package.json.tmp package.json
+          jq --arg v "$version" '.version = $v' tauri.conf.json > tauri.conf.json.tmp && mv tauri.conf.json.tmp tauri.conf.json
+          sed -i.bak -E '/^\[package\]/,/^\[/ s/^version = "[^"]*"/version = "'"$version"'"/' Cargo.toml && rm Cargo.toml.bak
+          sed -i.bak -E '/^name = "chatovo"$/{n;s/^version = "[^"]*"/version = "'"$version"'"/;}' Cargo.lock && rm Cargo.lock.bak
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Cache Cargo registry & target
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: apps/tauri -> target
+
+      - name: Install Linux system deps
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            libssl-dev
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Generate Prisma client
+        working-directory: apps/server
+        env:
+          DIRECT_URL: postgresql://ci:ci@localhost:5432/ci
+        run: bunx prisma generate
+
+      - name: Build & upload desktop app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+        with:
+          projectPath: apps/tauri
+          tagName: v${{ needs.resolve-version.outputs.version }}
+          releaseName: Chatovo v${{ needs.resolve-version.outputs.version }}
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
+
+  build-mobile:
+    needs: [resolve-version, create-release]
+    if: needs.resolve-version.outputs.should_release == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+      NEXT_PUBLIC_LIVEKIT_URL: ${{ secrets.NEXT_PUBLIC_LIVEKIT_URL }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Require Android signing secrets
+        run: |
+          if [ -z "${{ secrets.ANDROID_KEY_ALIAS }}" ] || [ -z "${{ secrets.ANDROID_KEY_PASSWORD }}" ] || [ -z "${{ secrets.ANDROID_KEY_BASE64 }}" ]; then
+            echo "Set ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD, and ANDROID_KEY_BASE64 in repository secrets."
+            exit 1
+          fi
+
+      - name: Require client build secrets
+        run: |
+          if [ -z "$NEXT_PUBLIC_API_URL" ] || [ -z "$NEXT_PUBLIC_LIVEKIT_URL" ]; then
+            echo "Set NEXT_PUBLIC_API_URL and NEXT_PUBLIC_LIVEKIT_URL in repository secrets."
+            exit 1
+          fi
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Sync Tauri version from root package.json
+        shell: bash
+        working-directory: apps/tauri
+        run: |
+          version="${{ needs.resolve-version.outputs.version }}"
+          jq --arg v "$version" '.version = $v' package.json > package.json.tmp && mv package.json.tmp package.json
+          jq --arg v "$version" '.version = $v' tauri.conf.json > tauri.conf.json.tmp && mv tauri.conf.json.tmp tauri.conf.json
+          sed -i.bak -E '/^\[package\]/,/^\[/ s/^version = "[^"]*"/version = "'"$version"'"/' Cargo.toml && rm Cargo.toml.bak
+          sed -i.bak -E '/^name = "chatovo"$/{n;s/^version = "[^"]*"/version = "'"$version"'"/;}' Cargo.lock && rm Cargo.toml.bak
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r27c
+          link-to-sdk: true
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
+
+      - name: Cache Cargo registry & target
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: apps/tauri -> target
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Generate Prisma client
+        working-directory: apps/server
+        env:
+          DIRECT_URL: postgresql://ci:ci@localhost:5432/ci
+        run: bunx prisma generate
+
+      - name: Init Android project
+        working-directory: apps/tauri
+        env:
+          NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+        run: bunx tauri android init
+
+      - name: Setup Android release signing
+        working-directory: apps/tauri/gen/android
+        env:
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_KEY_BASE64: ${{ secrets.ANDROID_KEY_BASE64 }}
+        run: |
+          echo "keyAlias=${ANDROID_KEY_ALIAS}" > keystore.properties
+          echo "password=${ANDROID_KEY_PASSWORD}" >> keystore.properties
+          echo "${ANDROID_KEY_BASE64}" | base64 -d > "${RUNNER_TEMP}/chatovo.keystore"
+          echo "storeFile=${RUNNER_TEMP}/chatovo.keystore" >> keystore.properties
+          python3 <<'PY'
+          from pathlib import Path
+          gradle = Path("app/build.gradle.kts")
+          text = gradle.read_text()
+          if "import java.io.FileInputStream" not in text:
+              text = text.replace(
+                  "import java.util.Properties",
+                  "import java.io.FileInputStream\nimport java.util.Properties",
+              )
+          signing = '''
+              signingConfigs {
+                  create("release") {
+                      val keystorePropertiesFile = rootProject.file("keystore.properties")
+                      val keystoreProperties = Properties()
+                      if (keystorePropertiesFile.exists()) {
+                          keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+                      }
+                      keyAlias = keystoreProperties["keyAlias"] as String
+                      keyPassword = keystoreProperties["password"] as String
+                      storeFile = file(keystoreProperties["storeFile"] as String)
+                      storePassword = keystoreProperties["password"] as String
+                  }
+              }
+          '''
+          if "signingConfigs" not in text:
+              text = text.replace("\n    buildTypes {", f"\n{signing}\n    buildTypes {{")
+          if 'signingConfig = signingConfigs.getByName("release")' not in text:
+              text = text.replace(
+                  'getByName("release") {\n',
+                  'getByName("release") {\n            signingConfig = signingConfigs.getByName("release")\n',
+              )
+          gradle.write_text(text)
+          PY
+
+      - name: Build Android APKs
+        working-directory: apps/tauri
+        env:
+          NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+        run: bunx tauri android build
+
+      - name: Collect APK artifact
+        run: |
+          mkdir -p android-artifacts
+          apk="$(
+            find apps/tauri/gen/android -type f -name '*universal*release*.apk' -print -quit ||
+            find apps/tauri/gen/android -type f -name '*arm64*release*.apk' -print -quit ||
+            find apps/tauri/gen/android -type f -name '*release*.apk' -print -quit
+          )"
+          if [ -z "$apk" ]; then
+            echo "No release APK found"
+            exit 1
+          fi
+          cp "$apk" "android-artifacts/$(basename "$apk")"
+          echo "Collected $(basename "$apk")"
+
+      - name: Verify APK signature
+        run: |
+          apk="$(ls android-artifacts/*.apk)"
+          "${ANDROID_HOME}/build-tools/$(ls "${ANDROID_HOME}/build-tools" | sort -V | tail -1)/apksigner" verify --verbose "$apk"
+
+      - name: Upload APK to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "v${{ needs.resolve-version.outputs.version }}" android-artifacts/*.apk --clobber

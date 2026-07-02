@@ -6,7 +6,7 @@ export const latestReleaseRoute = createRoute({
   method: 'get',
   path: '/releases/latest',
   tags: ['github'],
-  summary: 'Get the latest desktop GitHub release',
+  summary: 'Get the latest app GitHub release (desktop assets)',
   responses: {
     200: {
       description: 'Latest desktop release',
@@ -23,7 +23,7 @@ export const appDownloadsRoute = createRoute({
   method: 'get',
   path: '/releases/downloads',
   tags: ['github'],
-  summary: 'Get latest desktop and mobile download assets',
+  summary: 'Get latest app download assets (desktop + mobile)',
   responses: {
     200: {
       description: 'Merged desktop + mobile release assets',

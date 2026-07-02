@@ -1,14 +1,12 @@
-name: Release Web
+name: Deploy Web
 
-# Auto-deploy web client + API on every push to master.
+# Deploy web client + API on every push to master. No GitHub Release / version tag.
 # - lint:        checks the whole monorepo with Biome
 # - build-web:   builds the client Docker image and pushes it to ghcr.io
 # - build-api:   builds the server Docker image and pushes it to ghcr.io
 # - deploy:      pulls both new images on the VPS and restarts the stack
 #
-# Both images are built on CI and stored in the private GitHub Container
-# Registry (ghcr.io). Pushing uses the built-in GITHUB_TOKEN — no extra secret.
-# The VPS pulls the images; it must be logged in to ghcr.io once (see DEPLOY.md).
+# App binaries (desktop + mobile) → release-app.yml on package.json version bump.
 #
 # Required GitHub repository secrets (Settings -> Secrets and variables -> Actions):
 #   SSH_HOST                 VPS IP or hostname
@@ -25,7 +23,7 @@ on:
   workflow_dispatch: {}
 
 concurrency:
-  group: release-web-production
+  group: deploy-web-production
   cancel-in-progress: false
 
 env:
