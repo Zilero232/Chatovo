@@ -8,13 +8,11 @@
     "packages/*"
   ],
   "scripts": {
+    "prepare": "husky",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
-    "check": "biome check .",
-    "check:fix": "biome check --write .",
-    "precommit": "biome check --write --staged && git update-index --again",
-    "prepare": "simple-git-hooks",
+    "typecheck": "bun --filter @chatovo/schemas typecheck && bun --filter @chatovo/server typecheck && bun --filter @chatovo/client typecheck",
     "dev": "bun --filter '@chatovo/server' --filter '@chatovo/client' --parallel dev",
     "dev:client": "bun --filter @chatovo/client dev",
     "dev:server": "bun --filter @chatovo/server dev",
@@ -33,9 +31,10 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.16",
-    "simple-git-hooks": "^2.13.1"
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8"
   },
-  "simple-git-hooks": {
-    "pre-commit": "bun run precommit"
+  "lint-staged": {
+    "*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
   }
 }

@@ -20,7 +20,12 @@ export {
   sendMessageInputSchema,
 } from './chat';
 export { reportProblemFormSchema, reportProblemSchema } from './feedback';
-export { appDownloadsSchema, gitHubReleaseSchema } from './github';
+export {
+  appDownloadsSchema,
+  gitHubReleaseAssetSchema,
+  gitHubReleaseListSchema,
+  gitHubReleaseSchema,
+} from './github';
 export { safeJsonParse } from './json';
 export {
   participantMetadataSchema,
@@ -57,7 +62,7 @@ export type {
   SendMessageInput,
 } from './chat';
 export type { ReportProblemFormValues, ReportProblemValues } from './feedback';
-export type { AppDownloads, GitHubRelease } from './github';
+export type { AppDownloads, GitHubRelease, GitHubReleaseAsset } from './github';
 export type {
   ParticipantMetadata,
   PresenceStateRequest,

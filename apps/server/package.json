@@ -19,6 +19,7 @@
     "db:generate": "prisma generate",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
+    "typecheck": "tsc --noEmit",
     "postinstall": "prisma generate"
   },
   "dependencies": {
