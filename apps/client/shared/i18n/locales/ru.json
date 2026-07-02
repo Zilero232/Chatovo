@@ -185,9 +185,9 @@
     "resetPassword": "Сбросить пароль",
     "passwordReset": "Пароль изменён",
     "resetDoneTitle": "Пароль изменён",
-    "resetDoneSubtitle": "Ваш пароль обновлён. Войдите с новым паролем.",
-    "openInApp": "Открыть в приложении",
-    "signInInBrowser": "Войти в браузере",
+    "resetDoneSubtitle": "Пароль обновлён. Войдите с новым паролем в приложении или браузере.",
+    "openInApp": "Открыть приложение Chatovo",
+    "signInInBrowser": "Войти",
     "resetTokenMissing": "Ссылка недействительна или устарела",
     "tagline": "Твой голос, в реальном времени",
     "features": {
@@ -293,14 +293,6 @@
       "undeafen": "Включить звук",
       "speakerDevice": "Выбрать колонки",
       "pttHint": "Зажми и говори",
-      "leave": "Выйти"
-    },
-    "pip": {
-      "popOut": "Открыть мини-окно",
-      "mute": "Выключить",
-      "unmute": "Включить",
-      "deafen": "Заглушить звук",
-      "undeafen": "Включить звук",
       "leave": "Выйти"
     }
   },

@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import { target, useEventListener } from '@siberiacancode/reactuse';
+import { useEffect, useEffectEvent } from 'react';
 import { isTauriMobile } from '@/shared/lib';
 
 const syncInsetsFromPlugin = async () => {
@@ -19,6 +20,12 @@ const syncInsetsFromPlugin = async () => {
 };
 
 export const TauriMobileInsets = () => {
+  const syncInsets = useEffectEvent(() => {
+    void syncInsetsFromPlugin();
+  });
+
+  useEventListener(target(window), 'resize', syncInsets);
+
   useEffect(() => {
     if (!isTauriMobile()) {
       return;
@@ -29,19 +36,14 @@ export const TauriMobileInsets = () => {
 
     void import('@saurl/tauri-plugin-safe-area-insets-css-api').then(() => syncInsetsFromPlugin());
 
-    const onResize = () => {
-      void syncInsetsFromPlugin();
-    };
-
-    window.addEventListener('resize', onResize);
-    window.visualViewport?.addEventListener('resize', onResize);
+    const viewport = window.visualViewport;
+    viewport?.addEventListener('resize', syncInsets);
 
     return () => {
       root.classList.remove('tauri-mobile');
       root.style.removeProperty('--safe-area-inset-top');
       root.style.removeProperty('--safe-area-inset-bottom');
-      window.removeEventListener('resize', onResize);
-      window.visualViewport?.removeEventListener('resize', onResize);
+      viewport?.removeEventListener('resize', syncInsets);
     };
   }, []);
 

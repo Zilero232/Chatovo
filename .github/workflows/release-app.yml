@@ -139,7 +139,7 @@ jobs:
 
       - name: Apply app icons
         working-directory: apps/tauri
-        run: bunx tauri icon ../client/app/icon.svg -o icons
+        run: bunx tauri icon icon.manifest.json -o icons
 
       - name: Build & upload desktop app
         uses: tauri-apps/tauri-action@v0
@@ -236,7 +236,7 @@ jobs:
 
       - name: Apply app icons
         working-directory: apps/tauri
-        run: bunx tauri icon ../client/app/icon.svg -o icons
+        run: bunx tauri icon icon.manifest.json -o icons
 
       - name: Setup Android release signing
         working-directory: apps/tauri/gen/android

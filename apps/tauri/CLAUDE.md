@@ -11,7 +11,7 @@ src/
 ├── main.rs           # binary entry — calls lib::run()
 └── lib.rs            # Tauri builder: registers plugins, deep-link scheme, single-instance
 capabilities/         # permission sets granted to the webview
-icons/                # generated — source: apps/client/app/icon.svg (`bun tauri:icon`)
+icons/                # generated — source: icon.manifest.json + apps/client/app/app-icon*.svg
 tauri.conf.json       # config — frontendDist points at the built client, bundle/updater settings
 Cargo.toml            # Rust deps (tauri + plugins)
 ```
@@ -19,7 +19,7 @@ Cargo.toml            # Rust deps (tauri + plugins)
 ## How it relates to the client
 
 - The window loads the client build via `tauri.conf.json` → `frontendDist`.
-- **Desktop-only features** (system tray, global shortcuts, deep links, updater, PiP) are implemented on the JS side in [apps/client/features/app/](../client/features/app/) using `@tauri-apps/api` + plugin packages.
+- **Desktop-only features** (system tray, global shortcuts, deep links, updater) are implemented on the JS side in [apps/client/features/app/](../client/features/app/) using `@tauri-apps/api` + plugin packages.
 - Every Tauri call on the client **must** be gated with `isTauri()` so the web build keeps working (`isTauri()` is false in the browser).
 - Native plugins enabled here (see [src/lib.rs](src/lib.rs)): global-shortcut, updater, os, single-instance, opener, process, deep-link. The `chatovo://` deep-link scheme is registered at runtime in dev (installers handle it in prod).
 

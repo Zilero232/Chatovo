@@ -2,15 +2,14 @@
 
 import { isTauri } from '@tauri-apps/api/core';
 import { getCurrentWindow } from '@tauri-apps/api/window';
-import { useEffect, useRef } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 import { useAppSettings } from '@/entities/app/settings';
 import { hideMainWindow } from '@/shared/lib';
 
 export const useCloseOnWindowEvent = () => {
   const { settings } = useAppSettings();
 
-  const closeToTrayRef = useRef(settings.system.tray.closeToTray);
-  closeToTrayRef.current = settings.system.tray.closeToTray;
+  const getCloseToTray = useEffectEvent(() => settings.system.tray.closeToTray);
 
   useEffect(() => {
     if (!isTauri()) {
@@ -23,7 +22,7 @@ export const useCloseOnWindowEvent = () => {
     const subscribe = async () => {
       try {
         const off = await getCurrentWindow().onCloseRequested((event) => {
-          if (!closeToTrayRef.current) {
+          if (!getCloseToTray()) {
             return;
           }
 

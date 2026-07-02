@@ -14,7 +14,7 @@
     "android:build": "bun run icon && bun --env-file .env tauri android build",
     "android:build:aab": "bun run icon && bun --env-file .env tauri android build -- --aab",
     "info": "tauri info",
-    "icon": "tauri icon ../client/app/icon.svg -o icons",
+    "icon": "tauri icon icon.manifest.json -o icons",
     "signer:sign": "tauri signer sign",
     "signer:generate": "tauri signer generate -w ~/.tauri/chatovo.key --password \"\""
   },

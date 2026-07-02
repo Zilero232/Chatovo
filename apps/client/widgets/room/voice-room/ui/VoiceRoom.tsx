@@ -18,7 +18,7 @@ import { appEvents } from '@/shared/lib';
 import { Button } from '@/shared/ui';
 import { ChatPanel, RoomChatProvider } from '@/widgets/room/chat';
 import { FAILURE_REASONS } from '../config';
-import { ConnectingOverlay, ParticipantsView, RoomHeader, RoomPip } from './components';
+import { ConnectingOverlay, ParticipantsView, RoomHeader } from './components';
 import { RoomControllers } from './controllers';
 import { voiceRoomStyles as s } from './VoiceRoom.styles';
 import type { VoiceRoomProps } from './VoiceRoom.types';
@@ -87,8 +87,6 @@ export const VoiceRoom = ({
                   <div className={s.controlBarWrap}>
                     <RoomControlBar />
                   </div>
-
-                  <RoomPip />
 
                   <Button
                     aria-label={isChatOpen ? t('hide') : t('open')}

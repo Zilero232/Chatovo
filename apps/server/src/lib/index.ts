@@ -5,4 +5,4 @@ export {
   getUserDisplayName,
   getUserWithProfileOrThrow,
 } from './guards';
-export { roomSelect, senderSelect, userWithProfileInclude } from './selectors';
+export { roomSelect, senderSelect } from './selectors';

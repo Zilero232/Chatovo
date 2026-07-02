@@ -2,7 +2,7 @@ import { isString } from 'remeda';
 import type { UserProfile } from '@chatovo/schemas';
 import type { Prisma } from '../../../generated';
 
-export const resolveString = (value: unknown): string | null => {
+const resolveString = (value: unknown): string | null => {
   return isString(value) && value.trim().length > 0 ? value.trim() : null;
 };
 

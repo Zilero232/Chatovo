@@ -1,1 +1,1 @@
-export { buildPasswordResetRedirectUrl, buildPublicAppUrl, getPublicAppOrigin } from './app-url';
+export { buildPublicAppUrl, getPublicAppOrigin } from './app-url';

@@ -1,4 +1,4 @@
-import { isEmpty, sortBy } from 'remeda';
+import { isEmpty, partition, sortBy } from 'remeda';
 import type { Room, RoomsParticipantsSnapshot } from '@chatovo/schemas';
 
 type RoomsPresenceMap = RoomsParticipantsSnapshot['rooms'];
@@ -36,11 +36,12 @@ export const groupRooms = (
   query: string,
 ): RoomSection[] => {
   const ordered = filterAndOrderRooms(rooms, presence, query);
+  const [privateRooms, publicRooms] = partition(ordered, (room) => room.isPrivate);
 
   return (
     [
-      { key: 'private', rooms: ordered.filter((room) => room.isPrivate) },
-      { key: 'public', rooms: ordered.filter((room) => !room.isPrivate) },
+      { key: 'private', rooms: privateRooms },
+      { key: 'public', rooms: publicRooms },
     ] satisfies RoomSection[]
   ).filter((section) => !isEmpty(section.rooms));
 };

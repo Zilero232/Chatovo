@@ -2,7 +2,7 @@
 
 import { useRoomContext } from '@livekit/components-react';
 import { LocalVideoTrack, type Room, RoomEvent, Track } from 'livekit-client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useEffectEvent, useRef } from 'react';
 import { keys } from 'remeda';
 import {
   type DeviceSettings,
@@ -42,22 +42,17 @@ const useApplyDevices = (room: Room, devices: DeviceSettings) => {
 const useMirrorActiveDevice = (room: Room) => {
   const { settings, setGroup } = useAppSettings();
 
-  const devicesRef = useRef(settings.devices);
-  devicesRef.current = settings.devices;
+  const onActiveDeviceChanged = useEffectEvent((kind: MediaDeviceKind, deviceId: string) => {
+    const slot = KIND_TO_SLOT[kind];
 
-  const setGroupRef = useRef(setGroup);
-  setGroupRef.current = setGroup;
+    if (settings.devices[slot] === deviceId) {
+      return;
+    }
+
+    setGroup('devices', { [slot]: deviceId });
+  });
 
   useEffect(() => {
-    const onActiveDeviceChanged = (kind: MediaDeviceKind, deviceId: string) => {
-      const slot = KIND_TO_SLOT[kind];
-      if (devicesRef.current[slot] === deviceId) {
-        return;
-      }
-
-      setGroupRef.current('devices', { [slot]: deviceId });
-    };
-
     room.on(RoomEvent.ActiveDeviceChanged, onActiveDeviceChanged);
 
     return () => {

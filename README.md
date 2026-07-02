@@ -1,89 +1,174 @@
-<div align="center">
+<p align="center">
+  <img src="apps/client/app/icon.svg" width="88" height="88" alt="Chatovo" />
+</p>
 
-# Chatovo
+<h1 align="center">Chatovo</h1>
 
-**Real-time voice rooms — in the browser and on the desktop.**
+<p align="center">
+  <strong>Real-time voice rooms for web, desktop & Android.</strong><br/>
+  One Next.js client · Tauri native shells · LiveKit media · Self-hostable
+</p>
 
-A modern, Discord-inspired messenger built around private voice rooms and crisp video. One codebase, two platforms, zero friction.
+<p align="center">
+  <a href="https://chatovo.ru"><img src="https://img.shields.io/badge/website-chatovo.ru-4ea8e6?style=for-the-badge" alt="Website" /></a>
+  <a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/license-GPLv3-7b5cff?style=for-the-badge" alt="License" /></a>
+  <img src="https://img.shields.io/badge/runtime-Bun-fbf0df?style=for-the-badge&logo=bun&logoColor=000" alt="Bun" />
+  <img src="https://img.shields.io/badge/status-active-22c55e?style=for-the-badge" alt="Status" />
+</p>
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-![Status](https://img.shields.io/badge/status-active-success.svg)
-![Stack](https://img.shields.io/badge/stack-Next.js%20%7C%20Hono%20%7C%20Tauri%20%7C%20LiveKit-black.svg)
-![Runtime](https://img.shields.io/badge/runtime-Bun-fbf0df.svg)
+<p align="center">
+  <a href="https://chatovo.ru">Open Chatovo</a>
+  &nbsp;·&nbsp;
+  <a href="../../issues">Report a bug</a>
+  &nbsp;·&nbsp;
+  <a href="../../issues">Request a feature</a>
+</p>
 
-[Website](https://chatovo.ru) · [Report a bug](../../issues) · [Request a feature](../../issues)
+<br/>
 
-</div>
+## What is Chatovo?
 
----
+Chatovo is a **Discord-inspired voice messenger** built around rooms — not endless channel lists. Spin up a room, share the link, start talking. Public, private, or password-protected.
 
-## About
+<table>
+<tr>
+<td width="33%" valign="top">
 
-**Chatovo** is a real-time communication app where conversations happen in *rooms*, not in endless chat threads. Spin up a room in one click, share the link with friends, and start talking. Voice and video work out of the box.
+**Rooms first**
 
-Three ideas hold it together:
+Each room is its own space. No noisy server hierarchies — just the people you invited.
 
-- **Rooms over channels.** Each room is its own little world — public, private, or password-protected. No noisy server lists, no nested categories.
-- **One experience, everywhere.** Open Chatovo in any modern browser or install the native desktop build. The UI, the rooms, the accounts — all the same.
-- **Fast, quiet, focused.** Designed to fade into the background while you talk. Crisp audio, low-latency video, and an interface that gets out of the way.
+</td>
+<td width="33%" valign="top">
+
+**One UI everywhere**
+
+The same experience in the browser, on Windows/macOS/Linux, and on Android.
+
+</td>
+<td width="33%" valign="top">
+
+**Yours to host**
+
+Docker Compose, Caddy, LiveKit SFU, PostgreSQL — run it on your own VPS.
+
+</td>
+</tr>
+</table>
+
+<br/>
 
 ## Features
 
-- **Instant voice & video rooms** — low-latency WebRTC over a LiveKit SFU backbone.
-- **Private password-protected rooms** — only those who know the password can join.
-- **Sign-in** via email + password — better-auth under the hood.
-- **Lightweight desktop app on Tauri** — a native binary, not a bundled browser. Ships with auto-updates.
-- **A single, consistent UI** across web and desktop — designed to feel calm rather than crowded.
-- **Self-hostable** — one `docker-compose.yml`, automatic TLS from Let's Encrypt.
-- **i18n out of the box** — English and Russian via `next-intl`.
+<table>
+<tr>
+<td>
+
+**Voice & video** — low-latency WebRTC via LiveKit SFU
+
+**Room chat** — messages, markdown, file attachments
+
+**Private rooms** — optional password on join
+
+**Auth** — email + password ([better-auth](https://www.better-auth.com/))
+
+</td>
+<td>
+
+**Desktop app** — tray, global shortcuts, PTT, screen share, auto-update
+
+**Android** — Tauri 2 APK (manual install)
+
+**i18n** — English & Russian (`next-intl`)
+
+**Open API** — Hono + OpenAPI / Swagger UI
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+## Platforms
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Web-Next.js_16-000?style=flat-square&logo=next.js&logoColor=white" alt="Web" />
+  <img src="https://img.shields.io/badge/Desktop-Tauri_2-24c8db?style=flat-square&logo=tauri&logoColor=white" alt="Desktop" />
+  <img src="https://img.shields.io/badge/Android-Tauri_2-3ddc84?style=flat-square&logo=android&logoColor=white" alt="Android" />
+  <img src="https://img.shields.io/badge/Media-LiveKit-002cf2?style=flat-square&logo=livekit&logoColor=white" alt="LiveKit" />
+  <img src="https://img.shields.io/badge/API-Hono_on_Bun-000?style=flat-square" alt="API" />
+</p>
+
+<br/>
+
+## Architecture
+
+```mermaid
+flowchart LR
+  subgraph clients["Clients"]
+    WEB["Web · Next.js"]
+    DESK["Desktop · Tauri"]
+    AND["Android · Tauri"]
+  end
+
+  subgraph backend["Backend"]
+    API["Hono API · Bun"]
+    DB[("PostgreSQL")]
+    LK["LiveKit SFU"]
+  end
+
+  WEB --> API
+  DESK --> API
+  AND --> API
+  API --> DB
+  clients --> LK
+  API --> LK
+```
+
+Frontend follows **[Feature-Sliced Design](docs/fsd.md)** — the `pages/` layer is named `views/` to avoid clashing with the Next.js router.
+
+<br/>
 
 ## Tech stack
 
-| Layer | Technologies |
-|---|---|
-| **Web client** | Next.js 16, React 19, Tailwind CSS 4, Radix UI, TanStack Query, React Hook Form + Zod, ts-pattern, remeda, next-intl |
-| **Desktop client** | Tauri 2 (Rust), plugins: updater / deep-link / opener / os / process |
-| **API server** | Hono on Bun, OpenAPI + Swagger UI, Prisma 7, PostgreSQL |
-| **Realtime / media** | LiveKit SFU (WebRTC), `@livekit/components-react`, server-issued JWTs |
-| **Auth / DB** | better-auth (Bearer tokens), self-hosted PostgreSQL |
-| **Infra** | Docker Compose, Caddy (HTTPS + reverse proxy), GitHub Actions, GHCR |
-| **Tooling** | Biome (lint + format), React Compiler, TypeScript 5.8, Bun workspaces |
+| Layer | Stack |
+|:--|:--|
+| **Client** | React 19 · Tailwind CSS 4 · Radix UI · TanStack Query · React Hook Form · Zod |
+| **Native** | Tauri 2 · Rust · deep-link · updater · global-shortcut |
+| **Server** | Hono · Prisma · better-auth · React Email |
+| **Shared** | `@chatovo/schemas` — Zod types for client & server |
+| **Tooling** | Biome · TypeScript · React Compiler · Bun workspaces |
 
-The frontend follows [Feature-Sliced Design](docs/fsd.md) with one deliberate tweak: the `pages/` layer is renamed to `views/` to avoid clashing with the Next.js Pages Router.
+<br/>
 
-## Repository layout
+## Project structure
 
-A Bun-workspaces monorepo:
-
-```text
+```
 chatovo/
 ├── apps/
-│   ├── client/          # Next.js web client (FSD: app/views/widgets/features/entities/shared)
-│   ├── server/          # Hono API on Bun + Prisma
-│   └── tauri/           # Tauri desktop wrapper (Rust)
-├── packages/
-│   └── schemas/         # Shared Zod schemas (used by both client and server)
-├── infra/
-│   ├── caddy/           # Caddyfiles for prod and dev (HTTPS, reverse proxy)
-│   └── livekit/         # SFU configs
-├── docs/
-│   ├── fsd.md           # Frontend architecture guide
-│   └── style.md         # Code style guide
-├── docker-compose.yml       # Production stack (web + server + livekit)
-└── docker-compose.dev.yml   # Local SFU + Caddy for dev
+│   ├── client/       Next.js · FSD (app / views / widgets / features / entities / shared)
+│   ├── server/       Hono API · Prisma · modules/
+│   └── tauri/        Rust shell · desktop + Android
+├── packages/schemas/ Shared Zod schemas
+├── infra/            Caddy · LiveKit configs
+├── docs/             Architecture & style guides
+├── docker-compose.yml
+└── docker-compose.dev.yml
 ```
+
+<br/>
 
 ## Quick start
 
-### Prerequisites
+### 1 · Prerequisites
 
-- [**Bun**](https://bun.sh) ≥ 1.1
-- **Node.js** ≥ 20 (needed by a few dev tools)
-- **Docker** + Docker Compose — for the local LiveKit SFU and Caddy
-- **Rust** + Tauri system dependencies — only if you're building the desktop app ([see Tauri prerequisites](https://tauri.app/start/prerequisites/))
-- A **PostgreSQL** database (the dev `docker-compose.dev.yml` ships one) and either **LiveKit Cloud** or a local SFU
+| Tool | Required for |
+|:--|:--|
+| [Bun](https://bun.sh) ≥ 1.1 | Everything |
+| Docker + Compose | Local LiveKit / Postgres |
+| Rust + SDKs | Tauri builds only → [docs](https://v2.tauri.app/start/prerequisites/) |
 
-### Install
+### 2 · Clone & install
 
 ```bash
 git clone https://github.com/zilero232/chatovo.git
@@ -91,138 +176,117 @@ cd chatovo
 bun install
 ```
 
-### Environment variables
-
-Copy the templates and fill them in:
+### 3 · Environment
 
 ```bash
 cp apps/server/.env.example apps/server/.env
 cp apps/client/.env.example apps/client/.env
 ```
 
-What you need to provide:
+| Variable | Purpose |
+|:--|:--|
+| `BETTER_AUTH_SECRET` | Auth signing |
+| `DATABASE_URL` / `DIRECT_URL` | Postgres (**`DIRECT_URL` is required** for Prisma) |
+| `LIVEKIT_*` | SFU credentials (server) |
+| `NEXT_PUBLIC_API_URL` | Client → API |
+| `NEXT_PUBLIC_LIVEKIT_URL` | Client → media |
+| `CORS_ORIGINS` | Allowed web origins |
 
-- **Auth** — `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` (server)
-- **LiveKit** — `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET` (server) and `NEXT_PUBLIC_LIVEKIT_URL` (client)
-- **Postgres** — `DATABASE_URL` and `DIRECT_URL` (same value for a self-hosted single instance)
-- **Uploads** — `UPLOADS_DIR` for avatars and chat attachments served under `/uploads`
-- **CORS** — `CORS_ORIGINS` for the allowed web origins
-
-> ⚠️ **Heads up:** `prisma generate` will throw without `DIRECT_URL` — `prisma.config.ts` requires it. Without it, `bun install` (postinstall) and any CI/Docker build will break.
-
-### Database
+### 4 · Database
 
 ```bash
-# Push the current schema to the dev DB and regenerate the client
 bun --filter @chatovo/server db:push
-
-# Or use proper migrations
-bun --filter @chatovo/server db:migrate
 ```
 
-### Running in dev
+### 5 · Run
 
-**Option 1 — one command (recommended):**
+**All-in-one (recommended)**
 
 ```bash
-# Brings up LiveKit SFU + Caddy in Docker, then starts server and client
 bun dev:full
 ```
 
-Open `https://chatovo.localhost` — traffic goes through Caddy, just like in production. On the first visit, accept the locally-issued self-signed certificate.
+Opens LiveKit + Caddy in Docker, then client (`:3000`) and server (`:4000`).  
+Browse **`https://chatovo.localhost`** — accept the local certificate once.
 
-**Option 2 — split into pieces:**
-
-```bash
-bun dev:livekit    # terminal 1: LiveKit + Caddy in Docker
-bun dev            # terminal 2: server (:4000) and client (:3000)
-```
-
-Or even more granular:
+**Split terminals**
 
 ```bash
-bun dev:server     # only the Hono API
-bun dev:client     # only the Next.js client
+bun dev:livekit    # terminal 1
+bun dev            # terminal 2
 ```
 
-> ⚠️ **Hot reload is client-only.** The server runs under `bun --hot`, but modules are **not** swapped on the fly when you edit `apps/server/*` — you need a full dev-server restart to see changes.
-
-### Desktop (Tauri)
+### Native apps
 
 ```bash
-bun tauri:dev      # run the desktop build in dev mode
-bun tauri:build    # build a release binary
+bun tauri:dev                 # desktop dev
+bun tauri:build               # desktop release
+bun tauri:android:init        # first-time Android setup
+bun tauri:android:dev         # Android on device / emulator
+bun tauri:android:build       # AAB / APK
+bun tauri:icon                # icons from apps/client/app/icon.svg
 ```
 
-The app version is taken **only** from the root `package.json` — the four `version` fields under `apps/tauri/*` stay pinned at `0.0.0`, and CI rewrites them at build time.
+> Version is defined in root **`package.json`**. CI syncs it into Tauri before each release.
 
-### Lint & format
+### Quality checks
 
 ```bash
-bun lint           # biome check across the whole monorepo
-bun lint:fix       # auto-fix what's safe
-bun format         # formatting only
+bun typecheck
+bun lint:fix
+bun build
 ```
+
+<br/>
 
 ## Deployment
 
-The production stack lives in `docker-compose.yml` and runs three containers:
+| Target | Trigger |
+|:--|:--|
+| **Web + API** | Push to `master` → CI deploys Docker images (GHCR) |
+| **Desktop + APK** | Bump root `package.json` version → GitHub Release |
 
-- **web** — static Next.js export served by Caddy (HTTPS, proxies `/api` and the LiveKit WebSocket)
-- **server** — Hono API on Bun
-- **livekit** — self-hosted LiveKit SFU in `network_mode: host` (required so WebRTC media ports work without Docker NAT)
-
-CI builds the `web` and `server` images and pushes them to GHCR (`ghcr.io/zilero232/chatovo-*`). The VPS only **pulls** them — no builds run on the production host.
+On the VPS:
 
 ```bash
-# On the VPS, in the directory that holds .env and livekit.yaml:
 docker compose pull && docker compose up -d
-docker compose logs -f
 ```
 
-Desktop releases (Windows / macOS / Linux) are built by GitHub Actions on every `v*` tag push via `tauri-action`, signed with the key stored in secrets, and published to GitHub Releases. Installed clients learn about updates through `@tauri-apps/plugin-updater`.
+<br/>
 
 ## Roadmap
 
-- [x] Voice & video rooms
-- [x] Private password-protected rooms
-- [x] Web + desktop from one codebase
-- [x] Email sign-in
-- [x] Desktop client auto-updates
-- [ ] Text chat alongside voice
-- [ ] Screen sharing
-- [ ] Push-to-talk and global hotkeys
-- [ ] Mobile clients
+| | Item |
+|:--:|:--|
+| ✅ | Voice & video rooms |
+| ✅ | In-room text chat |
+| ✅ | Web · desktop · Android |
+| ✅ | Tray · shortcuts · PTT · screen share · auto-update |
+| ⬜ | iOS client |
+| ⬜ | Play Store listing |
+
+<br/>
 
 ## Contributing
 
-Bug reports, feature ideas, and pull requests are welcome. For larger changes, open an issue first so we can talk through the approach. Small fixes can go straight to a PR.
+Bug reports and PRs are welcome. For larger changes, open an issue first.
 
-Before committing, run `bun lint:fix` — the repo is set up with Biome.
+```bash
+bun lint:fix   # before you commit
+```
+
+<br/>
 
 ## License
 
-Chatovo is free software, released under the **GNU General Public License v3.0** (GPL-3.0).
+**GNU General Public License v3.0** — free to use, study, share, and modify. Derivative works must stay open source under the same license. See [LICENSE](LICENSE).
 
-You are free to:
+<br/>
 
-- **Use** the software for any purpose
-- **Study** how it works and modify it
-- **Share** copies with anyone
-- **Share your modifications** with the community
+<p align="center">
+  <sub>Built by <a href="mailto:zilero@chatovo.ru"><strong>Alexandr Artemev</strong></a></sub>
+</p>
 
-Under one condition: any distribution of Chatovo, or of any derivative work based on it, **must remain under the same GPL-3.0 license** and ship with its full source code. That's the "copyleft" guarantee — it keeps Chatovo free for everyone, forever.
-
-> This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
->
-> This program is distributed in the hope that it will be useful, but **WITHOUT ANY WARRANTY**; without even the implied warranty of **MERCHANTABILITY** or **FITNESS FOR A PARTICULAR PURPOSE**. See the GNU General Public License for more details.
-
-The full license text is available in [LICENSE](LICENSE) and at <https://www.gnu.org/licenses/gpl-3.0.html>.
-
----
-
-<div align="center">
-
-Made with care by <a href="mailto:zilero@chatovo.ru">Alexandr Artemev</a>
-
-</div>
+<p align="center">
+  <img src="apps/client/app/icon.svg" width="32" height="32" alt="" />
+</p>

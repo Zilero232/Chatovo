@@ -3,7 +3,7 @@
 import { useDebounceCallback, useLocalStorage } from '@siberiacancode/reactuse';
 import { type Participant, RemoteParticipant } from 'livekit-client';
 import { useEffect, useRef, useState } from 'react';
-import { clamp, defaultTo } from 'remeda';
+import { clamp, defaultTo, omit } from 'remeda';
 import { STORAGE_KEYS } from '@/shared/constants';
 
 const MAX_VOLUME = 1;
@@ -42,9 +42,7 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
 
   const persist = useDebounceCallback((identity: string, next: number) => {
     if (next === DEFAULT_VOLUME) {
-      const { [identity]: _, ...rest } = volumesRef.current;
-
-      setVolumes(rest);
+      setVolumes(omit(volumesRef.current, [identity]));
     } else {
       setVolumes({ ...volumesRef.current, [identity]: next });
     }

@@ -1,7 +1,8 @@
 'use client';
 
 import { useRoomContext } from '@livekit/components-react';
-import { useEffect, useState } from 'react';
+import { useInterval } from '@siberiacancode/reactuse';
+import { useEffect, useEffectEvent, useState } from 'react';
 
 const POLL_INTERVAL_MS = 2_000;
 
@@ -10,45 +11,35 @@ export const useConnectionRtt = (): number | null => {
 
   const room = useRoomContext();
 
+  const sample = useEffectEvent(async () => {
+    const publisher = room.engine?.pcManager?.publisher;
+
+    if (!publisher) {
+      return;
+    }
+
+    const stats = await publisher.getStats();
+
+    for (const report of stats.values()) {
+      if (
+        report.type === 'candidate-pair' &&
+        report.state === 'succeeded' &&
+        typeof report.currentRoundTripTime === 'number'
+      ) {
+        setRtt(Math.round(report.currentRoundTripTime * 1_000));
+        return;
+      }
+    }
+  });
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: resample immediately when LiveKit room instance changes
   useEffect(() => {
-    let cancelled = false;
-
-    const sample = async () => {
-      const publisher = room.engine?.pcManager?.publisher;
-
-      if (!publisher) {
-        return;
-      }
-
-      const stats = await publisher.getStats();
-
-      if (cancelled) {
-        return;
-      }
-
-      for (const report of stats.values()) {
-        if (
-          report.type === 'candidate-pair' &&
-          report.state === 'succeeded' &&
-          typeof report.currentRoundTripTime === 'number'
-        ) {
-          return setRtt(Math.round(report.currentRoundTripTime * 1_000));
-        }
-      }
-    };
-
-    sample();
-
-    const timer = setInterval(() => {
-      sample();
-    }, POLL_INTERVAL_MS);
-
-    return () => {
-      cancelled = true;
-
-      clearInterval(timer);
-    };
+    void sample();
   }, [room]);
+
+  useInterval(() => {
+    void sample();
+  }, POLL_INTERVAL_MS);
 
   return rtt;
 };

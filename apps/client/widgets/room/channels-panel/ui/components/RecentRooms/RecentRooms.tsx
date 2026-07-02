@@ -3,7 +3,7 @@
 import { Clock, Lock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { isEmpty } from 'remeda';
+import { filter, indexBy, isEmpty, isNonNullish, map } from 'remeda';
 import { useRecentRooms, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { buildRoomHref } from '@/shared/constants';
 import { recentRoomsStyles as s } from './RecentRooms.styles';
@@ -17,9 +17,11 @@ export const RecentRooms = ({ onNavigate }: RecentRoomsProps = {}) => {
   const { rooms } = useRooms();
   const presence = useRoomsPresence();
 
-  const entries = recent
-    .map((entry) => rooms.find((room) => room.id === entry.id))
-    .filter((room) => room !== undefined);
+  const roomsById = indexBy(rooms, (room) => room.id);
+  const entries = filter(
+    map(recent, (entry) => roomsById[entry.id]),
+    isNonNullish,
+  );
 
   if (isEmpty(entries)) {
     return null;

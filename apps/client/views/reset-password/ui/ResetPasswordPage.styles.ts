@@ -13,9 +13,6 @@ export const resetPasswordPageStyles = {
 
   actions: 'flex flex-col gap-3 animate-in fade-in duration-300',
 
-  openInAppLink:
-    'mt-2 text-center font-semibold text-brand-cyan transition-colors hover:text-brand-cyan/80 hover:underline',
-
-  backButton:
-    'font-semibold text-brand-cyan transition-colors hover:text-brand-cyan/80 hover:underline',
+  secondaryLink:
+    'text-center font-semibold text-brand-cyan transition-colors hover:text-brand-cyan/80 hover:underline',
 } as const;

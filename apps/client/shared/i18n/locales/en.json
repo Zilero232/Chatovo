@@ -232,9 +232,9 @@
     "resetPassword": "Reset password",
     "passwordReset": "Password changed",
     "resetDoneTitle": "Password changed",
-    "resetDoneSubtitle": "Your password has been updated. Sign in with your new password.",
-    "openInApp": "Open in app",
-    "signInInBrowser": "Sign in in browser",
+    "resetDoneSubtitle": "Your password has been updated. Sign in with your new password in the app or browser.",
+    "openInApp": "Open Chatovo app",
+    "signInInBrowser": "Sign in",
     "resetTokenMissing": "This link is invalid or expired",
     "tagline": "Your voice, in real time",
     "features": {
@@ -340,14 +340,6 @@
       "undeafen": "Undeafen",
       "speakerDevice": "Select speakers",
       "pttHint": "Push-to-talk",
-      "leave": "Leave"
-    },
-    "pip": {
-      "popOut": "Pop out call",
-      "mute": "Mute",
-      "unmute": "Unmute",
-      "deafen": "Deafen",
-      "undeafen": "Undeafen",
       "leave": "Leave"
     }
   },
