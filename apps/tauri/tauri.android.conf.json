@@ -1,0 +1,22 @@
+{
+  "identifier": "chatovo.app",
+  "productName": "Chatovo",
+  "bundle": {
+    "android": {
+      "minSdkVersion": 24
+    }
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Chatovo",
+        "fullscreen": false,
+        "width": 1280,
+        "height": 800,
+        "minWidth": 360,
+        "minHeight": 640
+      }
+    ]
+  }
+}

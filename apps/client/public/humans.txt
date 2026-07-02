@@ -2,7 +2,7 @@
 Author: Alexandr Artemev
 Project: Chatovo
 Site: https://chatovo.ru
-Contact: alexandr.artemev.me [at] gmail.com
+Contact: zilero@chatovo.ru
 
 /* SITE */
 Last update: 2026-05-20

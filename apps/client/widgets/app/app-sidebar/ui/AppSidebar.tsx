@@ -1,6 +1,7 @@
 'use client';
 
 import { isTauri } from '@tauri-apps/api/core';
+import { isTauriDesktop } from '@/shared/lib';
 import { appSidebarStyles as s } from './AppSidebar.styles';
 import {
   CheckUpdateButton,
@@ -27,7 +28,7 @@ export const AppSidebar = ({
     {!isTauri() && <DownloadAppButton />}
     <div className={s.spacer} />
     <GithubButton />
-    {isTauri() && <CheckUpdateButton />}
+    {isTauriDesktop() && <CheckUpdateButton />}
     <LogoutButton />
   </div>
 );

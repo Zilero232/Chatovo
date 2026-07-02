@@ -190,7 +190,7 @@ nano /opt/chatovo/.env
 ```
 
 Впишите реальные значения для better-auth (`BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`,
-`GOOGLE_CLIENT_ID/SECRET`), Postgres (`DATABASE_URL`/`DIRECT_URL`) и LiveKit,
+`BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`), Postgres (`DATABASE_URL`/`DIRECT_URL`) и LiveKit,
 поставьте `NODE_ENV=production`,
 а **`CORS_ORIGINS=https://chatovo.ru`** — без этого браузер будет блокировать
 запросы со страницы сайта к `api.chatovo.ru`. Файл `.env` лежит только на VPS,

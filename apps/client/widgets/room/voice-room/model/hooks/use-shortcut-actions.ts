@@ -1,12 +1,11 @@
 'use client';
 
 import { useLocalParticipant } from '@livekit/components-react';
-import { isTauri } from '@tauri-apps/api/core';
 import { useTranslations } from 'next-intl';
 import { isNullish } from 'remeda';
 import { toast } from 'sonner';
 import { useAppSettings } from '@/entities/app/settings';
-import { appEvents, toggleMicStream } from '@/shared/lib';
+import { appEvents, isTauriDesktop, toggleMicStream } from '@/shared/lib';
 
 export const useShortcutActions = () => {
   const { localParticipant } = useLocalParticipant();
@@ -14,7 +13,7 @@ export const useShortcutActions = () => {
   const t = useTranslations('room.shortcuts');
 
   const mode = settings.audio.activationMode;
-  const enabled = isTauri() && !isNullish(localParticipant);
+  const enabled = isTauriDesktop() && !isNullish(localParticipant);
 
   appEvents.on.muteToggle(async () => {
     if (!enabled) {

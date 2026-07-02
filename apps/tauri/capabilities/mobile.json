@@ -1,0 +1,14 @@
+{
+  "$schema": "../gen/schemas/mobile-schema.json",
+  "identifier": "mobile-capability",
+  "description": "Permissions for Android and iOS builds",
+  "windows": ["main"],
+  "platforms": ["android", "iOS"],
+  "permissions": [
+    "core:default",
+    "os:default",
+    "opener:default",
+    "process:default",
+    "deep-link:default"
+  ]
+}

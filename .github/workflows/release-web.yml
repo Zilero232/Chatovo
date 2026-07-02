@@ -1,0 +1,54 @@
+name: Release Web
+
+# Marks a web/API version in GitHub Releases (`web-vX.Y.Z`, prerelease).
+# Actual deploy is handled by deploy.yml on every push to master (GHCR images → VPS).
+#
+# No build steps here — this release documents the versioned web stack.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'package.json'
+  workflow_dispatch: {}
+
+jobs:
+  release-web:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Read version from root package.json
+        id: read
+        run: echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Skip if web release already exists
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="web-v${{ steps.read.outputs.version }}"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create draft GitHub Release
+        if: steps.check.outputs.should_release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: web-v${{ steps.read.outputs.version }}
+          name: Chatovo Web v${{ steps.read.outputs.version }}
+          draft: true
+          prerelease: true
+          body: |
+            Web client + API for Chatovo v${{ steps.read.outputs.version }}.
+
+            - Site: https://chatovo.ru
+            - API: https://api.chatovo.ru
+            - Images: `ghcr.io/${{ github.repository_owner }}/chatovo-web` and `chatovo-server`
+
+            Deployed automatically via `.github/workflows/deploy.yml`.

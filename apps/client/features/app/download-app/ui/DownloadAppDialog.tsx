@@ -2,7 +2,11 @@
 
 import { ExternalLink, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { DESKTOP_PLATFORMS, useRelease } from '@/entities/app/release';
+import {
+  DESKTOP_DOWNLOAD_PLATFORMS,
+  MOBILE_DOWNLOAD_PLATFORMS,
+  useRelease,
+} from '@/entities/app/release';
 import { EXTERNAL_LINKS } from '@/shared/constants';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/shared/ui';
 import { PlatformCard } from './components';
@@ -15,7 +19,7 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className={s.content}>
         <DialogHeader>
           <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription className={s.description}>{t('description')}</DialogDescription>
@@ -28,7 +32,7 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
             {t('loadFailed')}{' '}
             <a
               className={s.fallbackLink}
-              href={EXTERNAL_LINKS.desktopReleases}
+              href={EXTERNAL_LINKS.appReleases}
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -39,10 +43,32 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
 
         {release && (
           <>
-            <div className={s.grid}>
-              {DESKTOP_PLATFORMS.map(({ id, label, Icon }) => (
-                <PlatformCard key={id} label={label} Icon={Icon} asset={release.assets[id]} />
-              ))}
+            <div className={s.section}>
+              <p className={s.sectionTitle}>{t('sections.desktop')}</p>
+              <div className={s.desktopGrid}>
+                {DESKTOP_DOWNLOAD_PLATFORMS.map(({ id, labelKey, Icon }) => (
+                  <PlatformCard
+                    key={id}
+                    label={t(`platforms.${labelKey}`)}
+                    Icon={Icon}
+                    asset={release.assets[id]}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className={s.section}>
+              <p className={s.sectionTitle}>{t('sections.mobile')}</p>
+              <div className={s.mobileGrid}>
+                {MOBILE_DOWNLOAD_PLATFORMS.map(({ id, labelKey, Icon }) => (
+                  <PlatformCard
+                    key={id}
+                    label={t(`platforms.${labelKey}`)}
+                    Icon={Icon}
+                    asset={release.assets[id]}
+                  />
+                ))}
+              </div>
             </div>
 
             <div className={s.meta}>

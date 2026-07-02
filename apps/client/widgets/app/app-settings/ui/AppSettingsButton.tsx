@@ -1,7 +1,6 @@
 'use client';
 
 import { useBoolean } from '@siberiacancode/reactuse';
-import { isTauri } from '@tauri-apps/api/core';
 import {
   Keyboard,
   Mic,
@@ -14,6 +13,7 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
+import { isTauriDesktop } from '@/shared/lib';
 import {
   Button,
   Dialog,
@@ -44,7 +44,7 @@ type TabId = 'profile' | 'audio' | 'video' | 'sounds' | 'system' | 'security' | 
 type TabConfig = {
   id: TabId;
   icon: ReactNode;
-  tauriOnly?: boolean;
+  tauriDesktopOnly?: boolean;
   render: (controls: { jumpTo: (id: TabId) => void }) => ReactNode;
 };
 
@@ -57,9 +57,9 @@ const TABS: TabConfig[] = [
   },
   { id: 'video', icon: <Video />, render: () => <VideoTab /> },
   { id: 'sounds', icon: <Volume2 />, render: () => <SoundsTab /> },
-  { id: 'system', icon: <Settings2 />, tauriOnly: true, render: () => <SystemTab /> },
+  { id: 'system', icon: <Settings2 />, tauriDesktopOnly: true, render: () => <SystemTab /> },
   { id: 'security', icon: <ShieldCheck />, render: () => <SecurityTab /> },
-  { id: 'shortcuts', icon: <Keyboard />, render: () => <ShortcutsTab /> },
+  { id: 'shortcuts', icon: <Keyboard />, tauriDesktopOnly: true, render: () => <ShortcutsTab /> },
 ];
 
 export const AppSettingsButton = () => {
@@ -68,7 +68,7 @@ export const AppSettingsButton = () => {
   const [isOpen, toggleOpen] = useBoolean(false);
   const [activeTab, setActiveTab] = useState<TabId>('profile');
 
-  const tabs = TABS.filter((tab) => !tab.tauriOnly || isTauri());
+  const tabs = TABS.filter((tab) => !tab.tauriDesktopOnly || isTauriDesktop());
 
   return (
     <>

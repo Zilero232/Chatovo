@@ -5,6 +5,202 @@
     "showPassword": "Show password",
     "hidePassword": "Hide password"
   },
+  "legal": {
+    "back": "Back",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "privacyPage": {
+      "title": "Privacy Policy",
+      "updated": "Last updated: July 2, 2026",
+      "sections": [
+        {
+          "heading": "Introduction",
+          "paragraphs": [
+            "Chatovo (\"we\", \"us\", \"our\") operates the Chatovo voice and video communication service at https://chatovo.ru and related applications, including the Android app.",
+            "This Privacy Policy explains what information we collect, how we use it, and your choices. By using Chatovo, you agree to this policy."
+          ]
+        },
+        {
+          "heading": "Data controller",
+          "paragraphs": [
+            "Operator: Alexandr Artemev (Chatovo)",
+            "Contact: {contact}",
+            "Website: https://chatovo.ru"
+          ]
+        },
+        {
+          "heading": "Information we collect",
+          "paragraphs": [
+            "Account data: email address, display name, password (stored as a secure hash), and optional profile fields (bio, avatar, banner color, external profile URL).",
+            "Session data: session tokens, IP address, browser or app user agent, and session expiry timestamps.",
+            "Rooms: room names, privacy settings, optional room passwords, and ownership metadata.",
+            "Chat messages: text you send in rooms, edit history metadata, and file attachments you upload (images and other files up to 5 MB per attachment).",
+            "Voice and video: audio and video streams are transmitted in real time through LiveKit (WebRTC). We do not record or permanently store voice or video content on our servers.",
+            "Device and app settings stored locally: authentication token, audio/video preferences, locale, recent rooms, and per-participant volume levels.",
+            "Support requests: when you report a problem, we may receive your message, optional screenshot, and account identifier."
+          ]
+        },
+        {
+          "heading": "How we use information",
+          "paragraphs": [
+            "Provide and maintain the service: authentication, rooms, voice/video sessions, text chat, and profile management.",
+            "Security and abuse prevention: session validation, access control, and operational monitoring.",
+            "Communications: transactional emails such as email verification and password reset.",
+            "Improve the product: diagnose errors and understand usage patterns at an aggregate level."
+          ]
+        },
+        {
+          "heading": "Legal bases (EEA/UK users)",
+          "paragraphs": [
+            "We process data to perform our contract with you (providing the service), based on legitimate interests (security and product improvement), and where required, your consent (for example, optional profile fields or device permissions)."
+          ]
+        },
+        {
+          "heading": "Third-party services",
+          "paragraphs": [
+            "LiveKit — real-time voice, video, and data channels.",
+            "SMTP email provider — delivery of verification and password reset emails.",
+            "Hosting and infrastructure providers that operate our servers and databases.",
+            "Google Play — app distribution and updates on Android (Google policies apply)."
+          ]
+        },
+        {
+          "heading": "Data retention",
+          "paragraphs": [
+            "Account and profile data is kept while your account is active.",
+            "Chat messages and uploaded files are kept until deleted by you or removed as part of account deletion.",
+            "Session logs are kept for a limited period required for security and troubleshooting.",
+            "You may request account deletion by contacting {contact}."
+          ]
+        },
+        {
+          "heading": "User-generated content",
+          "paragraphs": [
+            "Chatovo allows users to publish text, files, and profile information. You are responsible for content you share.",
+            "To report abusive content or users, contact {contact} with room name, message details, and screenshots if available.",
+            "We may remove content or suspend accounts that violate our Terms of Service or applicable law."
+          ]
+        },
+        {
+          "heading": "Children",
+          "paragraphs": [
+            "Chatovo is not directed to children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us data, contact {contact}."
+          ]
+        },
+        {
+          "heading": "Security",
+          "paragraphs": [
+            "We use HTTPS for API traffic and WSS for realtime media. Passwords are hashed. Access to production systems is restricted.",
+            "No method of transmission or storage is 100% secure; we cannot guarantee absolute security."
+          ]
+        },
+        {
+          "heading": "International transfers",
+          "paragraphs": [
+            "Your data may be processed on servers located outside your country. We take steps to protect data in line with this policy."
+          ]
+        },
+        {
+          "heading": "Your rights",
+          "paragraphs": [
+            "Depending on your location, you may have rights to access, correct, delete, or export your personal data, and to object to or restrict certain processing.",
+            "Contact {contact} to exercise these rights. You may also lodge a complaint with your local data protection authority."
+          ]
+        },
+        {
+          "heading": "Changes",
+          "paragraphs": [
+            "We may update this policy. We will post the new version at https://chatovo.ru/privacy and update the \"Last updated\" date."
+          ]
+        }
+      ]
+    },
+    "termsPage": {
+      "title": "Terms of Service",
+      "updated": "Last updated: July 2, 2026",
+      "sections": [
+        {
+          "heading": "Agreement",
+          "paragraphs": [
+            "These Terms of Service (\"Terms\") govern your use of Chatovo websites, APIs, and applications (the \"Service\"). By using the Service, you agree to these Terms and our Privacy Policy at https://chatovo.ru/privacy."
+          ]
+        },
+        {
+          "heading": "Eligibility",
+          "paragraphs": [
+            "You must be at least 13 years old to use Chatovo. If you are under the age of majority in your jurisdiction, you may use the Service only with consent of a parent or legal guardian."
+          ]
+        },
+        {
+          "heading": "Accounts",
+          "paragraphs": [
+            "You are responsible for maintaining the confidentiality of your account credentials and for all activity under your account.",
+            "You must provide accurate information and keep your profile data up to date.",
+            "We may suspend or terminate accounts that violate these Terms or pose a security risk."
+          ]
+        },
+        {
+          "heading": "Acceptable use",
+          "paragraphs": [
+            "You agree not to use Chatovo to harass, threaten, abuse, or harm others.",
+            "You may not upload illegal content, malware, spam, or content that infringes intellectual property or privacy rights.",
+            "You may not attempt to disrupt the Service, bypass security, scrape data at scale, or impersonate others.",
+            "You may not use the Service for unlawful gambling, financial services, or other prohibited categories under app store policies."
+          ]
+        },
+        {
+          "heading": "User-generated content",
+          "paragraphs": [
+            "You retain ownership of content you submit. You grant Chatovo a non-exclusive license to host, display, and transmit your content solely to operate the Service.",
+            "We may remove content or restrict access to rooms that violate these Terms or applicable law.",
+            "Report violations to {contact}."
+          ]
+        },
+        {
+          "heading": "Rooms and communications",
+          "paragraphs": [
+            "Voice, video, and chat in rooms are provided in real time. We do not guarantee uninterrupted availability or recording features unless explicitly offered.",
+            "Private rooms with passwords are not a guarantee of absolute privacy; use discretion when sharing sensitive information."
+          ]
+        },
+        {
+          "heading": "Intellectual property",
+          "paragraphs": [
+            "Chatovo name, branding, and software are owned by the operator unless otherwise stated. Open-source components are subject to their respective licenses."
+          ]
+        },
+        {
+          "heading": "Disclaimer",
+          "paragraphs": [
+            "THE SERVICE IS PROVIDED \"AS IS\" WITHOUT WARRANTIES OF ANY KIND. WE DISCLAIM IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT TO THE MAXIMUM EXTENT PERMITTED BY LAW."
+          ]
+        },
+        {
+          "heading": "Limitation of liability",
+          "paragraphs": [
+            "TO THE MAXIMUM EXTENT PERMITTED BY LAW, CHATOVO AND ITS OPERATOR WILL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF DATA, PROFITS, OR GOODWILL ARISING FROM YOUR USE OF THE SERVICE."
+          ]
+        },
+        {
+          "heading": "Termination",
+          "paragraphs": [
+            "You may stop using the Service at any time. We may suspend or terminate access if you violate these Terms or if required by law.",
+            "Provisions that by nature should survive termination (including disclaimers and limitations of liability) will survive."
+          ]
+        },
+        {
+          "heading": "Changes",
+          "paragraphs": [
+            "We may update these Terms. Continued use after changes means you accept the updated Terms. The current version is at https://chatovo.ru/terms."
+          ]
+        },
+        {
+          "heading": "Contact",
+          "paragraphs": ["Questions about these Terms: {contact}"]
+        }
+      ]
+    }
+  },
   "language": {
     "label": "Language",
     "en": "English",
@@ -18,8 +214,10 @@
     "noAccount": "No account?",
     "signIn": "Sign in",
     "signUp": "Sign up",
-    "continueWithGoogle": "Continue with Google",
     "signedIn": "Signed in",
+    "emailNotVerified": "Confirm your email first — we sent you a new verification link",
+    "invalidCredentials": "Invalid email or password",
+    "signInFailed": "Sign in failed",
     "accountCreated": "Account created",
     "verifyEmailTitle": "Check your email",
     "verifyEmailDescription": "We sent a verification link to {email}. Confirm it to finish signing up.",
@@ -219,7 +417,7 @@
   "appSidebar": {
     "lobby": "Lobby",
     "downloadApp": "Download app",
-    "downloadAppLabel": "Download desktop app",
+    "downloadAppLabel": "Download app",
     "checkUpdate": "Check for updates",
     "checkUpdateLabel": "Check for app updates",
     "github": "GitHub",
@@ -417,12 +615,22 @@
   },
   "downloadApp": {
     "title": "Download Chatovo",
-    "description": "Native desktop client with auto-updates. Pick your platform.",
+    "description": "Native app for desktop and Android. Pick your platform.",
     "loadFailed": "Couldn't load the latest release.",
     "openReleases": "Open releases on GitHub",
     "version": "Version {version}",
     "releaseNotes": "Release notes",
-    "notAvailable": "Not available yet"
+    "notAvailable": "Not available yet",
+    "sections": {
+      "desktop": "Desktop",
+      "mobile": "Mobile"
+    },
+    "platforms": {
+      "windows": "Windows",
+      "macos": "macOS",
+      "linux": "Linux",
+      "android": "Android"
+    }
   },
   "update": {
     "title": "Update available",

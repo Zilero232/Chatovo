@@ -1,9 +1,10 @@
 'use client';
 
 import { trayMenuContext, useCloseOnWindowEvent, useTraySetup } from '@/features/app/system-tray';
+import { isTauriDesktop } from '@/shared/lib';
 import type { ReactNode } from 'react';
 
-export const TrayMenuProvider = ({ children }: { children: ReactNode }) => {
+const TrayBridge = ({ children }: { children: ReactNode }) => {
   const tray = useTraySetup();
 
   useCloseOnWindowEvent();
@@ -15,4 +16,12 @@ export const TrayMenuProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </trayMenuContext.instance.Provider>
   );
+};
+
+export const TrayMenuProvider = ({ children }: { children: ReactNode }) => {
+  if (!isTauriDesktop()) {
+    return <>{children}</>;
+  }
+
+  return <TrayBridge>{children}</TrayBridge>;
 };

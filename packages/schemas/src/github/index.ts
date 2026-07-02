@@ -1,2 +1,7 @@
-export { gitHubReleaseAssetSchema, gitHubReleaseSchema } from './outputs';
-export type { GitHubRelease, GitHubReleaseAsset } from './types';
+export {
+  appDownloadsSchema,
+  gitHubReleaseAssetSchema,
+  gitHubReleaseListSchema,
+  gitHubReleaseSchema,
+} from './outputs';
+export type { AppDownloads, GitHubRelease, GitHubReleaseAsset } from './types';

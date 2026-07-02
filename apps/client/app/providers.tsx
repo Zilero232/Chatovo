@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { setLogLevel } from 'livekit-client';
 import { LeaveSoundProvider, RoomsPresenceProvider } from '@/entities/room/room';
 import { queryClient } from '@/shared/api';
+import { isTauriDesktop } from '@/shared/lib';
 import { Toaster, TooltipProvider } from '@/shared/ui';
 import { TitleBar } from '@/widgets/app/title-bar';
 import {
@@ -23,7 +24,7 @@ export const Providers = ({ children }: { children: ReactNode }) => (
     <I18nProvider>
       <TooltipProvider>
         <div className="flex h-full flex-col">
-          <TitleBar />
+          {isTauriDesktop() && <TitleBar />}
 
           <div className="min-h-0 flex-1">
             <TrayMenuProvider>

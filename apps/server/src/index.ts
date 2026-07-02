@@ -8,7 +8,7 @@ import { StatusCodes } from 'http-status-codes';
 import { allowedOrigins } from './config/cors';
 import { env } from './core';
 import { authMiddleware, livekitAuthMiddleware } from './middleware';
-import { auth, socialDoneHandler } from './modules/auth';
+import { auth } from './modules/auth';
 import { chatRouter } from './modules/chat';
 import { feedbackRouter } from './modules/feedback';
 import { githubRouter } from './modules/github';
@@ -50,7 +50,6 @@ export const routes = app
     }),
   )
   .get('/health', (c) => c.json({ ok: true }))
-  .get('/auth/social-done', socialDoneHandler)
   .on(['POST', 'GET'], '/auth/*', (c) => auth.handler(c.req.raw))
   .use('/uploads/*', serveUploads)
   .use('/rooms/*', authMiddleware)

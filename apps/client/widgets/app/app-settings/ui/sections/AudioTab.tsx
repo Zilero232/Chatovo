@@ -1,11 +1,11 @@
 'use client';
 
-import { isTauri } from '@tauri-apps/api/core';
 import { useTranslations } from 'next-intl';
 import { useId } from 'react';
 import { isNullish } from 'remeda';
 import { toast } from 'sonner';
 import { useAppSettings } from '@/entities/app/settings';
+import { isTauriDesktop } from '@/shared/lib';
 import { RadioGroup, RadioGroupItem, Switch } from '@/shared/ui';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 import { DeviceSelect } from '../components/DeviceSelect';
@@ -34,7 +34,7 @@ export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
   const pttId = useId();
 
   const audio = settings.audio;
-  const isDesktop = isTauri();
+  const isDesktop = isTauriDesktop();
   const pttBindingMissing =
     audio.activationMode === 'pushToTalk' && isNullish(settings.shortcuts.pttHold);
 

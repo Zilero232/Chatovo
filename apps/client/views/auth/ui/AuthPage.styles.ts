@@ -13,9 +13,6 @@ export const authPageStyles = {
 
   form: 'animate-in fade-in duration-300',
 
-  divider: 'my-5 flex items-center gap-3',
-  dividerLine: 'h-px flex-1 bg-linear-to-r from-transparent via-white/15 to-transparent',
-  dividerText: 'text-muted-foreground text-xs uppercase tracking-[0.14em]',
   toggle: 'mt-5 text-center text-muted-foreground text-sm',
   toggleButton:
     'font-semibold text-brand-cyan transition-colors hover:text-brand-cyan/80 hover:underline',

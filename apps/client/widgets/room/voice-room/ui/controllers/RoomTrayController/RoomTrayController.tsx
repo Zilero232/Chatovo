@@ -1,12 +1,11 @@
 'use client';
 
 import { useLocalParticipant } from '@livekit/components-react';
-import { isTauri } from '@tauri-apps/api/core';
 import { useEffect } from 'react';
 import { isNullish } from 'remeda';
 import { useAppSettings } from '@/entities/app/settings';
 import { useTrayMenuItem } from '@/features/app/system-tray';
-import { appEvents, toggleMicStream } from '@/shared/lib';
+import { appEvents, isTauriDesktop, toggleMicStream } from '@/shared/lib';
 
 export const RoomTrayController = () => {
   const { localParticipant, isMicrophoneEnabled } = useLocalParticipant();
@@ -14,7 +13,7 @@ export const RoomTrayController = () => {
   const { settings } = useAppSettings();
 
   const isPtt = settings.audio.activationMode === 'pushToTalk';
-  const active = isTauri() && !isNullish(localParticipant);
+  const active = isTauriDesktop() && !isNullish(localParticipant);
 
   appEvents.on.trayMuteToggle(async () => {
     if (!active) {
