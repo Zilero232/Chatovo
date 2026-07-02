@@ -1,5 +1,6 @@
 import { Hr, Text } from 'react-email';
 import { BaseEmail } from './BaseEmail';
+import { emailStyles } from './email-styles';
 
 type BugReportContext = {
   reporter: string;
@@ -16,8 +17,8 @@ type BugReportProps = {
 
 const Row = ({ label, value }: { label: string; value?: string }) =>
   value && (
-    <Text className="m-0 text-neutral-600 text-sm leading-6">
-      <span className="font-medium text-neutral-900">{label}: </span>
+    <Text style={{ ...emailStyles.text, marginBottom: '8px' }}>
+      <span style={emailStyles.label}>{label}: </span>
       {value}
     </Text>
   );
@@ -25,11 +26,9 @@ const Row = ({ label, value }: { label: string; value?: string }) =>
 export const BugReport = ({ description, context }: BugReportProps) => {
   return (
     <BaseEmail preview={`New bug report from ${context.reporter}`} heading="New bug report">
-      <Text className="m-0 mb-6 whitespace-pre-wrap text-neutral-700 text-sm leading-6">
-        {description}
-      </Text>
+      <Text style={{ ...emailStyles.text, whiteSpace: 'pre-wrap' }}>{description}</Text>
 
-      <Hr className="my-6 border-neutral-200" />
+      <Hr style={emailStyles.hr} />
 
       <Row label="Reporter" value={context.reporter} />
       <Row label="Email" value={context.email} />

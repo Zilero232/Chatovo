@@ -8,9 +8,10 @@ import {
   Html,
   Link,
   Preview,
-  Tailwind,
+  Section,
   Text,
 } from 'react-email';
+import { emailStyles } from './email-styles';
 import type { ReactNode } from 'react';
 
 type EmailAction = {
@@ -30,36 +31,33 @@ export const BaseEmail = ({ preview, heading, children, action }: BaseEmailProps
     <Html lang="en">
       <Head />
       <Preview>{preview}</Preview>
-      <Tailwind>
-        <Body className="bg-neutral-100 font-sans">
-          <Container className="mx-auto max-w-[480px] rounded-2xl bg-white p-8">
-            <Heading className="m-0 mb-4 font-semibold text-neutral-900 text-xl">{heading}</Heading>
+      <Body style={emailStyles.body}>
+        <Container style={emailStyles.outer}>
+          <Section style={emailStyles.card}>
+            <Heading style={emailStyles.heading}>{heading}</Heading>
 
             {children}
 
             {action && (
               <>
-                <Button
-                  href={action.url}
-                  className="box-border block rounded-lg bg-neutral-900 px-5 py-2.5 text-center font-medium text-sm text-white no-underline"
-                >
+                <Button href={action.url} style={emailStyles.button}>
                   {action.label}
                 </Button>
 
-                <Hr className="my-6 border-neutral-200" />
+                <Hr style={emailStyles.hr} />
 
-                <Text className="m-0 text-neutral-400 text-xs leading-5">
+                <Text style={emailStyles.footnote}>
                   If the button does not work, copy this link into your browser:
                   <br />
-                  <Link href={action.url} className="text-neutral-500 underline">
+                  <Link href={action.url} style={emailStyles.link}>
                     {action.url}
                   </Link>
                 </Text>
               </>
             )}
-          </Container>
-        </Body>
-      </Tailwind>
+          </Section>
+        </Container>
+      </Body>
     </Html>
   );
 };

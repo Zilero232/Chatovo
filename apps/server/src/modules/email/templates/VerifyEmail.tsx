@@ -1,5 +1,6 @@
 import { Text } from 'react-email';
 import { BaseEmail } from './BaseEmail';
+import { emailStyles } from './email-styles';
 
 type VerifyEmailProps = {
   url: string;
@@ -12,7 +13,7 @@ export const VerifyEmail = ({ url }: VerifyEmailProps) => {
       heading="Verify your email"
       action={{ url, label: 'Verify email' }}
     >
-      <Text className="m-0 mb-6 text-neutral-600 text-sm leading-6">
+      <Text style={emailStyles.text}>
         Confirm your email address to finish setting up your Chatovo account.
       </Text>
     </BaseEmail>
