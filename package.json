@@ -11,6 +11,10 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "precommit": "biome check --write --staged && git update-index --again",
+    "prepare": "simple-git-hooks",
     "dev": "bun --filter '@chatovo/server' --filter '@chatovo/client' --parallel dev",
     "dev:client": "bun --filter @chatovo/client dev",
     "dev:server": "bun --filter @chatovo/server dev",
@@ -28,6 +32,10 @@
     "babel-plugin-react-compiler": "^1.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.16"
+    "@biomejs/biome": "2.4.16",
+    "simple-git-hooks": "^2.13.1"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "bun run precommit"
   }
 }
