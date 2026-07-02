@@ -199,6 +199,13 @@
     background-attachment: fixed;
   }
 
+  html.tauri-mobile body {
+    padding-top: env(safe-area-inset-top, 24px);
+    padding-right: env(safe-area-inset-right, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+  }
+
   ::selection {
     background: oklch(0.7 0.22 295 / 0.4);
     color: oklch(0.985 0 0);

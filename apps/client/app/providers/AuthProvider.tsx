@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useRef } from 'react';
 import { match } from 'ts-pattern';
 import { useCurrentUser } from '@/entities/auth/user';
-import { ROUTES } from '@/shared/constants';
+import { isPublicRoute, ROUTES } from '@/shared/constants';
 import { AppSplash } from '@/shared/ui';
 import type { ReactNode } from 'react';
 
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const isInitialLoading = isLoading && !hasResolvedRef.current;
 
-  const isGuestZone = pathname === ROUTES.auth;
+  const isGuestZone = isPublicRoute(pathname);
 
   const target = match({ isGuestZone, isInitialLoading, isAuthenticated })
     .with({ isInitialLoading: true }, () => null)

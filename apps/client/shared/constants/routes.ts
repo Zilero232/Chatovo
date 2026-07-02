@@ -11,6 +11,11 @@ export const ROUTES = {
   terms: '/terms',
 } as const;
 
+const PUBLIC_ROUTES = [ROUTES.auth, ROUTES.resetPassword, ROUTES.privacy, ROUTES.terms] as const;
+
+export const isPublicRoute = (pathname: string): boolean =>
+  PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(`${route}/`));
+
 export const DEEP_LINKS = {
   auth: `${APP_SCHEME}://auth`,
 } as const;

@@ -12,6 +12,7 @@ import {
   AuthProvider,
   I18nProvider,
   ShortcutsProvider,
+  TauriMobileInsets,
   TrayMenuProvider,
   UpdateProvider,
 } from './providers/index';
@@ -22,6 +23,7 @@ setLogLevel('error');
 export const Providers = ({ children }: { children: ReactNode }) => (
   <QueryClientProvider client={queryClient}>
     <I18nProvider>
+      <TauriMobileInsets />
       <TooltipProvider>
         <div className="flex h-full flex-col">
           {isTauriDesktop() && <TitleBar />}
