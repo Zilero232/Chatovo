@@ -68,7 +68,7 @@ jobs:
 
             **Desktop** — Windows `.msi`, macOS `.dmg`, Linux `.deb` / `.AppImage` (Tauri auto-update)
 
-            **Mobile** — Android `.apk` for manual install
+            **Mobile** — `Chatovo_X.Y.Z_android_universal.apk` for manual install
 
   build-desktop:
     needs: [resolve-version, create-release]
@@ -290,6 +290,8 @@ jobs:
         run: bunx tauri android build
 
       - name: Collect APK artifact
+        env:
+          VERSION: ${{ needs.resolve-version.outputs.version }}
         run: |
           mkdir -p android-artifacts
           apk="$(
@@ -301,8 +303,17 @@ jobs:
             echo "No release APK found"
             exit 1
           fi
-          cp "$apk" "android-artifacts/$(basename "$apk")"
-          echo "Collected $(basename "$apk")"
+          apk_lower="$(echo "$apk" | tr '[:upper:]' '[:lower:]')"
+          if echo "$apk_lower" | grep -q universal; then
+            suffix=universal
+          elif echo "$apk_lower" | grep -Eq 'arm64|aarch64'; then
+            suffix=arm64
+          else
+            suffix=release
+          fi
+          output="android-artifacts/Chatovo_${VERSION}_android_${suffix}.apk"
+          cp "$apk" "$output"
+          echo "Collected $(basename "$output")"
 
       - name: Verify APK signature
         run: |
