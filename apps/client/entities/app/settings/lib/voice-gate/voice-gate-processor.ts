@@ -9,8 +9,8 @@ export const VOICE_GATE_MANUAL_RANGE = 0.5;
 
 const FFT_SIZE = 1024;
 const HANGOVER_MS = 250;
-const ATTACK_TIME = 0.015;
-const RELEASE_TIME = 0.15;
+const ATTACK_TIME = 0.008;
+const RELEASE_TIME = 0.12;
 const NOISE_FLOOR_RISE = 0.0005;
 const NOISE_FLOOR_FALL = 0.05;
 const AUTO_MARGIN = 0.04;
@@ -91,7 +91,7 @@ export class VoiceGateProcessor implements TrackProcessor<Track.Kind.Audio, Audi
 
     const analyser = context.createAnalyser();
     analyser.fftSize = FFT_SIZE;
-    analyser.smoothingTimeConstant = 0.2;
+    analyser.smoothingTimeConstant = 0.05;
 
     const gain = context.createGain();
     gain.gain.value = GATE_CLOSED;

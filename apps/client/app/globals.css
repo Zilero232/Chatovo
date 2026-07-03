@@ -16,10 +16,10 @@
   --background: oklch(0.16 0.012 280);
   --foreground: oklch(0.985 0 0);
 
-  --surface-1: oklch(0.22 0.018 280 / 0.6);
-  --surface-2: oklch(0.26 0.022 280 / 0.7);
-  --surface-3: oklch(0.3 0.026 280 / 0.8);
-  --surface-overlay: oklch(0.18 0.014 280 / 0.85);
+  --surface-1: oklch(0.22 0.018 280 / 0.5);
+  --surface-2: oklch(0.26 0.022 280 / 0.6);
+  --surface-3: oklch(0.3 0.026 280 / 0.72);
+  --surface-overlay: oklch(0.18 0.014 280 / 0.78);
 
   --card: var(--surface-1);
   --card-foreground: oklch(0.985 0 0);
@@ -28,11 +28,11 @@
 
   --primary: var(--brand-violet);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.32 0.03 280 / 0.6);
+  --secondary: oklch(0.32 0.03 280 / 0.5);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.28 0.02 280 / 0.5);
+  --muted: oklch(0.28 0.02 280 / 0.42);
   --muted-foreground: oklch(0.72 0.02 280);
-  --accent: oklch(0.32 0.04 295 / 0.7);
+  --accent: oklch(0.32 0.04 295 / 0.58);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.7 0.22 22);
   --destructive-foreground: oklch(0.985 0 0);
@@ -42,7 +42,7 @@
   --input: oklch(1 0 0 / 6%);
   --ring: var(--brand-violet);
 
-  --sidebar: oklch(0.18 0.014 280 / 0.7);
+  --sidebar: oklch(0.18 0.014 280 / 0.58);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: var(--brand-violet);
   --sidebar-primary-foreground: oklch(0.985 0 0);
@@ -52,10 +52,14 @@
   --sidebar-ring: var(--brand-violet);
 
   /* Glass effect knobs */
-  --glass-blur: 18px;
-  --glass-saturate: 140%;
-  --glass-border: oklch(1 0 0 / 12%);
-  --glass-hi: oklch(1 0 0 / 14%);
+  --glass-blur: 20px;
+  --glass-saturate: 145%;
+  --glass-border: oklch(1 0 0 / 11%);
+  --glass-hi: oklch(1 0 0 / 13%);
+  --shell-surface: oklch(0.16 0.013 280 / 0.68);
+  --shell-surface-raised: oklch(0.21 0.016 280 / 0.52);
+  --shadow-elevated: 0 24px 48px -28px oklch(0 0 0 / 0.62), 0 0 0 1px oklch(1 0 0 / 5%) inset;
+  --shadow-soft: 0 16px 36px -24px oklch(0 0 0 / 0.5), 0 1px 0 oklch(1 0 0 / 6%) inset;
 
   /* Neon glows */
   --glow-violet: 0 0 0 1px oklch(0.7 0.22 295 / 0.35), 0 8px 32px -8px oklch(0.7 0.22 295 / 0.55);
@@ -116,6 +120,8 @@
   --color-surface-2: var(--surface-2);
   --color-surface-3: var(--surface-3);
   --color-surface-overlay: var(--surface-overlay);
+  --color-shell-surface: var(--shell-surface);
+  --color-shell-surface-raised: var(--shell-surface-raised);
 
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
@@ -277,7 +283,7 @@ html.tauri-desktop {
     backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
     -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
     border: 1px solid var(--glass-border);
-    box-shadow: var(--glow-soft);
+    box-shadow: var(--shadow-soft);
   }
 
   .glass-strong {
@@ -285,7 +291,23 @@ html.tauri-desktop {
     backdrop-filter: blur(calc(var(--glass-blur) + 6px)) saturate(var(--glass-saturate));
     -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 6px)) saturate(var(--glass-saturate));
     border: 1px solid var(--glass-border);
-    box-shadow: var(--glow-soft);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shell-panel {
+    background-color: var(--shell-surface);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .surface-card {
+    background-color: var(--shell-surface-raised);
+    backdrop-filter: blur(12px) saturate(135%);
+    -webkit-backdrop-filter: blur(12px) saturate(135%);
+    border: 1px solid oklch(1 0 0 / 10%);
+    box-shadow: var(--shadow-soft);
   }
 
   .glass-overlay {

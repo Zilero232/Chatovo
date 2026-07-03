@@ -4,7 +4,7 @@ export const channelsPanelStyles = {
   root: cva('flex h-full flex-col', {
     variants: {
       variant: {
-        desktop: 'glass w-64 rounded-2xl',
+        desktop: 'h-full w-64 shrink-0 flex-col border-white/8 border-r',
         drawer: 'w-full',
       },
     },

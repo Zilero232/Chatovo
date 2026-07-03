@@ -7,8 +7,27 @@ export {
   uploadChatAttachment,
 } from './chat';
 export { reportProblem } from './feedback';
+export {
+  acceptFriendRequest,
+  acceptIncomingFriendCall,
+  ackOutgoingFriendCall,
+  cancelOutgoingFriendCall,
+  declineFriendRequest,
+  declineIncomingFriendCall,
+  findFriendByTag,
+  getFriendshipRelation,
+  getIncomingFriendCall,
+  getOrCreateFriendDmRoom,
+  getOutgoingFriendCall,
+  listFriends,
+  listIncomingFriendRequests,
+  removeFriendship,
+  ringFriendCall,
+  sendFriendRequest,
+} from './friends';
 export { getAppDownloads } from './github';
-export { buildPresenceStreamUrl, fetchLiveKitToken, reportPresenceState } from './livekit';
+export { fetchLiveKitToken } from './livekit';
 export { queryClient } from './query-client';
+export { buildRealtimeUrl } from './realtime';
 export { createRoom, deleteRoom, getRoom, listRooms, updateRoom } from './rooms';
 export { getUserProfile, updateUserProfile } from './users';

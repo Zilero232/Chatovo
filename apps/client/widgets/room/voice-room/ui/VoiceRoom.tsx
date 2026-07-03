@@ -13,8 +13,9 @@ import {
   RoomControlBar,
 } from '@/features/room/room-control';
 import { appEvents } from '@/shared/lib';
-import { ChatPanel, RoomChatProvider } from '@/widgets/room/chat';
+import { ChatPanel } from '@/widgets/chat/chat-panel';
 import { FAILURE_REASONS } from '../config';
+import { LocalSpeakingProvider } from '../model/contexts';
 import {
   ConnectingOverlay,
   ParticipantsView,
@@ -31,13 +32,15 @@ export const VoiceRoom = ({
   roomName,
   serverUrl,
   token,
+  initialChatOpen = false,
+  isDm = false,
   onConnectFailure,
   onLeave,
 }: VoiceRoomProps) => {
   const { settings } = useAppSettings();
   const { push: pushRecent } = useRecentRooms();
 
-  const [isChatOpen, toggleChat] = useBoolean(false);
+  const [isChatOpen, toggleChat] = useBoolean(initialChatOpen);
 
   appEvents.on.chatToggle(() => toggleChat());
 
@@ -74,13 +77,13 @@ export const VoiceRoom = ({
             onLeave();
           }}
         >
-          <RoomChatProvider>
+          <LocalSpeakingProvider>
             <DeafenProvider>
-              <ReactionsProvider>
-                <RoomHeader name={roomName} roomId={roomId} />
+              <ReactionsProvider roomId={roomId}>
+                <RoomHeader isDm={isDm} name={roomName} roomId={roomId} />
 
                 <div className={s.body}>
-                  <ParticipantsView roomId={roomId} />
+                  <ParticipantsView isDm={isDm} roomId={roomId} />
                   <ReactionsOverlay />
                   <ConnectingOverlay roomName={roomName} />
                 </div>
@@ -91,10 +94,16 @@ export const VoiceRoom = ({
                   </div>
 
                   <div className={s.sideActions}>
-                    <div className={s.desktopInvite}>
-                      <RoomInviteButton roomId={roomId} />
-                    </div>
-                    <VoiceRoomChatButton isOpen={isChatOpen} onToggle={() => toggleChat()} />
+                    {!isDm && (
+                      <div className={s.desktopInvite}>
+                        <RoomInviteButton roomId={roomId} />
+                      </div>
+                    )}
+                    <VoiceRoomChatButton
+                      isOpen={isChatOpen}
+                      roomId={roomId}
+                      onToggle={() => toggleChat()}
+                    />
                   </div>
                 </div>
 
@@ -104,7 +113,7 @@ export const VoiceRoom = ({
                 <RoomControllers roomId={roomId} />
               </ReactionsProvider>
             </DeafenProvider>
-          </RoomChatProvider>
+          </LocalSpeakingProvider>
         </LiveKitRoom>
       </div>
     </div>

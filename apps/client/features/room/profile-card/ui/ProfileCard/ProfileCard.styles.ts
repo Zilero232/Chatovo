@@ -6,5 +6,6 @@ export const profileCardStyles = {
   avatar: 'size-16 ring-4 ring-background',
   identity: 'flex flex-col gap-0.5',
   name: 'text-base font-semibold',
+  tag: 'text-xs text-muted-foreground',
   bio: 'whitespace-pre-wrap break-words text-sm text-muted-foreground',
 } as const;

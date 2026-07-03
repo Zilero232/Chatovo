@@ -18,10 +18,13 @@ export const RoomPage = () => {
   const t = useTranslations('room');
 
   const roomId = params.get('id');
+  const view = params.get('view');
+  const titleOverride = params.get('title');
 
-  const { room, isLoading, displayName, isPrivate } = useRoomById(roomId);
+  const { room, isLoading, displayName, isPrivate, isDm } = useRoomById(roomId);
 
   const roomReady = isNonNullish(room);
+  const roomTitle = titleOverride ?? displayName;
 
   const [password, setPassword] = useState<string>();
 
@@ -61,7 +64,7 @@ export const RoomPage = () => {
     .with({ room: P.nullish }, () => <RoomNotFound />)
     .with({ roomId: P.string, room: { isPrivate: true }, token: P.nullish }, () => (
       <RoomPasswordForm
-        displayName={displayName}
+        displayName={roomTitle}
         error={tokenFailed ? (tokenError?.message ?? t('password.wrong')) : undefined}
         isSubmitting={tokenFetching}
         onSubmit={submitPassword}
@@ -71,8 +74,10 @@ export const RoomPage = () => {
     .with({ roomId: P.string, token: P.nonNullable, room: P.nonNullable }, ({ roomId, token }) => (
       <VoiceRoom
         key={roomId}
+        initialChatOpen={view === 'chat'}
+        isDm={isDm}
         roomId={roomId}
-        roomName={displayName}
+        roomName={roomTitle}
         serverUrl={env.NEXT_PUBLIC_LIVEKIT_URL}
         token={token}
         onConnectFailure={(reason) => {

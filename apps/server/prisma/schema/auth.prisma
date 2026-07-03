@@ -2,6 +2,7 @@ model User {
   id            String  @id
   name          String
   email         String  @unique
+  friendTag     String  @unique
   emailVerified Boolean @default(false)
   image         String?
 
@@ -13,6 +14,12 @@ model User {
   profile  Profile?
   rooms    Room[]
   messages Message[]
+
+  dmRoomsA Room[]    @relation("DmUserA")
+  dmRoomsB Room[]    @relation("DmUserB")
+  
+  friendshipsRequested Friendship[] @relation("FriendshipRequester")
+  friendshipsReceived  Friendship[] @relation("FriendshipAddressee")
 
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @db.Timestamptz(3)

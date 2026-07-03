@@ -4,13 +4,13 @@ import { MessageSquare } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/shared/lib/cn';
 import { Button } from '@/shared/ui';
-import { useChatUnread } from '@/widgets/room/chat';
+import { useChatUnread } from '@/widgets/chat/chat-panel';
 import { voiceRoomChatButtonStyles as s } from './VoiceRoomChatButton.styles';
 import type { VoiceRoomChatButtonProps } from './VoiceRoomChatButton.types';
 
-export const VoiceRoomChatButton = ({ isOpen, onToggle }: VoiceRoomChatButtonProps) => {
+export const VoiceRoomChatButton = ({ roomId, isOpen, onToggle }: VoiceRoomChatButtonProps) => {
   const t = useTranslations('chat');
-  const unread = useChatUnread(isOpen);
+  const unread = useChatUnread(roomId, isOpen);
 
   return (
     <div className={s.wrap}>

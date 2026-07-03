@@ -23,11 +23,12 @@ export const resolveDisplayName = ({
 };
 
 export const toUserProfile = (user: UserWithProfile): UserProfile => {
-  const { id, name, email, image, verified, profile } = user;
+  const { id, name, email, image, verified, profile, friendTag } = user;
 
   return {
     id,
     name: resolveDisplayName({ displayName: profile?.displayName, name, email, userId: id }),
+    friendTag,
     avatarUrl: resolveString(profile?.avatarUrl) ?? resolveString(image),
     profileUrl: resolveString(profile?.profileUrl),
     bannerColor: resolveString(profile?.bannerColor),

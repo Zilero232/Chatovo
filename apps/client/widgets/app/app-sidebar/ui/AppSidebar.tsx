@@ -2,6 +2,7 @@
 
 import { isTauri } from '@tauri-apps/api/core';
 import { isTauriDesktop } from '@/shared/lib';
+import { FriendsDialog } from '@/widgets/social/friends-dialog';
 import { appSidebarStyles as s } from './AppSidebar.styles';
 import {
   CheckUpdateButton,
@@ -25,6 +26,7 @@ export const AppSidebar = ({
       <ToggleChannelsButton opened={channelsOpened} onToggle={onToggleChannels} />
     )}
     <LobbyButton onNavigate={onNavigate} />
+    <FriendsDialog />
     {!isTauri() && <DownloadAppButton />}
     <div className={s.spacer} />
     <GithubButton />

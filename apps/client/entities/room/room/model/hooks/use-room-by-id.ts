@@ -21,5 +21,6 @@ export const useRoomById = (roomId: string | null) => {
     isError,
     displayName: room?.name ?? roomId ?? '',
     isPrivate: !!room?.isPrivate,
+    isDm: room?.kind === 'dm',
   };
 };

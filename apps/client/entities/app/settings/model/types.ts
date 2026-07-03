@@ -1,7 +1,14 @@
 import type { AudioCaptureOptions } from 'livekit-client';
 import type { ShortcutSettings } from '@/entities/app/shortcut';
 
-export type SoundCategory = 'join' | 'leave' | 'mute' | 'reconnect' | 'message' | 'reaction';
+export type SoundCategory =
+  | 'join'
+  | 'leave'
+  | 'mute'
+  | 'reconnect'
+  | 'message'
+  | 'reaction'
+  | 'call';
 
 export type MicActivationMode = 'voiceActivity' | 'pushToTalk';
 

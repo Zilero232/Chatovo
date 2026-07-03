@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const userProfileSchema = z.object({
   id: z.string(),
   name: z.string(),
+  friendTag: z.string(),
   avatarUrl: z.string().nullable().default(null),
   profileUrl: z.string().nullable().default(null),
   bannerColor: z.string().nullable().default(null),

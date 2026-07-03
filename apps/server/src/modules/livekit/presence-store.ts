@@ -1,9 +1,7 @@
+import { emitPresenceSnapshot } from '../realtime/emit';
 import type { RoomParticipant, RoomsParticipantsSnapshot } from '@chatovo/schemas';
 
-type Listener = (snapshot: RoomsParticipantsSnapshot) => void;
-
 const rooms = new Map<string, Map<string, RoomParticipant>>();
-const listeners = new Set<Listener>();
 
 // Lobby presence: per-user connection counter. A user opens N tabs → counter
 // goes to N; closing N-1 keeps them online; closing the last evicts them.
@@ -22,22 +20,10 @@ const buildSnapshot = (): RoomsParticipantsSnapshot => {
 };
 
 const emit = () => {
-  const snapshot = buildSnapshot();
-
-  for (const listener of listeners) {
-    listener(snapshot);
-  }
+  emitPresenceSnapshot(buildSnapshot());
 };
 
 export const getSnapshot = buildSnapshot;
-
-export const subscribe = (listener: Listener): (() => void) => {
-  listeners.add(listener);
-
-  return () => {
-    return listeners.delete(listener);
-  };
-};
 
 export const addLobbyConnection = (userId: string) => {
   const current = lobbyConnections.get(userId) ?? 0;

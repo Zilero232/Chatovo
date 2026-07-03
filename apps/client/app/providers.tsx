@@ -3,11 +3,15 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { setLogLevel } from 'livekit-client';
-import { LeaveSoundProvider, RoomsPresenceProvider } from '@/entities/room/room';
+import { RealtimeProvider } from '@/entities/app/realtime';
+import { LeaveSoundProvider } from '@/entities/room/room';
+import { FriendsRealtimeSync } from '@/entities/social/friend';
+import { FriendChatProvider } from '@/features/social/friend-chat';
 import { queryClient } from '@/shared/api';
 import { isTauriDesktop } from '@/shared/lib';
 import { Toaster, TooltipProvider } from '@/shared/ui';
 import { TitleBar } from '@/widgets/app/title-bar';
+import { ChatRealtimeSync } from '@/widgets/chat/chat-panel';
 import {
   AuthProvider,
   DeepLinkProvider,
@@ -37,9 +41,13 @@ export const Providers = ({ children }: { children: ReactNode }) => (
                 <UpdateProvider>
                   <DeepLinkProvider>
                     <AuthProvider>
-                      <RoomsPresenceProvider>
-                        <LeaveSoundProvider>{children}</LeaveSoundProvider>
-                      </RoomsPresenceProvider>
+                      <RealtimeProvider>
+                        <FriendChatProvider>
+                          <FriendsRealtimeSync />
+                          <ChatRealtimeSync />
+                          <LeaveSoundProvider>{children}</LeaveSoundProvider>
+                        </FriendChatProvider>
+                      </RealtimeProvider>
                     </AuthProvider>
                   </DeepLinkProvider>
                 </UpdateProvider>

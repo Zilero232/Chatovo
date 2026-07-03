@@ -1,6 +1,7 @@
 import { HTTPException } from 'hono/http-exception';
 import { StatusCodes } from 'http-status-codes';
 import { isNullish } from 'remeda';
+import { assertCanAccessDmRoom } from '../../lib';
 import { createRoom, deleteRoom, getRoom, listRooms, updateRoom } from './rooms.service';
 import type { RouteHandler } from '@hono/zod-openapi';
 import type { Env } from '../../shared/types';
@@ -18,7 +19,9 @@ export const listRoomsHandler: RouteHandler<typeof listRoomsRoute, Env> = async 
 
 export const getRoomHandler: RouteHandler<typeof getRoomRoute, Env> = async (c) => {
   const { id } = c.req.valid('param');
+  const userId = c.get('userId');
 
+  await assertCanAccessDmRoom(id, userId);
   const room = await getRoom(id);
 
   if (isNullish(room)) {

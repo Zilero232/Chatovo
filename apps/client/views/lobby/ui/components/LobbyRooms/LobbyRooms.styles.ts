@@ -1,11 +1,11 @@
 export const lobbyRoomsStyles = {
-  root: 'flex flex-col gap-3',
+  root: 'flex flex-col gap-5',
 
   bar: 'flex flex-wrap items-center justify-between gap-3',
-  heading: 'font-semibold text-base text-foreground/90',
+  heading: 'font-semibold text-base text-foreground',
 
   searchField:
-    'group relative flex h-10 w-full items-center gap-2 rounded-xl border border-white/12 bg-white/5 pr-2 pl-3.5 shadow-inner shadow-black/20 backdrop-blur-md transition-all hover:border-white/20 focus-within:border-brand-cyan/60 focus-within:bg-white/8 focus-within:ring-2 focus-within:ring-brand-cyan/25 sm:w-72',
+    'group relative flex h-10 w-full items-center gap-2 rounded-xl border border-white/12 bg-white/4 pr-2 pl-3.5 backdrop-blur-sm transition-colors focus-within:border-brand-cyan/50 focus-within:ring-2 focus-within:ring-brand-cyan/20 sm:w-72',
   searchIcon:
     'size-4 shrink-0 text-muted-foreground transition-colors group-focus-within:text-brand-cyan',
   searchInput:
@@ -14,18 +14,17 @@ export const lobbyRoomsStyles = {
     'hidden shrink-0 items-center gap-1 rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground sm:flex',
 
   sections: 'flex flex-col gap-6',
-  section:
-    'flex animate-in flex-col gap-3 fill-mode-both fade-in slide-in-from-bottom-3 duration-500',
+  section: 'flex flex-col gap-3',
   sectionHeader: 'flex items-center gap-3',
-  sectionLabel: 'shrink-0 font-semibold text-foreground/70 text-xs uppercase tracking-[0.14em]',
+  sectionLabel: 'shrink-0 font-medium text-foreground/60 text-xs uppercase tracking-[0.12em]',
   sectionCount:
-    'flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 px-1.5 font-semibold text-[10px] text-muted-foreground tabular-nums',
-  sectionRule: 'h-px flex-1 bg-linear-to-r from-white/10 to-transparent',
+    'flex h-5 min-w-5 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/5 px-1.5 font-medium text-[10px] text-muted-foreground tabular-nums',
+  sectionRule: 'h-px flex-1 bg-white/8',
 
-  grid: 'grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5',
+  grid: 'grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
 
-  skeletonCard: 'min-h-[140px] rounded-2xl',
+  skeletonCard: 'min-h-[132px] rounded-xl',
 
-  cardAnim: 'animate-in fade-in slide-in-from-bottom-2 fill-mode-both duration-300',
+  cardAnim: 'animate-in fade-in duration-300',
   nothingFoundState: 'py-8',
 } as const;

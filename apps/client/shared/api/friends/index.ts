@@ -1,0 +1,18 @@
+export {
+  acceptFriendRequest,
+  acceptIncomingFriendCall,
+  ackOutgoingFriendCall,
+  cancelOutgoingFriendCall,
+  declineFriendRequest,
+  declineIncomingFriendCall,
+  findFriendByTag,
+  getFriendshipRelation,
+  getIncomingFriendCall,
+  getOrCreateFriendDmRoom,
+  getOutgoingFriendCall,
+  listFriends,
+  listIncomingFriendRequests,
+  removeFriendship,
+  ringFriendCall,
+  sendFriendRequest,
+} from './friends';

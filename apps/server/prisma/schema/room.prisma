@@ -1,18 +1,31 @@
+enum RoomKind {
+  group
+  dm
+}
+
 model Room {
   id String @id @default(dbgenerated("gen_random_uuid()"))
 
-  name      String  @unique
+  name      String   @unique
   password  String?
-  isPrivate Boolean @default(false) @map("is_private")
+  isPrivate Boolean  @default(false) @map("is_private")
+  kind      RoomKind @default(group)
 
-  ownerId String @map("owner_id")
-  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String  @map("owner_id")
+  dmUserAId String? @map("dm_user_a_id")
+  dmUserBId String? @map("dm_user_b_id")
+
+  owner     User    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  dmUserA   User?   @relation("DmUserA", fields: [dmUserAId], references: [id], onDelete: Cascade)
+  dmUserB   User?   @relation("DmUserB", fields: [dmUserBId], references: [id], onDelete: Cascade)
 
   messages Message[]
 
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
 
+  @@unique([kind, dmUserAId, dmUserBId])
   @@index([ownerId])
+  @@index([kind])
   @@map("rooms")
 }

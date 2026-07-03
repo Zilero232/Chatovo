@@ -21,6 +21,20 @@ export {
 } from './chat';
 export { reportProblemFormSchema, reportProblemSchema } from './feedback';
 export {
+  friendCallStreamSnapshotSchema,
+  friendEntrySchema,
+  friendListSchema,
+  friendRequestEntrySchema,
+  friendRequestListSchema,
+  friendshipRelationSchema,
+  friendUserSchema,
+  incomingFriendCallResponseSchema,
+  incomingFriendCallSchema,
+  outgoingFriendCallResponseSchema,
+  outgoingFriendCallSchema,
+  sendFriendRequestInputSchema,
+} from './friends';
+export {
   appDownloadsSchema,
   gitHubReleaseAssetSchema,
   gitHubReleaseListSchema,
@@ -29,12 +43,15 @@ export {
 export { safeJsonParse } from './json';
 export {
   participantMetadataSchema,
-  presenceStateRequestSchema,
   roomParticipantSchema,
   roomsParticipantsSnapshotSchema,
   tokenRequestSchema,
   tokenResponseSchema,
 } from './livekit';
+export {
+  realtimeClientMessageSchema,
+  realtimeServerMessageSchema,
+} from './realtime';
 export {
   createRoomInputSchema,
   roomPasswordSchema,
@@ -62,14 +79,26 @@ export type {
   SendMessageInput,
 } from './chat';
 export type { ReportProblemFormValues, ReportProblemValues } from './feedback';
+export type {
+  FriendCallStreamSnapshot,
+  FriendEntry,
+  FriendRequestEntry,
+  FriendshipRelation,
+  FriendUser,
+  IncomingFriendCall,
+  IncomingFriendCallResponse,
+  OutgoingFriendCall,
+  OutgoingFriendCallResponse,
+  SendFriendRequestInput,
+} from './friends';
 export type { AppDownloads, GitHubRelease, GitHubReleaseAsset } from './github';
 export type {
   ParticipantMetadata,
-  PresenceStateRequest,
   RoomParticipant,
   RoomsParticipantsSnapshot,
   TokenRequest,
   TokenResponse,
 } from './livekit';
+export type { RealtimeClientMessage, RealtimeServerMessage } from './realtime';
 export type { CreateRoomRequest, Room, UpdateRoomRequest } from './rooms';
 export type { UpdateProfilePayload, UserProfile } from './users';

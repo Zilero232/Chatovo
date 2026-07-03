@@ -1,13 +1,14 @@
 'use client';
 
 import { DeafenSyncController } from '../DeafenSyncController';
+import { LocalSpeakingController } from '../LocalSpeakingController';
 import { MicActivationController } from '../MicActivationController';
 import { MicStateController } from '../MicStateController';
+import { RoomChatSubscribeController } from '../RoomChatSubscribeController';
 import { RoomDeviceController } from '../RoomDeviceController';
 import { RoomSoundsController } from '../RoomSoundsController';
 import { RoomTrayController } from '../RoomTrayController';
 import { ShortcutActionsController } from '../ShortcutActionsController';
-import { VoiceGateController } from '../VoiceGateController';
 
 type RoomControllersProps = {
   roomId: string;
@@ -15,13 +16,14 @@ type RoomControllersProps = {
 
 export const RoomControllers = ({ roomId }: RoomControllersProps) => (
   <>
+    <RoomChatSubscribeController roomId={roomId} />
     <RoomDeviceController />
     <RoomTrayController />
     <ShortcutActionsController />
     <MicActivationController />
-    <VoiceGateController />
+    <LocalSpeakingController />
     <MicStateController roomId={roomId} />
-    <RoomSoundsController />
+    <RoomSoundsController roomId={roomId} />
     <DeafenSyncController />
   </>
 );

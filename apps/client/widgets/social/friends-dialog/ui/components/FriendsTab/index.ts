@@ -1,0 +1,1 @@
+export { FriendsTab } from './FriendsTab';

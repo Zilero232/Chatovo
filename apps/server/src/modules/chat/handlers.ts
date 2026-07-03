@@ -20,8 +20,9 @@ export const uploadAttachmentHandler: RouteHandler<typeof uploadAttachmentRoute,
   c,
 ) => {
   const { roomId, file } = c.req.valid('form');
+  const userId = c.get('userId');
 
-  return c.json(await uploadAttachment(roomId, file), StatusCodes.OK);
+  return c.json(await uploadAttachment(roomId, file, userId), StatusCodes.OK);
 };
 
 export const sendMessageHandler: RouteHandler<typeof sendMessageRoute, Env> = async (c) => {
@@ -31,7 +32,7 @@ export const sendMessageHandler: RouteHandler<typeof sendMessageRoute, Env> = as
 };
 
 export const listMessagesHandler: RouteHandler<typeof listMessagesRoute, Env> = async (c) => {
-  return c.json(await listMessages(c.req.valid('query')), StatusCodes.OK);
+  return c.json(await listMessages(c.req.valid('query'), c.get('userId')), StatusCodes.OK);
 };
 
 export const editMessageHandler: RouteHandler<typeof editMessageRoute, Env> = async (c) => {

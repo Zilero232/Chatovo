@@ -1,20 +1,15 @@
 import { createEventEmitter } from '@siberiacancode/reactuse';
 
 type AppBusEvents = {
-  // app update
   recheckUpdate: undefined;
   updateCheckSettled: undefined;
-  // voice / mic
   trayMuteToggle: undefined;
   muteToggle: undefined;
   deafenToggle: undefined;
   micActivated: undefined;
   pttKey: { phase: 'pressed' | 'released' };
   pttHold: { phase: 'pressed' | 'released' };
-  // chat
-  chatMessage: undefined;
   chatToggle: undefined;
-  // reactions
   reaction: undefined;
 };
 
@@ -46,8 +41,8 @@ const on = new Proxy({} as Subscribers, {
 
 /**
  * Typed app-wide event bus — fire-and-forget signals between decoupled parts
- * (tray ↔ voice room, shortcuts ↔ mic, chat ↔ sounds). Not state; use Zustand
- * for anything that has a value to read.
+ * (tray ↔ voice room, shortcuts ↔ mic). Not state; use Zustand for anything
+ * that has a value to read. WS-driven side effects use `useRealtimeMessage`.
  *
  * - `appEvents.emit.<event>(payload?)` — fire (payload omitted for void events).
  * - `appEvents.on.<event>(listener)` — subscribe; this is a React hook, call it

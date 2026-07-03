@@ -6,7 +6,11 @@ import type { CreateRoomRequest, UpdateRoomRequest } from '@chatovo/schemas';
 import type { Prisma } from '../../../generated';
 
 export const listRooms = () => {
-  return prisma.room.findMany({ orderBy: { createdAt: 'desc' }, select: roomSelect });
+  return prisma.room.findMany({
+    where: { kind: 'group' },
+    orderBy: { createdAt: 'desc' },
+    select: roomSelect,
+  });
 };
 
 export const getRoom = (id: string) => {

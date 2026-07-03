@@ -4,6 +4,7 @@ import { bearer } from 'better-auth/plugins';
 import { createElement } from 'react';
 import { allowedOrigins } from '../../config/cors';
 import { env, prisma } from '../../core';
+import { issueUniqueFriendTag } from '../../lib';
 import { ChangeEmail, ResetPassword, sendEmail, VerifyEmail } from '../email';
 import { notifyUserSignup } from '../telegram';
 import { authBaseURL } from './auth-base-url';
@@ -72,6 +73,13 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (user) => {
+          const friendTag = await issueUniqueFriendTag(user.name);
+
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { friendTag },
+          });
+
           await prisma.profile.create({
             data: { userId: user.id, displayName: user.name },
           });

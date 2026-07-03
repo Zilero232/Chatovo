@@ -1,4 +1,6 @@
+export { backfillMissingFriendTags, ensureUserFriendTag, issueUniqueFriendTag } from './friend-tag';
 export {
+  assertCanAccessDmRoom,
   assertCanManageRoom,
   assertRoomExists,
   getRoomName,
