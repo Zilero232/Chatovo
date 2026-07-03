@@ -1,20 +1,50 @@
 'use client';
 
-import { createContextHook } from '@siberiacancode/reactuse';
+import { createContextHook, useAudio } from '@siberiacancode/reactuse';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import { useEffect, useEffectEvent, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { sum, values } from 'remeda';
 import { toast } from 'sonner';
-import { useOutgoingFriendCall } from '@/entities/social/friend';
+import { useAppSettings } from '@/entities/app/settings';
+import { useCurrentUser } from '@/entities/auth/user';
 import { getOrCreateFriendDmRoom } from '@/shared/api';
 import { useCloseWhenInVoiceRoom } from '@/shared/hooks';
+import { appEvents } from '@/shared/lib';
 import type { ReactNode } from 'react';
 import type { FriendChatPeer, FriendChatSession } from '../types';
 
+const MESSAGE_SOUND_SRC = '/audios/notification.mp3';
+
 const useFriendChatState = () => {
   const t = useTranslations('friends');
+  const { user } = useCurrentUser();
+  const { settings } = useAppSettings();
+  const messageAudio = useAudio(MESSAGE_SOUND_SRC, { interrupt: true });
+
   const [session, setSession] = useState<FriendChatSession | null>(null);
   const [openingPeer, setOpeningPeer] = useState<FriendChatPeer | null>(null);
+  const [closeGuard, setCloseGuard] = useState(false);
+  const [unreadByFriend, setUnreadByFriend] = useState<Record<string, number>>({});
+
+  const dmUnread = sum(values(unreadByFriend));
+
+  const clearFriendUnread = (friendId: string) => {
+    setUnreadByFriend((prev) => {
+      if (!(friendId in prev)) {
+        return prev;
+      }
+
+      const next = { ...prev };
+      delete next[friendId];
+
+      return next;
+    });
+  };
+
+  const getFriendUnread = (friendId: string) => {
+    return unreadByFriend[friendId] ?? 0;
+  };
 
   const openMutation = useMutation({
     mutationFn: async (peer: FriendChatPeer) => {
@@ -25,6 +55,7 @@ const useFriendChatState = () => {
     onSuccess: ({ room, peer }) => {
       setSession({ roomId: room.id, peer });
       setOpeningPeer(null);
+      clearFriendUnread(peer.id);
     },
     onError: () => {
       setOpeningPeer(null);
@@ -38,25 +69,62 @@ const useFriendChatState = () => {
   };
 
   const close = () => {
+    setCloseGuard(true);
     setSession(null);
     setOpeningPeer(null);
   };
 
-  const { data: outgoingCall } = useOutgoingFriendCall();
-  const closeOnCall = useEffectEvent(close);
-
   useCloseWhenInVoiceRoom(close);
 
   useEffect(() => {
-    if (outgoingCall?.call) {
-      closeOnCall();
+    if (!closeGuard) {
+      return;
     }
-  }, [outgoingCall?.call]);
+
+    let innerId = 0;
+    const outerId = requestAnimationFrame(() => {
+      innerId = requestAnimationFrame(() => setCloseGuard(false));
+    });
+
+    return () => {
+      cancelAnimationFrame(outerId);
+      cancelAnimationFrame(innerId);
+    };
+  }, [closeGuard]);
+
+  useEffect(() => {
+    if (session?.peer.id) {
+      clearFriendUnread(session.peer.id);
+    }
+  }, [session?.peer.id]);
+
+  appEvents.on.chatMessage(({ roomId, senderId, roomKind }) => {
+    if (roomKind !== 'dm' || !senderId || senderId === user?.id || session?.roomId === roomId) {
+      return;
+    }
+
+    setUnreadByFriend((prev) => ({
+      ...prev,
+      [senderId]: (prev[senderId] ?? 0) + 1,
+    }));
+
+    if (!settings.sounds.enabled.message) {
+      return;
+    }
+
+    messageAudio.setVolume(settings.sounds.volume);
+    messageAudio.play();
+  });
+
+  const blocksParentDialogClose = session !== null || openingPeer !== null || closeGuard;
 
   return {
     session,
     openingPeer,
     isOpening: openMutation.isPending,
+    dmUnread,
+    getFriendUnread,
+    blocksParentDialogClose,
     open,
     close,
   };

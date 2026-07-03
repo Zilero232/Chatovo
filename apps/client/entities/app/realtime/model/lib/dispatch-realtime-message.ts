@@ -1,29 +1,23 @@
 import { realtimeServerMessageSchema, safeJsonParse } from '@chatovo/schemas';
-import { isString } from 'remeda';
 import { match } from 'ts-pattern';
+import { decodeRealtimePayload } from './decode-realtime-payload';
 import { publishRealtimeMessage } from './message-listeners';
 import type { RealtimeServerMessage, RoomsParticipantsSnapshot } from '@chatovo/schemas';
 
 const EMPTY_PRESENCE: RoomsParticipantsSnapshot = { rooms: {}, lobbyOnline: 0 };
 
-export const parseRealtimeServerMessage = (raw: unknown): RealtimeServerMessage | null => {
-  if (!isString(raw)) {
+export const parseRealtimeServerMessage = async (
+  raw: unknown,
+): Promise<RealtimeServerMessage | null> => {
+  const text = await decodeRealtimePayload(raw);
+
+  if (!text) {
     return null;
   }
 
-  const parsed = realtimeServerMessageSchema.safeParse(safeJsonParse(raw));
+  const parsed = realtimeServerMessageSchema.safeParse(safeJsonParse(text));
 
   return parsed.success ? parsed.data : null;
-};
-
-const shouldPublish = (message: RealtimeServerMessage): boolean => {
-  return (
-    message.type === 'friends.snapshot' ||
-    message.type === 'room.reaction' ||
-    message.type === 'chat.message' ||
-    message.type === 'chat.edit' ||
-    message.type === 'chat.delete'
-  );
 };
 
 export const dispatchRealtimeMessage = (
@@ -38,14 +32,9 @@ export const dispatchRealtimeMessage = (
     .with({ type: 'presence.snapshot' }, ({ snapshot }) => {
       setPresence(snapshot);
     })
-    .with({ type: 'friends.snapshot' }, () => {})
-    .with({ type: 'room.reaction' }, () => {})
-    .with({ type: 'chat.message' }, () => {})
-    .with({ type: 'chat.edit' }, () => {})
-    .with({ type: 'chat.delete' }, () => {})
-    .exhaustive();
+    .otherwise(() => {});
 
-  if (shouldPublish(message)) {
+  if (message.type !== 'presence.snapshot') {
     publishRealtimeMessage(message);
   }
 };

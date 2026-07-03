@@ -20,9 +20,10 @@ export const useRealtimeState = () => {
   const [isConnected, setIsConnected] = useState(false);
 
   const wsRef = useRef<WebSocket | null>(null);
+  const pendingSyncRef = useRef(false);
 
-  const handleMessage = useEffectEvent((raw: unknown) => {
-    const message = parseRealtimeServerMessage(raw);
+  const handleMessage = useEffectEvent(async (raw: unknown) => {
+    const message = await parseRealtimeServerMessage(raw);
 
     if (!message) {
       return;
@@ -37,9 +38,11 @@ export const useRealtimeState = () => {
     const ws = wsRef.current;
 
     if (!ws || ws.readyState !== WebSocket.OPEN) {
+      pendingSyncRef.current = true;
       return;
     }
 
+    pendingSyncRef.current = false;
     ws.send(JSON.stringify(buildSubscribeMessage()));
   });
 
@@ -60,6 +63,7 @@ export const useRealtimeState = () => {
       wsRef.current = null;
       setIsConnected(false);
       setPresence(emptyPresence());
+      pendingSyncRef.current = false;
 
       return;
     }
@@ -75,9 +79,12 @@ export const useRealtimeState = () => {
     const onOpen = () => {
       setIsConnected(true);
       syncRoomSubscriptions();
+      window.setTimeout(syncRoomSubscriptions, 0);
     };
     const onClose = () => setIsConnected(false);
-    const onMessage = (event: MessageEvent) => handleMessage(event.data);
+    const onMessage = (event: MessageEvent) => {
+      void handleMessage(event.data);
+    };
 
     ws.addEventListener('open', onOpen);
     ws.addEventListener('close', onClose);

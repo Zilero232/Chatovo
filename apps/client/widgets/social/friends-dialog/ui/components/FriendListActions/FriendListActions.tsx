@@ -2,12 +2,14 @@
 
 import { MessageSquare, Phone, UserMinus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { cn } from '@/shared/lib';
 import { Button } from '@/shared/ui';
 import { friendListActionsStyles as s } from './FriendListActions.styles';
 import type { FriendListActionsProps } from './FriendListActions.types';
 
 export const FriendListActions = ({
   user,
+  dmUnread = 0,
   isCallPending,
   onMessage,
   onCall,
@@ -18,10 +20,17 @@ export const FriendListActions = ({
   return (
     <div className={s.root}>
       <div className={s.primary}>
-        <Button className={s.action} size="sm" variant="outline" onClick={() => onMessage(user)}>
-          <MessageSquare aria-hidden />
-          {t('messageFriend')}
-        </Button>
+        <div className={s.messageWrap}>
+          <Button className={s.action} size="sm" variant="outline" onClick={() => onMessage(user)}>
+            <MessageSquare aria-hidden />
+            {t('messageFriend')}
+          </Button>
+          {dmUnread > 0 && (
+            <span aria-live="polite" className={cn(s.messageBadge, s.messageBadgePulse)}>
+              {dmUnread > 99 ? '99+' : dmUnread}
+            </span>
+          )}
+        </div>
 
         <Button
           className={s.action}

@@ -10,6 +10,7 @@ type AppBusEvents = {
   pttKey: { phase: 'pressed' | 'released' };
   pttHold: { phase: 'pressed' | 'released' };
   chatToggle: undefined;
+  chatMessage: { roomId: string; senderId: string | null; roomKind: 'group' | 'dm' };
   reaction: undefined;
 };
 

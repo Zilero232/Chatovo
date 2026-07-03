@@ -605,7 +605,7 @@ entities/room/model/
 
 **Подсистема → папка.** Provider + context + хук (либо хук + 2+ модуля только для него) → отдельная папка с `index.ts` (напр. `rooms-presence/`). Хуки/контексты слайса группируются в `model/hooks/`, `model/contexts/` (см. barrel-правило ниже). Совсем плоский `model/` (1-2 файла без подпапок) допустим для мелких слайсов.
 
-**Группировка внутри `model/`.** Когда в слайсе много `model`-файлов, группируй их в подпапки по природе (`model/contexts/`, `model/hooks/`, `model/stores/`, `model/lib/`) — см. `features/room/room-control`, `widgets/room/chat`. Это организация **внутри** сегмента `model/`, не отдельный top-level сегмент `hooks/` (тот запрещён, см. ниже).
+**Группировка внутри `model/`.** Когда в слайсе много `model`-файлов, группируй их в подпапки по природе (`model/contexts/`, `model/hooks/`, `model/stores/`, `model/lib/`) — см. `features/room/room-control`, `widgets/chat/chat-panel`. Это организация **внутри** сегмента `model/`, не отдельный top-level сегмент `hooks/` (тот запрещён, см. ниже).
 
 **Barrel-правило `model/`.** У каждой подпапки `model/` — свой `index.ts` (`model/hooks/index.ts`, `model/contexts/index.ts`, `model/stores/index.ts`). **Slice-level `model/index.ts` НЕ создаём.** Импорт снаружи подпапки — через её barrel:
 

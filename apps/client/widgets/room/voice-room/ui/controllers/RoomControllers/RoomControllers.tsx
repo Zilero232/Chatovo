@@ -4,7 +4,6 @@ import { DeafenSyncController } from '../DeafenSyncController';
 import { LocalSpeakingController } from '../LocalSpeakingController';
 import { MicActivationController } from '../MicActivationController';
 import { MicStateController } from '../MicStateController';
-import { RoomChatSubscribeController } from '../RoomChatSubscribeController';
 import { RoomDeviceController } from '../RoomDeviceController';
 import { RoomSoundsController } from '../RoomSoundsController';
 import { RoomTrayController } from '../RoomTrayController';
@@ -16,7 +15,6 @@ type RoomControllersProps = {
 
 export const RoomControllers = ({ roomId }: RoomControllersProps) => (
   <>
-    <RoomChatSubscribeController roomId={roomId} />
     <RoomDeviceController />
     <RoomTrayController />
     <ShortcutActionsController />

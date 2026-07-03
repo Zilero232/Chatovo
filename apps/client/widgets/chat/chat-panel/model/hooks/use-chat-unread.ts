@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRealtimeMessage } from '@/entities/app/realtime';
 import { useCurrentUser } from '@/entities/auth/user';
+import { appEvents } from '@/shared/lib';
 
 export const useChatUnread = (roomId: string, isOpen: boolean) => {
   const { user } = useCurrentUser();
+
   const [unread, setUnread] = useState(0);
 
   useEffect(() => {
@@ -14,12 +15,8 @@ export const useChatUnread = (roomId: string, isOpen: boolean) => {
     }
   }, [isOpen]);
 
-  useRealtimeMessage((message) => {
-    if (message.type !== 'chat.message' || message.roomId !== roomId || isOpen) {
-      return;
-    }
-
-    if (message.message.senderId === user?.id) {
+  appEvents.on.chatMessage(({ roomId: eventRoomId, senderId, roomKind }) => {
+    if (roomKind !== 'group' || eventRoomId !== roomId || isOpen || senderId === user?.id) {
       return;
     }
 

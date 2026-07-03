@@ -24,11 +24,11 @@ export const handleClientMessage = async (
 
   await match(parsed.data)
     .with({ op: 'subscribe' }, async ({ rooms }) => {
+      setConnectionRooms(connection.id, rooms);
+
       for (const roomId of rooms) {
         await assertRoomExists(roomId);
       }
-
-      setConnectionRooms(connection.id, rooms);
     })
     .with({ op: 'presence.patch' }, ({ roomId, micMuted, deafened }) => {
       patchParticipant(roomId, connection.userId, { micMuted, deafened });
