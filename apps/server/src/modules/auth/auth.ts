@@ -67,19 +67,27 @@ export const auth = betterAuth({
         defaultValue: false,
         input: false,
       },
+      friendTag: {
+        type: 'string',
+        required: false,
+        input: false,
+      },
     },
   },
   databaseHooks: {
     user: {
       create: {
-        after: async (user) => {
+        before: async (user) => {
           const friendTag = await issueUniqueFriendTag(user.name);
 
-          await prisma.user.update({
-            where: { id: user.id },
-            data: { friendTag },
-          });
-
+          return {
+            data: {
+              ...user,
+              friendTag,
+            },
+          };
+        },
+        after: async (user) => {
           await prisma.profile.create({
             data: { userId: user.id, displayName: user.name },
           });
