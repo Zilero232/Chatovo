@@ -1,3 +1,4 @@
+import { sendIncomingCallPush } from '../push/push.service';
 import { emitFriendsSnapshot } from '../realtime/emit';
 import type { FriendCallStreamSnapshot, FriendUser } from '@chatovo/schemas';
 
@@ -104,6 +105,12 @@ export const setPendingCall = (input: {
   byCaller.set(input.caller.id, pending);
 
   emitUsers([input.calleeId, input.caller.id]);
+
+  void sendIncomingCallPush({
+    calleeId: input.calleeId,
+    caller: input.caller,
+    roomId: input.roomId,
+  });
 };
 
 export const getPendingCallForCallee = (calleeId: string): PendingFriendCall | null => {

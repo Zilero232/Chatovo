@@ -146,6 +146,12 @@ export const sendToUser = (userId: string, message: RealtimeServerMessage): void
   }
 };
 
+export const hasUserConnection = (userId: string): boolean => {
+  const userConnections = byUser.get(userId);
+
+  return (userConnections?.size ?? 0) > 0;
+};
+
 export const sendToRoom = (roomId: string, message: RealtimeServerMessage): void => {
   const roomConnections = byRoom.get(roomId);
 

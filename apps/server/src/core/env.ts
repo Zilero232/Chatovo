@@ -44,6 +44,11 @@ const envSchema = z.object({
   // Unset = direct connection.
   TELEGRAM_PROXY_URL: z.string().min(1).optional(),
 
+  // Optional Firebase service account JSON (stringified) for FCM push on mobile.
+  // Leave unset to disable push — register/unregister endpoints still work but
+  // no notifications are sent.
+  FIREBASE_SERVICE_ACCOUNT: z.string().min(1).optional(),
+
   // Public origin where uploaded files are served from (e.g. https://api.chatovo.ru).
   // Used to build absolute URLs stored in the DB and returned to clients.
   PUBLIC_FILES_URL: z.url().default('http://localhost:4000'),

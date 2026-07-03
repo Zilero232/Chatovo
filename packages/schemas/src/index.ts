@@ -49,6 +49,11 @@ export {
   tokenResponseSchema,
 } from './livekit';
 export {
+  pushPlatformSchema,
+  registerPushDeviceInputSchema,
+  unregisterPushDeviceInputSchema,
+} from './push';
+export {
   realtimeClientMessageSchema,
   realtimeServerMessageSchema,
 } from './realtime';
@@ -99,6 +104,7 @@ export type {
   TokenRequest,
   TokenResponse,
 } from './livekit';
+export type { PushPlatform, RegisterPushDeviceInput, UnregisterPushDeviceInput } from './push';
 export type { RealtimeClientMessage, RealtimeServerMessage } from './realtime';
 export type { CreateRoomRequest, Room, UpdateRoomRequest } from './rooms';
 export type { UpdateProfilePayload, UserProfile } from './users';

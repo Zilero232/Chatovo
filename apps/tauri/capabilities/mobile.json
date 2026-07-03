@@ -10,6 +10,7 @@
     "opener:default",
     "process:default",
     "deep-link:default",
-    "safe-area-insets-css:default"
+    "safe-area-insets-css:default",
+    "fcm:default"
   ]
 }

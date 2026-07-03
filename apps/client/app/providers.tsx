@@ -6,6 +6,7 @@ import { setLogLevel } from 'livekit-client';
 import { RealtimeProvider } from '@/entities/app/realtime';
 import { LeaveSoundProvider } from '@/entities/room/room';
 import { FriendsRealtimeSync } from '@/entities/social/friend';
+import { PushRegistration } from '@/features/app/push-notifications';
 import { FriendChatProvider } from '@/features/social/friend-chat';
 import { queryClient } from '@/shared/api';
 import { isTauriDesktop } from '@/shared/lib';
@@ -43,6 +44,7 @@ export const Providers = ({ children }: { children: ReactNode }) => (
                     <AuthProvider>
                       <RealtimeProvider>
                         <FriendChatProvider>
+                          <PushRegistration />
                           <FriendsRealtimeSync />
                           <ChatRealtimeSync />
                           <LeaveSoundProvider>{children}</LeaveSoundProvider>

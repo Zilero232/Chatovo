@@ -18,6 +18,8 @@ model User {
   dmRoomsA Room[]    @relation("DmUserA")
   dmRoomsB Room[]    @relation("DmUserB")
   
+  pushDevices          PushDevice[]
+  
   friendshipsRequested Friendship[] @relation("FriendshipRequester")
   friendshipsReceived  Friendship[] @relation("FriendshipAddressee")
 
