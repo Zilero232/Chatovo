@@ -16,7 +16,7 @@ fn main() {
     tauri_utils::build::update_android_manifest(
         "POST NOTIFICATIONS",
         "manifest",
-        r#"<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />"#,
+        r#"<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />"#.to_string(),
     )
     .expect("failed to update AndroidManifest.xml for POST_NOTIFICATIONS");
 }
