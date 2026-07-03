@@ -13,6 +13,8 @@ export const ChannelsLobbyBanner = () => {
   return (
     <div className={s.root}>
       <div className={s.card}>
+        <span aria-hidden className={s.cardGlow} />
+        <span aria-hidden className={s.cardWash} />
         <div className={s.iconBox}>
           <AudioLines className={s.icon} />
         </div>

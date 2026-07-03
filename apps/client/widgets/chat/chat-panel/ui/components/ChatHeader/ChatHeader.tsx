@@ -11,6 +11,7 @@ export const ChatHeader = ({ onClose }: ChatHeaderProps) => {
 
   return (
     <header className={s.root}>
+      <span aria-hidden className={s.accent} />
       <div className={s.title}>
         <MessageSquare className={s.icon} />
         <span>{t('title')}</span>

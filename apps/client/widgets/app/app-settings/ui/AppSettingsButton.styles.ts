@@ -1,10 +1,12 @@
 export const appSettingsStyles = {
-  content: 'flex max-h-dvh-safe flex-col gap-4 p-4 sm:max-w-3xl sm:p-6',
+  content:
+    'flex max-h-dvh-safe flex-col gap-4 border-white/12 bg-shell-surface/95 p-4 backdrop-blur-xl sm:max-w-3xl sm:p-6',
 
   tabs: 'flex min-h-0 flex-1 flex-col gap-3 sm:flex-row sm:gap-4',
   tabsList:
-    'flex w-full shrink-0 flex-row items-stretch justify-start gap-1 overflow-x-auto rounded-xl border border-white/10 bg-white/5 p-1 backdrop-blur-md scrollbar-none sm:h-auto sm:w-48 sm:flex-col sm:self-start',
-  tabsTrigger: 'shrink-0 justify-start gap-2 px-3 py-1.5 sm:w-full',
+    'flex w-full shrink-0 flex-row items-stretch justify-start gap-1 overflow-x-auto rounded-xl border border-white/10 bg-white/5 p-1 shadow-[inset_0_1px_0_oklch(1_0_0/0.06)] backdrop-blur-md scrollbar-none sm:h-auto sm:w-48 sm:flex-col sm:self-start',
+  tabsTrigger:
+    'shrink-0 justify-start gap-2 px-3 py-1.5 data-[state=active]:bg-white/10 data-[state=active]:shadow-[0_0_16px_-6px_oklch(0.7_0.2_270/0.5)] sm:w-full',
   tabAlertDot: 'size-1.5 shrink-0 rounded-full bg-amber-400',
   settingsButtonAlert: 'relative',
   settingsAlertDot:

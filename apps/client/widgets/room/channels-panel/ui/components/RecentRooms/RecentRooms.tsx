@@ -49,6 +49,7 @@ export const RecentRooms = ({ onNavigate, variant = 'list' }: RecentRoomsProps =
             <button
               key={room.id}
               className={isStrip ? s.stripItem : s.item}
+              data-live={live}
               type="button"
               onClick={() => navigate(room.id)}
             >

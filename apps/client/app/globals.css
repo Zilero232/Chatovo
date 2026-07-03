@@ -358,6 +358,84 @@ html.tauri-desktop {
     background-clip: text;
     color: transparent;
   }
+
+  .lobby-ambience {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .lobby-ambience-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    will-change: transform;
+    animation: aurora-drift 24s ease-in-out infinite;
+  }
+
+  .lobby-ambience-orb-violet {
+    top: -8%;
+    right: 8%;
+    width: 22rem;
+    height: 22rem;
+    background: radial-gradient(circle, oklch(0.7 0.2 270 / 0.35), transparent 68%);
+  }
+
+  .lobby-ambience-orb-cyan {
+    bottom: 12%;
+    left: -4%;
+    width: 18rem;
+    height: 18rem;
+    background: radial-gradient(circle, oklch(0.82 0.16 200 / 0.28), transparent 68%);
+    animation-duration: 30s;
+    animation-direction: reverse;
+  }
+
+  .lobby-header-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, oklch(1 0 0 / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(1 0 0 / 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 90% 80% at 30% 20%, black, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 80% at 30% 20%, black, transparent 75%);
+  }
+
+  .accent-top-line {
+    pointer-events: none;
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      oklch(0.7 0.2 270 / 0),
+      oklch(0.82 0.16 200 / 0.65),
+      oklch(0.74 0.25 330 / 0)
+    );
+  }
+
+  .surface-bar {
+    border-color: oklch(1 0 0 / 8%);
+    background-color: oklch(1 0 0 / 3%);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+  }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      oklch(1 0 0 / 0.05) 0%,
+      oklch(0.82 0.16 200 / 0.14) 45%,
+      oklch(0.7 0.2 270 / 0.1) 55%,
+      oklch(1 0 0 / 0.05) 100%
+    );
+    background-size: 220% 100%;
+    animation: shimmer-slide 1.9s ease-in-out infinite;
+  }
 }
 
 @keyframes aurora-drift {
@@ -372,6 +450,15 @@ html.tauri-desktop {
   }
   100% {
     transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes shimmer-slide {
+  0% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -120% 0;
   }
 }
 
@@ -473,8 +560,14 @@ html.tauri-desktop {
   }
   .auth-aurora::before,
   .auth-aurora::after,
+  .auth-orb,
+  .lobby-ambience-orb,
   .auth-orb {
     animation: none;
+  }
+  .shimmer {
+    animation: none;
+    background: oklch(1 0 0 / 0.08);
   }
 }
 

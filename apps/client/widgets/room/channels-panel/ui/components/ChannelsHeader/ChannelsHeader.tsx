@@ -18,6 +18,7 @@ export const ChannelsHeader = ({ compact = false }: ChannelsHeaderProps = {}) =>
 
     return (
       <div className={s.root}>
+        <span aria-hidden className={s.accent} />
         <span className={s.adminBadge}>admin</span>
       </div>
     );
@@ -25,6 +26,7 @@ export const ChannelsHeader = ({ compact = false }: ChannelsHeaderProps = {}) =>
 
   return (
     <div className={s.root}>
+      <span aria-hidden className={s.accent} />
       <div className={s.titleGroup}>
         <span className={s.title}>Chatovo</span>
         {isAdmin && <span className={s.adminBadge}>admin</span>}

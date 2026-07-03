@@ -19,9 +19,13 @@ export const LobbyHeader = () => {
   const lobbyOnline = useLobbyOnline();
 
   const liveRooms = rooms.filter((room) => (presence[room.id]?.length ?? 0) > 0).length;
+  const welcome = t('welcome', { name: displayName });
+  const canHighlightName = displayName.length > 0 && welcome.includes(displayName);
+  const welcomeLead = canHighlightName ? welcome.split(displayName)[0] : welcome;
 
   return (
     <div className={s.root}>
+      <div aria-hidden className={s.grid} />
       <div aria-hidden className={s.accent} />
       <div aria-hidden className={s.wash} />
       <div aria-hidden className={s.washAlt} />
@@ -39,7 +43,16 @@ export const LobbyHeader = () => {
             </div>
 
             <div className={s.text}>
-              <h2 className={s.title}>{t('welcome', { name: displayName })}</h2>
+              <h2 className={s.title}>
+                {canHighlightName ? (
+                  <>
+                    {welcomeLead}
+                    <span className={s.titleName}>{displayName}</span>
+                  </>
+                ) : (
+                  <span className={s.titleName}>{welcomeLead}</span>
+                )}
+              </h2>
               <p className={s.subtitle}>{t('subtitle')}</p>
             </div>
           </div>
@@ -56,8 +69,9 @@ export const LobbyHeader = () => {
         </div>
 
         <div className={s.stats}>
-          <div className={s.stat}>
-            <span className={s.statIconWrap}>
+          <div className={s.stat} data-tone="rooms">
+            <span aria-hidden className={s.statGlow} data-tone="rooms" />
+            <span className={s.statIconWrap} data-tone="rooms">
               <Users className={s.statIconMuted} />
             </span>
             <span className={s.statTextWrap}>
@@ -66,8 +80,9 @@ export const LobbyHeader = () => {
             </span>
           </div>
 
-          <div className={s.stat}>
-            <span className={s.statIconWrap}>
+          <div className={s.stat} data-tone="live">
+            <span aria-hidden className={s.statGlow} data-tone="live" />
+            <span className={s.statIconWrap} data-tone="live">
               <Radio className={liveRooms > 0 ? s.statIconLive : s.statIconMuted} />
             </span>
             <span className={s.statTextWrap}>
@@ -76,8 +91,9 @@ export const LobbyHeader = () => {
             </span>
           </div>
 
-          <div className={s.stat}>
-            <span className={s.statIconWrap}>
+          <div className={s.stat} data-tone="online">
+            <span aria-hidden className={s.statGlow} data-tone="online" />
+            <span className={s.statIconWrap} data-tone="online">
               <span className={s.statPulse} />
             </span>
             <span className={s.statTextWrap}>

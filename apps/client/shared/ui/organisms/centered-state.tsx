@@ -20,7 +20,7 @@ const iconBoxVariants = cva(
   {
     variants: {
       size: {
-        sm: 'size-10',
+        sm: 'size-10 shadow-[0_0_20px_-8px_oklch(0.7_0.2_270/0.5)]',
         md: 'size-14 shadow-glow-violet',
       },
     },

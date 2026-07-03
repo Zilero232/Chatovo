@@ -1,5 +1,6 @@
 export const channelsHeaderStyles = {
-  root: 'flex h-14 shrink-0 items-center justify-between border-b border-white/8 px-4',
+  root: 'surface-bar relative flex h-14 shrink-0 items-center justify-between border-b px-4',
+  accent: 'accent-top-line',
   titleGroup: 'flex items-center gap-2',
   title: 'font-bold text-base text-foreground tracking-tight',
   adminBadge:

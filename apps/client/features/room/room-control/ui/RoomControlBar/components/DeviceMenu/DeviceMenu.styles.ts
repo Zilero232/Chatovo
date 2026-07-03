@@ -1,7 +1,7 @@
 export const deviceMenuStyles = {
   trigger:
-    'absolute -bottom-1 left-1/2 flex h-4 w-7 -translate-x-1/2 items-center justify-center rounded-full border border-white/10 bg-background text-muted-foreground outline-hidden transition-colors hover:bg-white/10 hover:text-foreground focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-40 data-[state=open]:bg-white/10 data-[state=open]:text-foreground [&[data-state=open]_svg]:rotate-180',
-  triggerIcon: 'size-3 transition-transform',
+    'flex h-3 w-full shrink-0 items-center justify-center border-white/10 border-t bg-black/30 text-muted-foreground outline-hidden transition-colors hover:bg-white/10 hover:text-foreground focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan disabled:opacity-40 data-[state=open]:bg-white/10 data-[state=open]:text-foreground sm:h-3.5 [&[data-state=open]_svg]:rotate-180',
+  triggerIcon: 'size-2.5 transition-transform',
   menu: 'w-72 p-1.5',
   header: 'flex items-center gap-2 px-1.5 pt-1 pb-2 text-muted-foreground',
   headerIcon: 'size-3.5 shrink-0',

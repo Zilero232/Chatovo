@@ -2,7 +2,7 @@
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
 import { DeviceMenu } from '../DeviceMenu';
-import { controlButton, controlButtonStyles as s } from './ControlButton.styles';
+import { controlButton, controlMain, controlShell } from './ControlButton.styles';
 import type { ControlButtonProps } from './ControlButton.types';
 
 export const ControlButton = ({
@@ -14,8 +14,8 @@ export const ControlButton = ({
   device,
   onClick,
 }: ControlButtonProps) => {
-  return (
-    <div className={s.group}>
+  if (!device) {
+    return (
       <Tooltip>
         <TooltipTrigger asChild>
           <button
@@ -31,8 +31,28 @@ export const ControlButton = ({
         </TooltipTrigger>
         <TooltipContent>{label}</TooltipContent>
       </Tooltip>
+    );
+  }
 
-      {device && <DeviceMenu kind={device.kind} label={device.label} slot={device.slot} />}
+  return (
+    <div className={controlShell({ tone })}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            aria-label={label}
+            aria-pressed={pressed}
+            className={controlMain({ tone })}
+            disabled={disabled}
+            type="button"
+            onClick={onClick}
+          >
+            {icon}
+          </button>
+        </TooltipTrigger>
+        <TooltipContent>{label}</TooltipContent>
+      </Tooltip>
+
+      <DeviceMenu kind={device.kind} label={device.label} slot={device.slot} />
     </div>
   );
 };

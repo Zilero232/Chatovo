@@ -1,5 +1,6 @@
 export const chatHeaderStyles = {
-  root: 'flex items-center justify-between border-b border-white/8 px-4 py-3',
+  root: 'surface-bar relative flex items-center justify-between border-b px-4 py-3',
+  accent: 'accent-top-line',
   title: 'flex items-center gap-2 font-semibold text-sm',
   icon: 'size-4 text-brand-cyan',
 } as const;

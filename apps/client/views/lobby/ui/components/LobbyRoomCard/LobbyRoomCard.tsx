@@ -1,6 +1,6 @@
 'use client';
 
-import { Lock } from 'lucide-react';
+import { Lock, Radio } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { UserAvatar, useCurrentUser } from '@/entities/auth/user';
@@ -30,7 +30,13 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
 
   return (
     <div className={s.root} data-live={isLive}>
-      {isLive && <span aria-hidden className={s.liveAccent} />}
+      {isLive && (
+        <>
+          <span aria-hidden className={s.liveGlow} />
+          <span aria-hidden className={s.liveAccent} />
+          <Radio aria-hidden className={s.watermark} />
+        </>
+      )}
 
       <button
         className={s.enter()}

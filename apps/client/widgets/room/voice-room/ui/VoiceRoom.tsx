@@ -83,12 +83,17 @@ export const VoiceRoom = ({
                 <RoomHeader isDm={isDm} name={roomName} roomId={roomId} />
 
                 <div className={s.body}>
+                  <div aria-hidden className={s.ambience}>
+                    <span className={s.orbViolet} />
+                    <span className={s.orbCyan} />
+                  </div>
                   <ParticipantsView isDm={isDm} roomId={roomId} />
                   <ReactionsOverlay />
                   <ConnectingOverlay roomName={roomName} />
                 </div>
 
                 <div className={s.controls}>
+                  <span aria-hidden className={s.controlsAccent} />
                   <div className={s.controlBarWrap}>
                     <RoomControlBar />
                   </div>

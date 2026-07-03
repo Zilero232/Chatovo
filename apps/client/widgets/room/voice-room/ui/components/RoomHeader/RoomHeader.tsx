@@ -9,6 +9,7 @@ import type { RoomHeaderProps } from './RoomHeader.types';
 export const RoomHeader = ({ name, roomId, isDm = false }: RoomHeaderProps) => {
   return (
     <div className={s.root}>
+      <span aria-hidden className={s.accent} />
       <span aria-hidden className={s.icon}>
         <AudioLines className="size-4" />
       </span>

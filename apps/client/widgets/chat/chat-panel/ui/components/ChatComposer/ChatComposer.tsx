@@ -58,6 +58,7 @@ export const ChatComposer = ({
         submit();
       }}
     >
+      <span aria-hidden className={s.accent} />
       <Button
         aria-label={t('attach')}
         disabled={busy}
