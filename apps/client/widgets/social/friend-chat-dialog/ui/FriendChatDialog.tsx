@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
 import { useFriendChat } from '@/features/social/friend-chat';
-import { Button, Dialog, DialogClose, DialogContent, DialogTitle, Spinner } from '@/shared/ui';
+import { Button, Dialog, DialogContent, DialogTitle, Spinner } from '@/shared/ui';
 import { ChatConversation } from '@/widgets/chat/chat-panel';
 import { friendChatDialogStyles as s } from './FriendChatDialog.styles';
 
@@ -36,11 +36,15 @@ export const FriendChatDialog = () => {
                 <UserName name={peer.name} verified={peer.verified} />
               </DialogTitle>
             </div>
-            <DialogClose asChild>
-              <Button aria-label={t('close')} size="icon-sm" type="button" variant="ghost">
-                <X />
-              </Button>
-            </DialogClose>
+            <Button
+              aria-label={t('close')}
+              size="icon-sm"
+              type="button"
+              variant="ghost"
+              onClick={close}
+            >
+              <X />
+            </Button>
           </header>
         )}
 

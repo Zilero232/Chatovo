@@ -4,7 +4,6 @@ import { useLocalParticipant, useRoomContext } from '@livekit/components-react';
 import { useAudio, usePrevious } from '@siberiacancode/reactuse';
 import { ParticipantEvent, RoomEvent, Track, type TrackPublication } from 'livekit-client';
 import { useEffect, useRef } from 'react';
-import { useRealtimeMessage } from '@/entities/app/realtime';
 import { useAppSettings } from '@/entities/app/settings';
 import { useLeaveSound } from '@/entities/room/room';
 import { useDeafen } from '@/features/room/room-control';
@@ -68,13 +67,8 @@ export const useVoiceRoomSounds = (roomId: string) => {
 
   appEvents.on.pttHold(() => playRef.current.play('ptt'));
   appEvents.on.reaction(() => playRef.current.play('reaction'));
-
-  useRealtimeMessage((message) => {
-    if (message.type !== 'chat.message' || message.roomId !== roomId) {
-      return;
-    }
-
-    if (message.message.senderId === localParticipant.identity) {
+  appEvents.on.chatMessage(({ roomId: eventRoomId, senderId, roomKind }) => {
+    if (roomKind !== 'group' || eventRoomId !== roomId || senderId === localParticipant.identity) {
       return;
     }
 

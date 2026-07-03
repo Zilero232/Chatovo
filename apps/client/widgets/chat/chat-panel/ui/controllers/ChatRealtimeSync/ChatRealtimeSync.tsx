@@ -2,21 +2,13 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { useRealtimeMessage } from '@/entities/app/realtime';
-import { applyChatRealtimeMessage } from '../../../model/lib';
+import { applyChatRealtime } from '../../../model/lib';
 
 export const ChatRealtimeSync = () => {
   const queryClient = useQueryClient();
 
   useRealtimeMessage((message) => {
-    if (
-      message.type !== 'chat.message' &&
-      message.type !== 'chat.edit' &&
-      message.type !== 'chat.delete'
-    ) {
-      return;
-    }
-
-    applyChatRealtimeMessage(queryClient, message);
+    applyChatRealtime(queryClient, message);
   });
 
   return null;

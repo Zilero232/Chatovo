@@ -11,7 +11,7 @@ export const chatAttachmentSchema = z.object({
 export const chatMessageSchema = z.object({
   id: z.uuid(),
   roomId: z.uuid(),
-  senderId: z.uuid().nullable(),
+  senderId: z.string().nullable(),
   senderName: z.string(),
   body: z.string(),
   createdAt: z.string(),

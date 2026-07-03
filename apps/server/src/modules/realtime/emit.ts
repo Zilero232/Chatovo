@@ -26,6 +26,10 @@ export const emitFriendsSnapshot = (userId: string, snapshot: FriendCallStreamSn
   broadcastFriendsMessage(userId, { type: 'friends.snapshot', snapshot });
 };
 
+export const emitUserEvent = (userId: string, message: RealtimeServerMessage): void => {
+  broadcastFriendsMessage(userId, message);
+};
+
 export const emitRoomEvent = (roomId: string, message: RealtimeServerMessage): void => {
   broadcastRoomMessage(roomId, message);
 };

@@ -4,8 +4,8 @@ import { extension } from 'mime-types';
 import { ATTACHMENT_MAX_BYTES } from '../../config/uploads';
 import { prisma } from '../../core';
 import { assertCanAccessDmRoom, assertRoomExists, senderSelect } from '../../lib';
-import { emitRoomEvent } from '../realtime/emit';
 import { saveUpload } from '../uploads';
+import { emitChatEvent } from './emit-chat-event';
 import { toChatMessage } from './mappers';
 import type {
   ChatAttachment,
@@ -60,7 +60,7 @@ export const sendMessage = async (
 
   const chatMessage = toChatMessage(message);
 
-  emitRoomEvent(roomId, { type: 'chat.message', roomId, message: chatMessage });
+  await emitChatEvent(roomId, { type: 'chat.message', message: chatMessage });
 
   return chatMessage;
 };
@@ -121,9 +121,8 @@ export const editMessage = async (
 
   const chatMessage = toChatMessage(message);
 
-  emitRoomEvent(chatMessage.roomId, {
+  await emitChatEvent(chatMessage.roomId, {
     type: 'chat.edit',
-    roomId: chatMessage.roomId,
     id: chatMessage.id,
     body: chatMessage.body,
     editedAt: chatMessage.editedAt ?? new Date().toISOString(),
@@ -143,9 +142,8 @@ export const deleteMessage = async (messageId: string, senderId: string): Promis
 
   const chatMessage = toChatMessage(message);
 
-  emitRoomEvent(chatMessage.roomId, {
+  await emitChatEvent(chatMessage.roomId, {
     type: 'chat.delete',
-    roomId: chatMessage.roomId,
     id: chatMessage.id,
     deletedAt: chatMessage.deletedAt ?? new Date().toISOString(),
   });

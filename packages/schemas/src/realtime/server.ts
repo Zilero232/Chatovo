@@ -4,15 +4,19 @@ import { friendCallStreamSnapshotSchema } from '../friends/outputs';
 import { roomsParticipantsSnapshotSchema } from '../livekit/outputs';
 import { roomSchema } from '../rooms/outputs';
 
+export const realtimeRoomKindSchema = roomSchema.shape.kind;
+
 export const realtimeChatMessageEventSchema = z.object({
   type: z.literal('chat.message'),
   roomId: roomSchema.shape.id,
+  roomKind: realtimeRoomKindSchema,
   message: chatMessageSchema,
 });
 
 export const realtimeChatEditEventSchema = z.object({
   type: z.literal('chat.edit'),
   roomId: roomSchema.shape.id,
+  roomKind: realtimeRoomKindSchema,
   id: z.uuid(),
   body: z.string(),
   editedAt: z.string(),
@@ -21,6 +25,7 @@ export const realtimeChatEditEventSchema = z.object({
 export const realtimeChatDeleteEventSchema = z.object({
   type: z.literal('chat.delete'),
   roomId: roomSchema.shape.id,
+  roomKind: realtimeRoomKindSchema,
   id: z.uuid(),
   deletedAt: z.string(),
 });

@@ -3,15 +3,11 @@
 import { useBoolean } from '@siberiacancode/reactuse';
 import { UserPlus, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { useCurrentUser } from '@/entities/auth/user';
-import {
-  useIncomingFriendCall,
-  useIncomingFriendRequests,
-  useOutgoingFriendCall,
-  useSendFriendRequest,
-} from '@/entities/social/friend';
+import { useIncomingFriendRequests, useSendFriendRequest } from '@/entities/social/friend';
+import { useFriendChat } from '@/features/social/friend-chat';
 import { useCloseWhenInVoiceRoom } from '@/shared/hooks';
 import {
   Button,
@@ -36,21 +32,15 @@ export const FriendsDialog = () => {
   const [open, toggleOpen] = useBoolean(false);
   const [friendTag, setFriendTag] = useState('');
   const { friendTag: ownFriendTag } = useCurrentUser();
+  const { blocksParentDialogClose, dmUnread } = useFriendChat();
 
   const { data: requests } = useIncomingFriendRequests();
-  const { data: incomingCall } = useIncomingFriendCall();
-  const { data: outgoingCall } = useOutgoingFriendCall();
   const sendRequest = useSendFriendRequest();
 
   useCloseWhenInVoiceRoom(() => toggleOpen(false));
 
-  useEffect(() => {
-    if (incomingCall?.call || outgoingCall?.call) {
-      toggleOpen(false);
-    }
-  }, [incomingCall?.call, outgoingCall?.call, toggleOpen]);
-
   const incomingCount = requests?.length ?? 0;
+  const triggerBadgeCount = dmUnread + incomingCount;
   const canSend = friendTag.trim().length > 0 && !sendRequest.isPending;
 
   return (
@@ -62,11 +52,41 @@ export const FriendsDialog = () => {
           variant="ghost"
           onClick={() => toggleOpen(true)}
         />
-        {incomingCount > 0 && <span className={s.triggerBadge}>{incomingCount}</span>}
+        {triggerBadgeCount > 0 && (
+          <span className={s.triggerBadge}>
+            {triggerBadgeCount > 99 ? '99+' : triggerBadgeCount}
+          </span>
+        )}
       </div>
 
-      <Dialog open={open} onOpenChange={toggleOpen}>
-        <DialogContent className={s.content}>
+      <Dialog
+        open={open}
+        onOpenChange={(next) => {
+          if (!next && blocksParentDialogClose) {
+            return;
+          }
+
+          toggleOpen(next);
+        }}
+      >
+        <DialogContent
+          className={s.content}
+          onFocusOutside={(event) => {
+            if (blocksParentDialogClose) {
+              event.preventDefault();
+            }
+          }}
+          onInteractOutside={(event) => {
+            if (blocksParentDialogClose) {
+              event.preventDefault();
+            }
+          }}
+          onPointerDownOutside={(event) => {
+            if (blocksParentDialogClose) {
+              event.preventDefault();
+            }
+          }}
+        >
           <DialogHeader>
             <DialogTitle>{t('title')}</DialogTitle>
             <DialogDescription>{t('description')}</DialogDescription>

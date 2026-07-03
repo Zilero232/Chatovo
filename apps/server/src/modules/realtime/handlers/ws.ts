@@ -3,20 +3,22 @@ import { auth } from '../../auth';
 import { getUserCallSnapshot } from '../../friends/call-store';
 import { addLobbyConnection, getSnapshot, removeLobbyConnection } from '../../livekit/presence';
 import {
-  getConnection,
+  getConnectionByWs,
   registerConnection,
   sendToConnection,
   unregisterConnection,
 } from '../connection-store';
 import { handleClientMessage } from './client-message';
 import type { WSContext } from 'hono/ws';
+import type { RealtimeConnection } from '../connection-store';
 
-type WsAttachment = {
-  connectionId: string;
-  userId: string;
+type WsInbound = string | ArrayBuffer | SharedArrayBuffer | Blob;
+
+const pendingInbound = new WeakMap<object, WsInbound[]>();
+
+const wsKey = (ws: WSContext): object => {
+  return (ws.raw ?? ws) as object;
 };
-
-const wsAttachments = new WeakMap<WSContext, WsAttachment>();
 
 const authorize = async (token: string | null): Promise<string | null> => {
   if (!token) {
@@ -30,6 +32,35 @@ const authorize = async (token: string | null): Promise<string | null> => {
   return session?.user.id ?? null;
 };
 
+const drainPendingInbound = async (
+  ws: WSContext,
+  connection: RealtimeConnection,
+): Promise<void> => {
+  const queued = pendingInbound.get(wsKey(ws));
+
+  if (!queued?.length) {
+    return;
+  }
+
+  pendingInbound.delete(wsKey(ws));
+
+  for (const raw of queued) {
+    await handleClientMessage(connection, raw);
+  }
+};
+
+const queueInbound = (ws: WSContext, raw: WsInbound): void => {
+  const key = wsKey(ws);
+  const queued = pendingInbound.get(key);
+
+  if (queued) {
+    queued.push(raw);
+    return;
+  }
+
+  pendingInbound.set(key, [raw]);
+};
+
 export const realtimeWsRoute = upgradeWebSocket((c) => {
   const token = new URL(c.req.url).searchParams.get('token');
 
@@ -38,6 +69,7 @@ export const realtimeWsRoute = upgradeWebSocket((c) => {
       const userId = await authorize(token);
 
       if (!userId) {
+        pendingInbound.delete(wsKey(ws));
         ws.close(4401, 'Unauthorized');
 
         return;
@@ -45,9 +77,9 @@ export const realtimeWsRoute = upgradeWebSocket((c) => {
 
       const connection = registerConnection(userId, ws);
 
-      wsAttachments.set(ws, { connectionId: connection.id, userId });
-
       addLobbyConnection(userId);
+
+      await drainPendingInbound(ws, connection);
 
       sendToConnection(connection.id, {
         type: 'presence.snapshot',
@@ -60,30 +92,26 @@ export const realtimeWsRoute = upgradeWebSocket((c) => {
       });
     },
     onMessage: async (event, ws) => {
-      const attachment = wsAttachments.get(ws);
-
-      if (!attachment) {
-        return;
-      }
-
-      const connection = getConnection(attachment.connectionId);
+      const connection = getConnectionByWs(ws);
 
       if (!connection) {
+        queueInbound(ws, event.data);
         return;
       }
 
       await handleClientMessage(connection, event.data);
     },
     onClose: (_event, ws) => {
-      const attachment = wsAttachments.get(ws);
+      pendingInbound.delete(wsKey(ws));
 
-      if (!attachment) {
+      const connection = getConnectionByWs(ws);
+
+      if (!connection) {
         return;
       }
 
-      wsAttachments.delete(ws);
-      unregisterConnection(attachment.connectionId);
-      removeLobbyConnection(attachment.userId);
+      unregisterConnection(connection.id);
+      removeLobbyConnection(connection.userId);
     },
   };
 });

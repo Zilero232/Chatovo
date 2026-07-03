@@ -33,7 +33,7 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
 
   const { data: friends, isPending } = useFriends(enabled);
   const callFriend = useCallFriend();
-  const { open: openFriendChat } = useFriendChat();
+  const { open: openFriendChat, getFriendUnread } = useFriendChat();
 
   const handleCall = (userId: string) => {
     callFriend.mutate({ userId }, { onError: () => toast.error(t('callFailed')) });
@@ -55,6 +55,7 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
                 user={entry.user}
                 actions={
                   <FriendListActions
+                    dmUnread={getFriendUnread(entry.user.id)}
                     isCallPending={callFriend.isPending}
                     user={entry.user}
                     onCall={handleCall}

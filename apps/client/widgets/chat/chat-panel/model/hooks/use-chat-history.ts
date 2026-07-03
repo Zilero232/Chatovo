@@ -3,8 +3,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchChatMessages } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
-import { chatMessageToChatLine, mergeChatLines } from '../lib';
-import type { ChatLine } from '../types';
+import { chatMessageToChatLine, mergeChatHistory } from '../lib';
 
 export const useChatHistory = (roomId: string) => {
   const queryClient = useQueryClient();
@@ -13,16 +12,11 @@ export const useChatHistory = (roomId: string) => {
     queryKey: QUERY_KEYS.chatMessages(roomId),
     enabled: roomId.length > 0,
     staleTime: Number.POSITIVE_INFINITY,
-    queryFn: async (): Promise<ChatLine[]> => {
+    queryFn: async () => {
       const page = await fetchChatMessages(roomId);
       const fetched = page.items.map(chatMessageToChatLine);
-      const cached = queryClient.getQueryData<ChatLine[]>(QUERY_KEYS.chatMessages(roomId));
 
-      if (!cached?.length) {
-        return fetched;
-      }
-
-      return mergeChatLines(cached, fetched);
+      return mergeChatHistory(queryClient, roomId, fetched);
     },
   });
 

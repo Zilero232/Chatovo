@@ -44,6 +44,18 @@ const unlinkRoom = (connectionId: string, roomId: string) => {
   }
 };
 
+export const getConnectionByWs = (ws: WSContext): RealtimeConnection | null => {
+  const raw = ws.raw;
+
+  for (const connection of connections.values()) {
+    if (connection.ws === ws || (raw !== undefined && connection.ws.raw === raw)) {
+      return connection;
+    }
+  }
+
+  return null;
+};
+
 export const registerConnection = (userId: string, ws: WSContext): RealtimeConnection => {
   const id = crypto.randomUUID();
   const connection: RealtimeConnection = { id, userId, ws, rooms: new Set() };
