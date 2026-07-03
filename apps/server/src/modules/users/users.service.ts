@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { extension } from 'mime-types';
 import { AVATAR_MAX_BYTES } from '../../config/uploads';
 import { prisma } from '../../core';
-import { getUserWithProfileOrThrow } from '../../lib';
+import { ensureUserFriendTag, getUserWithProfileOrThrow } from '../../lib';
 import { saveUpload } from '../uploads';
 import { toUserProfile } from './profile';
 import type { UserProfile } from '@chatovo/schemas';
@@ -52,8 +52,10 @@ const resolveAvatarUrl = async (
 
 export const getUserProfile = async (id: string): Promise<UserProfile> => {
   const user = await getUserWithProfileOrThrow(id);
+  await ensureUserFriendTag(user.id, user.name);
+  const withTag = await getUserWithProfileOrThrow(id);
 
-  return toUserProfile(user);
+  return toUserProfile(withTag);
 };
 
 export const updateProfile = async (
@@ -83,6 +85,8 @@ export const updateProfile = async (
   });
 
   const user = await getUserWithProfileOrThrow(userId);
+  await ensureUserFriendTag(user.id, user.name);
+  const withTag = await getUserWithProfileOrThrow(userId);
 
-  return toUserProfile(user);
+  return toUserProfile(withTag);
 };

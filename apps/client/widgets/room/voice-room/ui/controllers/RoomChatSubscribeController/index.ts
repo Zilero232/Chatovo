@@ -1,0 +1,1 @@
+export { RoomChatSubscribeController } from './RoomChatSubscribeController';

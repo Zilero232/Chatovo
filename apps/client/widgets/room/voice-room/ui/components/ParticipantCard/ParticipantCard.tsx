@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  useIsMuted,
-  useIsSpeaking,
-  useParticipantInfo,
-  useParticipantTracks,
-} from '@livekit/components-react';
+import { useIsMuted, useParticipantInfo, useParticipantTracks } from '@livekit/components-react';
 import { Track } from 'livekit-client';
 import { HeadphoneOff, MicOff, ScreenShare } from 'lucide-react';
 import { isNonNullish } from 'remeda';
@@ -13,6 +8,7 @@ import { UserAvatar, UserName } from '@/entities/auth/user';
 import { readParticipantMeta } from '@/entities/room/room';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
 import { cn } from '@/shared/lib';
+import { useParticipantIsSpeaking } from '../../../model/hooks';
 import { CardVideo } from '../CardVideo';
 import { ParticipantCardMenu } from '../ParticipantCardMenu';
 import { getCardTint } from './lib';
@@ -24,7 +20,7 @@ export const ParticipantCard = ({ participant, deafened, index = 0 }: Participan
   const [screenTrack] = useParticipantTracks([Track.Source.ScreenShare], participant.identity);
   const [micTrack] = useParticipantTracks([Track.Source.Microphone], participant.identity);
 
-  const isSpeaking = useIsSpeaking(participant);
+  const isSpeaking = useParticipantIsSpeaking(participant);
   const micMuted = useIsMuted(micTrack ?? { participant, source: Track.Source.Microphone });
   const cameraMuted = useIsMuted(cameraTrack ?? { participant, source: Track.Source.Camera });
   const screenMuted = useIsMuted(screenTrack ?? { participant, source: Track.Source.ScreenShare });

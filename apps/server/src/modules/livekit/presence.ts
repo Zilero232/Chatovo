@@ -13,7 +13,6 @@ export {
   patchParticipant,
   removeLobbyConnection,
   removeParticipant,
-  subscribe,
 } from './presence-store';
 
 const roomService = new RoomServiceClient(

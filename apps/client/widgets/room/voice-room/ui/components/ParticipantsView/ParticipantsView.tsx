@@ -14,7 +14,7 @@ const ROSTER_EVENTS = [
   RoomEvent.ConnectionStateChanged,
 ];
 
-export const ParticipantsView = ({ roomId }: ParticipantsViewProps) => {
+export const ParticipantsView = ({ roomId, isDm = false }: ParticipantsViewProps) => {
   const room = useRoomContext();
   const participants = useParticipants({ updateOnlyOn: ROSTER_EVENTS });
 
@@ -22,6 +22,7 @@ export const ParticipantsView = ({ roomId }: ParticipantsViewProps) => {
   const deafenedIds = new Set(presence.filter((p) => p.deafened).map((p) => p.identity));
 
   const isSolo = participants.length === 1;
+  const showInviteSlot = isSolo && !isDm;
 
   return (
     <div className={s.root}>
@@ -34,7 +35,7 @@ export const ParticipantsView = ({ roomId }: ParticipantsViewProps) => {
             index={index}
           />
         ))}
-        {isSolo && <InviteParticipantCard roomId={roomId} />}
+        {showInviteSlot && <InviteParticipantCard roomId={roomId} />}
       </div>
     </div>
   );

@@ -22,9 +22,9 @@ export const LobbyHeader = () => {
 
   return (
     <div className={s.root}>
-      <div aria-hidden className={s.grid} />
-      <div aria-hidden className={s.glow} />
-      <div aria-hidden className={s.glowAlt} />
+      <div aria-hidden className={s.accent} />
+      <div aria-hidden className={s.wash} />
+      <div aria-hidden className={s.washAlt} />
 
       <div className={s.inner}>
         <div className={s.topRow}>
@@ -56,7 +56,7 @@ export const LobbyHeader = () => {
         </div>
 
         <div className={s.stats}>
-          <div className={s.stat} style={{ animationDelay: '60ms' }}>
+          <div className={s.stat}>
             <span className={s.statIconWrap}>
               <Users className={s.statIconMuted} />
             </span>
@@ -66,7 +66,7 @@ export const LobbyHeader = () => {
             </span>
           </div>
 
-          <div className={s.stat} style={{ animationDelay: '140ms' }}>
+          <div className={s.stat}>
             <span className={s.statIconWrap}>
               <Radio className={liveRooms > 0 ? s.statIconLive : s.statIconMuted} />
             </span>
@@ -76,7 +76,7 @@ export const LobbyHeader = () => {
             </span>
           </div>
 
-          <div className={s.stat} style={{ animationDelay: '220ms' }}>
+          <div className={s.stat}>
             <span className={s.statIconWrap}>
               <span className={s.statPulse} />
             </span>

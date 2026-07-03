@@ -20,6 +20,21 @@ export const DEEP_LINKS = {
   auth: `${APP_SCHEME}://auth`,
 } as const;
 
-export const buildRoomHref = (roomId: string) => {
-  return `${ROUTES.room}?id=${encodeURIComponent(roomId)}`;
+type BuildRoomHrefOptions = {
+  view?: 'chat';
+  title?: string;
+};
+
+export const buildRoomHref = (roomId: string, options?: BuildRoomHrefOptions) => {
+  const params = new URLSearchParams({ id: roomId });
+
+  if (options?.view) {
+    params.set('view', options.view);
+  }
+
+  if (options?.title) {
+    params.set('title', options.title);
+  }
+
+  return `${ROUTES.room}?${params.toString()}`;
 };

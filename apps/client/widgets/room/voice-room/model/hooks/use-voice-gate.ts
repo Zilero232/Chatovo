@@ -2,19 +2,19 @@
 
 import { useLocalParticipant } from '@livekit/components-react';
 import { LocalAudioTrack, ParticipantEvent, Track } from 'livekit-client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useEffectEvent, useRef } from 'react';
 import { isNullish } from 'remeda';
 import { useAppSettings, VoiceGateProcessor } from '@/entities/app/settings';
 
-export const useVoiceGate = () => {
+export const useVoiceGate = (enabled: boolean, setIsSpeaking: (speaking: boolean) => void) => {
   const { settings } = useAppSettings();
-  const { localParticipant } = useLocalParticipant();
+  const { localParticipant, isMicrophoneEnabled } = useLocalParticipant();
 
-  const { activationMode, autoSensitivity, micThreshold } = settings.audio;
-  const enabled = activationMode === 'voiceActivity';
+  const { autoSensitivity, micThreshold } = settings.audio;
+
+  const setSpeaking = useEffectEvent(setIsSpeaking);
 
   const processorRef = useRef<VoiceGateProcessor | null>(null);
-
   const paramsRef = useRef({ autoSensitivity, threshold: micThreshold });
 
   useEffect(() => {
@@ -25,7 +25,13 @@ export const useVoiceGate = () => {
   }, [autoSensitivity, micThreshold]);
 
   useEffect(() => {
-    if (isNullish(localParticipant) || !enabled) {
+    if (!enabled || !isMicrophoneEnabled) {
+      setSpeaking(false);
+    }
+  }, [enabled, isMicrophoneEnabled]);
+
+  useEffect(() => {
+    if (isNullish(localParticipant) || !enabled || !isMicrophoneEnabled) {
       return;
     }
 
@@ -41,7 +47,9 @@ export const useVoiceGate = () => {
         return;
       }
 
-      const processor = new VoiceGateProcessor(paramsRef.current);
+      const processor = new VoiceGateProcessor(paramsRef.current, (_level, open) => {
+        setSpeaking(open);
+      });
       processorRef.current = processor;
 
       try {
@@ -76,6 +84,7 @@ export const useVoiceGate = () => {
       localParticipant.off(ParticipantEvent.LocalTrackUnpublished, detach);
 
       detach();
+      setSpeaking(false);
     };
-  }, [localParticipant, enabled]);
+  }, [enabled, isMicrophoneEnabled, localParticipant]);
 };

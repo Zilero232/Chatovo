@@ -1,9 +1,5 @@
-import {
-  presenceStateRequestSchema,
-  tokenRequestSchema,
-  tokenResponseSchema,
-} from '@chatovo/schemas';
-import { createRoute, z } from '@hono/zod-openapi';
+import { tokenRequestSchema, tokenResponseSchema } from '@chatovo/schemas';
+import { createRoute } from '@hono/zod-openapi';
 import { errorSchema } from '../../shared/schemas';
 
 export const tokenRoute = createRoute({
@@ -42,28 +38,7 @@ export const tokenRoute = createRoute({
   },
 });
 
-export const presenceStateRoute = createRoute({
-  method: 'post',
-  path: '/presence-state',
-  tags: ['livekit'],
-  summary: 'Report a partial presence patch (mic, deafen, ...)',
-  security: [{ bearerAuth: [] }],
-  request: {
-    body: {
-      required: true,
-      content: { 'application/json': { schema: presenceStateRequestSchema } },
-    },
-  },
-  responses: {
-    200: {
-      description: 'Accepted',
-      content: { 'application/json': { schema: z.object({ ok: z.boolean() }) } },
-    },
-  },
-});
-
 // The LiveKit webhook is NOT an OpenAPI route. LiveKit POSTs a signed JSON
 // body that the handler reads raw (c.req.text()) and verifies via
 // WebhookReceiver — describing it with createRoute would let zod-openapi
-// parse/validate the body and reject it before the handler runs. It is
-// registered as a plain .post() in index.ts instead, like the SSE route.
+// parse/validate the body and reject it before the handler runs.

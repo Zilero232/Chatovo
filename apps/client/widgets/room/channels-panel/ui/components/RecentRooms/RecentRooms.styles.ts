@@ -10,10 +10,9 @@ export const recentRoomsStyles = {
   strip: 'flex gap-2 overflow-x-auto scrollbar-none pb-0.5',
   item: 'flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-sm text-sidebar-foreground/75 transition-all hover:bg-white/6 hover:text-sidebar-foreground',
   stripItem:
-    'flex shrink-0 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-foreground/85 transition-all hover:border-brand-violet/30 hover:bg-white/8',
+    'flex shrink-0 items-center gap-2 rounded-xl border border-white/10 bg-shell-surface-raised px-3 py-2 text-sm text-foreground/85 transition-colors hover:border-brand-violet/25 hover:bg-shell-surface',
   dot: 'size-1.5 shrink-0 rounded-full bg-muted-foreground/40',
-  dotLive:
-    'size-1.5 shrink-0 animate-pulse rounded-full bg-brand-cyan shadow-[0_0_8px_oklch(0.82_0.16_200/0.8)]',
+  dotLive: 'size-1.5 shrink-0 animate-pulse rounded-full bg-brand-cyan',
   name: 'flex-1 truncate text-left',
   stripName: 'max-w-[10rem] truncate text-left',
   lockIcon: 'size-3 shrink-0 text-muted-foreground',

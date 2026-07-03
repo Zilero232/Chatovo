@@ -1,6 +1,7 @@
 'use client';
 
 import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
+import { FriendProfileActions } from '@/features/social/friend-profile-actions';
 import { getBannerStyle } from '../../lib/banner-style';
 import { useUserProfile } from '../../model/use-user-profile';
 import { AvatarZoom, ProfileCardSkeleton, ProfileVoiceBlock } from './components';
@@ -45,11 +46,22 @@ export const ProfileCard = ({ identity, name }: ProfileCardProps) => {
             size="md"
             verified={profile?.verified ?? false}
           />
+          {profile?.friendTag && <span className={s.tag}>{profile.friendTag}</span>}
         </div>
 
         {profile?.bio && <p className={s.bio}>{profile.bio}</p>}
 
         <ProfileVoiceBlock identity={identity} isSelf={isSelf} isLoading={false} />
+
+        {!isSelf && profile?.friendTag && (
+          <FriendProfileActions
+            avatarUrl={profile?.avatarUrl ?? null}
+            displayName={displayName}
+            friendTag={profile.friendTag}
+            userId={identity}
+            verified={profile?.verified ?? false}
+          />
+        )}
       </div>
     </div>
   );

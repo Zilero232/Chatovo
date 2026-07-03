@@ -10,6 +10,7 @@ export const roomSchema = z.object({
     .min(1, 'Name required')
     .max(64, 'Max 64 chars')
     .regex(/^[\w\s-]+$/, 'Only letters, digits, spaces, _ and -'),
+  kind: z.enum(['group', 'dm']),
   isPrivate: z.boolean(),
   ownerId: z.uuid(),
 });

@@ -334,7 +334,11 @@
       "label": "Password",
       "required": "Password required",
       "wrong": "Wrong password",
-      "join": "Join"
+      "join": "Join",
+      "validation": {
+        "passwordMin": "Min 4 characters",
+        "passwordMax": "Max 128 characters"
+      }
     },
     "shortcuts": {
       "pttBlockedByMute": "Microphone is muted — unmute to use push-to-talk"
@@ -422,6 +426,55 @@
       "busiestNow": "Busiest now",
       "join": "Join",
       "tip": "Private rooms need a password to join."
+    }
+  },
+  "friends": {
+    "title": "Friends",
+    "description": "Your friends and incoming requests.",
+    "yourTagLabel": "Your tag",
+    "friendsTab": "Friends",
+    "requestsTab": "Requests",
+    "emptyFriends": "No friends yet. Add people from their profile card in a voice room.",
+    "emptyRequests": "No pending requests.",
+    "addFriend": "Add friend",
+    "cancelRequest": "Cancel request",
+    "accept": "Accept",
+    "decline": "Decline",
+    "messageFriend": "Message",
+    "callFriend": "Call",
+    "removeFriend": "Remove friend",
+    "removeFriendConfirm": {
+      "title": "Remove friend?",
+      "description": "{name} will be removed from your friends list. This can't be undone.",
+      "confirm": "Remove",
+      "cancel": "Cancel",
+      "failed": "Failed to remove friend"
+    },
+    "tagPlaceholder": "friendTag (example: alex#4821)",
+    "sendByTag": "Send",
+    "requestSent": "Friend request sent",
+    "tagCopied": "Tag copied",
+    "tagCopyFailed": "Failed to copy tag",
+    "sendFailed": "Failed to send friend request",
+    "acceptFailed": "Failed to accept request",
+    "declineFailed": "Failed to decline request",
+    "removeFailed": "Failed to remove friend",
+    "openDmFailed": "Failed to open direct chat",
+    "callFailed": "Failed to start call",
+    "incomingCall": {
+      "title": "Incoming call",
+      "description": "{name} is calling you",
+      "accept": "Accept",
+      "decline": "Decline",
+      "acceptFailed": "Failed to accept call",
+      "declineFailed": "Failed to decline call"
+    },
+    "outgoingCall": {
+      "title": "Calling…",
+      "description": "Waiting for {name} to answer",
+      "cancel": "Cancel",
+      "cancelFailed": "Failed to cancel call",
+      "declined": "{name} declined the call"
     }
   },
   "appSidebar": {
@@ -563,7 +616,9 @@
       "message": "Chat message",
       "messageHint": "A new message while the chat is closed.",
       "reaction": "Reaction",
-      "reactionHint": "When someone sends an emoji reaction."
+      "reactionHint": "When someone sends an emoji reaction.",
+      "call": "Call",
+      "callHint": "Incoming and outgoing friend calls."
     },
     "system": {
       "closeToTray": "Minimize to tray on close",

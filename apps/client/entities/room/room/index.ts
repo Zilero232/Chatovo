@@ -5,15 +5,16 @@ export {
   useCreateRoom,
   useDeleteRoom,
   useEnterRoom,
+  useLobbyOnline,
   useRecentRooms,
   useRoomById,
   useRoomParticipants,
   useRooms,
+  useRoomsPresence,
   useRoomToken,
   useUpdateRoom,
 } from './model/hooks';
 export { LeaveSoundProvider, useLeaveSound } from './model/leave-sound';
-export { RoomsPresenceProvider, useLobbyOnline, useRoomsPresence } from './model/rooms-presence';
 export { DeafenedBadge } from './ui/DeafenedBadge';
 export { MicMutedBadge } from './ui/MicMutedBadge';
 export { OwnerBadge } from './ui/OwnerBadge';

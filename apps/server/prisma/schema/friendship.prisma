@@ -1,0 +1,24 @@
+enum FriendshipStatus {
+  pending
+  accepted
+}
+
+model Friendship {
+  id String @id @default(cuid())
+
+  status FriendshipStatus @default(pending)
+
+  requesterId String
+  addresseeId String
+
+  requester User @relation("FriendshipRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  addressee User @relation("FriendshipAddressee", fields: [addresseeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+
+  @@unique([requesterId, addresseeId])
+  @@index([addresseeId, status])
+  @@index([requesterId, status])
+  @@map("friendship")
+}

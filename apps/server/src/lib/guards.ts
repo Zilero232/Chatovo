@@ -14,6 +14,25 @@ export const assertRoomExists = async (roomId: string): Promise<void> => {
   }
 };
 
+export const assertCanAccessDmRoom = async (roomId: string, userId: string): Promise<void> => {
+  const room = await prisma.room.findUnique({
+    where: { id: roomId },
+    select: { kind: true, dmUserAId: true, dmUserBId: true },
+  });
+
+  if (isNullish(room)) {
+    throw new HTTPException(StatusCodes.NOT_FOUND, { message: 'Room not found' });
+  }
+
+  if (room.kind !== 'dm') {
+    return;
+  }
+
+  if (room.dmUserAId !== userId && room.dmUserBId !== userId) {
+    throw new HTTPException(StatusCodes.FORBIDDEN, { message: 'Forbidden' });
+  }
+};
+
 // Only the owner may rename, change password, or flip privacy. Returns the
 // current owner-relevant fields so callers can reason about password coupling.
 export const assertCanManageRoom = async (roomId: string, userId: string) => {

@@ -3,7 +3,8 @@ import { StatusCodes } from 'http-status-codes';
 import { extension } from 'mime-types';
 import { ATTACHMENT_MAX_BYTES } from '../../config/uploads';
 import { prisma } from '../../core';
-import { assertRoomExists, senderSelect } from '../../lib';
+import { assertCanAccessDmRoom, assertRoomExists, senderSelect } from '../../lib';
+import { emitRoomEvent } from '../realtime/emit';
 import { saveUpload } from '../uploads';
 import { toChatMessage } from './mappers';
 import type {
@@ -15,7 +16,11 @@ import type {
   SendMessageInput,
 } from '@chatovo/schemas';
 
-export const uploadAttachment = async (roomId: string, file: File): Promise<ChatAttachment> => {
+export const uploadAttachment = async (
+  roomId: string,
+  file: File,
+  userId: string,
+): Promise<ChatAttachment> => {
   const { size, type, name } = file;
 
   if (size === 0) {
@@ -26,6 +31,7 @@ export const uploadAttachment = async (roomId: string, file: File): Promise<Chat
   }
 
   await assertRoomExists(roomId);
+  await assertCanAccessDmRoom(roomId, userId);
 
   const ext = extension(type) || 'bin';
   const key = `chat-attachments/${roomId}/${crypto.randomUUID()}.${ext}`;
@@ -43,6 +49,7 @@ export const sendMessage = async (
   const { id, roomId, body } = input;
 
   await assertRoomExists(roomId);
+  await assertCanAccessDmRoom(roomId, senderId);
 
   const message = await prisma.message.upsert({
     where: { id },
@@ -51,13 +58,21 @@ export const sendMessage = async (
     include: { sender: senderSelect },
   });
 
-  return toChatMessage(message);
+  const chatMessage = toChatMessage(message);
+
+  emitRoomEvent(roomId, { type: 'chat.message', roomId, message: chatMessage });
+
+  return chatMessage;
 };
 
-export const listMessages = async (query: ListMessagesQuery): Promise<ChatMessagesPage> => {
+export const listMessages = async (
+  query: ListMessagesQuery,
+  userId: string,
+): Promise<ChatMessagesPage> => {
   const { roomId, cursor, limit } = query;
 
   await assertRoomExists(roomId);
+  await assertCanAccessDmRoom(roomId, userId);
 
   const rows = await prisma.message.findMany({
     where: { roomId },
@@ -86,6 +101,8 @@ const getOwnMessageOrThrow = async (messageId: string, senderId: string) => {
     throw new HTTPException(StatusCodes.FORBIDDEN, { message: 'Not your message' });
   }
 
+  await assertCanAccessDmRoom(message.roomId, senderId);
+
   return message;
 };
 
@@ -102,7 +119,17 @@ export const editMessage = async (
     include: { sender: senderSelect },
   });
 
-  return toChatMessage(message);
+  const chatMessage = toChatMessage(message);
+
+  emitRoomEvent(chatMessage.roomId, {
+    type: 'chat.edit',
+    roomId: chatMessage.roomId,
+    id: chatMessage.id,
+    body: chatMessage.body,
+    editedAt: chatMessage.editedAt ?? new Date().toISOString(),
+  });
+
+  return chatMessage;
 };
 
 export const deleteMessage = async (messageId: string, senderId: string): Promise<ChatMessage> => {
@@ -114,5 +141,14 @@ export const deleteMessage = async (messageId: string, senderId: string): Promis
     include: { sender: senderSelect },
   });
 
-  return toChatMessage(message);
+  const chatMessage = toChatMessage(message);
+
+  emitRoomEvent(chatMessage.roomId, {
+    type: 'chat.delete',
+    roomId: chatMessage.roomId,
+    id: chatMessage.id,
+    deletedAt: chatMessage.deletedAt ?? new Date().toISOString(),
+  });
+
+  return chatMessage;
 };

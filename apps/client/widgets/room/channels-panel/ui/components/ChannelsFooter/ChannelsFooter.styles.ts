@@ -1,5 +1,5 @@
 export const channelsFooterStyles = {
-  root: 'flex items-center gap-2 border-t border-white/8 bg-white/4 px-3 py-2.5',
+  root: 'flex h-16 shrink-0 items-center gap-2 border-t border-white/8 bg-white/2 px-4 backdrop-blur-sm',
   actions: 'flex items-center gap-0.5',
   avatar: 'size-8',
   fallback: 'text-xs',

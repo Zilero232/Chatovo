@@ -2,8 +2,8 @@
 
 import { useLocalParticipant, useRoomContext } from '@livekit/components-react';
 import { isNullish } from 'remeda';
+import { useRealtime } from '@/entities/app/realtime';
 import { useAppSettings } from '@/entities/app/settings';
-import { reportPresenceState } from '@/shared/api';
 import { toggleMicStream } from '@/shared/lib';
 import { useDeafenContext } from '../contexts/deafen-context';
 import type { LocalParticipant } from 'livekit-client';
@@ -12,6 +12,7 @@ export const useDeafen = () => {
   const room = useRoomContext();
   const { localParticipant } = useLocalParticipant();
   const { settings } = useAppSettings();
+  const { send } = useRealtime();
 
   const { isDeafened, setIsDeafened, micBeforeDeafen } = useDeafenContext();
 
@@ -41,8 +42,10 @@ export const useDeafen = () => {
     }
 
     setIsDeafened(next);
-    reportPresenceState({ roomId: room.name, deafened: next }).catch((err) => {
-      console.error('reportPresenceState failed', err);
+    send({
+      op: 'presence.patch',
+      roomId: room.name,
+      deafened: next,
     });
 
     try {

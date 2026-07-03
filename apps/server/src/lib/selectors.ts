@@ -3,6 +3,7 @@ import type { Prisma } from '../../generated';
 export const roomSelect = {
   id: true,
   name: true,
+  kind: true,
   isPrivate: true,
   ownerId: true,
 } satisfies Prisma.RoomSelect;

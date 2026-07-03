@@ -35,6 +35,7 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
       reconnect: true,
       message: true,
       reaction: true,
+      call: true,
     },
   },
   system: {

@@ -1,5 +1,5 @@
 export const participantCardStyles = {
-  root: '@container relative flex aspect-video w-full flex-col overflow-hidden rounded-2xl bg-black/40 border border-white/10 transition-all animate-in fade-in zoom-in-95 fill-mode-both duration-300 data-[local=true][data-speaking=true]:shadow-[0_0_32px_-4px_oklch(0.82_0.16_200/0.8)] data-[speaking=true]:border-brand-cyan/60 data-[speaking=true]:shadow-[0_0_24px_-4px_oklch(0.82_0.16_200/0.6)]',
+  root: '@container relative flex aspect-video w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-black/40 animate-in fade-in zoom-in-95 fill-mode-both duration-300 data-[local=true][data-speaking=true]:shadow-[0_0_32px_-4px_oklch(0.82_0.16_200/0.8)] data-[speaking=true]:border-brand-cyan/60 data-[speaking=true]:shadow-[0_0_24px_-4px_oklch(0.82_0.16_200/0.6)]',
   stage: 'relative min-h-0 flex-1',
   videoGrid:
     'grid h-full w-full auto-cols-fr grid-flow-col gap-0.5 animate-in fade-in duration-300',
@@ -9,12 +9,12 @@ export const participantCardStyles = {
   tint: 'pointer-events-none absolute inset-0',
 
   avatarHalo:
-    'pointer-events-none absolute size-[38cqmin] rounded-full bg-brand-cyan/0 blur-[12cqmin] transition-all duration-300',
+    'pointer-events-none absolute size-[38cqmin] rounded-full bg-brand-cyan/0 blur-[12cqmin] transition-[background-color,opacity] duration-75',
   avatarHaloSpeaking: 'bg-brand-cyan/30',
   avatarHaloLocalSpeaking: 'animate-pulse bg-brand-cyan/40',
 
   avatar:
-    'relative size-[28cqmin] min-h-12 min-w-12 rounded-full ring-2 ring-white/10 transition-all duration-200',
+    'relative size-[28cqmin] min-h-12 min-w-12 rounded-full ring-2 ring-white/10 transition-[box-shadow,ring-color,ring-width] duration-75',
   avatarSpeaking: 'ring-[3.5px] ring-brand-cyan shadow-[0_0_22px_-2px_oklch(0.82_0.16_200/0.8)]',
   avatarFallback:
     'bg-linear-to-br from-brand-violet/50 to-brand-cyan/50 font-semibold text-[12cqmin] text-white',

@@ -1,10 +1,10 @@
 'use client';
 
-import { useDataChannel } from '@livekit/components-react';
 import { createContextHook } from '@siberiacancode/reactuse';
 import { useRef, useState } from 'react';
+import { useRealtime, useRealtimeMessage } from '@/entities/app/realtime';
+import { useCurrentUser } from '@/entities/auth/user';
 import { appEvents } from '@/shared/lib';
-import { REACTIONS_TOPIC } from '../../config/keys';
 import type { ReactNode } from 'react';
 
 export type FloatingReaction = {
@@ -13,16 +13,17 @@ export type FloatingReaction = {
   offset: number;
 };
 
-const encoder = new TextEncoder();
-const decoder = new TextDecoder();
 const REACTION_LIFETIME = 6000;
 
-const useReactionsState = () => {
-  const [reactions, setReactions] = useState<FloatingReaction[]>([]);
+const useReactionsState = (roomId: string) => {
+  const { send } = useRealtime();
+  const { user } = useCurrentUser();
+  const userId = user?.id ?? null;
 
+  const [reactions, setReactions] = useState<FloatingReaction[]>([]);
   const nextId = useRef(0);
 
-  const spawn = (emoji: string) => {
+  const addReaction = (emoji: string) => {
     const id = nextId.current++;
 
     appEvents.emit.reaction();
@@ -34,24 +35,35 @@ const useReactionsState = () => {
     }, REACTION_LIFETIME);
   };
 
-  const { send: sendData } = useDataChannel(REACTIONS_TOPIC, (msg) => {
-    spawn(decoder.decode(msg.payload));
+  useRealtimeMessage((message) => {
+    if (message.type !== 'room.reaction') {
+      return;
+    }
+
+    if (message.roomId !== roomId || message.senderId === userId) {
+      return;
+    }
+
+    addReaction(message.emoji);
   });
 
-  const send = (emoji: string) => {
-    spawn(emoji);
-
-    sendData(encoder.encode(emoji), { reliable: true });
+  const sendReaction = (emoji: string) => {
+    addReaction(emoji);
+    send({ op: 'room.reaction', roomId, emoji });
   };
 
-  return { reactions, send };
+  return { reactions, send: sendReaction };
 };
 
 const { Provider, use } = createContextHook(useReactionsState);
 
-export const ReactionsProvider = ({ children }: { children: ReactNode }) => (
-  <Provider params={[]}>{children}</Provider>
-);
+export const ReactionsProvider = ({
+  roomId,
+  children,
+}: {
+  roomId: string;
+  children: ReactNode;
+}) => <Provider params={[roomId]}>{children}</Provider>;
 
 export const useReactions = () => {
   const value = use();

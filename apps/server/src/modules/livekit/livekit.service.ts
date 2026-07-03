@@ -16,9 +16,13 @@ type IssueTokenInput = {
 };
 
 const assertRoomAccess = (
-  room: { isPrivate: boolean; password: string | null },
+  room: { kind: string; isPrivate: boolean; password: string | null },
   password?: string,
 ) => {
+  if (room.kind === 'dm') {
+    return;
+  }
+
   if (!room.isPrivate) {
     return;
   }
@@ -41,6 +45,10 @@ export const issueRoomToken = async (input: IssueTokenInput): Promise<TokenRespo
 
   if (isNullish(room)) {
     throw new HTTPException(StatusCodes.NOT_FOUND, { message: 'Room not found' });
+  }
+
+  if (room.kind === 'dm' && room.dmUserAId !== userId && room.dmUserBId !== userId) {
+    throw new HTTPException(StatusCodes.FORBIDDEN, { message: 'Forbidden' });
   }
 
   assertRoomAccess(room, password);

@@ -1,0 +1,1 @@
+export const REALTIME_PING_INTERVAL_MS = 30_000;

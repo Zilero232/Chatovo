@@ -1,4 +1,4 @@
-export { presenceStateRequestSchema, tokenRequestSchema } from './inputs';
+export { tokenRequestSchema } from './inputs';
 export {
   participantMetadataSchema,
   roomParticipantSchema,
@@ -7,7 +7,6 @@ export {
 } from './outputs';
 export type {
   ParticipantMetadata,
-  PresenceStateRequest,
   RoomParticipant,
   RoomsParticipantsSnapshot,
   TokenRequest,

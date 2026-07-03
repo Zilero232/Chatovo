@@ -2,21 +2,30 @@
 
 import { useLocalParticipant } from '@livekit/components-react';
 import { ParticipantEvent } from 'livekit-client';
-import { useEffect } from 'react';
-import { reportPresenceState } from '@/shared/api';
+import { useEffect, useEffectEvent } from 'react';
+import { useRealtime } from '@/entities/app/realtime';
 import type { MicStateControllerProps } from './MicStateController.types';
 
 export const MicStateController = ({ roomId }: MicStateControllerProps) => {
+  const { send } = useRealtime();
   const { localParticipant } = useLocalParticipant();
+
+  const push = useEffectEvent(() => {
+    if (!localParticipant) {
+      return;
+    }
+
+    send({
+      op: 'presence.patch',
+      roomId,
+      micMuted: !localParticipant.isMicrophoneEnabled,
+    });
+  });
 
   useEffect(() => {
     if (!localParticipant) {
       return;
     }
-
-    const push = () => {
-      reportPresenceState({ roomId, micMuted: !localParticipant.isMicrophoneEnabled });
-    };
 
     push();
 
@@ -33,7 +42,7 @@ export const MicStateController = ({ roomId }: MicStateControllerProps) => {
       localParticipant.off(ParticipantEvent.LocalTrackPublished, push);
       localParticipant.off(ParticipantEvent.LocalTrackUnpublished, push);
     };
-  }, [localParticipant, roomId]);
+  }, [localParticipant]);
 
   return null;
 };
