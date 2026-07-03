@@ -5,5 +5,4 @@ export type AppSidebarProps = {
   onToggleChannels: () => void;
   orientation?: AppSidebarOrientation;
   showToggleChannels?: boolean;
-  onNavigate?: () => void;
 };

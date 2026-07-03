@@ -3,13 +3,13 @@
 import { createContextHook, useAudio } from '@siberiacancode/reactuse';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useEffect, useEffectEvent, useState } from 'react';
 import { sum, values } from 'remeda';
 import { toast } from 'sonner';
 import { useAppSettings } from '@/entities/app/settings';
 import { useCurrentUser } from '@/entities/auth/user';
 import { getOrCreateFriendDmRoom } from '@/shared/api';
-import { useCloseWhenInVoiceRoom } from '@/shared/hooks';
+import { useActiveVoiceRoomId, useCloseWhenInVoiceRoom } from '@/shared/hooks';
 import { appEvents } from '@/shared/lib';
 import type { ReactNode } from 'react';
 import type { FriendChatPeer, FriendChatSession } from '../types';
@@ -26,6 +26,7 @@ const useFriendChatState = () => {
   const [openingPeer, setOpeningPeer] = useState<FriendChatPeer | null>(null);
   const [closeGuard, setCloseGuard] = useState(false);
   const [unreadByFriend, setUnreadByFriend] = useState<Record<string, number>>({});
+  const activeVoiceRoomId = useActiveVoiceRoomId();
 
   const dmUnread = sum(values(unreadByFriend));
 
@@ -92,14 +93,24 @@ const useFriendChatState = () => {
     };
   }, [closeGuard]);
 
+  const clearPeerUnread = useEffectEvent((friendId: string) => {
+    clearFriendUnread(friendId);
+  });
+
   useEffect(() => {
     if (session?.peer.id) {
-      clearFriendUnread(session.peer.id);
+      clearPeerUnread(session.peer.id);
     }
   }, [session?.peer.id]);
 
   appEvents.on.chatMessage(({ roomId, senderId, roomKind }) => {
-    if (roomKind !== 'dm' || !senderId || senderId === user?.id || session?.roomId === roomId) {
+    if (
+      roomKind !== 'dm' ||
+      !senderId ||
+      senderId === user?.id ||
+      session?.roomId === roomId ||
+      activeVoiceRoomId === roomId
+    ) {
       return;
     }
 

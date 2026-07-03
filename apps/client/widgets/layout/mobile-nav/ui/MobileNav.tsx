@@ -55,7 +55,6 @@ export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
               channelsOpened={false}
               orientation="horizontal"
               showToggleChannels={false}
-              onNavigate={close}
               onToggleChannels={() => undefined}
             />
           </div>

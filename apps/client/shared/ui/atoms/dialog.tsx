@@ -1,9 +1,16 @@
 import { XIcon } from 'lucide-react';
 import { Dialog as DialogPrimitive } from 'radix-ui';
 import { cn } from '@/shared/lib/cn';
+import { shouldKeepDialogOpen } from '@/shared/lib/nested-overlay';
 import { Button } from './button';
 import { modalCloseStyles } from './modal-close.styles';
 import type * as React from 'react';
+
+const guardDialogDismiss = (event: { preventDefault: () => void; target?: EventTarget | null }) => {
+  if (shouldKeepDialogOpen(event.target ?? null)) {
+    event.preventDefault();
+  }
+};
 
 const Dialog = ({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) => (
   <DialogPrimitive.Root data-slot="dialog" {...props} />
@@ -39,18 +46,40 @@ const DialogContent = ({
   className,
   children,
   showCloseButton = true,
+  overlayClassName,
+  onInteractOutside,
+  onPointerDownOutside,
+  onFocusOutside,
+  onEscapeKeyDown,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean;
+  overlayClassName?: string;
 }) => (
   <DialogPortal data-slot="dialog-portal">
-    <DialogOverlay />
+    <DialogOverlay className={overlayClassName} />
     <DialogPrimitive.Content
       className={cn(
         'glass-overlay fixed top-[50%] left-[50%] z-50 grid max-h-dvh-safe w-full max-w-[calc(100%-2rem)] translate-[-50%] gap-4 overflow-y-auto rounded-2xl p-6 outline-none duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg',
         className,
       )}
       data-slot="dialog-content"
+      onEscapeKeyDown={(event) => {
+        guardDialogDismiss(event);
+        onEscapeKeyDown?.(event);
+      }}
+      onFocusOutside={(event) => {
+        guardDialogDismiss(event);
+        onFocusOutside?.(event);
+      }}
+      onInteractOutside={(event) => {
+        guardDialogDismiss(event);
+        onInteractOutside?.(event);
+      }}
+      onPointerDownOutside={(event) => {
+        guardDialogDismiss(event);
+        onPointerDownOutside?.(event);
+      }}
       {...props}
     >
       {children}

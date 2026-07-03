@@ -2,14 +2,12 @@
 
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { toast } from 'sonner';
 import { match, P } from 'ts-pattern';
-import { useCallFriend, useFriends } from '@/entities/social/friend';
+import { useFriends } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
 import { Spinner } from '@/shared/ui';
 import { friendsDialogStyles as s } from '../../FriendsDialog.styles';
-import { FriendListActions } from '../FriendListActions';
 import { FriendListItem } from '../FriendListItem';
 import type { FriendEntry, FriendUser } from '@chatovo/schemas';
 
@@ -32,12 +30,7 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
   const [removeTarget, setRemoveTarget] = useState<RemoveTarget | null>(null);
 
   const { data: friends, isPending } = useFriends(enabled);
-  const callFriend = useCallFriend();
   const { open: openFriendChat, getFriendUnread } = useFriendChat();
-
-  const handleCall = (userId: string) => {
-    callFriend.mutate({ userId }, { onError: () => toast.error(t('callFailed')) });
-  };
 
   const handleRemove = (user: FriendUser) => {
     setRemoveTarget({ userId: user.id, friendName: user.name });
@@ -52,17 +45,10 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
             {items.map((entry) => (
               <FriendListItem
                 key={entry.friendshipId}
+                dmUnread={getFriendUnread(entry.user.id)}
                 user={entry.user}
-                actions={
-                  <FriendListActions
-                    dmUnread={getFriendUnread(entry.user.id)}
-                    isCallPending={callFriend.isPending}
-                    user={entry.user}
-                    onCall={handleCall}
-                    onMessage={openFriendChat}
-                    onRemove={handleRemove}
-                  />
-                }
+                onOpen={openFriendChat}
+                onRemove={handleRemove}
               />
             ))}
           </div>

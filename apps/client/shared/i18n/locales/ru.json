@@ -395,6 +395,8 @@
     "decline": "Отклонить",
     "messageFriend": "Написать",
     "callFriend": "Позвонить",
+    "friendActions": "Действия с другом",
+    "unreadMessages": "{count, plural, one {# непрочитанное} few {# непрочитанных} many {# непрочитанных} other {# непрочитанных}}",
     "removeFriend": "Удалить из друзей",
     "removeFriendConfirm": {
       "title": "Удалить из друзей?",
@@ -431,7 +433,6 @@
     }
   },
   "appSidebar": {
-    "lobby": "Лобби",
     "downloadApp": "Скачать приложение",
     "downloadAppLabel": "Скачать приложение",
     "checkUpdate": "Проверить обновления",

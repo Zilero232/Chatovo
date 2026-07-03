@@ -3,7 +3,7 @@ export const friendsDialogStyles = {
   triggerBadge:
     'pointer-events-none absolute -top-0.5 -right-0.5 flex min-h-4 min-w-4 items-center justify-center rounded-full bg-brand-cyan px-1 text-[10px] font-semibold leading-none text-black shadow-[0_0_12px_-2px_oklch(0.82_0.16_200/0.8)]',
   content: 'overflow-x-hidden border-white/12',
-  list: 'flex min-w-0 max-h-[min(24rem,50vh)] flex-col gap-2.5 overflow-y-auto overflow-x-hidden pr-1',
+  list: 'flex min-w-0 max-h-[min(24rem,50vh)] flex-col gap-0.5 overflow-y-auto overflow-x-hidden rounded-lg border border-white/8 bg-white/2 p-1.5',
   empty:
     'rounded-2xl border border-dashed border-white/12 bg-white/3 px-4 py-10 text-center text-sm text-muted-foreground backdrop-blur-sm',
   action: 'w-full',

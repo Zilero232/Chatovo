@@ -5,6 +5,7 @@ import { LocalSpeakingController } from '../LocalSpeakingController';
 import { MicActivationController } from '../MicActivationController';
 import { MicStateController } from '../MicStateController';
 import { RoomDeviceController } from '../RoomDeviceController';
+import { RoomRealtimeSubscribe } from '../RoomRealtimeSubscribe';
 import { RoomSoundsController } from '../RoomSoundsController';
 import { RoomTrayController } from '../RoomTrayController';
 import { ShortcutActionsController } from '../ShortcutActionsController';
@@ -15,6 +16,7 @@ type RoomControllersProps = {
 
 export const RoomControllers = ({ roomId }: RoomControllersProps) => (
   <>
+    <RoomRealtimeSubscribe roomId={roomId} />
     <RoomDeviceController />
     <RoomTrayController />
     <ShortcutActionsController />

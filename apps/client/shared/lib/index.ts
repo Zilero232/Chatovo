@@ -7,6 +7,12 @@ export { formatMessageTime, getDateDivider, isSameCalendarDay } from './format-d
 export { formatPercent } from './format-percent';
 export { formatHotkey, hasModifier, isPureModifier, prettyHotkey } from './hotkey/hotkey';
 export { getAvatarColor, getInitials } from './initials';
+export {
+  hasNestedDialogOpen,
+  hasOpenNestedOverlay,
+  isNestedOverlayTarget,
+  shouldKeepDialogOpen,
+} from './nested-overlay';
 export { raceWithTimeout } from './race-with-timeout';
 export { isScreenShareSupported } from './screen-share';
 export { isTauriDesktop, isTauriMobile } from './tauri-platform';

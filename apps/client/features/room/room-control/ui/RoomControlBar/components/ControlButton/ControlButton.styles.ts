@@ -40,7 +40,7 @@ export const controlShell = cva(
 );
 
 export const controlMain = cva(
-  'flex min-h-0 w-full flex-1 items-end justify-center pb-0.5 outline-hidden transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40 sm:items-center sm:pb-0 [&_svg]:size-4 [&_svg]:shrink-0 sm:[&_svg]:size-5',
+  'flex min-h-0 w-full flex-1 items-end justify-center pb-0.5 outline-hidden transition-colors focus-visible:ring-2 focus-visible:ring-brand-cyan focus-visible:ring-inset active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40 sm:items-center sm:pb-0 [&_svg]:size-4 [&_svg]:shrink-0 sm:[&_svg]:size-5',
   {
     variants: {
       tone: {

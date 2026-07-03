@@ -5,6 +5,7 @@ import { LocalAudioTrack, ParticipantEvent, Track } from 'livekit-client';
 import { useEffect, useEffectEvent, useRef } from 'react';
 import { isNullish } from 'remeda';
 import { useAppSettings, VoiceGateProcessor } from '@/entities/app/settings';
+import { toggleMicStream } from '@/shared/lib';
 
 export const useVoiceGate = (enabled: boolean, setIsSpeaking: (speaking: boolean) => void) => {
   const { settings } = useAppSettings();
@@ -43,9 +44,12 @@ export const useVoiceGate = (enabled: boolean, setIsSpeaking: (speaking: boolean
 
     const attach = async () => {
       const track = getMicTrack();
+
       if (isNullish(track) || processorRef.current) {
         return;
       }
+
+      toggleMicStream(localParticipant, true);
 
       const processor = new VoiceGateProcessor(paramsRef.current, (_level, open) => {
         setSpeaking(open);
@@ -69,6 +73,7 @@ export const useVoiceGate = (enabled: boolean, setIsSpeaking: (speaking: boolean
       }
 
       const track = getMicTrack();
+
       try {
         await track?.stopProcessor();
       } catch {}

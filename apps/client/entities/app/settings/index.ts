@@ -7,10 +7,12 @@ export {
 } from './lib/video-quality';
 export {
   VOICE_GATE_MANUAL_RANGE,
-  VoiceGateProcessor,
-} from './lib/voice-gate/voice-gate-processor';
+  VOICE_GATE_TICK_MS,
+  VoiceGateDetector,
+} from './lib/voice-gate/voice-gate-detector';
+export { VoiceGateProcessor } from './lib/voice-gate/voice-gate-processor';
 export { useAppSettings } from './model/hooks';
-export type { VoiceGateParams } from './lib/voice-gate/voice-gate-processor';
+export type { VoiceGateParams } from './lib/voice-gate/voice-gate-detector';
 export type {
   AppSettings,
   AudioSettings,

@@ -442,6 +442,8 @@
     "decline": "Decline",
     "messageFriend": "Message",
     "callFriend": "Call",
+    "friendActions": "Friend actions",
+    "unreadMessages": "{count, plural, one {# unread message} other {# unread messages}}",
     "removeFriend": "Remove friend",
     "removeFriendConfirm": {
       "title": "Remove friend?",
@@ -478,7 +480,6 @@
     }
   },
   "appSidebar": {
-    "lobby": "Lobby",
     "downloadApp": "Download app",
     "downloadAppLabel": "Download app",
     "checkUpdate": "Check for updates",

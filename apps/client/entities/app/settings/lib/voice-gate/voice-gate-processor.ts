@@ -1,24 +1,29 @@
+import { VOICE_GATE_TICK_MS, VoiceGateDetector, type VoiceGateParams } from './voice-gate-detector';
 import type { AudioProcessorOptions, Track, TrackProcessor } from 'livekit-client';
 
-export type VoiceGateParams = {
-  autoSensitivity: boolean;
-  threshold: number;
-};
-
-export const VOICE_GATE_MANUAL_RANGE = 0.5;
-
-const FFT_SIZE = 1024;
-const HANGOVER_MS = 250;
+const ANALYSER_FFT_SIZE = 1024;
+const ANALYSER_SMOOTHING = 0.35;
 const ATTACK_TIME = 0.008;
 const RELEASE_TIME = 0.12;
-const NOISE_FLOOR_RISE = 0.0005;
-const NOISE_FLOOR_FALL = 0.05;
-const AUTO_MARGIN = 0.04;
-
 const GATE_OPEN = 1;
 const GATE_CLOSED = 0;
 
-const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
+const measureVolume = (analyser: AnalyserNode, buffer: Uint8Array<ArrayBuffer>) => {
+  analyser.getByteFrequencyData(buffer);
+
+  let sum = 0;
+  for (const amplitude of buffer) {
+    sum += (amplitude / 255) ** 2;
+  }
+
+  return Math.sqrt(sum / buffer.length);
+};
+
+const resumeContext = (context: AudioContext) => {
+  if (context.state === 'suspended') {
+    void context.resume();
+  }
+};
 
 export class VoiceGateProcessor implements TrackProcessor<Track.Kind.Audio, AudioProcessorOptions> {
   name = 'voice-gate';
@@ -32,11 +37,15 @@ export class VoiceGateProcessor implements TrackProcessor<Track.Kind.Audio, Audi
   private analyser?: AnalyserNode;
   private gain?: GainNode;
   private nodes: AudioNode[] = [];
+  private levelBuffer?: Uint8Array<ArrayBuffer>;
 
-  private readonly buffer = new Float32Array(FFT_SIZE);
-  private rafId = 0;
-  private openUntil = 0;
-  private noiseFloor = 0;
+  private readonly detector = new VoiceGateDetector();
+  private intervalId: ReturnType<typeof setInterval> | null = null;
+  private resumeContext = () => {
+    if (this.context) {
+      resumeContext(this.context);
+    }
+  };
 
   constructor(params: VoiceGateParams, onLevel?: (level: number, open: boolean) => void) {
     this.params = params;
@@ -54,20 +63,13 @@ export class VoiceGateProcessor implements TrackProcessor<Track.Kind.Audio, Audi
     this.start(context, opts.track);
   }
 
-  private start(context: AudioContext | undefined, track: MediaStreamTrack) {
-    if (!context) {
-      this.processedTrack = track;
-
-      return;
-    }
-
-    this.buildGraph(context, track);
-    this.tick();
+  update(params: VoiceGateParams) {
+    this.params = params;
   }
 
   async destroy() {
-    cancelAnimationFrame(this.rafId);
-    this.rafId = 0;
+    this.stopTickLoop();
+    this.detachContextKeepAlive();
 
     for (const node of this.nodes) {
       node.disconnect();
@@ -77,103 +79,86 @@ export class VoiceGateProcessor implements TrackProcessor<Track.Kind.Audio, Audi
     this.context = undefined;
     this.analyser = undefined;
     this.gain = undefined;
+    this.levelBuffer = undefined;
     this.processedTrack = undefined;
-    this.openUntil = 0;
-    this.noiseFloor = 0;
+    this.detector.reset();
   }
 
-  update(params: VoiceGateParams) {
-    this.params = params;
+  private start(context: AudioContext | undefined, track: MediaStreamTrack) {
+    if (!context) {
+      this.processedTrack = track;
+
+      return;
+    }
+
+    this.buildGraph(context, track);
+    this.attachContextKeepAlive(context);
+    this.startTickLoop();
   }
 
   private buildGraph(context: AudioContext, track: MediaStreamTrack) {
     const source = context.createMediaStreamSource(new MediaStream([track]));
 
     const analyser = context.createAnalyser();
-    analyser.fftSize = FFT_SIZE;
-    analyser.smoothingTimeConstant = 0.05;
+    analyser.fftSize = ANALYSER_FFT_SIZE;
+    analyser.smoothingTimeConstant = ANALYSER_SMOOTHING;
+    analyser.minDecibels = -100;
+    analyser.maxDecibels = -80;
 
     const gain = context.createGain();
     gain.gain.value = GATE_CLOSED;
 
     const destination = context.createMediaStreamDestination();
 
+    source.connect(gain);
     source.connect(analyser);
-    analyser.connect(gain);
     gain.connect(destination);
 
     this.context = context;
     this.analyser = analyser;
     this.gain = gain;
+    this.levelBuffer = new Uint8Array(analyser.frequencyBinCount) as Uint8Array<ArrayBuffer>;
     this.nodes = [source, analyser, gain];
     this.processedTrack = destination.stream.getAudioTracks()[0];
   }
 
-  private measureLevel() {
-    const analyser = this.analyser;
-    if (!analyser) {
-      return 0;
-    }
-
-    analyser.getFloatTimeDomainData(this.buffer);
-
-    let sumOfSquares = 0;
-    for (const sample of this.buffer) {
-      sumOfSquares += sample * sample;
-    }
-
-    const rms = Math.sqrt(sumOfSquares / this.buffer.length);
-
-    return clamp01(rms * 4);
+  private attachContextKeepAlive(context: AudioContext) {
+    document.addEventListener('visibilitychange', this.resumeContext);
+    context.addEventListener('statechange', this.resumeContext);
+    resumeContext(context);
   }
 
-  private updateNoiseFloor(level: number) {
-    const rate = level < this.noiseFloor ? NOISE_FLOOR_FALL : NOISE_FLOOR_RISE;
-    this.noiseFloor += (level - this.noiseFloor) * rate;
+  private detachContextKeepAlive() {
+    document.removeEventListener('visibilitychange', this.resumeContext);
+    this.context?.removeEventListener('statechange', this.resumeContext);
   }
 
-  private currentThreshold() {
-    if (this.params.autoSensitivity) {
-      return clamp01(this.noiseFloor + AUTO_MARGIN);
-    }
-
-    return clamp01(this.params.threshold) * VOICE_GATE_MANUAL_RANGE;
+  private startTickLoop() {
+    this.stopTickLoop();
+    this.intervalId = setInterval(this.tick, VOICE_GATE_TICK_MS);
   }
 
-  private isOpen(level: number, now: number) {
-    if (level >= this.currentThreshold()) {
-      this.openUntil = now + HANGOVER_MS / 1000;
+  private stopTickLoop() {
+    if (this.intervalId !== null) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
     }
-
-    return now < this.openUntil;
-  }
-
-  private applyGate(open: boolean, now: number) {
-    if (!this.gain) {
-      return;
-    }
-
-    const target = open ? GATE_OPEN : GATE_CLOSED;
-    const speed = open ? ATTACK_TIME : RELEASE_TIME;
-
-    this.gain.gain.setTargetAtTime(target, now, speed);
   }
 
   private tick = () => {
-    if (!this.context) {
+    if (!this.context || !this.analyser || !this.gain || !this.levelBuffer) {
       return;
     }
 
-    const now = this.context.currentTime;
-    const level = this.measureLevel();
+    resumeContext(this.context);
 
-    this.updateNoiseFloor(level);
+    const level = measureVolume(this.analyser, this.levelBuffer);
+    const bypassGate = document.hidden;
+    const open = bypassGate || this.detector.step(level, this.params);
+    const target = open ? GATE_OPEN : GATE_CLOSED;
+    const speed = open ? ATTACK_TIME : RELEASE_TIME;
 
-    const open = this.isOpen(level, now);
-
-    this.applyGate(open, now);
+    this.gain.gain.setTargetAtTime(target, this.context.currentTime, speed);
     this.onLevel?.(level, open);
-
-    this.rafId = requestAnimationFrame(this.tick);
   };
 }

@@ -8,7 +8,6 @@ import {
   CheckUpdateButton,
   DownloadAppButton,
   GithubButton,
-  LobbyButton,
   LogoutButton,
   ToggleChannelsButton,
 } from './components';
@@ -19,13 +18,11 @@ export const AppSidebar = ({
   onToggleChannels,
   orientation = 'vertical',
   showToggleChannels = true,
-  onNavigate,
 }: AppSidebarProps) => (
   <div className={s.root({ orientation })}>
     {showToggleChannels && (
       <ToggleChannelsButton opened={channelsOpened} onToggle={onToggleChannels} />
     )}
-    <LobbyButton onNavigate={onNavigate} />
     <FriendsDialog />
     {!isTauri() && <DownloadAppButton />}
     <div className={s.spacer} />

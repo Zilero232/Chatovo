@@ -15,8 +15,8 @@ export const useChatUnread = (roomId: string, isOpen: boolean) => {
     }
   }, [isOpen]);
 
-  appEvents.on.chatMessage(({ roomId: eventRoomId, senderId, roomKind }) => {
-    if (roomKind !== 'group' || eventRoomId !== roomId || isOpen || senderId === user?.id) {
+  appEvents.on.chatMessage(({ roomId: eventRoomId, senderId }) => {
+    if (eventRoomId !== roomId || isOpen || senderId === user?.id) {
       return;
     }
 

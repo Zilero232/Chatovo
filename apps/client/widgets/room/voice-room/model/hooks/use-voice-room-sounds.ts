@@ -67,8 +67,8 @@ export const useVoiceRoomSounds = (roomId: string) => {
 
   appEvents.on.pttHold(() => playRef.current.play('ptt'));
   appEvents.on.reaction(() => playRef.current.play('reaction'));
-  appEvents.on.chatMessage(({ roomId: eventRoomId, senderId, roomKind }) => {
-    if (roomKind !== 'group' || eventRoomId !== roomId || senderId === localParticipant.identity) {
+  appEvents.on.chatMessage(({ roomId: eventRoomId, senderId }) => {
+    if (eventRoomId !== roomId || senderId === localParticipant.identity) {
       return;
     }
 

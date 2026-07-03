@@ -2,7 +2,12 @@
 
 import { useTranslations } from 'next-intl';
 import { Slider as SliderPrimitive } from 'radix-ui';
-import { useAppSettings, VOICE_GATE_MANUAL_RANGE } from '@/entities/app/settings';
+import { useRef } from 'react';
+import {
+  useAppSettings,
+  VOICE_GATE_MANUAL_RANGE,
+  VoiceGateDetector,
+} from '@/entities/app/settings';
 import { formatPercent } from '@/shared/lib';
 import { useMicAnalyser } from '../../model/hooks';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
@@ -18,9 +23,19 @@ export const SensitivityControl = ({ deviceId, audio }: SensitivityControlProps)
   const { setGroup } = useAppSettings();
 
   const level = useMicAnalyser({ deviceId, audio, active: true });
+  const gateRef = useRef(new VoiceGateDetector());
+  const gateKey = `${audio.autoSensitivity}:${audio.micThreshold}`;
+  const gateKeyRef = useRef(gateKey);
 
-  const threshold = audio.micThreshold * VOICE_GATE_MANUAL_RANGE;
-  const open = level >= threshold;
+  if (gateKeyRef.current !== gateKey) {
+    gateKeyRef.current = gateKey;
+    gateRef.current.reset();
+  }
+
+  const open = gateRef.current.step(level, {
+    autoSensitivity: audio.autoSensitivity,
+    threshold: audio.micThreshold,
+  });
 
   return (
     <SliderPrimitive.Root
