@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { ChangeEmailForm } from '@/features/auth/change-email';
 import { ChangePasswordForm } from '@/features/auth/change-password';
+import { EmailVerificationNotice } from '@/features/auth/verify-email';
 import { Separator } from '@/shared/ui';
 import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 
@@ -11,6 +12,8 @@ export const SecurityTab = () => {
 
   return (
     <div className={s.profilePanel}>
+      <EmailVerificationNotice />
+
       <section className={s.profileSection}>
         <h3 className={s.profileSectionTitle}>{t('emailTitle')}</h3>
         <ChangeEmailForm />

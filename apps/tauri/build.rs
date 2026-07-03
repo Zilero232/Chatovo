@@ -1,3 +1,15 @@
 fn main() {
-    tauri_build::build()
+    tauri_build::build();
+
+    tauri_utils::build::update_android_manifest(
+        "WEBRTC PERMISSIONS",
+        "manifest",
+        [
+            r#"<uses-permission android:name="android.permission.RECORD_AUDIO" />"#,
+            r#"<uses-permission android:name="android.permission.CAMERA" />"#,
+            r#"<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />"#,
+        ]
+        .join("\n    "),
+    )
+    .expect("failed to update AndroidManifest.xml for WebRTC");
 }

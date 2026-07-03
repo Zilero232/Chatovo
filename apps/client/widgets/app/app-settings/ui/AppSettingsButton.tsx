@@ -13,7 +13,9 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
+import { useCurrentUser } from '@/entities/auth/user';
 import { isTauriDesktop } from '@/shared/lib';
+import { cn } from '@/shared/lib/cn';
 import {
   Button,
   Dialog,
@@ -68,6 +70,9 @@ export const AppSettingsButton = () => {
   const [isOpen, toggleOpen] = useBoolean(false);
   const [activeTab, setActiveTab] = useState<TabId>('profile');
 
+  const { emailVerified, user } = useCurrentUser();
+  const needsEmailVerification = Boolean(user && !emailVerified);
+
   const tabs = TABS.filter((tab) => !tab.tauriDesktopOnly || isTauriDesktop());
 
   return (
@@ -76,12 +81,14 @@ export const AppSettingsButton = () => {
         <TooltipTrigger asChild>
           <Button
             aria-label={t('open')}
+            className={cn(needsEmailVerification && s.settingsButtonAlert)}
             size="icon"
             type="button"
             variant="ghost"
             onClick={() => toggleOpen(true)}
           >
             <Settings />
+            {needsEmailVerification && <span aria-hidden className={s.settingsAlertDot} />}
           </Button>
         </TooltipTrigger>
         <TooltipContent>{t('title')}</TooltipContent>
@@ -105,6 +112,9 @@ export const AppSettingsButton = () => {
                 <TabsTrigger key={tab.id} className={s.tabsTrigger} value={tab.id}>
                   {tab.icon}
                   {t(`tabs.${tab.id}`)}
+                  {tab.id === 'security' && needsEmailVerification && (
+                    <span aria-hidden className={s.tabAlertDot} />
+                  )}
                 </TabsTrigger>
               ))}
             </TabsList>

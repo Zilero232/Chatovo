@@ -3,7 +3,6 @@
 import { useTranslations } from 'next-intl';
 import { useId } from 'react';
 import { isNullish } from 'remeda';
-import { toast } from 'sonner';
 import { useAppSettings } from '@/entities/app/settings';
 import { isTauriDesktop } from '@/shared/lib';
 import { RadioGroup, RadioGroupItem, Switch } from '@/shared/ui';
@@ -43,52 +42,52 @@ export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
   };
 
   const setActivationMode = (value: MicActivationMode) => {
-    if (value === 'pushToTalk' && !isDesktop) {
-      toast.info(t('activationPttDesktopOnly'));
-
-      return;
-    }
-
     setGroup('audio', { activationMode: value });
   };
 
+  const showVoiceActivityControls = !isDesktop || audio.activationMode === 'voiceActivity';
+
   return (
     <div className={s.tabPanel}>
-      <SettingRow
-        label={t('activation')}
-        hint={t('activationHint')}
-        control={
-          <RadioGroup
-            className="flex flex-row flex-wrap items-center gap-x-5 gap-y-2"
-            value={audio.activationMode}
-            onValueChange={(value) => setActivationMode(value as MicActivationMode)}
-          >
-            <label className="flex items-center gap-2 text-sm" htmlFor={voiceId}>
-              <RadioGroupItem id={voiceId} value="voiceActivity" />
-              {t('activationVoice')}
-            </label>
-            <label className="flex items-center gap-2 text-sm" htmlFor={pttId}>
-              <RadioGroupItem id={pttId} value="pushToTalk" />
-              {t('activationPtt')}
-            </label>
-          </RadioGroup>
-        }
-      />
-
-      {pttBindingMissing && (
-        <span className={`${s.rowHint} -mt-1`}>
-          {t.rich('activationPttNoBinding', {
-            link: (chunks) => (
-              <button
-                className="underline underline-offset-2 hover:text-foreground"
-                type="button"
-                onClick={onJumpToShortcuts}
+      {isDesktop && (
+        <>
+          <SettingRow
+            label={t('activation')}
+            hint={t('activationHint')}
+            control={
+              <RadioGroup
+                className="flex flex-row flex-wrap items-center gap-x-5 gap-y-2"
+                value={audio.activationMode}
+                onValueChange={(value) => setActivationMode(value as MicActivationMode)}
               >
-                {chunks}
-              </button>
-            ),
-          })}
-        </span>
+                <label className="flex items-center gap-2 text-sm" htmlFor={voiceId}>
+                  <RadioGroupItem id={voiceId} value="voiceActivity" />
+                  {t('activationVoice')}
+                </label>
+                <label className="flex items-center gap-2 text-sm" htmlFor={pttId}>
+                  <RadioGroupItem id={pttId} value="pushToTalk" />
+                  {t('activationPtt')}
+                </label>
+              </RadioGroup>
+            }
+          />
+
+          {pttBindingMissing && (
+            <span className={`${s.rowHint} -mt-1`}>
+              {t.rich('activationPttNoBinding', {
+                link: (chunks) => (
+                  <button
+                    className="underline underline-offset-2 hover:text-foreground"
+                    type="button"
+                    onClick={onJumpToShortcuts}
+                  >
+                    {chunks}
+                  </button>
+                ),
+              })}
+            </span>
+          )}
+        </>
       )}
 
       <SettingRow
@@ -105,7 +104,7 @@ export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
         stacked
       />
 
-      {audio.activationMode === 'voiceActivity' && (
+      {showVoiceActivityControls && (
         <>
           <SettingRow
             label={t('autoSensitivity')}

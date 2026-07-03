@@ -14,15 +14,15 @@ export const RoomHeader = ({ name, roomId }: RoomHeaderProps) => {
       </span>
 
       <div className={s.info}>
-        <span className={s.title}>{name}</span>
+        <div className={s.titleRow}>
+          <span className={s.title}>{name}</span>
+          <div className={s.mobileInvite}>
+            <RoomInviteButton roomId={roomId} size="sm" />
+          </div>
+        </div>
       </div>
 
-      <div className={s.actions}>
-        <div className={s.mobileInvite}>
-          <RoomInviteButton roomId={roomId} size="sm" />
-        </div>
-        <ConnectionIndicator />
-      </div>
+      <ConnectionIndicator />
     </div>
   );
 };

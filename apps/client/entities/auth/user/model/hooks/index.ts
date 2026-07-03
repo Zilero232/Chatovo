@@ -9,6 +9,7 @@ export {
   useChangePassword,
 } from './use-change-password';
 export { useCurrentUser } from './use-current-user';
+export { useSendVerificationEmail } from './use-send-verification-email';
 export {
   type ProfileValues,
   profileSchema,

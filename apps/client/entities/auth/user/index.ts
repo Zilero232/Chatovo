@@ -9,6 +9,7 @@ export {
   useChangeEmail,
   useChangePassword,
   useCurrentUser,
+  useSendVerificationEmail,
   useUpdateProfile,
 } from './model/hooks';
 export { UserAvatar } from './ui/UserAvatar';
