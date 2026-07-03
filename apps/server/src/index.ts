@@ -15,6 +15,7 @@ import { feedbackRouter } from './modules/feedback';
 import { friendsRouter } from './modules/friends';
 import { githubRouter } from './modules/github';
 import { livekitRouter } from './modules/livekit';
+import { pushRouter } from './modules/push';
 import { realtimeWsRoute } from './modules/realtime';
 import { roomsRouter } from './modules/rooms';
 import { UPLOADS_DIR } from './modules/uploads';
@@ -61,12 +62,14 @@ export const routes = app
   .use('/users/*', authMiddleware)
   .use('/chat/*', authMiddleware)
   .use('/feedback/*', authMiddleware)
+  .use('/push/*', authMiddleware)
   .use('/friends/*', friendsAuthMiddleware)
   .use('/livekit/*', livekitAuthMiddleware)
   .route('/rooms', roomsRouter)
   .route('/users', usersRouter)
   .route('/chat', chatRouter)
   .route('/feedback', feedbackRouter)
+  .route('/push', pushRouter)
   .route('/friends', friendsRouter)
   .route('/github', githubRouter)
   .route('/livekit', livekitRouter)

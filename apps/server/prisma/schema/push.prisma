@@ -1,0 +1,15 @@
+model PushDevice {
+  id        String   @id @default(cuid())
+
+  userId    String
+  token     String   @unique
+  platform  String
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+
+  @@index([userId])
+  @@map("push_device")
+}

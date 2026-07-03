@@ -1,4 +1,5 @@
 import { prisma } from '../../core';
+import { sendDmMessagePush } from '../push/push.service';
 import { emitRoomEvent, emitUserEvent } from '../realtime/emit';
 import type { ChatMessage, RealtimeServerMessage } from '@chatovo/schemas';
 
@@ -27,6 +28,14 @@ export const emitChatEvent = async (
   if (room?.kind === 'dm' && room.dmUserAId && room.dmUserBId) {
     emitUserEvent(room.dmUserAId, message);
     emitUserEvent(room.dmUserBId, message);
+
+    if (event.type === 'chat.message' && event.message.senderId) {
+      const recipientId =
+        event.message.senderId === room.dmUserAId ? room.dmUserBId : room.dmUserAId;
+
+      void sendDmMessagePush({ recipientId, message: event.message });
+    }
+
     return;
   }
 

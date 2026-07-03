@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "997590229973",
+    "project_id": "chatovo-d3017",
+    "storage_bucket": "chatovo-d3017.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997590229973:android:fc5bf6681c387b681d535c",
+        "android_client_info": {
+          "package_name": "chatovo.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZQpr4cpKGZgjc7oT8l3sLZzhPulWWp5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -37,4 +37,6 @@ Android setup: install Android Studio (SDK + NDK), copy `apps/tauri/.env.example
 
 **WebRTC (mic/camera):** `build.rs` calls `tauri_utils::build::update_android_manifest` (same API Tauri plugins use) to inject `RECORD_AUDIO`, `CAMERA`, and `MODIFY_AUDIO_SETTINGS` into `gen/android/.../AndroidManifest.xml` on Android builds. Without these, `getUserMedia` fails on Android — `RustWebChromeClient` can only show the OS prompt when permissions are declared in the manifest.
 
+**FCM (push):** `google-services.json` lives in `android/` (committed). `scripts/setup-android-fcm.mjs` runs before every `android:*` build and copies it into `gen/android/app/` + applies the Google Services Gradle plugin — `gen/` is gitignored and must not be edited by hand.
+
 **Android dev:** `bun dev:server` + `bun tauri:android:dev`. HMR shim in client `layout.tsx` (`getTauriMobileHmrShim`).

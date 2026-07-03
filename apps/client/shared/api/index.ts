@@ -27,6 +27,7 @@ export {
 } from './friends';
 export { getAppDownloads } from './github';
 export { fetchLiveKitToken } from './livekit';
+export { registerPushDevice, unregisterPushDevice } from './push';
 export { queryClient } from './query-client';
 export { buildRealtimeUrl } from './realtime';
 export { createRoom, deleteRoom, getRoom, listRooms, updateRoom } from './rooms';

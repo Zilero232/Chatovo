@@ -12,4 +12,11 @@ fn main() {
         .join("\n    "),
     )
     .expect("failed to update AndroidManifest.xml for WebRTC");
+
+    tauri_utils::build::update_android_manifest(
+        "POST NOTIFICATIONS",
+        "manifest",
+        r#"<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />"#,
+    )
+    .expect("failed to update AndroidManifest.xml for POST_NOTIFICATIONS");
 }
