@@ -440,7 +440,13 @@
       "newPasswordLabel": "Новый пароль",
       "confirmPasswordLabel": "Повторите новый пароль",
       "changePassword": "Сменить пароль",
-      "passwordChanged": "Пароль обновлён"
+      "passwordChanged": "Пароль обновлён",
+      "emailNotVerifiedTitle": "Email не подтверждён",
+      "emailNotVerifiedDescription": "Подтвердите {email}, чтобы защитить аккаунт и открыть все возможности.",
+      "emailVerificationSend": "Отправить письмо",
+      "emailVerificationResend": "Отправить снова",
+      "emailVerificationSent": "Письмо отправлено",
+      "emailVerificationSentHint": "Проверьте входящие и папку «Спам»."
     },
     "devices": {
       "systemDefault": "Системное по умолчанию",

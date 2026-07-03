@@ -487,7 +487,13 @@
       "newPasswordLabel": "New password",
       "confirmPasswordLabel": "Confirm new password",
       "changePassword": "Change password",
-      "passwordChanged": "Password updated"
+      "passwordChanged": "Password updated",
+      "emailNotVerifiedTitle": "Email not verified",
+      "emailNotVerifiedDescription": "Confirm {email} to secure your account and unlock all features.",
+      "emailVerificationSend": "Send verification email",
+      "emailVerificationResend": "Resend email",
+      "emailVerificationSent": "Verification email sent",
+      "emailVerificationSentHint": "Check your inbox and spam folder."
     },
     "devices": {
       "systemDefault": "System default",

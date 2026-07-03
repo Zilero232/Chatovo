@@ -10,6 +10,7 @@ Checklist and copy-paste materials for publishing `chatovo.app`.
 | Terms `/terms` | Done (client) |
 | Android Tauri config | Done (`tauri.android.conf.json`) |
 | Mobile capability | Done (`capabilities/mobile.json`) |
+| Android mic/camera manifest | Done (`build.rs` → `tauri_utils::build::update_android_manifest`) |
 | Desktop-only UI gated | Done (`isTauriDesktop()`) |
 | CORS for Android WebView | Done (`http(s)://localhost`) |
 | `gen/android/` project | Run `bun tauri:android:init` locally / in CI (gitignored) |

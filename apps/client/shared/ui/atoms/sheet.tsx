@@ -1,6 +1,7 @@
 import { XIcon } from 'lucide-react';
 import { Dialog as SheetPrimitive } from 'radix-ui';
 import { cn } from '@/shared/lib/cn';
+import { modalCloseStyles } from './modal-close.styles';
 import type * as React from 'react';
 
 const Sheet = ({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) => (
@@ -63,8 +64,8 @@ const SheetContent = ({
     >
       {children}
       {showCloseButton && (
-        <SheetPrimitive.Close className="top-safe-offset right-safe-offset absolute inline-flex size-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-foreground/70 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/10 hover:text-foreground focus:ring-2 focus:ring-brand-violet/40 focus:outline-hidden disabled:pointer-events-none">
-          <XIcon className="size-4" />
+        <SheetPrimitive.Close className={modalCloseStyles}>
+          <XIcon />
           <span className="sr-only">Close</span>
         </SheetPrimitive.Close>
       )}

@@ -3,8 +3,12 @@ export const appSettingsStyles = {
 
   tabs: 'flex min-h-0 flex-1 flex-col gap-3 sm:flex-row sm:gap-4',
   tabsList:
-    'flex w-full shrink-0 snap-x snap-mandatory flex-row items-stretch gap-1 overflow-x-auto rounded-xl border border-white/10 bg-white/5 p-1 backdrop-blur-md sm:h-auto sm:w-48 sm:snap-none sm:flex-col sm:self-start',
-  tabsTrigger: 'flex-none shrink-0 snap-start justify-start gap-2 px-3 py-1.5 sm:w-full',
+    'flex w-full shrink-0 flex-row items-stretch justify-start gap-1 overflow-x-auto rounded-xl border border-white/10 bg-white/5 p-1 backdrop-blur-md scrollbar-none sm:h-auto sm:w-48 sm:flex-col sm:self-start',
+  tabsTrigger: 'shrink-0 justify-start gap-2 px-3 py-1.5 sm:w-full',
+  tabAlertDot: 'size-1.5 shrink-0 rounded-full bg-amber-400',
+  settingsButtonAlert: 'relative',
+  settingsAlertDot:
+    'pointer-events-none absolute top-1.5 right-1.5 size-2 rounded-full bg-amber-400 ring-2 ring-background',
   tabsContent:
     'min-w-0 flex-1 animate-in fade-in slide-in-from-bottom-1 fill-mode-both duration-200',
 

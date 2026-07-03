@@ -2,6 +2,7 @@ import { XIcon } from 'lucide-react';
 import { Dialog as DialogPrimitive } from 'radix-ui';
 import { cn } from '@/shared/lib/cn';
 import { Button } from './button';
+import { modalCloseStyles } from './modal-close.styles';
 import type * as React from 'react';
 
 const Dialog = ({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) => (
@@ -54,10 +55,7 @@ const DialogContent = ({
     >
       {children}
       {showCloseButton && (
-        <DialogPrimitive.Close
-          className="top-safe-offset right-safe-offset absolute inline-flex size-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-foreground/70 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/10 hover:text-foreground focus:ring-2 focus:ring-brand-violet/40 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-          data-slot="dialog-close"
-        >
+        <DialogPrimitive.Close className={modalCloseStyles} data-slot="dialog-close">
           <XIcon />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>
@@ -68,7 +66,7 @@ const DialogContent = ({
 
 const DialogHeader = ({ className, ...props }: React.ComponentProps<'div'>) => (
   <div
-    className={cn('flex flex-col gap-2 text-center sm:text-left', className)}
+    className={cn('flex flex-col gap-2 pr-10 text-center sm:pr-0 sm:text-left', className)}
     data-slot="dialog-header"
     {...props}
   />
