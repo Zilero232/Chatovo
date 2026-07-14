@@ -13,7 +13,7 @@ import {
   useCurrentUser,
 } from '@/entities/auth/user';
 import { Button, Input, Label } from '@/shared/ui';
-import { changeEmailFormStyles as s } from './ChangeEmailForm.styles';
+import s from './ChangeEmailForm.module.scss';
 
 export const ChangeEmailForm = () => {
   const t = useTranslations('settings.security');

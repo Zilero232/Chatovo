@@ -24,7 +24,7 @@ import {
   TabsTrigger,
 } from '@/shared/ui';
 import { FriendsTab, RequestsTab } from './components';
-import { friendsDialogStyles as s } from './FriendsDialog.styles';
+import s from './FriendsDialog.module.scss';
 
 export const FriendsDialog = () => {
   const t = useTranslations('friends');
@@ -60,6 +60,7 @@ export const FriendsDialog = () => {
       </div>
 
       <Dialog
+        disablePointerDismissal={blocksParentDialogClose}
         open={open}
         onOpenChange={(next) => {
           if (!next && blocksParentDialogClose) {
@@ -69,24 +70,7 @@ export const FriendsDialog = () => {
           toggleOpen(next);
         }}
       >
-        <DialogContent
-          className={s.content}
-          onFocusOutside={(event) => {
-            if (blocksParentDialogClose) {
-              event.preventDefault();
-            }
-          }}
-          onInteractOutside={(event) => {
-            if (blocksParentDialogClose) {
-              event.preventDefault();
-            }
-          }}
-          onPointerDownOutside={(event) => {
-            if (blocksParentDialogClose) {
-              event.preventDefault();
-            }
-          }}
-        >
+        <DialogContent className={s.content}>
           <DialogHeader>
             <DialogTitle>{t('title')}</DialogTitle>
             <DialogDescription>{t('description')}</DialogDescription>

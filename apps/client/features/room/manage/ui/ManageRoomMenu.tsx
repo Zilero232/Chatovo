@@ -1,10 +1,10 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useCurrentUser } from '@/entities/auth/user';
-import { cn } from '@/shared/lib/cn';
 import {
   Button,
   DropdownMenu,
@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui';
 import { DeleteRoomDialog, EditRoomDialog } from './components';
-import { manageRoomMenuStyles as s } from './ManageRoomMenu.styles';
+import s from './ManageRoomMenu.module.scss';
 import type { ManageRoomMenuProps } from './ManageRoomMenu.types';
 
 export const ManageRoomMenu = ({ room, className }: ManageRoomMenuProps) => {
@@ -36,7 +36,7 @@ export const ManageRoomMenu = ({ room, className }: ManageRoomMenuProps) => {
         <DropdownMenuTrigger asChild>
           <Button
             aria-label={t('open')}
-            className={cn(s.trigger, className)}
+            className={clsx(s.trigger, className)}
             size="icon"
             variant="ghost"
             onClick={(event) => event.stopPropagation()}

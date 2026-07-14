@@ -3,6 +3,7 @@
 import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+import s from './ToggleChannelsButton.module.scss';
 import type { ToggleChannelsButtonProps } from './ToggleChannelsButton.types';
 
 export const ToggleChannelsButton = ({ opened, onToggle }: ToggleChannelsButtonProps) => {
@@ -13,9 +14,9 @@ export const ToggleChannelsButton = ({ opened, onToggle }: ToggleChannelsButtonP
       <TooltipTrigger asChild>
         <Button aria-label={t('toggleChannels')} size="icon" variant="ghost" onClick={onToggle}>
           {opened ? (
-            <PanelLeftClose key="close" className="fade-in zoom-in-75 animate-in duration-200" />
+            <PanelLeftClose key="close" className={s.iconEnter} />
           ) : (
-            <PanelLeftOpen key="open" className="fade-in zoom-in-75 animate-in duration-200" />
+            <PanelLeftOpen key="open" className={s.iconEnter} />
           )}
         </Button>
       </TooltipTrigger>

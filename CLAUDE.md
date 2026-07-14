@@ -32,7 +32,7 @@ Each app folder has its own `CLAUDE.md` (see [Per-app guidance](#per-app-guidanc
 
 Each app has its own `CLAUDE.md` (auto-loaded when working in its folder) with the detailed map and local conventions:
 
-- **[apps/client/CLAUDE.md](apps/client/CLAUDE.md)** — Feature-Sliced Design layers, public-API/barrel rules, naming, i18n, shadcn. Full FSD spec in [docs/fsd.md](docs/fsd.md), code style in [docs/style.md](docs/style.md).
+- **[apps/client/CLAUDE.md](apps/client/CLAUDE.md)** — Feature-Sliced Design layers, public-API/barrel rules, naming, i18n, `shared/ui` layout. Full FSD spec in [docs/fsd.md](docs/fsd.md), code style in [docs/style.md](docs/style.md).
 - **[apps/server/CLAUDE.md](apps/server/CLAUDE.md)** — module convention (routes / handlers / service / `lib`), error handling, LiveKit/Prisma specifics.
 - **[apps/tauri/CLAUDE.md](apps/tauri/CLAUDE.md)** — Rust shell, plugins, `isTauri()` gating.
 
@@ -50,9 +50,9 @@ The rules below apply repo-wide (every app and `packages/`).
 4. Form state + validation → **`react-hook-form`** + **`@hookform/resolvers/zod`** + Zod schemas from `@chatovo/schemas`. No useState-driven forms.
 5. Server state, caching, mutations, query keys → **`@tanstack/react-query`** (`useQuery`, `useMutation`, `QueryClient`). All query keys live in `shared/constants/query-keys.ts`. No `useEffect + fetch` patterns.
 6. Date / time → **`date-fns`** (already in deps). No `Date` arithmetic by hand.
-7. Class composition → **`clsx`** + **`class-variance-authority`** (cva). No string concatenation.
+7. Class composition → **`clsx`** напрямую. Не оборачивать в `cn()`.
 8. Validation schemas → **Zod 4** via `@chatovo/schemas`. Schema is source of truth, infer types with `z.infer`.
-9. UI primitives (dialog, dropdown, tooltip, popover, slot, select, tabs, switch, etc.) → **Radix UI** primitives wrapped via shadcn in `shared/ui/`. Never reimplement accessibility / focus trap / aria from scratch.
+9. UI primitives (dialog, dropdown, tooltip, popover, tabs, switch, etc.) → **react-aria-components** (+ **react-aria** где нужны хуки) в `shared/ui/`. Стили — **SCSS modules** (`*.module.scss`). Не реализуй focus trap / aria с нуля.
 10. Icons → **`lucide-react`**. No custom SVG inline unless brand-specific.
 11. Toasts → **`sonner`** (`toast.success` / `toast.error`). No custom notification system.
 12. LiveKit room state, participants, tracks, chat → **`@livekit/components-react`** hooks (`useChat`, `useParticipants`, `useTracks`, `useConnectionState`). No raw `Room` event listeners unless the hook genuinely doesn't cover it.

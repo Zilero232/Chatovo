@@ -1,11 +1,12 @@
 'use client';
 
 import { useConnectionState } from '@livekit/components-react';
+import { clsx } from 'clsx';
 import { ConnectionState } from 'livekit-client';
 import { useTranslations } from 'next-intl';
 import { match } from 'ts-pattern';
 import { Spinner } from '@/shared/ui';
-import { connectingOverlayStyles as s } from './ConnectingOverlay.styles';
+import s from './ConnectingOverlay.module.scss';
 import type { ConnectingOverlayProps } from './ConnectingOverlay.types';
 
 export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
@@ -26,7 +27,7 @@ export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
 
   return (
     <div className={s.root}>
-      <div className={s.box}>
+      <div className={clsx(s.box, 'glass shadow-glow-violet')}>
         <Spinner size="lg" />
         <p className={s.text}>{text}</p>
       </div>

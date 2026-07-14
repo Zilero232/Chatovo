@@ -15,7 +15,7 @@ import {
   ChatMessageItem,
   DateDivider,
 } from '../components';
-import { chatConversationStyles as s } from './ChatConversation.styles';
+import s from './ChatConversation.module.scss';
 import type { Ref } from 'react';
 import type { ChatConversationProps } from './ChatConversation.types';
 
@@ -47,7 +47,7 @@ export const ChatConversation = ({
     <div ref={dropRef as Ref<HTMLDivElement>} className={s.root}>
       {overed && (
         <div className={s.dropOverlay}>
-          <Paperclip className="size-6" />
+          <Paperclip className={s.dropIcon} />
           {t('dropToSend')}
         </div>
       )}

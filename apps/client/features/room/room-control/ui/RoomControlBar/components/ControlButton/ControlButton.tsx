@@ -1,8 +1,14 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
 import { DeviceMenu } from '../DeviceMenu';
-import { controlButton, controlMain, controlShell } from './ControlButton.styles';
+import s from './ControlButton.module.scss';
+import {
+  controlButtonToneClass,
+  controlMainToneClass,
+  controlShellToneClass,
+} from './control-button-tones';
 import type { ControlButtonProps } from './ControlButton.types';
 
 export const ControlButton = ({
@@ -21,7 +27,7 @@ export const ControlButton = ({
           <button
             aria-label={label}
             aria-pressed={pressed}
-            className={controlButton({ tone })}
+            className={clsx(s.controlButton, controlButtonToneClass[tone])}
             disabled={disabled}
             type="button"
             onClick={onClick}
@@ -35,13 +41,13 @@ export const ControlButton = ({
   }
 
   return (
-    <div className={controlShell({ tone })}>
+    <div className={clsx(s.controlShell, controlShellToneClass[tone])}>
       <Tooltip>
         <TooltipTrigger asChild>
           <button
             aria-label={label}
             aria-pressed={pressed}
-            className={controlMain({ tone })}
+            className={clsx(s.controlMain, controlMainToneClass[tone])}
             disabled={disabled}
             type="button"
             onClick={onClick}

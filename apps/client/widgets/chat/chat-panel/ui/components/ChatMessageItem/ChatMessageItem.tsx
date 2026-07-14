@@ -3,7 +3,7 @@
 import { decodeChatAttachment } from '@chatovo/schemas';
 import { useState } from 'react';
 import { readParticipantMeta } from '@/entities/room/room';
-import { chatMessageItemStyles as s } from './ChatMessageItem.styles';
+import s from './ChatMessageItem.module.scss';
 import {
   DeleteMessageDialog,
   EditMessageDialog,
@@ -42,7 +42,7 @@ export const ChatMessageItem = ({
   const startEdit = () => setIsEditing(true);
 
   return (
-    <div className={s.root} data-own={isOwn}>
+    <div className={s.root} data-own={isOwn} data-message-root>
       <div className={s.column} data-own={isOwn}>
         {showHeader && (
           <MessageMeta

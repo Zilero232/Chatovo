@@ -9,7 +9,7 @@ import {
   useIncomingFriendRequests,
 } from '@/entities/social/friend';
 import { Spinner } from '@/shared/ui';
-import { friendsDialogStyles as s } from '../../FriendsDialog.styles';
+import s from '../../FriendsDialog.module.scss';
 import { FriendRequestListItem } from './FriendRequestListItem';
 import type { FriendRequestEntry } from '@chatovo/schemas';
 

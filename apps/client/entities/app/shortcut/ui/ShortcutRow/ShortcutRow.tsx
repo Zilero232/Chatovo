@@ -1,7 +1,7 @@
 'use client';
 
 import { ShortcutClearButton, ShortcutComboButton } from './components';
-import { shortcutRowStyles as s } from './ShortcutRow.styles';
+import s from './ShortcutRow.module.scss';
 import type { ShortcutRowProps } from './ShortcutRow.types';
 
 export const ShortcutRow = ({

@@ -1,0 +1,15 @@
+.iconEnter {
+  animation: icon-enter 200ms ease-out both;
+}
+
+@keyframes icon-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

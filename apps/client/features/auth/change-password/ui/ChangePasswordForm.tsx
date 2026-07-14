@@ -12,7 +12,7 @@ import {
   useChangePassword,
 } from '@/entities/auth/user';
 import { Button, Input, Label } from '@/shared/ui';
-import { changePasswordFormStyles as s } from './ChangePasswordForm.styles';
+import s from './ChangePasswordForm.module.scss';
 
 export const ChangePasswordForm = () => {
   const t = useTranslations('settings.security');

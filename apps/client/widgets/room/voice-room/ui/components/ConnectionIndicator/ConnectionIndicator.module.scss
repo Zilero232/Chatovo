@@ -1,0 +1,42 @@
+.root {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.125rem;
+}
+
+.bar {
+  width: 0.25rem;
+  border-radius: 1px;
+  transition: background-color 150ms ease, box-shadow 150ms ease;
+}
+
+.barInactive {
+  background: oklch(1 0 0 / 15%);
+}
+
+.barGood {
+  background: var(--brand-cyan);
+  box-shadow: 0 0 6px oklch(0.82 0.16 200 / 60%);
+}
+
+.barFair {
+  background: oklch(0.85 0.18 85);
+  box-shadow: 0 0 6px oklch(0.85 0.18 85 / 60%);
+}
+
+.barPoor {
+  background: var(--destructive);
+  box-shadow: 0 0 6px oklch(0.7 0.22 22 / 60%);
+}
+
+.ping {
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted-foreground);
+}

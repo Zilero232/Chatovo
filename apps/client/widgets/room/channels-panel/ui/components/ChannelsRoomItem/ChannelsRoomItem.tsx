@@ -1,5 +1,6 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { Crown, Headphones, Lock } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { isEmpty } from 'remeda';
@@ -14,7 +15,7 @@ import { ManageRoomMenu } from '@/features/room/manage';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
 import { buildRoomHref } from '@/shared/constants';
 import { AvatarWithBadges } from '@/shared/ui';
-import { channelsRoomItemStyles as s } from './ChannelsRoomItem.styles';
+import s from './ChannelsRoomItem.module.scss';
 import type { ChannelsRoomItemProps } from './ChannelsRoomItem.types';
 
 export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) => {
@@ -38,7 +39,7 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
     <div>
       <div className={s.row}>
         <button
-          className={s.trigger({ active: isActive, owner: isOwner })}
+          className={clsx(s.trigger, isActive && s.triggerActive, isOwner && s.triggerOwner)}
           type="button"
           onClick={handleClick}
         >

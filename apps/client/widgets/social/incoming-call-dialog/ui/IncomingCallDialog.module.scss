@@ -1,0 +1,63 @@
+.content {
+  max-width: 24rem;
+  gap: 1.5rem;
+  border-color: oklch(1 0 0 / 12%);
+  background: color-mix(in oklch, var(--shell-surface) 95%, transparent);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 24px 64px -24px oklch(0.7 0.22 295 / 55%);
+}
+
+.header {
+  text-align: center;
+
+  @media (min-width: 640px) {
+    text-align: center;
+  }
+}
+
+.caller {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 5rem;
+  height: 5rem;
+  box-shadow:
+    0 0 0 4px color-mix(in oklch, var(--brand-violet) 20%, transparent),
+    0 0 40px -8px oklch(0.7 0.22 295 / 75%);
+  animation: call-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes call-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.avatarFallback {
+  font-size: 1.5rem;
+}
+
+.name {
+  background-image: linear-gradient(to right, var(--foreground), color-mix(in oklch, var(--foreground) 80%, transparent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}

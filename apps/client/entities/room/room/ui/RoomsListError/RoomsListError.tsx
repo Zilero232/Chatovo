@@ -5,6 +5,7 @@ import { WifiOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { QUERY_KEYS } from '@/shared/constants';
 import { Button, CenteredState } from '@/shared/ui';
+import s from './RoomsListError.module.scss';
 
 export const RoomsListError = () => {
   const t = useTranslations('lobby.roomsError');
@@ -22,7 +23,7 @@ export const RoomsListError = () => {
         </Button>
       }
       description={t('description')}
-      icon={<WifiOff className="size-5" />}
+      icon={<WifiOff className={s.icon} />}
       size="sm"
       title={t('title')}
     />

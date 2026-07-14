@@ -1,3 +1,3 @@
-export * from './auth-background';
-export * from './centered-state';
-export * from './confirm-dialog';
+export * from './AuthBackground';
+export * from './CenteredState';
+export * from './ConfirmDialog';

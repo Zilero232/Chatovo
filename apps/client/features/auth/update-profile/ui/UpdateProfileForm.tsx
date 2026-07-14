@@ -17,7 +17,7 @@ import { useAvatarDraft } from '../model/use-avatar-draft';
 import { AvatarField } from './AvatarField';
 import { BannerColorField } from './BannerColorField';
 import { ProfileTextField } from './ProfileTextField';
-import { updateProfileFormStyles as s } from './UpdateProfileForm.styles';
+import s from './UpdateProfileForm.module.scss';
 
 export const UpdateProfileForm = () => {
   const t = useTranslations('settings.profile');

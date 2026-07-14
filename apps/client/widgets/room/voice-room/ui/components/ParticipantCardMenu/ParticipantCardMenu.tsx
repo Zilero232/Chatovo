@@ -15,7 +15,7 @@ import {
   Slider,
 } from '@/shared/ui';
 import { useParticipantVolume } from '../../../model/hooks';
-import { participantCardMenuStyles as s } from './ParticipantCardMenu.styles';
+import s from './ParticipantCardMenu.module.scss';
 import type { ParticipantCardMenuProps } from './ParticipantCardMenu.types';
 
 export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMenuProps) => {
@@ -50,9 +50,9 @@ export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMe
               {isMuted ? t('unmuteForMe') : t('muteForMe')}
             </ContextMenuItem>
 
-            <ContextMenuItem className={s.volumeItem} onSelect={(event) => event.preventDefault()}>
+            <ContextMenuItem className={s.volumeItem} closeOnClick={false}>
               <div className={s.volumeRow}>
-                <span className="flex items-center gap-2">
+                <span className={s.volumeLabel}>
                   <Volume1 />
                   {t('volume')}
                 </span>
@@ -64,8 +64,8 @@ export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMe
                 max={1}
                 min={0}
                 step={0.01}
-                value={[volume]}
-                onValueChange={([next]) => setVolume(next)}
+                value={volume}
+                onValueChange={(next) => setVolume(next as number)}
               />
             </ContextMenuItem>
           </>

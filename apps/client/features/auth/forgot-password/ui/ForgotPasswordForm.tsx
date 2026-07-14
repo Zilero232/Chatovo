@@ -11,6 +11,7 @@ import {
   forgotPasswordSchema,
   useForgotPassword,
 } from '../model/use-forgot-password';
+import s from './ForgotPasswordForm.module.scss';
 
 const DEFAULT_VALUES: ForgotPasswordValues = { email: '' };
 
@@ -49,15 +50,11 @@ export const ForgotPasswordForm = ({ onBack }: ForgotPasswordFormProps) => {
         <Input autoComplete="email" id="forgot-email" type="email" {...register('email')} />
       </FormField>
 
-      <SubmitButton className="w-full" isPending={isPending}>
+      <SubmitButton className={s.submit} isPending={isPending}>
         {t('sendResetLink')}
       </SubmitButton>
 
-      <button
-        className="text-muted-foreground text-sm hover:text-foreground"
-        type="button"
-        onClick={onBack}
-      >
+      <button className={s.backLink} type="button" onClick={onBack}>
         {t('backToSignIn')}
       </button>
     </Stack>

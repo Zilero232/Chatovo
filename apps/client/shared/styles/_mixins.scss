@@ -1,0 +1,46 @@
+@use '@/shared/styles/functions' as *;
+@use '@/shared/styles/breakpoints' as *;
+
+@mixin focus-ring($color: var(--brand-violet)) {
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 #{rem(2)} color-mix(in oklch, #{$color} 50%, transparent);
+  }
+}
+
+@mixin interactive-cursor {
+  cursor: pointer;
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    cursor: not-allowed;
+  }
+}
+
+@mixin overlay-enter {
+  &[data-entering] {
+    animation: overlay-fade-in 200ms ease-out, overlay-zoom-in 200ms ease-out;
+  }
+
+  &[data-exiting] {
+    animation: overlay-fade-out 200ms ease-in, overlay-zoom-out 200ms ease-in;
+  }
+}
+
+@mixin slide-from-side {
+  &[data-placement='bottom'][data-entering] {
+    animation: slide-in-from-top 200ms ease-out;
+  }
+
+  &[data-placement='top'][data-entering] {
+    animation: slide-in-from-bottom 200ms ease-out;
+  }
+
+  &[data-placement='start'][data-entering] {
+    animation: slide-in-from-right 200ms ease-out;
+  }
+
+  &[data-placement='end'][data-entering] {
+    animation: slide-in-from-left 200ms ease-out;
+  }
+}

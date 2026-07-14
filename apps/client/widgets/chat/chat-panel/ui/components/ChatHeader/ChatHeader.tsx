@@ -1,17 +1,18 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { MessageSquare, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/shared/ui';
-import { chatHeaderStyles as s } from './ChatHeader.styles';
+import s from './ChatHeader.module.scss';
 import type { ChatHeaderProps } from './ChatHeader.types';
 
 export const ChatHeader = ({ onClose }: ChatHeaderProps) => {
   const t = useTranslations('chat');
 
   return (
-    <header className={s.root}>
-      <span aria-hidden className={s.accent} />
+    <header className={clsx('surface-bar', s.root)}>
+      <span aria-hidden className="accent-top-line" />
       <div className={s.title}>
         <MessageSquare className={s.icon} />
         <span>{t('title')}</span>

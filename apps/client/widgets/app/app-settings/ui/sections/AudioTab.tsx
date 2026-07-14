@@ -6,7 +6,7 @@ import { isNullish } from 'remeda';
 import { useAppSettings } from '@/entities/app/settings';
 import { isTauriDesktop } from '@/shared/lib';
 import { RadioGroup, RadioGroupItem, Switch } from '@/shared/ui';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import s from '../AppSettingsButton.module.scss';
 import { DeviceSelect } from '../components/DeviceSelect';
 import { MicTest } from '../components/MicTest';
 import { SensitivityControl } from '../components/SensitivityControl';
@@ -56,15 +56,15 @@ export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
             hint={t('activationHint')}
             control={
               <RadioGroup
-                className="flex flex-row flex-wrap items-center gap-x-5 gap-y-2"
+                className={s.radioGroup}
                 value={audio.activationMode}
                 onValueChange={(value) => setActivationMode(value as MicActivationMode)}
               >
-                <label className="flex items-center gap-2 text-sm" htmlFor={voiceId}>
+                <label className={s.radioLabel} htmlFor={voiceId}>
                   <RadioGroupItem id={voiceId} value="voiceActivity" />
                   {t('activationVoice')}
                 </label>
-                <label className="flex items-center gap-2 text-sm" htmlFor={pttId}>
+                <label className={s.radioLabel} htmlFor={pttId}>
                   <RadioGroupItem id={pttId} value="pushToTalk" />
                   {t('activationPtt')}
                 </label>
@@ -73,14 +73,10 @@ export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
           />
 
           {pttBindingMissing && (
-            <span className={`${s.rowHint} -mt-1`}>
+            <span className={s.rowHintTight}>
               {t.rich('activationPttNoBinding', {
                 link: (chunks) => (
-                  <button
-                    className="underline underline-offset-2 hover:text-foreground"
-                    type="button"
-                    onClick={onJumpToShortcuts}
-                  >
+                  <button className={s.linkButton} type="button" onClick={onJumpToShortcuts}>
                     {chunks}
                   </button>
                 ),

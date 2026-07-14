@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useAppSettings } from '@/entities/app/settings';
 import { Switch } from '@/shared/ui';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import s from '../AppSettingsButton.module.scss';
 import { SettingRow } from '../components/SettingRow';
 
 export const SystemTab = () => {

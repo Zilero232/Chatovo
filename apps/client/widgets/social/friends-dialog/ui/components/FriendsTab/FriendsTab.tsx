@@ -7,7 +7,7 @@ import { useFriends } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
 import { Spinner } from '@/shared/ui';
-import { friendsDialogStyles as s } from '../../FriendsDialog.styles';
+import s from '../../FriendsDialog.module.scss';
 import { FriendListItem } from '../FriendListItem';
 import type { FriendEntry, FriendUser } from '@chatovo/schemas';
 

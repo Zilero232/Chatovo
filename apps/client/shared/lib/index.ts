@@ -1,5 +1,4 @@
 export { appEvents } from './app-bus';
-export { cn } from './cn';
 export { detectAssetPlatform } from './detect-asset-platform';
 export { firstNonEmpty } from './first-non-empty';
 export { formatBytes } from './format-bytes';

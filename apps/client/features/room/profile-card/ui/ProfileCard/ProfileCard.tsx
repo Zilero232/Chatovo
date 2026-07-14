@@ -5,7 +5,7 @@ import { FriendProfileActions } from '@/features/social/friend-profile-actions';
 import { getBannerStyle } from '../../lib/banner-style';
 import { useUserProfile } from '../../model/use-user-profile';
 import { AvatarZoom, ProfileCardSkeleton, ProfileVoiceBlock } from './components';
-import { profileCardStyles as s } from './ProfileCard.styles';
+import s from './ProfileCard.module.scss';
 import type { ProfileCardProps } from './ProfileCard.types';
 
 export const ProfileCard = ({ identity, name }: ProfileCardProps) => {

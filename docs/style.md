@@ -8,7 +8,7 @@
 - **TypeScript** strict + `noUnusedLocals` + `noUnusedParameters`.
 - FSD-границы и ряд React-конвенций держим руками + ловим на review (Biome не покрывает: порядок хуков, `padding-line-between-statements`, FSD cross-slice imports).
 
-**Почему Biome:** один инструмент вместо ESLint+Prettier, на порядок быстрее, один конфиг без плагин-зоопарка. `useExhaustiveDependencies` и `useSortedClasses` (Tailwind) закрыты.
+**Почему Biome:** один инструмент вместо ESLint+Prettier, на порядок быстрее, один конфиг без плагин-зоопарка. `useExhaustiveDependencies` закрыт; сортировка Tailwind-классов больше не актуальна (стили → SCSS modules).
 
 ---
 
@@ -36,7 +36,7 @@ widgets/voice-room/
 widgets/voice-room/ui/
   VoiceRoom.tsx          ← JSX + entry-компонент
   VoiceRoom.types.ts     ← Props и локальные union-типы
-  VoiceRoom.styles.ts    ← Tailwind class-строки / cva-варианты
+  VoiceRoom.module.scss  ← целевой формат; legacy — VoiceRoom.styles.ts (Tailwind, миграция)
 ```
 
 **Подкомпоненты** (используются только внутри родителя) — каждый в папке `components/`:
@@ -69,8 +69,49 @@ import { ChannelsHeader } from './components/ChannelsHeader';
 **Правила файлов:**
 
 - `.types.ts` — создаётся только если есть Props или локальные union-типы.
-- `.styles.ts` — создаётся если 3+ Tailwind-классов в одном `className` (иначе inline, см. секцию 3).
-- `shared/ui/` — атомарный (atoms/molecules/organisms/icons), внутри сегмента файлы плоские (`atoms/button.tsx`). Импорт снаружи — через корневой barrel `@/shared/ui`, не per-primitive. Подробнее — [`docs/fsd.md`](./fsd.md) §5.
+- `.module.scss` — стили компонента (импорт `import s from './Foo.module.scss'`). В `shared/ui` — **обязательно**; в widgets/features — целевой формат (миграция с `.styles.ts`).
+- `shared/ui/` — атомарный слой (atoms/molecules/organisms/icons). **Не плоские `button.tsx`** — каждый примитив в PascalCase-папке (§2.1). Снаружи — `@/shared/ui`.
+
+### 2.1. Структура `shared/ui`
+
+Каждый примитив — отдельная папка. Плоские kebab-case файлы в `atoms/` — legacy, не добавлять новые.
+
+```
+shared/ui/
+  index.ts                    ← re-export atoms + molecules + organisms + icons
+  atoms/
+    index.ts                  ← re-export всех atoms
+    Button/
+      Button.tsx
+      Button.module.scss
+      Button.types.ts         ← опционально
+      index.ts                ← export * from './Button'; export type * from './Button.types';
+    Dialog/
+      Dialog.tsx
+      Dialog.module.scss
+      Dialog.types.ts
+      index.ts
+  molecules/
+    FormField/
+      FormField.tsx
+      FormField.module.scss
+      index.ts
+  organisms/
+    ConfirmDialog/
+      ...
+  icons/
+    LogoMark/
+      LogoMark.tsx
+      index.ts
+```
+
+**Правила:**
+
+- Имена папок и файлов компонентов — **PascalCase** (`Button/`, `Button.tsx`).
+- Стили — **`*.module.scss`**; импорт shared-утилит: `@use '@/shared/styles/mixins' as *` (alias `@/` через `loadPaths` + `turbopack.resolveAlias` в `next.config.ts`, без `../../../`).
+- Headless + a11y — **react-aria-components** (Dialog → `Modal`, Menu → `Menu`/`Popover`, и т.д.).
+- Типы React — **именованные** (`ComponentProps`, `ReactNode`, …), не `import type * as React`.
+- Внутри `shared/ui` — относительные импорты между слоями (`../../atoms/Button`). Снаружи — только `@/shared/ui`.
 
 ### Slice barrel
 
@@ -156,15 +197,20 @@ export const VoiceRoom = ({ token, serverUrl }: VoiceRoomProps) => (
 
 ---
 
-## 3. Tailwind: inline vs `styles.ts`
+## 3. Стили: SCSS modules vs legacy `.styles.ts`
+
+| Слой | Формат |
+|---|---|
+| `shared/ui/**` | `*.module.scss` + CSS-переменные из `globals.scss` |
+| widgets / features / views (миграция) | целевой — `*.module.scss`; пока ещё встречается `*.styles.ts` с Tailwind-классами |
 
 | Случай | Куда |
 |---|---|
-| 1-2 класса, не реюзается | inline в JSX |
-| 3+ классов в одном `className` | `styles.ts` под именем |
-| Условный класс (active/disabled/error) | `cva` в `styles.ts` |
-| Один набор в 2+ местах | `styles.ts`, имя по семантике |
-| `cn(...)` с 3+ аргументами | функция в `styles.ts` |
+| Стили компонента в `shared/ui` | `<Name>.module.scss` |
+| Стили подкомпонента слайса | `<Name>.module.scss` (или legacy `.styles.ts` до миграции) |
+| 1-2 utility-класса, не реюзается | inline `className` + `clsx()` — только на время миграции |
+| Условные классы | maps в TSX (`variantClass[variant]`) или SCSS-модификаторы |
+- `cn(...)` | `clsx(...)` | склейка module-классов и опционального `className` prop |
 
 Принцип — JSX читается, `s.root`/`s.header` рассказывают структуру.
 
@@ -191,7 +237,7 @@ export const VoiceRoom = ({ token, serverUrl }: VoiceRoomProps) => (
 | Папка компонента | PascalCase | `VoiceRoom/`, `ChannelsFooter/` |
 | Файл компонента | PascalCase + `.tsx` | `VoiceRoom.tsx` |
 | Файл типов | `<Name>.types.ts` | `VoiceRoom.types.ts` |
-| Файл стилей | `<Name>.styles.ts` | `VoiceRoom.styles.ts` |
+| Файл стилей | `<Name>.module.scss` | `Button.module.scss` |
 | Файл хука | kebab-case | `use-room-state.ts` |
 | React-компонент (export) | PascalCase | `VoiceRoom` |
 | Хук | `use` + camelCase | `useEnterRoom`, `useRoomState` |
@@ -241,7 +287,7 @@ Deep import мимо barrel запрещён:
 ```ts
 // ✗ ЗАПРЕЩЕНО
 import { ChannelsList } from '@/widgets/room/channels-panel/ui/components/ChannelsList';
-import { Button } from '@/shared/ui/atoms/button';
+import { Button } from '@/shared/ui/atoms/Button';
 
 // ✓ ОК
 import { ChannelsPanel } from '@/widgets/room/channels-panel';
@@ -399,7 +445,7 @@ const readRole = (user: User | null): UserRole =>
   match(state).with('idle', () => null)
   ```
 
-- **shadcn-примитивы в `shared/ui/`** — там своя конвенция, не трогать.
+- **Примитивы в `shared/ui/`** — своя конвенция (PascalCase-папки, SCSS modules, react-aria). См. §2.1.
 
 **Правило для review:** если стрелка справа от `=` (объявление функции) — block body. Если стрелка внутри `(...)` или `{...}` (аргумент) — на усмотрение, обычно expression.
 
@@ -432,6 +478,7 @@ if (isManual) toast.success(t('upToDate'));
 - `'use client'` в каждом файле с хуками/state/event handlers.
 - React Compiler включён — не нужны `useMemo`/`useCallback` для микро-оптимизаций. Оставляем только для семантического stable ref (зависимости `useEffect`, key в Map).
 - Обработчики событий — `on<Event>` camelCase: `onSubmit`, `onSelectRoom`.
+- Типы из React — **именованные импорты**: `import type { ComponentProps, ReactNode } from 'react'`. **`import type * as React from 'react'` запрещён.**
 
 ### 9.1 Порядок хуков
 
@@ -686,12 +733,13 @@ export const createRoom = async (input: CreateRoomInput): Promise<Room> => {
 
 ---
 
-## 12. Tailwind v4
+## 12. Глобальные стили и SCSS
 
-- Темы — CSS variables в `globals.css` (`:root` + `.dark`).
+- Токены темы — CSS variables в `app/globals.scss` (`:root` + `.dark`).
 - Тёмная тема — `<html className="dark">` хардкодом (несовместимо с `next-themes` + Tauri).
-- Canonical-классы вместо arbitrary: `w-18` вместо `w-[72px]`.
-- `cn()` из `@/shared/lib/cn` для склейки условных классов.
+- Токены темы, отступы, размеры — `shared/styles/_tokens.scss` (`--space-*`, `--icon-*`, `--control-*`, цвета, радиусы). Подключается в `app/globals.scss`.
+- Компонентные стили — `*.module.scss`; общие миксины — `@use '@/shared/styles/mixins' as *` (`loadPaths` + `turbopack.resolveAlias` в `next.config.ts`).
+- `clsx` — склейка module-классов и `className` prop.
 
 ---
 
@@ -963,7 +1011,7 @@ apps/server/src/routes/
 - Non-null assertion `!` без обоснования — Biome `noNonNullAssertion: warn`.
 - Deep imports мимо barrel.
 - Cross-import между слайсами одного слоя.
-- ESLint, Prettier, CSS-in-JS. Только Biome + Tailwind.
+- ESLint, Prettier, CSS-in-JS. Только Biome + SCSS modules.
 - `axios` / ручной `fetch` для бизнес-вызовов. Только Hono RPC client.
 - Дублирование схем client/server. Только `@chatovo/schemas`.
 - `useState` для form fields. Только `react-hook-form`.
@@ -983,4 +1031,4 @@ bun --filter @chatovo/client build          # сборка client
 bun --filter @chatovo/server build          # сборка server
 ```
 
-`bun lint:fix` не чинит: пустые строки (секция 12), порядок хуков (секция 9.1), FSD-границы импортов (→ [`docs/fsd.md`](./fsd.md)). Для unsafe-фиксов (Tailwind sort): `biome check --write --unsafe <file>` — точечно с проверкой диффа.
+`bun lint:fix` не чинит: пустые строки (секция 13), порядок хуков (секция 9.1), FSD-границы импортов (→ [`docs/fsd.md`](./fsd.md)).

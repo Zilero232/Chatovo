@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { useUpdateRoom } from '@/entities/room/room';
 import { FormField, Input, Row, Stack, SubmitButton } from '@/shared/ui';
+import s from './EditRoomForm.module.scss';
 import type { UpdateRoomRequest } from '@chatovo/schemas';
 import type { EditRoomFormProps } from './EditRoomDialog.types';
 
@@ -65,11 +66,11 @@ export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
       )}
 
       <Row as="label" gap="2">
-        <input className="size-4 accent-primary" type="checkbox" {...register('isPrivate')} />
+        <input className={s.checkbox} type="checkbox" {...register('isPrivate')} />
         <span>{t('privateLabel')}</span>
       </Row>
 
-      <Row justify="end" gap="2" className="pt-2">
+      <Row justify="end" gap="2" className={s.actions}>
         <SubmitButton disabled={!isDirty} isPending={isPending}>
           {t('submit')}
         </SubmitButton>

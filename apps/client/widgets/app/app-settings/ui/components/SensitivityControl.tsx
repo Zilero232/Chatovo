@@ -1,8 +1,8 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Slider as SliderPrimitive } from 'radix-ui';
 import { useRef } from 'react';
+import { Slider as RACSlider, SliderThumb, SliderTrack } from 'react-aria-components';
 import {
   useAppSettings,
   VOICE_GATE_MANUAL_RANGE,
@@ -10,7 +10,7 @@ import {
 } from '@/entities/app/settings';
 import { formatPercent } from '@/shared/lib';
 import { useMicAnalyser } from '../../model/hooks';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import s from '../AppSettingsButton.module.scss';
 import type { AudioSettings } from '@/entities/app/settings';
 
 type SensitivityControlProps = {
@@ -38,23 +38,23 @@ export const SensitivityControl = ({ deviceId, audio }: SensitivityControlProps)
   });
 
   return (
-    <SliderPrimitive.Root
+    <RACSlider
       aria-label={t('sensitivity')}
       className={s.sensitivitySlider}
-      max={1}
-      min={0}
+      maxValue={1}
+      minValue={0}
       step={0.01}
-      value={[audio.micThreshold]}
-      onValueChange={([value]) => setGroup('audio', { micThreshold: value })}
+      value={audio.micThreshold}
+      onChange={(value) => setGroup('audio', { micThreshold: value })}
     >
-      <SliderPrimitive.Track className={s.meterTrack}>
+      <SliderTrack className={s.meterTrack}>
         <div
           className={s.meterFill}
           data-open={open}
           style={{ width: formatPercent(level / VOICE_GATE_MANUAL_RANGE) }}
         />
-      </SliderPrimitive.Track>
-      <SliderPrimitive.Thumb className={s.sensitivityThumb} />
-    </SliderPrimitive.Root>
+        <SliderThumb className={s.sensitivityThumb} />
+      </SliderTrack>
+    </RACSlider>
   );
 };

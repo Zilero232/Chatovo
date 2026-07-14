@@ -15,7 +15,7 @@ import {
   FlagGbIcon,
   FlagRuIcon,
 } from '@/shared/ui';
-import { languageSwitcherStyles as s } from './LanguageSwitcher.styles';
+import s from './LanguageSwitcher.module.scss';
 import type { ComponentType, SVGProps } from 'react';
 
 const LOCALE_FLAGS: Record<Locale, ComponentType<SVGProps<SVGSVGElement>>> = {

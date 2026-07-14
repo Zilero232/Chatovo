@@ -1,0 +1,15 @@
+@use 'sass:math';
+
+$base-font-size: 16 !default;
+
+@function rem($px, $base: $base-font-size) {
+  @return math.div($px, $base) * 1rem;
+}
+
+@function px($value) {
+  @if math.unit($value) == 'px' {
+    @return $value;
+  }
+
+  @return $value * 1px;
+}

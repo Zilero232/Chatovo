@@ -1,8 +1,9 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { useCurrentUser } from '@/entities/auth/user';
 import { LanguageSwitcher } from '@/widgets/app/language-switcher';
-import { channelsHeaderStyles as s } from './ChannelsHeader.styles';
+import s from './ChannelsHeader.module.scss';
 
 type ChannelsHeaderProps = {
   compact?: boolean;
@@ -17,16 +18,16 @@ export const ChannelsHeader = ({ compact = false }: ChannelsHeaderProps = {}) =>
     }
 
     return (
-      <div className={s.root}>
-        <span aria-hidden className={s.accent} />
+      <div className={clsx(s.root, 'surface-bar')}>
+        <span aria-hidden className="accent-top-line" />
         <span className={s.adminBadge}>admin</span>
       </div>
     );
   }
 
   return (
-    <div className={s.root}>
-      <span aria-hidden className={s.accent} />
+    <div className={clsx(s.root, 'surface-bar')}>
+      <span aria-hidden className="accent-top-line" />
       <div className={s.titleGroup}>
         <span className={s.title}>Chatovo</span>
         {isAdmin && <span className={s.adminBadge}>admin</span>}

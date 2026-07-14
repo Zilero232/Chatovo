@@ -1,0 +1,36 @@
+.root {
+  animation: spin 1s linear infinite;
+  color: var(--brand-violet);
+  filter: drop-shadow(0 0 8px oklch(0.7 0.22 295 / 0.6));
+}
+
+.sizeXs {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.sizeSm {
+  width: 1rem;
+  height: 1rem;
+}
+
+.sizeMd {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.sizeLg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.sizeXl {
+  width: 2rem;
+  height: 2rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,50 @@
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: oklch(0 0 0 / 45%);
+  backdrop-filter: blur(4px);
+  transition: opacity 300ms;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+
+  &[data-open='false'] {
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  &[data-open='true'] {
+    animation: overlay-fade-in 300ms ease-out;
+  }
+}
+
+.root {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  border-radius: 0;
+  border: 0;
+  border-left: 1px solid oklch(1 0 0 / 10%);
+  box-shadow: -28px 0 56px -28px oklch(0 0 0 / 85%);
+  transition: transform 300ms ease-out;
+
+  &[data-open='false'] {
+    pointer-events: none;
+    transform: translateX(100%);
+  }
+
+  &[data-open='true'] {
+    transform: translateX(0);
+  }
+
+  @media (min-width: 640px) {
+    left: auto;
+    width: clamp(28rem, 40vw, 46rem);
+    padding-bottom: 0;
+  }
+}

@@ -1,0 +1,30 @@
+.root {
+  position: relative;
+  height: 100%;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  margin-inline: auto;
+  display: flex;
+  width: 100%;
+  max-width: 1400px;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1.5rem 1.25rem;
+  animation: lobby-enter 500ms ease-out both;
+
+  @media (min-width: 640px) {
+    padding: 2rem;
+  }
+}
+
+@keyframes lobby-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

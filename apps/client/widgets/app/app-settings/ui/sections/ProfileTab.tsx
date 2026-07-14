@@ -1,7 +1,7 @@
 'use client';
 
 import { UpdateProfileForm } from '@/features/auth/update-profile';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import s from '../AppSettingsButton.module.scss';
 
 export const ProfileTab = () => {
   return (

@@ -1,8 +1,10 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/shared/ui';
+import s from '../ShortcutRow.module.scss';
 
 type ShortcutClearButtonProps = {
   visible: boolean;
@@ -16,7 +18,7 @@ export const ShortcutClearButton = ({ visible, onClick }: ShortcutClearButtonPro
     <Button
       aria-hidden={!visible}
       aria-label={t('clear')}
-      className={visible ? '' : 'invisible'}
+      className={clsx(!visible && s.hidden)}
       size="icon"
       tabIndex={visible ? 0 : -1}
       type="button"

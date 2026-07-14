@@ -15,7 +15,7 @@ export const handleClientMessage = async (
       ? raw
       : raw instanceof Blob
         ? await raw.text()
-        : new TextDecoder().decode(raw);
+        : new TextDecoder().decode(raw instanceof SharedArrayBuffer ? new Uint8Array(raw) : raw);
   const parsed = realtimeClientMessageSchema.safeParse(safeJsonParse(text));
 
   if (!parsed.success) {

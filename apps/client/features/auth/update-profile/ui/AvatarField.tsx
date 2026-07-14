@@ -5,7 +5,7 @@ import { Camera } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { UserAvatar } from '@/entities/auth/user';
-import { updateProfileFormStyles as s } from './UpdateProfileForm.styles';
+import s from './UpdateProfileForm.module.scss';
 
 type AvatarFieldProps = {
   name: string;

@@ -11,6 +11,7 @@ import {
   resetPasswordSchema,
   useResetPassword,
 } from '../model/use-reset-password';
+import s from './ResetPasswordForm.module.scss';
 
 const DEFAULT_VALUES: ResetPasswordValues = { newPassword: '', confirmPassword: '' };
 
@@ -69,7 +70,7 @@ export const ResetPasswordForm = ({ token, onSuccess }: ResetPasswordFormProps) 
         />
       </FormField>
 
-      <SubmitButton className="w-full" isPending={isPending}>
+      <SubmitButton className={s.submit} isPending={isPending}>
         {t('resetPassword')}
       </SubmitButton>
     </Stack>

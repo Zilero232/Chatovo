@@ -12,7 +12,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@/shared/ui';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import s from '../AppSettingsButton.module.scss';
 
 type DeviceSelectProps = {
   kind: MediaDeviceKind;
@@ -40,7 +40,7 @@ export const DeviceSelect = ({ kind, emptyLabel }: DeviceSelectProps) => {
     <DropdownMenu>
       <DropdownMenuTrigger className={s.deviceTrigger} disabled={isEmpty(devices)}>
         <span className={s.deviceTriggerLabel}>{triggerLabel}</span>
-        <ChevronDownIcon className="size-4 shrink-0 opacity-60" />
+        <ChevronDownIcon className={s.deviceTriggerChevron} />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="start" className={s.deviceMenu}>

@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { type ScreenQuality, useAppSettings, type VideoQuality } from '@/entities/app/settings';
 import { Switch } from '@/shared/ui';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import s from '../AppSettingsButton.module.scss';
 import { DeviceSelect } from '../components/DeviceSelect';
 import { QualitySelect } from '../components/QualitySelect';
 import { SettingRow } from '../components/SettingRow';

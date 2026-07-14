@@ -1,0 +1,219 @@
+@use '@/shared/styles/mixins' as *;
+
+.controlButton {
+  display: flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid rgb(255 255 255 / 10%);
+  padding-top: 0.125rem;
+  outline: none;
+  transition: all 150ms ease;
+  cursor: pointer;
+
+  @media (min-width: 640px) {
+    width: 2.75rem;
+    height: 2.75rem;
+    padding-top: 0;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+
+    @media (min-width: 640px) {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  @include focus-ring(var(--brand-cyan));
+}
+
+.toneOn {
+  background: rgb(255 255 255 / 8%);
+  color: var(--foreground);
+
+  &:hover:not(:disabled) {
+    background: rgb(255 255 255 / 14%);
+  }
+}
+
+.toneOff {
+  background: rgb(255 255 255 / 5%);
+  color: var(--muted-foreground);
+
+  &:hover:not(:disabled) {
+    background: rgb(255 255 255 / 10%);
+  }
+}
+
+.toneActive {
+  border-color: rgb(255 255 255 / 10%);
+  background: color-mix(in oklch, var(--brand-cyan) 20%, transparent);
+  color: var(--brand-cyan);
+  box-shadow: 0 0 18px -4px oklch(0.82 0.16 200 / 0.7);
+
+  &:hover:not(:disabled) {
+    background: color-mix(in oklch, var(--brand-cyan) 30%, transparent);
+  }
+}
+
+.toneDanger {
+  background: color-mix(in oklch, var(--destructive) 15%, transparent);
+  color: var(--destructive);
+
+  &:hover:not(:disabled) {
+    background: color-mix(in oklch, var(--destructive) 25%, transparent);
+  }
+}
+
+.toneLeave {
+  border-color: transparent;
+  background: var(--destructive);
+  color: white;
+  box-shadow: 0 4px 14px -2px oklch(0.7 0.22 22 / 0.5);
+
+  &:hover:not(:disabled) {
+    background: oklch(0.66 0.22 22);
+    box-shadow: 0 6px 18px -2px oklch(0.7 0.22 22 / 0.7);
+  }
+
+  &:focus-visible {
+    box-shadow:
+      0 0 0 2px color-mix(in oklch, var(--destructive) 50%, transparent),
+      0 4px 14px -2px oklch(0.7 0.22 22 / 0.5);
+  }
+}
+
+.controlShell {
+  display: flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 9999px;
+  border: 1px solid rgb(255 255 255 / 10%);
+  transition: all 150ms ease;
+
+  @media (min-width: 640px) {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}
+
+.shellToneOn {
+  background: rgb(255 255 255 / 8%);
+}
+
+.shellToneOff {
+  background: rgb(255 255 255 / 5%);
+}
+
+.shellToneActive {
+  background: color-mix(in oklch, var(--brand-cyan) 20%, transparent);
+  box-shadow: 0 0 18px -4px oklch(0.82 0.16 200 / 0.7);
+}
+
+.shellToneDanger {
+  background: color-mix(in oklch, var(--destructive) 15%, transparent);
+}
+
+.shellToneLeave {
+  border-color: transparent;
+  background: var(--destructive);
+}
+
+.controlMain {
+  display: flex;
+  min-height: 0;
+  width: 100%;
+  flex: 1;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 0.125rem;
+  outline: none;
+  border: none;
+  background: transparent;
+  transition: colors 150ms ease;
+  cursor: pointer;
+
+  @media (min-width: 640px) {
+    align-items: center;
+    padding-bottom: 0;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--brand-cyan);
+  }
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+
+    @media (min-width: 640px) {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+}
+
+.mainToneOn {
+  color: var(--foreground);
+
+  &:hover:not(:disabled) {
+    background: rgb(255 255 255 / 8%);
+  }
+}
+
+.mainToneOff {
+  color: var(--muted-foreground);
+
+  &:hover:not(:disabled) {
+    background: rgb(255 255 255 / 6%);
+  }
+}
+
+.mainToneActive {
+  color: var(--brand-cyan);
+
+  &:hover:not(:disabled) {
+    background: color-mix(in oklch, var(--brand-cyan) 12%, transparent);
+  }
+}
+
+.mainToneDanger {
+  color: var(--destructive);
+
+  &:hover:not(:disabled) {
+    background: color-mix(in oklch, var(--destructive) 12%, transparent);
+  }
+}
+
+.mainToneLeave {
+  color: white;
+}

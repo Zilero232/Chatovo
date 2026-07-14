@@ -2,7 +2,7 @@
 
 import { Copy, Minus, Square, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { titleBarControlsStyles as s } from './TitleBarControls.styles';
+import s from './TitleBarControls.module.scss';
 import type { TitleBarControlsProps } from './TitleBarControls.types';
 
 export const TitleBarControls = ({

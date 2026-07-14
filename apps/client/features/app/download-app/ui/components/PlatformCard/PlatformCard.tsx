@@ -1,8 +1,9 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 import { formatBytes } from '@/shared/lib/format-bytes';
-import { platformCardStyles as s } from './PlatformCard.styles';
+import s from './PlatformCard.module.scss';
 import type { PlatformCardProps } from './PlatformCard.types';
 
 export const PlatformCard = ({ label, Icon, asset }: PlatformCardProps) => {
@@ -10,17 +11,17 @@ export const PlatformCard = ({ label, Icon, asset }: PlatformCardProps) => {
 
   if (!asset) {
     return (
-      <div className={s.root({ state: 'unavailable' })}>
+      <div className={clsx(s.root, s.unavailable)}>
         <Icon className={s.icon} />
         <span className={s.name}>{label}</span>
-        <span className={s.unavailable}>{t('notAvailable')}</span>
+        <span className={s.unavailableLabel}>{t('notAvailable')}</span>
       </div>
     );
   }
 
   return (
     <a
-      className={s.root({ state: 'available' })}
+      className={clsx(s.root, s.available)}
       download
       href={asset.downloadUrl}
       rel="noopener noreferrer"

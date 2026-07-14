@@ -1,5 +1,5 @@
 import { Skeleton } from '@/shared/ui';
-import { profileCardSkeletonStyles as s } from './ProfileCardSkeleton.styles';
+import s from './ProfileCardSkeleton.module.scss';
 
 export const ProfileCardSkeleton = () => {
   return (

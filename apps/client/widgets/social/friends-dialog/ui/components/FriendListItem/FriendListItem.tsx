@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/ui';
-import { friendListItemStyles as s } from './FriendListItem.styles';
+import s from './FriendListItem.module.scss';
 import type { FriendListItemProps } from './FriendListItem.types';
 
 export const FriendListItem = ({ user, dmUnread = 0, onOpen, onRemove }: FriendListItemProps) => {

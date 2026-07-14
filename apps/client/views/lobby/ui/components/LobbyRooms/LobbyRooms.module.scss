@@ -1,0 +1,210 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.heading {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--foreground);
+}
+
+.searchField {
+  position: relative;
+  display: flex;
+  height: 2.75rem;
+  width: 100%;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(255 255 255 / 12%);
+  background: rgb(255 255 255 / 5%);
+  padding-right: 0.5rem;
+  padding-left: 0.875rem;
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 6%);
+  backdrop-filter: blur(4px);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+
+  &:focus-within {
+    border-color: color-mix(in oklch, var(--brand-cyan) 45%, transparent);
+    box-shadow: 0 0 0 3px oklch(0.82 0.16 200 / 12%);
+  }
+
+  @media (min-width: 640px) {
+    width: 20rem;
+  }
+}
+
+.searchIcon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+  transition: color 150ms ease;
+
+  .searchField:focus-within & {
+    color: var(--brand-cyan);
+  }
+}
+
+.searchInput {
+  height: 100%;
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-size: 0.875rem;
+  color: var(--foreground);
+  box-shadow: none;
+  outline: none;
+
+  &::placeholder {
+    color: var(--muted-foreground);
+  }
+
+  &:focus-visible {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+.searchShortcut {
+  display: none;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgb(255 255 255 / 10%);
+  background: rgb(255 255 255 / 6%);
+  padding: 0.125rem 0.375rem;
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  color: var(--muted-foreground);
+
+  @media (min-width: 640px) {
+    display: flex;
+  }
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  animation: section-enter 500ms ease-out both;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sectionLabel {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, var(--foreground) 55%, transparent);
+}
+
+.sectionCount {
+  display: flex;
+  height: 1.25rem;
+  min-width: 1.25rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  border: 1px solid color-mix(in oklch, var(--brand-violet) 20%, transparent);
+  background: color-mix(in oklch, var(--brand-violet) 10%, transparent);
+  padding-inline: 0.375rem;
+  font-size: 10px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--brand-violet);
+}
+
+.sectionRule {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(to right, rgb(255 255 255 / 12%), transparent);
+}
+
+.grid {
+  display: grid;
+  gap: 0.875rem;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 1280px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.skeletonCard {
+  min-height: 148px;
+  border-radius: 1rem;
+}
+
+.cardAnim {
+  height: 100%;
+  animation: card-enter 400ms ease-out both;
+}
+
+.nothingFoundState {
+  padding-block: 2rem;
+}
+
+.searchStateIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+@keyframes section-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

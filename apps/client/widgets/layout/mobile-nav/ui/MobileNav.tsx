@@ -1,5 +1,6 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { Menu } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import {
@@ -13,7 +14,7 @@ import {
 import { AppSidebar } from '@/widgets/app/app-sidebar';
 import { LanguageSwitcher } from '@/widgets/app/language-switcher';
 import { ChannelsPanel } from '@/widgets/room/channels-panel';
-import { mobileNavStyles as s } from './MobileNav.styles';
+import s from './MobileNav.module.scss';
 import type { MobileNavProps } from './MobileNav.types';
 
 export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
@@ -23,7 +24,7 @@ export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <div className={s.topBar}>
+      <div className={clsx('glass-strong', s.topBar)}>
         <div className={s.topBarInner}>
           <SheetTrigger asChild>
             <Button
@@ -47,7 +48,7 @@ export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
 
       <SheetContent className={s.sheet} side="left" showCloseButton={false}>
         <SheetTitle className={s.sheetTitleSr}>{t('menu')}</SheetTitle>
-        <SheetDescription className="sr-only">{t('menuDescription')}</SheetDescription>
+        <SheetDescription className={s.sheetTitleSr}>{t('menuDescription')}</SheetDescription>
 
         <div className={s.sheetBody}>
           <div className={s.sheetActions}>

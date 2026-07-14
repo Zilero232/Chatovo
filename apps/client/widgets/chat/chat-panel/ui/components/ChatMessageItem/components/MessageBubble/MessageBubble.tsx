@@ -1,10 +1,11 @@
 'use client';
 
 import { isImageMime } from '@chatovo/schemas';
+import { clsx } from 'clsx';
 import { MessageAttachment } from '../MessageAttachment';
 import { MessageContent } from '../MessageContent';
 import { MessageContextMenu } from '../MessageContextMenu';
-import { messageBubbleStyles as s } from './MessageBubble.styles';
+import s from './MessageBubble.module.scss';
 import type { MessageBubbleProps } from './MessageBubble.types';
 
 export const MessageBubble = ({
@@ -22,7 +23,14 @@ export const MessageBubble = ({
 
   return (
     <MessageContextMenu enabled={showActions} canEdit={canEdit} onEdit={onEdit} onDelete={onDelete}>
-      <div className={s({ own: isOwn, bare: isBareImage, tail: isTail })}>
+      <div
+        className={clsx(
+          s.bubble,
+          isOwn ? s.own : s.other,
+          isBareImage ? s.bare : clsx(s.padded, isOwn ? s.ownPadded : s.otherPadded),
+          isTail && (isOwn ? s.ownTail : s.otherTail),
+        )}
+      >
         {attachment ? (
           <MessageAttachment attachment={attachment} isOwn={isOwn} />
         ) : (

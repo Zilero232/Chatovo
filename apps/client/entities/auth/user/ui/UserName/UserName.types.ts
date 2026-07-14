@@ -1,9 +1,9 @@
-import type { checkSizes } from './UserName.styles';
+export type UserNameSize = 'sm' | 'md';
 
 export type UserNameProps = {
   name: string;
   verified?: boolean;
   profileUrl?: string | null;
-  size?: keyof typeof checkSizes;
+  size?: UserNameSize;
   className?: string;
 };

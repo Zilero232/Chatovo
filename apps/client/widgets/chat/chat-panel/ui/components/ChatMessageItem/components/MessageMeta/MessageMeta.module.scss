@@ -1,0 +1,30 @@
+@use '@/shared/styles/mixins' as *;
+
+.root {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-inline: 0.25rem;
+  font-size: 11px;
+  color: var(--muted-foreground);
+}
+
+.nameTrigger {
+  border-radius: var(--radius-md);
+  outline: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  @include focus-ring(var(--brand-cyan));
+}
+
+.author {
+  font-weight: 500;
+  color: color-mix(in oklch, var(--foreground) 80%, transparent);
+}
+
+.time {
+  font-variant-numeric: tabular-nums;
+}

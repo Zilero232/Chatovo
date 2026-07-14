@@ -20,7 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui';
-import { incomingCallDialogStyles as s } from './IncomingCallDialog.styles';
+import s from './IncomingCallDialog.module.scss';
 
 export const IncomingCallDialog = () => {
   const t = useTranslations('friends.incomingCall');

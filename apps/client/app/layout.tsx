@@ -5,7 +5,7 @@ import { JsonLdScript } from '@/shared/seo';
 import { Providers } from './providers';
 import type { ReactNode } from 'react';
 
-import './globals.css';
+import './globals.scss';
 
 export { defaultMetadata as metadata, defaultViewport as viewport } from '@/shared/seo';
 

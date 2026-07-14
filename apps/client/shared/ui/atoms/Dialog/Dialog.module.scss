@@ -1,0 +1,124 @@
+@use '@/shared/styles/functions' as *;
+@use '@/shared/styles/breakpoints' as *;
+@use '@/shared/styles/mixins' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgb(0 0 0 / 55%);
+  backdrop-filter: blur(#{rem(12)});
+
+  &[data-exiting] {
+    animation: overlay-fade-out 200ms ease-in;
+  }
+
+  &[data-entering] {
+    animation: overlay-fade-in 200ms ease-out;
+  }
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  display: grid;
+  width: 100%;
+  max-width: calc(100% - #{rem(32)});
+  gap: var(--space-4);
+  overflow-y: auto;
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  outline: none;
+  pointer-events: auto;
+
+  @include bp-sm-up {
+    max-width: rem(512);
+  }
+
+  @include overlay-enter;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-right: rem(40);
+  text-align: center;
+
+  @include bp-sm-up {
+    padding-right: 0;
+    text-align: left;
+  }
+}
+
+.footer {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-2);
+
+  @include bp-sm-up {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+.title {
+  font-size: rem(18);
+  line-height: 1;
+  font-weight: 600;
+}
+
+.description {
+  font-size: rem(14);
+  color: var(--muted-foreground);
+}
+
+.close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 10;
+  display: inline-flex;
+  width: var(--control-md);
+  height: var(--control-md);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  border: 1px solid oklch(1 0 0 / 10%);
+  background: oklch(1 0 0 / 5%);
+  color: color-mix(in oklch, var(--foreground) 70%, transparent);
+  backdrop-filter: blur(#{rem(4)});
+  transition: all 150ms ease;
+  cursor: pointer;
+
+  &:hover {
+    border-color: oklch(1 0 0 / 20%);
+    background: oklch(1 0 0 / 10%);
+    color: var(--foreground);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 #{rem(2)} color-mix(in oklch, var(--brand-violet) 40%, transparent);
+  }
+
+  &:disabled {
+    pointer-events: none;
+  }
+
+  svg {
+    width: var(--icon-sm);
+    height: var(--icon-sm);
+    pointer-events: none;
+  }
+}

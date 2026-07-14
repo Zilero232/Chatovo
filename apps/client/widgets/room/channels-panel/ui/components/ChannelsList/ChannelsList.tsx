@@ -1,27 +1,20 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import { isEmpty as isEmptyList } from 'remeda';
 import { match } from 'ts-pattern';
 import { groupRooms, RoomsListError, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { CenteredState, ScrollArea, Skeleton } from '@/shared/ui';
 import { ChannelsRoomItem } from '../ChannelsRoomItem';
-import { channelsListStyles as s } from './ChannelsList.styles';
+import s from './ChannelsList.module.scss';
 
 const CHANNELS_SKELETON_KEYS = ['a', 'b', 'c', 'd', 'e'] as const;
 
-const SectionLabel = ({
-  children,
-  offset = false,
-}: {
-  children: React.ReactNode;
-  offset?: boolean;
-}) => (
-  <p className={offset ? `${s.sectionLabel} ${s.sectionLabelOffset}` : s.sectionLabel}>
-    {children}
-  </p>
+const SectionLabel = ({ children, offset = false }: { children: ReactNode; offset?: boolean }) => (
+  <p className={clsx(s.sectionLabel, offset && s.sectionLabelOffset)}>{children}</p>
 );
 
 const ChannelsListSkeleton = () => (

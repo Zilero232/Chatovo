@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { appEvents } from '@/shared/lib';
 import { IconButtonWithTooltip } from '@/shared/ui';
+import s from './CheckUpdateButton.module.scss';
 
 export const CheckUpdateButton = () => {
   const t = useTranslations('appSidebar');
@@ -20,7 +21,7 @@ export const CheckUpdateButton = () => {
 
   return (
     <IconButtonWithTooltip
-      icon={<RefreshCw className={checking ? 'animate-spin' : undefined} />}
+      icon={<RefreshCw className={checking ? s.spinning : undefined} />}
       label={t('checkUpdateLabel')}
       tooltip={t('checkUpdate')}
       disabled={checking}

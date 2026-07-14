@@ -133,7 +133,7 @@ Frontend follows **[Feature-Sliced Design](docs/fsd.md)** — the `pages/` layer
 
 | Layer | Stack |
 |:--|:--|
-| **Client** | React 19 · Tailwind CSS 4 · Radix UI · TanStack Query · React Hook Form · Zod |
+| **Client** | React 19 · SCSS modules · react-aria-components · TanStack Query · React Hook Form · Zod |
 | **Native** | Tauri 2 · Rust · deep-link · updater · global-shortcut |
 | **Server** | Hono · Prisma · better-auth · React Email |
 | **Shared** | `@chatovo/schemas` — Zod types for client & server |

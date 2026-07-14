@@ -8,7 +8,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@/shared/ui';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import s from '../AppSettingsButton.module.scss';
 
 type QualityOption<T extends string> = {
   value: T;
@@ -32,7 +32,7 @@ export const QualitySelect = <T extends string>({
     <DropdownMenu>
       <DropdownMenuTrigger className={s.deviceTrigger}>
         <span className={s.deviceTriggerLabel}>{active?.label ?? value}</span>
-        <ChevronDownIcon className="size-4 shrink-0 opacity-60" />
+        <ChevronDownIcon className={s.deviceTriggerChevron} />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="start" className={s.deviceMenu}>

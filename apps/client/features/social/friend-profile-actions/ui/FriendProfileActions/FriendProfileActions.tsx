@@ -2,7 +2,7 @@
 
 import { useFriendshipRelation } from '@/entities/social/friend';
 import { Spinner } from '@/shared/ui';
-import { friendProfileActionsStyles as s } from './FriendProfileActions.styles';
+import s from './FriendProfileActions.module.scss';
 import { FriendProfileActionsBody } from './FriendProfileActionsBody';
 import type { FriendProfileActionsProps } from './FriendProfileActions.types';
 

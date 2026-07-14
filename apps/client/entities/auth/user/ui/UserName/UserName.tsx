@@ -2,13 +2,18 @@
 
 import { isTauri } from '@tauri-apps/api/core';
 import { openUrl } from '@tauri-apps/plugin-opener';
+import { clsx } from 'clsx';
 import { BadgeCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { cn } from '@/shared/lib/cn';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
-import { checkSizes, userNameStyles as s } from './UserName.styles';
+import s from './UserName.module.scss';
 import type { MouseEvent } from 'react';
 import type { UserNameProps } from './UserName.types';
+
+const checkSizeClass = {
+  sm: s.checkSm,
+  md: s.checkMd,
+} as const;
 
 export const UserName = ({
   name,
@@ -23,7 +28,7 @@ export const UserName = ({
     <Tooltip>
       <TooltipTrigger asChild>
         <span aria-label={t('verified')} className={s.checkWrap} role="img">
-          <BadgeCheck className={cn(s.check, checkSizes[size])} />
+          <BadgeCheck className={clsx(s.check, checkSizeClass[size])} />
         </span>
       </TooltipTrigger>
       <TooltipContent sideOffset={6}>{t('verified')}</TooltipContent>
@@ -49,13 +54,13 @@ export const UserName = ({
           href={profileUrl}
           rel="noreferrer noopener"
           target="_blank"
-          className={cn(s.link, className)}
+          className={clsx(s.link, className)}
           onClick={handleClick}
         >
           {name}
         </a>
       ) : (
-        <span className={cn(s.text, className)}>{name}</span>
+        <span className={clsx(s.text, className)}>{name}</span>
       )}
       {check}
     </span>

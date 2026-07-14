@@ -1,7 +1,7 @@
 'use client';
 
 import { Input, Label, Textarea } from '@/shared/ui';
-import { updateProfileFormStyles as s } from './UpdateProfileForm.styles';
+import s from './UpdateProfileForm.module.scss';
 import type { HTMLInputTypeAttribute, ReactNode } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 

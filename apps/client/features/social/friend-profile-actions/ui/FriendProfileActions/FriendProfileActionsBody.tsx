@@ -15,7 +15,7 @@ import {
 import { useFriendChat } from '@/features/social/friend-chat';
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
 import { Button } from '@/shared/ui';
-import { friendProfileActionsStyles as s } from './FriendProfileActions.styles';
+import s from './FriendProfileActions.module.scss';
 import type { FriendshipRelation } from '@chatovo/schemas';
 
 type FriendProfileActionsBodyProps = {
@@ -124,7 +124,7 @@ export const FriendProfileActionsBody = ({
           </div>
         ))
         .with({ status: 'friends' }, () => (
-          <div className="flex w-full flex-col gap-2">
+          <div className={s.friendsSection}>
             <div className={s.friendsPrimary}>
               <Button
                 className={s.friendsAction}

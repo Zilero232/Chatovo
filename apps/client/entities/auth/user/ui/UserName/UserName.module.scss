@@ -1,0 +1,54 @@
+.root {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.25rem;
+  line-height: 1;
+}
+
+.link {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-bottom: 1px;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition:
+    background-size 200ms ease-out,
+    color 200ms ease-out;
+
+  &:hover {
+    color: var(--primary);
+    background-size: 100% 1px;
+  }
+}
+
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.checkWrap {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-self: center;
+  transform: translateY(1px);
+}
+
+.check {
+  fill: oklch(0.685 0.169 237.323);
+  color: var(--background);
+}
+
+.checkSm {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.checkMd {
+  width: 1rem;
+  height: 1rem;
+}

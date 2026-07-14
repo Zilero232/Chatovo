@@ -1,11 +1,11 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { Palette } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { HexColorPicker } from 'react-colorful';
-import { cn } from '@/shared/lib/cn';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui';
-import { updateProfileFormStyles as s } from './UpdateProfileForm.styles';
+import s from './UpdateProfileForm.module.scss';
 
 const PRESETS = ['#7c5cff', '#22d3ee', '#f43f5e', '#f59e0b', '#10b981', '#64748b'];
 
@@ -30,7 +30,7 @@ export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => 
           <button
             key={color}
             aria-label={color}
-            className={cn(s.bannerSwatch, value === color && s.bannerSwatchActive)}
+            className={clsx(s.bannerSwatch, value === color && s.bannerSwatchActive)}
             style={{ backgroundColor: color }}
             type="button"
             onClick={() => onChange(color)}
@@ -41,7 +41,7 @@ export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => 
           <PopoverTrigger asChild>
             <button
               aria-label={t('bannerCustom')}
-              className={cn(s.bannerCustomTrigger, isCustom && s.bannerSwatchActive)}
+              className={clsx(s.bannerCustomTrigger, isCustom && s.bannerSwatchActive)}
               style={{ backgroundColor: isCustom ? current : undefined }}
               type="button"
             >

@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { match, P } from 'ts-pattern';
 import { Progress } from '@/shared/ui';
-import { updateDialogStyles as s } from './UpdateDialog.styles';
+import s from './UpdateDialog.module.scss';
 import type { UpdateDialogProps } from './UpdateDialog.types';
 
 type UpdateProgressProps = {

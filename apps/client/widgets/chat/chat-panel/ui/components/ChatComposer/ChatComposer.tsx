@@ -1,11 +1,11 @@
 'use client';
 
 import { useKeyboard, useTextareaAutosize } from '@siberiacancode/reactuse';
+import { clsx } from 'clsx';
 import { Paperclip, SendHorizontal } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { cn } from '@/shared/lib/cn';
 import { Button, Spinner } from '@/shared/ui';
-import { chatComposerStyles as s } from './ChatComposer.styles';
+import s from './ChatComposer.module.scss';
 import type { ChatComposerProps } from './ChatComposer.types';
 
 export const ChatComposer = ({
@@ -51,14 +51,14 @@ export const ChatComposer = ({
 
   return (
     <form
-      className={s.root}
+      className={clsx('surface-bar', s.root)}
       onSubmit={(event) => {
         event.preventDefault();
 
         submit();
       }}
     >
-      <span aria-hidden className={s.accent} />
+      <span aria-hidden className="accent-top-line" />
       <Button
         aria-label={t('attach')}
         disabled={busy}
@@ -72,7 +72,7 @@ export const ChatComposer = ({
 
       <textarea
         ref={ref}
-        className={s.input}
+        className={clsx(s.input, 'scrollbar-none')}
         disabled={isSending}
         placeholder={isUploading ? t('uploading') : t('messagePlaceholder')}
         rows={1}
@@ -83,12 +83,12 @@ export const ChatComposer = ({
 
       <Button
         aria-label={t('send')}
-        className={cn(canSend && s.sendActive)}
+        className={clsx(canSend && s.sendActive)}
         disabled={!canSend}
         size="icon-sm"
         type="submit"
       >
-        <SendHorizontal className={cn(canSend && s.sendIconActive)} />
+        <SendHorizontal className={clsx(canSend && s.sendIconActive)} />
       </Button>
     </form>
   );

@@ -1,0 +1,17 @@
+.root {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  align-self: center;
+  opacity: 0;
+  transition: opacity 150ms ease;
+
+  :global([data-message-root]:hover) &,
+  :global([data-message-root]:focus-within) & {
+    opacity: 1;
+  }
+
+  @media (hover: none) {
+    display: none;
+  }
+}

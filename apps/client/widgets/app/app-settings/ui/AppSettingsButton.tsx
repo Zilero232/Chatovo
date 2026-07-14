@@ -1,6 +1,7 @@
 'use client';
 
 import { useBoolean } from '@siberiacancode/reactuse';
+import { clsx } from 'clsx';
 import {
   Keyboard,
   Mic,
@@ -15,7 +16,6 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useCurrentUser } from '@/entities/auth/user';
 import { isTauriDesktop } from '@/shared/lib';
-import { cn } from '@/shared/lib/cn';
 import {
   Button,
   Dialog,
@@ -31,7 +31,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/shared/ui';
-import { appSettingsStyles as s } from './AppSettingsButton.styles';
+import s from './AppSettingsButton.module.scss';
 import { AudioTab } from './sections/AudioTab';
 import { ProfileTab } from './sections/ProfileTab';
 import { SecurityTab } from './sections/SecurityTab';
@@ -81,7 +81,7 @@ export const AppSettingsButton = () => {
         <TooltipTrigger asChild>
           <Button
             aria-label={t('open')}
-            className={cn(needsEmailVerification && s.settingsButtonAlert)}
+            className={clsx(needsEmailVerification && s.settingsButtonAlert)}
             size="icon"
             type="button"
             variant="ghost"

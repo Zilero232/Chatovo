@@ -18,7 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui';
-import { outgoingCallDialogStyles as s } from './OutgoingCallDialog.styles';
+import s from './OutgoingCallDialog.module.scss';
 
 export const OutgoingCallDialog = () => {
   const t = useTranslations('friends.outgoingCall');

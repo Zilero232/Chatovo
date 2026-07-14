@@ -2,7 +2,7 @@
 
 import { SHORTCUT_ACTIONS } from '@/entities/app/shortcut';
 import { isTauriDesktop } from '@/shared/lib';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
+import s from '../AppSettingsButton.module.scss';
 import { ShortcutActionRow } from '../components/ShortcutActionRow';
 import { WebNotice } from '../components/WebNotice';
 

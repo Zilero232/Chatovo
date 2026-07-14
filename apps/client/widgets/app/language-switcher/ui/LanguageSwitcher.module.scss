@@ -1,0 +1,73 @@
+@use '@/shared/styles/mixins' as *;
+
+.trigger {
+  display: flex;
+  height: 1.75rem;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: transparent;
+  padding-right: 0.375rem;
+  padding-left: 0.5rem;
+  color: var(--muted-foreground);
+  transition: colors 150ms ease-out;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: var(--border);
+    background: var(--accent);
+    color: var(--foreground);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--ring) 50%, transparent);
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  &[data-state='open'] {
+    background: var(--accent);
+    color: var(--foreground);
+  }
+}
+
+.triggerFlag {
+  height: 0.875rem;
+  width: 1.17rem;
+  flex-shrink: 0;
+  border-radius: 2px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.triggerChevron {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+  transition: transform 150ms ease-out;
+
+  &[data-state='open'] {
+    transform: rotate(180deg);
+  }
+}
+
+.content {
+  min-width: 11rem;
+}
+
+.itemFlag {
+  height: 0.75rem;
+  width: 1rem;
+  border-radius: 2px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.itemLabel {
+  flex: 1;
+}

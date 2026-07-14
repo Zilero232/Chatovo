@@ -20,6 +20,7 @@ import {
   Textarea,
 } from '@/shared/ui';
 import { useReportProblem } from '../model/use-report-problem';
+import s from './ReportProblemDialog.module.scss';
 
 const DEFAULT_VALUES: ReportProblemValues = { description: '' };
 
@@ -100,7 +101,7 @@ export const ReportProblemDialog = ({ open, onOpenChange }: ReportProblemDialogP
             />
           </FormField>
 
-          <SubmitButton className="w-full" isPending={isPending}>
+          <SubmitButton className={s.submit} isPending={isPending}>
             {t('submit')}
           </SubmitButton>
         </Stack>

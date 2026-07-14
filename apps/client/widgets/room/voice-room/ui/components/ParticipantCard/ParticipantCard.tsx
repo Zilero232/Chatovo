@@ -1,18 +1,18 @@
 'use client';
 
 import { useIsMuted, useParticipantInfo, useParticipantTracks } from '@livekit/components-react';
+import { clsx } from 'clsx';
 import { Track } from 'livekit-client';
 import { HeadphoneOff, MicOff, ScreenShare } from 'lucide-react';
 import { isNonNullish } from 'remeda';
 import { UserAvatar, UserName } from '@/entities/auth/user';
 import { readParticipantMeta } from '@/entities/room/room';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
-import { cn } from '@/shared/lib';
 import { useParticipantIsSpeaking } from '../../../model/hooks';
 import { CardVideo } from '../CardVideo';
 import { ParticipantCardMenu } from '../ParticipantCardMenu';
 import { getCardTint } from './lib';
-import { participantCardStyles as s } from './ParticipantCard.styles';
+import s from './ParticipantCard.module.scss';
 import type { ParticipantCardProps } from './ParticipantCard.types';
 
 export const ParticipantCard = ({ participant, deafened, index = 0 }: ParticipantCardProps) => {
@@ -54,7 +54,7 @@ export const ParticipantCard = ({ participant, deafened, index = 0 }: Participan
               <span aria-hidden className={s.tint} style={getCardTint(bannerColor)} />
               <span
                 aria-hidden
-                className={cn(
+                className={clsx(
                   s.avatarHalo,
                   isSpeaking && s.avatarHaloSpeaking,
                   isLocal && isSpeaking && s.avatarHaloLocalSpeaking,
@@ -64,7 +64,7 @@ export const ParticipantCard = ({ participant, deafened, index = 0 }: Participan
               <UserAvatar
                 name={displayName}
                 src={avatarUrl}
-                className={cn(s.avatar, isSpeaking && s.avatarSpeaking)}
+                className={clsx(s.avatar, isSpeaking && s.avatarSpeaking)}
                 fallbackClassName={s.avatarFallback}
               />
             </div>

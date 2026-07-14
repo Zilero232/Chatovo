@@ -1,0 +1,22 @@
+.button {
+  flex-shrink: 0;
+}
+
+.buttonSm {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.buttonLg {
+  width: 2.25rem !important;
+  height: 2.25rem !important;
+
+  @media (min-width: 640px) {
+    width: 2.75rem !important;
+    height: 2.75rem !important;
+  }
+}
+
+.buttonCopied {
+  color: var(--brand-cyan);
+}

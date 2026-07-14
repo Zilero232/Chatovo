@@ -1,13 +1,15 @@
 'use client';
 
 import { useBoolean } from '@siberiacancode/reactuse';
+import { clsx } from 'clsx';
 import { SmilePlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui';
 import { QUICK_REACTIONS } from '../../../../config/reactions';
 import { useReactions } from '../../../../model/contexts';
-import { controlButton } from '../ControlButton/ControlButton.styles';
-import { reactionButtonStyles as s } from './ReactionButton.styles';
+import s from '../ControlButton/ControlButton.module.scss';
+import { controlButtonToneClass } from '../ControlButton/control-button-tones';
+import sReaction from './ReactionButton.module.scss';
 
 export const ReactionButton = () => {
   const t = useTranslations('room.controls');
@@ -23,23 +25,26 @@ export const ReactionButton = () => {
 
   return (
     <Popover open={isOpen} onOpenChange={toggleOpen}>
-      <PopoverTrigger aria-label={t('react')} className={controlButton({ tone: 'off' })}>
+      <PopoverTrigger
+        aria-label={t('react')}
+        className={clsx(s.controlButton, controlButtonToneClass.off)}
+      >
         <SmilePlus />
       </PopoverTrigger>
 
       <PopoverContent
         align="center"
-        className={s.popover}
+        className={sReaction.popover}
+        initialFocus={false}
         side="top"
         sideOffset={24}
-        onOpenAutoFocus={(event) => event.preventDefault()}
       >
-        <div className={s.row}>
+        <div className={sReaction.row}>
           {QUICK_REACTIONS.map((emoji) => (
             <button
               key={emoji}
               aria-label={emoji}
-              className={s.emoji}
+              className={sReaction.emoji}
               type="button"
               onClick={() => pick(emoji)}
             >

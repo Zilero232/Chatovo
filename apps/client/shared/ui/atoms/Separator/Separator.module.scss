@@ -1,0 +1,15 @@
+.root {
+  flex-shrink: 0;
+  background: linear-gradient(to right, transparent, oklch(1 0 0 / 15%), transparent);
+
+  &[data-orientation='horizontal'] {
+    height: 1px;
+    width: 100%;
+  }
+
+  &[data-orientation='vertical'] {
+    height: 100%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, oklch(1 0 0 / 15%), transparent);
+  }
+}

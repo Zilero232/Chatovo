@@ -4,6 +4,7 @@ import { AudioLines } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { CreateRoomDialog } from '@/features/room/create';
 import { Button, CenteredState } from '@/shared/ui';
+import s from './LobbyEmpty.module.scss';
 
 export const LobbyEmpty = () => {
   const t = useTranslations('lobby.empty');
@@ -11,7 +12,7 @@ export const LobbyEmpty = () => {
 
   return (
     <CenteredState
-      icon={<AudioLines className="size-6" />}
+      icon={<AudioLines className={s.icon} />}
       title={t('title')}
       description={t('text')}
       action={
