@@ -1,3 +1,6 @@
+@forward '@/shared/styles/breakpoints';
+@forward '@/shared/styles/functions';
+
 @use '@/shared/styles/functions' as *;
 @use '@/shared/styles/breakpoints' as *;
 
@@ -21,6 +24,7 @@
   cursor: pointer;
 
   &:disabled,
+  &[data-disabled],
   &[aria-disabled='true'] {
     cursor: not-allowed;
   }
@@ -45,8 +49,8 @@
   border: 1px solid var(--border);
   background: var(--input);
   color: var(--foreground);
-  box-shadow: inset 0 2px 4px oklch(0 0 0 / 20%);
-  backdrop-filter: blur(12px);
+  box-shadow: inset 0 rem(2) rem(4) oklch(0 0 0 / 20%);
+  backdrop-filter: blur(rem(12));
   transition: all 150ms ease;
   outline: none;
 
@@ -92,7 +96,8 @@
   @include interactive-cursor;
   @include button-focus-ring;
 
-  &:disabled {
+  &:disabled,
+  &[data-disabled] {
     pointer-events: none;
     opacity: 0.4;
   }
@@ -134,5 +139,17 @@
 
   &[data-placement='end'][data-entering] {
     animation: slide-in-from-left 200ms ease-out;
+  }
+}
+
+@mixin coarse-pointer {
+  @media (hover: none), (pointer: coarse) {
+    @content;
+  }
+}
+
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
   }
 }

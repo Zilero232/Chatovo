@@ -1,17 +1,19 @@
+@use '@/shared/styles/mixins' as *;
+
 .content {
   max-width: 24rem;
   gap: 1.5rem;
   border-color: oklch(1 0 0 / 12%);
   background: color-mix(in oklch, var(--shell-surface) 95%, transparent);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 24px 64px -24px oklch(0.82 0.16 200 / 45%);
+  backdrop-filter: blur(rem(24));
+  -webkit-backdrop-filter: blur(rem(24));
+  box-shadow: 0 rem(24) rem(64) rem(-24) oklch(0.82 0.16 200 / 45%);
 }
 
 .header {
   text-align: center;
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     text-align: center;
   }
 }
@@ -27,8 +29,8 @@
   width: 5rem;
   height: 5rem;
   box-shadow:
-    0 0 0 4px color-mix(in oklch, var(--brand-cyan) 20%, transparent),
-    0 0 40px -8px oklch(0.82 0.16 200 / 65%);
+    0 0 0 rem(4) color-mix(in oklch, var(--brand-cyan) 20%, transparent),
+    0 0 rem(40) rem(-8) oklch(0.82 0.16 200 / 65%);
 }
 
 .avatarFallback {

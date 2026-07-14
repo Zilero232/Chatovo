@@ -18,8 +18,8 @@
   z-index: 50;
   width: 0.625rem;
   height: 0.625rem;
-  translate: 0 calc(-50% - 2px);
+  translate: 0 calc(-50% - rem(2));
   rotate: 45deg;
-  border-radius: 2px;
+  border-radius: rem(2);
   background: var(--surface-overlay);
 }

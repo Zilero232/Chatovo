@@ -19,7 +19,7 @@ export const MessageContent = ({ message, isOwn, isEdited }: MessageContentProps
   const components: Components = {
     a: ({ href, children }) => (
       <a
-        className={clsx(isOwn ? s.linkOwn : s.linkOther)}
+        className={clsx({ [s.linkOwn]: isOwn, [s.linkOther]: !isOwn })}
         href={href}
         rel="noopener noreferrer"
         target="_blank"

@@ -14,5 +14,6 @@ export {
   useSendFriendRequest,
 } from './model/hooks';
 export { FriendsRealtimeSync } from './ui/controllers/FriendsRealtimeSync';
+export { FriendTag } from './ui/FriendTag';
 
 export type { CallFriendInput } from './model/hooks/use-call-friend';

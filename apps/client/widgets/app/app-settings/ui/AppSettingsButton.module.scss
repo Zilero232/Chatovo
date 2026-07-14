@@ -5,13 +5,14 @@
   max-height: calc(100dvh - var(--safe-area-top) - var(--safe-area-bottom) - 2rem);
   flex-direction: column;
   gap: 1rem;
+  overflow: hidden;
   border: 1px solid oklch(1 0 0 / 12%);
   background: color-mix(in oklch, var(--shell-surface) 95%, transparent);
   padding: 1rem;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(rem(24));
+  -webkit-backdrop-filter: blur(rem(24));
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     max-width: 48rem;
     padding: 1.5rem;
   }
@@ -24,7 +25,7 @@
   flex-direction: column;
   gap: 0.75rem;
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     flex-direction: row;
     gap: 1rem;
   }
@@ -44,15 +45,15 @@
   background: oklch(1 0 0 / 5%);
   padding: 0.25rem;
   box-shadow: inset 0 1px 0 oklch(1 0 0 / 6%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(rem(12));
+  -webkit-backdrop-filter: blur(rem(12));
   scrollbar-width: none;
 
   &::-webkit-scrollbar {
     display: none;
   }
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     height: auto;
     width: 12rem;
     flex-direction: column;
@@ -61,18 +62,24 @@
 }
 
 .tabsTrigger {
-  flex-shrink: 0;
+  display: flex;
+  flex: 0 0 auto;
   justify-content: flex-start;
   gap: 0.5rem;
   padding: 0.375rem 0.75rem;
 
-  &[data-active] {
-    background: oklch(1 0 0 / 10%);
-    box-shadow: 0 0 16px -6px oklch(0.7 0.2 270 / 50%);
+  &[data-hovered]:not([data-selected]) {
+    background: oklch(1 0 0 / 5%);
   }
 
-  @media (min-width: 640px) {
+  &[data-selected] {
+    background: oklch(1 0 0 / 10%);
+    box-shadow: 0 0 rem(16) rem(-6) oklch(0.7 0.2 270 / 50%);
+  }
+
+  @include bp(sm) {
     width: 100%;
+    align-self: stretch;
   }
 }
 
@@ -97,12 +104,14 @@
   height: 0.5rem;
   border-radius: 9999px;
   background: oklch(0.828 0.189 84.429);
-  box-shadow: 0 0 0 2px var(--background);
+  box-shadow: 0 0 0 rem(2) var(--background);
 }
 
 .tabsContent {
+  display: flex;
   min-width: 0;
   flex: 1;
+  flex-direction: column;
   animation: tab-content-in 200ms ease-out both;
 }
 
@@ -127,8 +136,10 @@
   overflow-y: auto;
   padding-top: 0.25rem;
   padding-right: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: oklch(1 0 0 / 15%) transparent;
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     max-height: 24rem;
   }
 }
@@ -170,52 +181,6 @@
   padding-block: 0.5rem;
 }
 
-.deviceTrigger {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  border-radius: var(--radius-lg);
-  border: 1px solid oklch(1 0 0 / 10%);
-  background: oklch(1 0 0 / 5%);
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: all 150ms ease-out;
-  cursor: pointer;
-
-  &:hover:not(:disabled) {
-    border-color: oklch(1 0 0 / 20%);
-    background: oklch(1 0 0 / 8%);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-  }
-}
-
-.deviceTriggerLabel {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: left;
-}
-
-.deviceTriggerChevron {
-  width: 1rem;
-  height: 1rem;
-  flex-shrink: 0;
-  opacity: 0.6;
-}
-
-.deviceMenu {
-  max-height: 16rem;
-  width: var(--radix-dropdown-menu-trigger-width);
-  overflow-y: auto;
-}
-
 .sliderRow {
   display: flex;
   align-items: center;
@@ -245,7 +210,7 @@
   overflow: hidden;
   border-radius: 9999px;
   background: oklch(1 0 0 / 8%);
-  box-shadow: inset 0 2px 4px oklch(0 0 0 / 30%);
+  box-shadow: inset 0 rem(2) rem(4) oklch(0 0 0 / 30%);
 }
 
 .meterFill {
@@ -256,7 +221,7 @@
 
   &[data-open='true'] {
     background: oklch(0.765 0.177 163.223);
-    box-shadow: 0 0 8px oklch(0.82 0.18 150 / 60%);
+    box-shadow: 0 0 rem(8) oklch(0.82 0.18 150 / 60%);
   }
 }
 
@@ -282,7 +247,7 @@
   border-radius: 9999px;
   border: 1px solid oklch(1 0 0 / 80%);
   background: white;
-  box-shadow: 0 0 10px -1px oklch(1 0 0 / 70%);
+  box-shadow: 0 0 rem(10) rem(-1) oklch(1 0 0 / 70%);
   outline: none;
   transition: transform 150ms ease-out;
 
@@ -291,7 +256,7 @@
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px oklch(1 0 0 / 50%);
+    box-shadow: 0 0 0 rem(2) oklch(1 0 0 / 50%);
   }
 }
 
@@ -304,8 +269,10 @@
   overflow-y: auto;
   padding-top: 0.5rem;
   padding-right: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: oklch(1 0 0 / 15%) transparent;
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     max-height: 24rem;
   }
 }
@@ -340,7 +307,7 @@
 
 .linkButton {
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: rem(2);
   border: none;
   background: transparent;
   padding: 0;
@@ -361,8 +328,8 @@
   background: color-mix(in oklch, var(--brand-cyan) 10%, transparent);
   padding: 1rem;
   font-size: 0.875rem;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(rem(12));
+  -webkit-backdrop-filter: blur(rem(12));
 }
 
 .webNoticeIcon {
@@ -380,7 +347,7 @@
 .webNoticeLink {
   font-weight: 500;
   color: var(--brand-cyan);
-  text-underline-offset: 2px;
+  text-underline-offset: rem(2);
   border: none;
   background: transparent;
   padding: 0;

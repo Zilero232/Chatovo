@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { TriangleAlert } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui';
+import { Button, Tooltip, TooltipContent, TooltipProvider } from '@/shared/ui';
 
 import s from '../ShortcutRow.module.scss';
 
@@ -28,18 +28,16 @@ export const ShortcutComboButton = ({
   return (
     <TooltipProvider delayDuration={150}>
       <Tooltip open={showConflictHint ? undefined : false}>
-        <TooltipTrigger>
-          <Button
-            aria-label={recording ? t('recording') : label}
-            className={clsx(s.shortcutButton, showConflictHint && s.shortcutButtonConflict)}
-            type="button"
-            variant="outline"
-            onClick={onClick}
-          >
-            {showConflictHint && <TriangleAlert aria-hidden className={s.warnIcon} />}
-            <span>{display}</span>
-          </Button>
-        </TooltipTrigger>
+        <Button
+          aria-label={recording ? t('recording') : label}
+          className={clsx(s.shortcutButton, { [s.shortcutButtonConflict]: showConflictHint })}
+          type="button"
+          variant="outline"
+          onClick={onClick}
+        >
+          {showConflictHint && <TriangleAlert aria-hidden className={s.warnIcon} />}
+          <span>{display}</span>
+        </Button>
 
         {showConflictHint && (
           <TooltipContent className={s.tooltip} side="top" sideOffset={6}>

@@ -1,10 +1,12 @@
 @use '@/shared/styles/tokens';
+@use '@/shared/styles/breakpoints' as *;
+@use '@/shared/styles/mixins' as *;
 
 .dark {
   color-scheme: dark;
 }
 
-@media (max-width: 767px) {
+@include bp(md, down) {
   :root {
     --toast-bottom-extra: 3.75rem;
   }
@@ -18,6 +20,46 @@ html.tauri-desktop {
 *::before,
 *::after {
   border-color: var(--border);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
 }
 
 html,
@@ -136,8 +178,8 @@ body {
   scrollbar-color: rgb(255 255 255 / 15%) transparent;
 
   &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: rem(6);
+    height: rem(6);
   }
 
   &::-webkit-scrollbar-track {
@@ -176,34 +218,34 @@ body {
 
 .glass-strong {
   background-color: var(--surface-2);
-  backdrop-filter: blur(calc(var(--glass-blur) + 6px)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 6px)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(calc(var(--glass-blur) + rem(6))) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) + rem(6))) saturate(var(--glass-saturate));
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-soft);
 }
 
 .shell-panel {
   background-color: var(--shell-surface);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(rem(16)) saturate(140%);
+  -webkit-backdrop-filter: blur(rem(16)) saturate(140%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-elevated);
 }
 
 .surface-card {
   background-color: var(--shell-surface-raised);
-  backdrop-filter: blur(12px) saturate(135%);
-  -webkit-backdrop-filter: blur(12px) saturate(135%);
+  backdrop-filter: blur(rem(12)) saturate(135%);
+  -webkit-backdrop-filter: blur(rem(12)) saturate(135%);
   border: 1px solid oklch(1 0 0 / 10%);
   box-shadow: var(--shadow-soft);
 }
 
 .glass-overlay {
   background-color: var(--surface-overlay);
-  backdrop-filter: blur(calc(var(--glass-blur) + 10px)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 10px)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(calc(var(--glass-blur) + rem(10))) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) + rem(10))) saturate(var(--glass-saturate));
   border: 1px solid var(--glass-border);
-  box-shadow: 0 24px 64px -16px oklch(0 0 0 / 0.55), 0 1px 0 oklch(1 0 0 / 8%) inset;
+  box-shadow: 0 rem(24) rem(64) rem(-16) oklch(0 0 0 / 0.55), 0 1px 0 oklch(1 0 0 / 8%) inset;
 }
 
 .glass-hover {
@@ -225,17 +267,17 @@ body {
 
 .neon-text-violet {
   color: var(--brand-violet);
-  text-shadow: 0 0 18px oklch(0.7 0.22 295 / 0.55);
+  text-shadow: 0 0 rem(18) oklch(0.7 0.22 295 / 0.55);
 }
 
 .neon-text-cyan {
   color: var(--brand-cyan);
-  text-shadow: 0 0 18px oklch(0.82 0.16 200 / 0.55);
+  text-shadow: 0 0 rem(18) oklch(0.82 0.16 200 / 0.55);
 }
 
 .neon-text-fuchsia {
   color: var(--brand-fuchsia);
-  text-shadow: 0 0 18px oklch(0.74 0.25 330 / 0.55);
+  text-shadow: 0 0 rem(18) oklch(0.74 0.25 330 / 0.55);
 }
 
 .gradient-brand {
@@ -259,7 +301,7 @@ body {
 .lobby-ambience-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(rem(80));
   will-change: transform;
   animation: aurora-drift 24s ease-in-out infinite;
 }
@@ -289,7 +331,7 @@ body {
   background-image:
     linear-gradient(to right, oklch(1 0 0 / 0.04) 1px, transparent 1px),
     linear-gradient(to bottom, oklch(1 0 0 / 0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
+  background-size: rem(48) rem(48);
   mask-image: radial-gradient(ellipse 90% 80% at 30% 20%, black, transparent 75%);
   -webkit-mask-image: radial-gradient(ellipse 90% 80% at 30% 20%, black, transparent 75%);
 }
@@ -311,8 +353,8 @@ body {
 .surface-bar {
   border-color: oklch(1 0 0 / 8%);
   background-color: oklch(1 0 0 / 3%);
-  backdrop-filter: blur(12px) saturate(140%);
-  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(rem(12)) saturate(140%);
+  -webkit-backdrop-filter: blur(rem(12)) saturate(140%);
 }
 
 .shimmer {
@@ -340,8 +382,8 @@ body {
   position: absolute;
   inset: -25%;
   pointer-events: none;
-  filter: blur(70px);
-  translate: calc(var(--px) * 70px) calc(var(--py) * 70px);
+  filter: blur(rem(70));
+  translate: calc(var(--px) * rem(70)) calc(var(--py) * rem(70));
   transition: translate 300ms ease-out;
   will-change: translate;
 
@@ -376,7 +418,7 @@ body {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  filter: blur(60px);
+  filter: blur(rem(60));
   background: radial-gradient(circle, oklch(0.74 0.25 330 / 0.7), transparent 68%);
   animation: aurora-drift 26s ease-in-out infinite;
   will-change: transform;
@@ -387,7 +429,7 @@ body {
   right: 12%;
   width: 26rem;
   height: 26rem;
-  translate: calc(var(--px) * 130px) calc(var(--py) * 130px);
+  translate: calc(var(--px) * rem(130)) calc(var(--py) * rem(130));
   transition: translate 250ms ease-out;
   will-change: translate;
 }
@@ -400,7 +442,7 @@ body {
   background: radial-gradient(circle, oklch(0.88 0.2 140 / 0.4), transparent 68%);
   animation-duration: 30s;
   animation-direction: reverse;
-  translate: calc(var(--px) * -110px) calc(var(--py) * -110px);
+  translate: calc(var(--px) * rem(-110)) calc(var(--py) * rem(-110));
   transition: translate 250ms ease-out;
   will-change: translate;
 }
@@ -412,10 +454,10 @@ body {
   background-image:
     linear-gradient(to right, oklch(1 0 0 / 0.06) 1px, transparent 1px),
     linear-gradient(to bottom, oklch(1 0 0 / 0.06) 1px, transparent 1px);
-  background-size: 56px 56px;
+  background-size: rem(56) rem(56);
   mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, black, transparent 78%);
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, black, transparent 78%);
-  translate: calc(var(--px) * -34px) calc(var(--py) * -34px);
+  translate: calc(var(--px) * rem(-34)) calc(var(--py) * rem(-34));
   transition: translate 400ms ease-out;
   will-change: translate;
 }
@@ -455,14 +497,14 @@ body {
   }
   12% {
     opacity: 1;
-    transform: translateY(-16px) scale(1.15) rotate(4deg);
+    transform: translateY(rem(-16)) scale(1.15) rotate(4deg);
   }
   30% {
-    transform: translateY(-70px) scale(1) rotate(-3deg);
+    transform: translateY(rem(-70)) scale(1) rotate(-3deg);
   }
   100% {
     opacity: 0;
-    transform: translateY(-280px) scale(0.85) rotate(2deg);
+    transform: translateY(rem(-280)) scale(0.85) rotate(2deg);
   }
 }
 
@@ -538,7 +580,7 @@ body {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@include reduced-motion {
   .auth-aurora,
   .auth-orb-1,
   .auth-orb-2,

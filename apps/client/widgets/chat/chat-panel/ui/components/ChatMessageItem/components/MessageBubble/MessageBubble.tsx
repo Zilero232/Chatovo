@@ -1,13 +1,16 @@
 'use client';
 
 import { isImageMime } from '@chatovo/schemas';
-import { clsx } from 'clsx';
+import dynamic from 'next/dynamic';
 
 import { MessageAttachment } from '../MessageAttachment';
-import { MessageContent } from '../MessageContent';
 import { MessageContextMenu } from '../MessageContextMenu';
+import { bubbleVariants } from './MessageBubble.variants';
 
-import s from './MessageBubble.module.scss';
+const MessageContent = dynamic(
+  () => import('../MessageContent').then((m) => ({ default: m.MessageContent })),
+  { ssr: false },
+);
 
 import type { MessageBubbleProps } from './MessageBubble.types';
 
@@ -27,12 +30,11 @@ export const MessageBubble = ({
   return (
     <MessageContextMenu enabled={showActions} canEdit={canEdit} onEdit={onEdit} onDelete={onDelete}>
       <div
-        className={clsx(
-          s.bubble,
-          isOwn ? s.own : s.other,
-          isBareImage ? s.bare : clsx(s.padded, isOwn ? s.ownPadded : s.otherPadded),
-          isTail && (isOwn ? s.ownTail : s.otherTail),
-        )}
+        className={bubbleVariants({
+          owner: isOwn ? 'own' : 'other',
+          display: isBareImage ? 'bare' : 'padded',
+          tail: isTail,
+        })}
       >
         {attachment ? (
           <MessageAttachment attachment={attachment} isOwn={isOwn} />

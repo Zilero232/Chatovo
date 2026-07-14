@@ -40,7 +40,7 @@ export const ManageRoomMenu = ({ room, className }: ManageRoomMenuProps) => {
           className={clsx(s.trigger, className)}
           size="icon"
           variant="ghost"
-          onClick={(event) => event.stopPropagation()}
+          onPointerDown={(event) => event.stopPropagation()}
         >
           <MoreHorizontal />
         </DropdownMenuTrigger>

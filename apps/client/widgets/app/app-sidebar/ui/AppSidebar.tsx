@@ -23,7 +23,12 @@ export const AppSidebar = ({
   orientation = 'vertical',
   showToggleChannels = true,
 }: AppSidebarProps) => (
-  <div className={clsx(s.root, orientation === 'vertical' ? s.vertical : s.horizontal)}>
+  <div
+    className={clsx(s.root, {
+      [s.vertical]: orientation === 'vertical',
+      [s.horizontal]: orientation !== 'vertical',
+    })}
+  >
     {showToggleChannels && (
       <ToggleChannelsButton opened={channelsOpened} onToggle={onToggleChannels} />
     )}

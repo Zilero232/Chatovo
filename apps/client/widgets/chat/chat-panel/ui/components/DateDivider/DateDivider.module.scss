@@ -1,3 +1,5 @@
+@use '@/shared/styles/functions' as *;
+
 .root {
   margin-block: 0.25rem;
   display: flex;
@@ -9,7 +11,7 @@
   border-radius: 9999px;
   background: oklch(1 0 0 / 8%);
   padding: 0.125rem 0.75rem;
-  font-size: 11px;
+  font-size: rem(11);
   font-weight: 500;
   color: var(--muted-foreground);
 }

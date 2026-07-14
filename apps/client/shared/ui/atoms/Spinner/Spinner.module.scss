@@ -1,7 +1,9 @@
+@use '@/shared/styles/mixins' as *;
+
 .root {
   animation: spin 1s linear infinite;
   color: var(--brand-violet);
-  filter: drop-shadow(0 0 8px oklch(0.7 0.22 295 / 0.6));
+  filter: drop-shadow(0 0 rem(8) oklch(0.7 0.22 295 / 0.6));
 }
 
 .sizeXs {

@@ -1,3 +1,5 @@
+@use '@/shared/styles/breakpoints' as *;
+
 .root {
   position: relative;
   display: flex;
@@ -16,7 +18,7 @@
   overflow: hidden;
   border-radius: 1.75rem;
 
-  @media (min-width: 1024px) {
+  @include bp(lg) {
     grid-template-columns: 1.05fr 1fr;
   }
 }
@@ -28,11 +30,11 @@
   justify-content: center;
   padding: 1.75rem;
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     padding: 2.25rem;
   }
 
-  @media (min-width: 1024px) {
+  @include bp(lg) {
     padding: 2.75rem;
   }
 }
@@ -48,7 +50,7 @@
   border-radius: 1rem;
   color: var(--background);
 
-  @media (min-width: 1024px) {
+  @include bp(lg) {
     display: none;
   }
 }

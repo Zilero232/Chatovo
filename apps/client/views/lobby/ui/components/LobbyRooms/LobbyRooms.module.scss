@@ -1,3 +1,5 @@
+@use '@/shared/styles/mixins' as *;
+
 .root {
   display: flex;
   flex-direction: column;
@@ -32,17 +34,17 @@
   padding-right: 0.5rem;
   padding-left: 0.875rem;
   box-shadow: inset 0 1px 0 oklch(1 0 0 / 6%);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(rem(4));
   transition:
     border-color 150ms ease,
     box-shadow 150ms ease;
 
   &:focus-within {
     border-color: color-mix(in oklch, var(--brand-cyan) 45%, transparent);
-    box-shadow: 0 0 0 3px oklch(0.82 0.16 200 / 12%);
+    box-shadow: 0 0 0 rem(3) oklch(0.82 0.16 200 / 12%);
   }
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     width: 20rem;
   }
 }
@@ -92,10 +94,10 @@
   background: rgb(255 255 255 / 6%);
   padding: 0.125rem 0.375rem;
   font-family: ui-monospace, monospace;
-  font-size: 10px;
+  font-size: rem(10);
   color: var(--muted-foreground);
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     display: flex;
   }
 }
@@ -139,7 +141,7 @@
   border: 1px solid color-mix(in oklch, var(--brand-violet) 20%, transparent);
   background: color-mix(in oklch, var(--brand-violet) 10%, transparent);
   padding-inline: 0.375rem;
-  font-size: 10px;
+  font-size: rem(10);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   color: var(--brand-violet);
@@ -153,28 +155,28 @@
 
 .grid {
   display: grid;
+  align-items: start;
   gap: 0.875rem;
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (min-width: 1024px) {
+  @include bp(lg) {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  @media (min-width: 1280px) {
+  @include bp(xl) {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
 .skeletonCard {
-  min-height: 148px;
+  min-height: rem(148);
   border-radius: 1rem;
 }
 
 .cardAnim {
-  height: 100%;
   animation: card-enter 400ms ease-out both;
 }
 

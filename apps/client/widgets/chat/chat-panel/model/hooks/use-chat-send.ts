@@ -1,27 +1,61 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useTranslations } from 'next-intl';
-import { toast } from 'sonner';
 
 import { sendChatMessage } from '@/shared/api';
-import { appendChatDto } from '../lib';
+import { appendChatDto, appendChatMessage, dropChatLine, markChatLineStatus } from '../lib';
 
-export const useChatSend = (roomId: string) => {
-  const t = useTranslations('chat');
+import type { ChatLine } from '../types';
+
+type SendVariables = {
+  id: string;
+  body: string;
+};
+
+type UseChatSendParams = {
+  roomId: string;
+  sender: NonNullable<ChatLine['from']>;
+};
+
+export const useChatSend = ({ roomId, sender }: UseChatSendParams) => {
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: async (body: string) => {
-      const id = crypto.randomUUID();
-
-      return sendChatMessage(id, roomId, body);
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: ({ id, body }: SendVariables) => sendChatMessage(id, roomId, body),
+    onMutate: ({ id, body }) => {
+      appendChatMessage(queryClient, roomId, {
+        id,
+        timestamp: Date.now(),
+        message: body,
+        status: 'sending',
+        from: sender,
+      });
     },
     onSuccess: (saved) => {
       appendChatDto(queryClient, roomId, saved);
     },
-    onError: () => {
-      toast.error(t('persistFailed'));
+    onError: (_error, { id }) => {
+      markChatLineStatus(queryClient, roomId, id, 'failed');
     },
   });
+
+  const send = async (body: string) => {
+    try {
+      await mutateAsync({ id: crypto.randomUUID(), body });
+    } catch {}
+  };
+
+  const retry = async (id: string, body: string) => {
+    markChatLineStatus(queryClient, roomId, id, 'sending');
+
+    try {
+      await mutateAsync({ id, body });
+    } catch {}
+  };
+
+  const discard = (id: string) => {
+    dropChatLine(queryClient, roomId, id);
+  };
+
+  return { send, retry, discard, isPending };
 };

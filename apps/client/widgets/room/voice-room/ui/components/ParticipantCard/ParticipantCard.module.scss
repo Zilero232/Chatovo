@@ -1,3 +1,5 @@
+@use '@/shared/styles/functions' as *;
+
 .root {
   container-type: inline-size;
   position: relative;
@@ -16,11 +18,11 @@
 
   &[data-speaking='true'] {
     border-color: color-mix(in oklch, var(--brand-cyan) 60%, transparent);
-    box-shadow: 0 0 24px -4px oklch(0.82 0.16 200 / 60%);
+    box-shadow: 0 0 rem(24) rem(-4) oklch(0.82 0.16 200 / 60%);
   }
 
   &[data-local='true'][data-speaking='true'] {
-    box-shadow: 0 0 32px -4px oklch(0.82 0.16 200 / 80%);
+    box-shadow: 0 0 rem(32) rem(-4) oklch(0.82 0.16 200 / 80%);
   }
 }
 
@@ -34,10 +36,15 @@
   display: grid;
   height: 100%;
   width: 100%;
-  grid-auto-columns: 1fr;
+  grid-auto-columns: minmax(0, 1fr);
   grid-auto-flow: column;
   gap: 0.125rem;
   animation: overlay-fade-in 300ms ease-out;
+
+  > * {
+    min-width: 0;
+    min-height: 0;
+  }
 }
 
 .audioStage {
@@ -87,7 +94,7 @@
   min-width: 3rem;
   min-height: 3rem;
   border-radius: 9999px;
-  box-shadow: 0 0 0 2px oklch(1 0 0 / 10%);
+  box-shadow: 0 0 0 rem(2) oklch(1 0 0 / 10%);
   transition:
     box-shadow 75ms ease,
     outline-color 75ms ease,
@@ -96,8 +103,8 @@
 
 .avatarSpeaking {
   box-shadow:
-    0 0 22px -2px oklch(0.82 0.16 200 / 80%),
-    0 0 0 3.5px var(--brand-cyan);
+    0 0 rem(22) rem(-2) oklch(0.82 0.16 200 / 80%),
+    0 0 0 rem(3.5) var(--brand-cyan);
 }
 
 .avatarFallback {
@@ -128,10 +135,10 @@
   border: 1px solid oklch(1 0 0 / 10%);
   background: rgb(0 0 0 / 55%);
   padding: 0.125rem 0.5rem;
-  font-size: 10px;
+  font-size: rem(10);
   font-weight: 500;
   color: white;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(rem(12));
 }
 
 .badgeIcon {
@@ -158,7 +165,7 @@
   height: 0.875rem;
   flex-shrink: 0;
   color: var(--destructive);
-  filter: drop-shadow(0 0 6px oklch(0.7 0.22 22 / 70%));
+  filter: drop-shadow(0 0 rem(6) oklch(0.7 0.22 22 / 70%));
 }
 
 .name {
@@ -178,7 +185,7 @@
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px color-mix(in oklch, var(--brand-cyan) 100%, transparent);
+    box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--brand-cyan) 100%, transparent);
   }
 }
 

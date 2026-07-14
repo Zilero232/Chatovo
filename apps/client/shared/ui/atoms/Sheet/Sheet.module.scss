@@ -5,7 +5,7 @@
   inset: 0;
   z-index: 50;
   background: rgb(0 0 0 / 55%);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(rem(12));
 
   &[data-closed] {
     animation: overlay-fade-out 200ms ease-in;
@@ -148,7 +148,7 @@
   border: 1px solid oklch(1 0 0 / 10%);
   background: oklch(1 0 0 / 5%);
   color: color-mix(in oklch, var(--foreground) 70%, transparent);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(rem(4));
   transition: all 150ms ease;
   cursor: pointer;
 
@@ -160,10 +160,11 @@
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px color-mix(in oklch, var(--brand-violet) 40%, transparent);
+    box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--brand-violet) 40%, transparent);
   }
 
-  &:disabled {
+  &:disabled,
+  &[data-disabled] {
     pointer-events: none;
   }
 

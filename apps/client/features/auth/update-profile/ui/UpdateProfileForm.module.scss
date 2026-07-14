@@ -1,3 +1,5 @@
+@use '@/shared/styles/functions' as *;
+
 .form {
   display: flex;
   flex-direction: column;
@@ -54,7 +56,7 @@
   cursor: pointer;
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px var(--brand-cyan);
+    box-shadow: 0 0 0 rem(2) var(--brand-cyan);
   }
 
   &:hover .avatarOverlay {
@@ -95,7 +97,7 @@
   align-self: flex-start;
   font-size: 0.75rem;
   color: var(--destructive);
-  text-underline-offset: 2px;
+  text-underline-offset: rem(2);
   background: none;
   border: none;
   padding: 0;
@@ -132,7 +134,7 @@
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px var(--brand-cyan);
+    box-shadow: 0 0 0 rem(2) var(--brand-cyan);
   }
 
   &:disabled {
@@ -143,8 +145,8 @@
 
 .bannerSwatchActive {
   box-shadow:
-    0 0 0 2px white,
-    0 0 0 4px var(--background);
+    0 0 0 rem(2) white,
+    0 0 0 rem(4) var(--background);
 }
 
 .bannerCustomTrigger {
@@ -165,7 +167,7 @@
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px var(--brand-cyan);
+    box-shadow: 0 0 0 rem(2) var(--brand-cyan);
   }
 
   &:disabled {

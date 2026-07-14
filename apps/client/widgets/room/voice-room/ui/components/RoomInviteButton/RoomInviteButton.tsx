@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { buildRoomHref } from '@/shared/constants';
 import { buildPublicAppUrl } from '@/shared/lib/app-url';
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+import { Button, Tooltip, TooltipContent } from '@/shared/ui';
 
 import s from './RoomInviteButton.module.scss';
 
@@ -45,22 +45,20 @@ export const RoomInviteButton = ({ roomId, size = 'lg' }: RoomInviteButtonProps)
 
   return (
     <Tooltip>
-      <TooltipTrigger>
-        <Button
-          aria-label={copied ? t('linkCopied') : t('copyLink')}
-          className={clsx(
-            s.button,
-            size === 'sm' ? s.buttonSm : s.buttonLg,
-            copied && s.buttonCopied,
-          )}
-          size={size === 'sm' ? 'icon-sm' : 'icon-lg'}
-          type="button"
-          variant="ghost"
-          onClick={copyInviteLink}
-        >
-          {copied ? <Check /> : <Link2 />}
-        </Button>
-      </TooltipTrigger>
+      <Button
+        aria-label={copied ? t('linkCopied') : t('copyLink')}
+        className={clsx(
+          s.button,
+          size === 'sm' ? s.buttonSm : s.buttonLg,
+          copied && s.buttonCopied,
+        )}
+        size={size === 'sm' ? 'icon-sm' : 'icon-lg'}
+        type="button"
+        variant="ghost"
+        onClick={copyInviteLink}
+      >
+        {copied ? <Check /> : <Link2 />}
+      </Button>
       <TooltipContent>{copied ? t('linkCopied') : t('tooltip')}</TooltipContent>
     </Tooltip>
   );

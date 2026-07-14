@@ -1,3 +1,5 @@
+@use '@/shared/styles/mixins' as *;
+
 .root {
   position: absolute;
   inset: 0;
@@ -6,7 +8,7 @@
   align-items: center;
   justify-content: center;
   background: rgb(0 0 0 / 40%);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(rem(12));
 }
 
 .box {

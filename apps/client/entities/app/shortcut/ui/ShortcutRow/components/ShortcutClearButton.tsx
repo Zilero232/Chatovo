@@ -20,7 +20,7 @@ export const ShortcutClearButton = ({ visible, onClick }: ShortcutClearButtonPro
     <Button
       aria-hidden={!visible}
       aria-label={t('clear')}
-      className={clsx(!visible && s.hidden)}
+      className={clsx({ [s.hidden]: !visible })}
       size="icon"
       tabIndex={visible ? 0 : -1}
       type="button"

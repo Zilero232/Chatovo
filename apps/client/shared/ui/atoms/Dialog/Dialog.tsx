@@ -6,6 +6,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import {
   Heading,
   Modal,
+  ModalOverlay,
   OverlayTriggerStateContext,
   Dialog as RACDialog,
   DialogTrigger as RACDialogTrigger,
@@ -13,7 +14,6 @@ import {
 } from 'react-aria-components';
 
 import { shouldKeepDialogOpen } from '@/shared/lib/nested-overlay';
-import { wrapOverlayContent } from '../../lib/wrap-overlay-content';
 import { OverlayCloseButton } from '../../molecules/OverlayCloseButton';
 import { Button } from '../Button';
 
@@ -31,7 +31,6 @@ import type {
   DialogPortalProps,
   DialogProps,
   DialogTitleProps,
-  DialogTriggerProps,
 } from './Dialog.types';
 
 const DialogOverlayContext = createContext<DialogOverlayContextValue | null>(null);
@@ -43,6 +42,7 @@ const Dialog = ({
   disablePointerDismissal,
   isDismissable,
   className,
+  trigger,
   children,
   ...props
 }: DialogProps) => {
@@ -58,27 +58,37 @@ const Dialog = ({
     ...props,
   } as DialogModalOverlayProps;
 
+  const overlay = (
+    <ModalOverlay {...overlayProps} data-slot="dialog">
+      {children}
+    </ModalOverlay>
+  );
+
   return (
     <DialogOverlayContext.Provider value={{ setOverlayClassName }}>
-      <RACDialogTrigger
-        data-slot="dialog-root"
-        defaultOpen={defaultOpen}
-        isOpen={isControlled ? open : undefined}
-        onOpenChange={onOpenChange}
-      >
-        {wrapOverlayContent({
-          children,
-          contentComponent: DialogContent,
-          overlayProps,
-          dataSlot: 'dialog',
-        })}
-      </RACDialogTrigger>
+      {trigger ? (
+        <RACDialogTrigger
+          data-slot="dialog-root"
+          defaultOpen={defaultOpen}
+          isOpen={isControlled ? open : undefined}
+          onOpenChange={onOpenChange}
+        >
+          {trigger}
+          {overlay}
+        </RACDialogTrigger>
+      ) : (
+        <ModalOverlay
+          {...overlayProps}
+          data-slot="dialog"
+          defaultOpen={defaultOpen}
+          isOpen={isControlled ? open : undefined}
+          onOpenChange={onOpenChange}
+        >
+          {children}
+        </ModalOverlay>
+      )}
     </DialogOverlayContext.Provider>
   );
-};
-
-const DialogTrigger = ({ className, ...props }: DialogTriggerProps) => {
-  return <Button className={className} data-slot="dialog-trigger" {...props} />;
 };
 
 const DialogPortal = ({ children }: DialogPortalProps) => {
@@ -195,5 +205,4 @@ export {
   DialogOverlay,
   DialogPortal,
   DialogTitle,
-  DialogTrigger,
 };

@@ -10,10 +10,9 @@ import type { ButtonProps } from '../Button';
 
 export type SheetProps = Omit<ModalOverlayProps, 'children'> & {
   open?: boolean;
+  trigger?: ReactNode;
   children?: ReactNode;
 };
-
-export type SheetTriggerProps = ButtonProps;
 
 export type SheetContentProps = Omit<RACDialogProps, 'children'> & {
   side?: SheetSide;

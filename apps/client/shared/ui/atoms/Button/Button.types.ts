@@ -14,9 +14,10 @@ export type ButtonSize =
   | 'icon-lg';
 
 export type ButtonProps = RACButtonProps &
-  Pick<ComponentProps<'button'>, 'tabIndex' | 'type' | 'onClick' | 'form' | 'name'> &
+  Pick<ComponentProps<'button'>, 'tabIndex' | 'type' | 'form' | 'name'> &
   Pick<ComponentProps<'a'>, 'href' | 'target' | 'rel' | 'download'> & {
     variant?: ButtonVariant;
     size?: ButtonSize;
     disabled?: boolean;
+    onClick?: () => void;
   };

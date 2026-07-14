@@ -43,9 +43,13 @@ export const InviteParticipantCard = ({ roomId }: InviteParticipantCardProps) =>
   };
 
   return (
-    <button className={clsx(s.root, copied && s.rootCopied)} type="button" onClick={copyInviteLink}>
+    <button
+      className={clsx(s.root, { [s.rootCopied]: copied })}
+      type="button"
+      onClick={copyInviteLink}
+    >
       {copied ? <Check className={clsx(s.icon, s.iconCopied)} /> : <UserPlus className={s.icon} />}
-      <span className={clsx(s.label, copied && s.labelCopied)}>
+      <span className={clsx(s.label, { [s.labelCopied]: copied })}>
         {copied ? t('linkCopied') : t('soloSlot')}
       </span>
     </button>

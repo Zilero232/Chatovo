@@ -81,7 +81,7 @@ export const CreateRoomForm = ({ onCreated }: CreateRoomFormProps) => {
         </FormField>
       )}
 
-      <Row className="items-center" gap="2">
+      <Row gap="2">
         <Controller
           control={control}
           name="isPrivate"

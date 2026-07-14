@@ -1,3 +1,5 @@
+@use '@/shared/styles/functions' as *;
+
 .root {
   position: relative;
   display: flex;
@@ -58,7 +60,7 @@
   border-radius: 9999px;
   background: var(--brand-cyan);
   color: var(--background);
-  box-shadow: 0 0 0 2px var(--background), 0 0 10px -2px oklch(0.82 0.16 200 / 0.7);
+  box-shadow: 0 0 0 rem(2) var(--background), 0 0 rem(10) rem(-2) oklch(0.82 0.16 200 / 0.7);
   user-select: none;
 
   .root[data-size='sm'] & {
@@ -95,7 +97,7 @@
   display: flex;
 
   :global([data-slot='avatar']) {
-    box-shadow: 0 0 0 2px var(--background);
+    box-shadow: 0 0 0 rem(2) var(--background);
   }
 
   > :global([data-slot='avatar']:not(:first-child)) {
@@ -116,8 +118,8 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: color-mix(in oklch, var(--foreground) 80%, transparent);
-  box-shadow: 0 0 0 2px var(--background);
-  backdrop-filter: blur(12px);
+  box-shadow: 0 0 0 rem(2) var(--background);
+  backdrop-filter: blur(rem(12));
 
   svg {
     width: 1rem;

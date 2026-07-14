@@ -2,7 +2,7 @@
 
 import { clsx } from 'clsx';
 
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+import { Tooltip, TooltipContent } from '@/shared/ui';
 import { DeviceMenu } from '../DeviceMenu';
 import {
   controlButtonToneClass,
@@ -26,18 +26,16 @@ export const ControlButton = ({
   if (!device) {
     return (
       <Tooltip>
-        <TooltipTrigger>
-          <button
-            aria-label={label}
-            aria-pressed={pressed}
-            className={clsx(s.controlButton, controlButtonToneClass[tone])}
-            disabled={disabled}
-            type="button"
-            onClick={onClick}
-          >
-            {icon}
-          </button>
-        </TooltipTrigger>
+        <button
+          aria-label={label}
+          aria-pressed={pressed}
+          className={clsx(s.controlButton, controlButtonToneClass[tone])}
+          disabled={disabled}
+          type="button"
+          onClick={onClick}
+        >
+          {icon}
+        </button>
         <TooltipContent>{label}</TooltipContent>
       </Tooltip>
     );
@@ -46,18 +44,16 @@ export const ControlButton = ({
   return (
     <div className={clsx(s.controlShell, controlShellToneClass[tone])}>
       <Tooltip>
-        <TooltipTrigger>
-          <button
-            aria-label={label}
-            aria-pressed={pressed}
-            className={clsx(s.controlMain, controlMainToneClass[tone])}
-            disabled={disabled}
-            type="button"
-            onClick={onClick}
-          >
-            {icon}
-          </button>
-        </TooltipTrigger>
+        <button
+          aria-label={label}
+          aria-pressed={pressed}
+          className={clsx(s.controlMain, controlMainToneClass[tone])}
+          disabled={disabled}
+          type="button"
+          onClick={onClick}
+        >
+          {icon}
+        </button>
         <TooltipContent>{label}</TooltipContent>
       </Tooltip>
 

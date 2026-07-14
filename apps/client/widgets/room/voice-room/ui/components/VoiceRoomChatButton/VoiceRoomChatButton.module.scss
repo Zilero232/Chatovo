@@ -1,3 +1,5 @@
+@use '@/shared/styles/mixins' as *;
+
 .wrap {
   position: relative;
   flex-shrink: 0;
@@ -9,7 +11,7 @@
   flex-shrink: 0;
   padding-top: 0.125rem !important;
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     width: 2.75rem !important;
     height: 2.75rem !important;
     padding-top: 0 !important;
@@ -30,10 +32,10 @@
   border: 1px solid oklch(1 0 0 / 10%);
   background: var(--brand-violet);
   padding-inline: 0.25rem;
-  font-size: 10px;
+  font-size: rem(10);
   font-weight: 600;
   color: white;
-  box-shadow: 0 0 10px -2px oklch(0.7 0.22 295 / 80%);
+  box-shadow: 0 0 rem(10) rem(-2) oklch(0.7 0.22 295 / 80%);
   animation:
     overlay-fade-in 200ms ease-out,
     overlay-zoom-in 200ms ease-out;

@@ -7,9 +7,14 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { useCurrentUser } from '@/entities/auth/user';
-import { useIncomingFriendRequests, useSendFriendRequest } from '@/entities/social/friend';
+import {
+  FriendTag,
+  useIncomingFriendRequests,
+  useSendFriendRequest,
+} from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 import { useCloseWhenInVoiceRoom } from '@/shared/hooks';
+import { formatBadgeCount } from '@/shared/lib';
 import {
   Button,
   Dialog,
@@ -55,9 +60,7 @@ export const FriendsDialog = () => {
           onClick={() => toggleOpen(true)}
         />
         {triggerBadgeCount > 0 && (
-          <span className={s.triggerBadge}>
-            {triggerBadgeCount > 99 ? '99+' : triggerBadgeCount}
-          </span>
+          <span className={s.triggerBadge}>{formatBadgeCount(triggerBadgeCount)}</span>
         )}
       </div>
 
@@ -80,20 +83,7 @@ export const FriendsDialog = () => {
           {ownFriendTag && (
             <div className={s.ownTagRow}>
               <span className={s.ownTagLabel}>{t('yourTagLabel')}</span>
-              <button
-                className={s.ownTagValue}
-                type="button"
-                onClick={async () => {
-                  try {
-                    await navigator.clipboard.writeText(ownFriendTag);
-                    toast.success(t('tagCopied'));
-                  } catch {
-                    toast.error(t('tagCopyFailed'));
-                  }
-                }}
-              >
-                {ownFriendTag}
-              </button>
+              <FriendTag tag={ownFriendTag} />
             </div>
           )}
 

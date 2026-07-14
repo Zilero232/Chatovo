@@ -112,7 +112,8 @@
     box-shadow: 0 0 0 #{rem(2)} color-mix(in oklch, var(--brand-violet) 40%, transparent);
   }
 
-  &:disabled {
+  &:disabled,
+  &[data-disabled] {
     pointer-events: none;
   }
 

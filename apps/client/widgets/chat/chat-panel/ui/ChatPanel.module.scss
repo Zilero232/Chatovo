@@ -1,12 +1,14 @@
+@use '@/shared/styles/mixins' as *;
+
 .scrim {
   position: fixed;
   inset: 0;
   z-index: 30;
   background: oklch(0 0 0 / 45%);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(rem(4));
   transition: opacity 300ms;
 
-  @media (min-width: 768px) {
+  @include bp(md) {
     display: none;
   }
 
@@ -30,7 +32,7 @@
   border-radius: 0;
   border: 0;
   border-left: 1px solid oklch(1 0 0 / 10%);
-  box-shadow: -28px 0 56px -28px oklch(0 0 0 / 85%);
+  box-shadow: rem(-28) 0 rem(56) rem(-28) oklch(0 0 0 / 85%);
   transition: transform 300ms ease-out;
 
   &[data-open='false'] {
@@ -42,7 +44,7 @@
     transform: translateX(0);
   }
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     left: auto;
     width: clamp(28rem, 40vw, 46rem);
     padding-bottom: 0;

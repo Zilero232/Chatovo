@@ -57,17 +57,16 @@ export const ParticipantCard = ({ participant, deafened, index = 0 }: Participan
               <span aria-hidden className={s.tint} style={getCardTint(bannerColor)} />
               <span
                 aria-hidden
-                className={clsx(
-                  s.avatarHalo,
-                  isSpeaking && s.avatarHaloSpeaking,
-                  isLocal && isSpeaking && s.avatarHaloLocalSpeaking,
-                )}
+                className={clsx(s.avatarHalo, {
+                  [s.avatarHaloSpeaking]: isSpeaking,
+                  [s.avatarHaloLocalSpeaking]: isLocal && isSpeaking,
+                })}
               />
 
               <UserAvatar
                 name={displayName}
                 src={avatarUrl}
-                className={clsx(s.avatar, isSpeaking && s.avatarSpeaking)}
+                className={clsx(s.avatar, { [s.avatarSpeaking]: isSpeaking })}
                 fallbackClassName={s.avatarFallback}
               />
             </div>
@@ -86,10 +85,12 @@ export const ParticipantCard = ({ participant, deafened, index = 0 }: Participan
         <div className={s.metadata}>
           {micMuted && <MicOff className={s.micIcon} />}
           {deafened && <HeadphoneOff className={s.micIcon} />}
-          <ProfileCardTrigger identity={participant.identity} name={displayName}>
-            <button className={s.nameTrigger} type="button">
-              <UserName name={displayName} verified={verified} className={s.name} />
-            </button>
+          <ProfileCardTrigger
+            className={s.nameTrigger}
+            identity={participant.identity}
+            name={displayName}
+          >
+            <UserName name={displayName} verified={verified} className={s.name} />
           </ProfileCardTrigger>
         </div>
       </div>

@@ -1,6 +1,10 @@
 'use client';
 
 import { LiveKitRoom } from '@livekit/components-react';
+import { setLogLevel } from 'livekit-client';
+
+setLogLevel('error');
+
 import { useBoolean } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { useRef } from 'react';

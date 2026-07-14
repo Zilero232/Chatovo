@@ -18,7 +18,7 @@
   background: oklch(1 0 0 / 5%);
   padding: 0.25rem;
   color: var(--muted-foreground);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(rem(12));
 }
 
 .trigger {
@@ -41,19 +41,21 @@
 
   @include focus-ring;
 
-  &:disabled {
+  &:disabled,
+  &[data-disabled] {
     pointer-events: none;
     opacity: 0.5;
   }
 
-  &:hover:not(:disabled):not([data-active]) {
+  &[data-hovered]:not([data-selected]),
+  &:hover:not(:disabled):not([data-selected]) {
     color: var(--foreground);
   }
 
-  &[data-active] {
+  &[data-selected] {
     background: var(--brand-violet);
     color: white;
-    box-shadow: 0 4px 16px -4px oklch(0.7 0.2 270 / 0.5);
+    box-shadow: 0 rem(4) rem(16) rem(-4) oklch(0.7 0.2 270 / 0.5);
   }
 
   svg {
@@ -64,13 +66,22 @@
   }
 }
 
-.content {
+.panels {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
   flex: 1;
-  outline: none;
+  flex-direction: column;
+}
 
-  &[data-active] {
-    animation: tab-content-in 200ms ease-out both;
-  }
+.content {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  outline: none;
+  animation: tab-content-in 200ms ease-out both;
 }
 
 @keyframes tab-content-in {

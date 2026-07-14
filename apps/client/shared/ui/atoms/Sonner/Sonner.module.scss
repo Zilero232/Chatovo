@@ -1,3 +1,5 @@
+@use '@/shared/styles/functions' as *;
+
 .toaster {
   :global(.group) {
     --normal-bg: var(--surface-overlay);
@@ -10,10 +12,10 @@
 .toast {
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(24px);
+  backdrop-filter: blur(rem(24));
   border: 1px solid var(--border-strong);
   box-shadow:
-    0 24px 64px -16px oklch(0 0 0 / 55%),
+    0 rem(24) rem(64) rem(-16) oklch(0 0 0 / 55%),
     inset 0 1px 0 oklch(1 0 0 / 8%);
 
   &::before {
@@ -21,7 +23,7 @@
     position: absolute;
     inset-block: 0;
     left: 0;
-    width: 2px;
+    width: rem(2);
     border-radius: 9999px;
   }
 }

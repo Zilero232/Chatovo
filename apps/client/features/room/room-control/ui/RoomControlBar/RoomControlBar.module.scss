@@ -1,3 +1,5 @@
+@use '@/shared/styles/breakpoints' as *;
+
 .root {
   display: flex;
   width: max-content;
@@ -6,7 +8,7 @@
   justify-content: center;
   gap: 0.25rem;
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     gap: 0.5rem;
   }
 }

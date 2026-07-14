@@ -11,6 +11,7 @@ import type { ButtonProps } from '../Button';
 export type DialogProps = Omit<ModalOverlayProps, 'children'> & {
   open?: boolean;
   disablePointerDismissal?: boolean;
+  trigger?: ReactNode;
   children?: ReactNode;
 };
 
@@ -19,8 +20,6 @@ export type DialogContentProps = Omit<RACDialogProps, 'children'> & {
   overlayClassName?: string;
   children?: ReactNode;
 };
-
-export type DialogTriggerProps = ButtonProps;
 
 export type DialogPortalProps = {
   children?: ReactNode;

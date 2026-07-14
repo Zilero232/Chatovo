@@ -36,7 +36,7 @@ export const MessageAttachment = ({ attachment, isOwn }: MessageAttachmentProps)
 
   return (
     <a
-      className={clsx(s.fileCard, isOwn ? s.fileCardOwn : s.fileCardOther)}
+      className={clsx(s.fileCard, { [s.fileCardOwn]: isOwn, [s.fileCardOther]: !isOwn })}
       download={name}
       href={url}
       rel="noopener noreferrer"

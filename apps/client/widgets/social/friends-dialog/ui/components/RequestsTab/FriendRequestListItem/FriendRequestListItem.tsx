@@ -4,6 +4,7 @@ import { Check, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { UserAvatar, UserName } from '@/entities/auth/user';
+import { FriendTag } from '@/entities/social/friend';
 import { Button } from '@/shared/ui';
 
 import s from './FriendRequestListItem.module.scss';
@@ -26,7 +27,7 @@ export const FriendRequestListItem = ({
       <UserAvatar name={user.name} size="sm" src={user.avatarUrl} />
       <div className={s.info}>
         <UserName className={s.name} name={user.name} verified={user.verified} />
-        {user.friendTag && <p className={s.tag}>{user.friendTag}</p>}
+        {user.friendTag && <FriendTag className={s.tag} tag={user.friendTag} />}
       </div>
       <div className={s.actions}>
         <Button className={s.action} disabled={busy} size="sm" onClick={onAccept}>

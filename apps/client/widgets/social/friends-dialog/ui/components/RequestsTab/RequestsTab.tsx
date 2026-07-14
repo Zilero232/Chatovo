@@ -30,7 +30,7 @@ export const RequestsTab = () => {
   const declineRequest = useDeclineFriendRequest();
 
   return match({ isPending, requests })
-    .with({ isPending: true }, () => <Spinner className="mx-auto my-8" />)
+    .with({ isPending: true }, () => <Spinner className={s.spinner} />)
     .with({ requests: P.when(hasRequests) }, ({ requests: items }) => (
       <div className={s.list}>
         {items.map((entry) => (

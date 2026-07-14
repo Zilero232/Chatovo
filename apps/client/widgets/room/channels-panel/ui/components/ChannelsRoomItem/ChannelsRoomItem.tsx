@@ -42,7 +42,10 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
     <div>
       <div className={s.row}>
         <button
-          className={clsx(s.trigger, isActive && s.triggerActive, isOwner && s.triggerOwner)}
+          className={clsx(s.trigger, {
+            [s.triggerActive]: isActive,
+            [s.triggerOwner]: isOwner,
+          })}
           type="button"
           onClick={handleClick}
         >
@@ -58,22 +61,25 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
       {!isEmpty(participants) && (
         <div className={s.participants}>
           {participants.map((p) => (
-            <ProfileCardTrigger key={p.identity} identity={p.identity} name={p.name}>
-              <button className={s.participant} type="button">
-                <AvatarWithBadges
-                  topLeft={p.identity === room.ownerId && <OwnerCrown />}
-                  bottomRight={p.micMuted && <MicMutedBadge />}
-                  bottomLeft={p.deafened && <DeafenedBadge />}
-                >
-                  <UserAvatar
-                    name={p.name}
-                    src={p.avatarUrl}
-                    className={s.participantAvatar}
-                    fallbackClassName={s.participantFallback}
-                  />
-                </AvatarWithBadges>
-                <UserName name={p.name} verified={p.verified} className={s.participantName} />
-              </button>
+            <ProfileCardTrigger
+              key={p.identity}
+              className={s.participant}
+              identity={p.identity}
+              name={p.name}
+            >
+              <AvatarWithBadges
+                topLeft={p.identity === room.ownerId && <OwnerCrown />}
+                bottomRight={p.micMuted && <MicMutedBadge />}
+                bottomLeft={p.deafened && <DeafenedBadge />}
+              >
+                <UserAvatar
+                  name={p.name}
+                  src={p.avatarUrl}
+                  className={s.participantAvatar}
+                  fallbackClassName={s.participantFallback}
+                />
+              </AvatarWithBadges>
+              <UserName name={p.name} verified={p.verified} className={s.participantName} />
             </ProfileCardTrigger>
           ))}
         </div>

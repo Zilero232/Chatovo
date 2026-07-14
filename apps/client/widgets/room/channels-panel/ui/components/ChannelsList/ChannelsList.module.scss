@@ -1,3 +1,5 @@
+@use '@/shared/styles/functions' as *;
+
 .scroll {
   flex: 1;
 }
@@ -35,7 +37,7 @@
 
 .sectionLabel {
   padding: 0.25rem 0.5rem;
-  font-size: 10px;
+  font-size: rem(10);
   font-weight: 600;
   color: color-mix(in oklch, var(--muted-foreground) 80%, transparent);
   text-transform: uppercase;
@@ -83,7 +85,7 @@
 
   &:focus-within {
     border-color: color-mix(in oklch, var(--brand-cyan) 60%, transparent);
-    box-shadow: 0 0 0 2px color-mix(in oklch, var(--brand-cyan) 25%, transparent);
+    box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--brand-cyan) 25%, transparent);
   }
 }
 

@@ -1,3 +1,5 @@
+@use '@/shared/styles/mixins' as *;
+
 .root {
   position: relative;
   display: flex;
@@ -31,12 +33,12 @@
   justify-content: center;
   gap: 0.75rem;
   border-radius: var(--radius-2xl);
-  border: 2px dashed var(--brand-violet);
+  border: rem(2) dashed var(--brand-violet);
   background: color-mix(in oklch, var(--background) 80%, transparent);
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--foreground);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(rem(4));
 }
 
 .dropIcon {

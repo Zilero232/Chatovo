@@ -5,13 +5,13 @@ import { useContext } from 'react';
 import {
   Heading,
   Modal,
+  ModalOverlay,
   OverlayTriggerStateContext,
   Dialog as RACDialog,
   DialogTrigger as RACDialogTrigger,
   Text,
 } from 'react-aria-components';
 
-import { wrapOverlayContent } from '../../lib/wrap-overlay-content';
 import { OverlayCloseButton } from '../../molecules/OverlayCloseButton';
 import { Button } from '../Button';
 
@@ -29,7 +29,6 @@ import type {
   SheetProps,
   SheetSide,
   SheetTitleProps,
-  SheetTriggerProps,
 } from './Sheet.types';
 
 const sideClass: Record<SheetSide, string> = {
@@ -39,7 +38,15 @@ const sideClass: Record<SheetSide, string> = {
   bottom: s.sideBottom,
 };
 
-const Sheet = ({ open, defaultOpen, onOpenChange, className, children, ...props }: SheetProps) => {
+const Sheet = ({
+  open,
+  defaultOpen,
+  onOpenChange,
+  className,
+  trigger,
+  children,
+  ...props
+}: SheetProps) => {
   const isControlled = open !== undefined;
 
   const overlayProps = {
@@ -47,25 +54,37 @@ const Sheet = ({ open, defaultOpen, onOpenChange, className, children, ...props 
     ...props,
   } as SheetModalOverlayProps;
 
+  const overlay = (
+    <ModalOverlay {...overlayProps} data-slot="sheet">
+      {children}
+    </ModalOverlay>
+  );
+
+  if (trigger) {
+    return (
+      <RACDialogTrigger
+        data-slot="sheet-root"
+        defaultOpen={defaultOpen}
+        isOpen={isControlled ? open : undefined}
+        onOpenChange={onOpenChange}
+      >
+        {trigger}
+        {overlay}
+      </RACDialogTrigger>
+    );
+  }
+
   return (
-    <RACDialogTrigger
-      data-slot="sheet-root"
+    <ModalOverlay
+      {...overlayProps}
+      data-slot="sheet"
       defaultOpen={defaultOpen}
       isOpen={isControlled ? open : undefined}
       onOpenChange={onOpenChange}
     >
-      {wrapOverlayContent({
-        children,
-        contentComponent: SheetContent,
-        overlayProps,
-        dataSlot: 'sheet',
-      })}
-    </RACDialogTrigger>
+      {children}
+    </ModalOverlay>
   );
-};
-
-const SheetTrigger = ({ className, ...props }: SheetTriggerProps) => {
-  return <Button className={className} data-slot="sheet-trigger" {...props} />;
 };
 
 const SheetClose = ({ className, children, ...props }: SheetCloseProps) => {
@@ -150,5 +169,4 @@ export {
   SheetOverlay,
   SheetPortal,
   SheetTitle,
-  SheetTrigger,
 };

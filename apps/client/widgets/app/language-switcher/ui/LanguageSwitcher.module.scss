@@ -22,15 +22,16 @@
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px color-mix(in oklch, var(--ring) 50%, transparent);
+    box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--ring) 50%, transparent);
   }
 
-  &:disabled {
+  &:disabled,
+  &[data-disabled] {
     pointer-events: none;
     opacity: 0.5;
   }
 
-  &[data-state='open'] {
+  &[aria-expanded='true'] {
     background: var(--accent);
     color: var(--foreground);
   }
@@ -40,7 +41,7 @@
   height: 0.875rem;
   width: 1.17rem;
   flex-shrink: 0;
-  border-radius: 2px;
+  border-radius: rem(2);
   object-fit: cover;
   box-shadow: 0 0 0 1px var(--border);
 }
@@ -51,7 +52,7 @@
   flex-shrink: 0;
   transition: transform 150ms ease-out;
 
-  &[data-state='open'] {
+  [aria-expanded='true'] > & {
     transform: rotate(180deg);
   }
 }
@@ -63,7 +64,7 @@
 .itemFlag {
   height: 0.75rem;
   width: 1rem;
-  border-radius: 2px;
+  border-radius: rem(2);
   object-fit: cover;
   box-shadow: 0 0 0 1px var(--border);
 }

@@ -4,6 +4,7 @@ import { clsx } from 'clsx';
 import { CheckIcon, ChevronRightIcon, CircleIcon } from 'lucide-react';
 import { createContext, useContext } from 'react';
 import {
+  Header,
   Menu,
   MenuItem,
   MenuSection,
@@ -132,12 +133,15 @@ const DropdownMenuCheckboxItem = ({
 const DropdownMenuRadioGroup = ({
   value,
   onValueChange,
+  className,
   children,
 }: DropdownMenuRadioGroupProps) => {
   return (
-    <MenuRadioGroupContext.Provider value={{ value, onValueChange }}>
-      {children}
-    </MenuRadioGroupContext.Provider>
+    <MenuSection className={className} data-slot="dropdown-menu-radio-group">
+      <MenuRadioGroupContext.Provider value={{ value, onValueChange }}>
+        {children}
+      </MenuRadioGroupContext.Provider>
+    </MenuSection>
   );
 };
 
@@ -166,14 +170,13 @@ const DropdownMenuRadioItem = ({
   );
 };
 
-const DropdownMenuLabel = ({ className, inset, ...props }: DropdownMenuLabelProps) => {
+const DropdownMenuLabel = ({ className, inset, children, ...props }: DropdownMenuLabelProps) => {
   return (
-    <div
-      className={clsx(s.label, className)}
-      data-inset={inset}
-      data-slot="dropdown-menu-label"
-      {...props}
-    />
+    <MenuSection data-slot="dropdown-menu-label-section">
+      <Header className={clsx(s.label, className)} data-inset={inset} {...props}>
+        {children}
+      </Header>
+    </MenuSection>
   );
 };
 

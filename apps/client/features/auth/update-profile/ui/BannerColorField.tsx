@@ -32,7 +32,7 @@ export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => 
           <button
             key={color}
             aria-label={color}
-            className={clsx(s.bannerSwatch, value === color && s.bannerSwatchActive)}
+            className={clsx(s.bannerSwatch, { [s.bannerSwatchActive]: value === color })}
             style={{ backgroundColor: color }}
             type="button"
             onClick={() => onChange(color)}
@@ -42,7 +42,7 @@ export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => 
         <Popover>
           <button
             aria-label={t('bannerCustom')}
-            className={clsx(s.bannerCustomTrigger, isCustom && s.bannerSwatchActive)}
+            className={clsx(s.bannerCustomTrigger, { [s.bannerSwatchActive]: isCustom })}
             style={{ backgroundColor: isCustom ? current : undefined }}
             type="button"
           >

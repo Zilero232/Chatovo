@@ -7,6 +7,7 @@ import { Providers } from './providers';
 
 import type { ReactNode } from 'react';
 
+import 'modern-normalize/modern-normalize.css';
 import './globals.scss';
 
 export { defaultMetadata as metadata, defaultViewport as viewport } from '@/shared/seo';

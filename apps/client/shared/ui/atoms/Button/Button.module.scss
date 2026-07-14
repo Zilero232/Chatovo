@@ -10,8 +10,8 @@
   box-shadow:
     0 1px 0 oklch(1 0 0 / 0.7) inset,
     0 -1px 0 oklch(0 0 0 / 0.15) inset,
-    0 8px 20px -4px oklch(0 0 0 / 0.6),
-    0 4px 8px -2px oklch(0 0 0 / 0.45),
+    0 rem(8) rem(20) rem(-4) oklch(0 0 0 / 0.6),
+    0 rem(4) rem(8) rem(-2) oklch(0 0 0 / 0.45),
     0 0 0 1px oklch(0 0 0 / 0.3);
 
   &:hover:not(:disabled) {
@@ -28,8 +28,8 @@
   color: white;
   box-shadow:
     0 1px 0 oklch(1 0 0 / 0.18) inset,
-    0 4px 14px -2px oklch(0.7 0.22 22 / 0.5),
-    0 2px 4px -1px oklch(0 0 0 / 0.35);
+    0 rem(4) rem(14) rem(-2) oklch(0.7 0.22 22 / 0.5),
+    0 rem(2) rem(4) rem(-1) oklch(0 0 0 / 0.35);
 
   &:hover:not(:disabled) {
     background: oklch(0.66 0.22 22);
@@ -44,7 +44,7 @@
   border: 1px solid oklch(1 0 0 / 12%);
   background: oklch(1 0 0 / 3%);
   color: var(--foreground);
-  box-shadow: 0 1px 2px oklch(0 0 0 / 0.25);
+  box-shadow: 0 rem(1) rem(2) oklch(0 0 0 / 0.25);
 
   &:hover:not(:disabled) {
     border-color: oklch(1 0 0 / 25%);
@@ -56,7 +56,7 @@
   border: 1px solid oklch(1 0 0 / 10%);
   background: oklch(1 0 0 / 5%);
   color: var(--foreground);
-  box-shadow: 0 1px 2px oklch(0 0 0 / 0.25);
+  box-shadow: 0 rem(1) rem(2) oklch(0 0 0 / 0.25);
 
   &:hover:not(:disabled) {
     background: oklch(1 0 0 / 10%);
@@ -76,7 +76,7 @@
 .link {
   background: transparent;
   color: var(--brand-cyan);
-  text-underline-offset: 4px;
+  text-underline-offset: rem(4);
 
   &:hover:not(:disabled) {
     text-decoration: underline;

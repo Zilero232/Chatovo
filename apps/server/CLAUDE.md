@@ -26,9 +26,11 @@ Each module is `routes.ts` (OpenAPI route defs) + `handlers.ts` (transport) + `<
 - `<name>.service.ts` — business logic. Takes plain args (no Hono `c`), returns data or **throws `HTTPException`**. The global `onError` in [index.ts](src/index.ts) turns thrown errors into HTTP responses — services never `return c.json` for errors.
 - Reusable guards (`assertRoomExists`, `assertCanManageRoom`, `getUserWithProfileOrThrow`) and Prisma selects (`roomSelect`, `senderSelect`) live in [lib/](src/lib/) — don't re-declare per module.
 
-Modules: `auth` (better-auth instance), `chat`, `email` (SMTP via nodemailer + React Email templates rendered to HTML), `github`, `livekit`, `rooms`, `uploads` (disk + `/uploads` serving), `users`.
+Modules: `auth` (better-auth instance), `chat`, `email` (SMTP via nodemailer + React Email templates rendered to HTML), `feedback`, `friends`, `github`, `livekit`, `push` (FCM), `realtime` (app WebSocket), `rooms`, `telegram`, `uploads` (disk + `/uploads` serving), `users`.
 
-**LiveKit specifics:** presence is split — [presence-store.ts](src/modules/livekit/presence-store.ts) is the pure in-memory store + pub/sub; [presence.ts](src/modules/livekit/presence.ts) holds the LiveKit-SDK reconcile logic and re-exports the store API. The SSE handler ([handlers/presence.ts](src/modules/livekit/handlers/presence.ts)) is intentionally kept whole — it has documented write-ordering/concurrency invariants; don't split it casually.
+**Realtime:** a single app WebSocket at `/realtime` ([realtime/handlers/ws.ts](src/modules/realtime/handlers/ws.ts), auth via `?token=`) — no SSE, no socket.io. `realtime/connection-store.ts` tracks sockets, [realtime/emit.ts](src/modules/realtime/emit.ts) exposes `emitRoomEvent`/`emitUserEvent`. On open the server pushes `presence.snapshot` + `friends.snapshot`; chat/friends/presence events fan out through the same socket (`chat` module emits after DB write via [chat/emit-chat-event.ts](src/modules/chat/emit-chat-event.ts)).
+
+**LiveKit specifics:** presence is split — [presence-store.ts](src/modules/livekit/presence-store.ts) is the pure in-memory store + pub/sub; [presence.ts](src/modules/livekit/presence.ts) holds the LiveKit-SDK reconcile logic and re-exports the store API.
 
 ## Prisma
 

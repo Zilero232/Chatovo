@@ -1,3 +1,5 @@
+@use '@/shared/styles/functions' as *;
+
 .root {
   display: flex;
   align-items: center;
@@ -22,17 +24,17 @@
 
 .barGood {
   background: var(--brand-cyan);
-  box-shadow: 0 0 6px oklch(0.82 0.16 200 / 60%);
+  box-shadow: 0 0 rem(6) oklch(0.82 0.16 200 / 60%);
 }
 
 .barFair {
   background: oklch(0.85 0.18 85);
-  box-shadow: 0 0 6px oklch(0.85 0.18 85 / 60%);
+  box-shadow: 0 0 rem(6) oklch(0.85 0.18 85 / 60%);
 }
 
 .barPoor {
   background: var(--destructive);
-  box-shadow: 0 0 6px oklch(0.7 0.22 22 / 60%);
+  box-shadow: 0 0 rem(6) oklch(0.7 0.22 22 / 60%);
 }
 
 .ping {

@@ -10,6 +10,7 @@ import { useAppSettings } from '@/entities/app/settings';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
@@ -43,10 +44,10 @@ export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="center" className={s.menu} side="top">
-        <div className={s.header}>
+        <DropdownMenuLabel className={s.header}>
           <Icon className={s.headerIcon} />
           <span className={s.headerLabel}>{label}</span>
-        </div>
+        </DropdownMenuLabel>
 
         <DropdownMenuRadioGroup className={s.list} value={activeId} onValueChange={selectDevice}>
           {devices.map((device) => {
@@ -56,10 +57,10 @@ export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
             return (
               <DropdownMenuRadioItem
                 key={device.deviceId}
-                className={clsx(s.item, isActive ? s.itemActive : s.itemInactive)}
+                className={clsx(s.item, { [s.itemActive]: isActive, [s.itemInactive]: !isActive })}
                 value={device.deviceId}
               >
-                <span className={clsx(s.itemIconBox, isActive && s.itemIconBoxActive)}>
+                <span className={clsx(s.itemIconBox, { [s.itemIconBoxActive]: isActive })}>
                   <Icon />
                 </span>
                 <span className={s.itemLabel} title={name}>

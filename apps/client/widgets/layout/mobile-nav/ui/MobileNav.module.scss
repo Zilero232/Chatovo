@@ -1,3 +1,5 @@
+@use '@/shared/styles/breakpoints' as *;
+
 .topBar {
   z-index: 40;
   display: flex;
@@ -6,7 +8,7 @@
   border-bottom: 1px solid oklch(1 0 0 / 8%);
   padding-top: var(--safe-area-top);
 
-  @media (min-width: 768px) {
+  @include bp(md) {
     display: none;
   }
 }

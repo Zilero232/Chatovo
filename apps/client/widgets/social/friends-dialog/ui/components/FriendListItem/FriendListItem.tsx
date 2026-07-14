@@ -4,6 +4,7 @@ import { ChevronRight, MoreVertical, UserMinus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { UserAvatar, UserName } from '@/entities/auth/user';
+import { formatBadgeCount } from '@/shared/lib';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +25,6 @@ export const FriendListItem = ({ user, dmUnread = 0, onOpen, onRemove }: FriendL
         <UserAvatar className={s.avatar} name={user.name} size="sm" src={user.avatarUrl} />
         <div className={s.info}>
           <UserName className={s.name} name={user.name} verified={user.verified} />
-          {user.friendTag && <p className={s.tag}>{user.friendTag}</p>}
         </div>
         {dmUnread > 0 && (
           <span
@@ -32,7 +32,7 @@ export const FriendListItem = ({ user, dmUnread = 0, onOpen, onRemove }: FriendL
             className={s.unread}
             title={t('unreadMessages', { count: dmUnread })}
           >
-            {dmUnread > 99 ? '99+' : dmUnread}
+            {formatBadgeCount(dmUnread)}
           </span>
         )}
         <ChevronRight aria-hidden className={s.chevron} />

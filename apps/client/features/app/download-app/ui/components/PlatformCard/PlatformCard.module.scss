@@ -1,3 +1,5 @@
+@use '@/shared/styles/mixins' as *;
+
 .root {
   display: flex;
   min-height: 7.5rem;
@@ -10,7 +12,7 @@
   background: rgb(255 255 255 / 5%);
   padding: 1rem;
   text-align: center;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(rem(12));
   transition: all 150ms ease;
   text-decoration: none;
   color: inherit;
@@ -32,7 +34,7 @@
   width: 2.5rem;
   height: 2.5rem;
   color: var(--brand-cyan);
-  filter: drop-shadow(0 0 10px oklch(0.82 0.16 200 / 0.5));
+  filter: drop-shadow(0 0 rem(10) oklch(0.82 0.16 200 / 0.5));
 }
 
 .name {

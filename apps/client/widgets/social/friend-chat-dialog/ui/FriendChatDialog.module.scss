@@ -1,3 +1,5 @@
+@use '@/shared/styles/breakpoints' as *;
+
 .content {
   display: flex;
   height: min(42rem, 85vh);
@@ -7,7 +9,7 @@
   overflow: hidden;
   padding: 0;
 
-  @media (max-width: 767px) {
+  @include bp(md, down) {
     position: fixed;
     inset: 0;
     top: 0;
@@ -25,7 +27,7 @@
 }
 
 .overlay {
-  @media (max-width: 767px) {
+  @include bp(md, down) {
     background: var(--background);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -43,7 +45,7 @@
   padding-left: max(1rem, var(--safe-area-left));
   padding-right: max(1rem, var(--safe-area-right));
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     padding-inline: 1rem;
   }
 }

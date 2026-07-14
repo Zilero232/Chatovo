@@ -16,7 +16,7 @@ import s from './ChannelsList.module.scss';
 const CHANNELS_SKELETON_KEYS = ['a', 'b', 'c', 'd', 'e'] as const;
 
 const SectionLabel = ({ children, offset = false }: { children: ReactNode; offset?: boolean }) => (
-  <p className={clsx(s.sectionLabel, offset && s.sectionLabelOffset)}>{children}</p>
+  <p className={clsx(s.sectionLabel, { [s.sectionLabelOffset]: offset })}>{children}</p>
 );
 
 const ChannelsListSkeleton = () => (

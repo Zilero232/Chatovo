@@ -41,7 +41,11 @@ const Tabs = ({
       {...props}
     >
       {listItems}
-      {panelItems.length > 0 ? <TabPanels>{panelItems}</TabPanels> : null}
+      {panelItems.length > 0 ? (
+        <TabPanels className={s.panels} data-slot="tabs-panels">
+          {panelItems}
+        </TabPanels>
+      ) : null}
       {otherItems}
     </RACTabs>
   );

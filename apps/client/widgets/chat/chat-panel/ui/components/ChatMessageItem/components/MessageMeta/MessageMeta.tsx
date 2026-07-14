@@ -12,10 +12,8 @@ export const MessageMeta = ({ author, identity, timestamp, verified, isOwn }: Me
   return (
     <div className={s.root}>
       {!isOwn && (
-        <ProfileCardTrigger identity={identity} name={author}>
-          <button className={s.nameTrigger} type="button">
-            <UserName name={author} verified={verified} className={s.author} />
-          </button>
+        <ProfileCardTrigger className={s.nameTrigger} identity={identity} name={author}>
+          <UserName name={author} verified={verified} className={s.author} />
         </ProfileCardTrigger>
       )}
       <span className={s.time}>{formatMessageTime(timestamp)}</span>

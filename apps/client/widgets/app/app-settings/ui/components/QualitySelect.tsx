@@ -1,25 +1,12 @@
 'use client';
 
-import { ChevronDownIcon } from 'lucide-react';
+import { Select } from '@/shared/ui';
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from '@/shared/ui';
-
-import s from '../AppSettingsButton.module.scss';
-
-type QualityOption<T extends string> = {
-  value: T;
-  label: string;
-};
+import type { SelectOption } from '@/shared/ui';
 
 type QualitySelectProps<T extends string> = {
   value: T;
-  options: QualityOption<T>[];
+  options: SelectOption<T>[];
   onChange: (value: T) => void;
 };
 
@@ -27,25 +14,4 @@ export const QualitySelect = <T extends string>({
   value,
   options,
   onChange,
-}: QualitySelectProps<T>) => {
-  const active = options.find((option) => option.value === value);
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className={s.deviceTrigger}>
-        <span className={s.deviceTriggerLabel}>{active?.label ?? value}</span>
-        <ChevronDownIcon className={s.deviceTriggerChevron} />
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent align="start" className={s.deviceMenu}>
-        <DropdownMenuRadioGroup value={value} onValueChange={(next) => onChange(next as T)}>
-          {options.map((option) => (
-            <DropdownMenuRadioItem key={option.value} value={option.value}>
-              {option.label}
-            </DropdownMenuRadioItem>
-          ))}
-        </DropdownMenuRadioGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-};
+}: QualitySelectProps<T>) => <Select options={options} value={value} onChange={onChange} />;

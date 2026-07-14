@@ -6,7 +6,7 @@ import { clsx } from 'clsx';
 import { BadgeCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+import { Tooltip, TooltipContent } from '@/shared/ui';
 
 import s from './UserName.module.scss';
 
@@ -29,11 +29,9 @@ export const UserName = ({
 
   const check = verified ? (
     <Tooltip>
-      <TooltipTrigger>
-        <span aria-label={t('verified')} className={s.checkWrap} role="img">
-          <BadgeCheck className={clsx(s.check, checkSizeClass[size])} />
-        </span>
-      </TooltipTrigger>
+      <span aria-label={t('verified')} className={s.checkWrap} role="img">
+        <BadgeCheck className={clsx(s.check, checkSizeClass[size])} />
+      </span>
       <TooltipContent sideOffset={6}>{t('verified')}</TooltipContent>
     </Tooltip>
   ) : null;

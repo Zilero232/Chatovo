@@ -11,6 +11,7 @@ import {
   MessageBody,
   MessageBubble,
   MessageMeta,
+  MessageStatus,
 } from './components';
 
 import s from './ChatMessageItem.module.scss';
@@ -25,6 +26,8 @@ export const ChatMessageItem = ({
   canManage,
   onEdit,
   onDelete,
+  onRetry,
+  onDiscard,
 }: ChatMessageItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
@@ -37,15 +40,21 @@ export const ChatMessageItem = ({
   const isDeleted = Boolean(message.deletedAt);
   const attachment = !isDeleted ? decodeChatAttachment(message.message) : null;
 
+  const isUnsent = Boolean(message.status);
   const showHeader = !isGrouped;
   const isEdited = Boolean(message.editedAt) && !isDeleted;
-  const canEdit = canManage && isOwn && !isDeleted && !attachment;
-  const showActions = canManage && isOwn && !isDeleted && !isEditing;
+  const canEdit = canManage && isOwn && !isDeleted && !attachment && !isUnsent;
+  const showActions = canManage && isOwn && !isDeleted && !isEditing && !isUnsent;
 
   const startEdit = () => setIsEditing(true);
 
   return (
-    <div className={s.root} data-own={isOwn} data-message-root>
+    <div
+      className={s.root}
+      data-own={isOwn}
+      data-pending={message.status === 'sending'}
+      data-message-root
+    >
       <div className={s.column} data-own={isOwn}>
         {showHeader && (
           <MessageMeta
@@ -83,6 +92,14 @@ export const ChatMessageItem = ({
             />
           )}
         </div>
+
+        {message.status && (
+          <MessageStatus
+            status={message.status}
+            onRetry={() => onRetry(message.id, message.message)}
+            onDiscard={() => onDiscard(message.id)}
+          />
+        )}
       </div>
 
       <EditMessageDialog

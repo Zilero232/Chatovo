@@ -6,6 +6,10 @@ import { useEffect, useEffectEvent } from 'react';
 import { isTauriMobile } from '@/shared/lib';
 
 const syncInsetsFromPlugin = async () => {
+  if (!isTauriMobile()) {
+    return;
+  }
+
   const api = await import('@saurl/tauri-plugin-safe-area-insets-css-api');
   const [top, bottom] = await Promise.all([api.getTopInset(), api.getBottomInset()]);
 

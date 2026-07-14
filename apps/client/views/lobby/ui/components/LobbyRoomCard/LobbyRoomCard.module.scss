@@ -1,8 +1,10 @@
+@use '@/shared/styles/mixins' as *;
+
 .root {
   position: relative;
   display: flex;
   height: 100%;
-  min-height: 148px;
+  min-height: rem(148);
   flex-direction: column;
   overflow: hidden;
   border-radius: 1rem;
@@ -10,15 +12,15 @@
   transition: all 300ms ease;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 40px -20px oklch(0.7 0.2 270 / 0.55);
+    transform: translateY(rem(-2));
+    box-shadow: 0 rem(16) rem(40) rem(-20) oklch(0.7 0.2 270 / 0.55);
   }
 
   &[data-live='true'] {
     border-color: color-mix(in oklch, var(--brand-cyan) 35%, transparent);
     box-shadow:
       0 0 0 1px oklch(0.82 0.16 200 / 0.2),
-      0 12px 36px -16px oklch(0.82 0.16 200 / 0.45);
+      0 rem(12) rem(36) rem(-16) oklch(0.82 0.16 200 / 0.45);
   }
 }
 
@@ -31,7 +33,7 @@
   height: 8rem;
   border-radius: 50%;
   background: color-mix(in oklch, var(--brand-cyan) 20%, transparent);
-  filter: blur(32px);
+  filter: blur(rem(32));
   transition: opacity 150ms ease;
 
   .root:hover & {
@@ -44,7 +46,7 @@
   position: absolute;
   inset-inline: 0;
   top: 0;
-  height: 2px;
+  height: rem(2);
   background: linear-gradient(
     90deg,
     color-mix(in oklch, var(--brand-cyan) 0%, transparent),
@@ -84,8 +86,9 @@
 .enter {
   position: relative;
   display: flex;
-  height: 100%;
+  min-height: 0;
   width: 100%;
+  flex: 1;
   flex-direction: column;
   gap: 0.75rem;
   border-radius: 1rem;
@@ -98,7 +101,7 @@
   cursor: pointer;
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px color-mix(in oklch, var(--brand-violet) 40%, transparent);
+    box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--brand-violet) 40%, transparent);
   }
 }
 
@@ -124,7 +127,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 15px;
+  font-size: rem(15);
   font-weight: 600;
   transition: color 150ms ease;
 
@@ -174,11 +177,11 @@
 .avatar {
   width: 2rem;
   height: 2rem;
-  box-shadow: 0 0 0 2px color-mix(in oklch, var(--background) 70%, transparent);
+  box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--background) 70%, transparent);
 }
 
 .avatarFallback {
-  font-size: 10px;
+  font-size: rem(10);
 }
 
 .countLabel {
@@ -222,7 +225,7 @@
   border: 1px solid rgb(255 255 255 / 10%);
   background: rgb(255 255 255 / 5%);
   padding: 0.25rem 0.625rem;
-  font-size: 11px;
+  font-size: rem(11);
   color: var(--muted-foreground);
   transition: colors 150ms ease;
 
@@ -238,12 +241,21 @@
   top: 0.625rem;
   right: 0.625rem;
   opacity: 0;
-  transition: opacity 150ms ease;
+  visibility: hidden;
+  transition:
+    opacity 150ms ease,
+    visibility 150ms ease;
 
   .root:hover &,
   &:focus-within,
-  &[data-state='open'] {
+  &:has([aria-expanded='true']) {
     opacity: 1;
+    visibility: visible;
+  }
+
+  @include coarse-pointer {
+    opacity: 1;
+    visibility: visible;
   }
 }
 

@@ -8,10 +8,8 @@ import { LOCALES, type Locale } from '@/shared/i18n';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
   FlagGbIcon,
   FlagRuIcon,
@@ -40,9 +38,6 @@ export const LanguageSwitcher = () => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className={s.content}>
-        <DropdownMenuLabel>{t('label')}</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-
         <DropdownMenuRadioGroup
           value={locale}
           onValueChange={(value) => setLocale(value as Locale)}

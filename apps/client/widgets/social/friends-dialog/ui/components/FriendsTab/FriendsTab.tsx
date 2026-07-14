@@ -42,7 +42,7 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
   return (
     <>
       {match({ isPending, friends })
-        .with({ isPending: true }, () => <Spinner className="mx-auto my-8" />)
+        .with({ isPending: true }, () => <Spinner className={s.spinner} />)
         .with({ friends: P.when(hasFriends) }, ({ friends: items }) => (
           <div className={s.list}>
             {items.map((entry) => (

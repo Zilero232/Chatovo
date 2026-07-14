@@ -1,3 +1,5 @@
+@use '@/shared/styles/functions' as *;
+
 .root {
   display: flex;
   height: 2rem;
@@ -5,12 +7,12 @@
   align-items: stretch;
   border-bottom: 1px solid var(--border);
   background: color-mix(in oklch, var(--background) 80%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(rem(12));
+  -webkit-backdrop-filter: blur(rem(12));
 }
 
 .rootMacos {
-  padding-left: 78px;
+  padding-left: rem(78);
 }
 
 .dragRegion {

@@ -1,21 +1,26 @@
+@use '@/shared/styles/functions' as *;
+
 .root {
   position: relative;
+  height: 100%;
+  overflow: hidden;
 }
 
 .viewport {
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
   border-radius: inherit;
   transition: color 150ms ease, box-shadow 150ms ease;
   outline: none;
 
   &:focus-visible {
-    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 50%, transparent);
+    box-shadow: 0 0 0 rem(3) color-mix(in oklch, var(--ring) 50%, transparent);
     outline: 1px solid transparent;
   }
 
   > div {
-    display: block !important;
     min-width: 0;
   }
 }

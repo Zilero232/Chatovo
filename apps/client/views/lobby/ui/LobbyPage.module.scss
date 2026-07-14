@@ -1,3 +1,5 @@
+@use '@/shared/styles/mixins' as *;
+
 .root {
   position: relative;
   height: 100%;
@@ -9,13 +11,13 @@
   margin-inline: auto;
   display: flex;
   width: 100%;
-  max-width: 1400px;
+  max-width: rem(1400);
   flex-direction: column;
   gap: 2rem;
   padding: 1.5rem 1.25rem;
   animation: lobby-enter 500ms ease-out both;
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     padding: 2rem;
   }
 }

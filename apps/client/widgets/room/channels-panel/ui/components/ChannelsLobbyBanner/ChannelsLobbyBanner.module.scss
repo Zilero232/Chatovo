@@ -1,3 +1,5 @@
+@use '@/shared/styles/functions' as *;
+
 .root {
   display: flex;
   flex: 1;
@@ -18,7 +20,7 @@
   border: 1px solid oklch(1 0 0 / 12%);
   padding: 1.25rem;
   text-align: center;
-  box-shadow: 0 12px 32px -16px oklch(0.7 0.2 270 / 45%);
+  box-shadow: 0 rem(12) rem(32) rem(-16) oklch(0.7 0.2 270 / 45%);
 }
 
 .cardGlow {
@@ -61,7 +63,7 @@
     color-mix(in oklch, var(--brand-cyan) 35%, transparent)
   );
   color: var(--foreground);
-  box-shadow: 0 0 20px -6px oklch(0.7 0.22 295 / 80%);
+  box-shadow: 0 0 rem(20) rem(-6) oklch(0.7 0.22 295 / 80%);
 }
 
 .icon {
@@ -103,7 +105,7 @@
   padding: 0.75rem;
   font-size: 0.75rem;
   color: var(--muted-foreground);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(rem(4));
 }
 
 .tipIcon {

@@ -6,13 +6,15 @@ import {
   appendChatLine,
   applyChatDeleteToLines,
   applyChatEditToLines,
+  applyChatStatusToLines,
   mergeChatLines,
+  removeChatLine,
 } from './merge-chat-lines';
 import { chatMessageToChatLine } from './to-chat-line';
 
 import type { ChatMessage, RealtimeServerMessage } from '@chatovo/schemas';
 import type { QueryClient } from '@tanstack/react-query';
-import type { ChatLine } from '../types';
+import type { ChatLine, ChatLineStatus } from '../types';
 
 const chatKey = (roomId: string) => {
   return QUERY_KEYS.chatMessages(roomId);
@@ -43,7 +45,22 @@ export const appendChatDto = (
   roomId: string,
   message: ChatMessage,
 ): void => {
-  appendChatMessage(queryClient, roomId, chatMessageToChatLine(message));
+  appendChatMessage(queryClient, roomId, { ...chatMessageToChatLine(message), status: undefined });
+};
+
+export const markChatLineStatus = (
+  queryClient: QueryClient,
+  roomId: string,
+  id: string,
+  status: ChatLineStatus,
+): void => {
+  patchChatLines(queryClient, roomId, (lines) =>
+    lines ? applyChatStatusToLines(lines, id, status) : lines,
+  );
+};
+
+export const dropChatLine = (queryClient: QueryClient, roomId: string, id: string): void => {
+  patchChatLines(queryClient, roomId, (lines) => (lines ? removeChatLine(lines, id) : lines));
 };
 
 export const editChatMessageInCache = (

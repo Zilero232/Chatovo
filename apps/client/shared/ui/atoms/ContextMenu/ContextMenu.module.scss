@@ -11,7 +11,7 @@
   background: var(--popover);
   padding: 0.25rem;
   color: var(--popover-foreground);
-  box-shadow: 0 4px 6px -1px oklch(0 0 0 / 10%);
+  box-shadow: 0 rem(4) rem(6) rem(-1) oklch(0 0 0 / 10%);
   transform-origin: var(--transform-origin);
 
   @include overlay-enter;
@@ -174,7 +174,7 @@
   background: var(--popover);
   padding: 0.25rem;
   color: var(--popover-foreground);
-  box-shadow: 0 10px 15px -3px oklch(0 0 0 / 10%);
+  box-shadow: 0 rem(10) rem(15) rem(-3) oklch(0 0 0 / 10%);
   transform-origin: var(--transform-origin);
 
   @include overlay-enter;

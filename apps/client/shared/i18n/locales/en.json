@@ -373,7 +373,10 @@
     "uploading": "Uploading…",
     "uploadFailed": "Failed to upload file",
     "fileTooLarge": "File is too large (max 25 MB)",
-    "persistFailed": "Message sent but not saved — it may disappear on refresh",
+    "sending": "Sending…",
+    "sendFailed": "Not sent",
+    "retry": "Retry",
+    "discard": "Delete",
     "edit": "Edit",
     "delete": "Delete",
     "edited": "edited",
@@ -456,6 +459,7 @@
     "tagPlaceholder": "friendTag (example: alex#4821)",
     "sendByTag": "Send",
     "requestSent": "Friend request sent",
+    "copyTag": "Copy tag",
     "tagCopied": "Tag copied",
     "tagCopyFailed": "Failed to copy tag",
     "sendFailed": "Failed to send friend request",
@@ -726,6 +730,12 @@
     "maximize": "Maximize",
     "restore": "Restore",
     "close": "Close"
+  },
+  "notFound": {
+    "title": "This room doesn't exist",
+    "description": "The page you were looking for has been moved, deleted, or never existed. Let's get you back to a place with people in it.",
+    "toLobby": "Go to lobby",
+    "back": "Go back"
   },
   "feedback": {
     "title": "Report a problem",

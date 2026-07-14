@@ -1,3 +1,5 @@
+@use '@/shared/styles/functions' as *;
+
 .popover {
   width: auto;
   padding: 0.5rem;
@@ -29,7 +31,7 @@
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px var(--brand-cyan);
+    box-shadow: 0 0 0 rem(2) var(--brand-cyan);
   }
 
   &:active {

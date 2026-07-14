@@ -9,6 +9,10 @@
   &[data-own='true'] {
     flex-direction: row-reverse;
   }
+
+  &[data-pending='true'] {
+    opacity: 0.6;
+  }
 }
 
 .column {

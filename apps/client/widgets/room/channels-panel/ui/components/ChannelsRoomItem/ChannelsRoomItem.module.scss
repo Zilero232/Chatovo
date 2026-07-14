@@ -1,3 +1,5 @@
+@use '@/shared/styles/mixins' as *;
+
 .row {
   position: relative;
 }
@@ -34,7 +36,7 @@
 .triggerOwner {
   .row:hover &,
   .row:focus-within &,
-  .row:has([data-state='open']) & {
+  .row:has([aria-expanded='true']) & {
     padding-right: 2rem;
   }
 }
@@ -56,14 +58,14 @@
   height: 0.75rem;
   fill: oklch(0.85 0.18 85);
   color: oklch(0.85 0.18 85);
-  filter: drop-shadow(0 0 4px oklch(0.85 0.18 85 / 60%));
+  filter: drop-shadow(0 0 rem(4) oklch(0.85 0.18 85 / 60%));
 }
 
 .joinedIcon {
   width: 0.875rem;
   height: 0.875rem;
   color: var(--brand-cyan);
-  filter: drop-shadow(0 0 6px oklch(0.82 0.16 200 / 60%));
+  filter: drop-shadow(0 0 rem(6) oklch(0.82 0.16 200 / 60%));
 }
 
 .manageSlot {
@@ -72,12 +74,21 @@
   right: 0.25rem;
   translate: 0 -50%;
   opacity: 0;
-  transition: opacity 150ms ease;
+  visibility: hidden;
+  transition:
+    opacity 150ms ease,
+    visibility 150ms ease;
 
   .row:hover &,
   .row:focus-within &,
-  &[data-state='open'] {
+  &:has([aria-expanded='true']) {
     opacity: 1;
+    visibility: visible;
+  }
+
+  @include coarse-pointer {
+    opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -104,7 +115,7 @@
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px color-mix(in oklch, var(--brand-cyan) 100%, transparent);
+    box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--brand-cyan) 100%, transparent);
   }
 }
 
@@ -114,7 +125,7 @@
 }
 
 .participantFallback {
-  font-size: 10px;
+  font-size: rem(10);
 }
 
 .participantName {

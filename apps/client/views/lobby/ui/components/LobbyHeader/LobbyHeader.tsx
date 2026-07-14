@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl';
 import { UserAvatar, useCurrentUser } from '@/entities/auth/user';
 import { useLobbyOnline, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { env } from '@/shared/config';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+import { Tooltip, TooltipContent } from '@/shared/ui';
 
 import s from './LobbyHeader.module.scss';
 
@@ -61,12 +61,10 @@ export const LobbyHeader = () => {
           </div>
 
           <Tooltip>
-            <TooltipTrigger>
-              <button className={s.versionPill} type="button">
-                <Sparkles className={s.versionIcon} />
-                <span className={s.versionText}>v{env.NEXT_PUBLIC_APP_VERSION}</span>
-              </button>
-            </TooltipTrigger>
+            <button className={s.versionPill} type="button">
+              <Sparkles className={s.versionIcon} />
+              <span className={s.versionText}>v{env.NEXT_PUBLIC_APP_VERSION}</span>
+            </button>
             <TooltipContent>{t('appVersion')}</TooltipContent>
           </Tooltip>
         </div>

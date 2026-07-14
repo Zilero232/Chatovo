@@ -1,3 +1,7 @@
+@use '@/shared/styles/mixins' as *;
+
+@use '@/shared/styles/breakpoints' as *;
+
 .root {
   pointer-events: none;
   position: absolute;
@@ -8,7 +12,7 @@
   width: 4rem;
   overflow: hidden;
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     right: 0.75rem;
     bottom: 0.75rem;
     width: 6rem;
@@ -20,9 +24,9 @@
   right: 0.25rem;
   bottom: 0;
   font-size: 1.5rem;
-  filter: drop-shadow(0 2px 10px oklch(0 0 0 / 60%));
+  filter: drop-shadow(0 rem(2) rem(10) oklch(0 0 0 / 60%));
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     right: 0.5rem;
     font-size: 2.25rem;
   }

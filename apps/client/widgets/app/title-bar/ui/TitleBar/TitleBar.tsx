@@ -21,7 +21,7 @@ export const TitleBar = () => {
   const isMacos = platform === 'macos';
 
   return (
-    <div className={clsx(s.root, isMacos && s.rootMacos)}>
+    <div className={clsx(s.root, { [s.rootMacos]: isMacos })}>
       {!isMacos && (
         <div className={s.navButtons}>
           <button type="button" className={s.navButton} disabled={!canGoBack} onClick={goBack}>

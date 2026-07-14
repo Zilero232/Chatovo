@@ -1,16 +1,13 @@
 .root {
-  margin: -1rem;
   display: flex;
-  width: 18rem;
+  width: 100%;
   flex-direction: column;
-  overflow: hidden;
-  border-radius: 1rem;
 }
 
 .banner {
   height: 5rem;
   width: 100%;
-  border-radius: 0;
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
 }
 
 .body {

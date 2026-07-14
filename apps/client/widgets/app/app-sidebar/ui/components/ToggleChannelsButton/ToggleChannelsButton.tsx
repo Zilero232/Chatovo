@@ -3,7 +3,7 @@
 import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+import { Button, Tooltip, TooltipContent } from '@/shared/ui';
 
 import s from './ToggleChannelsButton.module.scss';
 
@@ -14,15 +14,13 @@ export const ToggleChannelsButton = ({ opened, onToggle }: ToggleChannelsButtonP
 
   return (
     <Tooltip>
-      <TooltipTrigger>
-        <Button aria-label={t('toggleChannels')} size="icon" variant="ghost" onClick={onToggle}>
-          {opened ? (
-            <PanelLeftClose key="close" className={s.iconEnter} />
-          ) : (
-            <PanelLeftOpen key="open" className={s.iconEnter} />
-          )}
-        </Button>
-      </TooltipTrigger>
+      <Button aria-label={t('toggleChannels')} size="icon" variant="ghost" onClick={onToggle}>
+        {opened ? (
+          <PanelLeftClose key="close" className={s.iconEnter} />
+        ) : (
+          <PanelLeftOpen key="open" className={s.iconEnter} />
+        )}
+      </Button>
       <TooltipContent side="right">{opened ? t('hideChannels') : t('showChannels')}</TooltipContent>
     </Tooltip>
   );

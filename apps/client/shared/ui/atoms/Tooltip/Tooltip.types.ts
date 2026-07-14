@@ -19,10 +19,6 @@ export type TooltipProps = Omit<TooltipTriggerComponentProps, 'children'> & {
   children?: ReactNode;
 };
 
-export type TooltipTriggerProps = {
-  children?: ReactNode;
-};
-
 export type TooltipContentProps = Omit<RACTooltipProps, 'children'> & {
   side?: Placement;
   sideOffset?: number;

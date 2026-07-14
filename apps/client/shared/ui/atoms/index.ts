@@ -13,6 +13,7 @@ export * from './Progress';
 export * from './RadioGroup';
 export * from './Row';
 export * from './ScrollArea';
+export * from './Select';
 export * from './Separator';
 export * from './Sheet';
 export * from './Skeleton';
