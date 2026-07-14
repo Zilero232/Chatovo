@@ -1,14 +1,32 @@
-import { hc } from 'hono/client';
+import axios from 'axios';
 
 import { env } from '@/shared/config';
 import { getAuthToken } from '../auth';
 
-import type { App } from '@chatovo/server';
+export const api = axios.create({
+  baseURL: env.NEXT_PUBLIC_API_URL,
+});
 
-export const api = hc<App>(env.NEXT_PUBLIC_API_URL, {
-  headers(): Record<string, string> {
-    const token = getAuthToken();
+api.interceptors.request.use((config) => {
+  const token = getAuthToken();
 
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  },
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
+// The server reports errors as `{ error: string }`. Surface that string as the
+// thrown Error's message so call sites can rely on `error.message`.
+api.interceptors.response.use(undefined, (error) => {
+  if (axios.isAxiosError(error)) {
+    const message = (error.response?.data as { error?: string } | undefined)?.error;
+
+    if (message) {
+      return Promise.reject(new Error(message));
+    }
+  }
+
+  return Promise.reject(error);
 });

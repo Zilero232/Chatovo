@@ -1,5 +1,5 @@
-import { prisma } from '../../core';
-import { sendDmMessagePush } from '../push/push.service';
+import { basePrisma as prisma } from '../../core';
+import { sendDmMessagePush } from '../push/push-sender';
 import { emitRoomEvent, emitUserEvent } from '../realtime/emit';
 
 import type { ChatMessage, RealtimeServerMessage } from '@chatovo/schemas';

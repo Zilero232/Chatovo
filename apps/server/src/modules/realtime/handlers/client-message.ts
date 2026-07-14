@@ -10,7 +10,7 @@ import type { RealtimeConnection } from '../connection-store';
 
 export const handleClientMessage = async (
   connection: RealtimeConnection,
-  raw: string | ArrayBuffer | SharedArrayBuffer | Blob,
+  raw: string | Buffer | ArrayBuffer | SharedArrayBuffer | Blob,
 ): Promise<void> => {
   const text =
     typeof raw === 'string'

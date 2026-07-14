@@ -6,6 +6,7 @@ export const friendUserSchema = z.object({
   friendTag: z.string(),
   avatarUrl: z.string().nullable(),
   verified: z.boolean(),
+  isOnline: z.boolean(),
 });
 
 export const friendEntrySchema = z.object({

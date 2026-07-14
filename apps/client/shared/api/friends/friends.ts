@@ -1,4 +1,4 @@
-import { api, readErrorMessage } from '../http';
+import { api } from '../http';
 
 import type {
   FriendEntry,
@@ -13,313 +13,89 @@ import type {
 } from '@chatovo/schemas';
 
 export const listFriends = async (): Promise<FriendEntry[]> => {
-  try {
-    const res = await api.friends.$get();
+  const { data } = await api.get('/friends');
 
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to list friends: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to list friends');
-  }
+  return data;
 };
 
 export const listIncomingFriendRequests = async (): Promise<FriendRequestEntry[]> => {
-  try {
-    const res = await api.friends.requests.incoming.$get();
+  const { data } = await api.get('/friends/requests/incoming');
 
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to list friend requests: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to list friend requests');
-  }
+  return data;
 };
 
 export const getFriendshipRelation = async (userId: string): Promise<FriendshipRelation> => {
-  try {
-    const res = await api.friends.relations[':userId'].$get({ param: { userId } });
+  const { data } = await api.get(`/friends/relations/${userId}`);
 
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to get friendship relation: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to get friendship relation');
-  }
+  return data;
 };
 
 export const sendFriendRequest = async (
   input: SendFriendRequestInput,
 ): Promise<FriendshipRelation> => {
-  try {
-    const res = await api.friends.requests.$post({ json: input });
+  const { data } = await api.post('/friends/requests', input);
 
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to send friend request: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to send friend request');
-  }
+  return data;
 };
 
 export const findFriendByTag = async (tag: string): Promise<FriendUser> => {
-  try {
-    const res = await api.friends.lookup[':tag'].$get({ param: { tag } });
+  const { data } = await api.get(`/friends/lookup/${tag}`);
 
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to find user by tag: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to find user by tag');
-  }
+  return data;
 };
 
 export const acceptFriendRequest = async (friendshipId: string): Promise<FriendshipRelation> => {
-  try {
-    const res = await api.friends.requests[':id'].accept.$post({ param: { id: friendshipId } });
+  const { data } = await api.post(`/friends/requests/${friendshipId}/accept`);
 
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to accept friend request: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to accept friend request');
-  }
+  return data;
 };
 
 export const declineFriendRequest = async (friendshipId: string): Promise<void> => {
-  try {
-    const res = await api.friends.requests[':id'].decline.$post({ param: { id: friendshipId } });
-
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to decline friend request: ${res.status}`);
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to decline friend request');
-  }
+  await api.post(`/friends/requests/${friendshipId}/decline`);
 };
 
 export const removeFriendship = async (userId: string): Promise<void> => {
-  try {
-    const res = await api.friends[':userId'].$delete({ param: { userId } });
-
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to remove friendship: ${res.status}`);
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to remove friendship');
-  }
+  await api.delete(`/friends/${userId}`);
 };
 
 export const getOrCreateFriendDmRoom = async (userId: string): Promise<Room> => {
-  try {
-    const res = await api.friends[':userId']['dm-room'].$post({ param: { userId } });
+  const { data } = await api.post(`/friends/${userId}/dm-room`);
 
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to open direct chat: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to open direct chat');
-  }
+  return data;
 };
 
 export const ringFriendCall = async (userId: string): Promise<Room> => {
-  try {
-    const res = await api.friends[':userId'].call.$post({ param: { userId } });
+  const { data } = await api.post(`/friends/${userId}/call`);
 
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to start call: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to start call');
-  }
+  return data;
 };
 
 export const getIncomingFriendCall = async (): Promise<IncomingFriendCallResponse> => {
-  try {
-    const res = await api.friends.calls.incoming.$get();
+  const { data } = await api.get('/friends/calls/incoming');
 
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to get incoming call: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to get incoming call');
-  }
+  return data;
 };
 
 export const acceptIncomingFriendCall = async (): Promise<IncomingFriendCall | null> => {
-  try {
-    const res = await api.friends.calls.accept.$post();
+  const { data } = await api.post('/friends/calls/accept');
 
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to accept call: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to accept call');
-  }
+  return data;
 };
 
 export const declineIncomingFriendCall = async (): Promise<void> => {
-  try {
-    const res = await api.friends.calls.decline.$post();
-
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to decline call: ${res.status}`);
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to decline call');
-  }
+  await api.post('/friends/calls/decline');
 };
 
 export const cancelOutgoingFriendCall = async (): Promise<void> => {
-  try {
-    const res = await api.friends.calls.cancel.$post();
-
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to cancel call: ${res.status}`);
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to cancel call');
-  }
+  await api.post('/friends/calls/cancel');
 };
 
 export const getOutgoingFriendCall = async (): Promise<OutgoingFriendCallResponse> => {
-  try {
-    const res = await api.friends.calls.outgoing.$get();
+  const { data } = await api.get('/friends/calls/outgoing');
 
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to get outgoing call: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to get outgoing call');
-  }
+  return data;
 };
 
 export const ackOutgoingFriendCall = async (): Promise<void> => {
-  try {
-    const res = await api.friends.calls.ack.$post();
-
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to ack call: ${res.status}`);
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to ack call');
-  }
+  await api.post('/friends/calls/ack');
 };

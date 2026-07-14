@@ -1,4 +1,4 @@
-import { sendIncomingCallPush } from '../push/push.service';
+import { sendIncomingCallPush } from '../push/push-sender';
 import { emitFriendsSnapshot } from '../realtime/emit';
 
 import type { FriendCallStreamSnapshot, FriendUser } from '@chatovo/schemas';

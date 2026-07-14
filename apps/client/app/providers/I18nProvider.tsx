@@ -9,6 +9,9 @@ import { AppSplash } from '@/shared/ui';
 
 import type { ReactNode } from 'react';
 
+const timeZone =
+  typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'UTC';
+
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
   const { locale, isReady } = useLocale();
   const activeLocale = isReady ? locale : DEFAULT_LOCALE;
@@ -20,7 +23,11 @@ export const I18nProvider = ({ children }: { children: ReactNode }) => {
   }, [locale, isReady]);
 
   return (
-    <NextIntlClientProvider locale={activeLocale} messages={messages[activeLocale]}>
+    <NextIntlClientProvider
+      locale={activeLocale}
+      messages={messages[activeLocale]}
+      timeZone={timeZone}
+    >
       {!isReady ? <AppSplash /> : children}
     </NextIntlClientProvider>
   );

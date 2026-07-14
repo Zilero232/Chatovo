@@ -4,13 +4,16 @@ import { bearer } from 'better-auth/plugins';
 import { createElement } from 'react';
 
 import { allowedOrigins } from '../../config/cors';
-import { env, prisma } from '../../core';
+import { validateEnv } from '../../config/env.schema';
+import { basePrisma } from '../../core/base-prisma';
 import { issueUniqueFriendTag } from '../../lib';
 import { ChangeEmail, ResetPassword, sendEmail, VerifyEmail } from '../email';
 import { notifyUserSignup } from '../telegram';
 import { authBaseURL } from './auth-base-url';
 
 export type UserRole = 'admin' | 'user';
+
+const env = validateEnv(process.env);
 
 export const auth = betterAuth({
   basePath: '/auth',
@@ -89,7 +92,7 @@ export const auth = betterAuth({
           };
         },
         after: async (user) => {
-          await prisma.profile.create({
+          await basePrisma.profile.create({
             data: { userId: user.id, displayName: user.name },
           });
 
@@ -99,5 +102,5 @@ export const auth = betterAuth({
     },
   },
   plugins: [bearer()],
-  database: prismaAdapter(prisma, { provider: 'postgresql' }),
+  database: prismaAdapter(basePrisma, { provider: 'postgresql' }),
 });

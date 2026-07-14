@@ -1,6 +1,4 @@
-import { isNullish } from 'remeda';
-
-import { prisma } from '../core';
+import { basePrisma as prisma } from '../core';
 
 const normalizeTagSeed = (name: string): string => {
   const cleaned = name
@@ -51,20 +49,4 @@ export const ensureUserFriendTag = async (userId: string, name: string): Promise
     where: { id: userId },
     data: { friendTag },
   });
-};
-
-export const backfillMissingFriendTags = async (): Promise<void> => {
-  const users = await prisma.$queryRaw<Array<{ id: string; name: string }>>`
-    SELECT id, name
-    FROM "user"
-    WHERE "friendTag" IS NULL
-  `;
-
-  for (const user of users) {
-    if (isNullish(user.id) || isNullish(user.name)) {
-      continue;
-    }
-
-    await ensureUserFriendTag(user.id, user.name);
-  }
 };

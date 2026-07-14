@@ -37,8 +37,5 @@
   },
   "lint-staged": {
     "*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
-  },
-  "overrides": {
-    "hono": "4.12.27"
   }
 }

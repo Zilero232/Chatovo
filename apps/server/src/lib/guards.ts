@@ -1,8 +1,7 @@
-import { HTTPException } from 'hono/http-exception';
-import { StatusCodes } from 'http-status-codes';
+import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { isNullish } from 'remeda';
 
-import { prisma } from '../core';
+import { basePrisma as prisma } from '../core';
 import { resolveDisplayName } from '../modules/users/profile';
 import { userWithProfileInclude } from './selectors';
 
@@ -12,7 +11,7 @@ export const assertRoomExists = async (roomId: string): Promise<void> => {
   const room = await prisma.room.findUnique({ where: { id: roomId }, select: { id: true } });
 
   if (isNullish(room)) {
-    throw new HTTPException(StatusCodes.NOT_FOUND, { message: 'Room not found' });
+    throw new NotFoundException('Room not found');
   }
 };
 
@@ -23,7 +22,7 @@ export const assertCanAccessDmRoom = async (roomId: string, userId: string): Pro
   });
 
   if (isNullish(room)) {
-    throw new HTTPException(StatusCodes.NOT_FOUND, { message: 'Room not found' });
+    throw new NotFoundException('Room not found');
   }
 
   if (room.kind !== 'dm') {
@@ -31,7 +30,7 @@ export const assertCanAccessDmRoom = async (roomId: string, userId: string): Pro
   }
 
   if (room.dmUserAId !== userId && room.dmUserBId !== userId) {
-    throw new HTTPException(StatusCodes.FORBIDDEN, { message: 'Forbidden' });
+    throw new ForbiddenException('Forbidden');
   }
 };
 
@@ -40,14 +39,14 @@ export const assertCanAccessDmRoom = async (roomId: string, userId: string): Pro
 export const assertCanManageRoom = async (roomId: string, userId: string) => {
   const room = await prisma.room.findUnique({
     where: { id: roomId },
-    select: { ownerId: true, isPrivate: true, password: true },
+    select: { ownerId: true, isPrivate: true, password: true, name: true },
   });
 
   if (isNullish(room)) {
-    throw new HTTPException(StatusCodes.NOT_FOUND, { message: 'Room not found' });
+    throw new NotFoundException('Room not found');
   }
   if (room.ownerId !== userId) {
-    throw new HTTPException(StatusCodes.FORBIDDEN, { message: 'Forbidden' });
+    throw new ForbiddenException('Forbidden');
   }
 
   return room;
@@ -60,7 +59,7 @@ export const getUserWithProfileOrThrow = async (userId: string): Promise<UserWit
   });
 
   if (isNullish(user)) {
-    throw new HTTPException(StatusCodes.NOT_FOUND, { message: 'User not found' });
+    throw new NotFoundException('User not found');
   }
 
   return user;

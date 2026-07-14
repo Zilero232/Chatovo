@@ -1,6 +1,5 @@
 {
   "common": {
-    "or": "или",
     "close": "Закрыть",
     "loading": "Загрузка...",
     "showPassword": "Показать пароль",
@@ -169,12 +168,6 @@
     "signIn": "Войти",
     "signUp": "Зарегистрироваться",
     "signedIn": "Вход выполнен",
-    "emailNotVerified": "Сначала подтвердите email — мы отправили новую ссылку",
-    "invalidCredentials": "Неверный email или пароль",
-    "signInFailed": "Не удалось войти",
-    "accountCreated": "Аккаунт создан",
-    "verifyEmailTitle": "Проверьте почту",
-    "verifyEmailDescription": "Мы отправили ссылку для подтверждения на {email}. Подтвердите её, чтобы завершить регистрацию.",
     "forgotPassword": "Забыли пароль?",
     "forgotPasswordTitle": "Сброс пароля",
     "forgotPasswordSubtitle": "Введите email, и мы пришлём ссылку для сброса",
@@ -232,8 +225,7 @@
       "online": "Онлайн"
     },
     "recent": {
-      "heading": "Недавние",
-      "lastVisited": "Последний визит"
+      "heading": "Недавние"
     },
     "roomsHeading": "Комнаты",
     "searchPlaceholder": "Поиск комнат...",
@@ -252,7 +244,6 @@
     "card": {
       "live": "В эфире",
       "empty": "Пусто",
-      "emptyHint": "Здесь пока никого — будьте первым",
       "joinFirst": "Зайти первым",
       "people": "{count, plural, one {# участник} few {# участника} other {# участников}}",
       "yours": "Ваша",
@@ -286,7 +277,6 @@
     "password": {
       "title": "Введите пароль для «{name}»",
       "label": "Пароль",
-      "required": "Введите пароль",
       "wrong": "Неверный пароль",
       "join": "Войти",
       "validation": {
@@ -364,7 +354,6 @@
     "inVoice": "В голосовом чате",
     "notInVoice": "Не в голосовом чате",
     "join": "Присоединиться",
-    "editProfile": "Редактировать профиль",
     "openSettingsHint": "Откройте настройки, чтобы изменить профиль.",
     "avatarAlt": "Аватар {name}",
     "avatarZoomDescription": "Увеличенное фото профиля"
@@ -380,7 +369,6 @@
       "createRoom": "Создать комнату",
       "rooms": "{count, plural, one {комната} few {комнаты} other {комнат}}",
       "online": "онлайн",
-      "busiestNow": "Сейчас активнее всего",
       "join": "Войти",
       "tip": "Для входа в приватные комнаты нужен пароль."
     }
@@ -389,6 +377,8 @@
     "title": "Друзья",
     "description": "Список друзей и входящие заявки.",
     "yourTagLabel": "Ваш тег",
+    "online": "в сети",
+    "offline": "не в сети",
     "friendsTab": "Друзья",
     "requestsTab": "Заявки",
     "emptyFriends": "Пока нет друзей. Добавляйте людей из карточки профиля в голосовой комнате.",

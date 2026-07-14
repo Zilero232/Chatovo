@@ -23,7 +23,7 @@
   align-items: center;
   gap: 0.75rem;
   border-radius: var(--radius-xl);
-  padding: 0.625rem 0.375rem 0.625rem 0.75rem;
+  padding: 0.875rem 0.5rem 0.875rem 0.875rem;
   text-align: left;
   outline: none;
   border: none;
@@ -46,8 +46,11 @@
 }
 
 .info {
+  display: flex;
   min-width: 0;
   flex: 1;
+  flex-direction: column;
+  gap: 0.1875rem;
 }
 
 .name {
@@ -57,6 +60,31 @@
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.25;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: rem(10);
+  line-height: 1;
+  color: var(--muted-foreground);
+}
+
+.statusOnline {
+  color: var(--brand-cyan);
+}
+
+.dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: currentcolor;
+
+  .statusOnline & {
+    box-shadow: 0 0 rem(6) oklch(0.82 0.16 200 / 70%);
+  }
 }
 
 .unread {

@@ -1,4 +1,4 @@
-import { api, readErrorMessage } from '../http';
+import { api } from '../http';
 
 import type { ReportProblemValues } from '@chatovo/schemas';
 
@@ -10,13 +10,17 @@ export const reportProblem = async ({
   screenshot,
   ...values
 }: ReportProblemArgs): Promise<void> => {
-  const res = await api.feedback.$post({
-    form: { ...values, ...(screenshot && { screenshot }) },
-  });
+  const fd = new FormData();
 
-  if (!res.ok) {
-    const message = await readErrorMessage(res);
-
-    throw new Error(message ?? `Failed to send report: ${res.status}`);
+  for (const [key, value] of Object.entries(values)) {
+    if (value != null) {
+      fd.append(key, String(value));
+    }
   }
+
+  if (screenshot instanceof File) {
+    fd.append('screenshot', screenshot);
+  }
+
+  await api.post('/feedback', fd);
 };

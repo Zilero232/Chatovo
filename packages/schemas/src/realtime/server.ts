@@ -48,6 +48,12 @@ export const realtimeFriendsSnapshotEventSchema = z.object({
   snapshot: friendCallStreamSnapshotSchema,
 });
 
+export const realtimeFriendPresenceEventSchema = z.object({
+  type: z.literal('friend.presence'),
+  userId: z.string(),
+  isOnline: z.boolean(),
+});
+
 export const realtimeServerMessageSchema = z.discriminatedUnion('type', [
   realtimeChatMessageEventSchema,
   realtimeChatEditEventSchema,
@@ -55,4 +61,5 @@ export const realtimeServerMessageSchema = z.discriminatedUnion('type', [
   realtimeRoomReactionEventSchema,
   realtimePresenceSnapshotEventSchema,
   realtimeFriendsSnapshotEventSchema,
+  realtimeFriendPresenceEventSchema,
 ]);

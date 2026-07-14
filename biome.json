@@ -52,6 +52,9 @@
     }
   },
   "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
     "formatter": {
       "quoteStyle": "single",
       "jsxQuoteStyle": "double",
@@ -138,6 +141,19 @@
           },
           "nursery": {
             "useSortedClasses": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/server/src/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useImportType": "off"
+          },
+          "correctness": {
+            "useHookAtTopLevel": "off"
           }
         }
       }
