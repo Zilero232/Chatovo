@@ -3,14 +3,17 @@
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { match, P } from 'ts-pattern';
+
 import {
   useAcceptFriendRequest,
   useDeclineFriendRequest,
   useIncomingFriendRequests,
 } from '@/entities/social/friend';
 import { Spinner } from '@/shared/ui';
-import s from '../../FriendsDialog.module.scss';
 import { FriendRequestListItem } from './FriendRequestListItem';
+
+import s from '../../FriendsDialog.module.scss';
+
 import type { FriendRequestEntry } from '@chatovo/schemas';
 
 const hasRequests = (

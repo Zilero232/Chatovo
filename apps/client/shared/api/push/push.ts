@@ -1,4 +1,5 @@
 import { api, readErrorMessage } from '../http';
+
 import type { RegisterPushDeviceInput, UnregisterPushDeviceInput } from '@chatovo/schemas';
 
 export const registerPushDevice = async (input: RegisterPushDeviceInput): Promise<void> => {

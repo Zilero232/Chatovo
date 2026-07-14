@@ -3,9 +3,12 @@
 import { useKeyboard, useMount, useTextareaAutosize } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
+
 import { ConfirmDialog } from '@/shared/ui';
 import { normalizeMessage } from '../../../../../model/lib';
+
 import s from './EditMessageDialog.module.scss';
+
 import type { EditMessageDialogProps } from './EditMessageDialog.types';
 
 export const EditMessageDialog = ({

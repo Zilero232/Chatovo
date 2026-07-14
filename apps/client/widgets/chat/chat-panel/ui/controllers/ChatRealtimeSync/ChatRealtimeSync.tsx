@@ -1,6 +1,7 @@
 'use client';
 
 import { useQueryClient } from '@tanstack/react-query';
+
 import { useRealtimeMessage } from '@/entities/app/realtime';
 import { applyChatRealtime } from '../../../model/lib';
 

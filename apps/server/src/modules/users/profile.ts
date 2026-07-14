@@ -1,4 +1,5 @@
 import { isString } from 'remeda';
+
 import type { UserProfile } from '@chatovo/schemas';
 import type { Prisma } from '../../../generated';
 

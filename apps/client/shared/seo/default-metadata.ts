@@ -1,4 +1,5 @@
 import { SITE } from '@/shared/config';
+
 import type { Metadata, Viewport } from 'next';
 
 export const defaultMetadata: Metadata = {

@@ -3,6 +3,7 @@
 import { clsx } from 'clsx';
 import { Menu } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import {
   Button,
   Sheet,
@@ -14,7 +15,9 @@ import {
 import { AppSidebar } from '@/widgets/app/app-sidebar';
 import { LanguageSwitcher } from '@/widgets/app/language-switcher';
 import { ChannelsPanel } from '@/widgets/room/channels-panel';
+
 import s from './MobileNav.module.scss';
+
 import type { MobileNavProps } from './MobileNav.types';
 
 export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
@@ -26,7 +29,7 @@ export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <div className={clsx('glass-strong', s.topBar)}>
         <div className={s.topBarInner}>
-          <SheetTrigger asChild>
+          <SheetTrigger>
             <Button
               aria-label={t('openMenu')}
               className={s.menuButton}

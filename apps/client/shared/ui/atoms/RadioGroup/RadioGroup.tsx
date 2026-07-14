@@ -2,7 +2,9 @@
 
 import { clsx } from 'clsx';
 import { RadioGroup as RACRadioGroup, Radio } from 'react-aria-components';
+
 import s from './RadioGroup.module.scss';
+
 import type { Key } from '@react-types/shared';
 import type { RadioGroupItemProps, RadioGroupProps } from './RadioGroup.types';
 

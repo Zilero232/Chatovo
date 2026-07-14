@@ -5,6 +5,7 @@ import { clsx } from 'clsx';
 import { Check, ChevronUp } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { isEmpty } from 'remeda';
+
 import { useAppSettings } from '@/entities/app/settings';
 import {
   DropdownMenu,
@@ -13,8 +14,10 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@/shared/ui';
-import s from './DeviceMenu.module.scss';
 import { deviceIcon } from './lib/device-icon';
+
+import s from './DeviceMenu.module.scss';
+
 import type { DeviceMenuProps } from './DeviceMenu.types';
 
 export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {

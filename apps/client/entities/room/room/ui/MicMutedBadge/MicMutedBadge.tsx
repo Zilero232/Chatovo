@@ -3,7 +3,9 @@
 import { clsx } from 'clsx';
 import { MicOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import s from './MicMutedBadge.module.scss';
+
 import type { MicMutedBadgeProps } from './MicMutedBadge.types';
 
 export const MicMutedBadge = ({ className }: MicMutedBadgeProps) => {

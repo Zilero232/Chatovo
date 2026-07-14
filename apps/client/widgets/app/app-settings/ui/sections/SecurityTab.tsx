@@ -1,10 +1,12 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+
 import { ChangeEmailForm } from '@/features/auth/change-email';
 import { ChangePasswordForm } from '@/features/auth/change-password';
 import { EmailVerificationNotice } from '@/features/auth/verify-email';
 import { Separator } from '@/shared/ui';
+
 import s from '../AppSettingsButton.module.scss';
 
 export const SecurityTab = () => {

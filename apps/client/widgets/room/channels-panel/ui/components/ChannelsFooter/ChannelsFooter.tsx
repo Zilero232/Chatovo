@@ -1,9 +1,11 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+
 import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
 import { ReportProblemButton } from '@/features/app/report-problem';
 import { AppSettingsButton } from '@/widgets/app/app-settings';
+
 import s from './ChannelsFooter.module.scss';
 
 export const ChannelsFooter = () => {

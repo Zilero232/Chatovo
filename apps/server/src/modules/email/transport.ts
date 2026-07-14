@@ -1,6 +1,8 @@
 import { render } from '@react-email/render';
 import nodemailer from 'nodemailer';
+
 import { env } from '../../core';
+
 import type Mail from 'nodemailer/lib/mailer';
 import type { ReactElement } from 'react';
 

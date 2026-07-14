@@ -1,4 +1,5 @@
 import { upgradeWebSocket } from 'hono/bun';
+
 import { auth } from '../../auth';
 import { getUserCallSnapshot } from '../../friends/call-store';
 import { addLobbyConnection, getSnapshot, removeLobbyConnection } from '../../livekit/presence';
@@ -9,6 +10,7 @@ import {
   unregisterConnection,
 } from '../connection-store';
 import { handleClientMessage } from './client-message';
+
 import type { WSContext } from 'hono/ws';
 import type { RealtimeConnection } from '../connection-store';
 

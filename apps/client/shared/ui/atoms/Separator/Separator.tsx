@@ -2,7 +2,9 @@
 
 import { clsx } from 'clsx';
 import { Separator as RACSeparator } from 'react-aria-components';
+
 import s from './Separator.module.scss';
+
 import type { SeparatorProps } from './Separator.types';
 
 const Separator = ({

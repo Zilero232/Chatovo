@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+
 import { isTauriDesktop } from '@/shared/lib';
 
 export const TauriDesktopDocumentClass = () => {

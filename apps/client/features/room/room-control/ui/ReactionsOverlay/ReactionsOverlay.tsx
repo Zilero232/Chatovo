@@ -1,7 +1,9 @@
 'use client';
 
 import { clsx } from 'clsx';
+
 import { useReactions } from '../../model/contexts';
+
 import s from './ReactionsOverlay.module.scss';
 
 export const ReactionsOverlay = () => {

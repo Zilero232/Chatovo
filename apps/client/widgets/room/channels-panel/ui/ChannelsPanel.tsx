@@ -2,9 +2,12 @@
 
 import { clsx } from 'clsx';
 import { usePathname } from 'next/navigation';
+
 import { ROUTES } from '@/shared/constants';
-import s from './ChannelsPanel.module.scss';
 import { ChannelsFooter, ChannelsHeader, ChannelsList, ChannelsLobbyBanner } from './components';
+
+import s from './ChannelsPanel.module.scss';
+
 import type { ChannelsPanelProps } from './ChannelsPanel.types';
 
 export const ChannelsPanel = ({ variant = 'desktop', onNavigate }: ChannelsPanelProps = {}) => {

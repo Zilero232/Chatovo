@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { isNullish } from 'remeda';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { formatBindingDisplay, type ShortcutActionId, ShortcutRow } from '@/entities/app/shortcut';
 import { useShortcutConflict, useShortcutRecording } from '@/features/app/shortcuts';

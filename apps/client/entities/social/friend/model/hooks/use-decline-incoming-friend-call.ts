@@ -1,6 +1,7 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { declineIncomingFriendCall } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 

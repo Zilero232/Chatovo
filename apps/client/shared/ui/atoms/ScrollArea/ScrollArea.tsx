@@ -1,7 +1,9 @@
 'use client';
 
 import { clsx } from 'clsx';
+
 import s from './ScrollArea.module.scss';
+
 import type { ScrollAreaProps, ScrollBarProps } from './ScrollArea.types';
 
 const ScrollArea = ({ className, children, ...props }: ScrollAreaProps) => (

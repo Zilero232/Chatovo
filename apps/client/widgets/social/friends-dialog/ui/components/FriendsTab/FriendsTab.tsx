@@ -3,12 +3,15 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { match, P } from 'ts-pattern';
+
 import { useFriends } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
 import { Spinner } from '@/shared/ui';
-import s from '../../FriendsDialog.module.scss';
 import { FriendListItem } from '../FriendListItem';
+
+import s from '../../FriendsDialog.module.scss';
+
 import type { FriendEntry, FriendUser } from '@chatovo/schemas';
 
 type FriendsTabProps = {

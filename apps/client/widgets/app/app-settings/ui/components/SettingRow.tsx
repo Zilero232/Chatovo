@@ -1,6 +1,7 @@
 'use client';
 
 import s from '../AppSettingsButton.module.scss';
+
 import type { ReactNode } from 'react';
 
 type SettingRowProps = {

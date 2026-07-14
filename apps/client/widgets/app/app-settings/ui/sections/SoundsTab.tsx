@@ -1,11 +1,14 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { formatPercent } from '@/shared/lib';
 import { Slider, Switch } from '@/shared/ui';
-import s from '../AppSettingsButton.module.scss';
 import { SettingRow } from '../components/SettingRow';
+
+import s from '../AppSettingsButton.module.scss';
+
 import type { SoundCategory } from '@/entities/app/settings';
 
 const SOUND_CATEGORIES: SoundCategory[] = [

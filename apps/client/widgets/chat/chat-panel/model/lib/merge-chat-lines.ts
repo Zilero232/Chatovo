@@ -1,4 +1,5 @@
 import { sortBy } from 'remeda';
+
 import type { ChatLine } from '../types';
 
 export const mergeChatLines = (cached: ChatLine[], fetched: ChatLine[]): ChatLine[] => {

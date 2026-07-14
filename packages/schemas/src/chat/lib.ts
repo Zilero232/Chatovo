@@ -1,4 +1,5 @@
 import { chatAttachmentSchema } from './outputs';
+
 import type { ChatAttachment } from './types';
 
 export const encodeChatAttachment = (attachment: ChatAttachment): string => {

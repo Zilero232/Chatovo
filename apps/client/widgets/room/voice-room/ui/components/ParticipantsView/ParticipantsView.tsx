@@ -2,10 +2,13 @@
 
 import { useParticipants, useRoomContext } from '@livekit/components-react';
 import { RoomEvent } from 'livekit-client';
+
 import { useRoomParticipants } from '@/entities/room/room';
 import { InviteParticipantCard } from '../InviteParticipantCard';
 import { ParticipantCard } from '../ParticipantCard';
+
 import s from './ParticipantsView.module.scss';
+
 import type { ParticipantsViewProps } from './ParticipantsView.types';
 
 const ROSTER_EVENTS = [

@@ -64,6 +64,7 @@ export {
   updateRoomInputSchema,
 } from './rooms';
 export { updateProfileInputSchema, userProfileSchema } from './users';
+
 export type {
   ChangeEmailValues,
   ChangePasswordValues,

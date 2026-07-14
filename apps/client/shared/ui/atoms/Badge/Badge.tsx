@@ -1,22 +1,7 @@
-import { clsx } from 'clsx';
-import s from './Badge.module.scss';
-import type { BadgeProps, BadgeSize, BadgeTone } from './Badge.types';
+import { badgeVariants } from './Badge.variants';
 
-const toneClass: Record<BadgeTone, string> = {
-  primary: s.tonePrimary,
-  muted: s.toneMuted,
-  amber: s.toneAmber,
-  danger: s.toneDanger,
-  dark: s.toneDark,
-  outline: s.toneOutline,
+import type { BadgeProps } from './Badge.types';
+
+export const Badge = ({ className, tone = 'muted', size = 'md', ...props }: BadgeProps) => {
+  return <span className={badgeVariants({ tone, size, className })} {...props} />;
 };
-
-const sizeClass: Record<BadgeSize, string> = {
-  sm: s.sizeSm,
-  md: s.sizeMd,
-  lg: s.sizeLg,
-};
-
-export const Badge = ({ className, tone = 'muted', size = 'md', ...props }: BadgeProps) => (
-  <span className={clsx(s.root, toneClass[tone], sizeClass[size], className)} {...props} />
-);

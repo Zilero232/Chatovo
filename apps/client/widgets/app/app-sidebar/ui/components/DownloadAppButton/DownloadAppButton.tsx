@@ -3,6 +3,7 @@
 import { useBoolean } from '@siberiacancode/reactuse';
 import { Download } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { DownloadAppDialog } from '@/features/app/download-app';
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
 
@@ -13,7 +14,7 @@ export const DownloadAppButton = () => {
   return (
     <>
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger>
           <Button
             aria-label={t('downloadAppLabel')}
             size="icon"

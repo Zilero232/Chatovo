@@ -2,8 +2,8 @@
 
 import { decodeChatAttachment } from '@chatovo/schemas';
 import { useState } from 'react';
+
 import { readParticipantMeta } from '@/entities/room/room';
-import s from './ChatMessageItem.module.scss';
 import {
   DeleteMessageDialog,
   EditMessageDialog,
@@ -12,6 +12,9 @@ import {
   MessageBubble,
   MessageMeta,
 } from './components';
+
+import s from './ChatMessageItem.module.scss';
+
 import type { ChatMessageItemProps } from './ChatMessageItem.types';
 
 export const ChatMessageItem = ({

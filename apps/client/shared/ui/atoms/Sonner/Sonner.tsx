@@ -9,7 +9,9 @@ import {
   TriangleAlertIcon,
 } from 'lucide-react';
 import { Toaster as Sonner } from 'sonner';
+
 import s from './Sonner.module.scss';
+
 import type { ToasterProps } from './Sonner.types';
 
 const MOBILE_TOAST_BREAKPOINT = '(max-width: 767px)';

@@ -1,14 +1,17 @@
 'use client';
 
 import { clsx } from 'clsx';
+
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
 import { DeviceMenu } from '../DeviceMenu';
-import s from './ControlButton.module.scss';
 import {
   controlButtonToneClass,
   controlMainToneClass,
   controlShellToneClass,
 } from './control-button-tones';
+
+import s from './ControlButton.module.scss';
+
 import type { ControlButtonProps } from './ControlButton.types';
 
 export const ControlButton = ({
@@ -23,7 +26,7 @@ export const ControlButton = ({
   if (!device) {
     return (
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger>
           <button
             aria-label={label}
             aria-pressed={pressed}
@@ -43,7 +46,7 @@ export const ControlButton = ({
   return (
     <div className={clsx(s.controlShell, controlShellToneClass[tone])}>
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger>
           <button
             aria-label={label}
             aria-pressed={pressed}

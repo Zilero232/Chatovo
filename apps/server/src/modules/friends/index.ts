@@ -1,4 +1,5 @@
 import { OpenAPIHono } from '@hono/zod-openapi';
+
 import {
   acceptFriendRequestHandler,
   acceptIncomingFriendCallHandler,
@@ -35,6 +36,7 @@ import {
   ringFriendCallRoute,
   sendFriendRequestRoute,
 } from './routes';
+
 import type { Env } from '../../shared/types';
 
 export const friendsRouter = new OpenAPIHono<Env>()

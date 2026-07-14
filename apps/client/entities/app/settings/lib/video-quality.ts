@@ -5,6 +5,7 @@ import {
   VideoPresets,
   type VideoResolution,
 } from 'livekit-client';
+
 import type { ScreenQuality, VideoQuality } from '../model/types';
 
 const CAMERA_PRESETS: Record<VideoQuality, VideoResolution> = {

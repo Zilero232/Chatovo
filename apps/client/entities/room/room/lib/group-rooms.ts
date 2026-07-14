@@ -1,4 +1,5 @@
 import { isEmpty, partition, sortBy } from 'remeda';
+
 import type { Room, RoomsParticipantsSnapshot } from '@chatovo/schemas';
 
 type RoomsPresenceMap = RoomsParticipantsSnapshot['rooms'];

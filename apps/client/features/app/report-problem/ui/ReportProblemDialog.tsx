@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useFieldError } from '@/entities/app/locale';
 import {
   Dialog,
@@ -20,6 +21,7 @@ import {
   Textarea,
 } from '@/shared/ui';
 import { useReportProblem } from '../model/use-report-problem';
+
 import s from './ReportProblemDialog.module.scss';
 
 const DEFAULT_VALUES: ReportProblemValues = { description: '' };

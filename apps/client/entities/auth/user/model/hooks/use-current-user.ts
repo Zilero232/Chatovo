@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { minutesToMilliseconds } from 'date-fns';
 import { isNonNullish } from 'remeda';
+
 import { authClient, getAuthToken, getUserProfile } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 import { firstNonEmpty } from '@/shared/lib';
+
 import type { UserRole } from '../types';
 
 export const useCurrentUser = () => {

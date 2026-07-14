@@ -1,6 +1,7 @@
 import { prisma } from '../../core';
 import { hasUserConnection } from '../realtime/connection-store';
 import { sendPushToTokens } from './firebase-client';
+
 import type {
   ChatMessage,
   FriendUser,

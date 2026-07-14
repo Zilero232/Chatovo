@@ -257,28 +257,31 @@ export const VoiceRoom = ({ token, serverUrl }: VoiceRoomProps) => (
 
 ### Порядок групп
 
-Biome organize-imports (`bun lint:fix`) сортирует на 4 группы в этом порядке:
+Biome organize-imports (`bun lint:fix`) сортирует на 4 группы в этом порядке, **с пустой строкой между группами** (`:BLANK_LINE:` в `biome.json`):
 
 1. **Внешние value-импорты** — пакеты, `node:`-builtins, `@chatovo/*`.
 2. **Локальные value-импорты** — `@/`-алиасы и относительные `./` `../`.
-3. **Стили** — `*.css` / `*.scss`.
+3. **Стили** — `*.css` / `*.scss` (`:STYLE:`).
 4. **Все типы** — любой `import type`, внешний и локальный вместе.
 
 ```ts
 // 1. внешние value
 import { useForm } from 'react-hook-form';
+
 // 2. локальные value
 import { useCurrentUser } from '@/entities/auth/user';
 import { groupMessages } from '../lib/grouping';
-import { voiceRoomStyles as s } from './VoiceRoom.styles';
+
+// 3. стили
+import s from './VoiceRoom.module.scss';
+
 // 4. типы (внешние + локальные)
 import type { Room } from '@chatovo/schemas/rooms';
 import type { VoiceRoomProps } from './VoiceRoom.types';
 ```
 
 Конфигурация — `assist.actions.source.organizeImports.options.groups` в `biome.json`.
-Группы идут подряд **без пустых строк между ними** — biome 2.4 не вставляет
-разделители и схлопывает их при `lint:fix`. Не воюй: формат после `lint:fix` и есть канон.
+Пустые строки между группами вставляет Biome при `bun lint:fix`; не удаляй их вручную.
 
 ### Запреты
 

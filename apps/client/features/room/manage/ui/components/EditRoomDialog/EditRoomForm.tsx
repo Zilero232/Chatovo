@@ -5,9 +5,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useUpdateRoom } from '@/entities/room/room';
 import { FormField, Input, Row, Stack, SubmitButton } from '@/shared/ui';
+
 import s from './EditRoomForm.module.scss';
+
 import type { UpdateRoomRequest } from '@chatovo/schemas';
 import type { EditRoomFormProps } from './EditRoomDialog.types';
 

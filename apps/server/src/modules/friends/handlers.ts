@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+
 import {
   acceptFriendRequest,
   acceptIncomingFriendCall,
@@ -17,6 +18,7 @@ import {
   ringFriendCall,
   sendFriendRequest,
 } from './friends.service';
+
 import type { RouteHandler } from '@hono/zod-openapi';
 import type { Env } from '../../shared/types';
 import type {

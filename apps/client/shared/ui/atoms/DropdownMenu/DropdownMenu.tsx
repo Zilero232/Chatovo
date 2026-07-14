@@ -2,14 +2,7 @@
 
 import { clsx } from 'clsx';
 import { CheckIcon, ChevronRightIcon, CircleIcon } from 'lucide-react';
-import {
-  type ComponentProps,
-  cloneElement,
-  createContext,
-  isValidElement,
-  type ReactNode,
-  useContext,
-} from 'react';
+import { createContext, useContext } from 'react';
 import {
   Menu,
   MenuItem,
@@ -19,92 +12,48 @@ import {
   Separator,
   SubmenuTrigger,
 } from 'react-aria-components';
-import { placementFromSideAlign } from '../../lib/overlay-children';
+
+import { mapMenuItemHandlers } from '../../lib/map-menu-item-handlers';
+import { placementFromSideAlign } from '../../lib/placement';
+import { Button } from '../Button';
+
 import s from './DropdownMenu.module.scss';
+
+import type { MenuRadioGroupContextValue } from '../../lib/menu-types';
 import type {
   DropdownMenuCheckboxItemProps,
   DropdownMenuContentProps,
+  DropdownMenuGroupProps,
   DropdownMenuItemProps,
   DropdownMenuLabelProps,
+  DropdownMenuPortalProps,
   DropdownMenuProps,
   DropdownMenuRadioGroupProps,
   DropdownMenuRadioItemProps,
+  DropdownMenuSeparatorProps,
+  DropdownMenuShortcutProps,
   DropdownMenuSubContentProps,
+  DropdownMenuSubProps,
   DropdownMenuSubTriggerProps,
   DropdownMenuTriggerProps,
 } from './DropdownMenu.types';
 
-type MenuRadioGroupContextValue = {
-  value?: string;
-  onValueChange?: (value: string) => void;
-};
-
 const MenuRadioGroupContext = createContext<MenuRadioGroupContextValue | null>(null);
 
-const mapMenuItemHandlers = (
-  onSelect: DropdownMenuItemProps['onSelect'],
-  onClick: DropdownMenuItemProps['onClick'],
-  closeOnClick?: boolean,
-) => {
-  const shouldCloseOnSelect = closeOnClick ?? true;
-
-  if (!onSelect) {
-    return {
-      onAction: onClick
-        ? () => {
-            onClick({} as React.MouseEvent<HTMLDivElement>);
-          }
-        : undefined,
-      shouldCloseOnSelect,
-    };
-  }
-
-  return {
-    shouldCloseOnSelect,
-    onAction: () => {
-      let prevented = false;
-      onSelect({
-        preventDefault: () => {
-          prevented = true;
-        },
-      });
-
-      if (!prevented) {
-        onClick?.({} as React.MouseEvent<HTMLDivElement>);
-      }
-    },
-  };
+const DropdownMenu = ({ children, ...props }: DropdownMenuProps) => {
+  return (
+    <MenuTrigger data-slot="dropdown-menu" {...props}>
+      {children}
+    </MenuTrigger>
+  );
 };
 
-const DropdownMenu = ({ children, ...props }: DropdownMenuProps) => (
-  <MenuTrigger data-slot="dropdown-menu" {...props}>
-    {children}
-  </MenuTrigger>
-);
+const DropdownMenuPortal = ({ children }: DropdownMenuPortalProps) => {
+  return <>{children}</>;
+};
 
-const DropdownMenuPortal = ({ children }: { children?: ReactNode }) => <>{children}</>;
-
-const DropdownMenuTrigger = ({
-  asChild,
-  children,
-  className,
-  ...props
-}: DropdownMenuTriggerProps) => {
-  if (asChild && isValidElement(children)) {
-    const childClassName = (children.props as { className?: string }).className;
-
-    return cloneElement(children, {
-      ...props,
-      className: clsx(className, childClassName),
-      'data-slot': 'dropdown-menu-trigger',
-    } as Record<string, unknown>);
-  }
-
-  return (
-    <button className={className} data-slot="dropdown-menu-trigger" type="button" {...props}>
-      {children}
-    </button>
-  );
+const DropdownMenuTrigger = ({ className, ...props }: DropdownMenuTriggerProps) => {
+  return <Button className={className} data-slot="dropdown-menu-trigger" {...props} />;
 };
 
 const DropdownMenuContent = ({
@@ -114,27 +63,27 @@ const DropdownMenuContent = ({
   sideOffset = 4,
   children,
   onClick,
-}: DropdownMenuContentProps) => (
-  <Popover offset={sideOffset} placement={placementFromSideAlign(side, align)}>
-    <Menu
-      className={clsx('glass-overlay', s.popup, className)}
-      data-slot="dropdown-menu-content"
-      onClick={onClick}
-    >
-      {children}
-    </Menu>
-  </Popover>
-);
+}: DropdownMenuContentProps) => {
+  return (
+    <Popover offset={sideOffset} placement={placementFromSideAlign(side, align)}>
+      <Menu
+        className={clsx('glass-overlay', s.popup, className)}
+        data-slot="dropdown-menu-content"
+        onClick={onClick}
+      >
+        {children}
+      </Menu>
+    </Popover>
+  );
+};
 
-const DropdownMenuGroup = ({
-  className,
-  children,
-  ...props
-}: ComponentProps<typeof MenuSection>) => (
-  <MenuSection className={className} data-slot="dropdown-menu-group" {...props}>
-    {children}
-  </MenuSection>
-);
+const DropdownMenuGroup = ({ className, children, ...props }: DropdownMenuGroupProps) => {
+  return (
+    <MenuSection className={className} data-slot="dropdown-menu-group" {...props}>
+      {children}
+    </MenuSection>
+  );
+};
 
 const DropdownMenuItem = ({
   className,
@@ -145,7 +94,7 @@ const DropdownMenuItem = ({
   closeOnClick,
   ...props
 }: DropdownMenuItemProps) => {
-  const handlers = mapMenuItemHandlers(onSelect, onClick, closeOnClick);
+  const handlers = mapMenuItemHandlers({ onSelect, onClick, closeOnClick });
 
   return (
     <MenuItem
@@ -166,27 +115,31 @@ const DropdownMenuCheckboxItem = ({
   checked,
   onCheckedChange,
   ...props
-}: DropdownMenuCheckboxItemProps) => (
-  <MenuItem
-    className={clsx(s.checkboxItem, className)}
-    data-slot="dropdown-menu-checkbox-item"
-    onAction={() => onCheckedChange?.(!checked)}
-    {...props}
-  >
-    <span className={s.itemIndicator}>{checked ? <CheckIcon /> : null}</span>
-    {children}
-  </MenuItem>
-);
+}: DropdownMenuCheckboxItemProps) => {
+  return (
+    <MenuItem
+      className={clsx(s.checkboxItem, className)}
+      data-slot="dropdown-menu-checkbox-item"
+      onAction={() => onCheckedChange?.(!checked)}
+      {...props}
+    >
+      <span className={s.itemIndicator}>{checked ? <CheckIcon /> : null}</span>
+      {children}
+    </MenuItem>
+  );
+};
 
 const DropdownMenuRadioGroup = ({
   value,
   onValueChange,
   children,
-}: DropdownMenuRadioGroupProps) => (
-  <MenuRadioGroupContext.Provider value={{ value, onValueChange }}>
-    {children}
-  </MenuRadioGroupContext.Provider>
-);
+}: DropdownMenuRadioGroupProps) => {
+  return (
+    <MenuRadioGroupContext.Provider value={{ value, onValueChange }}>
+      {children}
+    </MenuRadioGroupContext.Provider>
+  );
+};
 
 const DropdownMenuRadioItem = ({
   className,
@@ -213,60 +166,72 @@ const DropdownMenuRadioItem = ({
   );
 };
 
-const DropdownMenuLabel = ({ className, inset, ...props }: DropdownMenuLabelProps) => (
-  <div
-    className={clsx(s.label, className)}
-    data-inset={inset}
-    data-slot="dropdown-menu-label"
-    {...props}
-  />
-);
+const DropdownMenuLabel = ({ className, inset, ...props }: DropdownMenuLabelProps) => {
+  return (
+    <div
+      className={clsx(s.label, className)}
+      data-inset={inset}
+      data-slot="dropdown-menu-label"
+      {...props}
+    />
+  );
+};
 
-const DropdownMenuSeparator = ({ className, ...props }: ComponentProps<typeof Separator>) => (
-  <Separator
-    className={clsx(s.separator, className)}
-    data-slot="dropdown-menu-separator"
-    {...props}
-  />
-);
+const DropdownMenuSeparator = ({ className, ...props }: DropdownMenuSeparatorProps) => {
+  return (
+    <Separator
+      className={clsx(s.separator, className)}
+      data-slot="dropdown-menu-separator"
+      {...props}
+    />
+  );
+};
 
-const DropdownMenuShortcut = ({ className, ...props }: ComponentProps<'span'>) => (
-  <span className={clsx(s.shortcut, className)} data-slot="dropdown-menu-shortcut" {...props} />
-);
+const DropdownMenuShortcut = ({ className, ...props }: DropdownMenuShortcutProps) => {
+  return (
+    <span className={clsx(s.shortcut, className)} data-slot="dropdown-menu-shortcut" {...props} />
+  );
+};
 
-const DropdownMenuSub = ({ children, ...props }: ComponentProps<typeof SubmenuTrigger>) => (
-  <SubmenuTrigger data-slot="dropdown-menu-sub" {...props}>
-    {children}
-  </SubmenuTrigger>
-);
+const DropdownMenuSub = ({ children, ...props }: DropdownMenuSubProps) => {
+  return (
+    <SubmenuTrigger data-slot="dropdown-menu-sub" {...props}>
+      {children}
+    </SubmenuTrigger>
+  );
+};
 
 const DropdownMenuSubTrigger = ({
   className,
   inset,
   children,
   ...props
-}: DropdownMenuSubTriggerProps) => (
-  <MenuItem
-    className={clsx(s.subTrigger, className)}
-    data-inset={inset}
-    data-slot="dropdown-menu-sub-trigger"
-    {...props}
-  >
-    {children}
-    <ChevronRightIcon className={s.subTriggerChevron} />
-  </MenuItem>
-);
-
-const DropdownMenuSubContent = ({ className, children }: DropdownMenuSubContentProps) => (
-  <Popover>
-    <Menu
-      className={clsx('glass-overlay', s.subPopup, className)}
-      data-slot="dropdown-menu-sub-content"
+}: DropdownMenuSubTriggerProps) => {
+  return (
+    <MenuItem
+      className={clsx(s.subTrigger, className)}
+      data-inset={inset}
+      data-slot="dropdown-menu-sub-trigger"
+      {...props}
     >
       {children}
-    </Menu>
-  </Popover>
-);
+      <ChevronRightIcon className={s.subTriggerChevron} />
+    </MenuItem>
+  );
+};
+
+const DropdownMenuSubContent = ({ className, children }: DropdownMenuSubContentProps) => {
+  return (
+    <Popover>
+      <Menu
+        className={clsx('glass-overlay', s.subPopup, className)}
+        data-slot="dropdown-menu-sub-content"
+      >
+        {children}
+      </Menu>
+    </Popover>
+  );
+};
 
 export {
   DropdownMenu,

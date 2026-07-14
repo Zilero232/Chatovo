@@ -3,7 +3,9 @@
 import { clsx } from 'clsx';
 import { Children, isValidElement, type ReactNode } from 'react';
 import { Tabs as RACTabs, Tab, TabList, TabPanel, TabPanels } from 'react-aria-components';
+
 import s from './Tabs.module.scss';
+
 import type { Key } from '@react-types/shared';
 import type { TabsContentProps, TabsListProps, TabsProps, TabsTriggerProps } from './Tabs.types';
 

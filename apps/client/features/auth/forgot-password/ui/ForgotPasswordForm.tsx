@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useFieldError } from '@/entities/app/locale';
 import { FormField, Input, Stack, SubmitButton } from '@/shared/ui';
 import {
@@ -11,6 +12,7 @@ import {
   forgotPasswordSchema,
   useForgotPassword,
 } from '../model/use-forgot-password';
+
 import s from './ForgotPasswordForm.module.scss';
 
 const DEFAULT_VALUES: ForgotPasswordValues = { email: '' };

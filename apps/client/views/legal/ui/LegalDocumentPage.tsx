@@ -4,9 +4,11 @@ import { clsx } from 'clsx';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+
 import { LEGAL } from '@/shared/config';
 import { EXTERNAL_LINKS, ROUTES } from '@/shared/constants';
 import { type LegalDocumentId, useLegalDocument } from '../model';
+
 import s from './LegalDocumentPage.module.scss';
 
 type LegalDocumentPageProps = {

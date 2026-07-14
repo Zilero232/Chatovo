@@ -1,7 +1,9 @@
 'use client';
 
 import { enGB, ru } from 'date-fns/locale';
+
 import { useLocale } from './use-locale';
+
 import type { Locale as DateFnsLocale } from 'date-fns';
 import type { Locale as AppLocale } from '@/shared/i18n';
 

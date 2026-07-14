@@ -5,8 +5,11 @@ import { openUrl } from '@tauri-apps/plugin-opener';
 import { clsx } from 'clsx';
 import { BadgeCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+
 import s from './UserName.module.scss';
+
 import type { MouseEvent } from 'react';
 import type { UserNameProps } from './UserName.types';
 
@@ -26,7 +29,7 @@ export const UserName = ({
 
   const check = verified ? (
     <Tooltip>
-      <TooltipTrigger asChild>
+      <TooltipTrigger>
         <span aria-label={t('verified')} className={s.checkWrap} role="img">
           <BadgeCheck className={clsx(s.check, checkSizeClass[size])} />
         </span>

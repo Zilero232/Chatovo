@@ -1,4 +1,5 @@
 import { match } from 'ts-pattern';
+
 import { QUERY_KEYS } from '@/shared/constants';
 import { appEvents } from '@/shared/lib';
 import {
@@ -8,6 +9,7 @@ import {
   mergeChatLines,
 } from './merge-chat-lines';
 import { chatMessageToChatLine } from './to-chat-line';
+
 import type { ChatMessage, RealtimeServerMessage } from '@chatovo/schemas';
 import type { QueryClient } from '@tanstack/react-query';
 import type { ChatLine } from '../types';

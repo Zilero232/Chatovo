@@ -1,4 +1,5 @@
 import { VOICE_GATE_TICK_MS, VoiceGateDetector, type VoiceGateParams } from './voice-gate-detector';
+
 import type { AudioProcessorOptions, Track, TrackProcessor } from 'livekit-client';
 
 const ANALYSER_FFT_SIZE = 1024;

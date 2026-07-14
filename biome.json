@@ -32,9 +32,18 @@
           "level": "on",
           "options": {
             "groups": [
-              { "source": [":BUN:", ":NODE:", ":PACKAGE:"], "type": false },
-              { "source": [":ALIAS:", ":PATH:"], "type": false },
-              { "source": ["**/*.css", "**/*.scss"] },
+              {
+                "type": false,
+                "source": [":BUN:", ":NODE:", ":PACKAGE:"]
+              },
+              ":BLANK_LINE:",
+              {
+                "type": false,
+                "source": [":ALIAS:", ":PATH:", "!**/*.css", "!**/*.scss"]
+              },
+              ":BLANK_LINE:",
+              { "type": false, "source": ["**/*.css", "**/*.scss"] },
+              ":BLANK_LINE:",
               { "type": true }
             ]
           }
@@ -59,7 +68,7 @@
   },
   "css": {
     "parser": {
-      "cssModules": false,
+      "cssModules": true,
       "tailwindDirectives": true
     },
     "formatter": {

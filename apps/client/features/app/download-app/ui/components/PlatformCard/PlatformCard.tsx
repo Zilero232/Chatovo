@@ -2,8 +2,11 @@
 
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
+
 import { formatBytes } from '@/shared/lib/format-bytes';
+
 import s from './PlatformCard.module.scss';
+
 import type { PlatformCardProps } from './PlatformCard.types';
 
 export const PlatformCard = ({ label, Icon, asset }: PlatformCardProps) => {

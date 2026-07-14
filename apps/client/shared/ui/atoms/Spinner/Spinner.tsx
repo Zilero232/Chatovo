@@ -1,16 +1,31 @@
-import { clsx } from 'clsx';
+'use client';
+
 import { Loader2 } from 'lucide-react';
-import s from './Spinner.module.scss';
-import type { SpinnerProps, SpinnerSize } from './Spinner.types';
+import { useTranslations } from 'next-intl';
 
-const sizeClass: Record<SpinnerSize, string> = {
-  xs: s.sizeXs,
-  sm: s.sizeSm,
-  md: s.sizeMd,
-  lg: s.sizeLg,
-  xl: s.sizeXl,
+import { spinnerVariants } from './Spinner.variants';
+
+import type { SpinnerProps } from './Spinner.types';
+
+export const Spinner = ({
+  className,
+  size = 'sm',
+  decorative = false,
+  'aria-hidden': ariaHidden,
+  'aria-label': ariaLabel,
+  ...props
+}: SpinnerProps) => {
+  const t = useTranslations('common');
+  const isDecorative = decorative || ariaHidden === true;
+  const label = isDecorative ? undefined : (ariaLabel ?? t('loading'));
+
+  return (
+    <Loader2
+      aria-hidden={isDecorative ? true : undefined}
+      aria-label={label}
+      className={spinnerVariants({ size, className })}
+      role={isDecorative ? undefined : 'status'}
+      {...props}
+    />
+  );
 };
-
-export const Spinner = ({ className, size = 'sm', ...props }: SpinnerProps) => (
-  <Loader2 className={clsx(s.root, sizeClass[size], className)} {...props} />
-);

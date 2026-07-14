@@ -1,19 +1,24 @@
 import type { ComponentProps, ReactNode } from 'react';
-import type { MenuItemProps } from 'react-aria-components';
+import type { MenuItemProps, MenuSection, Separator, SubmenuTrigger } from 'react-aria-components';
+import type { MenuItemSelectEvent } from '../../lib/menu-types';
+import type { OverlayAlign, OverlaySide } from '../../lib/placement';
+import type { ButtonProps } from '../Button';
 
 export type DropdownMenuProps = {
   modal?: boolean;
   children?: ReactNode;
 };
 
-export type DropdownMenuTriggerProps = ComponentProps<'button'> & {
-  asChild?: boolean;
+export type DropdownMenuTriggerProps = ButtonProps;
+
+export type DropdownMenuPortalProps = {
+  children?: ReactNode;
 };
 
 export type DropdownMenuItemProps = Omit<MenuItemProps, 'onAction' | 'children'> & {
   inset?: boolean;
   variant?: 'default' | 'destructive';
-  onSelect?: (event: { preventDefault: () => void }) => void;
+  onSelect?: (event: MenuItemSelectEvent) => void;
   onClick?: ComponentProps<'div'>['onClick'];
   closeOnClick?: boolean;
   children?: ReactNode;
@@ -29,8 +34,8 @@ export type DropdownMenuLabelProps = ComponentProps<'div'> & {
 };
 
 export type DropdownMenuContentProps = ComponentProps<'div'> & {
-  align?: 'start' | 'center' | 'end';
-  side?: 'top' | 'right' | 'bottom' | 'left';
+  align?: OverlayAlign;
+  side?: OverlaySide;
   sideOffset?: number;
   className?: string;
   children?: ReactNode;
@@ -59,3 +64,11 @@ export type DropdownMenuCheckboxItemProps = Omit<MenuItemProps, 'children'> & {
   onCheckedChange?: (checked: boolean) => void;
   children?: ReactNode;
 };
+
+export type DropdownMenuGroupProps = ComponentProps<typeof MenuSection>;
+
+export type DropdownMenuSeparatorProps = ComponentProps<typeof Separator>;
+
+export type DropdownMenuShortcutProps = ComponentProps<'span'>;
+
+export type DropdownMenuSubProps = ComponentProps<typeof SubmenuTrigger>;

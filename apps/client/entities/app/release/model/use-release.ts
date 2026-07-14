@@ -1,8 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { getAppDownloads } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 import { detectAssetPlatform } from '@/shared/lib';
 import { EXTENSION_TO_PLATFORM, pickPreferredApk } from '../config';
+
 import type { DownloadPlatform, Release, ReleaseAsset } from './types';
 
 export const useRelease = (enabled = true) => {

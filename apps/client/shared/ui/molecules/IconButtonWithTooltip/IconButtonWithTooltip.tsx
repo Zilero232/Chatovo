@@ -1,18 +1,7 @@
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '../../atoms';
-import type { ComponentProps, ReactNode } from 'react';
 
-type IconButtonWithTooltipProps = Omit<ComponentProps<typeof Button>, 'children'> & {
-  // Icon JSX (lucide-react component / svg).
-  icon: ReactNode;
-  // Accessible name; also the tooltip body unless `tooltip` is provided.
-  label: string;
-  tooltip?: ReactNode;
-  tooltipSide?: ComponentProps<typeof TooltipContent>['side'];
-  tooltipSideOffset?: ComponentProps<typeof TooltipContent>['sideOffset'];
-};
+import type { IconButtonWithTooltipProps } from './IconButtonWithTooltip.types';
 
-// Ghost icon-sized button with an attached tooltip — collapses the
-// Tooltip+Trigger+Button+Content skeleton repeated across the sidebar.
 export const IconButtonWithTooltip = ({
   icon,
   label,
@@ -25,9 +14,9 @@ export const IconButtonWithTooltip = ({
 }: IconButtonWithTooltipProps) => {
   return (
     <Tooltip>
-      <TooltipTrigger asChild>
+      <TooltipTrigger>
         <Button aria-label={label} size={size} variant={variant} {...buttonProps}>
-          {icon}
+          <span aria-hidden>{icon}</span>
         </Button>
       </TooltipTrigger>
       <TooltipContent side={tooltipSide} sideOffset={tooltipSideOffset}>

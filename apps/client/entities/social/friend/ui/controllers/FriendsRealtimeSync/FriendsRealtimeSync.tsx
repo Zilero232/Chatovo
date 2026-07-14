@@ -2,6 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
+
 import { useRealtimeMessage } from '@/entities/app/realtime';
 import { applyFriendsSnapshot } from '../../../model/lib';
 

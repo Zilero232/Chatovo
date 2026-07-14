@@ -5,8 +5,11 @@ import { useTranslations } from 'next-intl';
 import Markdown from 'react-markdown';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
+
 import { normalizeMessage } from '../../../../../model/lib';
+
 import s from './MessageContent.module.scss';
+
 import type { Components } from 'react-markdown';
 import type { MessageContentProps } from './MessageContent.types';
 

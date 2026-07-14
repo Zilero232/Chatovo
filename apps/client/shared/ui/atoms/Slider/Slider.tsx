@@ -2,7 +2,9 @@
 
 import { clsx } from 'clsx';
 import { Slider as RACSlider, SliderFill, SliderThumb, SliderTrack } from 'react-aria-components';
+
 import s from './Slider.module.scss';
+
 import type { SliderProps } from './Slider.types';
 
 const Slider = ({

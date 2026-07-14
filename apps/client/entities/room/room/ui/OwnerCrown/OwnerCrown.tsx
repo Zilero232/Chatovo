@@ -3,7 +3,9 @@
 import { clsx } from 'clsx';
 import { Crown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import s from './OwnerCrown.module.scss';
+
 import type { OwnerCrownProps } from './OwnerCrown.types';
 
 export const OwnerCrown = ({ className }: OwnerCrownProps) => {

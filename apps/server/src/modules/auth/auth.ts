@@ -2,6 +2,7 @@ import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { bearer } from 'better-auth/plugins';
 import { createElement } from 'react';
+
 import { allowedOrigins } from '../../config/cors';
 import { env, prisma } from '../../core';
 import { issueUniqueFriendTag } from '../../lib';

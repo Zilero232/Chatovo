@@ -1,8 +1,10 @@
 import { HTTPException } from 'hono/http-exception';
 import { StatusCodes } from 'http-status-codes';
 import { isNullish } from 'remeda';
+
 import { assertCanAccessDmRoom } from '../../lib';
 import { createRoom, deleteRoom, getRoom, listRooms, updateRoom } from './rooms.service';
+
 import type { RouteHandler } from '@hono/zod-openapi';
 import type { Env } from '../../shared/types';
 import type {

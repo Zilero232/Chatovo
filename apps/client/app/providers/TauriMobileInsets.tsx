@@ -2,6 +2,7 @@
 
 import { target, useEventListener } from '@siberiacancode/reactuse';
 import { useEffect, useEffectEvent } from 'react';
+
 import { isTauriMobile } from '@/shared/lib';
 
 const syncInsetsFromPlugin = async () => {

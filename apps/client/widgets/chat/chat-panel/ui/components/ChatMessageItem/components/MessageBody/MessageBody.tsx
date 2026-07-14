@@ -1,7 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+
 import s from './MessageBody.module.scss';
+
 import type { MessageBodyProps } from './MessageBody.types';
 
 export const MessageBody = ({ bubble, isDeleted }: MessageBodyProps) => {

@@ -3,9 +3,11 @@
 import { clsx } from 'clsx';
 import { AudioLines, Lightbulb } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { CreateRoomDialog } from '@/features/room/create';
 import { Button } from '@/shared/ui';
 import { RecentRooms } from '../RecentRooms';
+
 import s from './ChannelsLobbyBanner.module.scss';
 
 export const ChannelsLobbyBanner = () => {

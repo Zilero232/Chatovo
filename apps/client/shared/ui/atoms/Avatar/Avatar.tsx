@@ -1,7 +1,9 @@
 'use client';
 
 import { clsx } from 'clsx';
+
 import s from './Avatar.module.scss';
+
 import type {
   AvatarBadgeProps,
   AvatarFallbackProps,

@@ -1,15 +1,8 @@
 import { clsx } from 'clsx';
-import s from './AvatarWithBadges.module.scss';
-import type { ReactNode } from 'react';
 
-type AvatarWithBadgesProps = {
-  children: ReactNode;
-  topLeft?: ReactNode;
-  topRight?: ReactNode;
-  bottomLeft?: ReactNode;
-  bottomRight?: ReactNode;
-  className?: string;
-};
+import s from './AvatarWithBadges.module.scss';
+
+import type { AvatarWithBadgesProps } from './AvatarWithBadges.types';
 
 export const AvatarWithBadges = ({
   children,

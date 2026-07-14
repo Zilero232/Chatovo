@@ -1,7 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+
 import { ConfirmDialog } from '@/shared/ui';
+
 import type { DeleteMessageDialogProps } from './DeleteMessageDialog.types';
 
 export const DeleteMessageDialog = ({

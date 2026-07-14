@@ -4,9 +4,12 @@ import { Clock, Lock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { filter, indexBy, isEmpty, isNonNullish, map } from 'remeda';
+
 import { useRecentRooms, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { buildRoomHref } from '@/shared/constants';
+
 import s from './RecentRooms.module.scss';
+
 import type { RecentRoomsProps } from './RecentRooms.types';
 
 export const RecentRooms = ({ onNavigate, variant = 'list' }: RecentRoomsProps = {}) => {

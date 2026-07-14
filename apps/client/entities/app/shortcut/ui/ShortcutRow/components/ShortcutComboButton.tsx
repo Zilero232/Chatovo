@@ -3,7 +3,9 @@
 import { clsx } from 'clsx';
 import { TriangleAlert } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui';
+
 import s from '../ShortcutRow.module.scss';
 
 type ShortcutComboButtonProps = {
@@ -26,7 +28,7 @@ export const ShortcutComboButton = ({
   return (
     <TooltipProvider delayDuration={150}>
       <Tooltip open={showConflictHint ? undefined : false}>
-        <TooltipTrigger asChild>
+        <TooltipTrigger>
           <Button
             aria-label={recording ? t('recording') : label}
             className={clsx(s.shortcutButton, showConflictHint && s.shortcutButtonConflict)}

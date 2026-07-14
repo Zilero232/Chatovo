@@ -1,5 +1,6 @@
 import { registerPushDeviceInputSchema, unregisterPushDeviceInputSchema } from '@chatovo/schemas';
 import { createRoute } from '@hono/zod-openapi';
+
 import { errorSchema } from '../../shared/schemas';
 
 export const registerPushDeviceRoute = createRoute({

@@ -43,7 +43,7 @@
   padding-bottom: var(--safe-area-bottom);
   padding-right: var(--safe-area-right);
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     max-width: 24rem;
   }
 
@@ -65,7 +65,7 @@
   padding-bottom: var(--safe-area-bottom);
   padding-left: var(--safe-area-left);
 
-  @media (min-width: 640px) {
+  @include bp(sm) {
     max-width: 24rem;
   }
 

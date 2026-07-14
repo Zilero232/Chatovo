@@ -4,6 +4,7 @@ import { useLocalParticipant } from '@livekit/components-react';
 import { useTranslations } from 'next-intl';
 import { isNullish } from 'remeda';
 import { toast } from 'sonner';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { appEvents, isTauriDesktop, toggleMicStream } from '@/shared/lib';
 

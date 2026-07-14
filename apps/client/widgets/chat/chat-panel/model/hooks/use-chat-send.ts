@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+
 import { sendChatMessage } from '@/shared/api';
 import { appendChatDto } from '../lib';
 

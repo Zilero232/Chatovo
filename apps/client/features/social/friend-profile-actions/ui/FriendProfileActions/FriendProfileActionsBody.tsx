@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { match } from 'ts-pattern';
+
 import {
   useAcceptFriendRequest,
   useCallFriend,
@@ -15,7 +16,9 @@ import {
 import { useFriendChat } from '@/features/social/friend-chat';
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
 import { Button } from '@/shared/ui';
+
 import s from './FriendProfileActions.module.scss';
+
 import type { FriendshipRelation } from '@chatovo/schemas';
 
 type FriendProfileActionsBodyProps = {

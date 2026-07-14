@@ -1,39 +1,7 @@
+@use '@/shared/styles/mixins' as *;
+
 .root {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  border-radius: var(--radius-lg);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  white-space: nowrap;
-  outline: none;
-  transition: colors 150ms ease-out;
-  border: none;
-  cursor: pointer;
-
-  &:focus-visible {
-    box-shadow:
-      0 0 0 2px color-mix(in oklch, var(--brand-violet) 50%, transparent),
-      0 0 0 4px var(--background);
-  }
-
-  &:disabled {
-    pointer-events: none;
-    opacity: 0.4;
-  }
-
-  &[aria-invalid='true'] {
-    box-shadow: 0 0 0 2px color-mix(in oklch, var(--destructive) 40%, transparent);
-  }
-
-  svg {
-    pointer-events: none;
-    flex-shrink: 0;
-    width: var(--icon-sm);
-    height: var(--icon-sm);
-  }
+  @include button-base;
 }
 
 .default {

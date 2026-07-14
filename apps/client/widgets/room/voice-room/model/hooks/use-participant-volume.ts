@@ -4,6 +4,7 @@ import { useDebounceCallback, useLocalStorage } from '@siberiacancode/reactuse';
 import { type Participant, RemoteParticipant } from 'livekit-client';
 import { useEffect, useRef, useState } from 'react';
 import { clamp, defaultTo, omit } from 'remeda';
+
 import { STORAGE_KEYS } from '@/shared/constants';
 
 const MAX_VOLUME = 1;

@@ -2,8 +2,10 @@
 
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
+
 import { LogoMark } from '@/shared/ui';
 import { AUTH_EQ_BARS, AUTH_FEATURES } from '../../../config';
+
 import s from './AuthBrandPanel.module.scss';
 
 export const AuthBrandPanel = () => {

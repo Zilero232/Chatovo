@@ -1,4 +1,5 @@
 import { api, readErrorMessage } from '../http';
+
 import type {
   FriendEntry,
   FriendRequestEntry,

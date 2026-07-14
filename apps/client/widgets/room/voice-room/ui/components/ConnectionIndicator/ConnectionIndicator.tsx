@@ -10,7 +10,9 @@ import { ConnectionQuality, ConnectionState } from 'livekit-client';
 import { useTranslations } from 'next-intl';
 import { isNonNullish } from 'remeda';
 import { match } from 'ts-pattern';
+
 import { useConnectionRtt } from '../../../model/hooks';
+
 import s from './ConnectionIndicator.module.scss';
 
 const BAR_HEIGHTS = [4, 7, 10, 13, 16] as const;

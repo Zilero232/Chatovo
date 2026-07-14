@@ -3,6 +3,7 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { setLogLevel } from 'livekit-client';
+
 import { RealtimeProvider } from '@/entities/app/realtime';
 import { LeaveSoundProvider } from '@/entities/room/room';
 import { FriendsRealtimeSync } from '@/entities/social/friend';
@@ -23,6 +24,7 @@ import {
   TrayMenuProvider,
   UpdateProvider,
 } from './providers/index';
+
 import type { ReactNode } from 'react';
 
 setLogLevel('error');

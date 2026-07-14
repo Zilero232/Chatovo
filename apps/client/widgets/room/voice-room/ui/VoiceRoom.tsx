@@ -4,6 +4,7 @@ import { LiveKitRoom } from '@livekit/components-react';
 import { useBoolean } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { useRef } from 'react';
+
 import { getPublishDefaults, useAppSettings } from '@/entities/app/settings';
 import { useRecentRooms } from '@/entities/room/room';
 import {
@@ -25,7 +26,9 @@ import {
   VoiceRoomChatButton,
 } from './components';
 import { RoomControllers } from './controllers';
+
 import s from './VoiceRoom.module.scss';
+
 import type { VoiceRoomProps } from './VoiceRoom.types';
 
 export const VoiceRoom = ({

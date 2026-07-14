@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+
 import { CenteredState, Spinner } from '@/shared/ui';
 
 export const RoomLoadingFallback = () => {

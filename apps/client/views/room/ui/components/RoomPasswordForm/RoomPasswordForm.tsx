@@ -6,9 +6,12 @@ import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+
 import { useFieldError } from '@/entities/app/locale';
 import { FormField, Input, Row, Stack, SubmitButton } from '@/shared/ui';
+
 import s from './RoomPasswordForm.module.scss';
+
 import type { RoomPasswordFormProps } from './RoomPasswordForm.types';
 
 const passwordSchema = z.object({ password: roomPasswordSchema });

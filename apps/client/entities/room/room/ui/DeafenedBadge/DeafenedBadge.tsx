@@ -3,7 +3,9 @@
 import { clsx } from 'clsx';
 import { HeadphoneOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import s from './DeafenedBadge.module.scss';
+
 import type { DeafenedBadgeProps } from './DeafenedBadge.types';
 
 export const DeafenedBadge = ({ className }: DeafenedBadgeProps) => {

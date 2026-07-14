@@ -4,9 +4,12 @@ import { useLocalParticipant } from '@livekit/components-react';
 import { target, useEventListener } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
+
 import { ChatConversation } from './ChatConversation';
-import s from './ChatPanel.module.scss';
 import { ChatHeader } from './components';
+
+import s from './ChatPanel.module.scss';
+
 import type { ChatPanelProps } from './ChatPanel.types';
 
 export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {

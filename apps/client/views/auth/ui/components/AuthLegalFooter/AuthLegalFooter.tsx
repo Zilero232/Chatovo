@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+
 import { LEGAL } from '@/shared/config';
+
 import s from './AuthLegalFooter.module.scss';
 
 export const AuthLegalFooter = () => {

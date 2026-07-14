@@ -3,9 +3,11 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+
 import { useDeleteRoom } from '@/entities/room/room';
 import { ROUTES } from '@/shared/constants';
 import { ConfirmDialog } from '@/shared/ui';
+
 import type { DeleteRoomDialogProps } from './DeleteRoomDialog.types';
 
 export const DeleteRoomDialog = ({ room, open, onOpenChange }: DeleteRoomDialogProps) => {

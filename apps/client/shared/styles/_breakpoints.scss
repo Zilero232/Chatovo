@@ -1,8 +1,38 @@
-$bp-sm: 640px;
-$bp-md: 768px;
-$bp-lg: 1024px;
-$bp-xl: 1280px;
-$bp-2xl: 1536px;
+@use 'sass:map';
+
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  2xl: 1536px,
+);
+
+$bp-sm: map.get($breakpoints, sm);
+$bp-md: map.get($breakpoints, md);
+$bp-lg: map.get($breakpoints, lg);
+$bp-xl: map.get($breakpoints, xl);
+$bp-2xl: map.get($breakpoints, 2xl);
+
+@mixin bp($name, $direction: up) {
+  $value: map.get($breakpoints, $name);
+
+  @if $value == null {
+    @error "Unknown breakpoint `#{$name}`. Use one of: #{map.keys($breakpoints)}.";
+  }
+
+  @if $direction == up {
+    @media (min-width: $value) {
+      @content;
+    }
+  } @else if $direction == down {
+    @media (max-width: #{$value - 1px}) {
+      @content;
+    }
+  } @else {
+    @error "Unknown breakpoint direction `#{$direction}`. Use `up` or `down`.";
+  }
+}
 
 @mixin bp-up($bp) {
   @media (min-width: $bp) {
@@ -23,19 +53,19 @@ $bp-2xl: 1536px;
 }
 
 @mixin bp-sm-up {
-  @include bp-up($bp-sm) {
+  @include bp(sm) {
     @content;
   }
 }
 
 @mixin bp-md-up {
-  @include bp-up($bp-md) {
+  @include bp(md) {
     @content;
   }
 }
 
 @mixin bp-lg-up {
-  @include bp-up($bp-lg) {
+  @include bp(lg) {
     @content;
   }
 }

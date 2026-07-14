@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import { useAppSettings } from '@/entities/app/settings';
 import {
   closeMainWindow,

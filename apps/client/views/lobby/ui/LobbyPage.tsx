@@ -1,8 +1,10 @@
 'use client';
 
 import { clsx } from 'clsx';
+
 import { ScrollArea } from '@/shared/ui';
 import { LobbyHeader, LobbyRooms } from './components';
+
 import s from './LobbyPage.module.scss';
 
 export const LobbyPage = () => (

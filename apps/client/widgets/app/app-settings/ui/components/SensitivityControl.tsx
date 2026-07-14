@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useRef } from 'react';
 import { Slider as RACSlider, SliderThumb, SliderTrack } from 'react-aria-components';
+
 import {
   useAppSettings,
   VOICE_GATE_MANUAL_RANGE,
@@ -10,7 +11,9 @@ import {
 } from '@/entities/app/settings';
 import { formatPercent } from '@/shared/lib';
 import { useMicAnalyser } from '../../model/hooks';
+
 import s from '../AppSettingsButton.module.scss';
+
 import type { AudioSettings } from '@/entities/app/settings';
 
 type SensitivityControlProps = {

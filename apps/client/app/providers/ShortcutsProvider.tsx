@@ -2,6 +2,7 @@
 
 import { useShortcutsBridge } from '@/features/app/shortcuts';
 import { isTauriDesktop } from '@/shared/lib';
+
 import type { ReactNode } from 'react';
 
 const ShortcutsBridge = ({ children }: { children: ReactNode }) => {

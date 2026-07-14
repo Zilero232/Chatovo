@@ -1,4 +1,5 @@
 import { emitPresenceSnapshot } from '../realtime/emit';
+
 import type { RoomParticipant, RoomsParticipantsSnapshot } from '@chatovo/schemas';
 
 const rooms = new Map<string, Map<string, RoomParticipant>>();

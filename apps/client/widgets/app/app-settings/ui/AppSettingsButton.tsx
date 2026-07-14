@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
+
 import { useCurrentUser } from '@/entities/auth/user';
 import { isTauriDesktop } from '@/shared/lib';
 import {
@@ -31,7 +32,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/shared/ui';
-import s from './AppSettingsButton.module.scss';
 import { AudioTab } from './sections/AudioTab';
 import { ProfileTab } from './sections/ProfileTab';
 import { SecurityTab } from './sections/SecurityTab';
@@ -39,6 +39,9 @@ import { ShortcutsTab } from './sections/ShortcutsTab';
 import { SoundsTab } from './sections/SoundsTab';
 import { SystemTab } from './sections/SystemTab';
 import { VideoTab } from './sections/VideoTab';
+
+import s from './AppSettingsButton.module.scss';
+
 import type { ReactNode } from 'react';
 
 type TabId = 'profile' | 'audio' | 'video' | 'sounds' | 'system' | 'security' | 'shortcuts';
@@ -78,7 +81,7 @@ export const AppSettingsButton = () => {
   return (
     <>
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger>
           <Button
             aria-label={t('open')}
             className={clsx(needsEmailVerification && s.settingsButtonAlert)}

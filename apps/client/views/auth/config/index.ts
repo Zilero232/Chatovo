@@ -1,4 +1,5 @@
 import { AudioWaveform, MonitorSmartphone, Zap } from 'lucide-react';
+
 import type { LucideIcon } from 'lucide-react';
 
 export type AuthFeature = {

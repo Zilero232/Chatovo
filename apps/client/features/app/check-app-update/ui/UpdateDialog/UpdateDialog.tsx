@@ -2,6 +2,7 @@
 
 import { format } from 'date-fns';
 import { useTranslations } from 'next-intl';
+
 import { useDateLocale } from '@/entities/app/locale';
 import {
   Button,
@@ -13,8 +14,10 @@ import {
   DialogTitle,
 } from '@/shared/ui';
 import { parseTauriDate } from '../../lib/parse-tauri-date';
-import s from './UpdateDialog.module.scss';
 import { UpdateProgress } from './UpdateProgress';
+
+import s from './UpdateDialog.module.scss';
+
 import type { UpdateDialogProps } from './UpdateDialog.types';
 
 export const UpdateDialog = ({

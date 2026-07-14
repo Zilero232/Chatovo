@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import { useCurrentUser } from '@/entities/auth/user';
 import { appEvents } from '@/shared/lib';
 

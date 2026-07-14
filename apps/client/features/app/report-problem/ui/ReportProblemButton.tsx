@@ -3,6 +3,7 @@
 import { useBoolean } from '@siberiacancode/reactuse';
 import { Bug } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
 import { ReportProblemDialog } from './ReportProblemDialog';
 
@@ -14,7 +15,7 @@ export const ReportProblemButton = () => {
   return (
     <>
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger>
           <Button
             aria-label={t('title')}
             size="icon"

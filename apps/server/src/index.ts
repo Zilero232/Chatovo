@@ -5,6 +5,7 @@ import { cors } from 'hono/cors';
 import { HTTPException } from 'hono/http-exception';
 import { logger } from 'hono/logger';
 import { StatusCodes } from 'http-status-codes';
+
 import { allowedOrigins } from './config/cors';
 import { env } from './core';
 import { backfillMissingFriendTags } from './lib';

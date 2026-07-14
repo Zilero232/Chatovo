@@ -1,6 +1,7 @@
 {
   "common": {
     "or": "or",
+    "close": "Close",
     "loading": "Loading...",
     "showPassword": "Show password",
     "hidePassword": "Hide password"

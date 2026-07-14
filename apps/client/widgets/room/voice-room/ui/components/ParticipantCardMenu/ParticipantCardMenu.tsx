@@ -4,6 +4,7 @@ import { useCopy } from '@siberiacancode/reactuse';
 import { Copy, Volume1, Volume2, VolumeX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+
 import { formatPercent } from '@/shared/lib';
 import {
   ContextMenu,
@@ -15,7 +16,9 @@ import {
   Slider,
 } from '@/shared/ui';
 import { useParticipantVolume } from '../../../model/hooks';
+
 import s from './ParticipantCardMenu.module.scss';
+
 import type { ParticipantCardMenuProps } from './ParticipantCardMenu.types';
 
 export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMenuProps) => {
@@ -36,7 +39,7 @@ export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMe
 
   return (
     <ContextMenu>
-      <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
+      <ContextMenuTrigger>{children}</ContextMenuTrigger>
 
       <ContextMenuContent className={s.content}>
         <ContextMenuLabel>{displayName}</ContextMenuLabel>

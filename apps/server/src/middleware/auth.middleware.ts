@@ -1,5 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
+
 import { auth } from '../modules/auth';
+
 import type { MiddlewareHandler } from 'hono';
 import type { UserRole } from '../modules/auth';
 

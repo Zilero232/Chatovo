@@ -1,6 +1,7 @@
 'use client';
 
 import { useRoomsPresence } from './use-rooms-presence';
+
 import type { RoomParticipant } from '@chatovo/schemas';
 
 const EMPTY: RoomParticipant[] = [];

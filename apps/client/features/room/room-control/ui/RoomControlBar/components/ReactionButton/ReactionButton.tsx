@@ -4,11 +4,13 @@ import { useBoolean } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { SmilePlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui';
 import { QUICK_REACTIONS } from '../../../../config/reactions';
 import { useReactions } from '../../../../model/contexts';
-import s from '../ControlButton/ControlButton.module.scss';
 import { controlButtonToneClass } from '../ControlButton/control-button-tones';
+
+import s from '../ControlButton/ControlButton.module.scss';
 import sReaction from './ReactionButton.module.scss';
 
 export const ReactionButton = () => {

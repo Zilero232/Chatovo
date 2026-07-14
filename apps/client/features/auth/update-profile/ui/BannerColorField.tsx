@@ -4,7 +4,9 @@ import { clsx } from 'clsx';
 import { Palette } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { HexColorPicker } from 'react-colorful';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui';
+
+import { Popover, PopoverContent } from '@/shared/ui';
+
 import s from './UpdateProfileForm.module.scss';
 
 const PRESETS = ['#7c5cff', '#22d3ee', '#f43f5e', '#f59e0b', '#10b981', '#64748b'];
@@ -38,16 +40,14 @@ export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => 
         ))}
 
         <Popover>
-          <PopoverTrigger asChild>
-            <button
-              aria-label={t('bannerCustom')}
-              className={clsx(s.bannerCustomTrigger, isCustom && s.bannerSwatchActive)}
-              style={{ backgroundColor: isCustom ? current : undefined }}
-              type="button"
-            >
-              <Palette className={s.bannerCustomIcon} />
-            </button>
-          </PopoverTrigger>
+          <button
+            aria-label={t('bannerCustom')}
+            className={clsx(s.bannerCustomTrigger, isCustom && s.bannerSwatchActive)}
+            style={{ backgroundColor: isCustom ? current : undefined }}
+            type="button"
+          >
+            <Palette className={s.bannerCustomIcon} />
+          </button>
           <PopoverContent className={s.bannerPickerPopover}>
             <HexColorPicker color={current} onChange={onChange} />
           </PopoverContent>

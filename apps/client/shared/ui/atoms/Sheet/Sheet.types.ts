@@ -1,19 +1,42 @@
 import type { ComponentProps, ReactNode } from 'react';
-import type { ModalOverlayProps, DialogProps as RACDialogProps } from 'react-aria-components';
+import type {
+  Heading,
+  ModalOverlay,
+  ModalOverlayProps,
+  DialogProps as RACDialogProps,
+  Text,
+} from 'react-aria-components';
+import type { ButtonProps } from '../Button';
 
 export type SheetProps = Omit<ModalOverlayProps, 'children'> & {
   open?: boolean;
   children?: ReactNode;
 };
 
-export type SheetTriggerProps = ComponentProps<'button'> & {
-  asChild?: boolean;
-};
+export type SheetTriggerProps = ButtonProps;
 
 export type SheetContentProps = Omit<RACDialogProps, 'children'> & {
-  side?: 'bottom' | 'left' | 'right' | 'top';
+  side?: SheetSide;
   showCloseButton?: boolean;
   children?: ReactNode;
 };
 
-export type SheetSide = NonNullable<SheetContentProps['side']>;
+export type SheetSide = 'bottom' | 'left' | 'right' | 'top';
+
+export type SheetCloseProps = ButtonProps;
+
+export type SheetPortalProps = {
+  children?: ReactNode;
+};
+
+export type SheetOverlayProps = ComponentProps<'div'>;
+
+export type SheetHeaderProps = ComponentProps<'div'>;
+
+export type SheetFooterProps = ComponentProps<'div'>;
+
+export type SheetTitleProps = ComponentProps<typeof Heading>;
+
+export type SheetDescriptionProps = ComponentProps<typeof Text>;
+
+export type SheetModalOverlayProps = ComponentProps<typeof ModalOverlay>;

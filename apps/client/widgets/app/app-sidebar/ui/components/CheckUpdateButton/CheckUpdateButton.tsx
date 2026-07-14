@@ -3,8 +3,10 @@
 import { RefreshCw } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
+
 import { appEvents } from '@/shared/lib';
 import { IconButtonWithTooltip } from '@/shared/ui';
+
 import s from './CheckUpdateButton.module.scss';
 
 export const CheckUpdateButton = () => {

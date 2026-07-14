@@ -3,11 +3,13 @@
 import { Phone, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+
 import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
 import { useCallFriend } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 import { Button, Dialog, DialogContent, DialogTitle, Spinner } from '@/shared/ui';
 import { ChatConversation } from '@/widgets/chat/chat-panel';
+
 import s from './FriendChatDialog.module.scss';
 
 export const FriendChatDialog = () => {

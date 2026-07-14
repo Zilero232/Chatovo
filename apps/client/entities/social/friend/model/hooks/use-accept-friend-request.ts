@@ -1,6 +1,7 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
+
 import { acceptFriendRequest } from '@/shared/api';
 import { useInvalidateFriends } from './use-invalidate-friends';
 

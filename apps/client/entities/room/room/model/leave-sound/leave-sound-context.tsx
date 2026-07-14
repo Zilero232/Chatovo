@@ -1,6 +1,7 @@
 'use client';
 
 import { createContextHook, useAudio } from '@siberiacancode/reactuse';
+
 import type { ReactNode } from 'react';
 
 const useLeaveSoundValue = () => {

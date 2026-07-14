@@ -1,4 +1,5 @@
 import { resolveDisplayName } from '../users/profile';
+
 import type { ChatMessage } from '@chatovo/schemas';
 import type { Prisma } from '../../../generated';
 import type { senderSelect } from '../../lib';

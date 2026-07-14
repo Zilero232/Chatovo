@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useFieldError } from '@/entities/app/locale';
 import {
   type ProfileValues,
@@ -17,6 +18,7 @@ import { useAvatarDraft } from '../model/use-avatar-draft';
 import { AvatarField } from './AvatarField';
 import { BannerColorField } from './BannerColorField';
 import { ProfileTextField } from './ProfileTextField';
+
 import s from './UpdateProfileForm.module.scss';
 
 export const UpdateProfileForm = () => {

@@ -3,6 +3,7 @@
 import { useBoolean } from '@siberiacancode/reactuse';
 import { Plus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import {
   Button,
   Dialog,
@@ -13,6 +14,7 @@ import {
   DialogTrigger,
 } from '@/shared/ui';
 import { CreateRoomForm } from './CreateRoomForm';
+
 import type { ReactNode } from 'react';
 
 type CreateRoomDialogProps = {
@@ -25,7 +27,7 @@ export const CreateRoomDialog = ({ trigger }: CreateRoomDialogProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={toggleOpen}>
-      <DialogTrigger asChild>
+      <DialogTrigger>
         {trigger ?? (
           <Button type="button">
             <Plus />

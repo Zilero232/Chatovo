@@ -1,4 +1,5 @@
 import { api, readErrorMessage } from '../http';
+
 import type { UpdateProfilePayload, UserProfile } from '@chatovo/schemas';
 
 export const getUserProfile = async (id: string): Promise<UserProfile> => {

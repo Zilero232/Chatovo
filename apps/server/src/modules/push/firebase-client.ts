@@ -1,6 +1,8 @@
 import { cert, getApps, initializeApp } from 'firebase-admin/app';
 import { getMessaging } from 'firebase-admin/messaging';
+
 import { env } from '../../core';
+
 import type { ServiceAccount } from 'firebase-admin/app';
 import type { Message, Messaging, SendResponse } from 'firebase-admin/messaging';
 import type { PushTokensPayload } from './types';

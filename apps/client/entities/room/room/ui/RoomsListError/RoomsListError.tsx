@@ -3,8 +3,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { WifiOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { QUERY_KEYS } from '@/shared/constants';
 import { Button, CenteredState } from '@/shared/ui';
+
 import s from './RoomsListError.module.scss';
 
 export const RoomsListError = () => {

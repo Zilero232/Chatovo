@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect, useEffectEvent, useRef } from 'react';
 import { toast } from 'sonner';
+
 import { UserAvatar } from '@/entities/auth/user';
 import { useFriendCallRingtone, useOutgoingFriendCall } from '@/entities/social/friend';
 import { ackOutgoingFriendCall, cancelOutgoingFriendCall } from '@/shared/api';
@@ -18,6 +19,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui';
+
 import s from './OutgoingCallDialog.module.scss';
 
 export const OutgoingCallDialog = () => {

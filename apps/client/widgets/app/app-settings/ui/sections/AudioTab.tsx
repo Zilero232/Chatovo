@@ -3,14 +3,17 @@
 import { useTranslations } from 'next-intl';
 import { useId } from 'react';
 import { isNullish } from 'remeda';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { isTauriDesktop } from '@/shared/lib';
 import { RadioGroup, RadioGroupItem, Switch } from '@/shared/ui';
-import s from '../AppSettingsButton.module.scss';
 import { DeviceSelect } from '../components/DeviceSelect';
 import { MicTest } from '../components/MicTest';
 import { SensitivityControl } from '../components/SensitivityControl';
 import { SettingRow } from '../components/SettingRow';
+
+import s from '../AppSettingsButton.module.scss';
+
 import type { AudioSettings, MicActivationMode } from '@/entities/app/settings';
 
 type AudioTabProps = {

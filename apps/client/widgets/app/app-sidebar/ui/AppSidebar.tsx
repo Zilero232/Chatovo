@@ -2,9 +2,9 @@
 
 import { isTauri } from '@tauri-apps/api/core';
 import { clsx } from 'clsx';
+
 import { isTauriDesktop } from '@/shared/lib';
 import { FriendsDialog } from '@/widgets/social/friends-dialog';
-import s from './AppSidebar.module.scss';
 import {
   CheckUpdateButton,
   DownloadAppButton,
@@ -12,6 +12,9 @@ import {
   LogoutButton,
   ToggleChannelsButton,
 } from './components';
+
+import s from './AppSidebar.module.scss';
+
 import type { AppSidebarProps } from './AppSidebar.types';
 
 export const AppSidebar = ({

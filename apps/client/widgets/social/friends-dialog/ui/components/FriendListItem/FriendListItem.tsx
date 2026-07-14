@@ -2,15 +2,17 @@
 
 import { ChevronRight, MoreVertical, UserMinus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { UserAvatar, UserName } from '@/entities/auth/user';
 import {
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/ui';
+
 import s from './FriendListItem.module.scss';
+
 import type { FriendListItemProps } from './FriendListItem.types';
 
 export const FriendListItem = ({ user, dmUnread = 0, onOpen, onRemove }: FriendListItemProps) => {
@@ -37,16 +39,14 @@ export const FriendListItem = ({ user, dmUnread = 0, onOpen, onRemove }: FriendL
       </button>
 
       <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild>
-          <Button
-            aria-label={t('friendActions')}
-            className={s.menuTrigger}
-            size="icon-sm"
-            type="button"
-            variant="ghost"
-          >
-            <MoreVertical />
-          </Button>
+        <DropdownMenuTrigger
+          aria-label={t('friendActions')}
+          className={s.menuTrigger}
+          size="icon-sm"
+          type="button"
+          variant="ghost"
+        >
+          <MoreVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem className={s.menuItemDestructive} onClick={() => onRemove(user)}>

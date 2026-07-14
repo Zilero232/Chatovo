@@ -4,7 +4,9 @@ import { useFileDialog } from '@siberiacancode/reactuse';
 import { Camera } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+
 import { UserAvatar } from '@/entities/auth/user';
+
 import s from './UpdateProfileForm.module.scss';
 
 type AvatarFieldProps = {

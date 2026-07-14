@@ -5,8 +5,11 @@ import { isTauri } from '@tauri-apps/api/core';
 import { openUrl } from '@tauri-apps/plugin-opener';
 import { clsx } from 'clsx';
 import { FileIcon } from 'lucide-react';
+
 import { formatBytes } from '@/shared/lib/format-bytes';
+
 import s from './MessageAttachment.module.scss';
+
 import type { MouseEvent } from 'react';
 import type { MessageAttachmentProps } from './MessageAttachment.types';
 

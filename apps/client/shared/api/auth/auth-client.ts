@@ -1,5 +1,6 @@
 import { inferAdditionalFields } from 'better-auth/client/plugins';
 import { createAuthClient } from 'better-auth/react';
+
 import { env } from '@/shared/config';
 import { STORAGE_KEYS } from '@/shared/constants';
 

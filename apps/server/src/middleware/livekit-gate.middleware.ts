@@ -1,5 +1,6 @@
 import { PUBLIC_LIVEKIT_PATHS } from '../config/livekit';
 import { authMiddleware } from './auth.middleware';
+
 import type { MiddlewareHandler } from 'hono';
 
 export const livekitAuthMiddleware: MiddlewareHandler = (c, next) => {

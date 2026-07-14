@@ -2,7 +2,9 @@
 
 import { clsx } from 'clsx';
 import { Switch as RACSwitch } from 'react-aria-components';
+
 import s from './Switch.module.scss';
+
 import type { SwitchProps } from './Switch.types';
 
 const Switch = ({

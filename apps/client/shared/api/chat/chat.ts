@@ -1,4 +1,5 @@
 import { api, readErrorMessage } from '../http';
+
 import type { ChatAttachment, ChatMessage, ChatMessagesPage } from '@chatovo/schemas';
 
 export const editChatMessage = async (id: string, body: string): Promise<ChatMessage> => {

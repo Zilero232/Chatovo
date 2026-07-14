@@ -1,4 +1,5 @@
 import { Text } from 'react-email';
+
 import { BaseEmail } from './BaseEmail';
 import { emailStyles } from './email-styles';
 

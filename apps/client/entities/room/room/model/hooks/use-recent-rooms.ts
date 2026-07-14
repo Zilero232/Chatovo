@@ -1,6 +1,7 @@
 'use client';
 
 import { useLocalStorage } from '@siberiacancode/reactuse';
+
 import { STORAGE_KEYS } from '@/shared/constants';
 
 const MAX_RECENT = 6;

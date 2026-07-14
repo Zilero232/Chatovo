@@ -1,17 +1,15 @@
 import { clsx } from 'clsx';
+import { useId } from 'react';
+
+import {
+  centeredStateIconBoxVariants,
+  centeredStateTitleVariants,
+  centeredStateVariants,
+} from './CenteredState.variants';
+
 import s from './CenteredState.module.scss';
-import type { ReactNode } from 'react';
 
-type CenteredStateSize = 'sm' | 'md';
-
-type CenteredStateProps = {
-  icon?: ReactNode;
-  title: ReactNode;
-  description?: ReactNode;
-  action?: ReactNode;
-  size?: CenteredStateSize;
-  className?: string;
-};
+import type { CenteredStateProps } from './CenteredState.types';
 
 export const CenteredState = ({
   icon,
@@ -21,16 +19,29 @@ export const CenteredState = ({
   size = 'md',
   className,
 }: CenteredStateProps) => {
+  const titleId = useId();
+  const descriptionId = useId();
+
   return (
-    <div className={clsx(s.root, size === 'sm' ? s.sizeSm : s.sizeMd, className)}>
+    <section
+      aria-describedby={description ? descriptionId : undefined}
+      aria-labelledby={titleId}
+      className={centeredStateVariants({ size, className })}
+    >
       {icon && (
-        <div className={clsx('glass', s.iconBox, size === 'sm' ? s.iconBoxSm : s.iconBoxMd)}>
+        <div aria-hidden className={clsx('glass', centeredStateIconBoxVariants({ size }))}>
           {icon}
         </div>
       )}
-      <h2 className={clsx(s.title, size === 'sm' ? s.titleSm : s.titleMd)}>{title}</h2>
-      {description && <p className={s.description}>{description}</p>}
+      <h2 className={centeredStateTitleVariants({ size })} id={titleId}>
+        {title}
+      </h2>
+      {description && (
+        <p className={s.description} id={descriptionId}>
+          {description}
+        </p>
+      )}
       {action && <div className={s.action}>{action}</div>}
-    </div>
+    </section>
   );
 };

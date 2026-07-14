@@ -2,9 +2,11 @@
 
 import { createContextHook } from '@siberiacancode/reactuse';
 import { useRef, useState } from 'react';
+
 import { useRealtime, useRealtimeMessage } from '@/entities/app/realtime';
 import { useCurrentUser } from '@/entities/auth/user';
 import { appEvents } from '@/shared/lib';
+
 import type { ReactNode } from 'react';
 
 export type FloatingReaction = {

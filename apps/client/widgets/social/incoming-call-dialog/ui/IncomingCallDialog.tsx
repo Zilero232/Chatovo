@@ -4,6 +4,7 @@ import { Phone, PhoneOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+
 import { UserAvatar } from '@/entities/auth/user';
 import {
   useAcceptIncomingFriendCall,
@@ -20,6 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui';
+
 import s from './IncomingCallDialog.module.scss';
 
 export const IncomingCallDialog = () => {

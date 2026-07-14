@@ -1,6 +1,7 @@
 {
   "common": {
     "or": "или",
+    "close": "Закрыть",
     "loading": "Загрузка...",
     "showPassword": "Показать пароль",
     "hidePassword": "Скрыть пароль"

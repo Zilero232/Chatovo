@@ -1,8 +1,10 @@
 'use client';
 
 import { clsx } from 'clsx';
+
 import { useCurrentUser } from '@/entities/auth/user';
 import { LanguageSwitcher } from '@/widgets/app/language-switcher';
+
 import s from './ChannelsHeader.module.scss';
 
 type ChannelsHeaderProps = {

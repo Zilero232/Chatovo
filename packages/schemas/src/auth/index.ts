@@ -7,6 +7,7 @@ export {
   signInSchema,
   signUpSchema,
 } from './inputs';
+
 export type {
   ChangeEmailValues,
   ChangePasswordValues,

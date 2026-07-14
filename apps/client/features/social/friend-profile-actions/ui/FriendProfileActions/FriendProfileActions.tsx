@@ -2,8 +2,10 @@
 
 import { useFriendshipRelation } from '@/entities/social/friend';
 import { Spinner } from '@/shared/ui';
-import s from './FriendProfileActions.module.scss';
 import { FriendProfileActionsBody } from './FriendProfileActionsBody';
+
+import s from './FriendProfileActions.module.scss';
+
 import type { FriendProfileActionsProps } from './FriendProfileActions.types';
 
 export const FriendProfileActions = ({

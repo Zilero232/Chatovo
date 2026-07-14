@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronDownIcon } from 'lucide-react';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,6 +9,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@/shared/ui';
+
 import s from '../AppSettingsButton.module.scss';
 
 type QualityOption<T extends string> = {

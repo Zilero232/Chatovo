@@ -2,9 +2,11 @@
 
 import { clsx } from 'clsx';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 import { useNavHistory } from '@/shared/hooks';
 import { useWindowControls, useWindowPlatform } from '../../model/hooks';
 import { TitleBarControls } from './components';
+
 import s from './TitleBar.module.scss';
 
 export const TitleBar = () => {

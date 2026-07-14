@@ -4,6 +4,7 @@ import { useLocalParticipant, useRoomContext } from '@livekit/components-react';
 import { useAudio, usePrevious } from '@siberiacancode/reactuse';
 import { ParticipantEvent, RoomEvent, Track, type TrackPublication } from 'livekit-client';
 import { useEffect, useRef } from 'react';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { useLeaveSound } from '@/entities/room/room';
 import { useDeafen } from '@/features/room/room-control';

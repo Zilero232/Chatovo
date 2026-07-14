@@ -3,7 +3,9 @@
 import { useBoolean } from '@siberiacancode/reactuse';
 import { Info } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { DownloadAppDialog } from '@/features/app/download-app';
+
 import s from '../AppSettingsButton.module.scss';
 
 export const WebNotice = () => {

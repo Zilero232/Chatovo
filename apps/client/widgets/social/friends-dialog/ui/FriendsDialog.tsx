@@ -5,6 +5,7 @@ import { UserPlus, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
+
 import { useCurrentUser } from '@/entities/auth/user';
 import { useIncomingFriendRequests, useSendFriendRequest } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
@@ -24,6 +25,7 @@ import {
   TabsTrigger,
 } from '@/shared/ui';
 import { FriendsTab, RequestsTab } from './components';
+
 import s from './FriendsDialog.module.scss';
 
 export const FriendsDialog = () => {

@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { filter } from 'remeda';
+
 import { deleteRoom } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
+
 import type { Room } from '@chatovo/schemas';
 
 export const useDeleteRoom = () => {

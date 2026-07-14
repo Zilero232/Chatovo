@@ -1,8 +1,10 @@
 import { Inter, JetBrains_Mono } from 'next/font/google';
+
 import { SITE } from '@/shared/config';
 import { getTauriMobileHmrShim } from '@/shared/lib/tauri-mobile-hmr-shim';
 import { JsonLdScript } from '@/shared/seo';
 import { Providers } from './providers';
+
 import type { ReactNode } from 'react';
 
 import './globals.scss';

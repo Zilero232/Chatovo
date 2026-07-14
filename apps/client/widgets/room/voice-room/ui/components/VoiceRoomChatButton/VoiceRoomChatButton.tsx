@@ -3,9 +3,12 @@
 import { clsx } from 'clsx';
 import { MessageSquare } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { Button } from '@/shared/ui';
 import { useChatUnread } from '@/widgets/chat/chat-panel';
+
 import s from './VoiceRoomChatButton.module.scss';
+
 import type { VoiceRoomChatButtonProps } from './VoiceRoomChatButton.types';
 
 export const VoiceRoomChatButton = ({ roomId, isOpen, onToggle }: VoiceRoomChatButtonProps) => {

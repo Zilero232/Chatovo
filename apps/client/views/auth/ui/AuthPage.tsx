@@ -4,12 +4,14 @@ import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { match } from 'ts-pattern';
+
 import { ForgotPasswordForm } from '@/features/auth/forgot-password';
 import { SignInForm } from '@/features/auth/sign-in';
 import { SignUpForm } from '@/features/auth/sign-up';
 import { AuthBackground, LogoMark } from '@/shared/ui';
-import s from './AuthPage.module.scss';
 import { AuthBrandPanel, AuthLegalFooter } from './components';
+
+import s from './AuthPage.module.scss';
 
 type AuthMode = 'signin' | 'signup' | 'forgot';
 

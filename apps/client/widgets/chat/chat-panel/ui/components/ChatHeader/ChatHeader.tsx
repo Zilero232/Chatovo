@@ -3,8 +3,11 @@
 import { clsx } from 'clsx';
 import { MessageSquare, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { Button } from '@/shared/ui';
+
 import s from './ChatHeader.module.scss';
+
 import type { ChatHeaderProps } from './ChatHeader.types';
 
 export const ChatHeader = ({ onClose }: ChatHeaderProps) => {

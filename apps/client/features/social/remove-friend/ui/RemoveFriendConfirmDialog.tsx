@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+
 import { useRemoveFriendship } from '@/entities/social/friend';
 import { ConfirmDialog } from '@/shared/ui';
 

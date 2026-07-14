@@ -1,4 +1,5 @@
 import { filter, map, pipe } from 'remeda';
+
 import { env } from '../core';
 
 // Web client origins come from env (comma-separated); Tauri origins are always

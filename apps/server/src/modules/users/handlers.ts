@@ -1,5 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
+
 import { getUserProfile, updateProfile } from './users.service';
+
 import type { RouteHandler } from '@hono/zod-openapi';
 import type { Env } from '../../shared/types';
 import type { getUserProfileRoute, updateProfileRoute } from './routes';

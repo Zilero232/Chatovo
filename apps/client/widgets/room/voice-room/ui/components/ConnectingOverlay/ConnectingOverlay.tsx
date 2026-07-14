@@ -5,8 +5,11 @@ import { clsx } from 'clsx';
 import { ConnectionState } from 'livekit-client';
 import { useTranslations } from 'next-intl';
 import { match } from 'ts-pattern';
+
 import { Spinner } from '@/shared/ui';
+
 import s from './ConnectingOverlay.module.scss';
+
 import type { ConnectingOverlayProps } from './ConnectingOverlay.types';
 
 export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {

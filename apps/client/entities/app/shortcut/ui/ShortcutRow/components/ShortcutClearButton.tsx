@@ -3,7 +3,9 @@
 import { clsx } from 'clsx';
 import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { Button } from '@/shared/ui';
+
 import s from '../ShortcutRow.module.scss';
 
 type ShortcutClearButtonProps = {

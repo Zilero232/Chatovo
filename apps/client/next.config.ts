@@ -1,6 +1,8 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 import rootPackage from '../../package.json' with { type: 'json' };
+
 import type { NextConfig } from 'next';
 
 const clientRoot = path.dirname(fileURLToPath(import.meta.url));

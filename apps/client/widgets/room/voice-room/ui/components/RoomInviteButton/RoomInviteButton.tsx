@@ -5,10 +5,13 @@ import { clsx } from 'clsx';
 import { Check, Link2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
+
 import { buildRoomHref } from '@/shared/constants';
 import { buildPublicAppUrl } from '@/shared/lib/app-url';
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+
 import s from './RoomInviteButton.module.scss';
+
 import type { RoomInviteButtonProps } from './RoomInviteButton.types';
 
 const COPIED_RESET_MS = 2000;
@@ -42,7 +45,7 @@ export const RoomInviteButton = ({ roomId, size = 'lg' }: RoomInviteButtonProps)
 
   return (
     <Tooltip>
-      <TooltipTrigger asChild>
+      <TooltipTrigger>
         <Button
           aria-label={copied ? t('linkCopied') : t('copyLink')}
           className={clsx(

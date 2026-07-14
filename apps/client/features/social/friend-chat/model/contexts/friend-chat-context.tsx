@@ -6,11 +6,13 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useEffectEvent, useState } from 'react';
 import { sum, values } from 'remeda';
 import { toast } from 'sonner';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { useCurrentUser } from '@/entities/auth/user';
 import { getOrCreateFriendDmRoom } from '@/shared/api';
 import { useActiveVoiceRoomId, useCloseWhenInVoiceRoom } from '@/shared/hooks';
 import { appEvents } from '@/shared/lib';
+
 import type { ReactNode } from 'react';
 import type { FriendChatPeer, FriendChatSession } from '../types';
 

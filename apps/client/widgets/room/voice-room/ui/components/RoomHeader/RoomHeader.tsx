@@ -2,9 +2,12 @@
 
 import { clsx } from 'clsx';
 import { AudioLines } from 'lucide-react';
+
 import { ConnectionIndicator } from '../ConnectionIndicator';
 import { RoomInviteButton } from '../RoomInviteButton';
+
 import s from './RoomHeader.module.scss';
+
 import type { RoomHeaderProps } from './RoomHeader.types';
 
 export const RoomHeader = ({ name, roomId, isDm = false }: RoomHeaderProps) => {

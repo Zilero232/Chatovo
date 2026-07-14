@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useFieldError } from '@/entities/app/locale';
 import {
   type ChangePasswordValues,
@@ -12,6 +13,7 @@ import {
   useChangePassword,
 } from '@/entities/auth/user';
 import { Button, Input, Label } from '@/shared/ui';
+
 import s from './ChangePasswordForm.module.scss';
 
 export const ChangePasswordForm = () => {

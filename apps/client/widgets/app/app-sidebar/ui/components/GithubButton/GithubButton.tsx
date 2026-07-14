@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+
 import { EXTERNAL_LINKS } from '@/shared/constants';
 import { Button, GithubIcon, Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
 
@@ -9,11 +10,16 @@ export const GithubButton = () => {
 
   return (
     <Tooltip>
-      <TooltipTrigger asChild>
-        <Button aria-label={t('githubLabel')} asChild size="icon" variant="ghost">
-          <a href={EXTERNAL_LINKS.repository} rel="noopener noreferrer" target="_blank">
-            <GithubIcon />
-          </a>
+      <TooltipTrigger>
+        <Button
+          aria-label={t('githubLabel')}
+          href={EXTERNAL_LINKS.repository}
+          rel="noopener noreferrer"
+          size="icon"
+          target="_blank"
+          variant="ghost"
+        >
+          <GithubIcon />
         </Button>
       </TooltipTrigger>
       <TooltipContent side="right">{t('github')}</TooltipContent>

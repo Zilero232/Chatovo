@@ -5,6 +5,7 @@ import { Paperclip } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Fragment } from 'react';
 import { isEmpty, sortBy } from 'remeda';
+
 import { useRealtimeSubscribe } from '@/entities/app/realtime';
 import { useChatFiles, useChatHistory, useChatSend, useChatSync } from '../../model/hooks';
 import { groupChatLines } from '../../model/lib';
@@ -15,7 +16,9 @@ import {
   ChatMessageItem,
   DateDivider,
 } from '../components';
+
 import s from './ChatConversation.module.scss';
+
 import type { Ref } from 'react';
 import type { ChatConversationProps } from './ChatConversation.types';
 

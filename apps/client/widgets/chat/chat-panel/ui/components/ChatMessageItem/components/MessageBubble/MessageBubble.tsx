@@ -2,10 +2,13 @@
 
 import { isImageMime } from '@chatovo/schemas';
 import { clsx } from 'clsx';
+
 import { MessageAttachment } from '../MessageAttachment';
 import { MessageContent } from '../MessageContent';
 import { MessageContextMenu } from '../MessageContextMenu';
+
 import s from './MessageBubble.module.scss';
+
 import type { MessageBubbleProps } from './MessageBubble.types';
 
 export const MessageBubble = ({

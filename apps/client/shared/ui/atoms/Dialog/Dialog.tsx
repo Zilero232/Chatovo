@@ -1,35 +1,38 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { XIcon } from 'lucide-react';
-import {
-  Children,
-  type ComponentProps,
-  cloneElement,
-  createContext,
-  isValidElement,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { useTranslations } from 'next-intl';
+import { createContext, useContext, useEffect, useState } from 'react';
 import {
   Heading,
   Modal,
-  ModalOverlay,
   OverlayTriggerStateContext,
   Dialog as RACDialog,
   DialogTrigger as RACDialogTrigger,
   Text,
 } from 'react-aria-components';
-import { shouldKeepDialogOpen } from '@/shared/lib/nested-overlay';
-import { findChildByType } from '../../lib/overlay-children';
-import { Button } from '../Button';
-import s from './Dialog.module.scss';
-import type { DialogContentProps, DialogProps, DialogTriggerProps } from './Dialog.types';
 
-type DialogOverlayContextValue = {
-  setOverlayClassName: (className?: string) => void;
-};
+import { shouldKeepDialogOpen } from '@/shared/lib/nested-overlay';
+import { wrapOverlayContent } from '../../lib/wrap-overlay-content';
+import { OverlayCloseButton } from '../../molecules/OverlayCloseButton';
+import { Button } from '../Button';
+
+import s from './Dialog.module.scss';
+
+import type {
+  DialogCloseProps,
+  DialogContentProps,
+  DialogDescriptionProps,
+  DialogFooterProps,
+  DialogHeaderProps,
+  DialogModalOverlayProps,
+  DialogOverlayContextValue,
+  DialogOverlayProps,
+  DialogPortalProps,
+  DialogProps,
+  DialogTitleProps,
+  DialogTriggerProps,
+} from './Dialog.types';
 
 const DialogOverlayContext = createContext<DialogOverlayContextValue | null>(null);
 
@@ -44,70 +47,47 @@ const Dialog = ({
   ...props
 }: DialogProps) => {
   const [overlayClassName, setOverlayClassName] = useState<string>();
-  const triggerChild = findChildByType(children, DialogTrigger);
-  const contentChild = findChildByType(children, DialogContent);
   const isControlled = open !== undefined;
 
   const overlayProps = {
     className: clsx(s.overlay, overlayClassName, className),
-    'data-slot': 'dialog',
-    defaultOpen,
     isDismissable: disablePointerDismissal === true ? false : (isDismissable ?? true),
-    shouldCloseOnInteractOutside: (element: Element) => !shouldKeepDialogOpen(element),
-    onOpenChange,
+    shouldCloseOnInteractOutside: (element: Element) => {
+      return !shouldKeepDialogOpen(element);
+    },
     ...props,
-    ...(isControlled ? { isOpen: open } : {}),
-  };
-
-  const overlay = (
-    <ModalOverlay {...overlayProps}>
-      {contentChild ?? Children.toArray(children).filter((child) => child !== triggerChild)}
-    </ModalOverlay>
-  );
-
-  const provider = (
-    <DialogOverlayContext.Provider value={{ setOverlayClassName }}>
-      {isControlled || !triggerChild ? (
-        overlay
-      ) : (
-        <RACDialogTrigger
-          data-slot="dialog-root"
-          defaultOpen={defaultOpen}
-          onOpenChange={onOpenChange}
-        >
-          {triggerChild}
-          {overlay}
-        </RACDialogTrigger>
-      )}
-    </DialogOverlayContext.Provider>
-  );
-
-  return provider;
-};
-
-const DialogTrigger = ({ asChild, children, className, ...props }: DialogTriggerProps) => {
-  if (asChild && isValidElement(children)) {
-    const childClassName = (children.props as { className?: string }).className;
-
-    return cloneElement(children, {
-      ...props,
-      className: clsx(className, childClassName),
-      'data-slot': 'dialog-trigger',
-    } as Record<string, unknown>);
-  }
+  } as DialogModalOverlayProps;
 
   return (
-    <button className={className} data-slot="dialog-trigger" type="button" {...props}>
-      {children}
-    </button>
+    <DialogOverlayContext.Provider value={{ setOverlayClassName }}>
+      <RACDialogTrigger
+        data-slot="dialog-root"
+        defaultOpen={defaultOpen}
+        isOpen={isControlled ? open : undefined}
+        onOpenChange={onOpenChange}
+      >
+        {wrapOverlayContent({
+          children,
+          contentComponent: DialogContent,
+          overlayProps,
+          dataSlot: 'dialog',
+        })}
+      </RACDialogTrigger>
+    </DialogOverlayContext.Provider>
   );
 };
 
-const DialogPortal = ({ children }: { children?: React.ReactNode }) => <>{children}</>;
+const DialogTrigger = ({ className, ...props }: DialogTriggerProps) => {
+  return <Button className={className} data-slot="dialog-trigger" {...props} />;
+};
 
-const DialogOverlay = ({ className, ...props }: ComponentProps<'div'>) => (
-  <div className={clsx(s.overlay, className)} data-slot="dialog-overlay" {...props} />
-);
+const DialogPortal = ({ children }: DialogPortalProps) => {
+  return <>{children}</>;
+};
+
+const DialogOverlay = ({ className, ...props }: DialogOverlayProps) => {
+  return <div className={clsx(s.overlay, className)} data-slot="dialog-overlay" {...props} />;
+};
 
 const DialogContent = ({
   className,
@@ -136,17 +116,7 @@ const DialogContent = ({
         {({ close }) => (
           <>
             {children}
-            {showCloseButton && (
-              <Button
-                aria-label="Close"
-                className={s.close}
-                size="icon-xs"
-                variant="ghost"
-                onPress={close}
-              >
-                <XIcon />
-              </Button>
-            )}
+            {showCloseButton && <OverlayCloseButton className={s.close} onPress={close} />}
           </>
         )}
       </RACDialog>
@@ -154,18 +124,17 @@ const DialogContent = ({
   );
 };
 
-const DialogHeader = ({ className, ...props }: ComponentProps<'div'>) => (
-  <div className={clsx(s.header, className)} data-slot="dialog-header" {...props} />
-);
+const DialogHeader = ({ className, ...props }: DialogHeaderProps) => {
+  return <div className={clsx(s.header, className)} data-slot="dialog-header" {...props} />;
+};
 
 const DialogFooter = ({
   className,
   showCloseButton = false,
   children,
   ...props
-}: ComponentProps<'div'> & {
-  showCloseButton?: boolean;
-}) => {
+}: DialogFooterProps) => {
+  const t = useTranslations('common');
   const state = useContext(OverlayTriggerStateContext);
 
   return (
@@ -173,31 +142,35 @@ const DialogFooter = ({
       {children}
       {showCloseButton && (
         <Button variant="outline" onPress={() => state?.close()}>
-          Close
+          {t('close')}
         </Button>
       )}
     </div>
   );
 };
 
-const DialogTitle = ({ className, children, ...props }: ComponentProps<typeof Heading>) => (
-  <Heading className={clsx(s.title, className)} data-slot="dialog-title" slot="title" {...props}>
-    {children}
-  </Heading>
-);
+const DialogTitle = ({ className, children, ...props }: DialogTitleProps) => {
+  return (
+    <Heading className={clsx(s.title, className)} data-slot="dialog-title" slot="title" {...props}>
+      {children}
+    </Heading>
+  );
+};
 
-const DialogDescription = ({ className, children, ...props }: ComponentProps<typeof Text>) => (
-  <Text
-    className={clsx(s.description, className)}
-    data-slot="dialog-description"
-    slot="description"
-    {...props}
-  >
-    {children}
-  </Text>
-);
+const DialogDescription = ({ className, children, ...props }: DialogDescriptionProps) => {
+  return (
+    <Text
+      className={clsx(s.description, className)}
+      data-slot="dialog-description"
+      slot="description"
+      {...props}
+    >
+      {children}
+    </Text>
+  );
+};
 
-const DialogClose = ({ className, children, ...props }: ComponentProps<typeof Button>) => {
+const DialogClose = ({ className, children, ...props }: DialogCloseProps) => {
   const state = useContext(OverlayTriggerStateContext);
 
   return (

@@ -2,18 +2,7 @@
 
 import { clsx } from 'clsx';
 import { CheckIcon, ChevronRightIcon, CircleIcon } from 'lucide-react';
-import {
-  type ComponentProps,
-  cloneElement,
-  createContext,
-  isValidElement,
-  type MouseEvent,
-  type ReactNode,
-  type Ref,
-  useContext,
-  useRef,
-  useState,
-} from 'react';
+import { createContext, useContext, useRef, useState } from 'react';
 import {
   Menu,
   MenuItem,
@@ -23,190 +12,142 @@ import {
   Separator,
   SubmenuTrigger,
 } from 'react-aria-components';
-import { findChildByType } from '../../lib/overlay-children';
+
+import { mapMenuItemHandlers } from '../../lib/map-menu-item-handlers';
+
 import s from './ContextMenu.module.scss';
+
+import type { MenuRadioGroupContextValue } from '../../lib/menu-types';
 import type {
   ContextMenuCheckboxItemProps,
   ContextMenuContentProps,
+  ContextMenuContextValue,
+  ContextMenuGroupProps,
   ContextMenuItemProps,
   ContextMenuLabelProps,
+  ContextMenuPortalProps,
   ContextMenuProps,
   ContextMenuRadioGroupProps,
   ContextMenuRadioItemProps,
+  ContextMenuSeparatorProps,
+  ContextMenuShortcutProps,
   ContextMenuSubContentProps,
+  ContextMenuSubProps,
   ContextMenuSubTriggerProps,
   ContextMenuTriggerProps,
 } from './ContextMenu.types';
 
-type MenuRadioGroupContextValue = {
-  value?: string;
-  onValueChange?: (value: string) => void;
-};
-
 const MenuRadioGroupContext = createContext<MenuRadioGroupContextValue | null>(null);
-
-const mergeRefs =
-  <T,>(...refs: Array<Ref<T> | undefined>) =>
-  (value: T | null) => {
-    for (const ref of refs) {
-      if (!ref) {
-        continue;
-      }
-
-      if (typeof ref === 'function') {
-        ref(value);
-        continue;
-      }
-
-      ref.current = value;
-    }
-  };
-
-const mapMenuItemHandlers = (
-  onSelect: ContextMenuItemProps['onSelect'],
-  onClick: ContextMenuItemProps['onClick'],
-  closeOnClick?: boolean,
-) => {
-  const shouldCloseOnSelect = closeOnClick ?? true;
-
-  if (!onSelect) {
-    return {
-      onAction: onClick
-        ? () => {
-            onClick({} as MouseEvent<HTMLDivElement>);
-          }
-        : undefined,
-      shouldCloseOnSelect,
-    };
-  }
-
-  return {
-    shouldCloseOnSelect,
-    onAction: () => {
-      let prevented = false;
-      onSelect({
-        preventDefault: () => {
-          prevented = true;
-        },
-      });
-
-      if (!prevented) {
-        onClick?.({} as MouseEvent<HTMLDivElement>);
-      }
-    },
-  };
-};
+const ContextMenuContext = createContext<ContextMenuContextValue | null>(null);
 
 const ContextMenu = ({ children }: ContextMenuProps) => {
   const [open, setOpen] = useState(false);
-  const triggerRef = useRef<HTMLElement>(null);
-  const triggerChild = findChildByType(children, ContextMenuTrigger);
-  const contentChild = findChildByType(children, ContextMenuContent);
-
-  const trigger = triggerChild
-    ? cloneElement(triggerChild, {
-        ref: mergeRefs(triggerRef, (triggerChild.props as { ref?: Ref<HTMLElement> }).ref),
-        onContextMenu: (event: MouseEvent<HTMLElement>) => {
-          event.preventDefault();
-          setOpen(true);
-          (
-            triggerChild.props as { onContextMenu?: (event: MouseEvent<HTMLElement>) => void }
-          ).onContextMenu?.(event);
-        },
-      } as Record<string, unknown>)
-    : null;
-
-  const content = contentChild
-    ? cloneElement(contentChild, { triggerRef } as Record<string, unknown>)
-    : null;
+  const triggerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <MenuTrigger data-slot="context-menu" isOpen={open} onOpenChange={setOpen}>
-      {trigger}
-      {content}
-    </MenuTrigger>
+    <ContextMenuContext.Provider value={{ triggerRef, setOpen }}>
+      <MenuTrigger data-slot="context-menu" isOpen={open} onOpenChange={setOpen}>
+        {children}
+      </MenuTrigger>
+    </ContextMenuContext.Provider>
   );
 };
 
 const ContextMenuTrigger = ({
-  asChild,
-  children,
   className,
+  children,
+  onContextMenu,
   ...props
 }: ContextMenuTriggerProps) => {
-  if (asChild && isValidElement(children)) {
-    const childClassName = (children.props as { className?: string }).className;
-
-    return cloneElement(children, {
-      ...props,
-      className: clsx(className, childClassName),
-      'data-slot': 'context-menu-trigger',
-    } as Record<string, unknown>);
-  }
+  const context = useContext(ContextMenuContext);
 
   return (
-    <div className={className} data-slot="context-menu-trigger" {...props}>
+    // biome-ignore lint/a11y/noStaticElementInteractions: right-click target for context menu
+    <div
+      ref={context?.triggerRef}
+      aria-haspopup="menu"
+      className={className}
+      data-slot="context-menu-trigger"
+      onContextMenu={(event) => {
+        event.preventDefault();
+        context?.setOpen(true);
+        onContextMenu?.(event);
+      }}
+      {...props}
+    >
       {children}
     </div>
   );
 };
 
-const ContextMenuGroup = ({
-  className,
-  children,
-  ...props
-}: ComponentProps<typeof MenuSection>) => (
-  <MenuSection className={className} data-slot="context-menu-group" {...props}>
-    {children}
-  </MenuSection>
-);
+const ContextMenuGroup = ({ className, children, ...props }: ContextMenuGroupProps) => {
+  return (
+    <MenuSection className={className} data-slot="context-menu-group" {...props}>
+      {children}
+    </MenuSection>
+  );
+};
 
-const ContextMenuPortal = ({ children }: { children?: ReactNode }) => <>{children}</>;
+const ContextMenuPortal = ({ children }: ContextMenuPortalProps) => {
+  return <>{children}</>;
+};
 
-const ContextMenuSub = ({ children, ...props }: ComponentProps<typeof SubmenuTrigger>) => (
-  <SubmenuTrigger data-slot="context-menu-sub" {...props}>
-    {children}
-  </SubmenuTrigger>
-);
+const ContextMenuSub = ({ children, ...props }: ContextMenuSubProps) => {
+  return (
+    <SubmenuTrigger data-slot="context-menu-sub" {...props}>
+      {children}
+    </SubmenuTrigger>
+  );
+};
 
-const ContextMenuRadioGroup = ({ value, onValueChange, children }: ContextMenuRadioGroupProps) => (
-  <MenuRadioGroupContext.Provider value={{ value, onValueChange }}>
-    {children}
-  </MenuRadioGroupContext.Provider>
-);
+const ContextMenuRadioGroup = ({ value, onValueChange, children }: ContextMenuRadioGroupProps) => {
+  return (
+    <MenuRadioGroupContext.Provider value={{ value, onValueChange }}>
+      {children}
+    </MenuRadioGroupContext.Provider>
+  );
+};
 
 const ContextMenuSubTrigger = ({
   className,
   inset,
   children,
   ...props
-}: ContextMenuSubTriggerProps) => (
-  <MenuItem
-    className={clsx(s.subTrigger, className)}
-    data-inset={inset}
-    data-slot="context-menu-sub-trigger"
-    {...props}
-  >
-    {children}
-    <ChevronRightIcon className={s.subTriggerChevron} />
-  </MenuItem>
-);
-
-const ContextMenuSubContent = ({ className, children }: ContextMenuSubContentProps) => (
-  <Popover>
-    <Menu className={clsx(s.subPopup, className)} data-slot="context-menu-sub-content">
+}: ContextMenuSubTriggerProps) => {
+  return (
+    <MenuItem
+      className={clsx(s.subTrigger, className)}
+      data-inset={inset}
+      data-slot="context-menu-sub-trigger"
+      {...props}
+    >
       {children}
-    </Menu>
-  </Popover>
-);
+      <ChevronRightIcon className={s.subTriggerChevron} />
+    </MenuItem>
+  );
+};
 
-const ContextMenuContent = ({ className, children, triggerRef }: ContextMenuContentProps) => (
-  <Popover triggerRef={triggerRef}>
-    <Menu className={clsx(s.popup, className)} data-slot="context-menu-content">
-      {children}
-    </Menu>
-  </Popover>
-);
+const ContextMenuSubContent = ({ className, children }: ContextMenuSubContentProps) => {
+  return (
+    <Popover>
+      <Menu className={clsx(s.subPopup, className)} data-slot="context-menu-sub-content">
+        {children}
+      </Menu>
+    </Popover>
+  );
+};
+
+const ContextMenuContent = ({ className, children }: ContextMenuContentProps) => {
+  const context = useContext(ContextMenuContext);
+
+  return (
+    <Popover triggerRef={context?.triggerRef}>
+      <Menu className={clsx(s.popup, className)} data-slot="context-menu-content">
+        {children}
+      </Menu>
+    </Popover>
+  );
+};
 
 const ContextMenuItem = ({
   className,
@@ -217,7 +158,7 @@ const ContextMenuItem = ({
   closeOnClick,
   ...props
 }: ContextMenuItemProps) => {
-  const handlers = mapMenuItemHandlers(onSelect, onClick, closeOnClick);
+  const handlers = mapMenuItemHandlers({ onSelect, onClick, closeOnClick });
 
   return (
     <MenuItem
@@ -238,17 +179,19 @@ const ContextMenuCheckboxItem = ({
   checked,
   onCheckedChange,
   ...props
-}: ContextMenuCheckboxItemProps) => (
-  <MenuItem
-    className={clsx(s.checkboxItem, className)}
-    data-slot="context-menu-checkbox-item"
-    onAction={() => onCheckedChange?.(!checked)}
-    {...props}
-  >
-    <span className={s.itemIndicator}>{checked ? <CheckIcon /> : null}</span>
-    {children}
-  </MenuItem>
-);
+}: ContextMenuCheckboxItemProps) => {
+  return (
+    <MenuItem
+      className={clsx(s.checkboxItem, className)}
+      data-slot="context-menu-checkbox-item"
+      onAction={() => onCheckedChange?.(!checked)}
+      {...props}
+    >
+      <span className={s.itemIndicator}>{checked ? <CheckIcon /> : null}</span>
+      {children}
+    </MenuItem>
+  );
+};
 
 const ContextMenuRadioItem = ({
   className,
@@ -275,26 +218,32 @@ const ContextMenuRadioItem = ({
   );
 };
 
-const ContextMenuLabel = ({ className, inset, ...props }: ContextMenuLabelProps) => (
-  <div
-    className={clsx(s.label, className)}
-    data-inset={inset}
-    data-slot="context-menu-label"
-    {...props}
-  />
-);
+const ContextMenuLabel = ({ className, inset, ...props }: ContextMenuLabelProps) => {
+  return (
+    <div
+      className={clsx(s.label, className)}
+      data-inset={inset}
+      data-slot="context-menu-label"
+      {...props}
+    />
+  );
+};
 
-const ContextMenuSeparator = ({ className, ...props }: ComponentProps<typeof Separator>) => (
-  <Separator
-    className={clsx(s.separator, className)}
-    data-slot="context-menu-separator"
-    {...props}
-  />
-);
+const ContextMenuSeparator = ({ className, ...props }: ContextMenuSeparatorProps) => {
+  return (
+    <Separator
+      className={clsx(s.separator, className)}
+      data-slot="context-menu-separator"
+      {...props}
+    />
+  );
+};
 
-const ContextMenuShortcut = ({ className, ...props }: ComponentProps<'span'>) => (
-  <span className={clsx(s.shortcut, className)} data-slot="context-menu-shortcut" {...props} />
-);
+const ContextMenuShortcut = ({ className, ...props }: ContextMenuShortcutProps) => {
+  return (
+    <span className={clsx(s.shortcut, className)} data-slot="context-menu-shortcut" {...props} />
+  );
+};
 
 export {
   ContextMenu,

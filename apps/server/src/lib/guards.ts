@@ -1,9 +1,11 @@
 import { HTTPException } from 'hono/http-exception';
 import { StatusCodes } from 'http-status-codes';
 import { isNullish } from 'remeda';
+
 import { prisma } from '../core';
 import { resolveDisplayName } from '../modules/users/profile';
 import { userWithProfileInclude } from './selectors';
+
 import type { UserWithProfile } from '../modules/users/profile';
 
 export const assertRoomExists = async (roomId: string): Promise<void> => {

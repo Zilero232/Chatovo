@@ -6,9 +6,11 @@ import { useTranslations } from 'next-intl';
 import { type ReactNode, useState } from 'react';
 import { isEmpty as isEmptyList } from 'remeda';
 import { match } from 'ts-pattern';
+
 import { groupRooms, RoomsListError, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { CenteredState, ScrollArea, Skeleton } from '@/shared/ui';
 import { ChannelsRoomItem } from '../ChannelsRoomItem';
+
 import s from './ChannelsList.module.scss';
 
 const CHANNELS_SKELETON_KEYS = ['a', 'b', 'c', 'd', 'e'] as const;

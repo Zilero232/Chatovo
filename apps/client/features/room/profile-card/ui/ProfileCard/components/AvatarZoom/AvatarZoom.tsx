@@ -1,8 +1,11 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/shared/ui';
+
 import s from './AvatarZoom.module.scss';
+
 import type { AvatarZoomProps } from './AvatarZoom.types';
 
 export const AvatarZoom = ({ src, name, children }: AvatarZoomProps) => {

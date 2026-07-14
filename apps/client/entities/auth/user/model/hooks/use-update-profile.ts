@@ -2,6 +2,7 @@
 
 import { type ProfileValues, profileSchema, type UpdateProfileInput } from '@chatovo/schemas';
 import { useMutation } from '@tanstack/react-query';
+
 import { queryClient, updateUserProfile } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 

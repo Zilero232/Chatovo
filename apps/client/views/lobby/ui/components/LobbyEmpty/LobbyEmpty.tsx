@@ -2,8 +2,10 @@
 
 import { AudioLines } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { CreateRoomDialog } from '@/features/room/create';
 import { Button, CenteredState } from '@/shared/ui';
+
 import s from './LobbyEmpty.module.scss';
 
 export const LobbyEmpty = () => {

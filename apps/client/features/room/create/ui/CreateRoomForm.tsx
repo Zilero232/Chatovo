@@ -5,8 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useCreateRoom, useEnterRoom } from '@/entities/room/room';
 import { FormField, Input, Label, Row, Stack, SubmitButton, Switch } from '@/shared/ui';
+
 import type { CreateRoomRequest } from '@chatovo/schemas';
 
 const DEFAULT_VALUES: CreateRoomRequest = { name: '', isPrivate: false };

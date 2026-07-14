@@ -4,10 +4,12 @@ import NumberFlow from '@number-flow/react';
 import { clsx } from 'clsx';
 import { Radio, Sparkles, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { UserAvatar, useCurrentUser } from '@/entities/auth/user';
 import { useLobbyOnline, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { env } from '@/shared/config';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+
 import s from './LobbyHeader.module.scss';
 
 export const LobbyHeader = () => {
@@ -59,7 +61,7 @@ export const LobbyHeader = () => {
           </div>
 
           <Tooltip>
-            <TooltipTrigger asChild>
+            <TooltipTrigger>
               <button className={s.versionPill} type="button">
                 <Sparkles className={s.versionIcon} />
                 <span className={s.versionText}>v{env.NEXT_PUBLIC_APP_VERSION}</span>

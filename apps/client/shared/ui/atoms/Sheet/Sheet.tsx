@@ -1,21 +1,36 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { XIcon } from 'lucide-react';
-import { Children, type ComponentProps, cloneElement, isValidElement, useContext } from 'react';
+import { useContext } from 'react';
 import {
   Heading,
   Modal,
-  ModalOverlay,
   OverlayTriggerStateContext,
   Dialog as RACDialog,
   DialogTrigger as RACDialogTrigger,
   Text,
 } from 'react-aria-components';
-import { findChildByType } from '../../lib/overlay-children';
+
+import { wrapOverlayContent } from '../../lib/wrap-overlay-content';
+import { OverlayCloseButton } from '../../molecules/OverlayCloseButton';
 import { Button } from '../Button';
+
 import s from './Sheet.module.scss';
-import type { SheetContentProps, SheetProps, SheetSide, SheetTriggerProps } from './Sheet.types';
+
+import type {
+  SheetCloseProps,
+  SheetContentProps,
+  SheetDescriptionProps,
+  SheetFooterProps,
+  SheetHeaderProps,
+  SheetModalOverlayProps,
+  SheetOverlayProps,
+  SheetPortalProps,
+  SheetProps,
+  SheetSide,
+  SheetTitleProps,
+  SheetTriggerProps,
+} from './Sheet.types';
 
 const sideClass: Record<SheetSide, string> = {
   right: s.sideRight,
@@ -25,54 +40,35 @@ const sideClass: Record<SheetSide, string> = {
 };
 
 const Sheet = ({ open, defaultOpen, onOpenChange, className, children, ...props }: SheetProps) => {
-  const triggerChild = findChildByType(children, SheetTrigger);
-  const contentChild = findChildByType(children, SheetContent);
   const isControlled = open !== undefined;
 
-  const overlay = (
-    <ModalOverlay
-      className={clsx(s.overlay, className)}
-      data-slot="sheet"
+  const overlayProps = {
+    className: clsx(s.overlay, className),
+    ...props,
+  } as SheetModalOverlayProps;
+
+  return (
+    <RACDialogTrigger
+      data-slot="sheet-root"
       defaultOpen={defaultOpen}
       isOpen={isControlled ? open : undefined}
       onOpenChange={onOpenChange}
-      {...props}
     >
-      {contentChild ?? Children.toArray(children).filter((child) => child !== triggerChild)}
-    </ModalOverlay>
-  );
-
-  if (isControlled || !triggerChild) {
-    return overlay;
-  }
-
-  return (
-    <RACDialogTrigger data-slot="sheet-root" defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
-      {triggerChild}
-      {overlay}
+      {wrapOverlayContent({
+        children,
+        contentComponent: SheetContent,
+        overlayProps,
+        dataSlot: 'sheet',
+      })}
     </RACDialogTrigger>
   );
 };
 
-const SheetTrigger = ({ asChild, children, className, ...props }: SheetTriggerProps) => {
-  if (asChild && isValidElement(children)) {
-    const childClassName = (children.props as { className?: string }).className;
-
-    return cloneElement(children, {
-      ...props,
-      className: clsx(className, childClassName),
-      'data-slot': 'sheet-trigger',
-    } as Record<string, unknown>);
-  }
-
-  return (
-    <button className={className} data-slot="sheet-trigger" type="button" {...props}>
-      {children}
-    </button>
-  );
+const SheetTrigger = ({ className, ...props }: SheetTriggerProps) => {
+  return <Button className={className} data-slot="sheet-trigger" {...props} />;
 };
 
-const SheetClose = ({ className, children, ...props }: ComponentProps<typeof Button>) => {
+const SheetClose = ({ className, children, ...props }: SheetCloseProps) => {
   const state = useContext(OverlayTriggerStateContext);
 
   return (
@@ -82,11 +78,13 @@ const SheetClose = ({ className, children, ...props }: ComponentProps<typeof But
   );
 };
 
-const SheetPortal = ({ children }: { children?: React.ReactNode }) => <>{children}</>;
+const SheetPortal = ({ children }: SheetPortalProps) => {
+  return <>{children}</>;
+};
 
-const SheetOverlay = ({ className, ...props }: ComponentProps<'div'>) => (
-  <div className={clsx(s.overlay, className)} data-slot="sheet-overlay" {...props} />
-);
+const SheetOverlay = ({ className, ...props }: SheetOverlayProps) => {
+  return <div className={clsx(s.overlay, className)} data-slot="sheet-overlay" {...props} />;
+};
 
 const SheetContent = ({
   className,
@@ -94,57 +92,53 @@ const SheetContent = ({
   side = 'right',
   showCloseButton = true,
   ...props
-}: SheetContentProps) => (
-  <Modal className={s.modal} data-slot="sheet-portal">
-    <RACDialog
-      className={clsx('glass-overlay', s.content, sideClass[side], className)}
-      data-slot="sheet-content"
+}: SheetContentProps) => {
+  return (
+    <Modal className={s.modal} data-slot="sheet-portal">
+      <RACDialog
+        className={clsx('glass-overlay', s.content, sideClass[side], className)}
+        data-slot="sheet-content"
+        {...props}
+      >
+        {({ close }) => (
+          <>
+            {children}
+            {showCloseButton && <OverlayCloseButton className={s.close} onPress={close} />}
+          </>
+        )}
+      </RACDialog>
+    </Modal>
+  );
+};
+
+const SheetHeader = ({ className, ...props }: SheetHeaderProps) => {
+  return <div className={clsx(s.header, className)} data-slot="sheet-header" {...props} />;
+};
+
+const SheetFooter = ({ className, ...props }: SheetFooterProps) => {
+  return <div className={clsx(s.footer, className)} data-slot="sheet-footer" {...props} />;
+};
+
+const SheetTitle = ({ className, children, ...props }: SheetTitleProps) => {
+  return (
+    <Heading className={clsx(s.title, className)} data-slot="sheet-title" slot="title" {...props}>
+      {children}
+    </Heading>
+  );
+};
+
+const SheetDescription = ({ className, children, ...props }: SheetDescriptionProps) => {
+  return (
+    <Text
+      className={clsx(s.description, className)}
+      data-slot="sheet-description"
+      slot="description"
       {...props}
     >
-      {({ close }) => (
-        <>
-          {children}
-          {showCloseButton && (
-            <Button
-              aria-label="Close"
-              className={s.close}
-              size="icon-xs"
-              variant="ghost"
-              onPress={close}
-            >
-              <XIcon />
-            </Button>
-          )}
-        </>
-      )}
-    </RACDialog>
-  </Modal>
-);
-
-const SheetHeader = ({ className, ...props }: ComponentProps<'div'>) => (
-  <div className={clsx(s.header, className)} data-slot="sheet-header" {...props} />
-);
-
-const SheetFooter = ({ className, ...props }: ComponentProps<'div'>) => (
-  <div className={clsx(s.footer, className)} data-slot="sheet-footer" {...props} />
-);
-
-const SheetTitle = ({ className, children, ...props }: ComponentProps<typeof Heading>) => (
-  <Heading className={clsx(s.title, className)} data-slot="sheet-title" slot="title" {...props}>
-    {children}
-  </Heading>
-);
-
-const SheetDescription = ({ className, children, ...props }: ComponentProps<typeof Text>) => (
-  <Text
-    className={clsx(s.description, className)}
-    data-slot="sheet-description"
-    slot="description"
-    {...props}
-  >
-    {children}
-  </Text>
-);
+      {children}
+    </Text>
+  );
+};
 
 export {
   Sheet,

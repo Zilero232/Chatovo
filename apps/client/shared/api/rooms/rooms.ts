@@ -1,4 +1,5 @@
 import { api, readErrorMessage } from '../http';
+
 import type { CreateRoomRequest, Room, UpdateRoomRequest } from '@chatovo/schemas';
 
 export const listRooms = async (): Promise<Room[]> => {

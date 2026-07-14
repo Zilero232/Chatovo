@@ -4,9 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useFieldError } from '@/entities/app/locale';
 import { FormField, Input, PasswordInput, Stack, SubmitButton } from '@/shared/ui';
 import { type SignInValues, signInSchema, useSignIn } from '../model/use-sign-in';
+
 import s from './SignInForm.module.scss';
 
 const DEFAULT_VALUES: SignInValues = { email: '', password: '' };

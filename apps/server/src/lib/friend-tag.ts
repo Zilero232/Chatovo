@@ -1,4 +1,5 @@
 import { isNullish } from 'remeda';
+
 import { prisma } from '../core';
 
 const normalizeTagSeed = (name: string): string => {

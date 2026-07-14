@@ -1,12 +1,14 @@
 import { HTTPException } from 'hono/http-exception';
 import { StatusCodes } from 'http-status-codes';
 import { extension } from 'mime-types';
+
 import { ATTACHMENT_MAX_BYTES } from '../../config/uploads';
 import { prisma } from '../../core';
 import { assertCanAccessDmRoom, assertRoomExists, senderSelect } from '../../lib';
 import { saveUpload } from '../uploads';
 import { emitChatEvent } from './emit-chat-event';
 import { toChatMessage } from './mappers';
+
 import type {
   ChatAttachment,
   ChatMessage,

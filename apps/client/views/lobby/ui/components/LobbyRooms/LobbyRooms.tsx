@@ -6,11 +6,13 @@ import { useTranslations } from 'next-intl';
 import { useRef, useState } from 'react';
 import { isEmpty as isEmptyList } from 'remeda';
 import { match } from 'ts-pattern';
+
 import { groupRooms, RoomsListError, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { Button, CenteredState, Skeleton } from '@/shared/ui';
 import { RecentRooms } from '@/widgets/room/channels-panel';
 import { LobbyEmpty } from '../LobbyEmpty';
 import { LobbyRoomCard } from '../LobbyRoomCard';
+
 import s from './LobbyRooms.module.scss';
 
 const LOBBY_SKELETON_KEYS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'] as const;

@@ -1,10 +1,13 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { cloneElement, isValidElement, type Ref, useRef } from 'react';
 import { DialogTrigger, Popover as RACPopover } from 'react-aria-components';
-import { findChildByType, placementFromSideAlign } from '../../lib/overlay-children';
+
+import { placementFromSideAlign } from '../../lib/placement';
+import { Button } from '../Button';
+
 import s from './Popover.module.scss';
+
 import type {
   PopoverAnchorProps,
   PopoverContentProps,
@@ -15,106 +18,36 @@ import type {
   PopoverTriggerProps,
 } from './Popover.types';
 
-const mergeRefs =
-  <T,>(...refs: Array<Ref<T> | undefined>) =>
-  (value: T | null) => {
-    for (const ref of refs) {
-      if (!ref) {
-        continue;
-      }
+const Popover = ({ open, defaultOpen, onOpenChange, children, ...props }: PopoverProps) => (
+  <DialogTrigger
+    data-slot="popover"
+    defaultOpen={defaultOpen}
+    isOpen={open}
+    onOpenChange={onOpenChange}
+    {...props}
+  >
+    {children}
+  </DialogTrigger>
+);
 
-      if (typeof ref === 'function') {
-        ref(value);
-        continue;
-      }
-
-      ref.current = value;
-    }
-  };
-
-const Popover = ({ open, defaultOpen, onOpenChange, children, ...props }: PopoverProps) => {
-  const triggerRef = useRef<HTMLElement>(null);
-  const triggerChild = findChildByType(children, PopoverTrigger);
-  const contentChild = findChildByType(children, PopoverContent);
-  const isControlled = open !== undefined;
-
-  const trigger = triggerChild
-    ? cloneElement(triggerChild, {
-        ref: mergeRefs(triggerRef, (triggerChild.props as { ref?: Ref<HTMLElement> }).ref),
-      } as Record<string, unknown>)
-    : null;
-
-  const content = contentChild
-    ? cloneElement(contentChild, {
-        triggerRef,
-        open: isControlled ? open : undefined,
-        onOpenChange,
-      } as Record<string, unknown>)
-    : null;
-
-  if (isControlled) {
-    return (
-      <>
-        {trigger}
-        {content}
-      </>
-    );
-  }
-
-  return (
-    <DialogTrigger
-      data-slot="popover"
-      defaultOpen={defaultOpen}
-      onOpenChange={onOpenChange}
-      {...props}
-    >
-      {trigger}
-      {content}
-    </DialogTrigger>
-  );
-};
-
-const PopoverTrigger = ({ asChild, children, className, ...props }: PopoverTriggerProps) => {
-  if (asChild && isValidElement(children)) {
-    const childClassName = (children.props as { className?: string }).className;
-
-    return cloneElement(children, {
-      ...props,
-      className: clsx(className, childClassName),
-      'data-slot': 'popover-trigger',
-    } as Record<string, unknown>);
-  }
-
-  return (
-    <button className={className} data-slot="popover-trigger" type="button" {...props}>
-      {children}
-    </button>
-  );
-};
+const PopoverTrigger = ({ className, ...props }: PopoverTriggerProps) => (
+  <Button className={className} data-slot="popover-trigger" {...props} />
+);
 
 const PopoverContent = ({
   className,
   align = 'center',
   side = 'bottom',
   sideOffset = 4,
-  initialFocus = true,
-  triggerRef,
   children,
-  open,
-  onOpenChange,
   ...props
-}: PopoverContentProps & {
-  triggerRef?: React.RefObject<HTMLElement | null>;
-}) => (
+}: PopoverContentProps) => (
   <RACPopover
     className={clsx('glass-overlay', s.popup, className)}
     data-slot="popover-content"
     isNonModal
-    isOpen={open}
     offset={sideOffset}
     placement={placementFromSideAlign(side, align)}
-    triggerRef={triggerRef}
-    onOpenChange={onOpenChange}
     {...props}
   >
     {children}

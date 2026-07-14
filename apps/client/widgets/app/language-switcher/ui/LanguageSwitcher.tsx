@@ -2,6 +2,7 @@
 
 import { ChevronDown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { useLocale } from '@/entities/app/locale';
 import { LOCALES, type Locale } from '@/shared/i18n';
 import {
@@ -15,7 +16,9 @@ import {
   FlagGbIcon,
   FlagRuIcon,
 } from '@/shared/ui';
+
 import s from './LanguageSwitcher.module.scss';
+
 import type { ComponentType, SVGProps } from 'react';
 
 const LOCALE_FLAGS: Record<Locale, ComponentType<SVGProps<SVGSVGElement>>> = {

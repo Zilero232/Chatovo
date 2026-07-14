@@ -4,8 +4,10 @@ import { Loader2, MailWarning } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
+
 import { useCurrentUser, useSendVerificationEmail } from '@/entities/auth/user';
 import { Button } from '@/shared/ui';
+
 import s from './EmailVerificationNotice.module.scss';
 
 export const EmailVerificationNotice = () => {

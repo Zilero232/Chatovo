@@ -4,8 +4,11 @@ import { useKeyboard, useTextareaAutosize } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { Paperclip, SendHorizontal } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { Button, Spinner } from '@/shared/ui';
+
 import s from './ChatComposer.module.scss';
+
 import type { ChatComposerProps } from './ChatComposer.types';
 
 export const ChatComposer = ({

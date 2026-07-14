@@ -3,8 +3,11 @@
 import { type TrackReference, useIsMuted, VideoTrack } from '@livekit/components-react';
 import { useFullscreen } from '@siberiacancode/reactuse';
 import { Expand } from 'lucide-react';
+
 import { useAppSettings } from '@/entities/app/settings';
+
 import s from './CardVideo.module.scss';
+
 import type { KeyboardEvent } from 'react';
 
 type CardVideoProps = {

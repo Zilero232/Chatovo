@@ -4,12 +4,15 @@ import { clsx } from 'clsx';
 import { Lock, Radio } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+
 import { UserAvatar, useCurrentUser } from '@/entities/auth/user';
 import { OwnerBadge, OwnerCrown, useRoomParticipants } from '@/entities/room/room';
 import { ManageRoomMenu } from '@/features/room/manage';
 import { buildRoomHref } from '@/shared/constants';
 import { AvatarWithBadges, Badge } from '@/shared/ui';
+
 import s from './LobbyRoomCard.module.scss';
+
 import type { LobbyRoomCardProps } from './LobbyRoomCard.types';
 
 const MAX_AVATARS = 4;

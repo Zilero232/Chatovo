@@ -1,11 +1,13 @@
 import { HTTPException } from 'hono/http-exception';
 import { StatusCodes } from 'http-status-codes';
 import { extension } from 'mime-types';
+
 import { AVATAR_MAX_BYTES } from '../../config/uploads';
 import { prisma } from '../../core';
 import { ensureUserFriendTag, getUserWithProfileOrThrow } from '../../lib';
 import { saveUpload } from '../uploads';
 import { toUserProfile } from './profile';
+
 import type { UserProfile } from '@chatovo/schemas';
 
 type UpdateProfileInput = {

@@ -1,6 +1,7 @@
 import { mkdir, rm, writeFile } from 'node:fs/promises';
 import { dirname, isAbsolute, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 import { env } from '../../core';
 
 const SERVER_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');

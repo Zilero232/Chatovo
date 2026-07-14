@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+
 import { fetchChatMessages } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 import { chatMessageToChatLine, mergeChatHistory } from '../lib';

@@ -4,6 +4,7 @@ import { clsx } from 'clsx';
 import { Crown, Headphones, Lock } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { isEmpty } from 'remeda';
+
 import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
 import {
   DeafenedBadge,
@@ -15,7 +16,9 @@ import { ManageRoomMenu } from '@/features/room/manage';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
 import { buildRoomHref } from '@/shared/constants';
 import { AvatarWithBadges } from '@/shared/ui';
+
 import s from './ChannelsRoomItem.module.scss';
+
 import type { ChannelsRoomItemProps } from './ChannelsRoomItem.types';
 
 export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) => {

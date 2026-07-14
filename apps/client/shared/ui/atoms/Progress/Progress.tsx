@@ -2,7 +2,9 @@
 
 import { clsx } from 'clsx';
 import { ProgressBar } from 'react-aria-components';
+
 import s from './Progress.module.scss';
+
 import type { ProgressProps } from './Progress.types';
 
 const Progress = ({ className, value, ...props }: ProgressProps) => (

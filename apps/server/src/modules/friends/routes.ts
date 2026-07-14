@@ -10,6 +10,7 @@ import {
   sendFriendRequestInputSchema,
 } from '@chatovo/schemas';
 import { createRoute, z } from '@hono/zod-openapi';
+
 import { errorSchema } from '../../shared/schemas';
 
 const userIdParamSchema = z.object({

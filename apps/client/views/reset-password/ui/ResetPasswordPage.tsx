@@ -7,9 +7,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+
 import { ResetPasswordForm } from '@/features/auth/reset-password';
 import { DEEP_LINKS, ROUTES } from '@/shared/constants';
 import { AuthBackground, Button, LogoMark } from '@/shared/ui';
+
 import s from './ResetPasswordPage.module.scss';
 
 export const ResetPasswordPage = () => {
@@ -70,8 +72,8 @@ export const ResetPasswordPage = () => {
                 </Button>
               ) : (
                 <>
-                  <Button asChild className={s.fullWidth}>
-                    <a href={ROUTES.auth}>{t('signInInBrowser')}</a>
+                  <Button className={s.fullWidth} href={ROUTES.auth}>
+                    {t('signInInBrowser')}
                   </Button>
 
                   <a className={s.secondaryLink} href={DEEP_LINKS.auth}>

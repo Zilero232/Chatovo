@@ -1,4 +1,5 @@
 import { isSameCalendarDay } from '@/shared/lib';
+
 import type { ChatLine } from '../types';
 
 export type GroupedChatLine = {

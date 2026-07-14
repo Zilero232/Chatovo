@@ -1,7 +1,9 @@
 import { participantMetadataSchema, safeJsonParse } from '@chatovo/schemas';
 import { RoomServiceClient, TrackSource } from 'livekit-server-sdk';
+
 import { env } from '../../core';
 import { replaceRoom } from './presence-store';
+
 import type { RoomParticipant } from '@chatovo/schemas';
 import type { ParticipantInfo, TrackInfo } from 'livekit-server-sdk';
 

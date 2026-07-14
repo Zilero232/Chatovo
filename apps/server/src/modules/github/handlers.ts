@@ -1,5 +1,6 @@
 import { appDownloadsSchema } from '@chatovo/schemas';
 import { StatusCodes } from 'http-status-codes';
+
 import {
   DESKTOP_TAG_PREFIXES,
   fetchGitHubReleases,
@@ -9,6 +10,7 @@ import {
   parseReleaseVersion,
   splitReleaseAssets,
 } from './lib';
+
 import type { RouteHandler } from '@hono/zod-openapi';
 import type { Env } from '../../shared/types';
 import type { appDownloadsRoute, latestReleaseRoute } from './routes';
