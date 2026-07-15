@@ -1,5 +1,7 @@
 import { emitPresenceSnapshot } from '../realtime/emit';
+
 import type { RoomParticipant, RoomsParticipantsSnapshot } from '@chatovo/schemas';
+import type { ParticipantPatch } from './livekit.types';
 
 const rooms = new Map<string, Map<string, RoomParticipant>>();
 
@@ -68,8 +70,6 @@ export const addParticipant = (roomId: string, participant: RoomParticipant) => 
 
 // Partial presence update (mic, deafen, ...) — both webhooks and client
 // reports flow through here. Only emits when a field actually changes.
-type ParticipantPatch = Partial<Pick<RoomParticipant, 'micMuted' | 'deafened'>>;
-
 export const patchParticipant = (roomId: string, identity: string, patch: ParticipantPatch) => {
   const participants = rooms.get(roomId);
   const current = participants?.get(identity);

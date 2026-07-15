@@ -1,4 +1,5 @@
 import { Apple, AppWindow, Smartphone, Terminal } from 'lucide-react';
+
 import type { DownloadPlatform } from '../model/types';
 
 export type DownloadPlatformConfig = {

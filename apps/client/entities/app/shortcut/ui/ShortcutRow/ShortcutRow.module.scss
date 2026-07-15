@@ -1,0 +1,62 @@
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.5rem;
+}
+
+.label {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.warnIcon {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+  color: oklch(0.828 0.189 84.429);
+}
+
+.tooltip {
+  max-width: 12.5rem;
+  text-wrap: wrap;
+  border: 1px solid oklch(0.828 0.189 84.429 / 40%);
+  background: var(--popover);
+  text-align: center;
+  color: oklch(0.901 0.076 70.697);
+  line-height: 1.375;
+
+  :global([data-slot='tooltip-arrow']) {
+    background: var(--popover);
+    fill: var(--popover);
+  }
+}
+
+.shortcutButton {
+  width: 13.75rem;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+}
+
+.shortcutButtonConflict {
+  border-color: oklch(0.828 0.189 84.429 / 40%);
+  background: oklch(0.828 0.189 84.429 / 6%);
+  color: oklch(0.901 0.076 70.697);
+
+  &:hover:not(:disabled) {
+    background: oklch(0.828 0.189 84.429 / 10%);
+  }
+}
+
+.hidden {
+  visibility: hidden;
+}

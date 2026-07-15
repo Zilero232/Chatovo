@@ -1,7 +1,9 @@
 import { defaultWindowIcon } from '@tauri-apps/api/app';
 import { TrayIcon } from '@tauri-apps/api/tray';
+
 import { toggleMainWindow } from '@/shared/lib';
 import { TRAY_ID } from '../config/menu-ids';
+
 import type { Menu } from '@tauri-apps/api/menu';
 
 type SetupTrayArgs = {

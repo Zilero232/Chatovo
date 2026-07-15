@@ -2,8 +2,11 @@
 
 import { useTranslations } from 'next-intl';
 import { match } from 'ts-pattern';
+
 import { getDateDivider } from '@/shared/lib';
-import { dateDividerStyles as s } from './DateDivider.styles';
+
+import s from './DateDivider.module.scss';
+
 import type { DateDividerProps } from './DateDivider.types';
 
 export const DateDivider = ({ timestamp }: DateDividerProps) => {

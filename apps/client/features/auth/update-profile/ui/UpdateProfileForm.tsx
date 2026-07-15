@@ -1,10 +1,10 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useFieldError } from '@/entities/app/locale';
 import {
   type ProfileValues,
@@ -12,12 +12,13 @@ import {
   useCurrentUser,
   useUpdateProfile,
 } from '@/entities/auth/user';
-import { Button } from '@/shared/ui';
+import { SubmitButton } from '@/shared/ui';
 import { useAvatarDraft } from '../model/use-avatar-draft';
 import { AvatarField } from './AvatarField';
 import { BannerColorField } from './BannerColorField';
 import { ProfileTextField } from './ProfileTextField';
-import { updateProfileFormStyles as s } from './UpdateProfileForm.styles';
+
+import s from './UpdateProfileForm.module.scss';
 
 export const UpdateProfileForm = () => {
   const t = useTranslations('settings.profile');
@@ -58,8 +59,6 @@ export const UpdateProfileForm = () => {
       },
     );
   });
-
-  const canSave = (isDirty || avatar.changed) && !isPending;
 
   return (
     <form className={s.form} onSubmit={onSubmit}>
@@ -107,10 +106,13 @@ export const UpdateProfileForm = () => {
         render={({ field }) => <BannerColorField value={field.value} onChange={field.onChange} />}
       />
 
-      <Button className={s.submit} disabled={!canSave} type="submit">
-        {isPending && <Loader2 className={s.spinner} />}
+      <SubmitButton
+        className={s.submit}
+        disabled={!(isDirty || avatar.changed)}
+        isPending={isPending}
+      >
         {t('save')}
-      </Button>
+      </SubmitButton>
     </form>
   );
 };

@@ -4,4 +4,5 @@ export {
   gitHubReleaseListSchema,
   gitHubReleaseSchema,
 } from './outputs';
+
 export type { AppDownloads, GitHubRelease, GitHubReleaseAsset } from './types';

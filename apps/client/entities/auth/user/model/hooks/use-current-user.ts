@@ -1,10 +1,15 @@
+import { userRoleSchema } from '@chatovo/schemas';
 import { useQuery } from '@tanstack/react-query';
 import { minutesToMilliseconds } from 'date-fns';
 import { isNonNullish } from 'remeda';
+
 import { authClient, getAuthToken, getUserProfile } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 import { firstNonEmpty } from '@/shared/lib';
+
 import type { UserRole } from '../types';
+
+const USER_ROLE = userRoleSchema.enum;
 
 export const useCurrentUser = () => {
   const { data: session, isPending } = authClient.useSession();
@@ -20,7 +25,7 @@ export const useCurrentUser = () => {
     staleTime: minutesToMilliseconds(5),
   });
 
-  const role: UserRole = user?.role === 'admin' ? 'admin' : 'user';
+  const role: UserRole = user?.role === USER_ROLE.admin ? USER_ROLE.admin : USER_ROLE.user;
 
   const displayName = firstNonEmpty(profile?.name, user?.name, user?.email?.split('@')[0]) ?? 'you';
   const initial = displayName.charAt(0).toUpperCase();
@@ -32,7 +37,7 @@ export const useCurrentUser = () => {
     isLoading: isPending,
     displayName,
     initial,
-    isAdmin: role === 'admin',
+    isAdmin: role === USER_ROLE.admin,
     avatarUrl: firstNonEmpty(profile?.avatarUrl, user?.image),
     verified: profile?.verified ?? user?.verified ?? false,
     friendTag: firstNonEmpty(profile?.friendTag),

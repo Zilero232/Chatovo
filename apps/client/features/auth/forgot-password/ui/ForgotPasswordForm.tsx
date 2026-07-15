@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useFieldError } from '@/entities/app/locale';
 import { FormField, Input, Stack, SubmitButton } from '@/shared/ui';
 import {
@@ -12,11 +13,11 @@ import {
   useForgotPassword,
 } from '../model/use-forgot-password';
 
-const DEFAULT_VALUES: ForgotPasswordValues = { email: '' };
+import s from './ForgotPasswordForm.module.scss';
 
-type ForgotPasswordFormProps = {
-  onBack: () => void;
-};
+import type { ForgotPasswordFormProps } from './ForgotPasswordForm.types';
+
+const DEFAULT_VALUES: ForgotPasswordValues = { email: '' };
 
 export const ForgotPasswordForm = ({ onBack }: ForgotPasswordFormProps) => {
   const t = useTranslations('auth');
@@ -49,15 +50,11 @@ export const ForgotPasswordForm = ({ onBack }: ForgotPasswordFormProps) => {
         <Input autoComplete="email" id="forgot-email" type="email" {...register('email')} />
       </FormField>
 
-      <SubmitButton className="w-full" isPending={isPending}>
+      <SubmitButton className={s.submit} isPending={isPending}>
         {t('sendResetLink')}
       </SubmitButton>
 
-      <button
-        className="text-muted-foreground text-sm hover:text-foreground"
-        type="button"
-        onClick={onBack}
-      >
+      <button className={s.backLink} type="button" onClick={onBack}>
         {t('backToSignIn')}
       </button>
     </Stack>

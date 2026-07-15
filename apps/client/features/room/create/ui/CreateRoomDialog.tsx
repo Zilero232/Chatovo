@@ -3,6 +3,7 @@
 import { useBoolean } from '@siberiacancode/reactuse';
 import { Plus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import {
   Button,
   Dialog,
@@ -10,30 +11,28 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/shared/ui';
 import { CreateRoomForm } from './CreateRoomForm';
-import type { ReactNode } from 'react';
 
-type CreateRoomDialogProps = {
-  trigger?: ReactNode;
-};
+import type { CreateRoomDialogProps } from './CreateRoomDialog.types';
 
 export const CreateRoomDialog = ({ trigger }: CreateRoomDialogProps) => {
   const t = useTranslations('createRoom');
   const [isOpen, toggleOpen] = useBoolean(false);
 
   return (
-    <Dialog open={isOpen} onOpenChange={toggleOpen}>
-      <DialogTrigger asChild>
-        {trigger ?? (
+    <Dialog
+      open={isOpen}
+      onOpenChange={toggleOpen}
+      trigger={
+        trigger ?? (
           <Button type="button">
             <Plus />
             {t('trigger')}
           </Button>
-        )}
-      </DialogTrigger>
-
+        )
+      }
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('title')}</DialogTitle>

@@ -1,15 +1,18 @@
 'use client';
 
 import { isTauri } from '@tauri-apps/api/core';
+import { clsx } from 'clsx';
 import { CheckCircle2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+
 import { ResetPasswordForm } from '@/features/auth/reset-password';
 import { DEEP_LINKS, ROUTES } from '@/shared/constants';
 import { AuthBackground, Button, LogoMark } from '@/shared/ui';
-import { resetPasswordPageStyles as s } from './ResetPasswordPage.styles';
+
+import s from './ResetPasswordPage.module.scss';
 
 export const ResetPasswordPage = () => {
   const router = useRouter();
@@ -35,21 +38,23 @@ export const ResetPasswordPage = () => {
   }
 
   return (
-    <div className={s.root}>
+    <div className={clsx(s.root, 'inset-page-x', 'inset-page-y')}>
       <AuthBackground />
 
-      <div className={s.shell}>
+      <div className={clsx(s.shell, 'glass', 'shadow-glow-violet')}>
         <div className={s.panel}>
-          <span className={s.mark}>
+          <span className={clsx(s.mark, 'gradient-brand', 'shadow-glow-cyan')}>
             {done ? (
-              <CheckCircle2 className="size-6" />
+              <CheckCircle2 className={s.markIcon} />
             ) : (
-              <LogoMark className="text-white" size={30} />
+              <LogoMark className={s.markIcon} size={30} />
             )}
           </span>
 
           <div className={s.header}>
-            <h1 className={s.title}>{done ? t('resetDoneTitle') : t('resetPasswordTitle')}</h1>
+            <h1 className={clsx(s.title, 'gradient-text')}>
+              {done ? t('resetDoneTitle') : t('resetPasswordTitle')}
+            </h1>
             <p className={s.subtitle}>
               {done ? t('resetDoneSubtitle') : t('resetPasswordSubtitle')}
             </p>
@@ -59,7 +64,7 @@ export const ResetPasswordPage = () => {
             <div className={s.actions}>
               {isTauri() ? (
                 <Button
-                  className="w-full"
+                  className={s.fullWidth}
                   type="button"
                   onClick={() => router.replace(ROUTES.auth)}
                 >
@@ -67,8 +72,8 @@ export const ResetPasswordPage = () => {
                 </Button>
               ) : (
                 <>
-                  <Button asChild className="w-full">
-                    <a href={ROUTES.auth}>{t('signInInBrowser')}</a>
+                  <Button className={s.fullWidth} href={ROUTES.auth}>
+                    {t('signInInBrowser')}
                   </Button>
 
                   <a className={s.secondaryLink} href={DEEP_LINKS.auth}>

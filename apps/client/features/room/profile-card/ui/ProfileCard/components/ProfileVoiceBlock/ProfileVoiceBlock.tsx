@@ -3,11 +3,14 @@
 import { useTranslations } from 'next-intl';
 import { isNonNullish } from 'remeda';
 import { match, P } from 'ts-pattern';
+
 import { useCurrentUser } from '@/entities/auth/user';
 import { useEnterRoom } from '@/entities/room/room';
 import { Button, Spinner } from '@/shared/ui';
 import { useParticipantRoom } from '../../../../model/use-participant-room';
-import { profileVoiceBlockStyles as s } from './ProfileVoiceBlock.styles';
+
+import s from './ProfileVoiceBlock.module.scss';
+
 import type { ProfileVoiceBlockProps } from './ProfileVoiceBlock.types';
 
 export const ProfileVoiceBlock = ({ identity, isSelf, isLoading }: ProfileVoiceBlockProps) => {

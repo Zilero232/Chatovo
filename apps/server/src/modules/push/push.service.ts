@@ -1,119 +1,26 @@
-import { prisma } from '../../core';
-import { hasUserConnection } from '../realtime/connection-store';
-import { sendPushToTokens } from './firebase-client';
-import type {
-  ChatMessage,
-  FriendUser,
-  RegisterPushDeviceInput,
-  UnregisterPushDeviceInput,
-} from '@chatovo/schemas';
-import type { SendPushToUserInput } from './types';
+import { Injectable } from '@nestjs/common';
 
-const PREVIEW_MAX = 120;
+import { PrismaService } from '../../core';
 
-const truncate = (value: string, max: number): string => {
-  if (value.length <= max) {
-    return value;
+import type { RegisterPushDeviceInput, UnregisterPushDeviceInput } from '@chatovo/schemas';
+
+@Injectable()
+export class PushService {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async registerPushDevice(userId: string, input: RegisterPushDeviceInput): Promise<void> {
+    const { token, platform } = input;
+
+    await this.prisma.pushDevice.upsert({
+      where: { token },
+      create: { userId, token, platform },
+      update: { userId, platform },
+    });
   }
 
-  return `${value.slice(0, max - 1)}…`;
-};
+  async unregisterPushDevice(userId: string, input: UnregisterPushDeviceInput): Promise<void> {
+    const { token } = input;
 
-const pruneInvalidTokens = async (tokens: string[]): Promise<void> => {
-  if (tokens.length === 0) {
-    return;
+    await this.prisma.pushDevice.deleteMany({ where: { userId, token } });
   }
-
-  await prisma.pushDevice.deleteMany({ where: { token: { in: tokens } } });
-};
-
-const sendToUser = async ({
-  userId,
-  notification,
-  data,
-  channelId,
-}: SendPushToUserInput): Promise<void> => {
-  if (hasUserConnection(userId)) {
-    return;
-  }
-
-  const devices = await prisma.pushDevice.findMany({
-    where: { userId },
-    select: { token: true },
-  });
-
-  if (devices.length === 0) {
-    return;
-  }
-
-  const tokens = devices.map((device) => device.token);
-  const invalidTokens = await sendPushToTokens({ tokens, notification, data, channelId });
-
-  await pruneInvalidTokens(invalidTokens);
-};
-
-export const registerPushDevice = async (
-  userId: string,
-  input: RegisterPushDeviceInput,
-): Promise<void> => {
-  const { token, platform } = input;
-
-  await prisma.pushDevice.upsert({
-    where: { token },
-    create: { userId, token, platform },
-    update: { userId, platform },
-  });
-};
-
-export const unregisterPushDevice = async (
-  userId: string,
-  input: UnregisterPushDeviceInput,
-): Promise<void> => {
-  const { token } = input;
-
-  await prisma.pushDevice.deleteMany({ where: { userId, token } });
-};
-
-export const sendDmMessagePush = async (input: {
-  recipientId: string;
-  message: ChatMessage;
-}): Promise<void> => {
-  const { recipientId, message } = input;
-
-  if (!message.senderId || message.senderId === recipientId) {
-    return;
-  }
-
-  const preview = message.body.trim() || 'New message';
-
-  await sendToUser({
-    userId: recipientId,
-    notification: { title: message.senderName, body: truncate(preview, PREVIEW_MAX) },
-    data: {
-      type: 'dm_message',
-      roomId: message.roomId,
-      senderId: message.senderId,
-      messageId: message.id,
-    },
-    channelId: 'messages',
-  });
-};
-
-export const sendIncomingCallPush = async (input: {
-  calleeId: string;
-  caller: FriendUser;
-  roomId: string;
-}): Promise<void> => {
-  const { calleeId, caller, roomId } = input;
-
-  await sendToUser({
-    userId: calleeId,
-    notification: { title: caller.name, body: 'Incoming call' },
-    data: {
-      type: 'incoming_call',
-      roomId,
-      callerId: caller.id,
-    },
-    channelId: 'calls',
-  });
-};
+}

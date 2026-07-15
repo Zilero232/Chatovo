@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useFieldError } from '@/entities/app/locale';
 import { FormField, PasswordInput, Stack, SubmitButton } from '@/shared/ui';
 import {
@@ -12,12 +13,11 @@ import {
   useResetPassword,
 } from '../model/use-reset-password';
 
-const DEFAULT_VALUES: ResetPasswordValues = { newPassword: '', confirmPassword: '' };
+import s from './ResetPasswordForm.module.scss';
 
-type ResetPasswordFormProps = {
-  token: string;
-  onSuccess: () => void;
-};
+import type { ResetPasswordFormProps } from './ResetPasswordForm.types';
+
+const DEFAULT_VALUES: ResetPasswordValues = { newPassword: '', confirmPassword: '' };
 
 export const ResetPasswordForm = ({ token, onSuccess }: ResetPasswordFormProps) => {
   const t = useTranslations('auth');
@@ -69,7 +69,7 @@ export const ResetPasswordForm = ({ token, onSuccess }: ResetPasswordFormProps) 
         />
       </FormField>
 
-      <SubmitButton className="w-full" isPending={isPending}>
+      <SubmitButton className={s.submit} isPending={isPending}>
         {t('resetPassword')}
       </SubmitButton>
     </Stack>

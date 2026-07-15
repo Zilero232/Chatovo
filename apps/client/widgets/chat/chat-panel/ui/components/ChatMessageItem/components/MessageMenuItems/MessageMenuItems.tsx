@@ -2,7 +2,9 @@
 
 import { Pencil, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { ContextMenuItem } from '@/shared/ui';
+
 import type { MessageMenuItemsProps } from './MessageMenuItems.types';
 
 export const MessageMenuItems = ({ canEdit, onEdit, onDelete }: MessageMenuItemsProps) => {

@@ -1,24 +1,21 @@
 'use client';
 
 import { useKeyboard, useTextareaAutosize } from '@siberiacancode/reactuse';
+import { clsx } from 'clsx';
 import { Paperclip, SendHorizontal } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { cn } from '@/shared/lib/cn';
+
 import { Button, Spinner } from '@/shared/ui';
-import { chatComposerStyles as s } from './ChatComposer.styles';
+
+import s from './ChatComposer.module.scss';
+
 import type { ChatComposerProps } from './ChatComposer.types';
 
-export const ChatComposer = ({
-  isSending,
-  isUploading,
-  onSend,
-  onAttach,
-  onPaste,
-}: ChatComposerProps) => {
+export const ChatComposer = ({ isUploading, onSend, onAttach, onPaste }: ChatComposerProps) => {
   const t = useTranslations('chat');
   const { ref, value: draft, set, clear } = useTextareaAutosize<HTMLTextAreaElement>('');
 
-  const busy = isSending || isUploading;
+  const busy = isUploading;
 
   const submit = async () => {
     const value = draft.trim();
@@ -28,14 +25,9 @@ export const ChatComposer = ({
     }
 
     clear();
+    ref.current?.focus();
 
-    try {
-      await onSend(value);
-    } catch {
-      set(value);
-    } finally {
-      ref.current?.focus();
-    }
+    await onSend(value);
   };
 
   useKeyboard(ref, (event) => {
@@ -51,14 +43,14 @@ export const ChatComposer = ({
 
   return (
     <form
-      className={s.root}
+      className={clsx('surface-bar', s.root)}
       onSubmit={(event) => {
         event.preventDefault();
 
         submit();
       }}
     >
-      <span aria-hidden className={s.accent} />
+      <span aria-hidden className="accent-top-line" />
       <Button
         aria-label={t('attach')}
         disabled={busy}
@@ -72,8 +64,7 @@ export const ChatComposer = ({
 
       <textarea
         ref={ref}
-        className={s.input}
-        disabled={isSending}
+        className={clsx(s.input, 'scrollbar-none')}
         placeholder={isUploading ? t('uploading') : t('messagePlaceholder')}
         rows={1}
         value={draft}
@@ -83,12 +74,12 @@ export const ChatComposer = ({
 
       <Button
         aria-label={t('send')}
-        className={cn(canSend && s.sendActive)}
+        className={clsx({ [s.sendActive]: canSend })}
         disabled={!canSend}
         size="icon-sm"
         type="submit"
       >
-        <SendHorizontal className={cn(canSend && s.sendIconActive)} />
+        <SendHorizontal className={clsx({ [s.sendIconActive]: canSend })} />
       </Button>
     </form>
   );

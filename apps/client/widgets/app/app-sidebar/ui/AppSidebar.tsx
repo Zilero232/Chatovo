@@ -1,9 +1,10 @@
 'use client';
 
 import { isTauri } from '@tauri-apps/api/core';
+import { clsx } from 'clsx';
+
 import { isTauriDesktop } from '@/shared/lib';
 import { FriendsDialog } from '@/widgets/social/friends-dialog';
-import { appSidebarStyles as s } from './AppSidebar.styles';
 import {
   CheckUpdateButton,
   DownloadAppButton,
@@ -11,6 +12,9 @@ import {
   LogoutButton,
   ToggleChannelsButton,
 } from './components';
+
+import s from './AppSidebar.module.scss';
+
 import type { AppSidebarProps } from './AppSidebar.types';
 
 export const AppSidebar = ({
@@ -19,7 +23,12 @@ export const AppSidebar = ({
   orientation = 'vertical',
   showToggleChannels = true,
 }: AppSidebarProps) => (
-  <div className={s.root({ orientation })}>
+  <div
+    className={clsx(s.root, {
+      [s.vertical]: orientation === 'vertical',
+      [s.horizontal]: orientation !== 'vertical',
+    })}
+  >
     {showToggleChannels && (
       <ToggleChannelsButton opened={channelsOpened} onToggle={onToggleChannels} />
     )}

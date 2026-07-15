@@ -1,22 +1,25 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
+
 import { LogoMark } from '@/shared/ui';
 import { AUTH_EQ_BARS, AUTH_FEATURES } from '../../../config';
-import { authBrandPanelStyles as s } from './AuthBrandPanel.styles';
+
+import s from './AuthBrandPanel.module.scss';
 
 export const AuthBrandPanel = () => {
   const t = useTranslations('auth');
 
   return (
     <aside className={s.root}>
-      <div className={s.orb} />
+      <div className={clsx(s.orb, 'auth-orb')} />
 
       <div className={s.top}>
-        <span className={s.mark}>
-          <LogoMark className="text-white" size={26} />
+        <span className={clsx(s.mark, 'gradient-brand', 'shadow-glow-cyan')}>
+          <LogoMark className={s.markIcon} size={26} />
         </span>
-        <span className={s.wordmark}>{t('appName')}</span>
+        <span className={clsx(s.wordmark, 'gradient-text')}>{t('appName')}</span>
       </div>
 
       <div className={s.center}>
@@ -30,7 +33,7 @@ export const AuthBrandPanel = () => {
               style={{ animationDelay: `${150 + index * 120}ms` }}
             >
               <span className={s.featureIcon}>
-                <Icon className="size-4" />
+                <Icon />
               </span>
               <div className={s.featureBody}>
                 <p className={s.featureTitle}>{t(`features.${key}.title`)}</p>

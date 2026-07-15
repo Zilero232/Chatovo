@@ -1,8 +1,10 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/shared/ui';
 import { EditRoomForm } from './EditRoomForm';
+
 import type { EditRoomDialogProps } from './EditRoomDialog.types';
 
 export const EditRoomDialog = ({ room, open, onOpenChange }: EditRoomDialogProps) => {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { FRIEND_CALL_SOUND_SRC, type FriendCallSoundKind } from '../../config/call-sounds';
 

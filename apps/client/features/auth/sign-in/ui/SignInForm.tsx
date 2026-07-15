@@ -4,15 +4,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useFieldError } from '@/entities/app/locale';
 import { FormField, Input, PasswordInput, Stack, SubmitButton } from '@/shared/ui';
 import { type SignInValues, signInSchema, useSignIn } from '../model/use-sign-in';
 
-const DEFAULT_VALUES: SignInValues = { email: '', password: '' };
+import s from './SignInForm.module.scss';
 
-type SignInFormProps = {
-  onForgotPassword: () => void;
-};
+import type { SignInFormProps } from './SignInForm.types';
+
+const DEFAULT_VALUES: SignInValues = { email: '', password: '' };
 
 export const SignInForm = ({ onForgotPassword }: SignInFormProps) => {
   const t = useTranslations('auth');
@@ -57,15 +58,11 @@ export const SignInForm = ({ onForgotPassword }: SignInFormProps) => {
         />
       </FormField>
 
-      <button
-        className="-mt-2 self-end text-muted-foreground text-sm hover:text-foreground"
-        type="button"
-        onClick={onForgotPassword}
-      >
+      <button className={s.forgotLink} type="button" onClick={onForgotPassword}>
         {t('forgotPassword')}
       </button>
 
-      <SubmitButton className="w-full" isPending={isPending}>
+      <SubmitButton className={s.submit} isPending={isPending}>
         {t('signIn')}
       </SubmitButton>
     </Stack>

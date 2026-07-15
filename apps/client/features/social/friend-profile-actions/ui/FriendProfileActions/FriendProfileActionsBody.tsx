@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { match } from 'ts-pattern';
+
 import {
   useAcceptFriendRequest,
   useCallFriend,
@@ -15,17 +16,10 @@ import {
 import { useFriendChat } from '@/features/social/friend-chat';
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
 import { Button } from '@/shared/ui';
-import { friendProfileActionsStyles as s } from './FriendProfileActions.styles';
-import type { FriendshipRelation } from '@chatovo/schemas';
 
-type FriendProfileActionsBodyProps = {
-  state: FriendshipRelation;
-  userId: string;
-  friendTag: string;
-  displayName: string;
-  avatarUrl: string | null;
-  verified: boolean;
-};
+import s from './FriendProfileActions.module.scss';
+
+import type { FriendProfileActionsBodyProps } from './FriendProfileActionsBody.types';
 
 export const FriendProfileActionsBody = ({
   state,
@@ -124,7 +118,7 @@ export const FriendProfileActionsBody = ({
           </div>
         ))
         .with({ status: 'friends' }, () => (
-          <div className="flex w-full flex-col gap-2">
+          <div className={s.friendsSection}>
             <div className={s.friendsPrimary}>
               <Button
                 className={s.friendsAction}

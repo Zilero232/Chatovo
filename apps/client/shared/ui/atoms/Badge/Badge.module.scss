@@ -1,0 +1,76 @@
+@use '@/shared/styles/functions' as *;
+
+.root {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 9999px;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  font-weight: 500;
+  transition: colors 150ms ease;
+}
+
+.tonePrimary {
+  border: 1px solid color-mix(in oklch, var(--brand-violet) 40%, transparent);
+  background: color-mix(in oklch, var(--brand-violet) 15%, transparent);
+  color: var(--brand-violet);
+  box-shadow: 0 0 rem(12) rem(-4) oklch(0.7 0.22 295 / 0.5);
+}
+
+.toneMuted {
+  border: 1px solid oklch(1 0 0 / 10%);
+  background: oklch(1 0 0 / 5%);
+  color: var(--muted-foreground);
+}
+
+.toneAmber {
+  border: 1px solid oklch(0.85 0.18 85 / 40%);
+  background: oklch(0.85 0.18 85 / 10%);
+  color: oklch(0.9 0.12 85);
+  box-shadow: 0 0 rem(12) rem(-4) oklch(0.85 0.18 85 / 0.5);
+}
+
+.toneDanger {
+  border: 1px solid color-mix(in oklch, var(--destructive) 40%, transparent);
+  background: color-mix(in oklch, var(--destructive) 15%, transparent);
+  color: var(--destructive);
+  box-shadow: 0 0 rem(12) rem(-4) oklch(0.7 0.22 22 / 0.5);
+}
+
+.toneDark {
+  border: 1px solid oklch(1 0 0 / 10%);
+  background: oklch(0 0 0 / 55%);
+  color: white;
+  backdrop-filter: blur(rem(12));
+}
+
+.toneOutline {
+  border: 1px solid oklch(1 0 0 / 15%);
+  background: oklch(1 0 0 / 5%);
+  color: color-mix(in oklch, var(--foreground) 85%, transparent);
+  backdrop-filter: blur(rem(12));
+
+  &:hover {
+    border-color: color-mix(in oklch, var(--brand-violet) 40%, transparent);
+    color: var(--foreground);
+  }
+}
+
+.sizeSm {
+  gap: 0.25rem;
+  padding: 0 0.375rem;
+  font-size: 0.625rem;
+}
+
+.sizeMd {
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.sizeLg {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+}

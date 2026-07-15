@@ -4,15 +4,12 @@ import { useFileDialog } from '@siberiacancode/reactuse';
 import { Camera } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
-import { UserAvatar } from '@/entities/auth/user';
-import { updateProfileFormStyles as s } from './UpdateProfileForm.styles';
 
-type AvatarFieldProps = {
-  name: string;
-  src: string | null;
-  onPick: (file: File) => void;
-  onRemove: () => void;
-};
+import { UserAvatar } from '@/entities/auth/user';
+
+import s from './UpdateProfileForm.module.scss';
+
+import type { AvatarFieldProps } from './AvatarField.types';
 
 export const AvatarField = ({ name, src, onPick, onRemove }: AvatarFieldProps) => {
   const t = useTranslations('settings.profile');

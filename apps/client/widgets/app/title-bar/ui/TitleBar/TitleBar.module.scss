@@ -1,0 +1,58 @@
+@use '@/shared/styles/functions' as *;
+
+.root {
+  display: flex;
+  height: 2rem;
+  flex-shrink: 0;
+  align-items: stretch;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklch, var(--background) 80%, transparent);
+  backdrop-filter: blur(rem(12));
+  -webkit-backdrop-filter: blur(rem(12));
+}
+
+.rootMacos {
+  padding-left: rem(78);
+}
+
+.dragRegion {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
+.navButtons {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  padding-inline: 0.5rem;
+}
+
+.navButton {
+  display: flex;
+  width: 1.5rem;
+  height: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--muted-foreground);
+  transition: colors 150ms ease-out;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: var(--accent);
+    color: var(--foreground);
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.3;
+  }
+}
+
+.navIcon {
+  width: 1rem;
+  height: 1rem;
+}

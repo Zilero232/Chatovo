@@ -1,0 +1,40 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.75rem;
+}
+
+.row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+}
+
+.body {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.lineShort {
+  height: 0.75rem;
+  width: 4rem;
+  border-radius: var(--radius-md);
+}
+
+.lineLong {
+  height: 0.75rem;
+  max-width: 12rem;
+  flex: 1;
+  border-radius: var(--radius-md);
+}

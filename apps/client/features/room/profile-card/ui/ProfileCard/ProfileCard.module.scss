@@ -1,0 +1,61 @@
+@use '@/shared/styles/mixins' as *;
+
+.root {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  border-radius: var(--radius-2xl);
+}
+
+.banner {
+  height: 5rem;
+  width: 100%;
+  flex-shrink: 0;
+  border-start-start-radius: var(--radius-2xl);
+  border-start-end-radius: var(--radius-2xl);
+  background: linear-gradient(
+    to bottom right,
+    color-mix(in oklch, var(--brand-violet) 60%, transparent),
+    color-mix(in oklch, var(--brand-cyan) 60%, transparent)
+  );
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0 1rem 1rem;
+}
+
+.avatarWrap {
+  margin-top: -2rem;
+  display: flex;
+}
+
+.avatar {
+  width: 4rem;
+  height: 4rem;
+  box-shadow: 0 0 0 rem(4) var(--background);
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.tag {
+  align-self: flex-start;
+}
+
+.bio {
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}

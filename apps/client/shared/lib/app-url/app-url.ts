@@ -1,4 +1,5 @@
 import { isTauri } from '@tauri-apps/api/core';
+
 import { SITE } from '@/shared/config';
 
 export const getPublicAppOrigin = (): string => {

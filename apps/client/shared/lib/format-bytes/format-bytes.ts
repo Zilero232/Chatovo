@@ -1,6 +1,6 @@
 const UNITS = ['B', 'KB', 'MB', 'GB'] as const;
 
-export const formatBytes = (bytes: number, fractionDigits = 1): string => {
+export const formatBytes = (bytes: number, fractionDigits = 1) => {
   if (bytes <= 0) {
     return '0 B';
   }

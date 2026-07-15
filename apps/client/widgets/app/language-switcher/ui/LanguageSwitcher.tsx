@@ -2,20 +2,21 @@
 
 import { ChevronDown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { useLocale } from '@/entities/app/locale';
 import { LOCALES, type Locale } from '@/shared/i18n';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
   FlagGbIcon,
   FlagRuIcon,
 } from '@/shared/ui';
-import { languageSwitcherStyles as s } from './LanguageSwitcher.styles';
+
+import s from './LanguageSwitcher.module.scss';
+
 import type { ComponentType, SVGProps } from 'react';
 
 const LOCALE_FLAGS: Record<Locale, ComponentType<SVGProps<SVGSVGElement>>> = {
@@ -37,9 +38,6 @@ export const LanguageSwitcher = () => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className={s.content}>
-        <DropdownMenuLabel>{t('label')}</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-
         <DropdownMenuRadioGroup
           value={locale}
           onValueChange={(value) => setLocale(value as Locale)}

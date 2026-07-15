@@ -1,5 +1,7 @@
 import { match } from 'ts-pattern';
+
 import { appEvents } from '@/shared/lib';
+
 import type { ShortcutActionId } from '@/entities/app/shortcut';
 
 type KeyState = 'Pressed' | 'Released';

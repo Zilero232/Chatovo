@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { map } from 'remeda';
+
 import { updateRoom } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
+
 import type { Room, UpdateRoomRequest } from '@chatovo/schemas';
 
 export const useUpdateRoom = () => {

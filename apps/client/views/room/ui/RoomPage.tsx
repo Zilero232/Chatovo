@@ -1,16 +1,22 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { isNonNullish } from 'remeda';
 import { toast } from 'sonner';
 import { match, P } from 'ts-pattern';
+
 import { useRoomById, useRoomToken } from '@/entities/room/room';
 import { env } from '@/shared/config';
 import { ROUTES } from '@/shared/constants';
-import { VoiceRoom } from '@/widgets/room/voice-room';
 import { RoomConnecting, RoomLoadingFallback, RoomNotFound, RoomPasswordForm } from './components';
+
+const VoiceRoom = dynamic(
+  () => import('@/widgets/room/voice-room').then((m) => ({ default: m.VoiceRoom })),
+  { ssr: false, loading: () => <RoomConnecting /> },
+);
 
 export const RoomPage = () => {
   const router = useRouter();

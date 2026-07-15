@@ -1,25 +1,27 @@
-import { HTTPException } from 'hono/http-exception';
-import { StatusCodes } from 'http-status-codes';
+import {
+  ForbiddenException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AccessToken } from 'livekit-server-sdk';
 import { isNullish } from 'remeda';
-import { TOKEN_TTL_SECONDS } from '../../config/livekit';
-import { env, prisma } from '../../core';
-import { toUserProfile } from '../users/profile';
-import type { ParticipantMetadata, TokenResponse } from '@chatovo/schemas';
 
-type IssueTokenInput = {
-  roomId: string;
-  password?: string;
-  userId: string;
-  email: string | null;
-  isAdmin: boolean;
-};
+import { RoomKind } from '../../../generated';
+import { AppConfigService } from '../../config/config.module';
+import { TOKEN_TTL_SECONDS } from '../../config/livekit';
+import { PrismaService } from '../../core';
+import { toUserProfile } from '../users/profile';
+
+import type { ParticipantMetadata, TokenResponse } from '@chatovo/schemas';
+import type { IssueTokenInput } from './livekit.types';
 
 const assertRoomAccess = (
   room: { kind: string; isPrivate: boolean; password: string | null },
   password?: string,
 ) => {
-  if (room.kind === 'dm') {
+  if (room.kind === RoomKind.dm) {
     return;
   }
 
@@ -28,63 +30,78 @@ const assertRoomAccess = (
   }
 
   if (!password) {
-    throw new HTTPException(StatusCodes.UNAUTHORIZED, { message: 'Password required' });
+    throw new UnauthorizedException('Password required');
   }
   if (!room.password) {
-    throw new HTTPException(StatusCodes.INTERNAL_SERVER_ERROR, { message: 'Room misconfigured' });
+    throw new InternalServerErrorException('Room misconfigured');
   }
   if (password !== room.password) {
-    throw new HTTPException(StatusCodes.FORBIDDEN, { message: 'Invalid password' });
+    throw new ForbiddenException('Invalid password');
   }
 };
 
-export const issueRoomToken = async (input: IssueTokenInput): Promise<TokenResponse> => {
-  const { roomId, password, userId, email, isAdmin } = input;
+@Injectable()
+export class LivekitService {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly config: AppConfigService,
+  ) {}
 
-  const room = await prisma.room.findUnique({ where: { id: roomId } });
+  async issueRoomToken(input: IssueTokenInput): Promise<TokenResponse> {
+    const { roomId, password, userId, email, isAdmin } = input;
 
-  if (isNullish(room)) {
-    throw new HTTPException(StatusCodes.NOT_FOUND, { message: 'Room not found' });
+    const room = await this.prisma.room.findUnique({ where: { id: roomId } });
+
+    if (isNullish(room)) {
+      throw new NotFoundException('Room not found');
+    }
+
+    if (room.kind === RoomKind.dm && room.dmUserAId !== userId && room.dmUserBId !== userId) {
+      throw new ForbiddenException('Forbidden');
+    }
+
+    assertRoomAccess(room, password);
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: { profile: true },
+    });
+
+    if (isNullish(user)) {
+      throw new InternalServerErrorException('User lookup failed');
+    }
+
+    const { name, verified, profileUrl, avatarUrl, bannerColor } = toUserProfile(user);
+
+    const participantMetadata: ParticipantMetadata = {
+      email,
+      verified,
+      profileUrl,
+      avatarUrl,
+      bannerColor,
+    };
+
+    const at = new AccessToken(
+      this.config.get('LIVEKIT_API_KEY'),
+      this.config.get('LIVEKIT_API_SECRET'),
+      {
+        identity: userId,
+        name,
+        metadata: JSON.stringify(participantMetadata),
+        ttl: TOKEN_TTL_SECONDS,
+      },
+    );
+
+    at.addGrant({
+      room: room.id,
+      roomJoin: true,
+      canPublish: true,
+      canSubscribe: true,
+      canPublishData: true,
+      canUpdateOwnMetadata: true,
+      roomAdmin: isAdmin,
+    });
+
+    return { token: await at.toJwt() };
   }
-
-  if (room.kind === 'dm' && room.dmUserAId !== userId && room.dmUserBId !== userId) {
-    throw new HTTPException(StatusCodes.FORBIDDEN, { message: 'Forbidden' });
-  }
-
-  assertRoomAccess(room, password);
-
-  const user = await prisma.user.findUnique({ where: { id: userId }, include: { profile: true } });
-
-  if (isNullish(user)) {
-    throw new HTTPException(StatusCodes.INTERNAL_SERVER_ERROR, { message: 'User lookup failed' });
-  }
-
-  const { name, verified, profileUrl, avatarUrl, bannerColor } = toUserProfile(user);
-
-  const participantMetadata: ParticipantMetadata = {
-    email,
-    verified,
-    profileUrl,
-    avatarUrl,
-    bannerColor,
-  };
-
-  const at = new AccessToken(env.LIVEKIT_API_KEY, env.LIVEKIT_API_SECRET, {
-    identity: userId,
-    name,
-    metadata: JSON.stringify(participantMetadata),
-    ttl: TOKEN_TTL_SECONDS,
-  });
-
-  at.addGrant({
-    room: room.id,
-    roomJoin: true,
-    canPublish: true,
-    canSubscribe: true,
-    canPublishData: true,
-    canUpdateOwnMetadata: true,
-    roomAdmin: isAdmin,
-  });
-
-  return { token: await at.toJwt() };
-};
+}

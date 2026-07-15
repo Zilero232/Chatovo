@@ -1,8 +1,14 @@
 'use client';
 
 import { LiveKitRoom } from '@livekit/components-react';
+import { setLogLevel } from 'livekit-client';
+
+setLogLevel('error');
+
 import { useBoolean } from '@siberiacancode/reactuse';
+import { clsx } from 'clsx';
 import { useRef } from 'react';
+
 import { getPublishDefaults, useAppSettings } from '@/entities/app/settings';
 import { useRecentRooms } from '@/entities/room/room';
 import {
@@ -24,7 +30,9 @@ import {
   VoiceRoomChatButton,
 } from './components';
 import { RoomControllers } from './controllers';
-import { voiceRoomStyles as s } from './VoiceRoom.styles';
+
+import s from './VoiceRoom.module.scss';
+
 import type { VoiceRoomProps } from './VoiceRoom.types';
 
 export const VoiceRoom = ({
@@ -83,17 +91,21 @@ export const VoiceRoom = ({
                 <RoomHeader isDm={isDm} name={roomName} roomId={roomId} />
 
                 <div className={s.body}>
-                  <div aria-hidden className={s.ambience}>
-                    <span className={s.orbViolet} />
-                    <span className={s.orbCyan} />
+                  <div aria-hidden className={clsx(s.ambience, 'lobby-ambience')}>
+                    <span
+                      className={clsx(s.orbViolet, 'lobby-ambience-orb lobby-ambience-orb-violet')}
+                    />
+                    <span
+                      className={clsx(s.orbCyan, 'lobby-ambience-orb lobby-ambience-orb-cyan')}
+                    />
                   </div>
                   <ParticipantsView isDm={isDm} roomId={roomId} />
                   <ReactionsOverlay />
                   <ConnectingOverlay roomName={roomName} />
                 </div>
 
-                <div className={s.controls}>
-                  <span aria-hidden className={s.controlsAccent} />
+                <div className={clsx(s.controls, 'surface-bar')}>
+                  <span aria-hidden className="accent-top-line" />
                   <div className={s.controlBarWrap}>
                     <RoomControlBar />
                   </div>

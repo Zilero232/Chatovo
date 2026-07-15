@@ -3,7 +3,9 @@
 import { useInterval } from '@siberiacancode/reactuse';
 import { createAudioAnalyser, LocalAudioTrack } from 'livekit-client';
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
+
 import { audioConstraints } from '@/entities/app/settings';
+
 import type { AudioSettings } from '@/entities/app/settings';
 
 const LEVEL_INTERVAL_MS = 60;

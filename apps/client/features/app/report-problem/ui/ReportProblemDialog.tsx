@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useFieldError } from '@/entities/app/locale';
 import {
   Dialog,
@@ -21,12 +22,11 @@ import {
 } from '@/shared/ui';
 import { useReportProblem } from '../model/use-report-problem';
 
-const DEFAULT_VALUES: ReportProblemValues = { description: '' };
+import s from './ReportProblemDialog.module.scss';
 
-type ReportProblemDialogProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-};
+import type { ReportProblemDialogProps } from './ReportProblemDialog.types';
+
+const DEFAULT_VALUES: ReportProblemValues = { description: '' };
 
 export const ReportProblemDialog = ({ open, onOpenChange }: ReportProblemDialogProps) => {
   const t = useTranslations('feedback');
@@ -100,7 +100,7 @@ export const ReportProblemDialog = ({ open, onOpenChange }: ReportProblemDialogP
             />
           </FormField>
 
-          <SubmitButton className="w-full" isPending={isPending}>
+          <SubmitButton className={s.submit} isPending={isPending}>
             {t('submit')}
           </SubmitButton>
         </Stack>

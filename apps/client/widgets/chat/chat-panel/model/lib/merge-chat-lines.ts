@@ -1,5 +1,6 @@
 import { sortBy } from 'remeda';
-import type { ChatLine } from '../types';
+
+import type { ChatLine, ChatLineStatus } from '../types';
 
 export const mergeChatLines = (cached: ChatLine[], fetched: ChatLine[]): ChatLine[] => {
   const byId = new Map(fetched.map((line) => [line.id, line]));
@@ -19,10 +20,22 @@ export const appendChatLine = (lines: ChatLine[] | undefined, line: ChatLine): C
   }
 
   if (lines.some((item) => item.id === line.id)) {
-    return lines;
+    return lines.map((item) => (item.id === line.id ? { ...item, ...line } : item));
   }
 
   return [...lines, line];
+};
+
+export const applyChatStatusToLines = (
+  lines: ChatLine[],
+  id: string,
+  status: ChatLineStatus,
+): ChatLine[] => {
+  return lines.map((line) => (line.id === id ? { ...line, status } : line));
+};
+
+export const removeChatLine = (lines: ChatLine[], id: string): ChatLine[] => {
+  return lines.filter((line) => line.id !== id);
 };
 
 export const applyChatEditToLines = (

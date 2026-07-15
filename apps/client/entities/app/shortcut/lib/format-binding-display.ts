@@ -1,5 +1,7 @@
 import { match, P } from 'ts-pattern';
+
 import { prettyHotkey } from '@/shared/lib';
+
 import type { ShortcutBinding } from '../model/types';
 
 type Labels = {

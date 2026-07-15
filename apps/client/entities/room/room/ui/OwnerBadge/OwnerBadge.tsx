@@ -2,7 +2,11 @@
 
 import { Crown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { Badge } from '@/shared/ui';
+
+import s from './OwnerBadge.module.scss';
+
 import type { OwnerBadgeProps } from './OwnerBadge.types';
 
 export const OwnerBadge = ({ className }: OwnerBadgeProps) => {
@@ -10,7 +14,7 @@ export const OwnerBadge = ({ className }: OwnerBadgeProps) => {
 
   return (
     <Badge className={className} tone="amber">
-      <Crown className="size-3 fill-amber-300/30" />
+      <Crown className={s.icon} />
       {t('yours')}
     </Badge>
   );

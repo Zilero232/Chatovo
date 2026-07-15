@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 #
-# Chatovo API server — Hono on the Bun runtime.
+# Chatovo API server — NestJS on the Bun runtime.
 #
 # The build context MUST be the monorepo root, because the server depends on the
 # `@chatovo/schemas` workspace package. Build from the repo root with:
@@ -55,7 +55,7 @@ RUN DIRECT_URL="postgresql://placeholder" bunx prisma generate
 
 EXPOSE 4000
 
-# Hono reads PORT from the environment (defaults to 4000). The container is run
+# Nest reads PORT from the environment (defaults to 4000). The container is run
 # with an env file supplying DATABASE_URL, BETTER_AUTH_*, LIVEKIT_*,
 # CORS_ORIGINS, UPLOADS_DIR.
-CMD ["bun", "src/index.ts"]
+CMD ["bun", "src/main.ts"]

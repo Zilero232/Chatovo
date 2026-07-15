@@ -1,2 +1,0 @@
-export const modalCloseStyles =
-  'absolute top-4 right-4 z-10 inline-flex size-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-foreground/70 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/10 hover:text-foreground focus-visible:ring-2 focus-visible:ring-brand-violet/40 focus-visible:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0' as const;

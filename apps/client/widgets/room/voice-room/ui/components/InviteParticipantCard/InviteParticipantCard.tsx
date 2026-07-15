@@ -1,48 +1,27 @@
 'use client';
 
-import { useCopy } from '@siberiacancode/reactuse';
+import { clsx } from 'clsx';
 import { Check, UserPlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useEffect, useRef, useState } from 'react';
-import { buildRoomHref } from '@/shared/constants';
-import { buildPublicAppUrl } from '@/shared/lib/app-url';
-import { cn } from '@/shared/lib/cn';
-import { inviteParticipantCardStyles as s } from './InviteParticipantCard.styles';
-import type { InviteParticipantCardProps } from './InviteParticipantCard.types';
 
-const COPIED_RESET_MS = 2000;
+import { useCopyInviteLink } from '../../../model/hooks';
+
+import s from './InviteParticipantCard.module.scss';
+
+import type { InviteParticipantCardProps } from './InviteParticipantCard.types';
 
 export const InviteParticipantCard = ({ roomId }: InviteParticipantCardProps) => {
   const t = useTranslations('room.invite');
-  const { copy } = useCopy();
-  const [copied, setCopied] = useState(false);
-  const resetTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
-
-  useEffect(() => {
-    return () => {
-      if (resetTimerRef.current) {
-        clearTimeout(resetTimerRef.current);
-      }
-    };
-  }, []);
-
-  const copyInviteLink = () => {
-    copy(buildPublicAppUrl(buildRoomHref(roomId)));
-    setCopied(true);
-
-    if (resetTimerRef.current) {
-      clearTimeout(resetTimerRef.current);
-    }
-
-    resetTimerRef.current = setTimeout(() => {
-      setCopied(false);
-    }, COPIED_RESET_MS);
-  };
+  const { copied, copyInviteLink } = useCopyInviteLink(roomId);
 
   return (
-    <button className={cn(s.root, copied && s.rootCopied)} type="button" onClick={copyInviteLink}>
-      {copied ? <Check className={cn(s.icon, s.iconCopied)} /> : <UserPlus className={s.icon} />}
-      <span className={cn(s.label, copied && s.labelCopied)}>
+    <button
+      className={clsx(s.root, { [s.rootCopied]: copied })}
+      type="button"
+      onClick={copyInviteLink}
+    >
+      {copied ? <Check className={clsx(s.icon, s.iconCopied)} /> : <UserPlus className={s.icon} />}
+      <span className={clsx(s.label, { [s.labelCopied]: copied })}>
         {copied ? t('linkCopied') : t('soloSlot')}
       </span>
     </button>

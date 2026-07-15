@@ -32,9 +32,18 @@
           "level": "on",
           "options": {
             "groups": [
-              { "source": [":BUN:", ":NODE:", ":PACKAGE:"], "type": false },
-              { "source": [":ALIAS:", ":PATH:"], "type": false },
-              { "source": ["**/*.css", "**/*.scss"] },
+              {
+                "type": false,
+                "source": [":BUN:", ":NODE:", ":PACKAGE:"]
+              },
+              ":BLANK_LINE:",
+              {
+                "type": false,
+                "source": [":ALIAS:", ":PATH:", "!**/*.css", "!**/*.scss"]
+              },
+              ":BLANK_LINE:",
+              { "type": false, "source": ["**/*.css", "**/*.scss"] },
+              ":BLANK_LINE:",
               { "type": true }
             ]
           }
@@ -43,6 +52,9 @@
     }
   },
   "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
     "formatter": {
       "quoteStyle": "single",
       "jsxQuoteStyle": "double",
@@ -59,7 +71,7 @@
   },
   "css": {
     "parser": {
-      "cssModules": false,
+      "cssModules": true,
       "tailwindDirectives": true
     },
     "formatter": {
@@ -129,6 +141,19 @@
           },
           "nursery": {
             "useSortedClasses": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/server/src/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useImportType": "off"
+          },
+          "correctness": {
+            "useHookAtTopLevel": "off"
           }
         }
       }

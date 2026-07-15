@@ -1,11 +1,15 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 import Markdown from 'react-markdown';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
+
 import { normalizeMessage } from '../../../../../model/lib';
-import { messageLink, messageContentStyles as s } from './MessageContent.styles';
+
+import s from './MessageContent.module.scss';
+
 import type { Components } from 'react-markdown';
 import type { MessageContentProps } from './MessageContent.types';
 
@@ -15,7 +19,7 @@ export const MessageContent = ({ message, isOwn, isEdited }: MessageContentProps
   const components: Components = {
     a: ({ href, children }) => (
       <a
-        className={messageLink({ own: isOwn })}
+        className={clsx({ [s.linkOwn]: isOwn, [s.linkOther]: !isOwn })}
         href={href}
         rel="noopener noreferrer"
         target="_blank"

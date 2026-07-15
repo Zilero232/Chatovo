@@ -1,23 +1,30 @@
-const NESTED_OVERLAY_SELECTOR = [
-  '[data-slot="dropdown-menu-content"][data-state="open"]',
-  '[data-slot="dropdown-menu-sub-content"][data-state="open"]',
-  '[data-slot="popover-content"][data-state="open"]',
-  '[data-slot="select-content"][data-state="open"]',
-].join(', ');
+const isVisible = (element: Element) => {
+  if (!(element instanceof HTMLElement)) {
+    return false;
+  }
 
-const NESTED_OVERLAY_TARGET_SELECTOR = [
-  '[data-slot="dropdown-menu-content"]',
-  '[data-slot="dropdown-menu-sub-content"]',
-  '[data-slot="popover-content"]',
-  '[data-slot="select-content"]',
-].join(', ');
+  return element.offsetParent !== null || element.getClientRects().length > 0;
+};
 
 export const hasOpenNestedOverlay = () => {
-  return document.querySelector(NESTED_OVERLAY_SELECTOR) !== null;
+  const overlays = document.querySelectorAll(
+    [
+      '[data-slot="dropdown-menu-content"]',
+      '[data-slot="dropdown-menu-sub-content"]',
+      '[data-slot="popover-content"]',
+      '[data-slot="context-menu-content"]',
+      '[data-slot="select-content"]',
+      '[role="menu"]',
+    ].join(','),
+  );
+
+  return [...overlays].some(isVisible);
 };
 
 export const hasNestedDialogOpen = () => {
-  return document.querySelectorAll('[data-slot="dialog-content"][data-state="open"]').length > 1;
+  const dialogs = document.querySelectorAll('[data-slot="dialog-content"], [role="dialog"]');
+
+  return [...dialogs].filter(isVisible).length > 1;
 };
 
 export const isNestedOverlayTarget = (target: EventTarget | null) => {
@@ -25,7 +32,14 @@ export const isNestedOverlayTarget = (target: EventTarget | null) => {
     return false;
   }
 
-  return target.closest(NESTED_OVERLAY_TARGET_SELECTOR) !== null;
+  return (
+    target.closest('[data-slot="dropdown-menu-content"]') !== null ||
+    target.closest('[data-slot="dropdown-menu-sub-content"]') !== null ||
+    target.closest('[data-slot="popover-content"]') !== null ||
+    target.closest('[data-slot="context-menu-content"]') !== null ||
+    target.closest('[data-slot="select-content"]') !== null ||
+    target.closest('[role="menu"]') !== null
+  );
 };
 
 export const shouldKeepDialogOpen = (target: EventTarget | null) => {

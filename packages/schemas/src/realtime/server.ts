@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { chatMessageSchema } from '../chat/outputs';
 import { friendCallStreamSnapshotSchema } from '../friends/outputs';
 import { roomsParticipantsSnapshotSchema } from '../livekit/outputs';
@@ -47,6 +48,12 @@ export const realtimeFriendsSnapshotEventSchema = z.object({
   snapshot: friendCallStreamSnapshotSchema,
 });
 
+export const realtimeFriendPresenceEventSchema = z.object({
+  type: z.literal('friend.presence'),
+  userId: z.string(),
+  isOnline: z.boolean(),
+});
+
 export const realtimeServerMessageSchema = z.discriminatedUnion('type', [
   realtimeChatMessageEventSchema,
   realtimeChatEditEventSchema,
@@ -54,4 +61,5 @@ export const realtimeServerMessageSchema = z.discriminatedUnion('type', [
   realtimeRoomReactionEventSchema,
   realtimePresenceSnapshotEventSchema,
   realtimeFriendsSnapshotEventSchema,
+  realtimeFriendPresenceEventSchema,
 ]);

@@ -1,18 +1,17 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { Palette } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { HexColorPicker } from 'react-colorful';
-import { cn } from '@/shared/lib/cn';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui';
-import { updateProfileFormStyles as s } from './UpdateProfileForm.styles';
+
+import { Popover, PopoverContent } from '@/shared/ui';
+
+import s from './UpdateProfileForm.module.scss';
+
+import type { BannerColorFieldProps } from './BannerColorField.types';
 
 const PRESETS = ['#7c5cff', '#22d3ee', '#f43f5e', '#f59e0b', '#10b981', '#64748b'];
-
-type BannerColorFieldProps = {
-  value: string | null;
-  onChange: (value: string | null) => void;
-};
 
 export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => {
   const t = useTranslations('settings.profile');
@@ -30,7 +29,7 @@ export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => 
           <button
             key={color}
             aria-label={color}
-            className={cn(s.bannerSwatch, value === color && s.bannerSwatchActive)}
+            className={clsx(s.bannerSwatch, { [s.bannerSwatchActive]: value === color })}
             style={{ backgroundColor: color }}
             type="button"
             onClick={() => onChange(color)}
@@ -38,16 +37,14 @@ export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => 
         ))}
 
         <Popover>
-          <PopoverTrigger asChild>
-            <button
-              aria-label={t('bannerCustom')}
-              className={cn(s.bannerCustomTrigger, isCustom && s.bannerSwatchActive)}
-              style={{ backgroundColor: isCustom ? current : undefined }}
-              type="button"
-            >
-              <Palette className={s.bannerCustomIcon} />
-            </button>
-          </PopoverTrigger>
+          <button
+            aria-label={t('bannerCustom')}
+            className={clsx(s.bannerCustomTrigger, { [s.bannerSwatchActive]: isCustom })}
+            style={{ backgroundColor: isCustom ? current : undefined }}
+            type="button"
+          >
+            <Palette className={s.bannerCustomIcon} />
+          </button>
           <PopoverContent className={s.bannerPickerPopover}>
             <HexColorPicker color={current} onChange={onChange} />
           </PopoverContent>

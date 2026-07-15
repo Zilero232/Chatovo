@@ -1,9 +1,6 @@
-import type { VariantProps } from 'class-variance-authority';
 import type { ReactNode } from 'react';
 import type { DeviceSettings } from '@/entities/app/settings';
-import type { controlButton } from './ControlButton.styles';
-
-type ControlTone = NonNullable<VariantProps<typeof controlButton>['tone']>;
+import type { ControlTone } from './control-button-tones';
 
 export type ControlDevice = {
   kind: MediaDeviceKind;

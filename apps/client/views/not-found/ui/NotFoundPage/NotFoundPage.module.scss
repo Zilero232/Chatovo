@@ -1,0 +1,126 @@
+@use '@/shared/styles/mixins' as *;
+
+.root {
+  position: relative;
+  display: flex;
+  min-height: 100%;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: rem(28);
+  overflow: hidden;
+  padding: rem(24);
+  text-align: center;
+}
+
+.orb {
+  position: absolute;
+  z-index: 0;
+  width: rem(420);
+  height: rem(420);
+  border-radius: 9999px;
+  filter: blur(rem(90));
+  opacity: 0.5;
+  pointer-events: none;
+
+  &[data-tone='violet'] {
+    top: 12%;
+    left: 8%;
+    background: var(--brand-violet);
+    animation: not-found-drift 14s ease-in-out infinite;
+  }
+
+  &[data-tone='cyan'] {
+    right: 6%;
+    bottom: 10%;
+    background: var(--brand-cyan);
+    animation: not-found-drift 18s ease-in-out infinite reverse;
+  }
+}
+
+.badge {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: rem(88);
+  height: rem(88);
+  align-items: center;
+  justify-content: center;
+  border-radius: rem(28);
+  animation: not-found-float 5s ease-in-out infinite;
+}
+
+.logo {
+  width: rem(48);
+  height: rem(48);
+}
+
+.code {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(rem(96), 22vw, rem(180));
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: rem(-6);
+  font-variant-numeric: tabular-nums;
+}
+
+.title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(rem(20), 4vw, rem(28));
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.description {
+  position: relative;
+  z-index: 1;
+  max-width: rem(440);
+  margin: 0;
+  font-size: rem(15);
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+
+.actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: rem(12);
+}
+
+@keyframes not-found-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(#{rem(-10)});
+  }
+}
+
+@keyframes not-found-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(#{rem(40)}, #{rem(-30)}) scale(1.12);
+  }
+}
+
+@include reduced-motion {
+  .badge,
+  .orb {
+    animation: none;
+  }
+}

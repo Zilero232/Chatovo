@@ -1,18 +1,19 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useFieldError } from '@/entities/app/locale';
 import {
   type ChangePasswordValues,
   changePasswordSchema,
   useChangePassword,
 } from '@/entities/auth/user';
-import { Button, Input, Label } from '@/shared/ui';
-import { changePasswordFormStyles as s } from './ChangePasswordForm.styles';
+import { FormField, Input, SubmitButton } from '@/shared/ui';
+
+import s from './ChangePasswordForm.module.scss';
 
 export const ChangePasswordForm = () => {
   const t = useTranslations('settings.security');
@@ -42,55 +43,48 @@ export const ChangePasswordForm = () => {
 
   return (
     <form className={s.form} onSubmit={onSubmit}>
-      <div className={s.field}>
-        <Label className={s.label} htmlFor="current-password">
-          {t('currentPasswordLabel')}
-        </Label>
-
+      <FormField
+        htmlFor="current-password"
+        label={t('currentPasswordLabel')}
+        error={errors.currentPassword && fieldError(errors.currentPassword)}
+      >
         <Input
           autoComplete="current-password"
           id="current-password"
           type="password"
           {...register('currentPassword')}
         />
+      </FormField>
 
-        {errors.currentPassword && <p className={s.error}>{fieldError(errors.currentPassword)}</p>}
-      </div>
-
-      <div className={s.field}>
-        <Label className={s.label} htmlFor="new-password">
-          {t('newPasswordLabel')}
-        </Label>
-
+      <FormField
+        htmlFor="new-password"
+        label={t('newPasswordLabel')}
+        error={errors.newPassword && fieldError(errors.newPassword)}
+      >
         <Input
           autoComplete="new-password"
           id="new-password"
           type="password"
           {...register('newPassword')}
         />
+      </FormField>
 
-        {errors.newPassword && <p className={s.error}>{fieldError(errors.newPassword)}</p>}
-      </div>
-
-      <div className={s.field}>
-        <Label className={s.label} htmlFor="confirm-password">
-          {t('confirmPasswordLabel')}
-        </Label>
-
+      <FormField
+        htmlFor="confirm-password"
+        label={t('confirmPasswordLabel')}
+        error={errors.confirmPassword && fieldError(errors.confirmPassword)}
+      >
         <Input
           autoComplete="new-password"
           id="confirm-password"
           type="password"
           {...register('confirmPassword')}
         />
+      </FormField>
 
-        {errors.confirmPassword && <p className={s.error}>{fieldError(errors.confirmPassword)}</p>}
-      </div>
-
-      <Button className={s.submit} disabled={!isDirty || isPending} type="submit">
-        {isPending && <Loader2 className={s.spinner} />}
+      <SubmitButton className={s.submit} disabled={!isDirty} isPending={isPending}>
         {t('changePassword')}
-      </Button>
+      </SubmitButton>
     </form>
   );
 };

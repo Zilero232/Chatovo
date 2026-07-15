@@ -1,0 +1,37 @@
+@use '@/shared/styles/functions' as *;
+
+.trigger {
+  border-radius: 9999px;
+  outline: none;
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 150ms ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 rem(2) var(--brand-cyan);
+  }
+}
+
+.content {
+  display: flex;
+  max-width: 28rem;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+.image {
+  max-height: 70vh;
+  width: 100%;
+  border-radius: 1rem;
+  object-fit: contain;
+}

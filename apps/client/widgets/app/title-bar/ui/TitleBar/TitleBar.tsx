@@ -1,10 +1,13 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 import { useNavHistory } from '@/shared/hooks';
 import { useWindowControls, useWindowPlatform } from '../../model/hooks';
 import { TitleBarControls } from './components';
-import { titleBarStyles as s } from './TitleBar.styles';
+
+import s from './TitleBar.module.scss';
 
 export const TitleBar = () => {
   const platform = useWindowPlatform();
@@ -16,10 +19,9 @@ export const TitleBar = () => {
   }
 
   const isMacos = platform === 'macos';
-  const variant = isMacos ? 'macos' : platform === 'windows' ? 'windows' : 'linux';
 
   return (
-    <div className={s.root({ platform: variant })}>
+    <div className={clsx(s.root, { [s.rootMacos]: isMacos })}>
       {!isMacos && (
         <div className={s.navButtons}>
           <button type="button" className={s.navButton} disabled={!canGoBack} onClick={goBack}>

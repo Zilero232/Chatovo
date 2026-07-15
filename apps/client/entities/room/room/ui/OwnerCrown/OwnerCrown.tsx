@@ -1,8 +1,11 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { Crown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { cn } from '@/shared/lib/cn';
+
+import s from './OwnerCrown.module.scss';
+
 import type { OwnerCrownProps } from './OwnerCrown.types';
 
 export const OwnerCrown = ({ className }: OwnerCrownProps) => {
@@ -11,14 +14,11 @@ export const OwnerCrown = ({ className }: OwnerCrownProps) => {
   return (
     <span
       aria-label={t('ownerTooltip')}
-      className={cn(
-        'absolute -top-0.5 left-0 z-10 flex size-3 items-center justify-center rounded-full bg-background ring-1 ring-background',
-        className,
-      )}
+      className={clsx(s.root, className)}
       role="img"
       title={t('ownerTooltip')}
     >
-      <Crown className="size-2 fill-amber-300 text-amber-300" />
+      <Crown className={s.icon} />
     </span>
   );
 };

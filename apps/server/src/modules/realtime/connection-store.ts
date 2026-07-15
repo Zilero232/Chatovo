@@ -1,13 +1,8 @@
 import { bindRealtimeBroadcast as bindEmit } from './emit';
-import type { RealtimeServerMessage } from '@chatovo/schemas';
-import type { WSContext } from 'hono/ws';
 
-export type RealtimeConnection = {
-  id: string;
-  userId: string;
-  ws: WSContext;
-  rooms: Set<string>;
-};
+import type { RealtimeServerMessage } from '@chatovo/schemas';
+import type { WebSocket } from 'ws';
+import type { RealtimeConnection } from './realtime.types';
 
 const connections = new Map<string, RealtimeConnection>();
 const byUser = new Map<string, Set<string>>();
@@ -44,11 +39,9 @@ const unlinkRoom = (connectionId: string, roomId: string) => {
   }
 };
 
-export const getConnectionByWs = (ws: WSContext): RealtimeConnection | null => {
-  const raw = ws.raw;
-
+export const getConnectionByWs = (ws: WebSocket): RealtimeConnection | null => {
   for (const connection of connections.values()) {
-    if (connection.ws === ws || (raw !== undefined && connection.ws.raw === raw)) {
+    if (connection.ws === ws) {
       return connection;
     }
   }
@@ -56,7 +49,7 @@ export const getConnectionByWs = (ws: WSContext): RealtimeConnection | null => {
   return null;
 };
 
-export const registerConnection = (userId: string, ws: WSContext): RealtimeConnection => {
+export const registerConnection = (userId: string, ws: WebSocket): RealtimeConnection => {
   const id = crypto.randomUUID();
   const connection: RealtimeConnection = { id, userId, ws, rooms: new Set() };
 

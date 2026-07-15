@@ -1,9 +1,12 @@
 import { participantMetadataSchema, safeJsonParse } from '@chatovo/schemas';
 import { RoomServiceClient, TrackSource } from 'livekit-server-sdk';
+
 import { env } from '../../core';
+import { toRoomParticipant } from './mappers';
 import { replaceRoom } from './presence-store';
+
 import type { RoomParticipant } from '@chatovo/schemas';
-import type { ParticipantInfo, TrackInfo } from 'livekit-server-sdk';
+import type { TrackInfo } from 'livekit-server-sdk';
 
 export {
   addLobbyConnection,
@@ -37,16 +40,6 @@ export const isMicMuted = (tracks: TrackInfo[] | undefined): boolean => {
   const mic = tracks?.find((track) => track.source === TrackSource.MICROPHONE);
 
   return !mic || mic.muted;
-};
-
-const toRoomParticipant = (p: ParticipantInfo): RoomParticipant => {
-  return {
-    identity: p.identity,
-    name: p.name || p.identity,
-    micMuted: isMicMuted(p.tracks),
-    deafened: p.attributes?.deafened === 'true',
-    ...parseParticipantMeta(p.metadata),
-  };
 };
 
 // Reconciles the in-memory store with LiveKit's actual state — webhooks can be

@@ -2,6 +2,7 @@
 
 import { format } from 'date-fns';
 import { useTranslations } from 'next-intl';
+
 import { useDateLocale } from '@/entities/app/locale';
 import {
   Button,
@@ -13,8 +14,10 @@ import {
   DialogTitle,
 } from '@/shared/ui';
 import { parseTauriDate } from '../../lib/parse-tauri-date';
-import { updateDialogStyles as s } from './UpdateDialog.styles';
 import { UpdateProgress } from './UpdateProgress';
+
+import s from './UpdateDialog.module.scss';
+
 import type { UpdateDialogProps } from './UpdateDialog.types';
 
 export const UpdateDialog = ({
@@ -40,27 +43,21 @@ export const UpdateDialog = ({
 
   const releaseDate = parsedDate ? format(parsedDate, 'd MMM yyyy', { locale: dateLocale }) : date;
 
-  const preventWhenBusy = (event: { preventDefault: () => void }) => {
-    if (isBusy) {
-      event.preventDefault();
-    }
-  };
-
   return (
     <Dialog
+      disablePointerDismissal={isBusy}
       open={open}
       onOpenChange={(next) => {
+        if (!next && isBusy) {
+          return;
+        }
+
         if (!next && !isBusy) {
           onDismiss();
         }
       }}
     >
-      <DialogContent
-        showCloseButton={!isBusy}
-        onEscapeKeyDown={preventWhenBusy}
-        onPointerDownOutside={preventWhenBusy}
-        onInteractOutside={preventWhenBusy}
-      >
+      <DialogContent showCloseButton={!isBusy}>
         <DialogHeader>
           <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>{t('description', { version: version ?? '' })}</DialogDescription>

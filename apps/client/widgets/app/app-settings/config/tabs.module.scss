@@ -1,0 +1,11 @@
+@use '@/shared/styles/mixins' as *;
+
+.fallback {
+  display: flex;
+  min-height: rem(240);
+  height: 100%;
+  width: 100%;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}

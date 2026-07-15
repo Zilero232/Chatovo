@@ -1,4 +1,5 @@
 import { useTranslations } from 'next-intl';
+
 import { LEGAL } from '@/shared/config';
 
 type LegalSection = {

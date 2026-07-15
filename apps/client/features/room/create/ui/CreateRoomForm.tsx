@@ -5,15 +5,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useCreateRoom, useEnterRoom } from '@/entities/room/room';
 import { FormField, Input, Label, Row, Stack, SubmitButton, Switch } from '@/shared/ui';
+
 import type { CreateRoomRequest } from '@chatovo/schemas';
+import type { CreateRoomFormProps } from './CreateRoomForm.types';
 
 const DEFAULT_VALUES: CreateRoomRequest = { name: '', isPrivate: false };
-
-type CreateRoomFormProps = {
-  onCreated?: () => void;
-};
 
 export const CreateRoomForm = ({ onCreated }: CreateRoomFormProps) => {
   const t = useTranslations('createRoom');
@@ -79,7 +78,7 @@ export const CreateRoomForm = ({ onCreated }: CreateRoomFormProps) => {
         </FormField>
       )}
 
-      <Row className="items-center" gap="2">
+      <Row gap="2">
         <Controller
           control={control}
           name="isPrivate"

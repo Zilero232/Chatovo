@@ -1,8 +1,8 @@
 'use client';
 
-import { cn } from '@/shared/lib/cn';
 import { getAvatarColor, getInitials } from '@/shared/lib/initials';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui';
+
 import type { UserAvatarProps } from './UserAvatar.types';
 
 export const UserAvatar = ({
@@ -16,7 +16,10 @@ export const UserAvatar = ({
   return (
     <Avatar className={className} size={size}>
       {src && <AvatarImage alt={name} src={src} />}
-      <AvatarFallback className={cn(colorize && getAvatarColor(name), fallbackClassName)}>
+      <AvatarFallback
+        className={fallbackClassName}
+        style={colorize ? { backgroundColor: getAvatarColor(name), color: '#fff' } : undefined}
+      >
         {getInitials(name)}
       </AvatarFallback>
     </Avatar>

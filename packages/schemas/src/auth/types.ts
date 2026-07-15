@@ -7,7 +7,10 @@ import type {
   resetPasswordSchema,
   signInSchema,
   signUpSchema,
+  userRoleSchema,
 } from './inputs';
+
+export type UserRole = z.infer<typeof userRoleSchema>;
 
 export type SignInValues = z.infer<typeof signInSchema>;
 export type SignUpValues = z.infer<typeof signUpSchema>;

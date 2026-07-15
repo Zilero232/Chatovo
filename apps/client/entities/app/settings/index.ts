@@ -12,6 +12,7 @@ export {
 } from './lib/voice-gate/voice-gate-detector';
 export { VoiceGateProcessor } from './lib/voice-gate/voice-gate-processor';
 export { useAppSettings } from './model/hooks';
+
 export type { VoiceGateParams } from './lib/voice-gate/voice-gate-detector';
 export type {
   AppSettings,

@@ -5,10 +5,17 @@ import { UserPlus, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
+
 import { useCurrentUser } from '@/entities/auth/user';
-import { useIncomingFriendRequests, useSendFriendRequest } from '@/entities/social/friend';
+import {
+  FriendTag,
+  useCloseWhenCallAccepted,
+  useIncomingFriendRequests,
+  useSendFriendRequest,
+} from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 import { useCloseWhenInVoiceRoom } from '@/shared/hooks';
+import { formatBadgeCount } from '@/shared/lib';
 import {
   Button,
   Dialog,
@@ -24,7 +31,8 @@ import {
   TabsTrigger,
 } from '@/shared/ui';
 import { FriendsTab, RequestsTab } from './components';
-import { friendsDialogStyles as s } from './FriendsDialog.styles';
+
+import s from './FriendsDialog.module.scss';
 
 export const FriendsDialog = () => {
   const t = useTranslations('friends');
@@ -38,6 +46,7 @@ export const FriendsDialog = () => {
   const sendRequest = useSendFriendRequest();
 
   useCloseWhenInVoiceRoom(() => toggleOpen(false));
+  useCloseWhenCallAccepted(() => toggleOpen(false));
 
   const incomingCount = requests?.length ?? 0;
   const triggerBadgeCount = dmUnread + incomingCount;
@@ -53,13 +62,12 @@ export const FriendsDialog = () => {
           onClick={() => toggleOpen(true)}
         />
         {triggerBadgeCount > 0 && (
-          <span className={s.triggerBadge}>
-            {triggerBadgeCount > 99 ? '99+' : triggerBadgeCount}
-          </span>
+          <span className={s.triggerBadge}>{formatBadgeCount(triggerBadgeCount)}</span>
         )}
       </div>
 
       <Dialog
+        disablePointerDismissal={blocksParentDialogClose}
         open={open}
         onOpenChange={(next) => {
           if (!next && blocksParentDialogClose) {
@@ -69,24 +77,7 @@ export const FriendsDialog = () => {
           toggleOpen(next);
         }}
       >
-        <DialogContent
-          className={s.content}
-          onFocusOutside={(event) => {
-            if (blocksParentDialogClose) {
-              event.preventDefault();
-            }
-          }}
-          onInteractOutside={(event) => {
-            if (blocksParentDialogClose) {
-              event.preventDefault();
-            }
-          }}
-          onPointerDownOutside={(event) => {
-            if (blocksParentDialogClose) {
-              event.preventDefault();
-            }
-          }}
-        >
+        <DialogContent className={s.content}>
           <DialogHeader>
             <DialogTitle>{t('title')}</DialogTitle>
             <DialogDescription>{t('description')}</DialogDescription>
@@ -94,20 +85,7 @@ export const FriendsDialog = () => {
           {ownFriendTag && (
             <div className={s.ownTagRow}>
               <span className={s.ownTagLabel}>{t('yourTagLabel')}</span>
-              <button
-                className={s.ownTagValue}
-                type="button"
-                onClick={async () => {
-                  try {
-                    await navigator.clipboard.writeText(ownFriendTag);
-                    toast.success(t('tagCopied'));
-                  } catch {
-                    toast.error(t('tagCopyFailed'));
-                  }
-                }}
-              >
-                {ownFriendTag}
-              </button>
+              <FriendTag tag={ownFriendTag} />
             </div>
           )}
 

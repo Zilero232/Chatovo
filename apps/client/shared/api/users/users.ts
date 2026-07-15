@@ -1,43 +1,30 @@
-import { api, readErrorMessage } from '../http';
+import { api } from '../http';
+
 import type { UpdateProfilePayload, UserProfile } from '@chatovo/schemas';
 
 export const getUserProfile = async (id: string): Promise<UserProfile> => {
-  try {
-    const res = await api.users[':id'].profile.$get({ param: { id } });
+  const { data } = await api.get(`/users/${id}/profile`);
 
-    if (!res.ok) {
-      const message = await readErrorMessage(res);
-
-      throw new Error(message ?? `Failed to get user profile: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    throw new Error('Failed to get user profile');
-  }
+  return data;
 };
 
 export const updateUserProfile = async (payload: UpdateProfilePayload): Promise<UserProfile> => {
-  const res = await api.users.profile.$post({
-    form: {
-      displayName: payload.displayName,
-      profileUrl: payload.profileUrl,
-      bannerColor: payload.bannerColor ?? '',
-      bio: payload.bio,
-      ...(payload.avatar instanceof File ? { avatar: payload.avatar } : {}),
-      ...(payload.avatar === null ? { removeAvatar: 'true' } : {}),
-    },
-  });
+  const fd = new FormData();
 
-  if (!res.ok) {
-    const message = await readErrorMessage(res);
+  fd.append('displayName', payload.displayName);
+  fd.append('profileUrl', payload.profileUrl);
+  fd.append('bannerColor', payload.bannerColor ?? '');
+  fd.append('bio', payload.bio);
 
-    throw new Error(message ?? `Failed to update profile: ${res.status}`);
+  if (payload.avatar instanceof File) {
+    fd.append('avatar', payload.avatar);
   }
 
-  return await res.json();
+  if (payload.avatar === null) {
+    fd.append('removeAvatar', 'true');
+  }
+
+  const { data } = await api.post('/users/profile', fd);
+
+  return data;
 };

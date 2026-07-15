@@ -1,0 +1,17 @@
+@use '@/shared/styles/mixins' as *;
+
+.root {
+  @include field-base;
+  @include field-focus;
+  @include control-invalid;
+  @include field-text-size;
+
+  display: flex;
+  height: var(--control-lg);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+
+  &:disabled {
+    @include control-disabled;
+  }
+}

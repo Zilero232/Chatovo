@@ -1,0 +1,50 @@
+@use '@/shared/styles/functions' as *;
+
+.bubble {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-xl);
+  font-size: rem(15);
+  line-height: 1.625;
+}
+
+.own {
+  color: white;
+}
+
+.other {
+  color: var(--foreground);
+}
+
+.bare {
+  overflow: hidden;
+  border-radius: var(--radius-2xl);
+}
+
+.padded {
+  padding: 0.375rem 0.875rem;
+  box-shadow: 0 rem(1) rem(2) oklch(0 0 0 / 5%);
+}
+
+.ownPadded {
+  background: linear-gradient(
+    to bottom right,
+    var(--brand-violet),
+    color-mix(in oklch, var(--brand-violet) 85%, transparent)
+  );
+  box-shadow: 0 rem(2) rem(10) rem(-2) oklch(0.7 0.2 270 / 0.5);
+}
+
+.otherPadded {
+  border: 1px solid oklch(1 0 0 / 8%);
+  background: oklch(1 0 0 / 6%);
+  backdrop-filter: blur(rem(12));
+}
+
+.ownTail {
+  border-bottom-right-radius: var(--radius-sm);
+}
+
+.otherTail {
+  border-bottom-left-radius: var(--radius-sm);
+}

@@ -1,0 +1,33 @@
+@use '@/shared/styles/mixins' as *;
+
+@use '@/shared/styles/breakpoints' as *;
+
+.root {
+  pointer-events: none;
+  position: absolute;
+  right: 0.5rem;
+  bottom: calc(0.75rem + var(--safe-area-bottom));
+  z-index: 10;
+  height: 100%;
+  width: 4rem;
+  overflow: hidden;
+
+  @include bp(sm) {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: 6rem;
+  }
+}
+
+.item {
+  position: absolute;
+  right: 0.25rem;
+  bottom: 0;
+  font-size: 1.5rem;
+  filter: drop-shadow(0 rem(2) rem(10) oklch(0 0 0 / 60%));
+
+  @include bp(sm) {
+    right: 0.5rem;
+    font-size: 2.25rem;
+  }
+}

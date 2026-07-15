@@ -1,11 +1,14 @@
 'use client';
 
 import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
+import { FriendTag } from '@/entities/social/friend';
 import { FriendProfileActions } from '@/features/social/friend-profile-actions';
 import { getBannerStyle } from '../../lib/banner-style';
 import { useUserProfile } from '../../model/use-user-profile';
 import { AvatarZoom, ProfileCardSkeleton, ProfileVoiceBlock } from './components';
-import { profileCardStyles as s } from './ProfileCard.styles';
+
+import s from './ProfileCard.module.scss';
+
 import type { ProfileCardProps } from './ProfileCard.types';
 
 export const ProfileCard = ({ identity, name }: ProfileCardProps) => {
@@ -46,7 +49,7 @@ export const ProfileCard = ({ identity, name }: ProfileCardProps) => {
             size="md"
             verified={profile?.verified ?? false}
           />
-          {profile?.friendTag && <span className={s.tag}>{profile.friendTag}</span>}
+          {profile?.friendTag && <FriendTag className={s.tag} tag={profile.friendTag} />}
         </div>
 
         {profile?.bio && <p className={s.bio}>{profile.bio}</p>}

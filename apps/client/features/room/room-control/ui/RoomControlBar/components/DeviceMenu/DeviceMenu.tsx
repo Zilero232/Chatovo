@@ -1,20 +1,24 @@
 'use client';
 
 import { useMediaDeviceSelect } from '@livekit/components-react';
+import { clsx } from 'clsx';
 import { Check, ChevronUp } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { isEmpty } from 'remeda';
+
 import { useAppSettings } from '@/entities/app/settings';
-import { cn } from '@/shared/lib/cn';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@/shared/ui';
-import { deviceMenuStyles as s } from './DeviceMenu.styles';
 import { deviceIcon } from './lib/device-icon';
+
+import s from './DeviceMenu.module.scss';
+
 import type { DeviceMenuProps } from './DeviceMenu.types';
 
 export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
@@ -40,10 +44,10 @@ export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="center" className={s.menu} side="top">
-        <div className={s.header}>
+        <DropdownMenuLabel className={s.header}>
           <Icon className={s.headerIcon} />
           <span className={s.headerLabel}>{label}</span>
-        </div>
+        </DropdownMenuLabel>
 
         <DropdownMenuRadioGroup className={s.list} value={activeId} onValueChange={selectDevice}>
           {devices.map((device) => {
@@ -53,10 +57,10 @@ export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
             return (
               <DropdownMenuRadioItem
                 key={device.deviceId}
-                className={cn(s.item, isActive ? s.itemActive : s.itemInactive)}
+                className={clsx(s.item, { [s.itemActive]: isActive, [s.itemInactive]: !isActive })}
                 value={device.deviceId}
               >
-                <span className={cn(s.itemIconBox, isActive && s.itemIconBoxActive)}>
+                <span className={clsx(s.itemIconBox, { [s.itemIconBoxActive]: isActive })}>
                   <Icon />
                 </span>
                 <span className={s.itemLabel} title={name}>

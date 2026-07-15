@@ -1,40 +1,27 @@
-import { api, readErrorMessage } from '../http';
+import { api } from '../http';
+
 import type { ChatAttachment, ChatMessage, ChatMessagesPage } from '@chatovo/schemas';
 
 export const editChatMessage = async (id: string, body: string): Promise<ChatMessage> => {
-  const res = await api.chat.messages[':id'].$patch({ param: { id }, json: { body } });
+  const { data } = await api.patch(`/chat/messages/${id}`, { body });
 
-  if (!res.ok) {
-    const message = await readErrorMessage(res);
-
-    throw new Error(message ?? `Failed to edit message: ${res.status}`);
-  }
-
-  return await res.json();
+  return data;
 };
 
 export const deleteChatMessage = async (id: string): Promise<ChatMessage> => {
-  const res = await api.chat.messages[':id'].$delete({ param: { id } });
+  const { data } = await api.delete(`/chat/messages/${id}`);
 
-  if (!res.ok) {
-    const message = await readErrorMessage(res);
-
-    throw new Error(message ?? `Failed to delete message: ${res.status}`);
-  }
-
-  return await res.json();
+  return data;
 };
 
 export const uploadChatAttachment = async (roomId: string, file: File): Promise<ChatAttachment> => {
-  const res = await api.chat.attachments.$post({ form: { roomId, file } });
+  const fd = new FormData();
+  fd.append('roomId', roomId);
+  fd.append('file', file);
 
-  if (!res.ok) {
-    const message = await readErrorMessage(res);
+  const { data } = await api.post('/chat/attachments', fd);
 
-    throw new Error(message ?? `Failed to upload attachment: ${res.status}`);
-  }
-
-  return await res.json();
+  return data;
 };
 
 export const sendChatMessage = async (
@@ -42,15 +29,9 @@ export const sendChatMessage = async (
   roomId: string,
   body: string,
 ): Promise<ChatMessage> => {
-  const res = await api.chat.messages.$post({ json: { id, roomId, body } });
+  const { data } = await api.post('/chat/messages', { id, roomId, body });
 
-  if (!res.ok) {
-    const message = await readErrorMessage(res);
-
-    throw new Error(message ?? `Failed to send message: ${res.status}`);
-  }
-
-  return await res.json();
+  return data;
 };
 
 export const fetchChatMessages = async (
@@ -58,15 +39,9 @@ export const fetchChatMessages = async (
   cursor?: string,
   limit = 50,
 ): Promise<ChatMessagesPage> => {
-  const res = await api.chat.messages.$get({
-    query: { roomId, limit: String(limit), ...(cursor ? { cursor } : {}) },
+  const { data } = await api.get('/chat/messages', {
+    params: { roomId, limit, ...(cursor ? { cursor } : {}) },
   });
 
-  if (!res.ok) {
-    const message = await readErrorMessage(res);
-
-    throw new Error(message ?? `Failed to load messages: ${res.status}`);
-  }
-
-  return await res.json();
+  return data;
 };

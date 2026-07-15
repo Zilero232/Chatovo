@@ -3,7 +3,9 @@
 import { useLocalParticipant } from '@livekit/components-react';
 import { ParticipantEvent } from 'livekit-client';
 import { useEffect, useEffectEvent } from 'react';
+
 import { useRealtime } from '@/entities/app/realtime';
+
 import type { MicStateControllerProps } from './MicStateController.types';
 
 export const MicStateController = ({ roomId }: MicStateControllerProps) => {

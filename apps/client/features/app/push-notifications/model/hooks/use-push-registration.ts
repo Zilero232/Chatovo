@@ -10,8 +10,10 @@ import {
   register,
   requestPermissions,
 } from 'tauri-plugin-fcm';
+
 import { registerPushDevice, unregisterPushDevice } from '@/shared/api';
 import { isTauriMobile } from '@/shared/lib';
+
 import type { PushPlatform } from '@chatovo/schemas';
 
 const CHANNELS = [

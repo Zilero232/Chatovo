@@ -3,6 +3,7 @@
 import { useLocalParticipant } from '@livekit/components-react';
 import { useAsyncEffect } from '@siberiacancode/reactuse';
 import { isNullish } from 'remeda';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { toggleMicStream } from '@/shared/lib';
 

@@ -2,10 +2,12 @@
 
 import { useLocalParticipant, useRoomContext } from '@livekit/components-react';
 import { isNullish } from 'remeda';
+
 import { useRealtime } from '@/entities/app/realtime';
 import { useAppSettings } from '@/entities/app/settings';
 import { toggleMicStream } from '@/shared/lib';
 import { useDeafenContext } from '../contexts/deafen-context';
+
 import type { LocalParticipant } from 'livekit-client';
 
 export const useDeafen = () => {

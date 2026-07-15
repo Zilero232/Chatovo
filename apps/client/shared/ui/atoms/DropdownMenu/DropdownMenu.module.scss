@@ -1,0 +1,185 @@
+@use '@/shared/styles/mixins' as *;
+
+.popup {
+  z-index: 50;
+  max-height: var(--available-height);
+  min-width: 9rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-radius: var(--radius-xl);
+  padding: 0.375rem;
+  color: var(--popover-foreground);
+  transform-origin: var(--transform-origin);
+
+  @include overlay-enter;
+  @include slide-from-side;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-lg);
+  padding: 0.375rem 0.625rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: colors 150ms ease;
+  user-select: none;
+
+  &[data-highlighted] {
+    background: oklch(1 0 0 / 8%);
+    color: var(--foreground);
+  }
+
+  &[data-disabled] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  &[data-inset='true'] {
+    padding-left: 2rem;
+  }
+
+  &[data-variant='destructive'] {
+    color: color-mix(in oklch, var(--destructive) 90%, transparent);
+
+    &[data-highlighted] {
+      background: color-mix(in oklch, var(--destructive) 15%, transparent);
+      color: var(--destructive);
+    }
+
+    svg {
+      color: var(--destructive) !important;
+    }
+  }
+
+  svg {
+    pointer-events: none;
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    color: var(--muted-foreground);
+  }
+}
+
+.checkboxItem,
+.radioItem {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-md);
+  padding: 0.375rem 0.5rem 0.375rem 2rem;
+  font-size: 0.875rem;
+  outline: none;
+  user-select: none;
+
+  &[data-highlighted] {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  &[data-disabled] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  svg {
+    pointer-events: none;
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.itemIndicator {
+  pointer-events: none;
+  position: absolute;
+  left: 0.5rem;
+  display: flex;
+  width: 0.875rem;
+  height: 0.875rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  padding: 0.375rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &[data-inset='true'] {
+    padding-left: 2rem;
+  }
+}
+
+.separator {
+  margin: 0.25rem -0.25rem;
+  height: 1px;
+  background: oklch(1 0 0 / 10%);
+}
+
+.shortcut {
+  margin-left: auto;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--muted-foreground);
+}
+
+.subTrigger {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-md);
+  padding: 0.375rem 0.5rem;
+  font-size: 0.875rem;
+  outline: none;
+  user-select: none;
+
+  &[data-highlighted],
+  &[data-popup-open] {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  &[data-inset='true'] {
+    padding-left: 2rem;
+  }
+
+  svg {
+    pointer-events: none;
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    color: var(--muted-foreground);
+  }
+}
+
+.subTriggerChevron {
+  margin-left: auto;
+  width: 1rem;
+  height: 1rem;
+}
+
+.subPopup {
+  z-index: 50;
+  min-width: 9rem;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  padding: 0.375rem;
+  color: var(--popover-foreground);
+  transform-origin: var(--transform-origin);
+
+  @include overlay-enter;
+  @include slide-from-side;
+}
+
+.radioDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  fill: currentColor;
+}

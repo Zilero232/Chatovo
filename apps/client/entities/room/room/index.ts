@@ -20,6 +20,7 @@ export { MicMutedBadge } from './ui/MicMutedBadge';
 export { OwnerBadge } from './ui/OwnerBadge';
 export { OwnerCrown } from './ui/OwnerCrown';
 export { RoomsListError } from './ui/RoomsListError';
+
 export type { DeafenedBadgeProps } from './ui/DeafenedBadge';
 export type { MicMutedBadgeProps } from './ui/MicMutedBadge';
 export type { OwnerBadgeProps } from './ui/OwnerBadge';

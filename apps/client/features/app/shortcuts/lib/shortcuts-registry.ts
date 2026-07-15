@@ -1,7 +1,9 @@
 import { register, unregister, unregisterAll } from '@tauri-apps/plugin-global-shortcut';
 import { difference, entries, filter, groupBy, isNonNullish, map, mapValues, pipe } from 'remeda';
+
 import { conflictsActions } from '../model/stores';
 import { dispatchShortcut } from './dispatch-shortcut';
+
 import type { ShortcutActionId } from '@/entities/app/shortcut';
 
 type ActionToHotkey = Partial<Record<ShortcutActionId, string | null>>;

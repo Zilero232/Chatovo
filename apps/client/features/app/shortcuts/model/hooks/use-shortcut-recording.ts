@@ -3,12 +3,14 @@
 import { target, useBoolean, useEventListener } from '@siberiacancode/reactuse';
 import { isTauri } from '@tauri-apps/api/core';
 import { useTranslations } from 'next-intl';
-import { useEffect, useRef } from 'react';
+import { useEffect, useEffectEvent, useRef } from 'react';
 import { toast } from 'sonner';
+
 import { formatHotkey, hasModifier, isPureModifier } from '@/shared/lib';
 import { buildShortcutPatch, isOwnedByUs } from '../../lib/build-shortcut-patch';
 import { probeOsAvailability } from '../../lib/probe-os-availability';
 import { syncShortcuts, teardownShortcuts } from '../../lib/shortcuts-registry';
+
 import type { ShortcutActionId, ShortcutSettings } from '@/entities/app/shortcut';
 
 type Options = {
@@ -25,9 +27,6 @@ type Result = {
 export const useShortcutRecording = ({ actionId, allBindings, onPatch }: Options): Result => {
   const t = useTranslations('settings.shortcuts');
   const [recording, toggleRecording] = useBoolean(false);
-
-  const bindingsRef = useRef(allBindings);
-  bindingsRef.current = allBindings;
 
   const isTornDownRef = useRef(false);
 
@@ -47,14 +46,16 @@ export const useShortcutRecording = ({ actionId, allBindings, onPatch }: Options
     if (isTauri() && isTornDownRef.current) {
       isTornDownRef.current = false;
 
-      syncShortcuts(bindingsRef.current);
+      syncShortcuts(allBindings);
     }
   };
+
+  const restoreShortcuts = useEffectEvent(() => syncShortcuts(allBindings));
 
   useEffect(() => {
     return () => {
       if (isTauri() && isTornDownRef.current) {
-        syncShortcuts(bindingsRef.current);
+        restoreShortcuts();
       }
     };
   }, []);

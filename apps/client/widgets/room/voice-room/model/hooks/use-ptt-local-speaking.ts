@@ -4,6 +4,7 @@ import { useLocalParticipant } from '@livekit/components-react';
 import { createAudioAnalyser, LocalAudioTrack, ParticipantEvent, Track } from 'livekit-client';
 import { useEffect, useEffectEvent } from 'react';
 import { isNullish } from 'remeda';
+
 import { PTT_SPEAKING_LEVEL } from '../../config';
 
 export const usePttLocalSpeaking = (

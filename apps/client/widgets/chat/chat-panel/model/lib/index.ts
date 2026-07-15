@@ -1,8 +1,11 @@
 export {
   appendChatDto,
+  appendChatMessage,
   applyChatRealtime,
   deleteChatMessageInCache,
+  dropChatLine,
   editChatMessageInCache,
+  markChatLineStatus,
   mergeChatHistory,
 } from './chat-cache';
 export { groupChatLines } from './group-chat-lines';

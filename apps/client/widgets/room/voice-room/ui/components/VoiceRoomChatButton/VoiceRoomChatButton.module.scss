@@ -1,0 +1,62 @@
+@use '@/shared/styles/mixins' as *;
+
+.wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.button {
+  width: 2.25rem !important;
+  height: 2.25rem !important;
+  flex-shrink: 0;
+  padding-top: 0.125rem !important;
+
+  @include bp(sm) {
+    width: 2.75rem !important;
+    height: 2.75rem !important;
+    padding-top: 0 !important;
+  }
+}
+
+.badge {
+  pointer-events: none;
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  display: flex;
+  height: 1rem;
+  min-width: 1rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid oklch(1 0 0 / 10%);
+  background: var(--brand-violet);
+  padding-inline: 0.25rem;
+  font-size: rem(10);
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 0 rem(10) rem(-2) oklch(0.7 0.22 295 / 80%);
+  animation:
+    overlay-fade-in 200ms ease-out,
+    overlay-zoom-in 200ms ease-out;
+  animation-fill-mode: both;
+}
+
+.badgePulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes overlay-zoom-in {
+  from {
+    transform: scale(0.5);
+  }
+  to {
+    transform: scale(1);
+  }
+}

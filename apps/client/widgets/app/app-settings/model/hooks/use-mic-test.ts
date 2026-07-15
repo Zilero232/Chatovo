@@ -1,7 +1,9 @@
 'use client';
 
 import { useRef, useState } from 'react';
+
 import { useMicAnalyser } from './use-mic-analyser';
+
 import type { AudioSettings } from '@/entities/app/settings';
 
 type UseMicTest = {

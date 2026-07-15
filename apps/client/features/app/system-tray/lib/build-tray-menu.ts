@@ -1,5 +1,6 @@
 import { CheckMenuItem, Menu, MenuItem, PredefinedMenuItem } from '@tauri-apps/api/menu';
 import { exit } from '@tauri-apps/plugin-process';
+
 import { appEvents, showMainWindow } from '@/shared/lib';
 import { TRAY_MENU_ID } from '../config/menu-ids';
 

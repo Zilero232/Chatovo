@@ -1,21 +1,13 @@
 'use client';
 
 import { useBoolean } from '@siberiacancode/reactuse';
-import {
-  Keyboard,
-  Mic,
-  Settings,
-  Settings2,
-  ShieldCheck,
-  User,
-  Video,
-  Volume2,
-} from 'lucide-react';
+import { clsx } from 'clsx';
+import { Settings } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
+
 import { useCurrentUser } from '@/entities/auth/user';
 import { isTauriDesktop } from '@/shared/lib';
-import { cn } from '@/shared/lib/cn';
 import {
   Button,
   Dialog,
@@ -29,68 +21,38 @@ import {
   TabsTrigger,
   Tooltip,
   TooltipContent,
-  TooltipTrigger,
 } from '@/shared/ui';
-import { appSettingsStyles as s } from './AppSettingsButton.styles';
-import { AudioTab } from './sections/AudioTab';
-import { ProfileTab } from './sections/ProfileTab';
-import { SecurityTab } from './sections/SecurityTab';
-import { ShortcutsTab } from './sections/ShortcutsTab';
-import { SoundsTab } from './sections/SoundsTab';
-import { SystemTab } from './sections/SystemTab';
-import { VideoTab } from './sections/VideoTab';
-import type { ReactNode } from 'react';
+import { SETTINGS_TABS } from '../config';
 
-type TabId = 'profile' | 'audio' | 'video' | 'sounds' | 'system' | 'security' | 'shortcuts';
+import s from './AppSettingsButton.module.scss';
 
-type TabConfig = {
-  id: TabId;
-  icon: ReactNode;
-  tauriDesktopOnly?: boolean;
-  render: (controls: { jumpTo: (id: TabId) => void }) => ReactNode;
-};
-
-const TABS: TabConfig[] = [
-  { id: 'profile', icon: <User />, render: () => <ProfileTab /> },
-  {
-    id: 'audio',
-    icon: <Mic />,
-    render: ({ jumpTo }) => <AudioTab onJumpToShortcuts={() => jumpTo('shortcuts')} />,
-  },
-  { id: 'video', icon: <Video />, render: () => <VideoTab /> },
-  { id: 'sounds', icon: <Volume2 />, render: () => <SoundsTab /> },
-  { id: 'system', icon: <Settings2 />, tauriDesktopOnly: true, render: () => <SystemTab /> },
-  { id: 'security', icon: <ShieldCheck />, render: () => <SecurityTab /> },
-  { id: 'shortcuts', icon: <Keyboard />, tauriDesktopOnly: true, render: () => <ShortcutsTab /> },
-];
+import type { SettingsTabId } from '../config';
 
 export const AppSettingsButton = () => {
   const t = useTranslations('settings');
 
-  const [isOpen, toggleOpen] = useBoolean(false);
-  const [activeTab, setActiveTab] = useState<TabId>('profile');
-
   const { emailVerified, user } = useCurrentUser();
-  const needsEmailVerification = Boolean(user && !emailVerified);
 
-  const tabs = TABS.filter((tab) => !tab.tauriDesktopOnly || isTauriDesktop());
+  const [isOpen, toggleOpen] = useBoolean(false);
+  const [activeTab, setActiveTab] = useState<SettingsTabId>('profile');
+
+  const needsEmailVerification = Boolean(user && !emailVerified);
+  const tabs = SETTINGS_TABS.filter((tab) => !tab.tauriDesktopOnly || isTauriDesktop());
 
   return (
     <>
       <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            aria-label={t('open')}
-            className={cn(needsEmailVerification && s.settingsButtonAlert)}
-            size="icon"
-            type="button"
-            variant="ghost"
-            onClick={() => toggleOpen(true)}
-          >
-            <Settings />
-            {needsEmailVerification && <span aria-hidden className={s.settingsAlertDot} />}
-          </Button>
-        </TooltipTrigger>
+        <Button
+          aria-label={t('open')}
+          className={clsx({ [s.settingsButtonAlert]: needsEmailVerification })}
+          size="icon"
+          type="button"
+          variant="ghost"
+          onClick={() => toggleOpen(true)}
+        >
+          <Settings />
+          {needsEmailVerification && <span aria-hidden className={s.settingsAlertDot} />}
+        </Button>
         <TooltipContent>{t('title')}</TooltipContent>
       </Tooltip>
 
@@ -105,7 +67,7 @@ export const AppSettingsButton = () => {
             className={s.tabs}
             orientation="vertical"
             value={activeTab}
-            onValueChange={(value) => setActiveTab(value as TabId)}
+            onValueChange={(value) => setActiveTab(value as SettingsTabId)}
           >
             <TabsList className={s.tabsList}>
               {tabs.map((tab) => (

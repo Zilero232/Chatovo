@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname, useSearchParams } from 'next/navigation';
+
 import { ROUTES } from '@/shared/constants';
 
 export const useActiveVoiceRoomId = (): string | null => {

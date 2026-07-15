@@ -1,0 +1,114 @@
+@use '@/shared/styles/functions' as *;
+
+:root {
+  --brand-cyan: oklch(0.82 0.16 200);
+  --brand-violet: oklch(0.7 0.2 270);
+  --brand-fuchsia: oklch(0.74 0.25 330);
+  --brand-lime: oklch(0.88 0.2 140);
+
+  --background: oklch(0.16 0.012 280);
+  --foreground: oklch(0.985 0 0);
+
+  --surface-1: oklch(0.22 0.018 280 / 0.5);
+  --surface-2: oklch(0.26 0.022 280 / 0.6);
+  --surface-3: oklch(0.3 0.026 280 / 0.72);
+  --surface-overlay: oklch(0.18 0.014 280 / 0.78);
+  --shell-surface: oklch(0.16 0.013 280 / 0.68);
+  --shell-surface-raised: oklch(0.21 0.016 280 / 0.52);
+
+  --card: var(--surface-1);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: var(--surface-overlay);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: var(--brand-violet);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.32 0.03 280 / 0.5);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.28 0.02 280 / 0.42);
+  --muted-foreground: oklch(0.72 0.02 280);
+  --accent: oklch(0.32 0.04 295 / 0.58);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.7 0.22 22);
+  --destructive-foreground: oklch(0.985 0 0);
+
+  --border: oklch(1 0 0 / 8%);
+  --border-strong: oklch(1 0 0 / 16%);
+  --input: oklch(1 0 0 / 6%);
+  --ring: var(--brand-violet);
+
+  --sidebar: oklch(0.18 0.014 280 / 0.58);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: var(--brand-violet);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.3 0.04 295 / 0.6);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: var(--brand-violet);
+
+  --glass-blur: #{rem(20)};
+  --glass-saturate: 145%;
+  --glass-border: oklch(1 0 0 / 11%);
+  --glass-hi: oklch(1 0 0 / 13%);
+
+  --shadow-elevated: 0 #{rem(24)} #{rem(48)} #{rem(-28)} oklch(0 0 0 / 0.62), 0 0 0 1px oklch(1 0 0 / 5%) inset;
+  --shadow-soft: 0 #{rem(16)} #{rem(36)} #{rem(-24)} oklch(0 0 0 / 0.5), 0 1px 0 oklch(1 0 0 / 6%) inset;
+  --glow-violet: 0 0 0 1px oklch(0.7 0.22 295 / 0.35), 0 #{rem(8)} #{rem(32)} #{rem(-8)} oklch(0.7 0.22 295 / 0.55);
+  --glow-cyan: 0 0 0 1px oklch(0.82 0.16 200 / 0.35), 0 #{rem(8)} #{rem(32)} #{rem(-8)} oklch(0.82 0.16 200 / 0.55);
+  --glow-fuchsia: 0 0 0 1px oklch(0.74 0.25 330 / 0.35), 0 #{rem(8)} #{rem(32)} #{rem(-8)} oklch(0.74 0.25 330 / 0.55);
+  --glow-soft: 0 1px 0 oklch(1 0 0 / 8%) inset, 0 #{rem(10)} #{rem(40)} #{rem(-12)} oklch(0 0 0 / 0.6);
+
+  --radius: #{rem(14)};
+  --radius-sm: calc(var(--radius) - #{rem(6)});
+  --radius-md: calc(var(--radius) - #{rem(3)});
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + #{rem(6)});
+  --radius-2xl: calc(var(--radius) + #{rem(12)});
+
+  --space-0: 0;
+  --space-1: #{rem(4)};
+  --space-2: #{rem(8)};
+  --space-3: #{rem(12)};
+  --space-4: #{rem(16)};
+  --space-5: #{rem(20)};
+  --space-6: #{rem(24)};
+  --space-8: #{rem(32)};
+  --space-10: #{rem(40)};
+  --space-12: #{rem(48)};
+  --space-16: #{rem(64)};
+
+  --text-xs: #{rem(12)};
+  --text-sm: #{rem(14)};
+  --text-base: #{rem(16)};
+
+  --icon-xs: #{rem(12)};
+  --icon-sm: #{rem(16)};
+  --icon-md: #{rem(20)};
+  --icon-lg: #{rem(24)};
+
+  --control-xs: #{rem(24)};
+  --control-sm: #{rem(32)};
+  --control-md: #{rem(36)};
+  --control-lg: #{rem(40)};
+
+  --bp-sm: #{px(640)};
+  --bp-md: #{px(768)};
+  --bp-lg: #{px(1024)};
+  --bp-xl: #{px(1280)};
+  --bp-2xl: #{px(1536)};
+
+  --safe-area-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  --safe-area-right: env(safe-area-inset-right, 0px);
+  --safe-area-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --safe-area-left: env(safe-area-inset-left, 0px);
+
+  --toast-gap: var(--space-3);
+  --toast-title-bar: 0px;
+  --toast-bottom-extra: 0px;
+  --toast-offset-top: calc(var(--safe-area-top) + var(--toast-title-bar) + var(--toast-gap));
+  --toast-offset-bottom: calc(var(--safe-area-bottom) + var(--toast-bottom-extra) + var(--toast-gap));
+  --toast-offset-right: max(var(--toast-gap), var(--safe-area-right));
+  --toast-offset-left: max(var(--toast-gap), var(--safe-area-left));
+
+  --page-inset: var(--space-4);
+  --page-bottom: calc(var(--safe-area-bottom) + var(--space-5));
+}

@@ -6,6 +6,7 @@ export {
   resetPasswordSchema,
   signInSchema,
   signUpSchema,
+  userRoleSchema,
 } from './auth';
 export {
   chatAttachmentSchema,
@@ -19,8 +20,9 @@ export {
   messageIdParamSchema,
   sendMessageInputSchema,
 } from './chat';
-export { reportProblemFormSchema, reportProblemSchema } from './feedback';
+export { feedbackPlatformSchema, reportProblemFormSchema, reportProblemSchema } from './feedback';
 export {
+  friendCallStatusSchema,
   friendCallStreamSnapshotSchema,
   friendEntrySchema,
   friendListSchema,
@@ -59,11 +61,13 @@ export {
 } from './realtime';
 export {
   createRoomInputSchema,
+  roomKindSchema,
   roomPasswordSchema,
   roomSchema,
   updateRoomInputSchema,
 } from './rooms';
 export { updateProfileInputSchema, userProfileSchema } from './users';
+
 export type {
   ChangeEmailValues,
   ChangePasswordValues,
@@ -73,6 +77,7 @@ export type {
   SignInValues,
   SignUpValues,
   UpdateProfileInput,
+  UserRole,
 } from './auth';
 export type {
   ChatAttachment,
@@ -83,8 +88,9 @@ export type {
   MessageIdParam,
   SendMessageInput,
 } from './chat';
-export type { ReportProblemFormValues, ReportProblemValues } from './feedback';
+export type { FeedbackPlatform, ReportProblemFormValues, ReportProblemValues } from './feedback';
 export type {
+  FriendCallStatus,
   FriendCallStreamSnapshot,
   FriendEntry,
   FriendRequestEntry,
@@ -106,5 +112,5 @@ export type {
 } from './livekit';
 export type { PushPlatform, RegisterPushDeviceInput, UnregisterPushDeviceInput } from './push';
 export type { RealtimeClientMessage, RealtimeServerMessage } from './realtime';
-export type { CreateRoomRequest, Room, UpdateRoomRequest } from './rooms';
+export type { CreateRoomRequest, Room, RoomKind, UpdateRoomRequest } from './rooms';
 export type { UpdateProfilePayload, UserProfile } from './users';

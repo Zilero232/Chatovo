@@ -1,31 +1,20 @@
-import { prisma } from '../../core';
-import { sendDmMessagePush } from '../push/push.service';
+import { RoomKind } from '../../../generated';
+import { getRoomDmRouting } from '../../lib';
+import { sendDmMessagePush } from '../push/push-sender';
 import { emitRoomEvent, emitUserEvent } from '../realtime/emit';
-import type { ChatMessage, RealtimeServerMessage } from '@chatovo/schemas';
 
-type ChatRealtimeEvent = Extract<
-  RealtimeServerMessage,
-  { type: 'chat.message' } | { type: 'chat.edit' } | { type: 'chat.delete' }
->;
-
-type ChatRealtimeEventInput =
-  | { type: 'chat.message'; message: ChatMessage }
-  | { type: 'chat.edit'; id: string; body: string; editedAt: string }
-  | { type: 'chat.delete'; id: string; deletedAt: string };
+import type { ChatRealtimeEvent, ChatRealtimeEventInput } from './chat.types';
 
 export const emitChatEvent = async (
   roomId: string,
   event: ChatRealtimeEventInput,
 ): Promise<void> => {
-  const room = await prisma.room.findUnique({
-    where: { id: roomId },
-    select: { kind: true, dmUserAId: true, dmUserBId: true },
-  });
+  const room = await getRoomDmRouting(roomId);
 
-  const roomKind = room?.kind ?? 'group';
+  const roomKind = room?.kind ?? RoomKind.group;
   const message = { ...event, roomId, roomKind } as ChatRealtimeEvent;
 
-  if (room?.kind === 'dm' && room.dmUserAId && room.dmUserBId) {
+  if (room?.kind === RoomKind.dm && room.dmUserAId && room.dmUserBId) {
     emitUserEvent(room.dmUserAId, message);
     emitUserEvent(room.dmUserBId, message);
 

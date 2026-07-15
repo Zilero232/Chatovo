@@ -1,5 +1,6 @@
 import { Skeleton } from '@/shared/ui';
-import { chatLoadingSkeletonStyles as s } from './ChatLoadingSkeleton.styles';
+
+import s from './ChatLoadingSkeleton.module.scss';
 
 const CHAT_SKELETON_KEYS = ['a', 'b', 'c', 'd', 'e', 'f'] as const;
 

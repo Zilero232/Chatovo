@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { secondsToMilliseconds } from 'date-fns';
 import { isEmpty } from 'remeda';
+
 import { listRooms, queryClient } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 

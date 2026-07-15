@@ -3,10 +3,14 @@
 import { updateRoomInputSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useUpdateRoom } from '@/entities/room/room';
-import { FormField, Input, Row, Stack, SubmitButton } from '@/shared/ui';
+import { FormField, Input, Label, Row, Stack, SubmitButton, Switch } from '@/shared/ui';
+
+import s from './EditRoomForm.module.scss';
+
 import type { UpdateRoomRequest } from '@chatovo/schemas';
 import type { EditRoomFormProps } from './EditRoomDialog.types';
 
@@ -16,6 +20,7 @@ export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
   const updateMutation = useUpdateRoom();
 
   const {
+    control,
     formState: { errors, isDirty },
     handleSubmit,
     register,
@@ -64,12 +69,18 @@ export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
         </FormField>
       )}
 
-      <Row as="label" gap="2">
-        <input className="size-4 accent-primary" type="checkbox" {...register('isPrivate')} />
-        <span>{t('privateLabel')}</span>
+      <Row align="center" gap="2">
+        <Controller
+          control={control}
+          name="isPrivate"
+          render={({ field }) => (
+            <Switch checked={field.value} id="edit-room-private" onCheckedChange={field.onChange} />
+          )}
+        />
+        <Label htmlFor="edit-room-private">{t('privateLabel')}</Label>
       </Row>
 
-      <Row justify="end" gap="2" className="pt-2">
+      <Row justify="end" gap="2" className={s.actions}>
         <SubmitButton disabled={!isDirty} isPending={isPending}>
           {t('submit')}
         </SubmitButton>

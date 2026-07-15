@@ -4,6 +4,7 @@ import { useLocalParticipant } from '@livekit/components-react';
 import { LocalAudioTrack, ParticipantEvent, Track } from 'livekit-client';
 import { useEffect, useEffectEvent, useRef } from 'react';
 import { isNullish } from 'remeda';
+
 import { useAppSettings, VoiceGateProcessor } from '@/entities/app/settings';
 import { toggleMicStream } from '@/shared/lib';
 

@@ -1,6 +1,7 @@
 export { AuthProvider } from './AuthProvider';
 export { DeepLinkProvider } from './DeepLinkProvider';
 export { I18nProvider } from './I18nProvider';
+export { QueryFocusManager } from './QueryFocusManager';
 export { ShortcutsProvider } from './ShortcutsProvider';
 export { TauriDesktopDocumentClass } from './TauriDesktopDocumentClass';
 export { TauriMobileInsets } from './TauriMobileInsets';

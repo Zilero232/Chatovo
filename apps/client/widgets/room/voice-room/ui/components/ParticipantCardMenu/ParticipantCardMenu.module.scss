@@ -1,0 +1,31 @@
+.content {
+  width: 14rem;
+}
+
+.volumeItem {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+
+  &:focus {
+    background: transparent;
+  }
+}
+
+.volumeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.volumeLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.volumeValue {
+  font-variant-numeric: tabular-nums;
+}

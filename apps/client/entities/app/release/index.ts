@@ -7,4 +7,5 @@ export {
   pickPreferredApk,
 } from './config';
 export { useRelease } from './model/use-release';
+
 export type { DownloadPlatform, Release, ReleaseAsset } from './model/types';

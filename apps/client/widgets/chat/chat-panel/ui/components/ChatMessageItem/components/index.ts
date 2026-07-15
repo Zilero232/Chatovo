@@ -8,3 +8,4 @@ export { MessageContent } from './MessageContent';
 export { MessageContextMenu } from './MessageContextMenu';
 export { MessageMenuItems } from './MessageMenuItems';
 export { MessageMeta } from './MessageMeta';
+export { MessageStatus } from './MessageStatus';

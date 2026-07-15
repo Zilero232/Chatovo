@@ -3,9 +3,13 @@
 import { isImageMime } from '@chatovo/schemas';
 import { isTauri } from '@tauri-apps/api/core';
 import { openUrl } from '@tauri-apps/plugin-opener';
+import { clsx } from 'clsx';
 import { FileIcon } from 'lucide-react';
+
 import { formatBytes } from '@/shared/lib/format-bytes';
-import { fileCard, messageAttachmentStyles as s } from './MessageAttachment.styles';
+
+import s from './MessageAttachment.module.scss';
+
 import type { MouseEvent } from 'react';
 import type { MessageAttachmentProps } from './MessageAttachment.types';
 
@@ -32,14 +36,14 @@ export const MessageAttachment = ({ attachment, isOwn }: MessageAttachmentProps)
 
   return (
     <a
-      className={fileCard({ own: isOwn })}
+      className={clsx(s.fileCard, { [s.fileCardOwn]: isOwn, [s.fileCardOther]: !isOwn })}
       download={name}
       href={url}
       rel="noopener noreferrer"
       target="_blank"
       onClick={handleOpen}
     >
-      <FileIcon className="size-5 shrink-0" />
+      <FileIcon className={s.fileIcon} />
       <span className={s.fileMeta}>
         <span className={s.fileName}>{name}</span>
         <span className={s.fileSize}>{formatBytes(size)}</span>

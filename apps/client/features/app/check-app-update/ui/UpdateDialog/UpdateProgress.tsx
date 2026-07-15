@@ -2,14 +2,12 @@
 
 import { useTranslations } from 'next-intl';
 import { match, P } from 'ts-pattern';
-import { Progress } from '@/shared/ui';
-import { updateDialogStyles as s } from './UpdateDialog.styles';
-import type { UpdateDialogProps } from './UpdateDialog.types';
 
-type UpdateProgressProps = {
-  status: UpdateDialogProps['status'];
-  progress: UpdateDialogProps['progress'];
-};
+import { Progress } from '@/shared/ui';
+
+import s from './UpdateDialog.module.scss';
+
+import type { UpdateProgressProps } from './UpdateProgress.types';
 
 export const UpdateProgress = ({ status, progress }: UpdateProgressProps) => {
   const t = useTranslations('update');

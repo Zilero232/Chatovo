@@ -1,10 +1,10 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useFieldError } from '@/entities/app/locale';
 import {
   type ChangeEmailValues,
@@ -12,8 +12,9 @@ import {
   useChangeEmail,
   useCurrentUser,
 } from '@/entities/auth/user';
-import { Button, Input, Label } from '@/shared/ui';
-import { changeEmailFormStyles as s } from './ChangeEmailForm.styles';
+import { FormField, Input, SubmitButton } from '@/shared/ui';
+
+import s from './ChangeEmailForm.module.scss';
 
 export const ChangeEmailForm = () => {
   const t = useTranslations('settings.security');
@@ -46,19 +47,16 @@ export const ChangeEmailForm = () => {
 
   return (
     <form className={s.form} onSubmit={onSubmit}>
-      <div className={s.field}>
-        <Label className={s.label} htmlFor="current-email">
-          {t('currentEmailLabel')}
-        </Label>
-
+      <FormField htmlFor="current-email" label={t('currentEmailLabel')}>
         <Input disabled id="current-email" type="email" value={currentEmail} />
-      </div>
+      </FormField>
 
-      <div className={s.field}>
-        <Label className={s.label} htmlFor="new-email">
-          {t('newEmailLabel')}
-        </Label>
-
+      <FormField
+        htmlFor="new-email"
+        label={t('newEmailLabel')}
+        hint={errors.newEmail ? undefined : t('emailChangeHint')}
+        error={errors.newEmail && fieldError(errors.newEmail)}
+      >
         <Input
           autoComplete="email"
           id="new-email"
@@ -66,18 +64,11 @@ export const ChangeEmailForm = () => {
           type="email"
           {...register('newEmail')}
         />
+      </FormField>
 
-        {errors.newEmail ? (
-          <p className={s.error}>{fieldError(errors.newEmail)}</p>
-        ) : (
-          <p className={s.hint}>{t('emailChangeHint')}</p>
-        )}
-      </div>
-
-      <Button className={s.submit} disabled={!isDirty || isPending} type="submit">
-        {isPending && <Loader2 className={s.spinner} />}
+      <SubmitButton className={s.submit} disabled={!isDirty} isPending={isPending} type="submit">
         {t('changeEmail')}
-      </Button>
+      </SubmitButton>
     </form>
   );
 };

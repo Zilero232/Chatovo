@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { resolveMobileDevUrl } from '@/shared/lib/resolve-mobile-dev-url';
 
 const clientSchema = z.object({

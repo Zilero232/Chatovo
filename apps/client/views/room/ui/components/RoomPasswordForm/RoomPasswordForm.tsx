@@ -2,11 +2,16 @@
 
 import { roomPasswordSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+
 import { useFieldError } from '@/entities/app/locale';
 import { FormField, Input, Row, Stack, SubmitButton } from '@/shared/ui';
+
+import s from './RoomPasswordForm.module.scss';
+
 import type { RoomPasswordFormProps } from './RoomPasswordForm.types';
 
 const passwordSchema = z.object({ password: roomPasswordSchema });
@@ -36,19 +41,22 @@ export const RoomPasswordForm = ({
   const fieldError = passwordError(errors.password) ?? error;
 
   return (
-    <Row justify="center" align="center" className="h-full p-6">
+    <Row justify="center" align="center" className={s.root}>
       <Stack
         as="form"
         align="center"
         gap="4"
-        className="glass w-full max-w-sm rounded-2xl p-8 shadow-glow-violet"
+        className={clsx(s.form, 'glass', 'shadow-glow-violet')}
         onSubmit={submit}
       >
-        <p className="text-center text-foreground/85 text-sm">
-          {t('title', { name: displayName })}
-        </p>
+        <p className={s.title}>{t('title', { name: displayName })}</p>
 
-        <FormField htmlFor="room-password" label={t('label')} error={fieldError} className="w-full">
+        <FormField
+          htmlFor="room-password"
+          label={t('label')}
+          error={fieldError}
+          className={s.field}
+        >
           <Input
             disabled={isSubmitting}
             id="room-password"
@@ -57,7 +65,7 @@ export const RoomPasswordForm = ({
           />
         </FormField>
 
-        <SubmitButton className="w-full" isPending={isSubmitting}>
+        <SubmitButton className={s.submit} isPending={isSubmitting}>
           {t('join')}
         </SubmitButton>
       </Stack>

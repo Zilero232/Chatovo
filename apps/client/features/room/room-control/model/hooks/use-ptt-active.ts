@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { appEvents } from '@/shared/lib';
 

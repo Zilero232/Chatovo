@@ -1,7 +1,9 @@
 export { useConnectionRtt } from './use-connection-rtt';
+export { useCopyInviteLink } from './use-copy-invite-link';
 export { useDeviceSync } from './use-device-sync';
 export { useMicActivationMode } from './use-mic-activation-mode';
 export { useParticipantIsSpeaking } from './use-participant-is-speaking';
+export { useParticipantMedia } from './use-participant-media';
 export { useParticipantVolume } from './use-participant-volume';
 export { usePttLocalSpeaking } from './use-ptt-local-speaking';
 export { useShortcutActions } from './use-shortcut-actions';

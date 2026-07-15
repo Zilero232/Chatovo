@@ -1,0 +1,137 @@
+@use '@/shared/styles/mixins' as *;
+
+.row {
+  position: relative;
+}
+
+.trigger {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-radius: var(--radius-lg);
+  padding: 0.5rem 0.625rem;
+  font-size: 0.875rem;
+  transition: all 150ms ease;
+  color: color-mix(in oklch, var(--sidebar-foreground) 75%, transparent);
+
+  &:hover {
+    background: oklch(1 0 0 / 6%);
+    color: var(--sidebar-foreground);
+  }
+}
+
+.triggerActive {
+  background: linear-gradient(
+    to right,
+    color-mix(in oklch, var(--brand-violet) 25%, transparent),
+    color-mix(in oklch, var(--brand-cyan) 15%, transparent)
+  );
+  color: var(--foreground);
+  box-shadow: inset 0 0 0 1px oklch(0.7 0.2 270 / 35%);
+}
+
+.triggerOwner {
+  .row:hover &,
+  .row:focus-within &,
+  .row:has([aria-expanded='true']) & {
+    padding-right: 2rem;
+  }
+}
+
+.triggerLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.privateIcon {
+  width: 0.75rem;
+  height: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.ownerIcon {
+  width: 0.75rem;
+  height: 0.75rem;
+  fill: oklch(0.85 0.18 85);
+  color: oklch(0.85 0.18 85);
+  filter: drop-shadow(0 0 rem(4) oklch(0.85 0.18 85 / 60%));
+}
+
+.joinedIcon {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--brand-cyan);
+  filter: drop-shadow(0 0 rem(6) oklch(0.82 0.16 200 / 60%));
+}
+
+.manageSlot {
+  position: absolute;
+  top: 50%;
+  right: 0.25rem;
+  translate: 0 -50%;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 150ms ease,
+    visibility 150ms ease;
+
+  .row:hover &,
+  .row:focus-within &,
+  &:has([aria-expanded='true']) {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  @include coarse-pointer {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.participants {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.participant {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: var(--radius-md);
+  padding: 0.25rem 0.5rem;
+  text-align: left;
+  outline: none;
+  transition: background-color 150ms ease;
+
+  &:hover {
+    background: oklch(1 0 0 / 5%);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--brand-cyan) 100%, transparent);
+  }
+}
+
+.participantAvatar {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.participantFallback {
+  font-size: rem(10);
+}
+
+.participantName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}

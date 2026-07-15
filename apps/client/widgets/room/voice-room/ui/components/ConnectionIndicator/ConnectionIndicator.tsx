@@ -5,15 +5,23 @@ import {
   useConnectionState,
   useLocalParticipant,
 } from '@livekit/components-react';
+import { clsx } from 'clsx';
 import { ConnectionQuality, ConnectionState } from 'livekit-client';
 import { useTranslations } from 'next-intl';
 import { isNonNullish } from 'remeda';
 import { match } from 'ts-pattern';
-import { cn } from '@/shared/lib';
+
 import { useConnectionRtt } from '../../../model/hooks';
-import { connectionIndicatorStyles as s } from './ConnectionIndicator.styles';
+
+import s from './ConnectionIndicator.module.scss';
 
 const BAR_HEIGHTS = [4, 7, 10, 13, 16] as const;
+
+const barToneClass = {
+  good: s.barGood,
+  fair: s.barFair,
+  poor: s.barPoor,
+} as const;
 
 const barsFromRtt = (rtt: number): number => {
   if (rtt < 50) {
@@ -66,7 +74,7 @@ export const ConnectionIndicator = () => {
           <span
             // biome-ignore lint/suspicious/noArrayIndexKey: fixed-length static list
             key={index}
-            className={cn(s.bar, index < bars ? s.barActive[tone] : s.barInactive)}
+            className={clsx(s.bar, index < bars ? barToneClass[tone] : s.barInactive)}
             style={{ height }}
           />
         ))}

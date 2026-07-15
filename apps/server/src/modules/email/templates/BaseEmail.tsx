@@ -11,7 +11,9 @@ import {
   Section,
   Text,
 } from 'react-email';
+
 import { emailStyles } from './email-styles';
+
 import type { ReactNode } from 'react';
 
 type EmailAction = {

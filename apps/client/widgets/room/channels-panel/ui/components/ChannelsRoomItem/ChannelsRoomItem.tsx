@@ -1,8 +1,10 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { Crown, Headphones, Lock } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { isEmpty } from 'remeda';
+
 import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
 import {
   DeafenedBadge,
@@ -14,7 +16,9 @@ import { ManageRoomMenu } from '@/features/room/manage';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
 import { buildRoomHref } from '@/shared/constants';
 import { AvatarWithBadges } from '@/shared/ui';
-import { channelsRoomItemStyles as s } from './ChannelsRoomItem.styles';
+
+import s from './ChannelsRoomItem.module.scss';
+
 import type { ChannelsRoomItemProps } from './ChannelsRoomItem.types';
 
 export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) => {
@@ -38,7 +42,10 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
     <div>
       <div className={s.row}>
         <button
-          className={s.trigger({ active: isActive, owner: isOwner })}
+          className={clsx(s.trigger, {
+            [s.triggerActive]: isActive,
+            [s.triggerOwner]: isOwner,
+          })}
           type="button"
           onClick={handleClick}
         >
@@ -54,22 +61,25 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
       {!isEmpty(participants) && (
         <div className={s.participants}>
           {participants.map((p) => (
-            <ProfileCardTrigger key={p.identity} identity={p.identity} name={p.name}>
-              <button className={s.participant} type="button">
-                <AvatarWithBadges
-                  topLeft={p.identity === room.ownerId && <OwnerCrown />}
-                  bottomRight={p.micMuted && <MicMutedBadge />}
-                  bottomLeft={p.deafened && <DeafenedBadge />}
-                >
-                  <UserAvatar
-                    name={p.name}
-                    src={p.avatarUrl}
-                    className={s.participantAvatar}
-                    fallbackClassName={s.participantFallback}
-                  />
-                </AvatarWithBadges>
-                <UserName name={p.name} verified={p.verified} className={s.participantName} />
-              </button>
+            <ProfileCardTrigger
+              key={p.identity}
+              className={s.participant}
+              identity={p.identity}
+              name={p.name}
+            >
+              <AvatarWithBadges
+                topLeft={p.identity === room.ownerId && <OwnerCrown />}
+                bottomRight={p.micMuted && <MicMutedBadge />}
+                bottomLeft={p.deafened && <DeafenedBadge />}
+              >
+                <UserAvatar
+                  name={p.name}
+                  src={p.avatarUrl}
+                  className={s.participantAvatar}
+                  fallbackClassName={s.participantFallback}
+                />
+              </AvatarWithBadges>
+              <UserName name={p.name} verified={p.verified} className={s.participantName} />
             </ProfileCardTrigger>
           ))}
         </div>

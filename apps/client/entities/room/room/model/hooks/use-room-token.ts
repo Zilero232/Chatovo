@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { isNonNullish } from 'remeda';
+
 import { fetchLiveKitToken } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 

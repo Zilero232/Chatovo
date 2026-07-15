@@ -1,13 +1,16 @@
 'use client';
 
 import NumberFlow from '@number-flow/react';
+import { clsx } from 'clsx';
 import { Radio, Sparkles, Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { UserAvatar, useCurrentUser } from '@/entities/auth/user';
 import { useLobbyOnline, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { env } from '@/shared/config';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
-import { lobbyHeaderStyles as s } from './LobbyHeader.styles';
+import { Tooltip, TooltipContent } from '@/shared/ui';
+
+import s from './LobbyHeader.module.scss';
 
 export const LobbyHeader = () => {
   const t = useTranslations('lobby');
@@ -24,8 +27,8 @@ export const LobbyHeader = () => {
   const welcomeLead = canHighlightName ? welcome.split(displayName)[0] : welcome;
 
   return (
-    <div className={s.root}>
-      <div aria-hidden className={s.grid} />
+    <div className={clsx(s.root, 'glass')}>
+      <div aria-hidden className="lobby-header-grid" />
       <div aria-hidden className={s.accent} />
       <div aria-hidden className={s.wash} />
       <div aria-hidden className={s.washAlt} />
@@ -38,7 +41,7 @@ export const LobbyHeader = () => {
                 name={displayName}
                 src={avatarUrl}
                 className={s.avatar}
-                fallbackClassName={s.avatarFallback}
+                fallbackClassName={clsx(s.avatarFallback, 'gradient-brand')}
               />
             </div>
 
@@ -47,10 +50,10 @@ export const LobbyHeader = () => {
                 {canHighlightName ? (
                   <>
                     {welcomeLead}
-                    <span className={s.titleName}>{displayName}</span>
+                    <span className={clsx(s.titleName, 'gradient-text')}>{displayName}</span>
                   </>
                 ) : (
-                  <span className={s.titleName}>{welcomeLead}</span>
+                  <span className={clsx(s.titleName, 'gradient-text')}>{welcomeLead}</span>
                 )}
               </h2>
               <p className={s.subtitle}>{t('subtitle')}</p>
@@ -58,18 +61,16 @@ export const LobbyHeader = () => {
           </div>
 
           <Tooltip>
-            <TooltipTrigger asChild>
-              <button className={s.versionPill} type="button">
-                <Sparkles className={s.versionIcon} />
-                <span className={s.versionText}>v{env.NEXT_PUBLIC_APP_VERSION}</span>
-              </button>
-            </TooltipTrigger>
+            <button className={s.versionPill} type="button">
+              <Sparkles className={s.versionIcon} />
+              <span className={s.versionText}>v{env.NEXT_PUBLIC_APP_VERSION}</span>
+            </button>
             <TooltipContent>{t('appVersion')}</TooltipContent>
           </Tooltip>
         </div>
 
         <div className={s.stats}>
-          <div className={s.stat} data-tone="rooms">
+          <div className={clsx(s.stat, 'surface-card')} data-tone="rooms">
             <span aria-hidden className={s.statGlow} data-tone="rooms" />
             <span className={s.statIconWrap} data-tone="rooms">
               <Users className={s.statIconMuted} />
@@ -80,7 +81,7 @@ export const LobbyHeader = () => {
             </span>
           </div>
 
-          <div className={s.stat} data-tone="live">
+          <div className={clsx(s.stat, 'surface-card')} data-tone="live">
             <span aria-hidden className={s.statGlow} data-tone="live" />
             <span className={s.statIconWrap} data-tone="live">
               <Radio className={liveRooms > 0 ? s.statIconLive : s.statIconMuted} />
@@ -91,7 +92,7 @@ export const LobbyHeader = () => {
             </span>
           </div>
 
-          <div className={s.stat} data-tone="online">
+          <div className={clsx(s.stat, 'surface-card')} data-tone="online">
             <span aria-hidden className={s.statGlow} data-tone="online" />
             <span className={s.statIconWrap} data-tone="online">
               <span className={s.statPulse} />

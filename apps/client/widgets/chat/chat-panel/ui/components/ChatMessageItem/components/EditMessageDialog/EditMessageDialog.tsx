@@ -1,10 +1,14 @@
 'use client';
 
 import { useKeyboard, useMount, useTextareaAutosize } from '@siberiacancode/reactuse';
+import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
+
 import { ConfirmDialog } from '@/shared/ui';
 import { normalizeMessage } from '../../../../../model/lib';
-import { editMessageDialogStyles as s } from './EditMessageDialog.styles';
+
+import s from './EditMessageDialog.module.scss';
+
 import type { EditMessageDialogProps } from './EditMessageDialog.types';
 
 export const EditMessageDialog = ({
@@ -59,7 +63,7 @@ export const EditMessageDialog = ({
       <div className={s.root}>
         <textarea
           ref={ref}
-          className={s.input}
+          className={clsx(s.input, 'scrollbar-thin')}
           rows={1}
           value={value}
           onChange={(event) => set(event.target.value)}

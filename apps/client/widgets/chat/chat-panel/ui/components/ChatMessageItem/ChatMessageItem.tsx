@@ -1,9 +1,6 @@
 'use client';
 
-import { decodeChatAttachment } from '@chatovo/schemas';
-import { useState } from 'react';
-import { readParticipantMeta } from '@/entities/room/room';
-import { chatMessageItemStyles as s } from './ChatMessageItem.styles';
+import { useChatMessageItem } from '../../../model/hooks';
 import {
   DeleteMessageDialog,
   EditMessageDialog,
@@ -11,7 +8,11 @@ import {
   MessageBody,
   MessageBubble,
   MessageMeta,
+  MessageStatus,
 } from './components';
+
+import s from './ChatMessageItem.module.scss';
+
 import type { ChatMessageItemProps } from './ChatMessageItem.types';
 
 export const ChatMessageItem = ({
@@ -22,27 +23,33 @@ export const ChatMessageItem = ({
   canManage,
   onEdit,
   onDelete,
+  onRetry,
+  onDiscard,
 }: ChatMessageItemProps) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
-
-  const author = message.from?.name || message.from?.identity || 'Guest';
-  const identity = message.from?.identity ?? author;
-
-  const { verified } = readParticipantMeta(message.from?.metadata);
-
-  const isDeleted = Boolean(message.deletedAt);
-  const attachment = !isDeleted ? decodeChatAttachment(message.message) : null;
-
-  const showHeader = !isGrouped;
-  const isEdited = Boolean(message.editedAt) && !isDeleted;
-  const canEdit = canManage && isOwn && !isDeleted && !attachment;
-  const showActions = canManage && isOwn && !isDeleted && !isEditing;
-
-  const startEdit = () => setIsEditing(true);
+  const {
+    isEditing,
+    setIsEditing,
+    isConfirmingDelete,
+    setIsConfirmingDelete,
+    author,
+    identity,
+    verified,
+    isDeleted,
+    attachment,
+    isEdited,
+    canEdit,
+    showHeader,
+    showActions,
+    startEdit,
+  } = useChatMessageItem({ message, isOwn, isGrouped, canManage });
 
   return (
-    <div className={s.root} data-own={isOwn}>
+    <div
+      className={s.root}
+      data-own={isOwn}
+      data-pending={message.status === 'sending'}
+      data-message-root
+    >
       <div className={s.column} data-own={isOwn}>
         {showHeader && (
           <MessageMeta
@@ -80,6 +87,14 @@ export const ChatMessageItem = ({
             />
           )}
         </div>
+
+        {message.status && (
+          <MessageStatus
+            status={message.status}
+            onRetry={() => onRetry(message.id, message.message)}
+            onDiscard={() => onDiscard(message.id)}
+          />
+        )}
       </div>
 
       <EditMessageDialog

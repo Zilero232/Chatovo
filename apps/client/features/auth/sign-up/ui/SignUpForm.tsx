@@ -4,9 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 import { useFieldError } from '@/entities/app/locale';
 import { FormField, Input, PasswordInput, Stack, SubmitButton } from '@/shared/ui';
 import { type SignUpValues, signUpSchema, useSignUp } from '../model/use-sign-up';
+
+import s from './SignUpForm.module.scss';
 
 const DEFAULT_VALUES: SignUpValues = {
   name: '',
@@ -74,7 +77,7 @@ export const SignUpForm = () => {
         />
       </FormField>
 
-      <SubmitButton className="w-full" isPending={isPending}>
+      <SubmitButton className={s.submit} isPending={isPending}>
         {t('signUp')}
       </SubmitButton>
     </Stack>

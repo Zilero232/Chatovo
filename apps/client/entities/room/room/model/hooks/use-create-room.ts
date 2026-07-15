@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { uniqueBy } from 'remeda';
+
 import { createRoom } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
+
 import type { Room } from '@chatovo/schemas';
 
 export const useCreateRoom = () => {

@@ -4,9 +4,11 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef } from 'react';
 import { match } from 'ts-pattern';
+
 import { useCurrentUser } from '@/entities/auth/user';
 import { isPublicRoute, ROUTES } from '@/shared/constants';
 import { AppSplash } from '@/shared/ui';
+
 import type { ReactNode } from 'react';
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {

@@ -1,21 +1,23 @@
 import { realtimeClientMessageSchema, safeJsonParse } from '@chatovo/schemas';
 import { match } from 'ts-pattern';
+
 import { assertRoomExists } from '../../../lib';
 import { patchParticipant } from '../../livekit/presence';
 import { setConnectionRooms } from '../connection-store';
 import { emitRoomEvent } from '../emit';
-import type { RealtimeConnection } from '../connection-store';
+
+import type { RealtimeConnection } from '../realtime.types';
 
 export const handleClientMessage = async (
   connection: RealtimeConnection,
-  raw: string | ArrayBuffer | SharedArrayBuffer | Blob,
+  raw: string | Buffer | ArrayBuffer | SharedArrayBuffer | Blob,
 ): Promise<void> => {
   const text =
     typeof raw === 'string'
       ? raw
       : raw instanceof Blob
         ? await raw.text()
-        : new TextDecoder().decode(raw);
+        : new TextDecoder().decode(raw instanceof SharedArrayBuffer ? new Uint8Array(raw) : raw);
   const parsed = realtimeClientMessageSchema.safeParse(safeJsonParse(text));
 
   if (!parsed.success) {

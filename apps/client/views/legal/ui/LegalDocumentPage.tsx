@@ -1,17 +1,17 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+
 import { LEGAL } from '@/shared/config';
 import { EXTERNAL_LINKS, ROUTES } from '@/shared/constants';
-import { type LegalDocumentId, useLegalDocument } from '../model';
-import { legalDocumentStyles as s } from './LegalDocumentPage.styles';
+import { useLegalDocument } from '../model';
 
-type LegalDocumentPageProps = {
-  documentId: LegalDocumentId;
-  alternatePath: string;
-};
+import s from './LegalDocumentPage.module.scss';
+
+import type { LegalDocumentPageProps } from './LegalDocumentPage.types';
 
 export const LegalDocumentPage = ({ documentId, alternatePath }: LegalDocumentPageProps) => {
   const t = useTranslations('legal');
@@ -20,8 +20,8 @@ export const LegalDocumentPage = ({ documentId, alternatePath }: LegalDocumentPa
   const alternateLabel = alternatePath === LEGAL.termsPath ? t('terms') : t('privacy');
 
   return (
-    <main className={s.root}>
-      <article className={s.shell}>
+    <main className={clsx(s.root, 'inset-page-x', 'inset-page-y')}>
+      <article className={clsx(s.shell, 'glass', 'shadow-glow-violet')}>
         <div className={s.top}>
           <Link className={s.backLink} href={ROUTES.auth}>
             <ArrowLeft aria-hidden className={s.backIcon} />
@@ -29,12 +29,12 @@ export const LegalDocumentPage = ({ documentId, alternatePath }: LegalDocumentPa
           </Link>
 
           <header className={s.header}>
-            <h1 className={s.title}>{content.title}</h1>
+            <h1 className={clsx(s.title, 'gradient-text')}>{content.title}</h1>
             <p className={s.updated}>{content.updated}</p>
           </header>
         </div>
 
-        <div className={s.scroll}>
+        <div className={clsx(s.scroll, 'scrollbar-none')}>
           <div className={s.sections}>
             {content.sections.map((section) => (
               <section key={section.heading} className={s.section}>

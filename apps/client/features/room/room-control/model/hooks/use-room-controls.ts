@@ -2,6 +2,7 @@
 
 import { useLocalParticipant, useRoomContext } from '@livekit/components-react';
 import { isNullish } from 'remeda';
+
 import {
   getCameraCaptureOptions,
   getScreenCaptureOptions,
@@ -11,6 +12,7 @@ import { isTauriDesktop, prettyHotkey, toggleMicStream } from '@/shared/lib';
 import { resolveMicVisual } from '../../lib/mic-visual';
 import { useDeafen } from './use-deafen';
 import { usePttActive } from './use-ptt-active';
+
 import type { LocalParticipant } from 'livekit-client';
 
 const isCancelled = (err: unknown): boolean => {

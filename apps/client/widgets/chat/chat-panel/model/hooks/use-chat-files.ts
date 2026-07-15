@@ -5,7 +5,9 @@ import { useDropZone, useFileDialog } from '@siberiacancode/reactuse';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+
 import { uploadChatAttachment } from '@/shared/api';
+
 import type { ClipboardEvent } from 'react';
 
 const ATTACHMENT_MAX_BYTES = 25 * 1024 * 1024;

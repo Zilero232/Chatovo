@@ -1,5 +1,7 @@
+import { roomKindSchema } from '@chatovo/schemas';
 import { useQuery } from '@tanstack/react-query';
 import { isNonNullish } from 'remeda';
+
 import { getRoom } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 
@@ -21,6 +23,6 @@ export const useRoomById = (roomId: string | null) => {
     isError,
     displayName: room?.name ?? roomId ?? '',
     isPrivate: !!room?.isPrivate,
-    isDm: room?.kind === 'dm',
+    isDm: room?.kind === roomKindSchema.enum.dm,
   };
 };

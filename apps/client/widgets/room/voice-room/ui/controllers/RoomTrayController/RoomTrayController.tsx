@@ -3,6 +3,7 @@
 import { useLocalParticipant } from '@livekit/components-react';
 import { useEffect } from 'react';
 import { isNullish } from 'remeda';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { useTrayMenuItem } from '@/features/app/system-tray';
 import { appEvents, isTauriDesktop, toggleMicStream } from '@/shared/lib';

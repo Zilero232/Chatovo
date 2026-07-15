@@ -2,16 +2,19 @@
 
 import { target, useEventListener } from '@siberiacancode/reactuse';
 import { Search } from 'lucide-react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { useRef, useState } from 'react';
 import { isEmpty as isEmptyList } from 'remeda';
 import { match } from 'ts-pattern';
+
 import { groupRooms, RoomsListError, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { Button, CenteredState, Skeleton } from '@/shared/ui';
 import { RecentRooms } from '@/widgets/room/channels-panel';
 import { LobbyEmpty } from '../LobbyEmpty';
 import { LobbyRoomCard } from '../LobbyRoomCard';
-import { lobbyRoomsStyles as s } from './LobbyRooms.styles';
+
+import s from './LobbyRooms.module.scss';
 
 const LOBBY_SKELETON_KEYS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'] as const;
 
@@ -29,6 +32,7 @@ export const LobbyRooms = () => {
 
   const { rooms, isLoading, isEmpty, isError } = useRooms();
   const presence = useRoomsPresence();
+  const shouldReduceMotion = useReducedMotion();
 
   const [query, setQuery] = useState('');
   const searchRef = useRef<HTMLInputElement>(null);
@@ -77,7 +81,7 @@ export const LobbyRooms = () => {
             }
             className={s.nothingFoundState}
             description={t('nothingFound', { query })}
-            icon={<Search className="size-5" />}
+            icon={<Search className={s.searchStateIcon} />}
             size="sm"
             title={t('nothingFoundTitle')}
           />
@@ -97,15 +101,27 @@ export const LobbyRooms = () => {
                 </div>
 
                 <div className={s.grid}>
-                  {section.rooms.map((room, roomIndex) => (
-                    <div
-                      key={room.id}
-                      className={s.cardAnim}
-                      style={{ animationDelay: `${Math.min(roomIndex, 10) * 40}ms` }}
-                    >
-                      <LobbyRoomCard room={room} />
-                    </div>
-                  ))}
+                  <AnimatePresence mode="popLayout">
+                    {section.rooms.map((room, roomIndex) => (
+                      <motion.div
+                        key={room.id}
+                        layout
+                        initial={
+                          shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.98 }
+                        }
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 420,
+                          damping: 34,
+                          delay: shouldReduceMotion ? 0 : Math.min(roomIndex, 10) * 0.03,
+                        }}
+                      >
+                        <LobbyRoomCard room={room} />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                 </div>
               </section>
             ))}

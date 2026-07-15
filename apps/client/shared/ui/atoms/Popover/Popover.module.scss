@@ -1,0 +1,33 @@
+@use '@/shared/styles/mixins' as *;
+
+.popup {
+  z-index: 50;
+  width: 18rem;
+  border-radius: var(--radius-2xl);
+  padding: 1rem;
+  color: var(--popover-foreground);
+  outline: none;
+  transform-origin: var(--transform-origin);
+
+  @include overlay-enter;
+  @include slide-from-side;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.title {
+  font-weight: 500;
+}
+
+.description {
+  color: var(--muted-foreground);
+}
+
+.anchor {
+  display: contents;
+}

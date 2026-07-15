@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { roomSchema } from '../rooms/outputs';
 
 export const tokenRequestSchema = z.object({

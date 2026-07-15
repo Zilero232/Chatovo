@@ -2,6 +2,7 @@
 
 import { WebSocket } from 'partysocket';
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
+
 import { useCurrentUser } from '@/entities/auth/user';
 import { buildRealtimeUrl } from '@/shared/api';
 import {
@@ -12,6 +13,7 @@ import {
   setSubscriptionSender,
   syncRoomSubscriptions,
 } from '../lib';
+
 import type { RealtimeClientMessage, RoomsParticipantsSnapshot } from '@chatovo/schemas';
 
 export const useRealtimeState = () => {

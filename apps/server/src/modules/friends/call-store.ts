@@ -1,19 +1,14 @@
-import { sendIncomingCallPush } from '../push/push.service';
+import { friendCallStatusSchema } from '@chatovo/schemas';
+
+import { sendIncomingCallPush } from '../push/push-sender';
 import { emitFriendsSnapshot } from '../realtime/emit';
-import type { FriendCallStreamSnapshot, FriendUser } from '@chatovo/schemas';
+
+import type { FriendCallStreamSnapshot } from '@chatovo/schemas';
+import type { PendingFriendCall } from './friends.types';
+
+const CALL_STATUS = friendCallStatusSchema.enum;
 
 const CALL_TTL_MS = 60_000;
-
-export type FriendCallStatus = 'ringing' | 'accepted' | 'declined';
-
-export type PendingFriendCall = {
-  roomId: string;
-  caller: FriendUser;
-  callee: FriendUser;
-  calleeId: string;
-  status: FriendCallStatus;
-  expiresAt: number;
-};
 
 const byCallee = new Map<string, PendingFriendCall>();
 const byCaller = new Map<string, PendingFriendCall>();
@@ -63,7 +58,7 @@ export const getUserCallSnapshot = (userId: string): FriendCallStreamSnapshot =>
 
   return {
     incoming:
-      incomingCall && !isExpired(incomingCall) && incomingCall.status === 'ringing'
+      incomingCall && !isExpired(incomingCall) && incomingCall.status === CALL_STATUS.ringing
         ? { roomId: incomingCall.roomId, caller: incomingCall.caller }
         : null,
     outgoing:
@@ -87,17 +82,14 @@ export const bumpFriendsEpoch = (...userIds: string[]): void => {
   }
 };
 
-export const setPendingCall = (input: {
-  roomId: string;
-  caller: FriendUser;
-  callee: FriendUser;
-  calleeId: string;
-}): void => {
+export const setPendingCall = (
+  input: Pick<PendingFriendCall, 'roomId' | 'caller' | 'callee' | 'calleeId'>,
+): void => {
   pruneExpired();
 
   const pending: PendingFriendCall = {
     ...input,
-    status: 'ringing',
+    status: CALL_STATUS.ringing,
     expiresAt: Date.now() + CALL_TTL_MS,
   };
 
@@ -148,7 +140,7 @@ export const markCallAccepted = (calleeId: string): PendingFriendCall | null => 
     return null;
   }
 
-  call.status = 'accepted';
+  call.status = CALL_STATUS.accepted;
   byCallee.delete(calleeId);
 
   emitUsers([calleeId, call.caller.id]);
@@ -167,7 +159,7 @@ export const markCallDeclined = (calleeId: string): void => {
     return;
   }
 
-  call.status = 'declined';
+  call.status = CALL_STATUS.declined;
   byCallee.delete(calleeId);
 
   emitUsers([calleeId, call.caller.id]);
@@ -177,8 +169,6 @@ export const clearPendingCallForCaller = (callerId: string): void => {
   const call = byCaller.get(callerId);
 
   if (!call) {
-    byCaller.delete(callerId);
-
     return;
   }
 

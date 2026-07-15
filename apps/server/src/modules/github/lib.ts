@@ -1,4 +1,5 @@
 import { gitHubReleaseListSchema } from '@chatovo/schemas';
+
 import type { GitHubRelease, GitHubReleaseAsset } from '@chatovo/schemas';
 
 const REPO = 'Zilero232/Chatovo';

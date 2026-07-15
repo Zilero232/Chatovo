@@ -2,10 +2,14 @@
 
 import { useLocalParticipant } from '@livekit/components-react';
 import { target, useEventListener } from '@siberiacancode/reactuse';
+import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
+
 import { ChatConversation } from './ChatConversation';
-import { chatPanelStyles as s } from './ChatPanel.styles';
 import { ChatHeader } from './components';
+
+import s from './ChatPanel.module.scss';
+
 import type { ChatPanelProps } from './ChatPanel.types';
 
 export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
@@ -42,7 +46,7 @@ export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
         onClick={onClose}
       />
 
-      <aside className={s.root} data-open={isOpen} inert={!isOpen}>
+      <aside className={clsx('glass-strong', 'pb-safe', s.root)} data-open={isOpen} inert={!isOpen}>
         <ChatHeader onClose={onClose} />
         <ChatConversation
           roomId={roomId}

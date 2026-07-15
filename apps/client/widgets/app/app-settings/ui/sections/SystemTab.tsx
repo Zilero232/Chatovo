@@ -1,10 +1,12 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { Switch } from '@/shared/ui';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 import { SettingRow } from '../components/SettingRow';
+
+import s from '../AppSettingsButton.module.scss';
 
 export const SystemTab = () => {
   const t = useTranslations('settings.system');

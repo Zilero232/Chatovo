@@ -1,10 +1,17 @@
 'use client';
 
 import { isImageMime } from '@chatovo/schemas';
+import dynamic from 'next/dynamic';
+
 import { MessageAttachment } from '../MessageAttachment';
-import { MessageContent } from '../MessageContent';
 import { MessageContextMenu } from '../MessageContextMenu';
-import { messageBubbleStyles as s } from './MessageBubble.styles';
+import { bubbleVariants } from './MessageBubble.variants';
+
+const MessageContent = dynamic(
+  () => import('../MessageContent').then((m) => ({ default: m.MessageContent })),
+  { ssr: false },
+);
+
 import type { MessageBubbleProps } from './MessageBubble.types';
 
 export const MessageBubble = ({
@@ -22,7 +29,13 @@ export const MessageBubble = ({
 
   return (
     <MessageContextMenu enabled={showActions} canEdit={canEdit} onEdit={onEdit} onDelete={onDelete}>
-      <div className={s({ own: isOwn, bare: isBareImage, tail: isTail })}>
+      <div
+        className={bubbleVariants({
+          owner: isOwn ? 'own' : 'other',
+          display: isBareImage ? 'bare' : 'padded',
+          tail: isTail,
+        })}
+      >
         {attachment ? (
           <MessageAttachment attachment={attachment} isOwn={isOwn} />
         ) : (

@@ -1,16 +1,20 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { ChevronRight, MoreVertical, UserMinus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { UserAvatar, UserName } from '@/entities/auth/user';
+import { formatBadgeCount } from '@/shared/lib';
 import {
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/ui';
-import { friendListItemStyles as s } from './FriendListItem.styles';
+
+import s from './FriendListItem.module.scss';
+
 import type { FriendListItemProps } from './FriendListItem.types';
 
 export const FriendListItem = ({ user, dmUnread = 0, onOpen, onRemove }: FriendListItemProps) => {
@@ -22,7 +26,10 @@ export const FriendListItem = ({ user, dmUnread = 0, onOpen, onRemove }: FriendL
         <UserAvatar className={s.avatar} name={user.name} size="sm" src={user.avatarUrl} />
         <div className={s.info}>
           <UserName className={s.name} name={user.name} verified={user.verified} />
-          {user.friendTag && <p className={s.tag}>{user.friendTag}</p>}
+          <span className={clsx(s.status, { [s.statusOnline]: user.isOnline })}>
+            <span className={s.dot} />
+            {t(user.isOnline ? 'online' : 'offline')}
+          </span>
         </div>
         {dmUnread > 0 && (
           <span
@@ -30,23 +37,21 @@ export const FriendListItem = ({ user, dmUnread = 0, onOpen, onRemove }: FriendL
             className={s.unread}
             title={t('unreadMessages', { count: dmUnread })}
           >
-            {dmUnread > 99 ? '99+' : dmUnread}
+            {formatBadgeCount(dmUnread)}
           </span>
         )}
         <ChevronRight aria-hidden className={s.chevron} />
       </button>
 
       <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild>
-          <Button
-            aria-label={t('friendActions')}
-            className={s.menuTrigger}
-            size="icon-sm"
-            type="button"
-            variant="ghost"
-          >
-            <MoreVertical />
-          </Button>
+        <DropdownMenuTrigger
+          aria-label={t('friendActions')}
+          className={s.menuTrigger}
+          size="icon-sm"
+          type="button"
+          variant="ghost"
+        >
+          <MoreVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem className={s.menuItemDestructive} onClick={() => onRemove(user)}>

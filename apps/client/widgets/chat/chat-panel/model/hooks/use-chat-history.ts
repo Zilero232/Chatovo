@@ -1,6 +1,8 @@
 'use client';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { secondsToMilliseconds } from 'date-fns';
+
 import { fetchChatMessages } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 import { chatMessageToChatLine, mergeChatHistory } from '../lib';
@@ -11,7 +13,7 @@ export const useChatHistory = (roomId: string) => {
   const { data, isPending, isFetching } = useQuery({
     queryKey: QUERY_KEYS.chatMessages(roomId),
     enabled: roomId.length > 0,
-    staleTime: Number.POSITIVE_INFINITY,
+    staleTime: secondsToMilliseconds(30),
     queryFn: async () => {
       const page = await fetchChatMessages(roomId);
       const fetched = page.items.map(chatMessageToChatLine);

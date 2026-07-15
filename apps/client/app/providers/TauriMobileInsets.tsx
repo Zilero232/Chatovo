@@ -2,9 +2,14 @@
 
 import { target, useEventListener } from '@siberiacancode/reactuse';
 import { useEffect, useEffectEvent } from 'react';
+
 import { isTauriMobile } from '@/shared/lib';
 
 const syncInsetsFromPlugin = async () => {
+  if (!isTauriMobile()) {
+    return;
+  }
+
   const api = await import('@saurl/tauri-plugin-safe-area-insets-css-api');
   const [top, bottom] = await Promise.all([api.getTopInset(), api.getBottomInset()]);
 
@@ -34,7 +39,7 @@ export const TauriMobileInsets = () => {
     const root = document.documentElement;
     root.classList.add('tauri-mobile');
 
-    void import('@saurl/tauri-plugin-safe-area-insets-css-api').then(() => syncInsetsFromPlugin());
+    void syncInsetsFromPlugin();
 
     const viewport = window.visualViewport;
     viewport?.addEventListener('resize', syncInsets);

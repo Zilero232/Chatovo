@@ -1,0 +1,22 @@
+@use '@/shared/styles/breakpoints' as *;
+
+.root {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+
+  @include bp(sm) {
+    gap: 0.5rem;
+  }
+}
+
+.divider {
+  margin-inline: 0.25rem;
+  height: 2rem;
+  width: 1px;
+  flex-shrink: 0;
+  background: rgb(255 255 255 / 10%);
+}

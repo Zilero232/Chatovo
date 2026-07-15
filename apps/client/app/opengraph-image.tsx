@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og';
+
 import { SITE } from '@/shared/config';
 
 export const dynamic = 'force-static';

@@ -5,6 +5,7 @@ export {
   roomsParticipantsSnapshotSchema,
   tokenResponseSchema,
 } from './outputs';
+
 export type {
   ParticipantMetadata,
   RoomParticipant,

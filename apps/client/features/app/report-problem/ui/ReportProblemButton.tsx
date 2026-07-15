@@ -3,7 +3,8 @@
 import { useBoolean } from '@siberiacancode/reactuse';
 import { Bug } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+
+import { Button, Tooltip, TooltipContent } from '@/shared/ui';
 import { ReportProblemDialog } from './ReportProblemDialog';
 
 export const ReportProblemButton = () => {
@@ -14,17 +15,15 @@ export const ReportProblemButton = () => {
   return (
     <>
       <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            aria-label={t('title')}
-            size="icon"
-            type="button"
-            variant="ghost"
-            onClick={() => toggleOpen(true)}
-          >
-            <Bug />
-          </Button>
-        </TooltipTrigger>
+        <Button
+          aria-label={t('title')}
+          size="icon"
+          type="button"
+          variant="ghost"
+          onClick={() => toggleOpen(true)}
+        >
+          <Bug />
+        </Button>
         <TooltipContent>{t('title')}</TooltipContent>
       </Tooltip>
 

@@ -1,8 +1,9 @@
-export { backfillMissingFriendTags, ensureUserFriendTag, issueUniqueFriendTag } from './friend-tag';
+export { ensureUserFriendTag, issueUniqueFriendTag } from './friend-tag';
 export {
   assertCanAccessDmRoom,
   assertCanManageRoom,
   assertRoomExists,
+  getRoomDmRouting,
   getRoomName,
   getUserDisplayName,
   getUserWithProfileOrThrow,

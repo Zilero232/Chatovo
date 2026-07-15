@@ -1,0 +1,39 @@
+.root {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  animation:
+    overlay-fade-in 200ms ease-out,
+    slide-in-from-bottom 200ms ease-out;
+
+  &[data-own='true'] {
+    flex-direction: row-reverse;
+  }
+
+  &[data-pending='true'] {
+    opacity: 0.6;
+  }
+}
+
+.column {
+  display: flex;
+  min-width: 0;
+  max-width: 85%;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  &[data-own='true'] {
+    align-items: flex-end;
+  }
+}
+
+.bodyRow {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.25rem;
+
+  &[data-own='true'] {
+    flex-direction: row-reverse;
+  }
+}

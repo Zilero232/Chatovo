@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+
 import { getIncomingFriendCall } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 

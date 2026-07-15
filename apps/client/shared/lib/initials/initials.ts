@@ -1,18 +1,5 @@
 import { isEmpty } from 'remeda';
 
-const AVATAR_COLORS = [
-  'bg-red-600',
-  'bg-orange-600',
-  'bg-amber-600',
-  'bg-emerald-600',
-  'bg-teal-600',
-  'bg-sky-600',
-  'bg-indigo-600',
-  'bg-violet-600',
-  'bg-fuchsia-600',
-  'bg-rose-600',
-] as const;
-
 export const getInitials = (name: string): string => {
   const trimmed = name.trim();
 
@@ -27,12 +14,12 @@ export const getInitials = (name: string): string => {
     .join('');
 };
 
-export const getAvatarColor = (name: string): string => {
+export const getAvatarColor = (name: string) => {
   let hash = 0;
 
   for (let i = 0; i < name.length; i++) {
     hash = (hash * 31 + name.charCodeAt(i)) | 0;
   }
 
-  return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
+  return `hsl(${Math.abs(hash) % 360} 55% 45%)`;
 };

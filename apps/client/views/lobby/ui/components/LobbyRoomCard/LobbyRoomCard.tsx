@@ -1,14 +1,18 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { Lock, Radio } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+
 import { UserAvatar, useCurrentUser } from '@/entities/auth/user';
 import { OwnerBadge, OwnerCrown, useRoomParticipants } from '@/entities/room/room';
 import { ManageRoomMenu } from '@/features/room/manage';
 import { buildRoomHref } from '@/shared/constants';
 import { AvatarWithBadges, Badge } from '@/shared/ui';
-import { lobbyRoomCardStyles as s } from './LobbyRoomCard.styles';
+
+import s from './LobbyRoomCard.module.scss';
+
 import type { LobbyRoomCardProps } from './LobbyRoomCard.types';
 
 const MAX_AVATARS = 4;
@@ -29,7 +33,7 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
   const isOwner = user?.id === room.ownerId;
 
   return (
-    <div className={s.root} data-live={isLive}>
+    <div className={clsx(s.root, 'glass', 'glass-hover')} data-live={isLive}>
       {isLive && (
         <>
           <span aria-hidden className={s.liveGlow} />
@@ -38,11 +42,7 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
         </>
       )}
 
-      <button
-        className={s.enter()}
-        type="button"
-        onClick={() => router.push(buildRoomHref(room.id))}
-      >
+      <button className={s.enter} type="button" onClick={() => router.push(buildRoomHref(room.id))}>
         <div className={s.header}>
           <span className={s.name}>
             {room.name}
@@ -53,7 +53,7 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
             {isOwner && <OwnerBadge />}
             {isLive ? (
               <Badge tone="primary">
-                <span className="size-1.5 animate-pulse rounded-full bg-primary" />
+                <span className={s.liveDot} />
                 {t('live')}
               </Badge>
             ) : (

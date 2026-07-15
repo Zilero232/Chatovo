@@ -1,6 +1,8 @@
 import { friendCallStreamSnapshotSchema } from '@chatovo/schemas';
+
 import { QUERY_KEYS } from '@/shared/constants';
 import { invalidateFriendsQueries } from './invalidate-friends-queries';
+
 import type { FriendCallStreamSnapshot } from '@chatovo/schemas';
 import type { QueryClient } from '@tanstack/react-query';
 

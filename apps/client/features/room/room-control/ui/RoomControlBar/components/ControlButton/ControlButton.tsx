@@ -1,8 +1,18 @@
 'use client';
 
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
+import { clsx } from 'clsx';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+
+import { Tooltip, TooltipContent } from '@/shared/ui';
 import { DeviceMenu } from '../DeviceMenu';
-import { controlButton, controlMain, controlShell } from './ControlButton.styles';
+import {
+  controlButtonToneClass,
+  controlMainToneClass,
+  controlShellToneClass,
+} from './control-button-tones';
+
+import s from './ControlButton.module.scss';
+
 import type { ControlButtonProps } from './ControlButton.types';
 
 export const ControlButton = ({
@@ -14,41 +24,53 @@ export const ControlButton = ({
   device,
   onClick,
 }: ControlButtonProps) => {
+  const shouldReduceMotion = useReducedMotion();
+
+  const animatedIcon = (
+    <AnimatePresence initial={false} mode="popLayout">
+      <motion.span
+        key={String(pressed)}
+        className={s.iconSlot}
+        initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.4, rotate: -20 }}
+        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+        exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.4, rotate: 20 }}
+        transition={{ type: 'spring', stiffness: 500, damping: 26 }}
+      >
+        {icon}
+      </motion.span>
+    </AnimatePresence>
+  );
   if (!device) {
     return (
       <Tooltip>
-        <TooltipTrigger asChild>
-          <button
-            aria-label={label}
-            aria-pressed={pressed}
-            className={controlButton({ tone })}
-            disabled={disabled}
-            type="button"
-            onClick={onClick}
-          >
-            {icon}
-          </button>
-        </TooltipTrigger>
+        <button
+          aria-label={label}
+          aria-pressed={pressed}
+          className={clsx(s.controlButton, controlButtonToneClass[tone])}
+          disabled={disabled}
+          type="button"
+          onClick={onClick}
+        >
+          {animatedIcon}
+        </button>
         <TooltipContent>{label}</TooltipContent>
       </Tooltip>
     );
   }
 
   return (
-    <div className={controlShell({ tone })}>
+    <div className={clsx(s.controlShell, controlShellToneClass[tone])}>
       <Tooltip>
-        <TooltipTrigger asChild>
-          <button
-            aria-label={label}
-            aria-pressed={pressed}
-            className={controlMain({ tone })}
-            disabled={disabled}
-            type="button"
-            onClick={onClick}
-          >
-            {icon}
-          </button>
-        </TooltipTrigger>
+        <button
+          aria-label={label}
+          aria-pressed={pressed}
+          className={clsx(s.controlMain, controlMainToneClass[tone])}
+          disabled={disabled}
+          type="button"
+          onClick={onClick}
+        >
+          {animatedIcon}
+        </button>
         <TooltipContent>{label}</TooltipContent>
       </Tooltip>
 

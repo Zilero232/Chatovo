@@ -12,11 +12,14 @@ import {
   VideoOff,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { isScreenShareSupported } from '@/shared/lib';
 import { CAM_DEVICE, MIC_DEVICE, SPEAKER_DEVICE } from '../../config/devices';
 import { useRoomControls } from '../../model/hooks';
 import { ControlButton, ReactionButton } from './components';
-import { roomControlBarStyles as s } from './RoomControlBar.styles';
+
+import s from './RoomControlBar.module.scss';
+
 import type { RoomControlDevice } from '../../config/devices';
 import type { ControlDevice } from './components';
 

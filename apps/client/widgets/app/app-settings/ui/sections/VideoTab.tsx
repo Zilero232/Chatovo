@@ -1,12 +1,14 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+
 import { type ScreenQuality, useAppSettings, type VideoQuality } from '@/entities/app/settings';
 import { Switch } from '@/shared/ui';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 import { DeviceSelect } from '../components/DeviceSelect';
 import { QualitySelect } from '../components/QualitySelect';
 import { SettingRow } from '../components/SettingRow';
+
+import s from '../AppSettingsButton.module.scss';
 
 const CAMERA_QUALITIES: VideoQuality[] = ['720p', '1080p', '1440p', '4k'];
 const SCREEN_QUALITIES: ScreenQuality[] = ['1080p15', '1080p30', '1440p30', '4k30'];

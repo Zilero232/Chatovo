@@ -1,0 +1,57 @@
+.root {
+  display: flex;
+  height: 100%;
+  align-items: stretch;
+}
+
+.button {
+  display: inline-flex;
+  height: 100%;
+  width: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+  transition: colors 150ms ease-out;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  &:focus-visible {
+    background: var(--accent);
+    outline: none;
+  }
+}
+
+.closeButton {
+  display: inline-flex;
+  height: 100%;
+  width: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+  transition: colors 150ms ease-out;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--destructive);
+    color: white;
+  }
+
+  &:focus-visible {
+    background: var(--destructive);
+    color: white;
+    outline: none;
+  }
+}
+
+.icon {
+  width: 0.875rem;
+  height: 0.875rem;
+}

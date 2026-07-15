@@ -1,11 +1,14 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { formatPercent } from '@/shared/lib';
 import { Slider, Switch } from '@/shared/ui';
-import { appSettingsStyles as s } from '../AppSettingsButton.styles';
 import { SettingRow } from '../components/SettingRow';
+
+import s from '../AppSettingsButton.module.scss';
+
 import type { SoundCategory } from '@/entities/app/settings';
 
 const SOUND_CATEGORIES: SoundCategory[] = [
@@ -36,8 +39,8 @@ export const SoundsTab = () => {
               max={1}
               min={0}
               step={0.05}
-              value={[sounds.volume]}
-              onValueChange={([value]) => setGroup('sounds', { volume: value })}
+              value={sounds.volume}
+              onValueChange={(value) => setGroup('sounds', { volume: value as number })}
             />
             <span className={s.sliderValue}>{formatPercent(sounds.volume)}</span>
           </div>

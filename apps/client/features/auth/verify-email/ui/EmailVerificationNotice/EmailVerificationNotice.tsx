@@ -4,9 +4,11 @@ import { Loader2, MailWarning } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
+
 import { useCurrentUser, useSendVerificationEmail } from '@/entities/auth/user';
 import { Button } from '@/shared/ui';
-import { emailVerificationNoticeStyles as s } from './EmailVerificationNotice.styles';
+
+import s from './EmailVerificationNotice.module.scss';
 
 export const EmailVerificationNotice = () => {
   const t = useTranslations('settings.security');
@@ -42,7 +44,7 @@ export const EmailVerificationNotice = () => {
 
       <div className={s.actions}>
         <Button disabled={isPending} size="sm" type="button" variant="secondary" onClick={send}>
-          {isPending && <Loader2 className="mr-1.5 size-4 animate-spin" />}
+          {isPending && <Loader2 className={s.spinner} />}
           {sent ? t('emailVerificationResend') : t('emailVerificationSend')}
         </Button>
         {sent && <span className={s.sent}>{t('emailVerificationSentHint')}</span>}

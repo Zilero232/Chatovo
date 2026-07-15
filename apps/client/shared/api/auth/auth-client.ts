@@ -1,9 +1,10 @@
 import { inferAdditionalFields } from 'better-auth/client/plugins';
 import { createAuthClient } from 'better-auth/react';
+
 import { env } from '@/shared/config';
 import { STORAGE_KEYS } from '@/shared/constants';
 
-export const getAuthToken = (): string => {
+export const getAuthToken = () => {
   if (typeof window === 'undefined') {
     return '';
   }
@@ -11,7 +12,7 @@ export const getAuthToken = (): string => {
   return window.localStorage.getItem(STORAGE_KEYS.authToken) ?? '';
 };
 
-export const saveAuthToken = (token: string | null | undefined): void => {
+export const saveAuthToken = (token: string | null | undefined) => {
   if (typeof window === 'undefined' || !token) {
     return;
   }
@@ -19,7 +20,7 @@ export const saveAuthToken = (token: string | null | undefined): void => {
   window.localStorage.setItem(STORAGE_KEYS.authToken, token);
 };
 
-export const clearToken = (): void => {
+export const clearToken = () => {
   if (typeof window === 'undefined') {
     return;
   }

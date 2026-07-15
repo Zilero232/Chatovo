@@ -2,15 +2,11 @@
 
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
+
 import { useRemoveFriendship } from '@/entities/social/friend';
 import { ConfirmDialog } from '@/shared/ui';
 
-type RemoveFriendConfirmDialogProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  userId: string;
-  friendName: string;
-};
+import type { RemoveFriendConfirmDialogProps } from './RemoveFriendConfirmDialog.types';
 
 export const RemoveFriendConfirmDialog = ({
   open,

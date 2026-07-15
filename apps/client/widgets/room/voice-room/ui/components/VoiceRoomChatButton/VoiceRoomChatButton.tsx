@@ -1,11 +1,15 @@
 'use client';
 
+import { clsx } from 'clsx';
 import { MessageSquare } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { cn } from '@/shared/lib/cn';
+
+import { formatBadgeCount } from '@/shared/lib';
 import { Button } from '@/shared/ui';
 import { useChatUnread } from '@/widgets/chat/chat-panel';
-import { voiceRoomChatButtonStyles as s } from './VoiceRoomChatButton.styles';
+
+import s from './VoiceRoomChatButton.module.scss';
+
 import type { VoiceRoomChatButtonProps } from './VoiceRoomChatButton.types';
 
 export const VoiceRoomChatButton = ({ roomId, isOpen, onToggle }: VoiceRoomChatButtonProps) => {
@@ -27,8 +31,8 @@ export const VoiceRoomChatButton = ({ roomId, isOpen, onToggle }: VoiceRoomChatB
       </Button>
 
       {unread > 0 && !isOpen && (
-        <span aria-live="polite" className={cn(s.badge, s.badgePulse)} key={unread}>
-          {unread > 99 ? '99+' : unread}
+        <span aria-live="polite" className={clsx(s.badge, s.badgePulse)} key={unread}>
+          {formatBadgeCount(unread)}
         </span>
       )}
     </div>

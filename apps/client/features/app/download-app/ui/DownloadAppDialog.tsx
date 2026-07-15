@@ -2,6 +2,7 @@
 
 import { ExternalLink, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import {
   DESKTOP_DOWNLOAD_PLATFORMS,
   MOBILE_DOWNLOAD_PLATFORMS,
@@ -10,7 +11,9 @@ import {
 import { EXTERNAL_LINKS } from '@/shared/constants';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/shared/ui';
 import { PlatformCard } from './components';
-import { downloadAppDialogStyles as s } from './DownloadAppDialog.styles';
+
+import s from './DownloadAppDialog.module.scss';
+
 import type { DownloadAppDialogProps } from './DownloadAppDialog.types';
 
 export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps) => {

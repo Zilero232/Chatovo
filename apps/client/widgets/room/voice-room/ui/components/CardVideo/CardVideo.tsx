@@ -1,28 +1,44 @@
 'use client';
 
-import { type TrackReference, useIsMuted, VideoTrack } from '@livekit/components-react';
-import { useFullscreen } from '@siberiacancode/reactuse';
-import { Expand } from 'lucide-react';
-import { useAppSettings } from '@/entities/app/settings';
-import { cardVideoStyles as s } from './CardVideo.styles';
-import type { KeyboardEvent } from 'react';
+import { useIsMuted, VideoTrack } from '@livekit/components-react';
+import { clsx } from 'clsx';
+import { Expand, Shrink } from 'lucide-react';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
 
-type CardVideoProps = {
-  trackRef: TrackReference;
-};
+import { useAppSettings } from '@/entities/app/settings';
+
+import s from './CardVideo.module.scss';
+
+import type { KeyboardEvent } from 'react';
+import type { CardVideoProps } from './CardVideo.types';
 
 export const CardVideo = ({ trackRef }: CardVideoProps) => {
-  const { ref, toggle } = useFullscreen<HTMLDivElement>();
   const muted = useIsMuted(trackRef);
 
   const { settings } = useAppSettings();
 
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const isMirrored = trackRef.participant.isLocal && settings.video.mirrorVideo;
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
+  const videoClassName = clsx(s.video, { [s.videoMirrored]: isMirrored });
+  const expandedVideoClassName = clsx(s.video, s.videoContain, {
+    [s.videoMirrored]: isMirrored,
+  });
+
+  const toggle = () => {
+    setIsExpanded((prev) => !prev);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
       toggle();
+    }
+
+    if (event.key === 'Escape') {
+      setIsExpanded(false);
     }
   };
 
@@ -31,19 +47,32 @@ export const CardVideo = ({ trackRef }: CardVideoProps) => {
   }
 
   return (
-    // biome-ignore lint/a11y/useSemanticElements: <button> cannot wrap a <video>; div + role=button is the valid composite
-    <div
-      ref={ref}
-      className={s.pane}
-      onClick={toggle}
-      onKeyDown={handleKeyDown}
-      role="button"
-      tabIndex={0}
-    >
-      <VideoTrack className={isMirrored ? s.videoMirrored : s.video} trackRef={trackRef} />
-      <div className={s.fullscreenHint}>
-        <Expand className={s.hintIcon} />
+    <>
+      {/* biome-ignore lint/a11y/useSemanticElements: <button> cannot wrap a <video>; div + role=button is the valid composite */}
+      <div className={s.pane} role="button" tabIndex={0} onClick={toggle} onKeyDown={handleKeyDown}>
+        <VideoTrack className={videoClassName} trackRef={trackRef} />
+        <div className={s.fullscreenHint}>
+          <Expand className={s.hintIcon} />
+        </div>
       </div>
-    </div>
+
+      {isExpanded &&
+        createPortal(
+          // biome-ignore lint/a11y/useSemanticElements: same composite pattern, rendered in a portal above the app
+          <div
+            className={s.overlay}
+            role="button"
+            tabIndex={0}
+            onClick={toggle}
+            onKeyDown={handleKeyDown}
+          >
+            <VideoTrack className={expandedVideoClassName} trackRef={trackRef} />
+            <div className={s.fullscreenHint}>
+              <Shrink className={s.hintIcon} />
+            </div>
+          </div>,
+          document.body,
+        )}
+    </>
   );
 };
