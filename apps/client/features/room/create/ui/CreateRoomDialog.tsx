@@ -14,11 +14,7 @@ import {
 } from '@/shared/ui';
 import { CreateRoomForm } from './CreateRoomForm';
 
-import type { ReactNode } from 'react';
-
-type CreateRoomDialogProps = {
-  trigger?: ReactNode;
-};
+import type { CreateRoomDialogProps } from './CreateRoomDialog.types';
 
 export const CreateRoomDialog = ({ trigger }: CreateRoomDialogProps) => {
   const t = useTranslations('createRoom');

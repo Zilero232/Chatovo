@@ -9,12 +9,9 @@ import { Popover, PopoverContent } from '@/shared/ui';
 
 import s from './UpdateProfileForm.module.scss';
 
-const PRESETS = ['#7c5cff', '#22d3ee', '#f43f5e', '#f59e0b', '#10b981', '#64748b'];
+import type { BannerColorFieldProps } from './BannerColorField.types';
 
-type BannerColorFieldProps = {
-  value: string | null;
-  onChange: (value: string | null) => void;
-};
+const PRESETS = ['#7c5cff', '#22d3ee', '#f43f5e', '#f59e0b', '#10b981', '#64748b'];
 
 export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => {
   const t = useTranslations('settings.profile');

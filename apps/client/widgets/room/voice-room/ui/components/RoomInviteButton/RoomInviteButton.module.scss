@@ -4,6 +4,12 @@
   flex-shrink: 0;
 }
 
+.iconSlot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .buttonSm {
   width: 2rem !important;
   height: 2rem !important;

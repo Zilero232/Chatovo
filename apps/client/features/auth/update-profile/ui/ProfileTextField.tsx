@@ -1,24 +1,8 @@
 'use client';
 
-import { Input, Label, Textarea } from '@/shared/ui';
+import { FormField, Input, Textarea } from '@/shared/ui';
 
-import s from './UpdateProfileForm.module.scss';
-
-import type { HTMLInputTypeAttribute, ReactNode } from 'react';
-import type { UseFormRegisterReturn } from 'react-hook-form';
-
-type ProfileTextFieldProps = {
-  id: string;
-  label: string;
-  hint: ReactNode;
-  error?: ReactNode;
-  registration: UseFormRegisterReturn;
-  autoComplete?: string;
-  placeholder?: string;
-  type?: HTMLInputTypeAttribute;
-  rows?: number;
-  multiline?: boolean;
-};
+import type { ProfileTextFieldProps } from './ProfileTextField.types';
 
 export const ProfileTextField = ({
   id,
@@ -33,11 +17,7 @@ export const ProfileTextField = ({
   multiline,
 }: ProfileTextFieldProps) => {
   return (
-    <div className={s.field}>
-      <Label className={s.label} htmlFor={id}>
-        {label}
-      </Label>
-
+    <FormField htmlFor={id} label={label} hint={error ? undefined : hint} error={error}>
       {multiline ? (
         <Textarea id={id} placeholder={placeholder} rows={rows} {...registration} />
       ) : (
@@ -49,8 +29,6 @@ export const ProfileTextField = ({
           {...registration}
         />
       )}
-
-      {error ? <p className={s.error}>{error}</p> : <p className={s.hint}>{hint}</p>}
-    </div>
+    </FormField>
   );
 };

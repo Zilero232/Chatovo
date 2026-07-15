@@ -2,11 +2,11 @@ import { useId } from 'react';
 
 import type { SVGProps } from 'react';
 
-interface LogoMarkProps extends Omit<SVGProps<SVGSVGElement>, 'width' | 'height'> {
+type LogoMarkProps = Omit<SVGProps<SVGSVGElement>, 'width' | 'height'> & {
   size?: number;
   simplified?: boolean;
   withPlaque?: boolean;
-}
+};
 
 const DETAIL = 'var(--brand-violet)';
 

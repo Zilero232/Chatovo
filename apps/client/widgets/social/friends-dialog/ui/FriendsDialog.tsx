@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { useCurrentUser } from '@/entities/auth/user';
 import {
   FriendTag,
+  useCloseWhenCallAccepted,
   useIncomingFriendRequests,
   useSendFriendRequest,
 } from '@/entities/social/friend';
@@ -45,6 +46,7 @@ export const FriendsDialog = () => {
   const sendRequest = useSendFriendRequest();
 
   useCloseWhenInVoiceRoom(() => toggleOpen(false));
+  useCloseWhenCallAccepted(() => toggleOpen(false));
 
   const incomingCount = requests?.length ?? 0;
   const triggerBadgeCount = dmUnread + incomingCount;

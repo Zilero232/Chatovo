@@ -10,9 +10,7 @@ import { RoomSoundsController } from '../RoomSoundsController';
 import { RoomTrayController } from '../RoomTrayController';
 import { ShortcutActionsController } from '../ShortcutActionsController';
 
-type RoomControllersProps = {
-  roomId: string;
-};
+import type { RoomControllersProps } from './RoomControllers.types';
 
 export const RoomControllers = ({ roomId }: RoomControllersProps) => (
   <>

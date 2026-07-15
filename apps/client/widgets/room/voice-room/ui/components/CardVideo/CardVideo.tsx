@@ -1,6 +1,6 @@
 'use client';
 
-import { type TrackReference, useIsMuted, VideoTrack } from '@livekit/components-react';
+import { useIsMuted, VideoTrack } from '@livekit/components-react';
 import { clsx } from 'clsx';
 import { Expand, Shrink } from 'lucide-react';
 import { useState } from 'react';
@@ -11,10 +11,7 @@ import { useAppSettings } from '@/entities/app/settings';
 import s from './CardVideo.module.scss';
 
 import type { KeyboardEvent } from 'react';
-
-type CardVideoProps = {
-  trackRef: TrackReference;
-};
+import type { CardVideoProps } from './CardVideo.types';
 
 export const CardVideo = ({ trackRef }: CardVideoProps) => {
   const muted = useIsMuted(trackRef);

@@ -1,5 +1,6 @@
 'use client';
 
+import { roomKindSchema } from '@chatovo/schemas';
 import { createContextHook, useAudio } from '@siberiacancode/reactuse';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -9,6 +10,7 @@ import { toast } from 'sonner';
 
 import { useAppSettings } from '@/entities/app/settings';
 import { useCurrentUser } from '@/entities/auth/user';
+import { useCloseWhenCallAccepted } from '@/entities/social/friend';
 import { getOrCreateFriendDmRoom } from '@/shared/api';
 import { useActiveVoiceRoomId, useCloseWhenInVoiceRoom } from '@/shared/hooks';
 import { appEvents } from '@/shared/lib';
@@ -78,6 +80,7 @@ const useFriendChatState = () => {
   };
 
   useCloseWhenInVoiceRoom(close);
+  useCloseWhenCallAccepted(close);
 
   useEffect(() => {
     if (!closeGuard) {
@@ -107,7 +110,7 @@ const useFriendChatState = () => {
 
   appEvents.on.chatMessage(({ roomId, senderId, roomKind }) => {
     if (
-      roomKind !== 'dm' ||
+      roomKind !== roomKindSchema.enum.dm ||
       !senderId ||
       senderId === user?.id ||
       session?.roomId === roomId ||

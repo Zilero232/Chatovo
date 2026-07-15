@@ -2,13 +2,7 @@ import { bindRealtimeBroadcast as bindEmit } from './emit';
 
 import type { RealtimeServerMessage } from '@chatovo/schemas';
 import type { WebSocket } from 'ws';
-
-export type RealtimeConnection = {
-  id: string;
-  userId: string;
-  ws: WebSocket;
-  rooms: Set<string>;
-};
+import type { RealtimeConnection } from './realtime.types';
 
 const connections = new Map<string, RealtimeConnection>();
 const byUser = new Map<string, Set<string>>();

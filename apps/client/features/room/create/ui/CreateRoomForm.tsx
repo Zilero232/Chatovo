@@ -10,12 +10,9 @@ import { useCreateRoom, useEnterRoom } from '@/entities/room/room';
 import { FormField, Input, Label, Row, Stack, SubmitButton, Switch } from '@/shared/ui';
 
 import type { CreateRoomRequest } from '@chatovo/schemas';
+import type { CreateRoomFormProps } from './CreateRoomForm.types';
 
 const DEFAULT_VALUES: CreateRoomRequest = { name: '', isPrivate: false };
-
-type CreateRoomFormProps = {
-  onCreated?: () => void;
-};
 
 export const CreateRoomForm = ({ onCreated }: CreateRoomFormProps) => {
   const t = useTranslations('createRoom');

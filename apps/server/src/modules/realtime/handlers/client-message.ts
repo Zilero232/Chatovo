@@ -6,7 +6,7 @@ import { patchParticipant } from '../../livekit/presence';
 import { setConnectionRooms } from '../connection-store';
 import { emitRoomEvent } from '../emit';
 
-import type { RealtimeConnection } from '../connection-store';
+import type { RealtimeConnection } from '../realtime.types';
 
 export const handleClientMessage = async (
   connection: RealtimeConnection,

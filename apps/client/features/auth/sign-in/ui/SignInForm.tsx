@@ -11,11 +11,9 @@ import { type SignInValues, signInSchema, useSignIn } from '../model/use-sign-in
 
 import s from './SignInForm.module.scss';
 
-const DEFAULT_VALUES: SignInValues = { email: '', password: '' };
+import type { SignInFormProps } from './SignInForm.types';
 
-type SignInFormProps = {
-  onForgotPassword: () => void;
-};
+const DEFAULT_VALUES: SignInValues = { email: '', password: '' };
 
 export const SignInForm = ({ onForgotPassword }: SignInFormProps) => {
   const t = useTranslations('auth');

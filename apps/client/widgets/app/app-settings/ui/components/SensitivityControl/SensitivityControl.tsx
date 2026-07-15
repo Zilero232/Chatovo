@@ -10,16 +10,11 @@ import {
   VoiceGateDetector,
 } from '@/entities/app/settings';
 import { formatPercent } from '@/shared/lib';
-import { useMicAnalyser } from '../../model/hooks';
+import { useMicAnalyser } from '../../../model/hooks';
 
-import s from '../AppSettingsButton.module.scss';
+import s from '../../AppSettingsButton.module.scss';
 
-import type { AudioSettings } from '@/entities/app/settings';
-
-type SensitivityControlProps = {
-  deviceId: string;
-  audio: AudioSettings;
-};
+import type { SensitivityControlProps } from './SensitivityControl.types';
 
 export const SensitivityControl = ({ deviceId, audio }: SensitivityControlProps) => {
   const t = useTranslations('settings.audio');

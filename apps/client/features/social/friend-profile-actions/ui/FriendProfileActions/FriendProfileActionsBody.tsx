@@ -19,16 +19,7 @@ import { Button } from '@/shared/ui';
 
 import s from './FriendProfileActions.module.scss';
 
-import type { FriendshipRelation } from '@chatovo/schemas';
-
-type FriendProfileActionsBodyProps = {
-  state: FriendshipRelation;
-  userId: string;
-  friendTag: string;
-  displayName: string;
-  avatarUrl: string | null;
-  verified: boolean;
-};
+import type { FriendProfileActionsBodyProps } from './FriendProfileActionsBody.types';
 
 export const FriendProfileActionsBody = ({
   state,

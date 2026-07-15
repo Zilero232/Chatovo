@@ -22,20 +22,8 @@
   color: var(--muted-foreground);
 }
 
-.error {
-  font-size: 0.75rem;
-  color: var(--destructive);
-}
-
 .submit {
   align-self: flex-start;
-}
-
-.spinner {
-  margin-right: 0.375rem;
-  width: 1rem;
-  height: 1rem;
-  animation: spin 1s linear infinite;
 }
 
 .avatarRow {
@@ -186,10 +174,4 @@
 .bannerPickerPopover {
   width: auto;
   padding: 0.75rem;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }

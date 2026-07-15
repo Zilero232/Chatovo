@@ -13,6 +13,8 @@ import { ChannelsRoomItem } from '../ChannelsRoomItem';
 
 import s from './ChannelsList.module.scss';
 
+import type { ChannelsListProps } from './ChannelsList.types';
+
 const CHANNELS_SKELETON_KEYS = ['a', 'b', 'c', 'd', 'e'] as const;
 
 const SectionLabel = ({ children, offset = false }: { children: ReactNode; offset?: boolean }) => (
@@ -26,10 +28,6 @@ const ChannelsListSkeleton = () => (
     ))}
   </div>
 );
-
-type ChannelsListProps = {
-  onNavigate?: () => void;
-};
 
 export const ChannelsList = ({ onNavigate }: ChannelsListProps = {}) => {
   const t = useTranslations('channels');

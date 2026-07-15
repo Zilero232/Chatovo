@@ -1,15 +1,8 @@
 'use client';
 
-import s from '../AppSettingsButton.module.scss';
+import s from '../../AppSettingsButton.module.scss';
 
-import type { ReactNode } from 'react';
-
-type SettingRowProps = {
-  label: string;
-  hint?: string;
-  control: ReactNode;
-  stacked?: boolean;
-};
+import type { SettingRowProps } from './SettingRow.types';
 
 export const SettingRow = ({ label, hint, control, stacked = false }: SettingRowProps) => (
   <div className={stacked ? s.stackedRow : s.row}>

@@ -1,5 +1,6 @@
 export { sendFriendRequestInputSchema } from './inputs';
 export {
+  friendCallStatusSchema,
   friendCallStreamSnapshotSchema,
   friendEntrySchema,
   friendListSchema,
@@ -14,6 +15,7 @@ export {
 } from './outputs';
 
 export type {
+  FriendCallStatus,
   FriendCallStreamSnapshot,
   FriendEntry,
   FriendRequestEntry,

@@ -7,14 +7,11 @@ import { useTranslations } from 'next-intl';
 
 import { LEGAL } from '@/shared/config';
 import { EXTERNAL_LINKS, ROUTES } from '@/shared/constants';
-import { type LegalDocumentId, useLegalDocument } from '../model';
+import { useLegalDocument } from '../model';
 
 import s from './LegalDocumentPage.module.scss';
 
-type LegalDocumentPageProps = {
-  documentId: LegalDocumentId;
-  alternatePath: string;
-};
+import type { LegalDocumentPageProps } from './LegalDocumentPage.types';
 
 export const LegalDocumentPage = ({ documentId, alternatePath }: LegalDocumentPageProps) => {
   const t = useTranslations('legal');

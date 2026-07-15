@@ -8,21 +8,7 @@ import { saveUpload } from '../uploads';
 import { toUserProfile } from './profile';
 
 import type { UserProfile } from '@chatovo/schemas';
-
-export type UploadedAvatar = {
-  mimetype: string;
-  size: number;
-  buffer: Buffer;
-};
-
-type UpdateProfileInput = {
-  displayName: string;
-  profileUrl: string;
-  bannerColor: string;
-  bio: string;
-  avatar?: UploadedAvatar;
-  removeAvatar?: string;
-};
+import type { UpdateProfileInput, UploadedAvatar } from './users.types';
 
 @Injectable()
 export class UsersService {
@@ -64,10 +50,9 @@ export class UsersService {
 
   async getUserProfile(id: string): Promise<UserProfile> {
     const user = await getUserWithProfileOrThrow(id);
-    await ensureUserFriendTag(user.id, user.name);
-    const withTag = await getUserWithProfileOrThrow(id);
+    const friendTag = await ensureUserFriendTag(user.id, user.name, user.friendTag);
 
-    return toUserProfile(withTag);
+    return toUserProfile({ ...user, friendTag });
   }
 
   async updateProfile(userId: string, input: UpdateProfileInput): Promise<UserProfile> {
@@ -94,9 +79,8 @@ export class UsersService {
     });
 
     const user = await getUserWithProfileOrThrow(userId);
-    await ensureUserFriendTag(user.id, user.name);
-    const withTag = await getUserWithProfileOrThrow(userId);
+    const friendTag = await ensureUserFriendTag(user.id, user.name, user.friendTag);
 
-    return toUserProfile(withTag);
+    return toUserProfile({ ...user, friendTag });
   }
 }

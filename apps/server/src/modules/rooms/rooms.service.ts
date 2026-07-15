@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { isNonNullish } from 'remeda';
 
+import { RoomKind } from '../../../generated';
 import { DomainEvent } from '../../common/events/domain-events';
 import { PrismaService } from '../../core';
 import { assertCanManageRoom, getUserDisplayName, roomSelect } from '../../lib';
@@ -19,7 +20,7 @@ export class RoomsService {
 
   listRooms() {
     return this.prisma.room.findMany({
-      where: { kind: 'group' },
+      where: { kind: RoomKind.group },
       orderBy: { createdAt: 'desc' },
       select: roomSelect,
     });
@@ -45,7 +46,6 @@ export class RoomsService {
 
     await this.assertRoomNameAvailable(name);
 
-    // Public rooms never carry a password — drop whatever the client sent.
     const storedPassword = isPrivate ? (password ?? null) : null;
 
     const room = await this.prisma.room.create({
@@ -68,10 +68,6 @@ export class RoomsService {
   async updateRoom(id: string, input: UpdateRoomRequest, userId: string) {
     const current = await assertCanManageRoom(id, userId);
 
-    // Privacy and password are coupled:
-    //   - turning private OFF clears the stored password so joins skip the check
-    //   - a new password replaces the stored one when room stays/becomes private
-    //   - keeping isPrivate true without a new password leaves the existing one
     const data: Prisma.RoomUpdateInput = {};
 
     if (isNonNullish(input.name) && input.name !== current.name) {

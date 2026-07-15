@@ -21,13 +21,7 @@ import type {
   ListMessagesQuery,
   SendMessageInput,
 } from '@chatovo/schemas';
-
-type UploadedAttachment = {
-  originalname: string;
-  mimetype: string;
-  size: number;
-  buffer: Buffer;
-};
+import type { UploadedAttachment } from './chat.types';
 
 @Injectable()
 export class ChatService {
@@ -104,7 +98,10 @@ export class ChatService {
   }
 
   private async getOwnMessageOrThrow(messageId: string, senderId: string) {
-    const message = await this.prisma.message.findUnique({ where: { id: messageId } });
+    const message = await this.prisma.message.findUnique({
+      where: { id: messageId },
+      select: { id: true, senderId: true, roomId: true, deletedAt: true },
+    });
 
     if (!message || message.deletedAt) {
       throw new NotFoundException('Message not found');

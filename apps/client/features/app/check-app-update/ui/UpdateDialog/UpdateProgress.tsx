@@ -7,12 +7,7 @@ import { Progress } from '@/shared/ui';
 
 import s from './UpdateDialog.module.scss';
 
-import type { UpdateDialogProps } from './UpdateDialog.types';
-
-type UpdateProgressProps = {
-  status: UpdateDialogProps['status'];
-  progress: UpdateDialogProps['progress'];
-};
+import type { UpdateProgressProps } from './UpdateProgress.types';
 
 export const UpdateProgress = ({ status, progress }: UpdateProgressProps) => {
   const t = useTranslations('update');

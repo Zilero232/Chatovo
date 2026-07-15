@@ -7,7 +7,7 @@ import { LoggerModule } from 'nestjs-pino';
 
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { AppConfigModule } from './config/config.module';
-import { PrismaModule } from './core';
+import { env, PrismaModule } from './core';
 import { AuthModule } from './modules/auth/auth.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { FeedbackModule } from './modules/feedback/feedback.module';
@@ -30,18 +30,24 @@ import { UsersModule } from './modules/users/users.module';
     LoggerModule.forRoot({
       pinoHttp: {
         transport:
-          process.env.NODE_ENV === 'development'
+          env.NODE_ENV === 'development'
             ? { target: 'pino-pretty', options: { singleLine: true } }
             : undefined,
         autoLogging: false,
       },
     }),
     ThrottlerModule.forRoot({
-      throttlers: [{ ttl: 60_000, limit: 120 }],
+      throttlers: [{ name: 'default', ttl: 60_000, limit: 120 }],
     }),
     ServeStaticModule.forRoot({
       rootPath: UPLOADS_DIR,
       serveRoot: '/uploads',
+      serveStaticOptions: {
+        setHeaders: (res) => {
+          res.setHeader('Content-Disposition', 'attachment');
+          res.setHeader('Content-Security-Policy', "default-src 'none'; sandbox");
+        },
+      },
     }),
     AuthModule,
     NotificationsModule,

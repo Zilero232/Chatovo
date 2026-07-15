@@ -8,11 +8,7 @@ import { KIND_TO_SLOT, useAppSettings } from '@/entities/app/settings';
 import { Select } from '@/shared/ui';
 
 import type { SelectOption } from '@/shared/ui';
-
-type DeviceSelectProps = {
-  kind: MediaDeviceKind;
-  emptyLabel?: string;
-};
+import type { DeviceSelectProps } from './DeviceSelect.types';
 
 export const DeviceSelect = ({ kind, emptyLabel }: DeviceSelectProps) => {
   const t = useTranslations('settings.devices');

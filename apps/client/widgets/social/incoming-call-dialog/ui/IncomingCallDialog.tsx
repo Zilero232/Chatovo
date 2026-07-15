@@ -1,18 +1,9 @@
 'use client';
 
 import { Phone, PhoneOff } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { toast } from 'sonner';
 
 import { UserAvatar } from '@/entities/auth/user';
-import {
-  useAcceptIncomingFriendCall,
-  useDeclineIncomingFriendCall,
-  useFriendCallRingtone,
-  useIncomingFriendCall,
-} from '@/entities/social/friend';
-import { buildRoomHref } from '@/shared/constants';
 import {
   Button,
   Dialog,
@@ -21,47 +12,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui';
+import { useIncomingCall } from '../model/hooks';
 
 import s from './IncomingCallDialog.module.scss';
 
 export const IncomingCallDialog = () => {
   const t = useTranslations('friends.incomingCall');
-  const router = useRouter();
-
-  const { data } = useIncomingFriendCall();
-  const acceptCall = useAcceptIncomingFriendCall();
-  const declineCall = useDeclineIncomingFriendCall();
-
-  const call = data?.call ?? null;
-  const isBusy = acceptCall.isPending || declineCall.isPending;
-
-  useFriendCallRingtone(call !== null, 'incoming');
-
-  const handleDecline = () => {
-    declineCall.mutate(undefined, {
-      onError: () => toast.error(t('declineFailed')),
-    });
-  };
-
-  const handleAccept = () => {
-    acceptCall.mutate(undefined, {
-      onSuccess: (accepted) => {
-        if (!accepted) {
-          return;
-        }
-
-        router.push(
-          buildRoomHref(accepted.roomId, {
-            title: accepted.caller.name,
-          }),
-        );
-      },
-      onError: () => toast.error(t('acceptFailed')),
-    });
-  };
+  const { call, isBusy, accept, decline } = useIncomingCall();
 
   return (
-    <Dialog open={call !== null} onOpenChange={(open) => !open && !isBusy && handleDecline()}>
+    <Dialog open={call !== null} onOpenChange={(open) => !open && !isBusy && decline()}>
       <DialogContent className={s.content} showCloseButton={false}>
         {call && (
           <>
@@ -81,11 +41,11 @@ export const IncomingCallDialog = () => {
             </div>
 
             <div className={s.actions}>
-              <Button disabled={isBusy} size="lg" variant="secondary" onClick={handleDecline}>
+              <Button disabled={isBusy} size="lg" variant="secondary" onClick={decline}>
                 <PhoneOff aria-hidden />
                 {t('decline')}
               </Button>
-              <Button disabled={isBusy} size="lg" onClick={handleAccept}>
+              <Button disabled={isBusy} size="lg" onClick={accept}>
                 <Phone aria-hidden />
                 {t('accept')}
               </Button>

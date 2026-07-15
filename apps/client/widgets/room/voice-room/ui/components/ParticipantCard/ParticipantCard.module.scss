@@ -11,10 +11,6 @@
   border-radius: var(--radius-2xl);
   border: 1px solid oklch(1 0 0 / 10%);
   background: rgb(0 0 0 / 40%);
-  animation:
-    overlay-fade-in 300ms ease-out,
-    card-zoom-in 300ms ease-out;
-  animation-fill-mode: both;
 
   &[data-speaking='true'] {
     border-color: color-mix(in oklch, var(--brand-cyan) 60%, transparent);
@@ -24,6 +20,12 @@
   &[data-local='true'][data-speaking='true'] {
     box-shadow: 0 0 rem(32) rem(-4) oklch(0.82 0.16 200 / 80%);
   }
+}
+
+.rootFill {
+  aspect-ratio: auto;
+  height: 100%;
+  width: 100%;
 }
 
 .stage {
@@ -186,15 +188,6 @@
 
   &:focus-visible {
     box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--brand-cyan) 100%, transparent);
-  }
-}
-
-@keyframes card-zoom-in {
-  from {
-    transform: scale(0.95);
-  }
-  to {
-    transform: scale(1);
   }
 }
 

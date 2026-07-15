@@ -7,7 +7,7 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { UpdateProfileDto, UserProfileDto } from './dto/users.dto';
 import { UsersService } from './users.service';
 
-import type { UploadedAvatar } from './users.service';
+import type { UploadedAvatar } from './users.types';
 
 @ApiTags('users')
 @Controller('users')

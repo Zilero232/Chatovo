@@ -7,9 +7,7 @@ import { LanguageSwitcher } from '@/widgets/app/language-switcher';
 
 import s from './ChannelsHeader.module.scss';
 
-type ChannelsHeaderProps = {
-  compact?: boolean;
-};
+import type { ChannelsHeaderProps } from './ChannelsHeader.types';
 
 export const ChannelsHeader = ({ compact = false }: ChannelsHeaderProps = {}) => {
   const { isAdmin } = useCurrentUser();

@@ -176,10 +176,6 @@
   border-radius: 1rem;
 }
 
-.cardAnim {
-  animation: card-enter 400ms ease-out both;
-}
-
 .nothingFoundState {
   padding-block: 2rem;
 }
@@ -200,13 +196,3 @@
   }
 }
 
-@keyframes card-enter {
-  from {
-    opacity: 0;
-    transform: translateY(0.5rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}

@@ -41,8 +41,6 @@ export class WebhookService {
       throw new UnauthorizedException('Invalid webhook signature');
     }
 
-    // room.name carries our roomId — tokens are issued with `room: room.id`.
-    // Every presence event is room-scoped, so without it there is nothing to do.
     const roomId = event.room?.name;
 
     if (!roomId) {
@@ -80,9 +78,6 @@ export class WebhookService {
           removeParticipant(roomId, participant.identity);
         }
       })
-      // LiveKit does NOT emit `track_muted` / `track_unmuted` webhooks — only the
-      // publish lifecycle. Live mute toggles arrive via the explicit
-      // POST /livekit/mic-state endpoint from the client instead.
       .with('track_published', () => {
         if (participant && isMicTrack && track) {
           patchParticipant(roomId, participant.identity, { micMuted: track.muted });
@@ -100,7 +95,6 @@ export class WebhookService {
 
         this.events.emit(DomainEvent.VoiceEmptied, { roomName } satisfies VoiceEmptiedEvent);
       })
-      // Reconcile in case participant_joined events were missed before boot.
       .with('room_started', () => syncRoom(roomId))
       .otherwise(() => undefined);
   }

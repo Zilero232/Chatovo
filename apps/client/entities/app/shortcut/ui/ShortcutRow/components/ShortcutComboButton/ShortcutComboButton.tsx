@@ -6,15 +6,9 @@ import { useTranslations } from 'next-intl';
 
 import { Button, Tooltip, TooltipContent, TooltipProvider } from '@/shared/ui';
 
-import s from '../ShortcutRow.module.scss';
+import s from '../../ShortcutRow.module.scss';
 
-type ShortcutComboButtonProps = {
-  display: string;
-  label: string;
-  recording: boolean;
-  showConflictHint: boolean;
-  onClick: () => void;
-};
+import type { ShortcutComboButtonProps } from './ShortcutComboButton.types';
 
 export const ShortcutComboButton = ({
   display,

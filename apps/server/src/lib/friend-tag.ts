@@ -33,14 +33,13 @@ export const issueUniqueFriendTag = async (name: string): Promise<string> => {
   throw new Error('Unable to generate unique friend tag');
 };
 
-export const ensureUserFriendTag = async (userId: string, name: string): Promise<void> => {
-  const existing = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { friendTag: true },
-  });
-
-  if (existing?.friendTag) {
-    return;
+export const ensureUserFriendTag = async (
+  userId: string,
+  name: string,
+  currentFriendTag: string | null,
+) => {
+  if (currentFriendTag) {
+    return currentFriendTag;
   }
 
   const friendTag = await issueUniqueFriendTag(name);
@@ -49,4 +48,6 @@ export const ensureUserFriendTag = async (userId: string, name: string): Promise
     where: { id: userId },
     data: { friendTag },
   });
+
+  return friendTag;
 };

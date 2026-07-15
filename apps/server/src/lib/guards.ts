@@ -1,6 +1,7 @@
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { isNullish } from 'remeda';
 
+import { RoomKind } from '../../generated';
 import { basePrisma as prisma } from '../core';
 import { resolveDisplayName } from '../modules/users/profile';
 import { userWithProfileInclude } from './selectors';
@@ -25,7 +26,7 @@ export const assertCanAccessDmRoom = async (roomId: string, userId: string): Pro
     throw new NotFoundException('Room not found');
   }
 
-  if (room.kind !== 'dm') {
+  if (room.kind !== RoomKind.dm) {
     return;
   }
 
@@ -34,8 +35,6 @@ export const assertCanAccessDmRoom = async (roomId: string, userId: string): Pro
   }
 };
 
-// Only the owner may rename, change password, or flip privacy. Returns the
-// current owner-relevant fields so callers can reason about password coupling.
 export const assertCanManageRoom = async (roomId: string, userId: string) => {
   const room = await prisma.room.findUnique({
     where: { id: roomId },
@@ -69,6 +68,13 @@ export const getRoomName = async (roomId: string): Promise<string> => {
   const room = await prisma.room.findUnique({ where: { id: roomId }, select: { name: true } });
 
   return room?.name ?? roomId;
+};
+
+export const getRoomDmRouting = async (roomId: string) => {
+  return prisma.room.findUnique({
+    where: { id: roomId },
+    select: { kind: true, dmUserAId: true, dmUserBId: true },
+  });
 };
 
 export const getUserDisplayName = async (userId: string): Promise<string> => {

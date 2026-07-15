@@ -7,12 +7,11 @@ import {
 } from '@nestjs/common';
 import { isNullish } from 'remeda';
 
+import { FriendshipStatus, Prisma, RoomKind } from '../../../generated';
 import { PrismaService } from '../../core';
 import { getUserWithProfileOrThrow, roomSelect } from '../../lib';
 import { userWithProfileInclude } from '../../lib/selectors';
-import { hasUserConnection } from '../realtime/connection-store';
 import { emitUserEvent } from '../realtime/emit';
-import { toUserProfile, type UserWithProfile } from '../users/profile';
 import {
   bumpFriendsEpoch,
   clearPendingCallForCaller,
@@ -22,6 +21,13 @@ import {
   markCallDeclined,
   setPendingCall,
 } from './call-store';
+import {
+  friendshipInclude,
+  normalizeFriendTag,
+  otherUser,
+  toFriendUser,
+  toRelation,
+} from './mappers';
 
 import type {
   FriendEntry,
@@ -33,54 +39,6 @@ import type {
   OutgoingFriendCallResponse,
   Room,
 } from '@chatovo/schemas';
-
-const friendshipInclude = {
-  requester: { include: userWithProfileInclude },
-  addressee: { include: userWithProfileInclude },
-} as const;
-
-const toFriendUser = (user: UserWithProfile): FriendUser => {
-  const profile = toUserProfile(user);
-
-  return {
-    id: profile.id,
-    name: profile.name,
-    friendTag: profile.friendTag,
-    avatarUrl: profile.avatarUrl,
-    verified: profile.verified,
-    isOnline: hasUserConnection(profile.id),
-  };
-};
-
-const normalizeFriendTag = (tag: string): string => {
-  return tag.trim().toLowerCase();
-};
-
-const otherUser = (
-  row: {
-    requesterId: string;
-    requester: UserWithProfile;
-    addressee: UserWithProfile;
-  },
-  userId: string,
-): UserWithProfile => {
-  return row.requesterId === userId ? row.addressee : row.requester;
-};
-
-const toRelation = (
-  row: { id: string; status: string; requesterId: string },
-  userId: string,
-): FriendshipRelation => {
-  if (row.status === 'accepted') {
-    return { status: 'friends', friendshipId: row.id };
-  }
-
-  if (row.requesterId === userId) {
-    return { status: 'outgoing_pending', friendshipId: row.id };
-  }
-
-  return { status: 'incoming_pending', friendshipId: row.id };
-};
 
 @Injectable()
 export class FriendsService {
@@ -101,7 +59,7 @@ export class FriendsService {
   async listFriends(userId: string): Promise<FriendEntry[]> {
     const rows = await this.prisma.friendship.findMany({
       where: {
-        status: 'accepted',
+        status: FriendshipStatus.accepted,
         OR: [{ requesterId: userId }, { addresseeId: userId }],
       },
       include: friendshipInclude,
@@ -120,7 +78,7 @@ export class FriendsService {
   async broadcastFriendPresence(userId: string, isOnline: boolean): Promise<void> {
     const rows = await this.prisma.friendship.findMany({
       where: {
-        status: 'accepted',
+        status: FriendshipStatus.accepted,
         OR: [{ requesterId: userId }, { addresseeId: userId }],
       },
       select: { requesterId: true, addresseeId: true },
@@ -135,7 +93,7 @@ export class FriendsService {
 
   async listIncomingRequests(userId: string): Promise<FriendRequestEntry[]> {
     const rows = await this.prisma.friendship.findMany({
-      where: { addresseeId: userId, status: 'pending' },
+      where: { addresseeId: userId, status: FriendshipStatus.pending },
       include: friendshipInclude,
       orderBy: { createdAt: 'desc' },
     });
@@ -176,7 +134,7 @@ export class FriendsService {
     const existing = await this.findFriendship(requesterId, addresseeId);
 
     if (!isNullish(existing)) {
-      if (existing.status === 'accepted') {
+      if (existing.status === FriendshipStatus.accepted) {
         throw new ConflictException('Already friends');
       }
 
@@ -187,14 +145,22 @@ export class FriendsService {
       return toRelation(existing, requesterId);
     }
 
-    const row = await this.prisma.friendship.create({
-      data: { requesterId, addresseeId },
-      include: friendshipInclude,
-    });
+    try {
+      const row = await this.prisma.friendship.create({
+        data: { requesterId, addresseeId },
+        include: friendshipInclude,
+      });
 
-    bumpFriendsEpoch(requesterId, addresseeId);
+      bumpFriendsEpoch(requesterId, addresseeId);
 
-    return toRelation(row, requesterId);
+      return toRelation(row, requesterId);
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+        throw new ConflictException('Friend request already exists');
+      }
+
+      throw error;
+    }
   }
 
   async findUserByTag(tag: string): Promise<FriendUser> {
@@ -230,13 +196,13 @@ export class FriendsService {
       include: friendshipInclude,
     });
 
-    if (isNullish(row) || row.addresseeId !== userId || row.status !== 'pending') {
+    if (isNullish(row) || row.addresseeId !== userId || row.status !== FriendshipStatus.pending) {
       throw new NotFoundException('Request not found');
     }
 
     const updated = await this.prisma.friendship.update({
       where: { id: friendshipId },
-      data: { status: 'accepted' },
+      data: { status: FriendshipStatus.accepted },
       include: friendshipInclude,
     });
 
@@ -248,7 +214,7 @@ export class FriendsService {
   async declineFriendRequest(userId: string, friendshipId: string): Promise<void> {
     const row = await this.prisma.friendship.findUnique({ where: { id: friendshipId } });
 
-    if (isNullish(row) || row.addresseeId !== userId || row.status !== 'pending') {
+    if (isNullish(row) || row.addresseeId !== userId || row.status !== FriendshipStatus.pending) {
       throw new NotFoundException('Request not found');
     }
 
@@ -264,7 +230,7 @@ export class FriendsService {
       throw new NotFoundException('Friendship not found');
     }
 
-    if (row.status === 'pending' && row.requesterId !== userId) {
+    if (row.status === FriendshipStatus.pending && row.requesterId !== userId) {
       throw new ForbiddenException('Cannot cancel this request');
     }
 
@@ -280,7 +246,7 @@ export class FriendsService {
 
     const relation = await this.findFriendship(userId, otherUserId);
 
-    if (isNullish(relation) || relation.status !== 'accepted') {
+    if (isNullish(relation) || relation.status !== FriendshipStatus.accepted) {
       throw new ForbiddenException('Only friends can open DM');
     }
 
@@ -290,7 +256,7 @@ export class FriendsService {
     const room = await this.prisma.room.upsert({
       where: {
         kind_dmUserAId_dmUserBId: {
-          kind: 'dm',
+          kind: RoomKind.dm,
           dmUserAId,
           dmUserBId,
         },
@@ -299,7 +265,7 @@ export class FriendsService {
         ownerId: userId,
         name: `dm-${crypto.randomUUID()}`,
         isPrivate: false,
-        kind: 'dm',
+        kind: RoomKind.dm,
         dmUserAId,
         dmUserBId,
       },
@@ -312,8 +278,10 @@ export class FriendsService {
 
   async ringFriendCall(userId: string, otherUserId: string): Promise<Room> {
     const room = await this.getOrCreateDmRoom(userId, otherUserId);
-    const caller = await getUserWithProfileOrThrow(userId);
-    const callee = await getUserWithProfileOrThrow(otherUserId);
+    const [caller, callee] = await Promise.all([
+      getUserWithProfileOrThrow(userId),
+      getUserWithProfileOrThrow(otherUserId),
+    ]);
 
     setPendingCall({
       roomId: room.id,

@@ -3,8 +3,7 @@ import nodemailer from 'nodemailer';
 
 import { env } from '../../core';
 
-import type Mail from 'nodemailer/lib/mailer';
-import type { ReactElement } from 'react';
+import type { SendEmailParams } from './email.types';
 
 const transporter = nodemailer.createTransport({
   host: env.SMTP_HOST,
@@ -15,13 +14,6 @@ const transporter = nodemailer.createTransport({
     pass: env.SMTP_PASSWORD,
   },
 });
-
-type SendEmailParams = {
-  to: string;
-  subject: string;
-  react: ReactElement;
-  attachments?: Mail.Attachment[];
-};
 
 export const sendEmail = async ({
   to,

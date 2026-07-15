@@ -11,8 +11,6 @@ import { ChangeEmail, ResetPassword, sendEmail, VerifyEmail } from '../email';
 import { notifyUserSignup } from '../telegram';
 import { authBaseURL } from './auth-base-url';
 
-export type UserRole = 'admin' | 'user';
-
 const env = validateEnv(process.env);
 
 export const auth = betterAuth({

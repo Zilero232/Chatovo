@@ -24,12 +24,9 @@ import { useReportProblem } from '../model/use-report-problem';
 
 import s from './ReportProblemDialog.module.scss';
 
-const DEFAULT_VALUES: ReportProblemValues = { description: '' };
+import type { ReportProblemDialogProps } from './ReportProblemDialog.types';
 
-type ReportProblemDialogProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-};
+const DEFAULT_VALUES: ReportProblemValues = { description: '' };
 
 export const ReportProblemDialog = ({ open, onOpenChange }: ReportProblemDialogProps) => {
   const t = useTranslations('feedback');

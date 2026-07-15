@@ -17,8 +17,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// The server reports errors as `{ error: string }`. Surface that string as the
-// thrown Error's message so call sites can rely on `error.message`.
 api.interceptors.response.use(undefined, (error) => {
   if (axios.isAxiosError(error)) {
     const message = (error.response?.data as { error?: string } | undefined)?.error;

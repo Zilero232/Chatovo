@@ -1,7 +1,5 @@
 'use client';
 
-import { clsx } from 'clsx';
-
 import { getAvatarColor, getInitials } from '@/shared/lib/initials';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui';
 
@@ -18,7 +16,10 @@ export const UserAvatar = ({
   return (
     <Avatar className={className} size={size}>
       {src && <AvatarImage alt={name} src={src} />}
-      <AvatarFallback className={clsx(colorize && getAvatarColor(name), fallbackClassName)}>
+      <AvatarFallback
+        className={fallbackClassName}
+        style={colorize ? { backgroundColor: getAvatarColor(name), color: '#fff' } : undefined}
+      >
         {getInitials(name)}
       </AvatarFallback>
     </Avatar>

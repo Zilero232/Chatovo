@@ -2,6 +2,7 @@
 
 import { target, useEventListener } from '@siberiacancode/reactuse';
 import { Search } from 'lucide-react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { useRef, useState } from 'react';
 import { isEmpty as isEmptyList } from 'remeda';
@@ -31,6 +32,7 @@ export const LobbyRooms = () => {
 
   const { rooms, isLoading, isEmpty, isError } = useRooms();
   const presence = useRoomsPresence();
+  const shouldReduceMotion = useReducedMotion();
 
   const [query, setQuery] = useState('');
   const searchRef = useRef<HTMLInputElement>(null);
@@ -99,15 +101,27 @@ export const LobbyRooms = () => {
                 </div>
 
                 <div className={s.grid}>
-                  {section.rooms.map((room, roomIndex) => (
-                    <div
-                      key={room.id}
-                      className={s.cardAnim}
-                      style={{ animationDelay: `${Math.min(roomIndex, 10) * 40}ms` }}
-                    >
-                      <LobbyRoomCard room={room} />
-                    </div>
-                  ))}
+                  <AnimatePresence mode="popLayout">
+                    {section.rooms.map((room, roomIndex) => (
+                      <motion.div
+                        key={room.id}
+                        layout
+                        initial={
+                          shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.98 }
+                        }
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 420,
+                          damping: 34,
+                          delay: shouldReduceMotion ? 0 : Math.min(roomIndex, 10) * 0.03,
+                        }}
+                      >
+                        <LobbyRoomCard room={room} />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                 </div>
               </section>
             ))}

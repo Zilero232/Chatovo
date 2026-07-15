@@ -2,6 +2,7 @@ export {
   useAcceptFriendRequest,
   useAcceptIncomingFriendCall,
   useCallFriend,
+  useCloseWhenCallAccepted,
   useDeclineFriendRequest,
   useDeclineIncomingFriendCall,
   useFriendCallRingtone,

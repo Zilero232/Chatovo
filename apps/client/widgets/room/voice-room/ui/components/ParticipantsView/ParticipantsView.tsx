@@ -1,7 +1,9 @@
 'use client';
 
 import { useParticipants, useRoomContext } from '@livekit/components-react';
+import { clsx } from 'clsx';
 import { RoomEvent } from 'livekit-client';
+import { useTranslations } from 'next-intl';
 
 import { useRoomParticipants } from '@/entities/room/room';
 import { InviteParticipantCard } from '../InviteParticipantCard';
@@ -18,6 +20,7 @@ const ROSTER_EVENTS = [
 ];
 
 export const ParticipantsView = ({ roomId, isDm = false }: ParticipantsViewProps) => {
+  const t = useTranslations('room');
   const room = useRoomContext();
   const participants = useParticipants({ updateOnlyOn: ROSTER_EVENTS });
 
@@ -27,15 +30,43 @@ export const ParticipantsView = ({ roomId, isDm = false }: ParticipantsViewProps
   const isSolo = participants.length === 1;
   const showInviteSlot = isSolo && !isDm;
 
+  if (isDm) {
+    const localParticipant = participants.find((p) => p.isLocal);
+    const peer = participants.find((p) => !p.isLocal);
+
+    return (
+      <div className={clsx(s.root, s.rootDm)}>
+        <div className={s.dmStage}>
+          {peer ? (
+            <div className={s.dmPeer}>
+              <ParticipantCard participant={peer} deafened={deafenedIds.has(peer.identity)} fill />
+            </div>
+          ) : (
+            <p className={s.dmWaiting}>{t('dmWaiting')}</p>
+          )}
+
+          {localParticipant && (
+            <div className={s.dmSelf}>
+              <ParticipantCard
+                participant={localParticipant}
+                deafened={deafenedIds.has(localParticipant.identity)}
+                fill
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={s.root}>
       <div className={s.grid}>
-        {participants.map((participant, index) => (
+        {participants.map((participant) => (
           <ParticipantCard
             key={participant.identity}
             participant={participant}
             deafened={deafenedIds.has(participant.identity)}
-            index={index}
           />
         ))}
         {showInviteSlot && <InviteParticipantCard roomId={roomId} />}

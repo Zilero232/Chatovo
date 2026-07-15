@@ -1,5 +1,5 @@
 import { appDownloadsSchema } from '@chatovo/schemas';
-import { BadGatewayException, Injectable } from '@nestjs/common';
+import { BadGatewayException, HttpException, Injectable } from '@nestjs/common';
 
 import {
   DESKTOP_TAG_PREFIXES,
@@ -31,7 +31,11 @@ export class GithubService {
       }
 
       return desktop;
-    } catch {
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       throw new BadGatewayException('Failed to fetch latest release');
     }
   }
@@ -68,7 +72,11 @@ export class GithubService {
         desktop_assets: desktop?.assets ?? [],
         mobile_assets: mobile?.assets ?? [],
       });
-    } catch {
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
       throw new BadGatewayException('Failed to fetch app downloads');
     }
   }

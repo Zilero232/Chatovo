@@ -1,5 +1,7 @@
 import { createEventEmitter } from '@siberiacancode/reactuse';
 
+import type { RoomKind } from '@chatovo/schemas';
+
 type AppBusEvents = {
   recheckUpdate: undefined;
   updateCheckSettled: undefined;
@@ -10,7 +12,7 @@ type AppBusEvents = {
   pttKey: { phase: 'pressed' | 'released' };
   pttHold: { phase: 'pressed' | 'released' };
   chatToggle: undefined;
-  chatMessage: { roomId: string; senderId: string | null; roomKind: 'group' | 'dm' };
+  chatMessage: { roomId: string; senderId: string | null; roomKind: RoomKind };
   reaction: undefined;
 };
 

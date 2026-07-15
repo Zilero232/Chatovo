@@ -2,9 +2,7 @@
 
 import { useVoiceRoomSounds } from '../../../model/hooks';
 
-type RoomSoundsControllerProps = {
-  roomId: string;
-};
+import type { RoomSoundsControllerProps } from './RoomSoundsController.types';
 
 export const RoomSoundsController = ({ roomId }: RoomSoundsControllerProps) => {
   useVoiceRoomSounds(roomId);

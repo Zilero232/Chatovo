@@ -4,12 +4,10 @@ import { useTranslations } from 'next-intl';
 import { isNullish } from 'remeda';
 
 import { useAppSettings } from '@/entities/app/settings';
-import { formatBindingDisplay, type ShortcutActionId, ShortcutRow } from '@/entities/app/shortcut';
+import { formatBindingDisplay, ShortcutRow } from '@/entities/app/shortcut';
 import { useShortcutConflict, useShortcutRecording } from '@/features/app/shortcuts';
 
-type ShortcutActionRowProps = {
-  actionId: ShortcutActionId;
-};
+import type { ShortcutActionRowProps } from './ShortcutActionRow.types';
 
 export const ShortcutActionRow = ({ actionId }: ShortcutActionRowProps) => {
   const t = useTranslations('settings.shortcuts');

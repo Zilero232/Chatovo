@@ -302,7 +302,8 @@
       "speakerDevice": "Выбрать колонки",
       "pttHint": "Push-to-talk",
       "leave": "Выйти"
-    }
+    },
+    "dmWaiting": "Ожидаем собеседника…"
   },
   "chat": {
     "title": "Чат",

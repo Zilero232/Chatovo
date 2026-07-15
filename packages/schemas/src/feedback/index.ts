@@ -1,3 +1,3 @@
-export { reportProblemFormSchema, reportProblemSchema } from './inputs';
+export { feedbackPlatformSchema, reportProblemFormSchema, reportProblemSchema } from './inputs';
 
-export type { ReportProblemFormValues, ReportProblemValues } from './types';
+export type { FeedbackPlatform, ReportProblemFormValues, ReportProblemValues } from './types';

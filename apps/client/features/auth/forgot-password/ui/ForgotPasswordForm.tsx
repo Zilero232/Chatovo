@@ -15,11 +15,9 @@ import {
 
 import s from './ForgotPasswordForm.module.scss';
 
-const DEFAULT_VALUES: ForgotPasswordValues = { email: '' };
+import type { ForgotPasswordFormProps } from './ForgotPasswordForm.types';
 
-type ForgotPasswordFormProps = {
-  onBack: () => void;
-};
+const DEFAULT_VALUES: ForgotPasswordValues = { email: '' };
 
 export const ForgotPasswordForm = ({ onBack }: ForgotPasswordFormProps) => {
   const t = useTranslations('auth');

@@ -9,12 +9,7 @@ import { UserAvatar } from '@/entities/auth/user';
 
 import s from './UpdateProfileForm.module.scss';
 
-type AvatarFieldProps = {
-  name: string;
-  src: string | null;
-  onPick: (file: File) => void;
-  onRemove: () => void;
-};
+import type { AvatarFieldProps } from './AvatarField.types';
 
 export const AvatarField = ({ name, src, onPick, onRemove }: AvatarFieldProps) => {
   const t = useTranslations('settings.profile');

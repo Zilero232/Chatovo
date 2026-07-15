@@ -3,7 +3,7 @@
 import { useLocalParticipant, useRoomContext } from '@livekit/components-react';
 import { useAudio, usePrevious } from '@siberiacancode/reactuse';
 import { ParticipantEvent, RoomEvent, Track, type TrackPublication } from 'livekit-client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useEffectEvent, useRef } from 'react';
 
 import { useAppSettings } from '@/entities/app/settings';
 import { useLeaveSound } from '@/entities/room/room';
@@ -63,52 +63,53 @@ export const useVoiceRoomSounds = (roomId: string) => {
     playLeaveSound();
   };
 
-  const playRef = useRef({ play, playLeaveSound, playOwnLeaveOnce });
-  playRef.current = { play, playLeaveSound, playOwnLeaveOnce };
-
-  appEvents.on.pttHold(() => playRef.current.play('ptt'));
-  appEvents.on.reaction(() => playRef.current.play('reaction'));
+  appEvents.on.pttHold(() => play('ptt'));
+  appEvents.on.reaction(() => play('reaction'));
   appEvents.on.chatMessage(({ roomId: eventRoomId, senderId }) => {
     if (eventRoomId !== roomId || senderId === localParticipant.identity) {
       return;
     }
 
-    playRef.current.play('message');
+    play('message');
   });
 
   const prevDeafened = usePrevious(isDeafened);
+
+  const onDeafenChange = useEffectEvent(() => play(isDeafened ? 'deafen' : 'undeafen'));
+  const onRoomEnter = useEffectEvent(() => play('join'));
+  const onRoomLeave = useEffectEvent(() => playOwnLeaveOnce());
 
   useEffect(() => {
     if (prevDeafened === undefined || prevDeafened === isDeafened) {
       return;
     }
 
-    playRef.current.play(isDeafened ? 'deafen' : 'undeafen');
+    onDeafenChange();
   }, [isDeafened, prevDeafened]);
 
   useEffect(() => {
     hasLeftRef.current = false;
 
     if (room.state === 'connected') {
-      playRef.current.play('join');
+      onRoomEnter();
     }
 
-    return () => playRef.current.playOwnLeaveOnce();
+    return () => onRoomLeave();
   }, [room]);
 
-  useEmitterEvent(room, RoomEvent.Connected, () => playRef.current.play('join'));
-  useEmitterEvent(room, RoomEvent.Reconnecting, () => playRef.current.play('reconnect'));
-  useEmitterEvent(room, RoomEvent.SignalReconnecting, () => playRef.current.play('reconnect'));
-  useEmitterEvent(room, RoomEvent.Disconnected, () => playRef.current.playOwnLeaveOnce());
-  useEmitterEvent(room, RoomEvent.ParticipantConnected, () => playRef.current.play('join'));
-  useEmitterEvent(room, RoomEvent.ParticipantDisconnected, () => playRef.current.playLeaveSound());
+  useEmitterEvent(room, RoomEvent.Connected, () => play('join'));
+  useEmitterEvent(room, RoomEvent.Reconnecting, () => play('reconnect'));
+  useEmitterEvent(room, RoomEvent.SignalReconnecting, () => play('reconnect'));
+  useEmitterEvent(room, RoomEvent.Disconnected, () => playOwnLeaveOnce());
+  useEmitterEvent(room, RoomEvent.ParticipantConnected, () => play('join'));
+  useEmitterEvent(room, RoomEvent.ParticipantDisconnected, () => playLeaveSound());
 
   useEmitterEvent(
     localParticipant,
     ParticipantEvent.TrackMuted,
     (publication: TrackPublication) => {
       if (publication.source === Track.Source.Microphone) {
-        playRef.current.play('mute');
+        play('mute');
       }
     },
   );
@@ -118,7 +119,7 @@ export const useVoiceRoomSounds = (roomId: string) => {
     ParticipantEvent.TrackUnmuted,
     (publication: TrackPublication) => {
       if (publication.source === Track.Source.Microphone) {
-        playRef.current.play('unmute');
+        play('unmute');
       }
     },
   );

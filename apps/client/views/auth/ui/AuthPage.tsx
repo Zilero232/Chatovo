@@ -13,7 +13,7 @@ import { AuthBrandPanel, AuthLegalFooter } from './components';
 
 import s from './AuthPage.module.scss';
 
-type AuthMode = 'signin' | 'signup' | 'forgot';
+import type { AuthMode } from './AuthPage.types';
 
 export const AuthPage = () => {
   const t = useTranslations('auth');

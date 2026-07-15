@@ -3,7 +3,7 @@
 import { target, useBoolean, useEventListener } from '@siberiacancode/reactuse';
 import { isTauri } from '@tauri-apps/api/core';
 import { useTranslations } from 'next-intl';
-import { useEffect, useRef } from 'react';
+import { useEffect, useEffectEvent, useRef } from 'react';
 import { toast } from 'sonner';
 
 import { formatHotkey, hasModifier, isPureModifier } from '@/shared/lib';
@@ -28,9 +28,6 @@ export const useShortcutRecording = ({ actionId, allBindings, onPatch }: Options
   const t = useTranslations('settings.shortcuts');
   const [recording, toggleRecording] = useBoolean(false);
 
-  const bindingsRef = useRef(allBindings);
-  bindingsRef.current = allBindings;
-
   const isTornDownRef = useRef(false);
 
   const start = () => {
@@ -49,14 +46,16 @@ export const useShortcutRecording = ({ actionId, allBindings, onPatch }: Options
     if (isTauri() && isTornDownRef.current) {
       isTornDownRef.current = false;
 
-      syncShortcuts(bindingsRef.current);
+      syncShortcuts(allBindings);
     }
   };
+
+  const restoreShortcuts = useEffectEvent(() => syncShortcuts(allBindings));
 
   useEffect(() => {
     return () => {
       if (isTauri() && isTornDownRef.current) {
-        syncShortcuts(bindingsRef.current);
+        restoreShortcuts();
       }
     };
   }, []);

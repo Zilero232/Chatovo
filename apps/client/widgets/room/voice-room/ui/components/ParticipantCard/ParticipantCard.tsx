@@ -1,15 +1,12 @@
 'use client';
 
-import { useIsMuted, useParticipantInfo, useParticipantTracks } from '@livekit/components-react';
 import { clsx } from 'clsx';
-import { Track } from 'livekit-client';
 import { HeadphoneOff, MicOff, ScreenShare } from 'lucide-react';
-import { isNonNullish } from 'remeda';
+import { motion, useReducedMotion } from 'motion/react';
 
 import { UserAvatar, UserName } from '@/entities/auth/user';
-import { readParticipantMeta } from '@/entities/room/room';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
-import { useParticipantIsSpeaking } from '../../../model/hooks';
+import { useParticipantMedia } from '../../../model/hooks';
 import { CardVideo } from '../CardVideo';
 import { ParticipantCardMenu } from '../ParticipantCardMenu';
 import { getCardTint } from './lib';
@@ -18,33 +15,35 @@ import s from './ParticipantCard.module.scss';
 
 import type { ParticipantCardProps } from './ParticipantCard.types';
 
-export const ParticipantCard = ({ participant, deafened, index = 0 }: ParticipantCardProps) => {
-  const [cameraTrack] = useParticipantTracks([Track.Source.Camera], participant.identity);
-  const [screenTrack] = useParticipantTracks([Track.Source.ScreenShare], participant.identity);
-  const [micTrack] = useParticipantTracks([Track.Source.Microphone], participant.identity);
+export const ParticipantCard = ({ participant, deafened, fill = false }: ParticipantCardProps) => {
+  const shouldReduceMotion = useReducedMotion();
 
-  const isSpeaking = useParticipantIsSpeaking(participant);
-  const micMuted = useIsMuted(micTrack ?? { participant, source: Track.Source.Microphone });
-  const cameraMuted = useIsMuted(cameraTrack ?? { participant, source: Track.Source.Camera });
-  const screenMuted = useIsMuted(screenTrack ?? { participant, source: Track.Source.ScreenShare });
-
-  const { name, metadata } = useParticipantInfo({ participant });
-  const { verified, avatarUrl, bannerColor } = readParticipantMeta(metadata);
-
-  const displayName = name || participant.identity;
-  const isLocal = participant.isLocal;
-
-  const hasCamera = isNonNullish(cameraTrack) && !cameraMuted;
-  const hasScreen = isNonNullish(screenTrack) && !screenMuted;
-  const hasVideo = hasCamera || hasScreen;
+  const {
+    cameraTrack,
+    screenTrack,
+    isSpeaking,
+    micMuted,
+    verified,
+    avatarUrl,
+    bannerColor,
+    displayName,
+    isLocal,
+    hasCamera,
+    hasScreen,
+    hasVideo,
+  } = useParticipantMedia(participant);
 
   return (
     <ParticipantCardMenu participant={participant}>
-      <div
-        className={s.root}
+      <motion.div
+        layout
+        className={clsx(s.root, { [s.rootFill]: fill })}
         data-local={isLocal}
         data-speaking={isSpeaking}
-        style={{ animationDelay: `${Math.min(index, 8) * 50}ms` }}
+        initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.92 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.92 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 32 }}
       >
         <div className={s.stage}>
           {hasVideo ? (
@@ -93,7 +92,7 @@ export const ParticipantCard = ({ participant, deafened, index = 0 }: Participan
             <UserName name={displayName} verified={verified} className={s.name} />
           </ProfileCardTrigger>
         </div>
-      </div>
+      </motion.div>
     </ParticipantCardMenu>
   );
 };

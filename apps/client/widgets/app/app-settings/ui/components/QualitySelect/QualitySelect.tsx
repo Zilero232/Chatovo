@@ -2,13 +2,7 @@
 
 import { Select } from '@/shared/ui';
 
-import type { SelectOption } from '@/shared/ui';
-
-type QualitySelectProps<T extends string> = {
-  value: T;
-  options: SelectOption<T>[];
-  onChange: (value: T) => void;
-};
+import type { QualitySelectProps } from './QualitySelect.types';
 
 export const QualitySelect = <T extends string>({
   value,

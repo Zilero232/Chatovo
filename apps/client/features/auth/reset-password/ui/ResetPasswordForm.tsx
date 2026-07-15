@@ -15,12 +15,9 @@ import {
 
 import s from './ResetPasswordForm.module.scss';
 
-const DEFAULT_VALUES: ResetPasswordValues = { newPassword: '', confirmPassword: '' };
+import type { ResetPasswordFormProps } from './ResetPasswordForm.types';
 
-type ResetPasswordFormProps = {
-  token: string;
-  onSuccess: () => void;
-};
+const DEFAULT_VALUES: ResetPasswordValues = { newPassword: '', confirmPassword: '' };
 
 export const ResetPasswordForm = ({ token, onSuccess }: ResetPasswordFormProps) => {
   const t = useTranslations('auth');

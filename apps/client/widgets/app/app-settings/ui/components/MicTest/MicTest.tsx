@@ -5,16 +5,11 @@ import { useTranslations } from 'next-intl';
 
 import { formatPercent } from '@/shared/lib';
 import { Button } from '@/shared/ui';
-import { useMicTest } from '../../model/hooks';
+import { useMicTest } from '../../../model/hooks';
 
-import s from '../AppSettingsButton.module.scss';
+import s from '../../AppSettingsButton.module.scss';
 
-import type { AudioSettings } from '@/entities/app/settings';
-
-type MicTestProps = {
-  deviceId: string;
-  audio: AudioSettings;
-};
+import type { MicTestProps } from './MicTest.types';
 
 export const MicTest = ({ deviceId, audio }: MicTestProps) => {
   const t = useTranslations('settings.audio');

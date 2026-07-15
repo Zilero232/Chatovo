@@ -8,26 +8,20 @@ import {
 import { AccessToken } from 'livekit-server-sdk';
 import { isNullish } from 'remeda';
 
+import { RoomKind } from '../../../generated';
 import { AppConfigService } from '../../config/config.module';
 import { TOKEN_TTL_SECONDS } from '../../config/livekit';
 import { PrismaService } from '../../core';
 import { toUserProfile } from '../users/profile';
 
 import type { ParticipantMetadata, TokenResponse } from '@chatovo/schemas';
-
-type IssueTokenInput = {
-  roomId: string;
-  password?: string;
-  userId: string;
-  email: string | null;
-  isAdmin: boolean;
-};
+import type { IssueTokenInput } from './livekit.types';
 
 const assertRoomAccess = (
   room: { kind: string; isPrivate: boolean; password: string | null },
   password?: string,
 ) => {
-  if (room.kind === 'dm') {
+  if (room.kind === RoomKind.dm) {
     return;
   }
 
@@ -62,7 +56,7 @@ export class LivekitService {
       throw new NotFoundException('Room not found');
     }
 
-    if (room.kind === 'dm' && room.dmUserAId !== userId && room.dmUserBId !== userId) {
+    if (room.kind === RoomKind.dm && room.dmUserAId !== userId && room.dmUserBId !== userId) {
       throw new ForbiddenException('Forbidden');
     }
 

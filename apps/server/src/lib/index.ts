@@ -3,6 +3,7 @@ export {
   assertCanAccessDmRoom,
   assertCanManageRoom,
   assertRoomExists,
+  getRoomDmRouting,
   getRoomName,
   getUserDisplayName,
   getUserWithProfileOrThrow,

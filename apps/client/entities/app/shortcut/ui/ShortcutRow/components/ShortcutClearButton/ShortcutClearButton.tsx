@@ -6,12 +6,9 @@ import { useTranslations } from 'next-intl';
 
 import { Button } from '@/shared/ui';
 
-import s from '../ShortcutRow.module.scss';
+import s from '../../ShortcutRow.module.scss';
 
-type ShortcutClearButtonProps = {
-  visible: boolean;
-  onClick: () => void;
-};
+import type { ShortcutClearButtonProps } from './ShortcutClearButton.types';
 
 export const ShortcutClearButton = ({ visible, onClick }: ShortcutClearButtonProps) => {
   const t = useTranslations('settings.shortcuts');

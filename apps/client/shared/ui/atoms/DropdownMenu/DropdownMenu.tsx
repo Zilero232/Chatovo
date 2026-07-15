@@ -1,7 +1,7 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { CheckIcon, ChevronRightIcon, CircleIcon } from 'lucide-react';
+import { CheckIcon, ChevronRightIcon } from 'lucide-react';
 import { createContext, useContext } from 'react';
 import {
   Header,
@@ -163,7 +163,7 @@ const DropdownMenuRadioItem = ({
       {...props}
     >
       <span className={s.itemIndicator}>
-        {isSelected ? <CircleIcon className={s.radioDot} /> : null}
+        {isSelected ? <CheckIcon className={s.radioDot} /> : null}
       </span>
       {children}
     </MenuItem>
