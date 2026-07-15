@@ -8,7 +8,7 @@
     "predev": "node ./scripts/kill-port.mjs",
     "dev": "bun --hot --cwd ../.. --env-file apps/server/.env apps/server/src/main.ts",
     "start": "bun src/main.ts",
-    "build": "bun build src/main.ts --target=bun --outdir=dist --external @better-auth/kysely-adapter --external kysely",
+    "build": "bun build src/main.ts --target=bun --outdir=dist --packages external",
     "db:push": "prisma db push && prisma generate",
     "db:migrate": "prisma migrate dev && prisma generate",
     "db:deploy": "prisma migrate deploy",
