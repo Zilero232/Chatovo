@@ -7,6 +7,8 @@ import { addLobbyConnection, getSnapshot, removeLobbyConnection } from '../livek
 import {
   getConnectionByWs,
   hasUserConnection,
+  listConnections,
+  markConnectionAlive,
   registerConnection,
   sendToConnection,
   unregisterConnection,
@@ -14,8 +16,11 @@ import {
 import { handleClientMessage } from './handlers/client-message';
 
 import type { IncomingMessage } from 'node:http';
+import type { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import type { OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
 import type { WebSocket } from 'ws';
+
+const HEARTBEAT_INTERVAL_MS = 30_000;
 
 const authorize = async (token: string | null): Promise<string | null> => {
   if (!token) {
@@ -30,8 +35,33 @@ const authorize = async (token: string | null): Promise<string | null> => {
 };
 
 @WebSocketGateway({ path: '/realtime' })
-export class RealtimeGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class RealtimeGateway
+  implements OnGatewayConnection, OnGatewayDisconnect, OnModuleInit, OnModuleDestroy
+{
+  private heartbeat: ReturnType<typeof setInterval> | null = null;
+
   constructor(private readonly friends: FriendsService) {}
+
+  onModuleInit() {
+    this.heartbeat = setInterval(() => {
+      for (const connection of listConnections()) {
+        if (!connection.isAlive) {
+          connection.ws.terminate();
+
+          continue;
+        }
+
+        connection.isAlive = false;
+        connection.ws.ping();
+      }
+    }, HEARTBEAT_INTERVAL_MS);
+  }
+
+  onModuleDestroy() {
+    if (this.heartbeat) {
+      clearInterval(this.heartbeat);
+    }
+  }
 
   async handleConnection(client: WebSocket, request: IncomingMessage) {
     const token = new URL(request.url ?? '/', 'http://localhost').searchParams.get('token');
@@ -46,6 +76,10 @@ export class RealtimeGateway implements OnGatewayConnection, OnGatewayDisconnect
     const connection = registerConnection(userId, client);
 
     addLobbyConnection(userId);
+
+    client.on('pong', () => {
+      markConnectionAlive(client);
+    });
 
     client.on('message', (data: Buffer) => {
       void handleClientMessage(connection, data);

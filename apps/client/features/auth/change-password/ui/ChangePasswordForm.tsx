@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useFieldError } from '@/entities/app/locale';
+import { useErrorMessage, useFieldError } from '@/entities/app/locale';
 import {
   type ChangePasswordValues,
   changePasswordSchema,
@@ -18,6 +18,7 @@ import s from './ChangePasswordForm.module.scss';
 export const ChangePasswordForm = () => {
   const t = useTranslations('settings.security');
   const fieldError = useFieldError('auth');
+  const errorMessage = useErrorMessage();
 
   const { isPending, mutate } = useChangePassword();
 
@@ -37,7 +38,7 @@ export const ChangePasswordForm = () => {
         toast.success(t('passwordChanged'));
         reset();
       },
-      onError: (err: Error) => toast.error(err.message),
+      onError: (err: Error) => toast.error(errorMessage(err)),
     });
   });
 

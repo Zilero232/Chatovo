@@ -1,14 +1,13 @@
-import {
-  ForbiddenException,
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { AccessToken } from 'livekit-server-sdk';
 import { isNullish } from 'remeda';
 
 import { RoomKind } from '../../../generated';
+import {
+  AppForbiddenException,
+  AppNotFoundException,
+  AppUnauthorizedException,
+} from '../../common/exceptions';
 import { AppConfigService } from '../../config/config.module';
 import { TOKEN_TTL_SECONDS } from '../../config/livekit';
 import { PrismaService } from '../../core';
@@ -30,13 +29,13 @@ const assertRoomAccess = (
   }
 
   if (!password) {
-    throw new UnauthorizedException('Password required');
+    throw new AppUnauthorizedException('ROOM_PASSWORD_REQUIRED', 'Password required');
   }
   if (!room.password) {
     throw new InternalServerErrorException('Room misconfigured');
   }
   if (password !== room.password) {
-    throw new ForbiddenException('Invalid password');
+    throw new AppForbiddenException('ROOM_PASSWORD_INVALID', 'Invalid password');
   }
 };
 
@@ -53,11 +52,11 @@ export class LivekitService {
     const room = await this.prisma.room.findUnique({ where: { id: roomId } });
 
     if (isNullish(room)) {
-      throw new NotFoundException('Room not found');
+      throw new AppNotFoundException('ROOM_NOT_FOUND', 'Room not found');
     }
 
     if (room.kind === RoomKind.dm && room.dmUserAId !== userId && room.dmUserBId !== userId) {
-      throw new ForbiddenException('Forbidden');
+      throw new AppForbiddenException('FORBIDDEN', 'Forbidden');
     }
 
     assertRoomAccess(room, password);

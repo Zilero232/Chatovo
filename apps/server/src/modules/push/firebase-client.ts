@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { cert, getApps, initializeApp } from 'firebase-admin/app';
 import { getMessaging } from 'firebase-admin/messaging';
 
@@ -6,6 +7,8 @@ import { env } from '../../core';
 import type { ServiceAccount } from 'firebase-admin/app';
 import type { Message, Messaging, SendResponse } from 'firebase-admin/messaging';
 import type { PushTokensPayload } from './types';
+
+const logger = new Logger('FirebaseClient');
 
 let messaging: Messaging | null | undefined;
 
@@ -17,6 +20,7 @@ const getMessagingClient = (): Messaging | null => {
   const raw = env.FIREBASE_SERVICE_ACCOUNT;
 
   if (!raw) {
+    logger.warn('FIREBASE_SERVICE_ACCOUNT is not set — push notifications are disabled');
     messaging = null;
 
     return null;
@@ -33,7 +37,7 @@ const getMessagingClient = (): Messaging | null => {
   } catch (error) {
     const reason = error instanceof Error ? error.message : 'unknown error';
 
-    console.error(`Firebase init error: ${reason}`);
+    logger.error(`Firebase init error: ${reason}`);
     messaging = null;
   }
 
@@ -83,7 +87,7 @@ export const sendPushToTokens = async ({
   } catch (error) {
     const reason = error instanceof Error ? error.message : 'unknown error';
 
-    console.error(`FCM send error: ${reason}`);
+    logger.error(`FCM send error: ${reason}`);
 
     return [];
   }

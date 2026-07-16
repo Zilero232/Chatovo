@@ -8,6 +8,7 @@ import { isNonNullish } from 'remeda';
 import { toast } from 'sonner';
 import { match, P } from 'ts-pattern';
 
+import { useErrorMessage } from '@/entities/app/locale';
 import { useRoomById, useRoomToken } from '@/entities/room/room';
 import { env } from '@/shared/config';
 import { ROUTES } from '@/shared/constants';
@@ -22,6 +23,7 @@ export const RoomPage = () => {
   const router = useRouter();
   const params = useSearchParams();
   const t = useTranslations('room');
+  const errorMessage = useErrorMessage();
 
   const roomId = params.get('id');
   const view = params.get('view');
@@ -71,7 +73,7 @@ export const RoomPage = () => {
     .with({ roomId: P.string, room: { isPrivate: true }, token: P.nullish }, () => (
       <RoomPasswordForm
         displayName={roomTitle}
-        error={tokenFailed ? (tokenError?.message ?? t('password.wrong')) : undefined}
+        error={tokenFailed ? errorMessage(tokenError) : undefined}
         isSubmitting={tokenFetching}
         onSubmit={submitPassword}
       />
@@ -86,8 +88,8 @@ export const RoomPage = () => {
         roomName={roomTitle}
         serverUrl={env.NEXT_PUBLIC_LIVEKIT_URL}
         token={token}
-        onConnectFailure={(reason) => {
-          toast.error(t('joinFailed'), { description: `LiveKit: ${reason}` });
+        onConnectFailure={() => {
+          toast.error(t('joinFailed'));
 
           setPassword(undefined);
           router.replace(ROUTES.lobby);

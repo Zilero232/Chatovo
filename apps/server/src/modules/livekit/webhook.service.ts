@@ -1,9 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { TrackSource, WebhookReceiver } from 'livekit-server-sdk';
 import { match } from 'ts-pattern';
 
 import { DomainEvent } from '../../common/events/domain-events';
+import { AppUnauthorizedException } from '../../common/exceptions';
 import { AppConfigService } from '../../config/config.module';
 import { getRoomName } from '../../lib';
 import {
@@ -38,7 +39,7 @@ export class WebhookService {
     try {
       event = await this.receiver.receive(body, authHeader);
     } catch {
-      throw new UnauthorizedException('Invalid webhook signature');
+      throw new AppUnauthorizedException('WEBHOOK_SIGNATURE_INVALID', 'Invalid webhook signature');
     }
 
     const roomId = event.room?.name;

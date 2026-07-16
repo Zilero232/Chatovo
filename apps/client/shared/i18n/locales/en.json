@@ -7,6 +7,42 @@
     "remove": "Remove",
     "showPassword": "Show password"
   },
+  "errorPage": {
+    "title": "Something went wrong",
+    "description": "The page failed to load. Try again or go back to the lobby.",
+    "retry": "Try again",
+    "toLobby": "To lobby"
+  },
+  "errors": {
+    "INTERNAL_ERROR": "Something went wrong. Please try again later.",
+    "VALIDATION_FAILED": "Please check the form fields.",
+    "UNAUTHORIZED": "Sign in to continue.",
+    "FORBIDDEN": "You don't have access to this action.",
+    "ROOM_NOT_FOUND": "Room not found.",
+    "ROOM_NAME_TAKEN": "A room with this name already exists.",
+    "ROOM_NAME_INVALID": "Invalid room name.",
+    "ROOM_PASSWORD_REQUIRED": "This room requires a password.",
+    "ROOM_PASSWORD_INVALID": "Wrong password.",
+    "USER_NOT_FOUND": "User not found.",
+    "DISPLAY_NAME_INVALID": "Name must be at least 2 characters.",
+    "MESSAGE_NOT_FOUND": "Message not found.",
+    "MESSAGE_NOT_OWNED": "You can only edit your own messages.",
+    "FRIENDSHIP_NOT_FOUND": "This user is not in your friends list.",
+    "FRIEND_REQUEST_NOT_FOUND": "Request not found.",
+    "FRIEND_REQUEST_EXISTS": "Request already sent.",
+    "FRIEND_REQUEST_INCOMING_EXISTS": "This user already sent you a request.",
+    "FRIEND_REQUEST_NOT_CANCELABLE": "This request can't be canceled.",
+    "FRIEND_ALREADY": "You are already friends.",
+    "FRIEND_SELF": "You can't add yourself as a friend.",
+    "DM_SELF": "You can't start a chat with yourself.",
+    "DM_NOT_FRIENDS": "Direct messages are only available between friends.",
+    "FILE_EMPTY": "The file is empty.",
+    "FILE_TOO_LARGE": "The file is too large.",
+    "FILE_NOT_IMAGE": "An image is required.",
+    "IMAGE_TOO_LARGE": "The image is too large.",
+    "SCREENSHOT_TOO_LARGE": "The screenshot is too large.",
+    "WEBHOOK_SIGNATURE_INVALID": "Invalid request signature."
+  },
   "legal": {
     "back": "Back",
     "privacy": "Privacy Policy",
@@ -550,7 +586,11 @@
     "devices": {
       "systemDefault": "System default",
       "noDevices": "No devices found",
-      "unknownDevice": "Unknown device"
+      "unknownDevice": "Unknown device",
+      "errorDenied": "No access to \"{device}\". Allow access in your browser settings.",
+      "errorNotFound": "Device \"{device}\" not found. Check that it is connected.",
+      "errorBusy": "Device \"{device}\" is in use by another application.",
+      "errorUnknown": "Failed to switch to \"{device}\"."
     },
     "audio": {
       "activation": "Microphone activation",

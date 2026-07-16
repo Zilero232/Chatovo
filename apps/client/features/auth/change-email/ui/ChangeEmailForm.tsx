@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useFieldError } from '@/entities/app/locale';
+import { useErrorMessage, useFieldError } from '@/entities/app/locale';
 import {
   type ChangeEmailValues,
   changeEmailSchema,
@@ -19,6 +19,7 @@ import s from './ChangeEmailForm.module.scss';
 export const ChangeEmailForm = () => {
   const t = useTranslations('settings.security');
   const fieldError = useFieldError('auth');
+  const errorMessage = useErrorMessage();
 
   const { user } = useCurrentUser();
   const currentEmail = user?.email ?? '';
@@ -41,7 +42,7 @@ export const ChangeEmailForm = () => {
         toast.success(t('emailChangeRequested'));
         reset();
       },
-      onError: (err: Error) => toast.error(err.message),
+      onError: (err: Error) => toast.error(errorMessage(err)),
     });
   });
 

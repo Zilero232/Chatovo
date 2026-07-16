@@ -1,7 +1,7 @@
-import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { isNullish } from 'remeda';
 
 import { RoomKind } from '../../generated';
+import { AppForbiddenException, AppNotFoundException } from '../common/exceptions';
 import { basePrisma as prisma } from '../core';
 import { resolveDisplayName } from '../modules/users/profile';
 import { userWithProfileInclude } from './selectors';
@@ -12,7 +12,7 @@ export const assertRoomExists = async (roomId: string): Promise<void> => {
   const room = await prisma.room.findUnique({ where: { id: roomId }, select: { id: true } });
 
   if (isNullish(room)) {
-    throw new NotFoundException('Room not found');
+    throw new AppNotFoundException('ROOM_NOT_FOUND', 'Room not found');
   }
 };
 
@@ -23,7 +23,7 @@ export const assertCanAccessDmRoom = async (roomId: string, userId: string): Pro
   });
 
   if (isNullish(room)) {
-    throw new NotFoundException('Room not found');
+    throw new AppNotFoundException('ROOM_NOT_FOUND', 'Room not found');
   }
 
   if (room.kind !== RoomKind.dm) {
@@ -31,7 +31,7 @@ export const assertCanAccessDmRoom = async (roomId: string, userId: string): Pro
   }
 
   if (room.dmUserAId !== userId && room.dmUserBId !== userId) {
-    throw new ForbiddenException('Forbidden');
+    throw new AppForbiddenException('FORBIDDEN', 'Forbidden');
   }
 };
 
@@ -42,10 +42,10 @@ export const assertCanManageRoom = async (roomId: string, userId: string) => {
   });
 
   if (isNullish(room)) {
-    throw new NotFoundException('Room not found');
+    throw new AppNotFoundException('ROOM_NOT_FOUND', 'Room not found');
   }
   if (room.ownerId !== userId) {
-    throw new ForbiddenException('Forbidden');
+    throw new AppForbiddenException('FORBIDDEN', 'Forbidden');
   }
 
   return room;
@@ -58,7 +58,7 @@ export const getUserWithProfileOrThrow = async (userId: string): Promise<UserWit
   });
 
   if (isNullish(user)) {
-    throw new NotFoundException('User not found');
+    throw new AppNotFoundException('USER_NOT_FOUND', 'User not found');
   }
 
   return user;

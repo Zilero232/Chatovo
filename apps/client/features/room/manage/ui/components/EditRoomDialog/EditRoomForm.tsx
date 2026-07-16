@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { useErrorMessage } from '@/entities/app/locale';
 import { useUpdateRoom } from '@/entities/room/room';
 import { FormField, Input, Label, Row, Stack, SubmitButton, Switch } from '@/shared/ui';
 
@@ -16,6 +17,7 @@ import type { EditRoomFormProps } from './EditRoomDialog.types';
 
 export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
   const t = useTranslations('manageRoom.edit');
+  const errorMessage = useErrorMessage();
 
   const updateMutation = useUpdateRoom();
 
@@ -42,7 +44,7 @@ export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
           toast.success(t('saved'), { description: `"${updated.name}"` });
           onUpdated?.();
         },
-        onError: (err: Error) => toast.error(err.message),
+        onError: (err: Error) => toast.error(errorMessage(err)),
       },
     );
   });

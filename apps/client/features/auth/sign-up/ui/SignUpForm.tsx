@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useFieldError } from '@/entities/app/locale';
+import { useErrorMessage, useFieldError } from '@/entities/app/locale';
 import { FormField, Input, PasswordInput, Stack, SubmitButton } from '@/shared/ui';
 import { type SignUpValues, signUpSchema, useSignUp } from '../model/use-sign-up';
 
@@ -21,6 +21,7 @@ const DEFAULT_VALUES: SignUpValues = {
 export const SignUpForm = () => {
   const t = useTranslations('auth');
   const fieldError = useFieldError('auth');
+  const errorMessage = useErrorMessage();
   const { isPending, mutate } = useSignUp();
 
   const {
@@ -35,7 +36,7 @@ export const SignUpForm = () => {
   const onSubmit = handleSubmit((values) => {
     mutate(values, {
       onSuccess: () => toast.success(t('signedIn')),
-      onError: (err: Error) => toast.error(err.message),
+      onError: (err: Error) => toast.error(errorMessage(err)),
     });
   });
 

@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
+import { useErrorMessage } from '@/entities/app/locale';
 import { useCurrentUser, useSendVerificationEmail } from '@/entities/auth/user';
 import { Button, Text } from '@/shared/ui';
 
@@ -12,6 +13,7 @@ import s from './EmailVerificationNotice.module.scss';
 
 export const EmailVerificationNotice = () => {
   const t = useTranslations('settings.security');
+  const errorMessage = useErrorMessage();
   const { emailVerified, user } = useCurrentUser();
   const { isPending, mutate } = useSendVerificationEmail();
   const [sent, setSent] = useState(false);
@@ -27,7 +29,7 @@ export const EmailVerificationNotice = () => {
         toast.success(t('emailVerificationSent'));
       },
       onError: (err: Error) => {
-        toast.error(err.message);
+        toast.error(errorMessage(err));
       },
     });
   };

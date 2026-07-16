@@ -1,19 +1,10 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  NotFoundException,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ZodResponse } from 'nestjs-zod';
 import { isNullish } from 'remeda';
 
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { AppNotFoundException } from '../../common/exceptions';
 import { assertCanAccessDmRoom } from '../../lib';
 import { CreateRoomDto, RoomDto, UpdateRoomDto } from './dto/rooms.dto';
 import { RoomsService } from './rooms.service';
@@ -36,7 +27,7 @@ export class RoomsController {
     const room = await this.rooms.getRoom(id);
 
     if (isNullish(room)) {
-      throw new NotFoundException('Room not found');
+      throw new AppNotFoundException('ROOM_NOT_FOUND', 'Room not found');
     }
 
     return room;

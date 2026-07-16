@@ -5,6 +5,7 @@
       {
         "label": "main",
         "title": "Chatovo",
+        "url": "/lobby",
         "width": 1280,
         "height": 800,
         "center": true,
