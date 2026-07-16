@@ -2,6 +2,7 @@ import { isNonNullish } from 'remeda';
 
 import { Progress } from '../Progress';
 import { Spinner } from '../Spinner';
+import { Text } from '../Text';
 
 import s from './AppSplash.module.scss';
 
@@ -17,7 +18,11 @@ export const AppSplash = ({ message, progress }: AppSplashProps) => {
       </div>
 
       <div className={s.content}>
-        {message && <p className={s.message}>{message}</p>}
+        {message && (
+          <Text align="center" size="sm" tone="muted">
+            {message}
+          </Text>
+        )}
         {hasProgress && <Progress className={s.progress} value={progress} />}
       </div>
     </div>

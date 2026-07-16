@@ -1,3 +1,3 @@
-import type { LabelProps as RACLabelProps } from 'react-aria-components';
+import type { ComponentProps } from 'react';
 
-export type LabelProps = RACLabelProps;
+export type LabelProps = ComponentProps<'label'>;

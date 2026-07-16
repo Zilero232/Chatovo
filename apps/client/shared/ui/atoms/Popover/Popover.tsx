@@ -1,10 +1,11 @@
 'use client';
 
+import { Popover as BasePopover } from '@base-ui-components/react/popover';
 import { clsx } from 'clsx';
-import { DialogTrigger, Popover as RACPopover } from 'react-aria-components';
+import { isNullish } from 'remeda';
 
-import { placementFromSideAlign } from '../../lib/placement';
 import { Button } from '../Button';
+import { Text } from '../Text';
 
 import s from './Popover.module.scss';
 
@@ -19,40 +20,59 @@ import type {
 } from './Popover.types';
 
 const Popover = ({ open, defaultOpen, onOpenChange, children, ...props }: PopoverProps) => (
-  <DialogTrigger
-    data-slot="popover"
-    defaultOpen={defaultOpen}
-    isOpen={open}
-    onOpenChange={onOpenChange}
-    {...props}
+  <BasePopover.Root defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange} {...props}>
+    {children}
+  </BasePopover.Root>
+);
+
+const PopoverTrigger = ({ className, children, ...props }: PopoverTriggerProps) => (
+  <BasePopover.Trigger
+    data-slot="popover-trigger"
+    render={<Button className={className} {...props} />}
   >
     {children}
-  </DialogTrigger>
+  </BasePopover.Trigger>
 );
 
-const PopoverTrigger = ({ className, ...props }: PopoverTriggerProps) => (
-  <Button className={className} data-slot="popover-trigger" {...props} />
-);
-
-const PopoverContent = ({
+const PopoverPopup = ({
   className,
   align = 'center',
   side = 'bottom',
   sideOffset = 4,
+  triggerRef,
+  initialFocus,
   children,
-  ...props
 }: PopoverContentProps) => (
-  <RACPopover
-    className={clsx('glass-overlay', s.popup, className)}
-    data-slot="popover-content"
-    isNonModal
-    offset={sideOffset}
-    placement={placementFromSideAlign(side, align)}
-    {...props}
-  >
-    {children}
-  </RACPopover>
+  <BasePopover.Portal>
+    <BasePopover.Positioner
+      align={align}
+      anchor={triggerRef}
+      className={s.positioner}
+      side={side}
+      sideOffset={sideOffset}
+    >
+      <BasePopover.Popup
+        className={clsx('glass-overlay', s.popup, className)}
+        data-slot="popover-content"
+        initialFocus={initialFocus}
+      >
+        {children}
+      </BasePopover.Popup>
+    </BasePopover.Positioner>
+  </BasePopover.Portal>
 );
+
+const PopoverContent = ({ isOpen, onOpenChange, ...props }: PopoverContentProps) => {
+  if (isNullish(isOpen)) {
+    return <PopoverPopup {...props} />;
+  }
+
+  return (
+    <BasePopover.Root open={isOpen} onOpenChange={onOpenChange}>
+      <PopoverPopup {...props} />
+    </BasePopover.Root>
+  );
+};
 
 const PopoverAnchor = ({ className, ...props }: PopoverAnchorProps) => (
   <div className={clsx(s.anchor, className)} data-slot="popover-anchor" {...props} />
@@ -67,7 +87,7 @@ const PopoverTitle = ({ className, ...props }: PopoverTitleProps) => (
 );
 
 const PopoverDescription = ({ className, ...props }: PopoverDescriptionProps) => (
-  <p className={clsx(s.description, className)} data-slot="popover-description" {...props} />
+  <Text className={className} data-slot="popover-description" tone="muted" {...props} />
 );
 
 export {

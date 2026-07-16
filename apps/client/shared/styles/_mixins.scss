@@ -88,6 +88,7 @@
   border-radius: var(--radius-lg);
   font-size: var(--text-sm);
   font-weight: 500;
+  text-decoration: none;
   white-space: nowrap;
   outline: none;
   transition: colors 150ms ease-out;
@@ -114,29 +115,29 @@
 }
 
 @mixin overlay-enter {
-  &[data-entering] {
+  &[data-starting-style] {
     animation: overlay-fade-in 200ms ease-out, overlay-zoom-in 200ms ease-out;
   }
 
-  &[data-exiting] {
+  &[data-ending-style] {
     animation: overlay-fade-out 200ms ease-in, overlay-zoom-out 200ms ease-in;
   }
 }
 
 @mixin slide-from-side {
-  &[data-placement='bottom'][data-entering] {
+  &[data-side='bottom'][data-starting-style] {
     animation: slide-in-from-top 200ms ease-out;
   }
 
-  &[data-placement='top'][data-entering] {
+  &[data-side='top'][data-starting-style] {
     animation: slide-in-from-bottom 200ms ease-out;
   }
 
-  &[data-placement='start'][data-entering] {
+  &[data-side='left'][data-starting-style] {
     animation: slide-in-from-right 200ms ease-out;
   }
 
-  &[data-placement='end'][data-entering] {
+  &[data-side='right'][data-starting-style] {
     animation: slide-in-from-left 200ms ease-out;
   }
 }

@@ -4,6 +4,7 @@ import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { UserAvatar, useCurrentUser } from '@/entities/auth/user';
+import { Text } from '@/shared/ui';
 
 import s from '../../LobbyHeader.module.scss';
 
@@ -37,7 +38,9 @@ export const LobbyGreeting = () => {
             <span className={clsx(s.titleName, 'gradient-text')}>{welcomeLead}</span>
           )}
         </h2>
-        <p className={s.subtitle}>{t('subtitle')}</p>
+        <Text className={s.subtitle} size="sm" tone="muted">
+          {t('subtitle')}
+        </Text>
       </div>
     </div>
   );

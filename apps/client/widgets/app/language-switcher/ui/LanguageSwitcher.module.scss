@@ -31,7 +31,7 @@
     opacity: 0.5;
   }
 
-  &[aria-expanded='true'] {
+  &[data-popup-open] {
     color: var(--foreground);
     background: var(--accent);
   }
@@ -52,7 +52,7 @@
   height: 0.875rem;
   transition: transform 150ms ease-out;
 
-  [aria-expanded='true'] > & {
+  [data-popup-open] > & {
     transform: rotate(180deg);
   }
 }

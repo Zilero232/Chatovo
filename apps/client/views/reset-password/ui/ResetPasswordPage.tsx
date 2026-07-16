@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 
 import { ResetPasswordForm } from '@/features/auth/reset-password';
 import { DEEP_LINKS, ROUTES } from '@/shared/constants';
-import { AuthBackground, Button, LogoMark } from '@/shared/ui';
+import { AuthBackground, Button, LogoMark, Text } from '@/shared/ui';
 
 import s from './ResetPasswordPage.module.scss';
 
@@ -55,9 +55,9 @@ export const ResetPasswordPage = () => {
             <h1 className={clsx(s.title, 'gradient-text')}>
               {done ? t('resetDoneTitle') : t('resetPasswordTitle')}
             </h1>
-            <p className={s.subtitle}>
+            <Text size="sm" tone="muted">
               {done ? t('resetDoneSubtitle') : t('resetPasswordSubtitle')}
-            </p>
+            </Text>
           </div>
 
           {done ? (

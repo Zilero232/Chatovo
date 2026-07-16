@@ -1,21 +1,23 @@
-import type { ComponentProps, ReactNode } from 'react';
-import type { DialogTriggerProps, PopoverProps as RACPopoverProps } from 'react-aria-components';
-import type { OverlayAlign, OverlaySide } from '../../lib/placement';
+import type { Popover } from '@base-ui-components/react/popover';
+import type { ComponentProps, ReactNode, RefObject } from 'react';
 import type { ButtonProps } from '../Button';
 
-export type PopoverProps = Omit<DialogTriggerProps, 'children'> & {
+export type PopoverProps = Omit<ComponentProps<typeof Popover.Root>, 'children' | 'open'> & {
   open?: boolean;
   children?: ReactNode;
 };
 
 export type PopoverTriggerProps = ButtonProps;
 
-export type PopoverContentProps = Omit<RACPopoverProps, 'children'> & {
-  align?: OverlayAlign;
-  side?: OverlaySide;
+export type PopoverContentProps = {
+  align?: ComponentProps<typeof Popover.Positioner>['align'];
+  side?: ComponentProps<typeof Popover.Positioner>['side'];
   sideOffset?: number;
   className?: string;
-  initialFocus?: boolean;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  triggerRef?: RefObject<HTMLElement | null>;
+  initialFocus?: ComponentProps<typeof Popover.Popup>['initialFocus'];
   children?: ReactNode;
 };
 

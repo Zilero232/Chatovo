@@ -1,38 +1,23 @@
 'use client';
 
+import { Switch as BaseSwitch } from '@base-ui-components/react/switch';
 import { clsx } from 'clsx';
-import { Switch as RACSwitch } from 'react-aria-components';
 
 import s from './Switch.module.scss';
 
 import type { SwitchProps } from './Switch.types';
 
-const Switch = ({
-  className,
-  checked,
-  onCheckedChange,
-  isSelected,
-  onChange,
-  children,
-  ...props
-}: SwitchProps) => (
-  <RACSwitch
+const Switch = ({ className, checked, onCheckedChange, children, ...props }: SwitchProps) => (
+  <BaseSwitch.Root
+    checked={checked}
     className={clsx(s.root, className)}
     data-slot="switch"
-    isSelected={isSelected ?? checked}
-    onChange={(value) => {
-      onChange?.(value);
-      onCheckedChange?.(value);
-    }}
+    onCheckedChange={onCheckedChange}
     {...props}
   >
-    {(values) => (
-      <>
-        <span className={s.thumb} data-selected={values.isSelected} data-slot="switch-thumb" />
-        {typeof children === 'function' ? children(values) : children}
-      </>
-    )}
-  </RACSwitch>
+    <BaseSwitch.Thumb className={s.thumb} data-slot="switch-thumb" />
+    {children}
+  </BaseSwitch.Root>
 );
 
 export { Switch };

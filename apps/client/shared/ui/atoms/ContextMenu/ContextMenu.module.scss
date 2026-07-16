@@ -1,7 +1,10 @@
 @use '@/shared/styles/mixins' as *;
 
+.positioner {
+  z-index: 60;
+}
+
 .popup {
-  z-index: 50;
   transform-origin: var(--transform-origin);
   overflow: hidden auto;
   min-width: 8rem;
@@ -165,7 +168,6 @@
 }
 
 .subPopup {
-  z-index: 50;
   transform-origin: var(--transform-origin);
   overflow: hidden;
   min-width: 8rem;

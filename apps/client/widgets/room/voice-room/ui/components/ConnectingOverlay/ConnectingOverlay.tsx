@@ -7,7 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { match } from 'ts-pattern';
 
-import { Spinner } from '@/shared/ui';
+import { Spinner, Text } from '@/shared/ui';
 
 import s from './ConnectingOverlay.module.scss';
 
@@ -44,7 +44,9 @@ export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
             transition={{ type: 'spring', stiffness: 380, damping: 30 }}
           >
             <Spinner size="lg" />
-            <p className={s.text}>{text}</p>
+            <Text className={s.text} size="sm" tone="inherit">
+              {text}
+            </Text>
           </motion.div>
         </motion.div>
       )}

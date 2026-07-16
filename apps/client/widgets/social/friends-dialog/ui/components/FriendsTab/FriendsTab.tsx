@@ -8,7 +8,7 @@ import { match, P } from 'ts-pattern';
 import { useFriends } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
-import { Spinner } from '@/shared/ui';
+import { Spinner, Text } from '@/shared/ui';
 import { FriendListItem } from '../FriendListItem';
 
 import s from '../../FriendsDialog.module.scss';
@@ -62,7 +62,9 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
           </div>
         ))
         .otherwise(() => (
-          <p className={s.empty}>{t('emptyFriends')}</p>
+          <Text className={s.empty} size="sm" tone="muted">
+            {t('emptyFriends')}
+          </Text>
         ))}
 
       {removeTarget && (

@@ -5,6 +5,7 @@ import { Info } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { DownloadAppDialog } from '@/features/app/download-app';
+import { Text } from '@/shared/ui';
 
 import s from '../AppSettingsButton.module.scss';
 
@@ -16,7 +17,7 @@ export const WebNotice = () => {
     <>
       <div className={s.webNotice}>
         <Info className={s.webNoticeIcon} />
-        <p className={s.webNoticeText}>
+        <Text className={s.webNoticeText} size="sm" tone="inherit">
           {t.rich('webNotice', {
             link: (chunks) => (
               <button className={s.webNoticeLink} onClick={() => toggleOpen(true)} type="button">
@@ -24,7 +25,7 @@ export const WebNotice = () => {
               </button>
             ),
           })}
-        </p>
+        </Text>
       </div>
 
       <DownloadAppDialog open={isOpen} onOpenChange={toggleOpen} />

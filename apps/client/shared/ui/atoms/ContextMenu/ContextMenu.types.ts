@@ -1,28 +1,23 @@
-import type { ComponentProps, ReactNode, RefObject } from 'react';
-import type { MenuItemProps, MenuSection, Separator, SubmenuTrigger } from 'react-aria-components';
-import type { MenuItemSelectEvent } from '../../lib/menu-types';
+import type { ContextMenu } from '@base-ui-components/react/context-menu';
+import type { ComponentProps, ReactNode } from 'react';
 
 export type ContextMenuProps = {
   children?: ReactNode;
 };
 
-export type ContextMenuTriggerProps = ComponentProps<'div'>;
+export type ContextMenuTriggerProps = ComponentProps<typeof ContextMenu.Trigger>;
 
-export type ContextMenuItemProps = Omit<MenuItemProps, 'onAction' | 'children'> & {
+export type ContextMenuItemProps = Omit<ComponentProps<typeof ContextMenu.Item>, 'onSelect'> & {
   inset?: boolean;
   variant?: 'default' | 'destructive';
-  onSelect?: (event: MenuItemSelectEvent) => void;
-  onClick?: ComponentProps<'div'>['onClick'];
-  closeOnClick?: boolean;
-  children?: ReactNode;
+  onSelect?: () => void;
 };
 
-export type ContextMenuSubTriggerProps = Omit<MenuItemProps, 'children'> & {
+export type ContextMenuSubTriggerProps = ComponentProps<typeof ContextMenu.SubmenuTrigger> & {
   inset?: boolean;
-  children?: ReactNode;
 };
 
-export type ContextMenuLabelProps = ComponentProps<'div'> & {
+export type ContextMenuLabelProps = ComponentProps<typeof ContextMenu.GroupLabel> & {
   inset?: boolean;
 };
 
@@ -36,37 +31,16 @@ export type ContextMenuSubContentProps = {
   children?: ReactNode;
 };
 
-export type ContextMenuRadioGroupProps = {
-  value?: string;
-  onValueChange?: (value: string) => void;
-  children?: ReactNode;
-};
+export type ContextMenuRadioGroupProps = ComponentProps<typeof ContextMenu.RadioGroup>;
 
-export type ContextMenuRadioItemProps = Omit<MenuItemProps, 'children'> & {
-  value: string;
-  children?: ReactNode;
-};
+export type ContextMenuRadioItemProps = ComponentProps<typeof ContextMenu.RadioItem>;
 
-export type ContextMenuCheckboxItemProps = Omit<MenuItemProps, 'children'> & {
-  checked?: boolean;
-  onCheckedChange?: (checked: boolean) => void;
-  children?: ReactNode;
-};
+export type ContextMenuCheckboxItemProps = ComponentProps<typeof ContextMenu.CheckboxItem>;
 
-export type ContextMenuGroupProps = ComponentProps<typeof MenuSection>;
+export type ContextMenuGroupProps = ComponentProps<typeof ContextMenu.Group>;
 
-export type ContextMenuPortalProps = {
-  children?: ReactNode;
-};
+export type ContextMenuSubProps = ComponentProps<typeof ContextMenu.SubmenuRoot>;
 
-export type ContextMenuSubProps = ComponentProps<typeof SubmenuTrigger>;
-
-export type ContextMenuSeparatorProps = ComponentProps<typeof Separator>;
+export type ContextMenuSeparatorProps = ComponentProps<typeof ContextMenu.Separator>;
 
 export type ContextMenuShortcutProps = ComponentProps<'span'>;
-
-export type ContextMenuContextValue = {
-  triggerRef: RefObject<HTMLDivElement | null>;
-  isOpen: boolean;
-  setOpen: (open: boolean) => void;
-};

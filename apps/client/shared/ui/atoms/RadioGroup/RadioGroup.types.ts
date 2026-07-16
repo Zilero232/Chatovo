@@ -1,8 +1,15 @@
-import type { Key } from '@react-types/shared';
-import type { RadioGroupProps as RACRadioGroupProps, RadioProps } from 'react-aria-components';
+import type { Radio } from '@base-ui-components/react/radio';
+import type { RadioGroup } from '@base-ui-components/react/radio-group';
+import type { ComponentProps } from 'react';
 
-export type RadioGroupProps = RACRadioGroupProps & {
-  onValueChange?: (value: Key) => void;
+export type RadioGroupProps = Omit<
+  ComponentProps<typeof RadioGroup>,
+  'className' | 'onValueChange'
+> & {
+  className?: string;
+  onValueChange?: (value: unknown) => void;
 };
 
-export type RadioGroupItemProps = RadioProps;
+export type RadioGroupItemProps = Omit<ComponentProps<typeof Radio.Root>, 'className'> & {
+  className?: string;
+};

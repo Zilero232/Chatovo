@@ -6,6 +6,7 @@ import { RoomEvent } from 'livekit-client';
 import { useTranslations } from 'next-intl';
 
 import { useRoomParticipants } from '@/entities/room/room';
+import { Text } from '@/shared/ui';
 import { InviteParticipantCard } from '../InviteParticipantCard';
 import { ParticipantCard } from '../ParticipantCard';
 
@@ -42,7 +43,9 @@ export const ParticipantsView = ({ roomId, isDm = false }: ParticipantsViewProps
               <ParticipantCard participant={peer} deafened={deafenedIds.has(peer.identity)} fill />
             </div>
           ) : (
-            <p className={s.dmWaiting}>{t('dmWaiting')}</p>
+            <Text className={s.dmWaiting} tone="muted">
+              {t('dmWaiting')}
+            </Text>
           )}
 
           {localParticipant && (

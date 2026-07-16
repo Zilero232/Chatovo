@@ -50,7 +50,7 @@ export const CardVideo = ({ trackRef }: CardVideoProps) => {
     <>
       {/* biome-ignore lint/a11y/useSemanticElements: <button> cannot wrap a <video>; div + role=button is the valid composite */}
       <div className={s.pane} role="button" tabIndex={0} onClick={toggle} onKeyDown={handleKeyDown}>
-        <VideoTrack className={videoClassName} trackRef={trackRef} />
+        {!isExpanded && <VideoTrack className={videoClassName} trackRef={trackRef} />}
         <div className={s.fullscreenHint}>
           <Expand className={s.hintIcon} />
         </div>

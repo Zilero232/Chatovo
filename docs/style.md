@@ -109,7 +109,7 @@ shared/ui/
 
 - Имена папок и файлов компонентов — **PascalCase** (`Button/`, `Button.tsx`).
 - Стили — **`*.module.scss`**; импорт shared-утилит: `@use '@/shared/styles/mixins' as *` (alias `@/` через `loadPaths` + `turbopack.resolveAlias` в `next.config.ts`, без `../../../`).
-- Headless + a11y — **react-aria-components** (Dialog → `Modal`, Menu → `Menu`/`Popover`, и т.д.).
+- Headless + a11y — **`@base-ui-components/react`** (Dialog → `Dialog`, Menu → `Menu`, Select → `Select`, …); импорт из подпути пакета.
 - Типы React — **именованные** (`ComponentProps`, `ReactNode`, …), не `import type * as React`.
 - Внутри `shared/ui` — относительные импорты между слоями (`../../atoms/Button`). Снаружи — только `@/shared/ui`.
 
@@ -496,7 +496,7 @@ const readRole = (user: User | null): UserRole =>
   match(state).with('idle', () => null)
   ```
 
-- **Примитивы в `shared/ui/`** — своя конвенция (PascalCase-папки, SCSS modules, react-aria). См. §2.1.
+- **Примитивы в `shared/ui/`** — своя конвенция (PascalCase-папки, SCSS modules, Base UI). См. §2.1.
 
 **Правило для review:** если стрелка справа от `=` (объявление функции) — block body. Если стрелка внутри `(...)` или `{...}` (аргумент) — на усмотрение, обычно expression.
 

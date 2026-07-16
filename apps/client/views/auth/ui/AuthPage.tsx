@@ -8,7 +8,7 @@ import { match } from 'ts-pattern';
 import { ForgotPasswordForm } from '@/features/auth/forgot-password';
 import { SignInForm } from '@/features/auth/sign-in';
 import { SignUpForm } from '@/features/auth/sign-up';
-import { AuthBackground, LogoMark } from '@/shared/ui';
+import { AuthBackground, LogoMark, Text } from '@/shared/ui';
 import { AuthBrandPanel, AuthLegalFooter } from './components';
 
 import s from './AuthPage.module.scss';
@@ -39,12 +39,12 @@ export const AuthPage = () => {
                 .with('forgot', () => t('forgotPasswordTitle'))
                 .otherwise(() => t('signIn'))}
             </h1>
-            <p className={s.subtitle}>
+            <Text size="sm" tone="muted">
               {match(mode)
                 .with('signup', () => t('subtitleSignUp'))
                 .with('forgot', () => t('forgotPasswordSubtitle'))
                 .otherwise(() => t('subtitleSignIn'))}
-            </p>
+            </Text>
           </div>
 
           <div key={mode} className={s.form}>
@@ -57,7 +57,7 @@ export const AuthPage = () => {
           </div>
 
           {mode !== 'forgot' && (
-            <p className={s.toggle}>
+            <Text align="center" className={s.toggle} size="sm" tone="muted">
               {t(mode === 'signup' ? 'hasAccount' : 'noAccount')}{' '}
               <button
                 className={s.toggleButton}
@@ -66,7 +66,7 @@ export const AuthPage = () => {
               >
                 {t(mode === 'signup' ? 'signIn' : 'signUp')}
               </button>
-            </p>
+            </Text>
           )}
 
           <AuthLegalFooter />

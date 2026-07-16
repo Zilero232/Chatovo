@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { match, P } from 'ts-pattern';
 
-import { Progress } from '@/shared/ui';
+import { Progress, Text } from '@/shared/ui';
 
 import s from './UpdateDialog.module.scss';
 
@@ -24,6 +24,10 @@ export const UpdateProgress = ({ status, progress }: UpdateProgressProps) => {
         </div>
       </div>
     ))
-    .with('error', () => <p className={s.error}>{t('failed')}</p>)
+    .with('error', () => (
+      <Text size="sm" tone="destructive">
+        {t('failed')}
+      </Text>
+    ))
     .otherwise(() => null);
 };

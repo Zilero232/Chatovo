@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
+import type { CenteredStateVariantProps } from './CenteredState.variants';
 
-export type CenteredStateSize = 'sm' | 'md';
+export type CenteredStateSize = NonNullable<CenteredStateVariantProps['size']>;
 
 export type CenteredStateProps = {
   icon?: ReactNode;

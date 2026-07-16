@@ -1,18 +1,18 @@
 'use client';
 
+import { Tooltip as BaseTooltip } from '@base-ui-components/react/tooltip';
 import { useMediaQuery } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { Children, isValidElement } from 'react';
-import { Tooltip as RACTooltip, TooltipTrigger as RACTooltipTrigger } from 'react-aria-components';
-
-import { wrapTooltipTrigger } from './lib';
 
 import s from './Tooltip.module.scss';
 
 import type { ReactElement } from 'react';
 import type { TooltipContentProps, TooltipProps, TooltipProviderProps } from './Tooltip.types';
 
-const TooltipProvider = ({ children }: TooltipProviderProps) => <>{children}</>;
+const TooltipProvider = ({ delay, delayDuration, children }: TooltipProviderProps) => (
+  <BaseTooltip.Provider delay={delay ?? delayDuration}>{children}</BaseTooltip.Provider>
+);
 
 const TooltipContent = (_props: TooltipContentProps) => null;
 
@@ -37,38 +37,43 @@ const Tooltip = ({
   );
 
   if (isTouch || !content || triggers.length === 0) {
-    return wrapTooltipTrigger(triggers[0]);
+    return triggers[0] ?? null;
   }
 
   const {
     className: contentClassName,
-    side,
+    side = 'top',
     sideOffset = 0,
     children: contentChildren,
-    ...contentProps
   } = content.props;
 
-  const trigger = triggers.length === 1 ? triggers[0] : triggers;
-
   return (
-    <RACTooltipTrigger
-      data-slot="tooltip"
-      delay={delay}
-      isDisabled={disableHoverablePopup ?? disableHoverableContent}
-      isOpen={open}
+    <BaseTooltip.Root
+      disabled={disableHoverablePopup ?? disableHoverableContent}
+      open={open}
       {...props}
     >
-      {wrapTooltipTrigger(trigger)}
-      <RACTooltip
-        className={clsx('glass-overlay', s.popup, contentClassName)}
-        data-slot="tooltip-content"
-        offset={sideOffset}
-        placement={side}
-        {...contentProps}
-      >
-        {contentChildren}
-      </RACTooltip>
-    </RACTooltipTrigger>
+      {triggers.map((trigger, index) => (
+        <BaseTooltip.Trigger
+          // biome-ignore lint/suspicious/noArrayIndexKey: static child list, order never changes
+          key={index}
+          data-slot="tooltip"
+          delay={delay}
+          render={trigger as ReactElement<Record<string, unknown>>}
+        />
+      ))}
+
+      <BaseTooltip.Portal>
+        <BaseTooltip.Positioner className={s.positioner} side={side} sideOffset={sideOffset}>
+          <BaseTooltip.Popup
+            className={clsx('glass-overlay', s.popup, contentClassName)}
+            data-slot="tooltip-content"
+          >
+            {contentChildren}
+          </BaseTooltip.Popup>
+        </BaseTooltip.Positioner>
+      </BaseTooltip.Portal>
+    </BaseTooltip.Root>
   );
 };
 

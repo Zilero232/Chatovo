@@ -47,12 +47,11 @@
     opacity: 0.5;
   }
 
-  &[data-hovered]:not([data-selected]),
-  &:hover:not(:disabled, [data-selected]) {
+  &:hover:not(:disabled, [data-active]) {
     color: var(--foreground);
   }
 
-  &[data-selected] {
+  &[data-active] {
     color: white;
     background: var(--brand-violet);
     box-shadow: 0 rem(4) rem(16) rem(-4) oklch(0.7 0.2 270 / 0.5);
@@ -64,14 +63,6 @@
     width: 1rem;
     height: 1rem;
   }
-}
-
-.panels {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-width: 0;
-  min-height: 0;
 }
 
 .content {

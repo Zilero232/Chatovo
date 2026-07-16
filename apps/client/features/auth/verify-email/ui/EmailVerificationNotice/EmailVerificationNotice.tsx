@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { useCurrentUser, useSendVerificationEmail } from '@/entities/auth/user';
-import { Button } from '@/shared/ui';
+import { Button, Text } from '@/shared/ui';
 
 import s from './EmailVerificationNotice.module.scss';
 
@@ -37,8 +37,12 @@ export const EmailVerificationNotice = () => {
       <div className={s.header}>
         <MailWarning className={s.icon} />
         <div className={s.copy}>
-          <p className={s.title}>{t('emailNotVerifiedTitle')}</p>
-          <p className={s.description}>{t('emailNotVerifiedDescription', { email: user.email })}</p>
+          <Text size="sm" weight="medium">
+            {t('emailNotVerifiedTitle')}
+          </Text>
+          <Text className={s.description} size="xs" tone="muted">
+            {t('emailNotVerifiedDescription', { email: user.email })}
+          </Text>
         </div>
       </div>
 

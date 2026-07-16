@@ -1,20 +1,13 @@
 'use client';
 
+import { Select as BaseSelect } from '@base-ui-components/react/select';
 import { clsx } from 'clsx';
 import { Check, ChevronDown } from 'lucide-react';
-import {
-  Button,
-  ListBox,
-  ListBoxItem,
-  Popover,
-  Select as RACSelect,
-  SelectValue,
-} from 'react-aria-components';
 import { isNullish } from 'remeda';
 
 import s from './Select.module.scss';
 
-import type { SelectKey, SelectProps } from './Select.types';
+import type { SelectProps } from './Select.types';
 
 export const Select = <T extends string>({
   value,
@@ -26,47 +19,52 @@ export const Select = <T extends string>({
   'aria-label': ariaLabel,
   onChange,
 }: SelectProps<T>) => {
-  const handleChange = (key: SelectKey | null) => {
-    if (isNullish(key)) {
+  const handleChange = (next: unknown) => {
+    if (isNullish(next) || next === '') {
       return;
     }
 
-    onChange(String(key) as T);
+    onChange(String(next) as T);
   };
 
   return (
-    <RACSelect
-      aria-label={ariaLabel}
-      className={clsx(s.root, className)}
-      data-slot="select"
-      isDisabled={isDisabled}
-      value={value}
-      onChange={handleChange}
-    >
-      <Button className={s.trigger} data-slot="select-trigger">
-        <SelectValue className={s.value}>
-          {({ isPlaceholder, selectedText }) => (isPlaceholder ? placeholder : selectedText)}
-        </SelectValue>
+    <BaseSelect.Root disabled={isDisabled} value={value ?? ''} onValueChange={handleChange}>
+      <BaseSelect.Trigger
+        aria-label={ariaLabel}
+        className={clsx(s.trigger, className)}
+        data-placeholder={isNullish(value) ? '' : undefined}
+        data-slot="select-trigger"
+      >
+        <BaseSelect.Value className={s.value}>
+          {(selected: T | null) =>
+            options.find((option) => option.value === selected)?.label ?? placeholder
+          }
+        </BaseSelect.Value>
         <ChevronDown aria-hidden className={s.chevron} />
-      </Button>
+      </BaseSelect.Trigger>
 
-      <Popover className={clsx('glass-overlay', s.popup, menuClassName)}>
-        <ListBox className={s.list} items={options}>
-          {(option) => (
-            <ListBoxItem
-              key={option.value}
-              className={s.item}
-              id={option.value}
-              isDisabled={option.isDisabled}
-              textValue={option.label}
-            >
-              {option.icon}
-              <span className={s.itemLabel}>{option.label}</span>
-              <Check aria-hidden className={s.check} />
-            </ListBoxItem>
-          )}
-        </ListBox>
-      </Popover>
-    </RACSelect>
+      <BaseSelect.Portal>
+        <BaseSelect.Positioner alignItemWithTrigger={false} className={s.positioner} sideOffset={4}>
+          <BaseSelect.Popup className={clsx('glass-overlay', s.popup, menuClassName)}>
+            <BaseSelect.List className={s.list}>
+              {options.map((option) => (
+                <BaseSelect.Item
+                  key={option.value}
+                  className={s.item}
+                  disabled={option.isDisabled}
+                  value={option.value}
+                >
+                  {option.icon}
+                  <BaseSelect.ItemText className={s.itemLabel}>{option.label}</BaseSelect.ItemText>
+                  <BaseSelect.ItemIndicator className={s.check}>
+                    <Check aria-hidden />
+                  </BaseSelect.ItemIndicator>
+                </BaseSelect.Item>
+              ))}
+            </BaseSelect.List>
+          </BaseSelect.Popup>
+        </BaseSelect.Positioner>
+      </BaseSelect.Portal>
+    </BaseSelect.Root>
   );
 };

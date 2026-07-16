@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import { ROUTES } from '@/shared/constants';
-import { Button } from '@/shared/ui';
+import { Button, Text } from '@/shared/ui';
 
 import s from './NotFoundPage.module.scss';
 
@@ -27,7 +27,9 @@ export const NotFoundPage = () => {
       <p className={clsx(s.code, 'gradient-text')}>404</p>
 
       <h1 className={s.title}>{t('title')}</h1>
-      <p className={s.description}>{t('description')}</p>
+      <Text className={s.description} tone="muted">
+        {t('description')}
+      </Text>
 
       <div className={s.actions}>
         <Button onClick={() => router.push(ROUTES.lobby)}>

@@ -1,38 +1,28 @@
 'use client';
 
+import { Slider as BaseSlider } from '@base-ui-components/react/slider';
 import { clsx } from 'clsx';
-import { Slider as RACSlider, SliderFill, SliderThumb, SliderTrack } from 'react-aria-components';
 
 import s from './Slider.module.scss';
 
 import type { SliderProps } from './Slider.types';
 
-const Slider = ({
-  className,
-  max,
-  min,
-  maxValue,
-  minValue,
-  onValueChange,
-  onChange,
-  ...props
-}: SliderProps) => (
-  <RACSlider
+const Slider = ({ className, max, min, onValueChange, ...props }: SliderProps) => (
+  <BaseSlider.Root
     className={clsx(s.root, className)}
     data-slot="slider"
-    maxValue={maxValue ?? max}
-    minValue={minValue ?? min}
-    onChange={(value) => {
-      onChange?.(value);
-      onValueChange?.(value);
-    }}
+    max={max}
+    min={min}
+    onValueChange={onValueChange}
     {...props}
   >
-    <SliderTrack className={s.track} data-slot="slider-track">
-      <SliderFill className={s.indicator} data-slot="slider-range" />
-      <SliderThumb className={s.thumb} data-slot="slider-thumb" />
-    </SliderTrack>
-  </RACSlider>
+    <BaseSlider.Control className={s.control} data-slot="slider-control">
+      <BaseSlider.Track className={s.track} data-slot="slider-track">
+        <BaseSlider.Indicator className={s.indicator} data-slot="slider-range" />
+        <BaseSlider.Thumb className={s.thumb} data-slot="slider-thumb" />
+      </BaseSlider.Track>
+    </BaseSlider.Control>
+  </BaseSlider.Root>
 );
 
 export { Slider };

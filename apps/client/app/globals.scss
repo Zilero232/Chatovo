@@ -71,6 +71,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html.landing,
+html.landing body {
+  overflow: hidden auto;
+  height: auto;
+  min-height: 100%;
+}
+
 button:not(:disabled),
 [role='button']:not([aria-disabled='true']),
 [role='menuitem']:not([aria-disabled='true']),
@@ -368,15 +375,26 @@ body {
   overflow: hidden;
   --px: 0;
   --py: 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      oklch(0.16 0.012 280 / 0.35) 0%,
+      oklch(0.16 0.012 280 / 0.65) 55%,
+      oklch(0.16 0.012 280 / 0.8) 100%
+    );
+  }
 }
 
 .auth-aurora {
   pointer-events: none;
-  will-change: translate;
   position: absolute;
   inset: -25%;
   translate: calc(var(--px) * rem(70)) calc(var(--py) * rem(70));
-  filter: blur(rem(70));
   transition: translate 300ms ease-out;
 
   &::before,
@@ -392,7 +410,7 @@ body {
     left: 4%;
     width: 52%;
     height: 52%;
-    background: radial-gradient(circle, oklch(0.7 0.2 270 / 0.85), transparent 68%);
+    background: radial-gradient(circle, oklch(0.7 0.2 270 / 0.55), transparent 70%);
     animation: aurora-drift 18s ease-in-out infinite;
   }
 
@@ -401,7 +419,7 @@ body {
     bottom: 0%;
     width: 56%;
     height: 56%;
-    background: radial-gradient(circle, oklch(0.82 0.16 200 / 0.75), transparent 68%);
+    background: radial-gradient(circle, oklch(0.82 0.16 200 / 0.5), transparent 70%);
     animation: aurora-drift 22s ease-in-out infinite reverse;
   }
 }
@@ -411,13 +429,11 @@ body {
   will-change: transform;
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, oklch(0.74 0.25 330 / 0.7), transparent 68%);
-  filter: blur(rem(60));
+  background: radial-gradient(circle, oklch(0.74 0.25 330 / 0.45), transparent 70%);
   animation: aurora-drift 26s ease-in-out infinite;
 }
 
 .auth-orb-1 {
-  will-change: translate;
   top: 8%;
   right: 12%;
   translate: calc(var(--px) * rem(130)) calc(var(--py) * rem(130));
@@ -427,13 +443,12 @@ body {
 }
 
 .auth-orb-2 {
-  will-change: translate;
   bottom: 6%;
   left: 10%;
   translate: calc(var(--px) * rem(-110)) calc(var(--py) * rem(-110));
   width: 22rem;
   height: 22rem;
-  background: radial-gradient(circle, oklch(0.88 0.2 140 / 0.4), transparent 68%);
+  background: radial-gradient(circle, oklch(0.88 0.2 140 / 0.28), transparent 70%);
   transition: translate 250ms ease-out;
   animation-duration: 30s;
   animation-direction: reverse;

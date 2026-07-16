@@ -1,3 +1,4 @@
+import { extname } from 'node:path';
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
@@ -7,6 +8,7 @@ import { LoggerModule } from 'nestjs-pino';
 
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { AppConfigModule } from './config/config.module';
+import { INLINE_IMAGE_EXTENSIONS } from './config/uploads';
 import { env, PrismaModule } from './core';
 import { AuthModule } from './modules/auth/auth.module';
 import { ChatModule } from './modules/chat/chat.module';
@@ -43,7 +45,14 @@ import { UsersModule } from './modules/users/users.module';
       rootPath: UPLOADS_DIR,
       serveRoot: '/uploads',
       serveStaticOptions: {
-        setHeaders: (res) => {
+        setHeaders: (res, path) => {
+          if (INLINE_IMAGE_EXTENSIONS.has(extname(path).toLowerCase())) {
+            res.setHeader('Content-Disposition', 'inline');
+            res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+
+            return;
+          }
+
           res.setHeader('Content-Disposition', 'attachment');
           res.setHeader('Content-Security-Policy', "default-src 'none'; sandbox");
         },

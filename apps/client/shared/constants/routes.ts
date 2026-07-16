@@ -3,7 +3,9 @@ import { APP_SCHEME } from './scheme';
 const AUTH_PATH = '/auth';
 
 export const ROUTES = {
-  lobby: '/',
+  landing: '/',
+  landingEn: '/en',
+  lobby: '/lobby',
   auth: AUTH_PATH,
   resetPassword: `${AUTH_PATH}/reset-password`,
   room: '/room',
@@ -13,7 +15,13 @@ export const ROUTES = {
 
 const PUBLIC_ROUTES = [ROUTES.auth, ROUTES.resetPassword, ROUTES.privacy, ROUTES.terms] as const;
 
+const LANDING_ROUTES = [ROUTES.landing, ROUTES.landingEn] as const;
+
+const isLandingRoute = (pathname: string): boolean =>
+  LANDING_ROUTES.some((route) => pathname === route);
+
 export const isPublicRoute = (pathname: string): boolean =>
+  isLandingRoute(pathname) ||
   PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(`${route}/`));
 
 export const DEEP_LINKS = {

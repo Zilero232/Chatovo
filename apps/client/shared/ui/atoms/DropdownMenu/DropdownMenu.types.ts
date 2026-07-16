@@ -1,74 +1,47 @@
-import type { ComponentProps, ReactNode } from 'react';
-import type { MenuItemProps, MenuSection, Separator, SubmenuTrigger } from 'react-aria-components';
-import type { MenuItemSelectEvent } from '../../lib/menu-types';
-import type { OverlayAlign, OverlaySide } from '../../lib/placement';
+import type { Menu } from '@base-ui-components/react/menu';
+import type { ComponentProps } from 'react';
 import type { ButtonProps } from '../Button';
 
-export type DropdownMenuProps = {
-  modal?: boolean;
-  children?: ReactNode;
-};
+export type DropdownMenuProps = ComponentProps<typeof Menu.Root>;
 
 export type DropdownMenuTriggerProps = ButtonProps;
 
-export type DropdownMenuPortalProps = {
-  children?: ReactNode;
-};
-
-export type DropdownMenuItemProps = Omit<MenuItemProps, 'onAction' | 'children'> & {
+export type DropdownMenuItemProps = Omit<ComponentProps<typeof Menu.Item>, 'onSelect'> & {
   inset?: boolean;
   variant?: 'default' | 'destructive';
-  onSelect?: (event: MenuItemSelectEvent) => void;
-  onClick?: ComponentProps<'div'>['onClick'];
-  closeOnClick?: boolean;
-  children?: ReactNode;
+  onSelect?: () => void;
 };
 
-export type DropdownMenuSubTriggerProps = Omit<MenuItemProps, 'children'> & {
-  inset?: boolean;
-  children?: ReactNode;
-};
-
-export type DropdownMenuLabelProps = ComponentProps<'div'> & {
+export type DropdownMenuSubTriggerProps = ComponentProps<typeof Menu.SubmenuTrigger> & {
   inset?: boolean;
 };
 
-export type DropdownMenuContentProps = ComponentProps<'div'> & {
-  align?: OverlayAlign;
-  side?: OverlaySide;
+export type DropdownMenuLabelProps = ComponentProps<typeof Menu.GroupLabel> & {
+  inset?: boolean;
+};
+
+export type DropdownMenuContentProps = Omit<ComponentProps<typeof Menu.Popup>, 'className'> & {
+  align?: ComponentProps<typeof Menu.Positioner>['align'];
+  side?: ComponentProps<typeof Menu.Positioner>['side'];
   sideOffset?: number;
   className?: string;
-  children?: ReactNode;
 };
 
 export type DropdownMenuSubContentProps = {
   className?: string;
-  children?: ReactNode;
+  children?: ComponentProps<typeof Menu.Popup>['children'];
 };
 
-export type DropdownMenuRadioGroupProps = ComponentProps<'div'> & {
-  value?: string;
-  onValueChange?: (value: string) => void;
-  children?: ReactNode;
-};
+export type DropdownMenuRadioGroupProps = ComponentProps<typeof Menu.RadioGroup>;
 
-export type DropdownMenuRadioItemProps = {
-  value: string;
-  className?: string;
-  children?: ReactNode;
-  isDisabled?: boolean;
-};
+export type DropdownMenuRadioItemProps = ComponentProps<typeof Menu.RadioItem>;
 
-export type DropdownMenuCheckboxItemProps = Omit<MenuItemProps, 'children'> & {
-  checked?: boolean;
-  onCheckedChange?: (checked: boolean) => void;
-  children?: ReactNode;
-};
+export type DropdownMenuCheckboxItemProps = ComponentProps<typeof Menu.CheckboxItem>;
 
-export type DropdownMenuGroupProps = ComponentProps<typeof MenuSection>;
+export type DropdownMenuGroupProps = ComponentProps<typeof Menu.Group>;
 
-export type DropdownMenuSeparatorProps = ComponentProps<typeof Separator>;
+export type DropdownMenuSeparatorProps = ComponentProps<typeof Menu.Separator>;
 
 export type DropdownMenuShortcutProps = ComponentProps<'span'>;
 
-export type DropdownMenuSubProps = ComponentProps<typeof SubmenuTrigger>;
+export type DropdownMenuSubProps = ComponentProps<typeof Menu.SubmenuRoot>;

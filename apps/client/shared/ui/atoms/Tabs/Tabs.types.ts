@@ -1,30 +1,18 @@
-import type { Key } from '@react-types/shared';
-import type { ReactNode } from 'react';
-import type {
-  TabsProps as RACTabsProps,
-  TabListProps,
-  TabPanelProps,
-  TabProps,
-} from 'react-aria-components';
+import type { Tabs } from '@base-ui-components/react/tabs';
+import type { ComponentProps } from 'react';
 
-export type TabsProps = Omit<
-  RACTabsProps,
-  'selectedKey' | 'onSelectionChange' | 'children' | 'defaultSelectedKey'
-> & {
-  value?: Key;
-  defaultValue?: Key;
-  onValueChange?: (value: Key) => void;
-  selectedKey?: Key;
-  onSelectionChange?: (key: Key) => void;
-  children?: ReactNode;
+export type TabsProps = Omit<ComponentProps<typeof Tabs.Root>, 'className'> & {
+  className?: string;
 };
 
-export type TabsListProps = TabListProps<object>;
-
-export type TabsTriggerProps = TabProps & {
-  value?: Key;
+export type TabsListProps = Omit<ComponentProps<typeof Tabs.List>, 'className'> & {
+  className?: string;
 };
 
-export type TabsContentProps = TabPanelProps & {
-  value?: Key;
+export type TabsTriggerProps = Omit<ComponentProps<typeof Tabs.Tab>, 'className'> & {
+  className?: string;
+};
+
+export type TabsContentProps = Omit<ComponentProps<typeof Tabs.Panel>, 'className'> & {
+  className?: string;
 };

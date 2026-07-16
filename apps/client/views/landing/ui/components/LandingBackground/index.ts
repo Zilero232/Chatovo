@@ -1,0 +1,1 @@
+export { LandingBackground } from './LandingBackground';

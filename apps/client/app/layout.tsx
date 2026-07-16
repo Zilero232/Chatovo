@@ -3,7 +3,6 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import { SITE } from '@/shared/config';
 import { getTauriMobileHmrShim } from '@/shared/lib/tauri-mobile-hmr-shim';
 import { JsonLdScript } from '@/shared/seo';
-import { Providers } from './providers';
 
 import type { ReactNode } from 'react';
 
@@ -42,9 +41,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => (
       ) : null}
       <JsonLdScript />
     </head>
-    <body className="font-sans">
-      <Providers>{children}</Providers>
-    </body>
+    <body className="font-sans">{children}</body>
   </html>
 );
 

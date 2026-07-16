@@ -1,10 +1,11 @@
 import type { ComponentProps, ElementType, ReactNode } from 'react';
+import type { StackVariantProps } from './Stack.variants';
 
-export type StackGap = '0' | '1' | '1.5' | '2' | '3' | '4' | '6' | '8';
+export type StackGap = NonNullable<StackVariantProps['gap']>;
 
-export type StackAlign = 'start' | 'center' | 'end' | 'stretch';
+export type StackAlign = NonNullable<StackVariantProps['align']>;
 
-export type StackJustify = 'start' | 'center' | 'end' | 'between';
+export type StackJustify = NonNullable<StackVariantProps['justify']>;
 
 export type StackProps<T extends ElementType = 'div'> = {
   as?: T;

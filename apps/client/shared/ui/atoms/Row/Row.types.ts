@@ -1,10 +1,11 @@
 import type { ComponentProps, ElementType, ReactNode } from 'react';
+import type { RowVariantProps } from './Row.variants';
 
-export type RowGap = '0' | '1' | '1.5' | '2' | '3' | '4' | '6';
+export type RowGap = NonNullable<RowVariantProps['gap']>;
 
-export type RowAlign = 'start' | 'center' | 'end' | 'baseline' | 'stretch';
+export type RowAlign = NonNullable<RowVariantProps['align']>;
 
-export type RowJustify = 'start' | 'center' | 'end' | 'between' | 'around';
+export type RowJustify = NonNullable<RowVariantProps['justify']>;
 
 export type RowProps<T extends ElementType = 'div'> = {
   as?: T;

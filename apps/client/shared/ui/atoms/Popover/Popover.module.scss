@@ -1,7 +1,10 @@
 @use '@/shared/styles/mixins' as *;
 
+.positioner {
+  z-index: 60;
+}
+
 .popup {
-  z-index: 50;
   transform-origin: var(--transform-origin);
   width: 18rem;
   padding: 1rem;
@@ -24,9 +27,6 @@
   font-weight: 500;
 }
 
-.description {
-  color: var(--muted-foreground);
-}
 
 .anchor {
   display: contents;

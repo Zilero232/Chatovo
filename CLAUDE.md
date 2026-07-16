@@ -52,7 +52,7 @@ The rules below apply repo-wide (every app and `packages/`).
 6. Date / time → **`date-fns`** (already in deps). No `Date` arithmetic by hand.
 7. Class composition → **`clsx`** напрямую. Не оборачивать в `cn()`.
 8. Validation schemas → **Zod 4** via `@chatovo/schemas`. Schema is source of truth, infer types with `z.infer`.
-9. UI primitives (dialog, dropdown, tooltip, popover, tabs, switch, etc.) → **react-aria-components** (+ **react-aria** где нужны хуки) в `shared/ui/`. Стили — **SCSS modules** (`*.module.scss`). Не реализуй focus trap / aria с нуля.
+9. UI primitives (dialog, dropdown, tooltip, popover, tabs, switch, etc.) → **`@base-ui-components/react`** в `shared/ui/` (импорт из подпути: `@base-ui-components/react/menu`). Стили — **SCSS modules** (`*.module.scss`). Не реализуй focus trap / aria с нуля. Грабли Base UI — в [apps/client/CLAUDE.md](apps/client/CLAUDE.md).
 10. Icons → **`lucide-react`**. No custom SVG inline unless brand-specific.
 11. Toasts → **`sonner`** (`toast.success` / `toast.error`). No custom notification system.
 12. LiveKit room state, participants, tracks, chat → **`@livekit/components-react`** hooks (`useChat`, `useParticipants`, `useTracks`, `useConnectionState`). No raw `Room` event listeners unless the hook genuinely doesn't cover it.
