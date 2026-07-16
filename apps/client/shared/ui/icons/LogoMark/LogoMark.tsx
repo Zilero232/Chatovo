@@ -41,11 +41,11 @@ export const LogoMark = ({
               <stop offset="1" stopColor="#4ea8e6" />
             </linearGradient>
           </defs>
-          <rect width="100" height="100" rx="24" fill={`url(#${plaqueId})`} />
+          <rect width="100" height="100" rx="22" fill={`url(#${plaqueId})`} />
         </>
       )}
 
-      <g transform={withPlaque ? 'translate(50 50) scale(0.78) translate(-50 -50)' : undefined}>
+      <g transform={withPlaque ? 'translate(50 50) scale(1.18) translate(-50 -49)' : undefined}>
         <g fill={body}>
           <path d="M21 41 Q18 16 35 23 Q43 27 45 40 Z" />
           <path d="M79 41 Q82 16 65 23 Q57 27 55 40 Z" />

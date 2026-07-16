@@ -22,7 +22,7 @@
     opacity: 0.5;
   }
 
-  &[data-selected] {
+  &[data-checked] {
     border-color: transparent;
     background: var(--brand-violet);
     box-shadow: 0 0 rem(14) rem(-4) oklch(0.7 0.2 270 / 0.6);
@@ -40,7 +40,7 @@
   box-shadow: 0 rem(2) rem(4) oklch(0 0 0 / 25%);
   transition: transform 150ms ease;
 
-  &[data-selected='true'] {
+  &[data-checked] {
     transform: translateX(1.25rem);
   }
 }

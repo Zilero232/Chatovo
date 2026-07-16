@@ -1,4 +1,5 @@
 export * from './AvatarWithBadges';
+export * from './BrandMark';
 export * from './FilePicker';
 export * from './FormField';
 export * from './IconButtonWithTooltip';
@@ -6,6 +7,7 @@ export * from './OverlayCloseButton';
 export * from './SubmitButton';
 
 export type * from './AvatarWithBadges/AvatarWithBadges.types';
+export type * from './BrandMark/BrandMark.types';
 export type * from './FilePicker/FilePicker.types';
 export type * from './FormField/FormField.types';
 export type * from './IconButtonWithTooltip/IconButtonWithTooltip.types';

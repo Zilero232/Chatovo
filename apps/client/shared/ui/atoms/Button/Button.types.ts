@@ -1,23 +1,14 @@
-import type { ComponentProps } from 'react';
-import type { ButtonProps as RACButtonProps } from 'react-aria-components';
+import type { ComponentProps, MouseEvent } from 'react';
+import type { ButtonVariantProps } from './Button.variants';
 
-export type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+export type ButtonVariant = NonNullable<ButtonVariantProps['variant']>;
 
-export type ButtonSize =
-  | 'default'
-  | 'xs'
-  | 'sm'
-  | 'lg'
-  | 'icon'
-  | 'icon-xs'
-  | 'icon-sm'
-  | 'icon-lg';
+export type ButtonSize = NonNullable<ButtonVariantProps['size']>;
 
-export type ButtonProps = RACButtonProps &
-  Pick<ComponentProps<'button'>, 'tabIndex' | 'type' | 'form' | 'name'> &
+export type ButtonProps = Omit<ComponentProps<'button'>, 'onClick'> &
   Pick<ComponentProps<'a'>, 'href' | 'target' | 'rel' | 'download'> & {
     variant?: ButtonVariant;
     size?: ButtonSize;
-    disabled?: boolean;
-    onClick?: () => void;
+    isDisabled?: boolean;
+    onClick?: (event: MouseEvent<HTMLElement>) => void;
   };

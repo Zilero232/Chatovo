@@ -2,5 +2,5 @@ import type { ComponentProps } from 'react';
 
 export type OverlayCloseButtonProps = {
   className?: string;
-  onPress: () => void;
+  onClick?: () => void;
 } & Pick<ComponentProps<'button'>, 'slot'>;

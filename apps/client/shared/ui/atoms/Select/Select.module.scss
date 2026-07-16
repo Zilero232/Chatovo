@@ -1,11 +1,5 @@
 @use '@/shared/styles/mixins' as *;
 
-.root {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
 .trigger {
   display: flex;
   gap: var(--space-2);
@@ -25,7 +19,7 @@
   @include interactive-cursor;
   @include focus-ring;
 
-  &[data-hovered]:not([data-disabled]) {
+  &:hover:not([data-disabled]) {
     border-color: oklch(1 0 0 / 20%);
     background: oklch(1 0 0 / 8%);
   }
@@ -45,7 +39,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  &[data-placeholder] {
+  [data-placeholder] & {
     color: var(--muted-foreground);
   }
 }
@@ -55,14 +49,22 @@
   width: var(--icon-sm);
   height: var(--icon-sm);
   opacity: 0.6;
+  transition: transform 150ms ease;
+
+  [data-popup-open] & {
+    transform: rotate(180deg);
+  }
+}
+
+.positioner {
+  z-index: 60;
 }
 
 .popup {
-  z-index: 50;
   transform-origin: var(--transform-origin);
   overflow-y: auto;
-  min-width: var(--trigger-width);
-  max-height: rem(256);
+  min-width: var(--anchor-width);
+  max-height: min(#{rem(256)}, var(--available-height));
   padding: var(--space-1);
   border-radius: var(--radius-xl);
   color: var(--popover-foreground);
@@ -91,8 +93,7 @@
 
   @include interactive-cursor;
 
-  &[data-hovered],
-  &[data-focused] {
+  &[data-highlighted] {
     color: var(--foreground);
     background: oklch(1 0 0 / 8%);
   }
@@ -121,9 +122,4 @@
   flex-shrink: 0;
   width: var(--icon-sm);
   height: var(--icon-sm);
-  opacity: 0;
-
-  [data-selected] > & {
-    opacity: 1;
-  }
 }

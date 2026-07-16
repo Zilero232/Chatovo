@@ -1,28 +1,28 @@
 'use client';
 
+import { Radio } from '@base-ui-components/react/radio';
+import { RadioGroup as BaseRadioGroup } from '@base-ui-components/react/radio-group';
 import { clsx } from 'clsx';
-import { RadioGroup as RACRadioGroup, Radio } from 'react-aria-components';
 
 import s from './RadioGroup.module.scss';
 
-import type { Key } from '@react-types/shared';
 import type { RadioGroupItemProps, RadioGroupProps } from './RadioGroup.types';
 
 const RadioGroup = ({ className, onValueChange, ...props }: RadioGroupProps) => (
-  <RACRadioGroup
+  <BaseRadioGroup
     className={clsx(s.root, className)}
     data-slot="radio-group"
-    onChange={(value) => onValueChange?.(value as Key)}
+    onValueChange={onValueChange}
     {...props}
   />
 );
 
 const RadioGroupItem = ({ className, ...props }: RadioGroupItemProps) => (
-  <Radio className={clsx(s.item, className)} data-slot="radio-group-item" {...props}>
-    {({ isSelected }) => (
-      <span className={s.indicator}>{isSelected ? <span className={s.dot} /> : null}</span>
-    )}
-  </Radio>
+  <Radio.Root className={clsx(s.item, className)} data-slot="radio-group-item" {...props}>
+    <Radio.Indicator className={s.indicator}>
+      <span className={s.dot} />
+    </Radio.Indicator>
+  </Radio.Root>
 );
 
 export { RadioGroup, RadioGroupItem };

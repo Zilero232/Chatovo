@@ -1,9 +1,7 @@
-import type { ReactNode } from 'react';
-import type { Placement } from 'react-aria';
-import type {
-  TooltipProps as RACTooltipProps,
-  TooltipTriggerComponentProps,
-} from 'react-aria-components';
+import type { Tooltip } from '@base-ui-components/react/tooltip';
+import type { ComponentProps, ReactNode } from 'react';
+
+export type TooltipSide = ComponentProps<typeof Tooltip.Positioner>['side'];
 
 export type TooltipProviderProps = {
   delay?: number;
@@ -11,7 +9,11 @@ export type TooltipProviderProps = {
   children?: ReactNode;
 };
 
-export type TooltipProps = Omit<TooltipTriggerComponentProps, 'children'> & {
+export type TooltipProps = Omit<
+  ComponentProps<typeof Tooltip.Root>,
+  'children' | 'open' | 'delay'
+> & {
+  delay?: number;
   delayDuration?: number;
   disableHoverableContent?: boolean;
   disableHoverablePopup?: boolean;
@@ -19,8 +21,8 @@ export type TooltipProps = Omit<TooltipTriggerComponentProps, 'children'> & {
   children?: ReactNode;
 };
 
-export type TooltipContentProps = Omit<RACTooltipProps, 'children'> & {
-  side?: Placement;
+export type TooltipContentProps = {
+  side?: TooltipSide;
   sideOffset?: number;
   className?: string;
   children?: ReactNode;

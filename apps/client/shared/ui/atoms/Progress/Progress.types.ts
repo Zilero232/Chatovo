@@ -1,5 +1,6 @@
-import type { ProgressBarProps } from 'react-aria-components';
+import type { Progress } from '@base-ui-components/react/progress';
+import type { ComponentProps } from 'react';
 
-export type ProgressProps = ProgressBarProps & {
-  value?: number;
+export type ProgressProps = Omit<ComponentProps<typeof Progress.Root>, 'className'> & {
+  className?: string;
 };

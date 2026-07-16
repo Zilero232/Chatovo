@@ -6,12 +6,29 @@
   inset: 0;
   background: rgb(0 0 0 / 55%);
   backdrop-filter: blur(rem(12));
+  transition: opacity 200ms ease-out;
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+  }
 }
 
 .modal {
   position: fixed;
   z-index: 50;
   display: flex;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: opacity 150ms ease-out;
+
+    &[data-starting-style],
+    &[data-ending-style] {
+      transform: none;
+      opacity: 0;
+    }
+  }
 }
 
 .content {
@@ -34,6 +51,11 @@
   @include bp(sm) {
     max-width: 24rem;
   }
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    transform: translateX(100%);
+  }
 }
 
 .sideLeft {
@@ -48,6 +70,11 @@
   @include bp(sm) {
     max-width: 24rem;
   }
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    transform: translateX(-100%);
+  }
 }
 
 .sideTop {
@@ -55,6 +82,11 @@
   top: 0;
   height: auto;
   padding-top: var(--safe-area-top);
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    transform: translateY(-100%);
+  }
 }
 
 .sideBottom {
@@ -62,6 +94,11 @@
   bottom: 0;
   height: auto;
   padding-bottom: var(--safe-area-bottom);
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    transform: translateY(100%);
+  }
 }
 
 .header {

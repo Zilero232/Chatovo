@@ -1,40 +1,59 @@
-import { Button as RACButton } from 'react-aria-components';
+import { isNullish } from 'remeda';
 
 import { buttonVariants } from './Button.variants';
 
-import type { PressEvent } from 'react-aria-components';
+import type { ComponentProps } from 'react';
 import type { ButtonProps } from './Button.types';
 
 const Button = ({
   className,
   variant = 'default',
   size = 'default',
-  disabled,
   isDisabled,
+  disabled,
   onClick,
-  onPress,
+  href,
+  target,
+  rel,
+  download,
+  type = 'button',
   children,
   ...props
 }: ButtonProps) => {
-  const hasPressHandler = Boolean(onClick || onPress);
+  const resolvedClassName = buttonVariants({ variant, size, className });
 
-  const handlePress = (event: PressEvent) => {
-    onPress?.(event);
-    onClick?.();
-  };
+  if (!isNullish(href)) {
+    return (
+      <a
+        data-size={size}
+        data-slot="button"
+        data-variant={variant}
+        download={download}
+        href={href}
+        rel={rel}
+        target={target}
+        onClick={onClick}
+        {...(props as ComponentProps<'a'>)}
+        className={resolvedClassName}
+      >
+        {children}
+      </a>
+    );
+  }
 
   return (
-    <RACButton
+    <button
       data-size={size}
       data-slot="button"
       data-variant={variant}
+      disabled={isDisabled ?? disabled}
+      type={type}
+      onClick={onClick}
       {...props}
-      className={buttonVariants({ variant, size, className })}
-      isDisabled={isDisabled ?? disabled}
-      {...(hasPressHandler && { onPress: handlePress })}
+      className={resolvedClassName}
     >
       {children}
-    </RACButton>
+    </button>
   );
 };
 

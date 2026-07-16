@@ -1,7 +1,7 @@
 'use client';
 
+import { Separator as BaseSeparator } from '@base-ui-components/react/separator';
 import { clsx } from 'clsx';
-import { Separator as RACSeparator } from 'react-aria-components';
 
 import s from './Separator.module.scss';
 
@@ -13,7 +13,7 @@ const Separator = ({
   decorative: _decorative,
   ...props
 }: SeparatorProps) => (
-  <RACSeparator
+  <BaseSeparator
     className={clsx(s.root, className)}
     data-slot="separator"
     orientation={orientation}

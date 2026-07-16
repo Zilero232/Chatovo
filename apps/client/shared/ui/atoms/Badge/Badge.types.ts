@@ -1,8 +1,9 @@
 import type { ComponentProps } from 'react';
+import type { BadgeVariantProps } from './Badge.variants';
 
-export type BadgeTone = 'primary' | 'muted' | 'amber' | 'danger' | 'dark' | 'outline';
+export type BadgeTone = NonNullable<BadgeVariantProps['tone']>;
 
-export type BadgeSize = 'sm' | 'md' | 'lg';
+export type BadgeSize = NonNullable<BadgeVariantProps['size']>;
 
 export type BadgeProps = ComponentProps<'span'> & {
   tone?: BadgeTone;

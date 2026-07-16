@@ -1,54 +1,23 @@
-import type { MotionProps } from 'motion/react';
+import type { Dialog } from '@base-ui-components/react/dialog';
 import type { ComponentProps, ReactNode } from 'react';
-import type {
-  Heading,
-  ModalOverlay,
-  ModalOverlayProps,
-  DialogProps as RACDialogProps,
-  Text,
-} from 'react-aria-components';
-import type { ButtonProps } from '../Button';
 
-export type SheetProps = Omit<ModalOverlayProps, 'children'> & {
-  open?: boolean;
+export type SheetSide = 'bottom' | 'left' | 'right' | 'top';
+
+export type SheetProps = Omit<ComponentProps<typeof Dialog.Root>, 'children' | 'onOpenChange'> & {
+  className?: string;
   trigger?: ReactNode;
+  onOpenChange?: (open: boolean) => void;
   children?: ReactNode;
 };
 
-export type SheetContentProps = Omit<RACDialogProps, 'children'> & {
+export type SheetContentProps = Omit<ComponentProps<typeof Dialog.Popup>, 'className'> & {
+  className?: string;
   side?: SheetSide;
   showCloseButton?: boolean;
   modalClassName?: string;
   children?: ReactNode;
 };
 
-export type SheetSide = 'bottom' | 'left' | 'right' | 'top';
+export type SheetTitleProps = ComponentProps<typeof Dialog.Title>;
 
-export type SheetAnimationState = 'hidden' | 'unmounted' | 'visible';
-
-export type SheetCloseProps = ButtonProps;
-
-export type SheetPortalProps = {
-  children?: ReactNode;
-};
-
-export type SheetOverlayProps = ComponentProps<'div'>;
-
-export type SheetHeaderProps = ComponentProps<'div'>;
-
-export type SheetFooterProps = ComponentProps<'div'>;
-
-export type SheetTitleProps = ComponentProps<typeof Heading>;
-
-export type SheetDescriptionProps = ComponentProps<typeof Text>;
-
-export type SheetMotionOverlayProps = Omit<
-  ComponentProps<typeof ModalOverlay>,
-  | 'onAnimationStart'
-  | 'onAnimationEnd'
-  | 'onAnimationIteration'
-  | 'onDrag'
-  | 'onDragEnd'
-  | 'onDragStart'
-> &
-  MotionProps;
+export type SheetDescriptionProps = ComponentProps<typeof Dialog.Description>;

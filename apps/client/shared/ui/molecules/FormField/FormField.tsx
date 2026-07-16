@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { useId } from 'react';
 
-import { Label } from '../../atoms';
+import { Label, Text } from '../../atoms';
 
 import s from './FormField.module.scss';
 
@@ -18,14 +18,14 @@ export const FormField = ({ htmlFor, label, children, hint, error, className }: 
       </Label>
       {children}
       {hint && (
-        <p className={s.hint} id={hintId}>
+        <Text id={hintId} size="xs" tone="muted">
           {hint}
-        </p>
+        </Text>
       )}
       {error && (
-        <p className={s.error} id={errorId} role="alert">
+        <Text id={errorId} role="alert" size="xs" tone="destructive">
           {error}
-        </p>
+        </Text>
       )}
     </div>
   );

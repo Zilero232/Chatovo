@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { useId } from 'react';
 
+import { Text } from '../../atoms';
 import {
   centeredStateIconBoxVariants,
   centeredStateTitleVariants,
@@ -37,9 +38,9 @@ export const CenteredState = ({
         {title}
       </h2>
       {description && (
-        <p className={s.description} id={descriptionId}>
+        <Text className={s.description} id={descriptionId} size="sm" tone="muted">
           {description}
-        </p>
+        </Text>
       )}
       {action && <div className={s.action}>{action}</div>}
     </section>

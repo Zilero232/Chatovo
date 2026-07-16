@@ -9,11 +9,11 @@
   background: rgb(0 0 0 / 55%);
   backdrop-filter: blur(#{rem(12)});
 
-  &[data-exiting] {
+  &[data-ending-style] {
     animation: overlay-fade-out 200ms ease-in;
   }
 
-  &[data-entering] {
+  &[data-starting-style] {
     animation: overlay-fade-in 200ms ease-out;
   }
 }
@@ -21,11 +21,18 @@
 .modal {
   pointer-events: none;
   position: fixed;
-  z-index: 50;
+  z-index: 51;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: rem(16);
+
+  &[data-starting-style] .content,
+  &[data-ending-style] .content {
+    transform: scale(0.95);
+    opacity: 0;
+  }
 }
 
 .content {
@@ -35,16 +42,18 @@
   display: grid;
   gap: var(--space-4);
   width: 100%;
-  max-width: calc(100% - #{rem(32)});
   padding: var(--space-6);
   border-radius: var(--radius-2xl);
   outline: none;
+  transition: transform 200ms ease-out, opacity 200ms ease-out;
 
   @include bp-sm-up {
     max-width: rem(512);
   }
 
-  @include overlay-enter;
+  @media (prefers-reduced-motion: reduce) {
+    transition: opacity 150ms ease-out;
+  }
 }
 
 .header {

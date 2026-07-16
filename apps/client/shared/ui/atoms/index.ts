@@ -23,5 +23,6 @@ export * from './Spinner';
 export * from './Stack';
 export * from './Switch';
 export * from './Tabs';
+export * from './Text';
 export * from './Textarea';
 export * from './Tooltip';

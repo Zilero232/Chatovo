@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import type { Key } from 'react-aria-components';
 
 export type SelectOption<T extends string> = {
   value: T;
@@ -18,5 +17,3 @@ export type SelectProps<T extends string> = {
   'aria-label'?: string;
   onChange: (value: T) => void;
 };
-
-export type SelectKey = Key;

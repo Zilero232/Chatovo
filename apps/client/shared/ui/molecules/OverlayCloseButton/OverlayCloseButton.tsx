@@ -7,7 +7,7 @@ import { Button } from '../../atoms/Button';
 
 import type { OverlayCloseButtonProps } from './OverlayCloseButton.types';
 
-export const OverlayCloseButton = ({ className, onPress, ...props }: OverlayCloseButtonProps) => {
+export const OverlayCloseButton = ({ className, onClick, ...props }: OverlayCloseButtonProps) => {
   const t = useTranslations('common');
 
   return (
@@ -16,7 +16,7 @@ export const OverlayCloseButton = ({ className, onPress, ...props }: OverlayClos
       className={className}
       size="icon-xs"
       variant="ghost"
-      onPress={onPress}
+      onClick={onClick}
       {...props}
     >
       <XIcon aria-hidden />
