@@ -4,7 +4,7 @@ import { useKeyboard, useMount, useTextareaAutosize } from '@siberiacancode/reac
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
-import { ConfirmDialog } from '@/shared/ui';
+import { ConfirmDialog, Text } from '@/shared/ui';
 import { normalizeMessage } from '../../../../../model/lib';
 
 import s from './EditMessageDialog.module.scss';
@@ -68,7 +68,9 @@ export const EditMessageDialog = ({
           value={value}
           onChange={(event) => set(event.target.value)}
         />
-        <p className={s.hint}>{t('editHint')}</p>
+        <Text className={s.hint} tone="muted">
+          {t('editHint')}
+        </Text>
       </div>
     </ConfirmDialog>
   );

@@ -71,6 +71,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html.landing,
+html.landing body {
+  overflow: hidden auto;
+  height: auto;
+  min-height: 100%;
+}
+
 button:not(:disabled),
 [role='button']:not([aria-disabled='true']),
 [role='menuitem']:not([aria-disabled='true']),

@@ -10,7 +10,7 @@ import {
   useDeclineFriendRequest,
   useIncomingFriendRequests,
 } from '@/entities/social/friend';
-import { Spinner } from '@/shared/ui';
+import { Spinner, Text } from '@/shared/ui';
 import { FriendRequestListItem } from './FriendRequestListItem';
 
 import s from '../../FriendsDialog.module.scss';
@@ -67,5 +67,9 @@ export const RequestsTab = () => {
         </AnimatePresence>
       </div>
     ))
-    .otherwise(() => <p className={s.empty}>{t('emptyRequests')}</p>);
+    .otherwise(() => (
+      <Text className={s.empty} size="sm" tone="muted">
+        {t('emptyRequests')}
+      </Text>
+    ));
 };

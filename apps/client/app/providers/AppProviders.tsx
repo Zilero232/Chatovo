@@ -7,17 +7,15 @@ import { queryClient } from '@/shared/api';
 import { isTauriDesktop } from '@/shared/lib';
 import { Toaster, TooltipProvider } from '@/shared/ui';
 import { TitleBar } from '@/widgets/app/title-bar';
-import {
-  AuthProvider,
-  I18nProvider,
-  QueryFocusManager,
-  TauriDesktopDocumentClass,
-  TauriMobileInsets,
-} from './providers/index';
+import { AuthProvider } from './AuthProvider';
+import { I18nProvider } from './I18nProvider';
+import { QueryFocusManager } from './QueryFocusManager';
+import { TauriDesktopDocumentClass } from './TauriDesktopDocumentClass';
+import { TauriMobileInsets } from './TauriMobileInsets';
 
 import type { ReactNode } from 'react';
 
-export const Providers = ({ children }: { children: ReactNode }) => (
+export const AppProviders = ({ children }: { children: ReactNode }) => (
   <QueryClientProvider client={queryClient}>
     <I18nProvider>
       <QueryFocusManager />

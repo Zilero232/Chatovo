@@ -36,7 +36,6 @@ export const ProfileCardTrigger = ({
       <PopoverContent
         align="start"
         className={s.content}
-        isNonModal={false}
         isOpen={isOpen}
         sideOffset={8}
         triggerRef={triggerRef}

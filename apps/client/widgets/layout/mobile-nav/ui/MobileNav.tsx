@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { Menu } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Button, Sheet, SheetContent, SheetDescription, SheetTitle } from '@/shared/ui';
+import { BrandMark, Button, Sheet, SheetContent, SheetDescription, SheetTitle } from '@/shared/ui';
 import { AppSidebar } from '@/widgets/app/app-sidebar';
 import { LanguageSwitcher } from '@/widgets/app/language-switcher';
 import { ChannelsPanel } from '@/widgets/room/channels-panel';
@@ -63,6 +63,7 @@ export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
         </Sheet>
 
         <div className={s.brand}>
+          <BrandMark glow size={28} />
           <span className={s.brandTitle}>Chatovo</span>
         </div>
 

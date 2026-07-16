@@ -3,6 +3,7 @@
 import { clsx } from 'clsx';
 
 import { useCurrentUser } from '@/entities/auth/user';
+import { BrandMark } from '@/shared/ui';
 import { LanguageSwitcher } from '@/widgets/app/language-switcher';
 
 import s from './ChannelsHeader.module.scss';
@@ -29,6 +30,7 @@ export const ChannelsHeader = ({ compact = false }: ChannelsHeaderProps = {}) =>
     <div className={clsx(s.root, 'surface-bar')}>
       <span aria-hidden className="accent-top-line" />
       <div className={s.titleGroup}>
+        <BrandMark size={24} />
         <span className={s.title}>Chatovo</span>
         {isAdmin && <span className={s.adminBadge}>admin</span>}
       </div>

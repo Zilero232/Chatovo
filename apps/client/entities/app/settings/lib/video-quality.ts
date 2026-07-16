@@ -43,6 +43,7 @@ export const getCameraCaptureOptions = (quality: VideoQuality): VideoCaptureOpti
 export const getScreenCaptureOptions = (quality: ScreenQuality) => ({
   resolution: SCREEN_PRESETS[quality],
   contentHint: 'detail' as const,
+  audio: true,
 });
 
 export const getPublishDefaults = (

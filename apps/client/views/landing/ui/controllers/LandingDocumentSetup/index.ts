@@ -1,0 +1,1 @@
+export { LandingDocumentSetup } from './LandingDocumentSetup';

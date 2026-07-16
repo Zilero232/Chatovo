@@ -3,7 +3,7 @@
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
-import { LogoMark } from '@/shared/ui';
+import { LogoMark, Text } from '@/shared/ui';
 import { AUTH_EQ_BARS, AUTH_FEATURES } from '../../../config';
 
 import s from './AuthBrandPanel.module.scss';
@@ -36,8 +36,12 @@ export const AuthBrandPanel = () => {
                 <Icon />
               </span>
               <div className={s.featureBody}>
-                <p className={s.featureTitle}>{t(`features.${key}.title`)}</p>
-                <p className={s.featureDesc}>{t(`features.${key}.desc`)}</p>
+                <Text size="sm" weight="semibold">
+                  {t(`features.${key}.title`)}
+                </Text>
+                <Text className={s.featureDesc} size="xs" tone="muted">
+                  {t(`features.${key}.desc`)}
+                </Text>
               </div>
             </div>
           ))}

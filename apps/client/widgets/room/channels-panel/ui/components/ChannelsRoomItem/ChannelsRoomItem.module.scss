@@ -36,7 +36,7 @@
 .triggerOwner {
   .row:hover &,
   .row:focus-within &,
-  .row:has([aria-expanded='true']) & {
+  .row:has([data-popup-open]) & {
     padding-right: 2rem;
   }
 }
@@ -81,7 +81,8 @@
 
   .row:hover &,
   .row:focus-within &,
-  &:has([aria-expanded='true']) {
+  &[data-popup-open],
+  &:has([data-popup-open]) {
     visibility: visible;
     opacity: 1;
   }

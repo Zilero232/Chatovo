@@ -1,8 +1,8 @@
 'use client';
 
+import { Slider as BaseSlider } from '@base-ui-components/react/slider';
 import { useTranslations } from 'next-intl';
 import { useRef } from 'react';
-import { Slider as RACSlider, SliderThumb, SliderTrack } from 'react-aria-components';
 
 import {
   useAppSettings,
@@ -36,23 +36,23 @@ export const SensitivityControl = ({ deviceId, audio }: SensitivityControlProps)
   });
 
   return (
-    <RACSlider
+    <BaseSlider.Root
       aria-label={t('sensitivity')}
       className={s.sensitivitySlider}
-      maxValue={1}
-      minValue={0}
+      max={1}
+      min={0}
       step={0.01}
       value={audio.micThreshold}
-      onChange={(value) => setGroup('audio', { micThreshold: value })}
+      onValueChange={(value) => setGroup('audio', { micThreshold: value as number })}
     >
-      <SliderTrack className={s.meterTrack}>
+      <BaseSlider.Control className={s.meterTrack}>
         <div
           className={s.meterFill}
           data-open={open}
           style={{ width: formatPercent(level / VOICE_GATE_MANUAL_RANGE) }}
         />
-        <SliderThumb className={s.sensitivityThumb} />
-      </SliderTrack>
-    </RACSlider>
+        <BaseSlider.Thumb className={s.sensitivityThumb} />
+      </BaseSlider.Control>
+    </BaseSlider.Root>
   );
 };

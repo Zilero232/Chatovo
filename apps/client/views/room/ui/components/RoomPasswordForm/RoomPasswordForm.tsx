@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { useFieldError } from '@/entities/app/locale';
-import { FormField, Input, Row, Stack, SubmitButton } from '@/shared/ui';
+import { FormField, Input, Row, Stack, SubmitButton, Text } from '@/shared/ui';
 
 import s from './RoomPasswordForm.module.scss';
 
@@ -49,7 +49,9 @@ export const RoomPasswordForm = ({
         className={clsx(s.form, 'glass', 'shadow-glow-violet')}
         onSubmit={submit}
       >
-        <p className={s.title}>{t('title', { name: displayName })}</p>
+        <Text align="center" className={s.title} size="sm" tone="inherit">
+          {t('title', { name: displayName })}
+        </Text>
 
         <FormField
           htmlFor="room-password"

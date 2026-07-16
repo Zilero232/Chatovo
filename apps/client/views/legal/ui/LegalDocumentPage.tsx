@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 
 import { LEGAL } from '@/shared/config';
 import { EXTERNAL_LINKS, ROUTES } from '@/shared/constants';
+import { Text } from '@/shared/ui';
 import { useLegalDocument } from '../model';
 
 import s from './LegalDocumentPage.module.scss';
@@ -30,7 +31,9 @@ export const LegalDocumentPage = ({ documentId, alternatePath }: LegalDocumentPa
 
           <header className={s.header}>
             <h1 className={clsx(s.title, 'gradient-text')}>{content.title}</h1>
-            <p className={s.updated}>{content.updated}</p>
+            <Text size="sm" tone="muted">
+              {content.updated}
+            </Text>
           </header>
         </div>
 
@@ -41,9 +44,9 @@ export const LegalDocumentPage = ({ documentId, alternatePath }: LegalDocumentPa
                 <h2 className={s.heading}>{section.heading}</h2>
                 <div className={s.body}>
                   {section.paragraphs.map((paragraph) => (
-                    <p key={paragraph} className={s.paragraph}>
+                    <Text key={paragraph} className={s.paragraph} size="sm" tone="muted">
                       {paragraph}
-                    </p>
+                    </Text>
                   ))}
                 </div>
               </section>

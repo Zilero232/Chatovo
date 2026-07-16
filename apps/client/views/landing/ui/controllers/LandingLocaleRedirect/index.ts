@@ -1,0 +1,1 @@
+export { LandingLocaleRedirect } from './LandingLocaleRedirect';

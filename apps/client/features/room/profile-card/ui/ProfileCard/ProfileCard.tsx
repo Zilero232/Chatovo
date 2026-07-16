@@ -3,6 +3,7 @@
 import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
 import { FriendTag } from '@/entities/social/friend';
 import { FriendProfileActions } from '@/features/social/friend-profile-actions';
+import { Text } from '@/shared/ui';
 import { getBannerStyle } from '../../lib/banner-style';
 import { useUserProfile } from '../../model/use-user-profile';
 import { AvatarZoom, ProfileCardSkeleton, ProfileVoiceBlock } from './components';
@@ -52,7 +53,11 @@ export const ProfileCard = ({ identity, name }: ProfileCardProps) => {
           {profile?.friendTag && <FriendTag className={s.tag} tag={profile.friendTag} />}
         </div>
 
-        {profile?.bio && <p className={s.bio}>{profile.bio}</p>}
+        {profile?.bio && (
+          <Text className={s.bio} size="sm" tone="muted">
+            {profile.bio}
+          </Text>
+        )}
 
         <ProfileVoiceBlock identity={identity} isSelf={isSelf} isLoading={false} />
 

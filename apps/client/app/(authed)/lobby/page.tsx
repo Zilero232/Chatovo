@@ -11,6 +11,8 @@ export const metadata = createPageMetadata({
   follow: false,
 });
 
+export const dynamic = 'force-static';
+
 const Page = () => <LobbyPage />;
 
 export default Page;

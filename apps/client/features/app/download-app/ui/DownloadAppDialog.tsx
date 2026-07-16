@@ -9,7 +9,14 @@ import {
   useRelease,
 } from '@/entities/app/release';
 import { EXTERNAL_LINKS } from '@/shared/constants';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/shared/ui';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  Text,
+} from '@/shared/ui';
 import { PlatformCard } from './components';
 
 import s from './DownloadAppDialog.module.scss';
@@ -47,7 +54,9 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
         {release && (
           <>
             <div className={s.section}>
-              <p className={s.sectionTitle}>{t('sections.desktop')}</p>
+              <Text className={s.sectionTitle} size="xs" tone="muted" weight="medium">
+                {t('sections.desktop')}
+              </Text>
               <div className={s.desktopGrid}>
                 {DESKTOP_DOWNLOAD_PLATFORMS.map(({ id, labelKey, Icon }) => (
                   <PlatformCard
@@ -61,7 +70,9 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
             </div>
 
             <div className={s.section}>
-              <p className={s.sectionTitle}>{t('sections.mobile')}</p>
+              <Text className={s.sectionTitle} size="xs" tone="muted" weight="medium">
+                {t('sections.mobile')}
+              </Text>
               <div className={s.mobileGrid}>
                 {MOBILE_DOWNLOAD_PLATFORMS.map(({ id, labelKey, Icon }) => (
                   <PlatformCard
