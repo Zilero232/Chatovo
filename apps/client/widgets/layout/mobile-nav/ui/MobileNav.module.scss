@@ -3,10 +3,10 @@
 .topBar {
   z-index: 40;
   display: flex;
-  flex-shrink: 0;
   flex-direction: column;
-  border-bottom: 1px solid oklch(1 0 0 / 8%);
+  flex-shrink: 0;
   padding-top: var(--safe-area-top);
+  border-bottom: 1px solid oklch(1 0 0 / 8%);
 
   @include bp(md) {
     display: none;
@@ -15,9 +15,9 @@
 
 .topBarInner {
   display: flex;
-  height: 3.5rem;
-  align-items: center;
   gap: 0.75rem;
+  align-items: center;
+  height: 3.5rem;
   padding-inline: 1rem;
 }
 
@@ -27,63 +27,67 @@
 
 .brand {
   display: flex;
-  min-width: 0;
   flex: 1;
-  align-items: center;
   gap: 0.5rem;
+  align-items: center;
+  min-width: 0;
 }
 
 .brandIcon {
   display: flex;
-  width: 2rem;
-  height: 2rem;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
+  width: 2rem;
+  height: 2rem;
   border-radius: var(--radius-lg);
+  color: var(--foreground);
   background: linear-gradient(
     to bottom right,
     color-mix(in oklch, var(--brand-violet) 30%, transparent),
     color-mix(in oklch, var(--brand-cyan) 30%, transparent)
   );
-  color: var(--foreground);
 }
 
 .brandTitle {
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1;
+  text-overflow: ellipsis;
   letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+.sheetModal {
+  width: min(22rem, 90vw);
 }
 
 .sheet {
   display: flex;
-  width: min(22rem, 90vw);
+  flex: 1;
   flex-direction: column;
   gap: 0;
-  padding: 0;
+  padding-inline: 0;
 }
 
 .sheetTitleSr {
   position: absolute;
+  overflow: hidden;
   width: 1px;
   height: 1px;
-  padding: 0;
   margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
+  padding: 0;
   border: 0;
+  white-space: nowrap;
+  clip-path: inset(50%);
 }
 
 .sheetBody {
   display: flex;
-  min-height: 0;
   flex: 1;
   flex-direction: column;
+  min-height: 0;
 }
 
 .sheetActions {
@@ -92,6 +96,6 @@
 
 .sheetChannels {
   display: flex;
-  min-height: 0;
   flex: 1;
+  min-height: 0;
 }

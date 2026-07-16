@@ -1,7 +1,7 @@
 .image {
   display: block;
-  max-height: 18rem;
   max-width: 100%;
+  max-height: 18rem;
   border-radius: var(--radius-lg);
   object-fit: cover;
   transition: opacity 150ms ease;
@@ -13,11 +13,11 @@
 
 .fileCard {
   display: flex;
-  max-width: 100%;
-  align-items: center;
   gap: 0.625rem;
-  border-radius: var(--radius-lg);
+  align-items: center;
+  max-width: 100%;
   padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-lg);
   transition: background-color 150ms ease;
 }
 
@@ -38,23 +38,23 @@
 }
 
 .fileIcon {
+  flex-shrink: 0;
   width: 1.25rem;
   height: 1.25rem;
-  flex-shrink: 0;
 }
 
 .fileMeta {
   display: flex;
-  min-width: 0;
   flex-direction: column;
+  min-width: 0;
 }
 
 .fileName {
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   font-size: 0.875rem;
   font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .fileSize {

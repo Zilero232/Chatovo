@@ -5,18 +5,16 @@ import { Lock, Radio } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
-import { UserAvatar, useCurrentUser } from '@/entities/auth/user';
-import { OwnerBadge, OwnerCrown, useRoomParticipants } from '@/entities/room/room';
+import { useCurrentUser } from '@/entities/auth/user';
+import { OwnerBadge, useRoomParticipants } from '@/entities/room/room';
 import { ManageRoomMenu } from '@/features/room/manage';
 import { buildRoomHref } from '@/shared/constants';
-import { AvatarWithBadges, Badge } from '@/shared/ui';
+import { Badge } from '@/shared/ui';
+import { RoomCardEmptySlots, RoomCardParticipants } from './components';
 
 import s from './LobbyRoomCard.module.scss';
 
 import type { LobbyRoomCardProps } from './LobbyRoomCard.types';
-
-const MAX_AVATARS = 4;
-const EMPTY_SLOTS = ['a', 'b', 'c'];
 
 export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
   const t = useTranslations('lobby.card');
@@ -24,12 +22,9 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
   const router = useRouter();
 
   const { user } = useCurrentUser();
-
   const participants = useRoomParticipants(room.id);
 
   const isLive = participants.length > 0;
-  const shown = participants.slice(0, MAX_AVATARS);
-  const overflow = participants.length - shown.length;
   const isOwner = user?.id === room.ownerId;
 
   return (
@@ -64,38 +59,9 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
 
         <div className={s.body}>
           {isLive ? (
-            <div className={s.participants}>
-              <div className={s.avatars}>
-                {shown.map((participant) => (
-                  <AvatarWithBadges
-                    key={participant.identity}
-                    topLeft={participant.identity === room.ownerId && <OwnerCrown />}
-                  >
-                    <UserAvatar
-                      name={participant.name}
-                      src={participant.avatarUrl}
-                      className={s.avatar}
-                      fallbackClassName={s.avatarFallback}
-                    />
-                  </AvatarWithBadges>
-                ))}
-                {overflow > 0 && (
-                  <Badge size="sm" tone="muted">
-                    +{overflow}
-                  </Badge>
-                )}
-              </div>
-              <span className={s.countLabel}>{t('people', { count: participants.length })}</span>
-            </div>
+            <RoomCardParticipants ownerId={room.ownerId} participants={participants} />
           ) : (
-            <div className={s.emptySlots}>
-              <div className={s.emptyAvatars}>
-                {EMPTY_SLOTS.map((slot) => (
-                  <span key={slot} className={s.emptySlot} />
-                ))}
-              </div>
-              <span className={s.emptyJoin}>{t('joinFirst')}</span>
-            </div>
+            <RoomCardEmptySlots />
           )}
         </div>
       </button>

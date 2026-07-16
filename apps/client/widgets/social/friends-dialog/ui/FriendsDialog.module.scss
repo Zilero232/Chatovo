@@ -10,17 +10,17 @@
   top: -0.125rem;
   right: -0.125rem;
   display: flex;
-  min-height: 1rem;
-  min-width: 1rem;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
-  background: var(--brand-cyan);
+  min-width: 1rem;
+  min-height: 1rem;
   padding-inline: 0.25rem;
+  border-radius: 9999px;
   font-size: rem(10);
   font-weight: 600;
   line-height: 1;
   color: black;
+  background: var(--brand-cyan);
   box-shadow: 0 0 rem(12) rem(-2) oklch(0.82 0.16 200 / 80%);
 }
 
@@ -30,17 +30,16 @@
 }
 
 .list {
+  overflow: hidden auto;
   display: flex;
-  min-width: 0;
-  max-height: min(24rem, 50vh);
   flex-direction: column;
   gap: 0.125rem;
-  overflow-x: hidden;
-  overflow-y: auto;
-  border-radius: var(--radius-lg);
-  border: 1px solid oklch(1 0 0 / 8%);
-  background: oklch(1 0 0 / 2%);
+  min-width: 0;
+  max-height: min(24rem, 50vh);
   padding: 0.375rem;
+  border: 1px solid oklch(1 0 0 / 8%);
+  border-radius: var(--radius-lg);
+  background: oklch(1 0 0 / 2%);
 }
 
 .spinner {
@@ -49,15 +48,14 @@
 }
 
 .empty {
-  border-radius: var(--radius-2xl);
-  border: 1px dashed oklch(1 0 0 / 12%);
-  background: oklch(1 0 0 / 3%);
   padding: 2.5rem 1rem;
-  text-align: center;
+  border: 1px dashed oklch(1 0 0 / 12%);
+  border-radius: var(--radius-2xl);
   font-size: 0.875rem;
   color: var(--muted-foreground);
+  text-align: center;
+  background: oklch(1 0 0 / 3%);
   backdrop-filter: blur(rem(4));
-  -webkit-backdrop-filter: blur(rem(4));
 }
 
 .action {
@@ -66,24 +64,23 @@
 
 .searchRow {
   display: flex;
-  min-width: 0;
-  align-items: center;
   gap: 0.5rem;
+  align-items: center;
+  min-width: 0;
 }
 
 .searchInput {
-  height: 2.25rem;
-  min-width: 0;
   flex: 1;
+  min-width: 0;
+  height: 2.25rem;
 }
 
 .ownTagRow {
   display: flex;
-  min-width: 0;
   flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
   align-items: center;
-  column-gap: 0.5rem;
-  row-gap: 0.25rem;
+  min-width: 0;
 }
 
 .ownTagLabel {
@@ -94,21 +91,21 @@
 
 .tabsList {
   display: grid;
-  width: 100%;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
 }
 
 .badge {
-  margin-left: 0.375rem;
   display: inline-flex;
-  min-width: 1.25rem;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
-  background: var(--brand-cyan);
+  min-width: 1.25rem;
+  margin-left: 0.375rem;
   padding-inline: 0.375rem;
+  border-radius: 9999px;
   font-size: rem(10);
   font-weight: 600;
   color: black;
+  background: var(--brand-cyan);
   box-shadow: 0 0 rem(10) rem(-3) oklch(0.82 0.16 200 / 70%);
 }

@@ -11,6 +11,8 @@
     "prepare": "husky",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
+    "lint:css": "stylelint \"apps/client/**/*.scss\"",
+    "lint:css:fix": "stylelint \"apps/client/**/*.scss\" --fix",
     "format": "biome format --write .",
     "typecheck": "bun --filter @chatovo/schemas typecheck && bun --filter @chatovo/server typecheck && bun --filter @chatovo/client typecheck",
     "dev": "bun --filter '@chatovo/server' --filter '@chatovo/client' --parallel dev",
@@ -33,9 +35,16 @@
     "husky": "^9.1.7",
     "lint-staged": "^17.0.8",
     "playwright": "^1.61.1",
-    "playwright-core": "^1.61.1"
+    "playwright-core": "^1.61.1",
+    "stylelint": "17.14.0",
+    "stylelint-config-clean-order": "10.0.0",
+    "stylelint-config-standard-scss": "17.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "3.0.0",
+    "stylelint-high-performance-animation": "2.0.0",
+    "stylelint-order": "8.1.1"
   },
   "lint-staged": {
-    "*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
+    "*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true",
+    "apps/client/**/*.scss": "stylelint --fix"
   }
 }

@@ -1,18 +1,18 @@
 @use '@/shared/styles/mixins' as *;
 
 .controlButton {
+  cursor: pointer;
   display: flex;
-  width: 2.25rem;
-  height: 2.25rem;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
-  border: 1px solid rgb(255 255 255 / 10%);
+  width: 2.25rem;
+  height: 2.25rem;
   padding-top: 0.125rem;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 9999px;
   outline: none;
   transition: all 150ms ease;
-  cursor: pointer;
 
   @include bp(sm) {
     width: 2.75rem;
@@ -30,9 +30,9 @@
   }
 
   svg {
+    flex-shrink: 0;
     width: 1rem;
     height: 1rem;
-    flex-shrink: 0;
 
     @include bp(sm) {
       width: 1.25rem;
@@ -44,8 +44,8 @@
 }
 
 .toneOn {
-  background: rgb(255 255 255 / 8%);
   color: var(--foreground);
+  background: rgb(255 255 255 / 8%);
 
   &:hover:not(:disabled) {
     background: rgb(255 255 255 / 14%);
@@ -53,8 +53,8 @@
 }
 
 .toneOff {
-  background: rgb(255 255 255 / 5%);
   color: var(--muted-foreground);
+  background: rgb(255 255 255 / 5%);
 
   &:hover:not(:disabled) {
     background: rgb(255 255 255 / 10%);
@@ -63,8 +63,8 @@
 
 .toneActive {
   border-color: rgb(255 255 255 / 10%);
-  background: color-mix(in oklch, var(--brand-cyan) 20%, transparent);
   color: var(--brand-cyan);
+  background: color-mix(in oklch, var(--brand-cyan) 20%, transparent);
   box-shadow: 0 0 rem(18) rem(-4) oklch(0.82 0.16 200 / 0.7);
 
   &:hover:not(:disabled) {
@@ -73,8 +73,8 @@
 }
 
 .toneDanger {
-  background: color-mix(in oklch, var(--destructive) 15%, transparent);
   color: var(--destructive);
+  background: color-mix(in oklch, var(--destructive) 15%, transparent);
 
   &:hover:not(:disabled) {
     background: color-mix(in oklch, var(--destructive) 25%, transparent);
@@ -83,8 +83,8 @@
 
 .toneLeave {
   border-color: transparent;
-  background: var(--destructive);
   color: white;
+  background: var(--destructive);
   box-shadow: 0 rem(4) rem(14) rem(-2) oklch(0.7 0.22 22 / 0.5);
 
   &:hover:not(:disabled) {
@@ -100,14 +100,14 @@
 }
 
 .controlShell {
+  overflow: hidden;
   display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
   width: 2.25rem;
   height: 2.25rem;
-  flex-shrink: 0;
-  flex-direction: column;
-  overflow: hidden;
-  border-radius: 9999px;
   border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 9999px;
   transition: all 150ms ease;
 
   @include bp(sm) {
@@ -139,18 +139,18 @@
 }
 
 .controlMain {
+  cursor: pointer;
   display: flex;
-  min-height: 0;
-  width: 100%;
   flex: 1;
   align-items: flex-end;
   justify-content: center;
+  width: 100%;
+  min-height: 0;
   padding-bottom: 0.125rem;
-  outline: none;
   border: none;
   background: transparent;
+  outline: none;
   transition: colors 150ms ease;
-  cursor: pointer;
 
   @include bp(sm) {
     align-items: center;
@@ -171,9 +171,9 @@
   }
 
   svg {
+    flex-shrink: 0;
     width: 1rem;
     height: 1rem;
-    flex-shrink: 0;
 
     @include bp(sm) {
       width: 1.25rem;

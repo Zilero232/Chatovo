@@ -1,9 +1,11 @@
 {
   "common": {
+    "chooseFile": "Choose file",
     "close": "Close",
+    "hidePassword": "Hide password",
     "loading": "Loading...",
-    "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "remove": "Remove",
+    "showPassword": "Show password"
   },
   "legal": {
     "back": "Back",

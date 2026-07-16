@@ -17,7 +17,7 @@ $bp-2xl: map.get($breakpoints, 2xl);
 @mixin bp($name, $direction: up) {
   $value: map.get($breakpoints, $name);
 
-  @if $value == null {
+  @if not $value {
     @error "Unknown breakpoint `#{$name}`. Use one of: #{map.keys($breakpoints)}.";
   }
 

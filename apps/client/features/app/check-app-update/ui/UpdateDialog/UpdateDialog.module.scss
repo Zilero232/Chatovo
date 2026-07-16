@@ -8,20 +8,20 @@
 
 .metaRow {
   display: flex;
-  align-items: center;
   gap: 0.5rem;
+  align-items: center;
 }
 
 .versionPill {
   display: inline-flex;
   align-items: center;
-  border-radius: 0.375rem;
-  border: 1px solid color-mix(in oklch, var(--brand-cyan) 40%, transparent);
-  background: color-mix(in oklch, var(--brand-cyan) 15%, transparent);
   padding: 0.125rem 0.5rem;
+  border: 1px solid color-mix(in oklch, var(--brand-cyan) 40%, transparent);
+  border-radius: 0.375rem;
   font-size: 0.75rem;
   font-weight: 500;
   color: var(--brand-cyan);
+  background: color-mix(in oklch, var(--brand-cyan) 15%, transparent);
 }
 
 .progressWrap {

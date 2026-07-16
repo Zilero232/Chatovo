@@ -1,55 +1,22 @@
 'use client';
 
-import { createRoomInputSchema } from '@chatovo/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'sonner';
+import { Controller } from 'react-hook-form';
 
-import { useCreateRoom, useEnterRoom } from '@/entities/room/room';
 import { FormField, Input, Label, Row, Stack, SubmitButton, Switch } from '@/shared/ui';
+import { useCreateRoomForm } from '../model/hooks';
 
-import type { CreateRoomRequest } from '@chatovo/schemas';
 import type { CreateRoomFormProps } from './CreateRoomForm.types';
-
-const DEFAULT_VALUES: CreateRoomRequest = { name: '', isPrivate: false };
 
 export const CreateRoomForm = ({ onCreated }: CreateRoomFormProps) => {
   const t = useTranslations('createRoom');
-  const createMutation = useCreateRoom();
-  const enterMutation = useEnterRoom();
 
+  const { form, isPrivate, isPending, canSubmit, onSubmit } = useCreateRoomForm({ onCreated });
   const {
     control,
     formState: { errors },
-    handleSubmit,
     register,
-    reset,
-    watch,
-  } = useForm<CreateRoomRequest>({
-    resolver: zodResolver(createRoomInputSchema),
-    mode: 'onChange',
-    defaultValues: DEFAULT_VALUES,
-  });
-
-  const isPrivate = watch('isPrivate');
-  const name = watch('name');
-  const isPending = createMutation.isPending || enterMutation.isPending;
-
-  const onSubmit = handleSubmit((values) => {
-    createMutation.mutate(values, {
-      onSuccess: (room) => {
-        toast.success(t('created'), { description: `"${room.name}"` });
-        reset(DEFAULT_VALUES);
-        onCreated?.();
-        enterMutation.mutate(
-          { roomId: room.id, password: values.isPrivate ? values.password : undefined },
-          { onError: (err: Error) => toast.error(err.message) },
-        );
-      },
-      onError: (err: Error) => toast.error(err.message),
-    });
-  });
+  } = form;
 
   return (
     <Stack as="form" gap="3" onSubmit={onSubmit}>
@@ -93,7 +60,7 @@ export const CreateRoomForm = ({ onCreated }: CreateRoomFormProps) => {
         <Label htmlFor="create-room-private">{t('privateLabel')}</Label>
       </Row>
 
-      <SubmitButton disabled={!name?.trim()} isPending={isPending} variant="secondary">
+      <SubmitButton disabled={!canSubmit} isPending={isPending} variant="secondary">
         {t('submit')}
       </SubmitButton>
     </Stack>

@@ -1,11 +1,11 @@
 .root {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1;
-  font-weight: 500;
   user-select: none;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
 
   :global([data-disabled='true']) & {
     pointer-events: none;

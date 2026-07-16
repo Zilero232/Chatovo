@@ -2,14 +2,14 @@
 
 .root {
   display: flex;
-  align-items: center;
   gap: 0.375rem;
+  align-items: center;
 }
 
 .bars {
   display: flex;
-  align-items: flex-end;
   gap: 0.125rem;
+  align-items: flex-end;
 }
 
 .bar {

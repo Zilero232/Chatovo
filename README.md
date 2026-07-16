@@ -81,7 +81,7 @@ Docker Compose, Caddy, LiveKit SFU, PostgreSQL — run it on your own VPS.
 
 **i18n** — English & Russian (`next-intl`)
 
-**Open API** — Hono + OpenAPI / Swagger UI
+**Open API** — NestJS + OpenAPI / Swagger UI
 
 </td>
 </tr>
@@ -96,7 +96,7 @@ Docker Compose, Caddy, LiveKit SFU, PostgreSQL — run it on your own VPS.
   <img src="https://img.shields.io/badge/Desktop-Tauri_2-24c8db?style=flat-square&logo=tauri&logoColor=white" alt="Desktop" />
   <img src="https://img.shields.io/badge/Android-Tauri_2-3ddc84?style=flat-square&logo=android&logoColor=white" alt="Android" />
   <img src="https://img.shields.io/badge/Media-LiveKit-002cf2?style=flat-square&logo=livekit&logoColor=white" alt="LiveKit" />
-  <img src="https://img.shields.io/badge/API-Hono_on_Bun-000?style=flat-square" alt="API" />
+  <img src="https://img.shields.io/badge/API-NestJS_on_Bun-E0234E?style=flat-square" alt="API" />
 </p>
 
 <br/>
@@ -112,7 +112,7 @@ flowchart LR
   end
 
   subgraph backend["Backend"]
-    API["Hono API · Bun"]
+    API["NestJS API · Bun"]
     DB[("PostgreSQL")]
     LK["LiveKit SFU"]
   end
@@ -133,11 +133,11 @@ Frontend follows **[Feature-Sliced Design](docs/fsd.md)** — the `pages/` layer
 
 | Layer | Stack |
 |:--|:--|
-| **Client** | React 19 · SCSS modules · react-aria-components · TanStack Query · React Hook Form · Zod |
+| **Client** | React 19 · SCSS modules · react-aria-components · Motion · TanStack Query · React Hook Form · Zod |
 | **Native** | Tauri 2 · Rust · deep-link · updater · global-shortcut |
-| **Server** | Hono · Prisma · better-auth · React Email |
+| **Server** | NestJS on Bun · Prisma · better-auth · React Email |
 | **Shared** | `@chatovo/schemas` — Zod types for client & server |
-| **Tooling** | Biome · TypeScript · React Compiler · Bun workspaces |
+| **Tooling** | Biome · Stylelint · TypeScript · React Compiler · Bun workspaces |
 
 <br/>
 
@@ -147,7 +147,7 @@ Frontend follows **[Feature-Sliced Design](docs/fsd.md)** — the `pages/` layer
 chatovo/
 ├── apps/
 │   ├── client/       Next.js · FSD (app / views / widgets / features / entities / shared)
-│   ├── server/       Hono API · Prisma · modules/
+│   ├── server/       NestJS API · Prisma · modules/
 │   └── tauri/        Rust shell · desktop + Android
 ├── packages/schemas/ Shared Zod schemas
 ├── infra/            Caddy · LiveKit configs
@@ -233,7 +233,8 @@ bun tauri:icon                # icons from apps/client/app/icon.svg
 
 ```bash
 bun typecheck
-bun lint:fix
+bun lint:fix       # Biome — TS/JS
+bun lint:css:fix   # Stylelint — SCSS
 bun build
 ```
 
@@ -272,7 +273,8 @@ docker compose pull && docker compose up -d
 Bug reports and PRs are welcome. For larger changes, open an issue first.
 
 ```bash
-bun lint:fix   # before you commit
+bun lint:fix       # before you commit
+bun lint:css:fix
 ```
 
 <br/>

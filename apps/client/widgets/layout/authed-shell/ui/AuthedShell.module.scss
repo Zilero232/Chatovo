@@ -1,13 +1,12 @@
 @use '@/shared/styles/mixins' as *;
-
 @use '@/shared/styles/breakpoints' as *;
 
 .root {
-  display: flex;
-  height: 100%;
-  width: 100%;
-  flex-direction: column;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 
   @include bp(md) {
     padding: 0.5rem;
@@ -15,28 +14,27 @@
 }
 
 .shell {
+  overflow: hidden;
   display: flex;
-  min-height: 0;
-  min-width: 0;
   flex: 1;
   flex-direction: column;
-  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
 
   @include bp(md) {
     flex-direction: row;
+    border: 1px solid var(--glass-border);
     border-radius: var(--radius-2xl);
     background-color: var(--shell-surface);
     backdrop-filter: blur(rem(16)) saturate(140%);
-    -webkit-backdrop-filter: blur(rem(16)) saturate(140%);
-    border: 1px solid var(--glass-border);
     box-shadow: var(--shadow-elevated);
   }
 }
 
 .desktopOnly {
   display: none;
-  height: 100%;
   flex-shrink: 0;
+  height: 100%;
 
   @include bp(md) {
     display: flex;
@@ -44,8 +42,8 @@
 }
 
 .content {
-  min-height: 0;
-  min-width: 0;
-  flex: 1;
   overflow: hidden;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
 }

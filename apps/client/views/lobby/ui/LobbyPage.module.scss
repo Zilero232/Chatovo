@@ -8,12 +8,12 @@
 .container {
   position: relative;
   z-index: 1;
-  margin-inline: auto;
   display: flex;
-  width: 100%;
-  max-width: rem(1400);
   flex-direction: column;
   gap: 2rem;
+  width: 100%;
+  max-width: rem(1400);
+  margin-inline: auto;
   padding: 1.5rem 1.25rem;
   animation: lobby-enter 500ms ease-out both;
 
@@ -26,6 +26,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }

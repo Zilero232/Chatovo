@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 
 import { UserAvatar } from '@/entities/auth/user';
 
-import s from './UpdateProfileForm.module.scss';
+import s from '../../UpdateProfileForm.module.scss';
 
 import type { AvatarFieldProps } from './AvatarField.types';
 

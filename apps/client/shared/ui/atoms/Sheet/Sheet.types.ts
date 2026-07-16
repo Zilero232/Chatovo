@@ -1,3 +1,4 @@
+import type { MotionProps } from 'motion/react';
 import type { ComponentProps, ReactNode } from 'react';
 import type {
   Heading,
@@ -17,10 +18,13 @@ export type SheetProps = Omit<ModalOverlayProps, 'children'> & {
 export type SheetContentProps = Omit<RACDialogProps, 'children'> & {
   side?: SheetSide;
   showCloseButton?: boolean;
+  modalClassName?: string;
   children?: ReactNode;
 };
 
 export type SheetSide = 'bottom' | 'left' | 'right' | 'top';
+
+export type SheetAnimationState = 'hidden' | 'unmounted' | 'visible';
 
 export type SheetCloseProps = ButtonProps;
 
@@ -38,4 +42,13 @@ export type SheetTitleProps = ComponentProps<typeof Heading>;
 
 export type SheetDescriptionProps = ComponentProps<typeof Text>;
 
-export type SheetModalOverlayProps = ComponentProps<typeof ModalOverlay>;
+export type SheetMotionOverlayProps = Omit<
+  ComponentProps<typeof ModalOverlay>,
+  | 'onAnimationStart'
+  | 'onAnimationEnd'
+  | 'onAnimationIteration'
+  | 'onDrag'
+  | 'onDragEnd'
+  | 'onDragStart'
+> &
+  MotionProps;

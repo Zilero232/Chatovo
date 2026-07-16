@@ -2,10 +2,10 @@
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
-  border-radius: 1rem;
-  border: 1px solid rgb(255 255 255 / 8%);
-  background: linear-gradient(to bottom, rgb(255 255 255 / 6%), rgb(255 255 255 / 2%));
   padding: 0.875rem;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 1rem;
+  background: linear-gradient(to bottom, rgb(255 255 255 / 6%), rgb(255 255 255 / 2%));
 }
 
 .row {
@@ -16,36 +16,37 @@
 
 .friendsPrimary {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem;
 }
 
 .friendsSection {
   display: flex;
-  width: 100%;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .friendsAction {
+  min-width: 0;
   width: 100%;
 }
 
 .friendsRemove {
-  width: 100%;
   gap: 0.375rem;
+  width: 100%;
   font-size: 0.75rem;
   color: var(--muted-foreground);
 
   &:hover {
-    background: color-mix(in oklch, var(--destructive) 10%, transparent);
     color: var(--destructive);
+    background: color-mix(in oklch, var(--destructive) 10%, transparent);
   }
 }
 
 .button {
   flex: 1;
-  min-width: 7rem;
+  min-width: 0;
 }
 
 .label {

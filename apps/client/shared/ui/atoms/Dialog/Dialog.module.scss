@@ -4,8 +4,8 @@
 
 .overlay {
   position: fixed;
-  inset: 0;
   z-index: 50;
+  inset: 0;
   background: rgb(0 0 0 / 55%);
   backdrop-filter: blur(#{rem(12)});
 
@@ -19,26 +19,26 @@
 }
 
 .modal {
+  pointer-events: none;
   position: fixed;
-  inset: 0;
   z-index: 50;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
 }
 
 .content {
+  pointer-events: auto;
   position: relative;
+  overflow-y: auto;
   display: grid;
+  gap: var(--space-4);
   width: 100%;
   max-width: calc(100% - #{rem(32)});
-  gap: var(--space-4);
-  overflow-y: auto;
-  border-radius: var(--radius-2xl);
   padding: var(--space-6);
+  border-radius: var(--radius-2xl);
   outline: none;
-  pointer-events: auto;
 
   @include bp-sm-up {
     max-width: rem(512);
@@ -73,8 +73,8 @@
 
 .title {
   font-size: rem(18);
-  line-height: 1;
   font-weight: 600;
+  line-height: 1;
 }
 
 .description {
@@ -83,28 +83,28 @@
 }
 
 .close {
+  cursor: pointer;
   position: absolute;
+  z-index: 10;
   top: var(--space-4);
   right: var(--space-4);
-  z-index: 10;
   display: inline-flex;
-  width: var(--control-md);
-  height: var(--control-md);
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-lg);
+  width: var(--control-md);
+  height: var(--control-md);
   border: 1px solid oklch(1 0 0 / 10%);
-  background: oklch(1 0 0 / 5%);
+  border-radius: var(--radius-lg);
   color: color-mix(in oklch, var(--foreground) 70%, transparent);
+  background: oklch(1 0 0 / 5%);
   backdrop-filter: blur(#{rem(4)});
   transition: all 150ms ease;
-  cursor: pointer;
 
   &:hover {
     border-color: oklch(1 0 0 / 20%);
-    background: oklch(1 0 0 / 10%);
     color: var(--foreground);
+    background: oklch(1 0 0 / 10%);
   }
 
   &:focus-visible {
@@ -118,8 +118,8 @@
   }
 
   svg {
+    pointer-events: none;
     width: var(--icon-sm);
     height: var(--icon-sm);
-    pointer-events: none;
   }
 }

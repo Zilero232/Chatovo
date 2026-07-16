@@ -8,7 +8,7 @@ Chatovo — real-time voice rooms (web + desktop). Bun-workspaces monorepo.
 
 - **Web client**: Next.js 16 / React 19 (`apps/client/`)
 - **Desktop**: Tauri 2 (Rust) wraps the same client (`apps/tauri/`)
-- **API**: Hono on Bun + Prisma + self-hosted Postgres, auth via better-auth (`apps/server/`)
+- **API**: NestJS on Bun + Prisma + self-hosted Postgres, auth via better-auth (`apps/server/`)
 - **Realtime media**: LiveKit SFU (WebRTC), server-issued JWTs
 - **Shared types**: Zod schemas in `packages/schemas/` (workspace dep `@chatovo/schemas`)
 
@@ -17,7 +17,7 @@ Chatovo — real-time voice rooms (web + desktop). Bun-workspaces monorepo.
 ```text
 apps/
 ├── client/          # Next.js — FSD architecture (CLAUDE.md)
-├── server/          # Hono API — modules/ (routes+handlers+service), lib/, core/, middleware/ (CLAUDE.md)
+├── server/          # NestJS API — modules/ (module+controller+service+dto), lib/, core/, common/ (CLAUDE.md)
 └── tauri/           # Rust shell (src/), capabilities/, tauri.conf.json (CLAUDE.md)
 packages/schemas/    # Zod schemas (@chatovo/schemas), imported by client and server; grouped by domain
 docs/
@@ -64,6 +64,8 @@ The rules below apply repo-wide (every app and `packages/`).
 18. Keyboard event → human-readable combo string → **`keyboard-event-to-string`** (shortcut recording UI). No hand-rolled key formatter.
 19. Cross-app pub/sub events → typed **`appBus`** in `shared/lib/app-bus` (built on reactuse `createEventEmitter`). For app-wide events (mute/deafen toggle, PTT, recheck-update) use the bus instead of `window` `CustomEvent` — types are enforced in `AppBusEvents`.
 20. Calling a fresh callback/prop from inside `useEffect` without making the effect re-run → **`useEffectEvent`** (React 19.2+). Do NOT hand-roll the `const cbRef = useRef(cb); cbRef.current = cb;` pattern to read a "latest" callback — `useEffectEvent` is the idiomatic replacement (the effect omits the event from its deps). The ref-latest pattern is only acceptable for non-callback mutable values that genuinely can't use an Effect Event.
+21. Анимации появления/исчезновения, layout-переходы, stagger → **`motion`** (`motion.div`, `AnimatePresence`, `useReducedMotion`). В CSS остаются только hover/focus-транзишны, бесконечные лупы (спиннер, пульс) и декоративный фон. Не пиши `@keyframes` для enter/exit — они не реагируют на стейт и конфликтуют с motion.
+22. Выбор файла → **`useFileDialog`** (reactuse) + `FilePicker` из `shared/ui`. Нативный `<input type="file">` не стилизуется и выбивается из дизайна.
 
 **When to roll your own:**
 
@@ -92,8 +94,10 @@ bun dev:client             # client only
 bun dev:server             # server only
 bun dev:livekit            # local SFU + Caddy via docker
 bun dev:full               # docker + bun dev
-bun lint                   # biome check
+bun lint                   # biome check (TS/JS)
 bun lint:fix               # biome check --write
+bun lint:css               # stylelint (SCSS)
+bun lint:css:fix           # stylelint --fix — сортирует свойства, чинит порядок
 bun build                  # server + client production build
 
 # Tauri (desktop)
@@ -122,7 +126,8 @@ cd apps/client && bun x tsc --noEmit
 ## Workflow
 
 - **Type checking**: there's no `typecheck` script. Run `bun x tsc --noEmit` from `apps/client/` (or relevant workspace).
-- **Lint**: `bun lint:fix` runs Biome; it also sorts imports and exports automatically. Don't fight its output.
+- **Lint**: `bun lint:fix` runs Biome (TS/JS); it also sorts imports and exports automatically. Don't fight its output.
+- **Lint SCSS**: `bun lint:css:fix` runs Stylelint — сортирует свойства (порядок из `stylelint-config-clean-order`), запрещает ручные вендор-префиксы, ловит свойства без эффекта и `transition` на не-compositor свойствах. Конфиг — [stylelint.config.mjs](stylelint.config.mjs). Оба линтера подключены к pre-commit через lint-staged.
 - **Tests**: none currently. Don't fabricate test commands.
 - **Commits**: Conventional Commits style (see git log).
 - **Branches**: feature branches off `master`. PRs target `master`.

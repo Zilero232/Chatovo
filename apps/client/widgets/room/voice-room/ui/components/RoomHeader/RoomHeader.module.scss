@@ -3,28 +3,28 @@
 .root {
   position: relative;
   display: flex;
-  height: 3.5rem;
   flex-shrink: 0;
-  align-items: center;
   gap: 0.5rem;
-  border-bottom: 1px solid oklch(1 0 0 / 8%);
+  align-items: center;
+  height: 3.5rem;
   padding-inline: 1rem;
+  border-bottom: 1px solid oklch(1 0 0 / 8%);
 }
 
 .icon {
   display: flex;
-  width: 2rem;
-  height: 2rem;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
+  width: 2rem;
+  height: 2rem;
   border-radius: var(--radius-xl);
+  color: var(--foreground);
   background: linear-gradient(
     to bottom right,
     color-mix(in oklch, var(--brand-violet) 35%, transparent),
     color-mix(in oklch, var(--brand-cyan) 35%, transparent)
   );
-  color: var(--foreground);
   box-shadow: 0 0 rem(16) rem(-6) oklch(0.7 0.22 295 / 70%);
 }
 
@@ -35,26 +35,26 @@
 
 .info {
   display: flex;
-  min-width: 0;
   flex: 1;
   flex-direction: column;
+  min-width: 0;
   line-height: 1.25;
 }
 
 .titleRow {
   display: flex;
-  min-width: 0;
-  align-items: center;
   gap: 0.25rem;
+  align-items: center;
+  min-width: 0;
 }
 
 .title {
-  min-width: 0;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  min-width: 0;
   font-size: 0.875rem;
   font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   @include bp(sm) {
     font-size: 1rem;

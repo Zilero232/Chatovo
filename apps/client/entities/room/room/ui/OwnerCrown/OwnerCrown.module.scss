@@ -1,13 +1,13 @@
 .root {
   position: absolute;
+  z-index: 10;
   top: -0.125rem;
   left: 0;
-  z-index: 10;
   display: flex;
-  width: 0.75rem;
-  height: 0.75rem;
   align-items: center;
   justify-content: center;
+  width: 0.75rem;
+  height: 0.75rem;
   border-radius: 9999px;
   background: var(--background);
   box-shadow: 0 0 0 1px var(--background);
@@ -16,6 +16,6 @@
 .icon {
   width: 0.5rem;
   height: 0.5rem;
-  fill: oklch(0.879 0.169 91.605);
   color: oklch(0.879 0.169 91.605);
+  fill: oklch(0.879 0.169 91.605);
 }

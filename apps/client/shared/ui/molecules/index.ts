@@ -1,10 +1,12 @@
 export * from './AvatarWithBadges';
+export * from './FilePicker';
 export * from './FormField';
 export * from './IconButtonWithTooltip';
 export * from './OverlayCloseButton';
 export * from './SubmitButton';
 
 export type * from './AvatarWithBadges/AvatarWithBadges.types';
+export type * from './FilePicker/FilePicker.types';
 export type * from './FormField/FormField.types';
 export type * from './IconButtonWithTooltip/IconButtonWithTooltip.types';
 export type * from './OverlayCloseButton/OverlayCloseButton.types';

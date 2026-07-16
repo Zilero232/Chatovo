@@ -36,7 +36,12 @@ export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
             </Button>
           }
         >
-          <SheetContent className={s.sheet} side="left" showCloseButton={false}>
+          <SheetContent
+            className={s.sheet}
+            modalClassName={s.sheetModal}
+            side="left"
+            showCloseButton={false}
+          >
             <SheetTitle className={s.sheetTitleSr}>{t('menu')}</SheetTitle>
             <SheetDescription className={s.sheetTitleSr}>{t('menuDescription')}</SheetDescription>
 

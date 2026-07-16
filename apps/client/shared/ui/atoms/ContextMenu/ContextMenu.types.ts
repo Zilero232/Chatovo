@@ -67,5 +67,6 @@ export type ContextMenuShortcutProps = ComponentProps<'span'>;
 
 export type ContextMenuContextValue = {
   triggerRef: RefObject<HTMLDivElement | null>;
+  isOpen: boolean;
   setOpen: (open: boolean) => void;
 };

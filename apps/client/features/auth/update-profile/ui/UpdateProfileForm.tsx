@@ -2,10 +2,9 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useFieldError } from '@/entities/app/locale';
 import {
   type ProfileValues,
   profileSchema,
@@ -14,18 +13,14 @@ import {
 } from '@/entities/auth/user';
 import { SubmitButton } from '@/shared/ui';
 import { useAvatarDraft } from '../model/use-avatar-draft';
-import { AvatarField } from './AvatarField';
-import { BannerColorField } from './BannerColorField';
-import { ProfileTextField } from './ProfileTextField';
+import { AvatarField, ProfileFields } from './components';
 
 import s from './UpdateProfileForm.module.scss';
 
 export const UpdateProfileForm = () => {
   const t = useTranslations('settings.profile');
-  const fieldError = useFieldError('auth');
 
   const { displayName, profileUrl, avatarUrl, bannerColor, bio } = useCurrentUser();
-
   const { isPending, mutate } = useUpdateProfile();
 
   const avatar = useAvatarDraft(avatarUrl);
@@ -69,42 +64,7 @@ export const UpdateProfileForm = () => {
         onRemove={avatar.remove}
       />
 
-      <ProfileTextField
-        id="profile-display-name"
-        label={t('displayNameLabel')}
-        hint={t('displayNameHint')}
-        error={errors.displayName && fieldError(errors.displayName)}
-        registration={register('displayName')}
-        autoComplete="name"
-      />
-
-      <ProfileTextField
-        id="profile-url"
-        label={t('profileUrlLabel')}
-        hint={t('profileUrlHint')}
-        error={errors.profileUrl && fieldError(errors.profileUrl)}
-        registration={register('profileUrl')}
-        autoComplete="url"
-        placeholder={t('profileUrlPlaceholder')}
-        type="url"
-      />
-
-      <ProfileTextField
-        id="profile-bio"
-        label={t('bioLabel')}
-        hint={t('bioHint')}
-        error={errors.bio && fieldError(errors.bio)}
-        registration={register('bio')}
-        placeholder={t('bioPlaceholder')}
-        rows={3}
-        multiline
-      />
-
-      <Controller
-        control={control}
-        name="bannerColor"
-        render={({ field }) => <BannerColorField value={field.value} onChange={field.onChange} />}
-      />
+      <ProfileFields control={control} errors={errors} register={register} />
 
       <SubmitButton
         className={s.submit}

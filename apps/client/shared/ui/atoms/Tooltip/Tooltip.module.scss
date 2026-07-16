@@ -2,13 +2,13 @@
 
 .popup {
   z-index: 50;
-  width: fit-content;
-  border-radius: var(--radius-lg);
-  padding: 0.375rem 0.625rem;
-  font-size: 0.75rem;
-  text-wrap: balance;
-  color: var(--foreground);
   transform-origin: var(--transform-origin);
+  width: fit-content;
+  padding: 0.375rem 0.625rem;
+  border-radius: var(--radius-lg);
+  font-size: 0.75rem;
+  color: var(--foreground);
+  text-wrap: balance;
 
   @include overlay-enter;
   @include slide-from-side;
@@ -16,10 +16,10 @@
 
 .arrow {
   z-index: 50;
-  width: 0.625rem;
-  height: 0.625rem;
   translate: 0 calc(-50% - rem(2));
   rotate: 45deg;
+  width: 0.625rem;
+  height: 0.625rem;
   border-radius: rem(2);
   background: var(--surface-overlay);
 }

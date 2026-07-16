@@ -1,14 +1,14 @@
 @use '@/shared/styles/mixins' as *;
 
 .pane {
-  position: relative;
-  min-width: 0;
-  min-height: 0;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  background: black;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  background: black;
 
   &:hover .fullscreenHint {
     opacity: 1;
@@ -22,18 +22,15 @@
 }
 
 .overlay {
+  cursor: zoom-out;
   position: fixed;
   z-index: 100;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: var(--safe-area-top) var(--safe-area-right) var(--safe-area-bottom) var(--safe-area-left);
   background: black;
-  padding-top: var(--safe-area-top);
-  padding-right: var(--safe-area-right);
-  padding-bottom: var(--safe-area-bottom);
-  padding-left: var(--safe-area-left);
-  cursor: zoom-out;
   animation: overlay-fade-in 150ms ease-out;
 
   .fullscreenHint {
@@ -42,8 +39,8 @@
 }
 
 .video {
-  height: 100%;
   width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -59,12 +56,12 @@
   position: absolute;
   top: calc(0.5rem + var(--safe-area-top));
   right: calc(0.5rem + var(--safe-area-right));
-  border-radius: var(--radius-md);
-  border: 1px solid oklch(1 0 0 / 10%);
-  background: rgb(0 0 0 / 55%);
   padding: 0.25rem;
+  border: 1px solid oklch(1 0 0 / 10%);
+  border-radius: var(--radius-md);
   color: white;
   opacity: 0;
+  background: rgb(0 0 0 / 55%);
   backdrop-filter: blur(rem(12));
   transition: opacity 150ms ease;
 

@@ -3,7 +3,7 @@
 import { clsx } from 'clsx';
 import { useRef, useState } from 'react';
 
-import { Popover, PopoverContent } from '@/shared/ui';
+import { PopoverContent } from '@/shared/ui';
 import { ProfileCard } from '../ProfileCard';
 
 import s from './ProfileCardTrigger.module.scss';
@@ -33,17 +33,17 @@ export const ProfileCardTrigger = ({
         {children}
       </button>
 
-      <Popover open={isOpen} onOpenChange={setIsOpen}>
-        <PopoverContent
-          align="start"
-          className={s.content}
-          isNonModal={false}
-          sideOffset={8}
-          triggerRef={triggerRef}
-        >
-          <ProfileCard identity={identity} name={name} />
-        </PopoverContent>
-      </Popover>
+      <PopoverContent
+        align="start"
+        className={s.content}
+        isNonModal={false}
+        isOpen={isOpen}
+        sideOffset={8}
+        triggerRef={triggerRef}
+        onOpenChange={setIsOpen}
+      >
+        <ProfileCard identity={identity} name={name} />
+      </PopoverContent>
     </>
   );
 };

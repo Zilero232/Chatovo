@@ -4,9 +4,9 @@
 .root {
   position: relative;
   z-index: 1;
-  min-height: 0;
-  flex: 1;
   overflow-y: auto;
+  flex: 1;
+  min-height: 0;
   padding: 0.625rem;
 
   @include bp(sm) {
@@ -26,16 +26,16 @@
 }
 
 .rootDm {
-  display: flex;
   overflow: hidden;
+  display: flex;
 }
 
 .dmStage {
   position: relative;
+  overflow: hidden;
   flex: 1;
   min-height: 0;
   border-radius: var(--radius-2xl);
-  overflow: hidden;
 }
 
 .dmPeer,
@@ -63,24 +63,24 @@
 
 .dmSelf {
   position: absolute;
+  z-index: 2;
   right: 0.625rem;
   bottom: 0.625rem;
-  z-index: 2;
-  width: 38%;
-  max-width: 15rem;
-  min-width: 6.5rem;
-  aspect-ratio: 4 / 3;
-  border-radius: var(--radius-lg);
   overflow: hidden;
+  aspect-ratio: 4 / 3;
+  width: 38%;
+  min-width: 6.5rem;
+  max-width: 15rem;
   border: 1px solid oklch(1 0 0 / 12%);
+  border-radius: var(--radius-lg);
   box-shadow: 0 rem(10) rem(30) rem(-8) oklch(0 0 0 / 70%);
 
   @include bp(sm) {
     right: 1rem;
     bottom: 1rem;
+    aspect-ratio: 16 / 9;
     width: 30%;
     min-width: 9rem;
-    aspect-ratio: 16 / 9;
     border-radius: var(--radius-xl);
   }
 }
@@ -92,7 +92,7 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  text-align: center;
-  color: var(--muted-foreground);
   font-size: 0.9375rem;
+  color: var(--muted-foreground);
+  text-align: center;
 }
