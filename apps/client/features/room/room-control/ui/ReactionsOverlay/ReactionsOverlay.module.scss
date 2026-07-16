@@ -1,16 +1,15 @@
 @use '@/shared/styles/mixins' as *;
-
 @use '@/shared/styles/breakpoints' as *;
 
 .root {
   pointer-events: none;
   position: absolute;
+  z-index: 10;
   right: 0.5rem;
   bottom: calc(0.75rem + var(--safe-area-bottom));
-  z-index: 10;
-  height: 100%;
-  width: 4rem;
   overflow: hidden;
+  width: 4rem;
+  height: 100%;
 
   @include bp(sm) {
     right: 0.75rem;

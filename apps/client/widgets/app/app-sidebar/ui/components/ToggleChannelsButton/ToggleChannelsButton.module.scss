@@ -4,12 +4,12 @@
 
 @keyframes icon-enter {
   from {
-    opacity: 0;
     transform: scale(0.75);
+    opacity: 0;
   }
 
   to {
-    opacity: 1;
     transform: scale(1);
+    opacity: 1;
   }
 }

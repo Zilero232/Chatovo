@@ -1,7 +1,7 @@
 .root {
   display: flex;
-  align-items: flex-end;
   gap: 0.5rem;
+  align-items: flex-end;
   animation:
     overlay-fade-in 200ms ease-out,
     slide-in-from-bottom 200ms ease-out;
@@ -17,10 +17,10 @@
 
 .column {
   display: flex;
-  min-width: 0;
-  max-width: 85%;
   flex-direction: column;
   gap: 0.25rem;
+  min-width: 0;
+  max-width: 85%;
 
   &[data-own='true'] {
     align-items: flex-end;
@@ -29,9 +29,9 @@
 
 .bodyRow {
   display: flex;
-  min-width: 0;
-  align-items: center;
   gap: 0.25rem;
+  align-items: center;
+  min-width: 0;
 
   &[data-own='true'] {
     flex-direction: row-reverse;

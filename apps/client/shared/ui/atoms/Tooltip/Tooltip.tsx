@@ -3,55 +3,16 @@
 import { useMediaQuery } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { Children, isValidElement } from 'react';
-import {
-  Focusable,
-  Pressable,
-  Button as RACButton,
-  Tooltip as RACTooltip,
-  TooltipTrigger as RACTooltipTrigger,
-} from 'react-aria-components';
+import { Tooltip as RACTooltip, TooltipTrigger as RACTooltipTrigger } from 'react-aria-components';
 
-import { Button } from '../Button';
+import { wrapTooltipTrigger } from './lib';
 
 import s from './Tooltip.module.scss';
 
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactElement } from 'react';
 import type { TooltipContentProps, TooltipProps, TooltipProviderProps } from './Tooltip.types';
 
 const TooltipProvider = ({ children }: TooltipProviderProps) => <>{children}</>;
-
-const isPressableTrigger = (child: ReactElement<{ role?: string }>) => {
-  const { type } = child;
-
-  if (type === Pressable || type === Focusable || type === Button || type === RACButton) {
-    return true;
-  }
-
-  if (typeof type === 'function' && 'displayName' in type && type.displayName === 'Button') {
-    return true;
-  }
-
-  return type === 'button' || type === 'a';
-};
-
-const wrapTooltipTrigger = (child: ReactNode) => {
-  if (!isValidElement<{ role?: string }>(child)) {
-    return child;
-  }
-
-  if (isPressableTrigger(child)) {
-    return child;
-  }
-
-  const needsFocusable =
-    child.type === 'span' || child.props.role === 'img' || child.props.role === 'presentation';
-
-  if (needsFocusable) {
-    return <Focusable>{child as never}</Focusable>;
-  }
-
-  return <Pressable>{child as never}</Pressable>;
-};
 
 const TooltipContent = (_props: TooltipContentProps) => null;
 

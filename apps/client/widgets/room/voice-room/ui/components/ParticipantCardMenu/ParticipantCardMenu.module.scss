@@ -4,8 +4,8 @@
 
 .volumeItem {
   flex-direction: column;
-  align-items: stretch;
   gap: 0.5rem;
+  align-items: stretch;
 
   &:focus {
     background: transparent;
@@ -22,8 +22,8 @@
 
 .volumeLabel {
   display: flex;
-  align-items: center;
   gap: 0.5rem;
+  align-items: center;
 }
 
 .volumeValue {

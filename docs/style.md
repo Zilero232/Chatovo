@@ -197,6 +197,34 @@ export const VoiceRoom = ({ token, serverUrl }: VoiceRoomProps) => (
 
 ---
 
+### 2.2. Структура `model/hooks`
+
+Симметрично `ui/`: **хук со своими типами — в собственной папке**, плоский файл только если типов нет.
+
+```
+features/social/friend-chat/model/hooks/
+  index.ts                          ← barrel слайса
+  use-friend-chat-session/
+    use-friend-chat-session.ts      ← хук без типов — папка не обязательна,
+    index.ts                           но единообразие внутри слайса важнее
+  use-friend-chat-unread/
+    use-friend-chat-unread.ts
+    use-friend-chat-unread.types.ts ← есть Input/Output-тип → папка обязательна
+    index.ts
+```
+
+`index.ts` хука реэкспортит и хук, и типы:
+
+```ts
+export { useFriendChatUnread } from './use-friend-chat-unread';
+
+export type * from './use-friend-chat-unread.types';
+```
+
+Тип входа хука называется `Use<Name>Input` (§5). Если он повторяет пропсы компонента — не дублируй, а выведи: `Pick<VoiceRoomProps, 'roomId' | 'onLeave'>`.
+
+---
+
 ## 3. Стили: SCSS modules vs legacy `.styles.ts`
 
 | Слой | Формат |
@@ -225,6 +253,26 @@ export const VoiceRoom = ({ token, serverUrl }: VoiceRoomProps) => (
 1. Подкомпоненты → `components/`.
 2. Логика → `model/` (хук).
 3. Утилиты → `lib/` слайса.
+
+**Barrel родственных примитивов — тоже не исключение.** `shared/ui` компоненты вида `Dialog`/`Sheet`/`DropdownMenu` экспортируют 8–15 мелких частей (`Dialog`, `DialogContent`, `DialogHeader`, …). Держать их одним файлом нельзя: каждая часть — в `components/<Name>/`, а `<Name>.tsx` остаётся тонким реэкспортом.
+
+```
+shared/ui/atoms/Dialog/
+  Dialog.tsx                  ← только `export { ... } from './components'`
+  Dialog.types.ts
+  Dialog.module.scss
+  dialog-overlay-context.ts   ← общий контекст (иначе цикл импортов)
+  components/
+    index.ts
+    DialogRoot/DialogRoot.tsx
+    DialogContent/DialogContent.tsx
+    DialogHeader/DialogHeader.tsx   ← Header + Footer + Title + Description
+    DialogClose/DialogClose.tsx     ← Close + Portal + Overlay
+```
+
+Группируй по смыслу, а не «файл на экспорт»: близкие части (`Header`/`Footer`/`Title`/`Description`) живут вместе.
+
+**Контекст, который шарят части, — отдельным модулем** рядом с `<Name>.tsx` (`dialog-overlay-context.ts`), не внутри компонента: иначе `components/*` импортируют родителя, а родитель — их. Общий для нескольких примитивов контекст — в `shared/ui/lib/` (`menu-radio-group-context.ts`).
 
 ---
 
@@ -707,32 +755,32 @@ entities/user/
 
 Эвристика: код **слушает/шлёт** во внешний сервис → `api/`. Код **читает/выводит** доменный стейт → `model/`. Project-agnostic RPC-клиент (не привязан к домену) → `shared/api/` (ниже).
 
-**`api/` в `shared/`** — Hono RPC wrappers:
+**`api/` в `shared/`** — axios-обёртки по доменам:
 
-```
+```text
 shared/api/
-  http/      ← hc<App>(baseUrl) + auth header
+  http/      ← axios instance: baseURL, Bearer-токен, нормализация ошибок
   rooms/     ← listRooms / createRoom / deleteRoom
   livekit/   ← fetchLiveKitToken
   auth/      ← better-auth client (authClient, getAuthToken, clearToken)
   index.ts
 ```
 
-HTTP через Hono RPC client. `fetch` руками — теряется типизация. `axios` — удалён.
+HTTP через общий axios-инстанс из `shared/api/http`. Ручной `fetch` — не надо: инстанс уже вешает `Authorization` и разворачивает `{ error }` от сервера в `Error(message)`.
 
 ```ts
-export const createRoom = async (input: CreateRoomInput): Promise<Room> => {
-  const res = await api.api.rooms.$post({ json: input });
+import { api } from '../http';
 
-  if (!res.ok) {
-    const err = (await res.json().catch(() => null)) as { error?: string } | null;
+import type { CreateRoomRequest, Room } from '@chatovo/schemas';
 
-    throw new Error(err?.error ?? `Failed to create room: ${res.status}`);
-  }
+export const createRoom = async (input: CreateRoomRequest): Promise<Room> => {
+  const { data } = await api.post('/rooms', input);
 
-  return res.json();
+  return data;
 };
 ```
+
+Типы запроса/ответа — из `@chatovo/schemas` (тот же контракт, что валидирует NestJS). Функция возвращает `data`, ошибки летят исключением — их ловит React Query.
 
 ---
 

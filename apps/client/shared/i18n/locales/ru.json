@@ -1,9 +1,11 @@
 {
   "common": {
+    "chooseFile": "Выберите файл",
     "close": "Закрыть",
+    "hidePassword": "Скрыть пароль",
     "loading": "Загрузка...",
-    "showPassword": "Показать пароль",
-    "hidePassword": "Скрыть пароль"
+    "remove": "Удалить",
+    "showPassword": "Показать пароль"
   },
   "legal": {
     "back": "Назад",

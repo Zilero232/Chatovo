@@ -1,24 +1,24 @@
 .root {
   display: flex;
-  height: 100%;
   align-items: stretch;
+  height: 100%;
 }
 
 .button {
+  cursor: pointer;
   display: inline-flex;
-  height: 100%;
-  width: 2.75rem;
   align-items: center;
   justify-content: center;
-  color: var(--muted-foreground);
-  transition: colors 150ms ease-out;
+  width: 2.75rem;
+  height: 100%;
   border: none;
+  color: var(--muted-foreground);
   background: transparent;
-  cursor: pointer;
+  transition: colors 150ms ease-out;
 
   &:hover {
-    background: var(--accent);
     color: var(--accent-foreground);
+    background: var(--accent);
   }
 
   &:focus-visible {
@@ -28,25 +28,25 @@
 }
 
 .closeButton {
+  cursor: pointer;
   display: inline-flex;
-  height: 100%;
-  width: 2.75rem;
   align-items: center;
   justify-content: center;
-  color: var(--muted-foreground);
-  transition: colors 150ms ease-out;
+  width: 2.75rem;
+  height: 100%;
   border: none;
+  color: var(--muted-foreground);
   background: transparent;
-  cursor: pointer;
+  transition: colors 150ms ease-out;
 
   &:hover {
-    background: var(--destructive);
     color: white;
+    background: var(--destructive);
   }
 
   &:focus-visible {
-    background: var(--destructive);
     color: white;
+    background: var(--destructive);
     outline: none;
   }
 }

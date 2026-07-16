@@ -3,6 +3,8 @@ export { ConnectingOverlay } from './ConnectingOverlay';
 export { ConnectionIndicator } from './ConnectionIndicator';
 export { ParticipantCard } from './ParticipantCard';
 export { ParticipantsView } from './ParticipantsView';
+export { RoomAmbience } from './RoomAmbience';
+export { RoomControlsBar } from './RoomControlsBar';
 export { RoomHeader } from './RoomHeader';
 export { RoomInviteButton } from './RoomInviteButton';
 export { VoiceRoomChatButton } from './VoiceRoomChatButton';

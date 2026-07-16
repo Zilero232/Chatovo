@@ -1,23 +1,16 @@
 'use client';
 
-import { Check, MessageSquare, Phone, UserMinus, UserPlus, X } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { toast } from 'sonner';
 import { match } from 'ts-pattern';
 
-import {
-  useAcceptFriendRequest,
-  useCallFriend,
-  useDeclineFriendRequest,
-  useRemoveFriendship,
-  useSendFriendRequest,
-} from '@/entities/social/friend';
-import { useFriendChat } from '@/features/social/friend-chat';
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
-import { Button } from '@/shared/ui';
-
-import s from './FriendProfileActions.module.scss';
+import { useFriendProfileActions } from '../../model/hooks';
+import {
+  AddFriendAction,
+  CancelRequestAction,
+  FriendActions,
+  IncomingRequestActions,
+} from './components';
 
 import type { FriendProfileActionsBodyProps } from './FriendProfileActionsBody.types';
 
@@ -29,137 +22,37 @@ export const FriendProfileActionsBody = ({
   avatarUrl,
   verified,
 }: FriendProfileActionsBodyProps) => {
-  const t = useTranslations('friends');
-
   const [removeOpen, setRemoveOpen] = useState(false);
 
-  const sendRequest = useSendFriendRequest();
-  const acceptRequest = useAcceptFriendRequest();
-  const declineRequest = useDeclineFriendRequest();
-  const removeFriendship = useRemoveFriendship();
-  const callFriend = useCallFriend();
-  const { open: openFriendChat } = useFriendChat();
-
-  const isBusy =
-    sendRequest.isPending ||
-    acceptRequest.isPending ||
-    declineRequest.isPending ||
-    removeFriendship.isPending ||
-    callFriend.isPending;
+  const { isBusy, add, cancelRequest, accept, decline, call, openChat } = useFriendProfileActions({
+    userId,
+    friendTag,
+    displayName,
+    avatarUrl,
+    verified,
+  });
 
   return (
     <>
       {match(state)
-        .with({ status: 'none' }, () => (
-          <Button
-            className={s.button}
-            disabled={isBusy}
-            size="sm"
-            onClick={() => {
-              sendRequest.mutate(
-                { tag: friendTag, relationUserId: userId },
-                {
-                  onError: () => toast.error(t('sendFailed')),
-                },
-              );
-            }}
-          >
-            <UserPlus aria-hidden />
-            {t('addFriend')}
-          </Button>
-        ))
+        .with({ status: 'none' }, () => <AddFriendAction isBusy={isBusy} onAdd={add} />)
         .with({ status: 'outgoing_pending' }, () => (
-          <Button
-            className={s.button}
-            disabled={isBusy}
-            size="sm"
-            variant="secondary"
-            onClick={() => {
-              removeFriendship.mutate(userId, {
-                onError: () => toast.error(t('removeFailed')),
-              });
-            }}
-          >
-            <X aria-hidden />
-            {t('cancelRequest')}
-          </Button>
+          <CancelRequestAction isBusy={isBusy} onCancel={cancelRequest} />
         ))
         .with({ status: 'incoming_pending' }, ({ friendshipId }) => (
-          <div className={s.row}>
-            <Button
-              className={s.button}
-              disabled={isBusy}
-              size="sm"
-              onClick={() => {
-                acceptRequest.mutate(
-                  { friendshipId, userId },
-                  { onError: () => toast.error(t('acceptFailed')) },
-                );
-              }}
-            >
-              <Check aria-hidden />
-              {t('accept')}
-            </Button>
-            <Button
-              className={s.button}
-              disabled={isBusy}
-              size="sm"
-              variant="secondary"
-              onClick={() => {
-                declineRequest.mutate(
-                  { friendshipId, userId },
-                  { onError: () => toast.error(t('declineFailed')) },
-                );
-              }}
-            >
-              <X aria-hidden />
-              {t('decline')}
-            </Button>
-          </div>
+          <IncomingRequestActions
+            isBusy={isBusy}
+            onAccept={() => accept(friendshipId)}
+            onDecline={() => decline(friendshipId)}
+          />
         ))
         .with({ status: 'friends' }, () => (
-          <div className={s.friendsSection}>
-            <div className={s.friendsPrimary}>
-              <Button
-                className={s.friendsAction}
-                disabled={isBusy}
-                size="sm"
-                variant="outline"
-                onClick={() =>
-                  openFriendChat({
-                    id: userId,
-                    name: displayName,
-                    avatarUrl,
-                    verified,
-                  })
-                }
-              >
-                <MessageSquare aria-hidden />
-                {t('messageFriend')}
-              </Button>
-              <Button
-                className={s.friendsAction}
-                disabled={isBusy}
-                size="sm"
-                onClick={() => {
-                  callFriend.mutate({ userId }, { onError: () => toast.error(t('callFailed')) });
-                }}
-              >
-                <Phone aria-hidden />
-                {t('callFriend')}
-              </Button>
-            </div>
-            <Button
-              className={s.friendsRemove}
-              disabled={isBusy}
-              size="sm"
-              variant="ghost"
-              onClick={() => setRemoveOpen(true)}
-            >
-              <UserMinus aria-hidden />
-              {t('removeFriend')}
-            </Button>
-          </div>
+          <FriendActions
+            isBusy={isBusy}
+            onCall={call}
+            onOpenChat={openChat}
+            onRemove={() => setRemoveOpen(true)}
+          />
         ))
         .exhaustive()}
 

@@ -2,16 +2,16 @@
 
 .root {
   position: relative;
+  overflow: hidden;
   display: none;
   flex-direction: column;
-  overflow: hidden;
+  padding: 2.5rem;
   background: linear-gradient(
     to bottom right,
     color-mix(in oklch, var(--brand-violet) 18%, transparent),
     transparent,
     color-mix(in oklch, var(--brand-cyan) 12%, transparent)
   );
-  padding: 2.5rem;
 
   @include bp(lg) {
     display: flex;
@@ -20,8 +20,8 @@
 
 .orb {
   position: absolute;
-  left: -2.5rem;
   top: 33.333%;
+  left: -2.5rem;
   width: 16rem;
   height: 16rem;
 }
@@ -29,8 +29,8 @@
 .top {
   position: relative;
   display: flex;
-  align-items: center;
   gap: 0.75rem;
+  align-items: center;
 }
 
 .center {
@@ -38,17 +38,17 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  justify-content: center;
   gap: 2rem;
+  justify-content: center;
   padding-block: 2.5rem;
 }
 
 .mark {
   display: flex;
-  width: 2.75rem;
-  height: 2.75rem;
   align-items: center;
   justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 1rem;
   color: var(--background);
 }
@@ -66,10 +66,10 @@
 .tagline {
   max-width: 20rem;
   font-size: 1.5rem;
-  line-height: 1.375;
   font-weight: 600;
-  letter-spacing: -0.025em;
+  line-height: 1.375;
   color: var(--foreground);
+  letter-spacing: -0.025em;
 }
 
 .features {
@@ -80,23 +80,23 @@
 
 .feature {
   display: flex;
-  align-items: flex-start;
   gap: 0.875rem;
+  align-items: flex-start;
   animation: feature-enter 500ms ease-out both;
 }
 
 .featureIcon {
-  margin-top: 0.125rem;
   display: flex;
-  width: 2.25rem;
-  height: 2.25rem;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border-radius: 0.75rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-top: 0.125rem;
   border: 1px solid var(--border-strong);
-  background: rgb(255 255 255 / 5%);
+  border-radius: 0.75rem;
   color: var(--brand-cyan);
+  background: rgb(255 255 255 / 5%);
 
   svg {
     width: 1rem;
@@ -125,9 +125,9 @@
 .equalizer {
   position: relative;
   display: flex;
-  height: 1.5rem;
-  align-items: flex-end;
   gap: 0.25rem;
+  align-items: flex-end;
+  height: 1.5rem;
 }
 
 .eqBar {
@@ -139,12 +139,13 @@
 
 @keyframes feature-enter {
   from {
-    opacity: 0;
     transform: translateX(-1rem);
+    opacity: 0;
   }
+
   to {
-    opacity: 1;
     transform: translateX(0);
+    opacity: 1;
   }
 }
 
@@ -153,6 +154,7 @@
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }

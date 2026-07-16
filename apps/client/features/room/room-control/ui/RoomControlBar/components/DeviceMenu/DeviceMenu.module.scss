@@ -1,29 +1,29 @@
 @use '@/shared/styles/mixins' as *;
 
 .trigger {
+  cursor: pointer;
   display: flex;
-  height: 0.75rem;
-  width: 100%;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 0.75rem;
   border-top: 1px solid rgb(255 255 255 / 10%);
-  background: rgb(0 0 0 / 30%);
-  color: var(--muted-foreground);
-  outline: none;
-  border-left: none;
   border-right: none;
   border-bottom: none;
+  border-left: none;
+  color: var(--muted-foreground);
+  background: rgb(0 0 0 / 30%);
+  outline: none;
   transition: colors 150ms ease;
-  cursor: pointer;
 
   @include bp(sm) {
     height: 0.875rem;
   }
 
   &:hover:not(:disabled) {
-    background: rgb(255 255 255 / 10%);
     color: var(--foreground);
+    background: rgb(255 255 255 / 10%);
   }
 
   &:focus-visible {
@@ -32,13 +32,13 @@
 
   &:disabled,
   &[data-disabled] {
-    opacity: 0.4;
     cursor: not-allowed;
+    opacity: 0.4;
   }
 
   &[aria-expanded='true'] {
-    background: rgb(255 255 255 / 10%);
     color: var(--foreground);
+    background: rgb(255 255 255 / 10%);
 
     .triggerIcon {
       transform: rotate(180deg);
@@ -59,31 +59,31 @@
 
 .header {
   display: flex;
-  align-items: center;
   gap: 0.5rem;
+  align-items: center;
   padding: 0.25rem 0.375rem 0.5rem;
   color: var(--muted-foreground);
 }
 
 .headerIcon {
+  flex-shrink: 0;
   width: 0.875rem;
   height: 0.875rem;
-  flex-shrink: 0;
 }
 
 .headerLabel {
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.05em;
+  text-overflow: ellipsis;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 .list {
-  max-height: 16rem;
   overflow-y: auto;
+  max-height: 16rem;
 
   > * + * {
     margin-top: 0.125rem;
@@ -92,7 +92,7 @@
 
 .item {
   gap: 0.625rem;
-  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  padding: 0.5rem;
 
   > span:first-child {
     display: none;
@@ -101,8 +101,8 @@
 
 .itemActive {
   border: 1px solid color-mix(in oklch, var(--brand-cyan) 40%, transparent);
-  background: color-mix(in oklch, var(--brand-cyan) 12%, transparent);
   color: var(--foreground);
+  background: color-mix(in oklch, var(--brand-cyan) 12%, transparent);
   box-shadow: 0 0 rem(16) rem(-6) oklch(0.82 0.16 200 / 0.8);
 
   &:focus {
@@ -116,13 +116,13 @@
 
 .itemIconBox {
   display: flex;
-  width: 1.75rem;
-  height: 1.75rem;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border-radius: 0.375rem;
+  width: 1.75rem;
+  height: 1.75rem;
   border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 0.375rem;
   background: rgb(255 255 255 / 5%);
 
   svg {
@@ -133,23 +133,23 @@
 
 .itemIconBoxActive {
   border-color: color-mix(in oklch, var(--brand-cyan) 30%, transparent);
-  background: color-mix(in oklch, var(--brand-cyan) 15%, transparent);
   color: var(--brand-cyan);
+  background: color-mix(in oklch, var(--brand-cyan) 15%, transparent);
 }
 
 .itemLabel {
-  min-width: 0;
-  flex: 1;
   overflow: hidden;
+  flex: 1;
+  min-width: 0;
+  font-size: 0.875rem;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 0.875rem;
 }
 
 .itemCheck {
-  margin-left: auto;
+  flex-shrink: 0;
   width: 1rem;
   height: 1rem;
-  flex-shrink: 0;
+  margin-left: auto;
   color: var(--brand-cyan);
 }

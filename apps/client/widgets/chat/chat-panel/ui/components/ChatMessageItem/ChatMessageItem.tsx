@@ -1,15 +1,7 @@
 'use client';
 
 import { useChatMessageItem } from '../../../model/hooks';
-import {
-  DeleteMessageDialog,
-  EditMessageDialog,
-  MessageActions,
-  MessageBody,
-  MessageBubble,
-  MessageMeta,
-  MessageStatus,
-} from './components';
+import { MessageColumn, MessageDialogs } from './components';
 
 import s from './ChatMessageItem.module.scss';
 
@@ -50,65 +42,33 @@ export const ChatMessageItem = ({
       data-pending={message.status === 'sending'}
       data-message-root
     >
-      <div className={s.column} data-own={isOwn}>
-        {showHeader && (
-          <MessageMeta
-            author={author}
-            identity={identity}
-            timestamp={message.timestamp}
-            verified={verified}
-            isOwn={isOwn}
-          />
-        )}
-
-        <div className={s.bodyRow} data-own={isOwn}>
-          <MessageBody
-            bubble={
-              <MessageBubble
-                message={message}
-                attachment={attachment}
-                isOwn={isOwn}
-                isTail={isTail}
-                isEdited={isEdited}
-                canEdit={canEdit}
-                showActions={showActions}
-                onEdit={startEdit}
-                onDelete={() => setIsConfirmingDelete(true)}
-              />
-            }
-            isDeleted={isDeleted}
-          />
-
-          {showActions && (
-            <MessageActions
-              canEdit={canEdit}
-              onEdit={startEdit}
-              onDelete={() => setIsConfirmingDelete(true)}
-            />
-          )}
-        </div>
-
-        {message.status && (
-          <MessageStatus
-            status={message.status}
-            onRetry={() => onRetry(message.id, message.message)}
-            onDiscard={() => onDiscard(message.id)}
-          />
-        )}
-      </div>
-
-      <EditMessageDialog
-        key={message.message}
-        open={isEditing}
-        initialValue={message.message}
-        onOpenChange={setIsEditing}
-        onSave={(body) => onEdit(message.id, body)}
+      <MessageColumn
+        message={message}
+        attachment={attachment}
+        author={author}
+        identity={identity}
+        verified={verified}
+        isOwn={isOwn}
+        isTail={isTail}
+        isDeleted={isDeleted}
+        isEdited={isEdited}
+        canEdit={canEdit}
+        showHeader={showHeader}
+        showActions={showActions}
+        onEdit={startEdit}
+        onDelete={() => setIsConfirmingDelete(true)}
+        onRetry={() => onRetry(message.id, message.message)}
+        onDiscard={() => onDiscard(message.id)}
       />
 
-      <DeleteMessageDialog
-        open={isConfirmingDelete}
-        onOpenChange={setIsConfirmingDelete}
-        onConfirm={() => {
+      <MessageDialogs
+        body={message.message}
+        isEditing={isEditing}
+        isConfirmingDelete={isConfirmingDelete}
+        onEditingChange={setIsEditing}
+        onConfirmingDeleteChange={setIsConfirmingDelete}
+        onSave={(body) => onEdit(message.id, body)}
+        onConfirmDelete={() => {
           onDelete(message.id);
           setIsConfirmingDelete(false);
         }}

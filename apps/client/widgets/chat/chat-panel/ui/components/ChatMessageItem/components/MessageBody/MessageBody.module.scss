@@ -1,9 +1,9 @@
 .deleted {
-  max-width: 100%;
-  border-radius: var(--radius-2xl);
-  padding: 0.5rem 0.875rem;
-  font-size: 0.875rem;
-  color: color-mix(in oklch, var(--muted-foreground) 60%, transparent);
-  font-style: italic;
   user-select: none;
+  max-width: 100%;
+  padding: 0.5rem 0.875rem;
+  border-radius: var(--radius-2xl);
+  font-size: 0.875rem;
+  font-style: italic;
+  color: color-mix(in oklch, var(--muted-foreground) 60%, transparent);
 }

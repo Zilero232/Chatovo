@@ -12,8 +12,8 @@
 .toast {
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(rem(24));
   border: 1px solid var(--border-strong);
+  backdrop-filter: blur(rem(24));
   box-shadow:
     0 rem(24) rem(64) rem(-16) oklch(0 0 0 / 55%),
     inset 0 1px 0 oklch(1 0 0 / 8%);

@@ -2,12 +2,12 @@
 
 .popup {
   z-index: 50;
+  transform-origin: var(--transform-origin);
   width: 18rem;
-  border-radius: var(--radius-2xl);
   padding: 1rem;
+  border-radius: var(--radius-2xl);
   color: var(--popover-foreground);
   outline: none;
-  transform-origin: var(--transform-origin);
 
   @include overlay-enter;
   @include slide-from-side;

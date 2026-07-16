@@ -6,6 +6,7 @@ export { useParticipantIsSpeaking } from './use-participant-is-speaking';
 export { useParticipantMedia } from './use-participant-media';
 export { useParticipantVolume } from './use-participant-volume';
 export { usePttLocalSpeaking } from './use-ptt-local-speaking';
+export { useRoomConnection } from './use-room-connection';
 export { useShortcutActions } from './use-shortcut-actions';
 export { useVoiceGate } from './use-voice-gate';
 export { useVoiceRoomSounds } from './use-voice-room-sounds';

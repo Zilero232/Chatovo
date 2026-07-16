@@ -2,8 +2,8 @@
 
 .root {
   display: flex;
-  min-width: 0;
   align-items: center;
+  min-width: 0;
   border-radius: var(--radius-xl);
   transition: background-color 150ms ease-out;
 
@@ -17,19 +17,19 @@
 }
 
 .main {
-  display: flex;
-  min-width: 0;
-  flex: 1;
-  align-items: center;
-  gap: 0.75rem;
-  border-radius: var(--radius-xl);
-  padding: 0.875rem 0.5rem 0.875rem 0.875rem;
-  text-align: left;
-  outline: none;
-  border: none;
-  background: transparent;
-  transition: background-color 150ms ease-out;
   cursor: pointer;
+  display: flex;
+  flex: 1;
+  gap: 0.75rem;
+  align-items: center;
+  min-width: 0;
+  padding: 0.875rem 0.5rem 0.875rem 0.875rem;
+  border: none;
+  border-radius: var(--radius-xl);
+  text-align: left;
+  background: transparent;
+  outline: none;
+  transition: background-color 150ms ease-out;
 
   &:active {
     background: oklch(1 0 0 / 4%);
@@ -47,25 +47,25 @@
 
 .info {
   display: flex;
-  min-width: 0;
   flex: 1;
   flex-direction: column;
   gap: 0.1875rem;
+  min-width: 0;
 }
 
 .name {
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .status {
   display: flex;
-  align-items: center;
   gap: 0.375rem;
+  align-items: center;
   font-size: rem(10);
   line-height: 1;
   color: var(--muted-foreground);
@@ -76,9 +76,9 @@
 }
 
 .dot {
+  flex-shrink: 0;
   width: 0.375rem;
   height: 0.375rem;
-  flex-shrink: 0;
   border-radius: 9999px;
   background: currentcolor;
 
@@ -89,24 +89,24 @@
 
 .unread {
   display: flex;
-  height: 1.25rem;
-  min-width: 1.25rem;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
-  background: var(--brand-cyan);
+  min-width: 1.25rem;
+  height: 1.25rem;
   padding-inline: 0.375rem;
+  border-radius: 9999px;
   font-size: rem(10);
   font-weight: 600;
   line-height: 1;
   color: black;
+  background: var(--brand-cyan);
 }
 
 .chevron {
+  flex-shrink: 0;
   width: 1rem;
   height: 1rem;
-  flex-shrink: 0;
   color: color-mix(in oklch, var(--muted-foreground) 50%, transparent);
   transition:
     transform 150ms ease-out,
@@ -119,10 +119,10 @@
 }
 
 .menuTrigger {
-  margin-right: 0.375rem;
+  flex-shrink: 0;
   width: 2rem;
   height: 2rem;
-  flex-shrink: 0;
+  margin-right: 0.375rem;
   color: var(--muted-foreground);
   opacity: 1;
 

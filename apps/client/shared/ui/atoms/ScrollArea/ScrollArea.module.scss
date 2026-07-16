@@ -2,22 +2,21 @@
 
 .root {
   position: relative;
-  height: 100%;
   overflow: hidden;
+  height: 100%;
 }
 
 .viewport {
+  overflow: hidden auto;
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
   border-radius: inherit;
-  transition: color 150ms ease, box-shadow 150ms ease;
   outline: none;
+  transition: color 150ms ease, box-shadow 150ms ease;
 
   &:focus-visible {
-    box-shadow: 0 0 0 rem(3) color-mix(in oklch, var(--ring) 50%, transparent);
     outline: 1px solid transparent;
+    box-shadow: 0 0 0 rem(3) color-mix(in oklch, var(--ring) 50%, transparent);
   }
 
   > div {
@@ -26,21 +25,21 @@
 }
 
 .scrollbar {
-  display: flex;
   touch-action: none;
+  user-select: none;
+  display: flex;
   padding: 1px;
   transition: colors 150ms ease;
-  user-select: none;
 
   &[data-orientation='vertical'] {
-    height: 100%;
     width: 0.625rem;
+    height: 100%;
     border-left: 1px solid transparent;
   }
 
   &[data-orientation='horizontal'] {
-    height: 0.625rem;
     flex-direction: column;
+    height: 0.625rem;
     border-top: 1px solid transparent;
   }
 }

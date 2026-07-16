@@ -2,25 +2,24 @@
 
 .root {
   display: flex;
-  width: 100%;
   flex-direction: column;
+  width: 100%;
 }
 
 .trigger {
   display: flex;
-  width: 100%;
-  min-height: var(--control-lg);
+  gap: var(--space-2);
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
-  border-radius: var(--radius-lg);
-  border: 1px solid oklch(1 0 0 / 10%);
-  background: oklch(1 0 0 / 5%);
-  color: var(--foreground);
+  width: 100%;
+  min-height: var(--control-lg);
   padding: var(--space-2) var(--space-3);
+  border: 1px solid oklch(1 0 0 / 10%);
+  border-radius: var(--radius-lg);
   font-size: var(--text-sm);
+  color: var(--foreground);
+  background: oklch(1 0 0 / 5%);
   backdrop-filter: blur(rem(12));
-  -webkit-backdrop-filter: blur(rem(12));
   transition: all 150ms ease-out;
 
   @include interactive-cursor;
@@ -37,14 +36,14 @@
 }
 
 .value {
-  min-width: 0;
-  flex: 1;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: left;
+  flex: 1;
+  min-width: 0;
   line-height: var(--icon-md);
   color: var(--foreground);
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   &[data-placeholder] {
     color: var(--muted-foreground);
@@ -52,21 +51,21 @@
 }
 
 .chevron {
+  flex-shrink: 0;
   width: var(--icon-sm);
   height: var(--icon-sm);
-  flex-shrink: 0;
   opacity: 0.6;
 }
 
 .popup {
   z-index: 50;
-  max-height: rem(256);
-  min-width: var(--trigger-width);
-  overflow-y: auto;
-  border-radius: var(--radius-xl);
-  padding: var(--space-1);
-  color: var(--popover-foreground);
   transform-origin: var(--transform-origin);
+  overflow-y: auto;
+  min-width: var(--trigger-width);
+  max-height: rem(256);
+  padding: var(--space-1);
+  border-radius: var(--radius-xl);
+  color: var(--popover-foreground);
 
   @include overlay-enter;
   @include slide-from-side;
@@ -80,22 +79,22 @@
 }
 
 .item {
+  user-select: none;
   display: flex;
-  align-items: center;
   gap: var(--space-2);
-  border-radius: var(--radius-lg);
+  align-items: center;
   padding: rem(6) var(--space-3) rem(6) var(--space-2);
+  border-radius: var(--radius-lg);
   font-size: var(--text-sm);
   outline: none;
-  user-select: none;
   transition: colors 150ms ease;
 
   @include interactive-cursor;
 
   &[data-hovered],
   &[data-focused] {
-    background: oklch(1 0 0 / 8%);
     color: var(--foreground);
+    background: oklch(1 0 0 / 8%);
   }
 
   &[data-disabled] {
@@ -111,17 +110,17 @@
 }
 
 .itemLabel {
-  min-width: 0;
-  flex: 1;
   overflow: hidden;
+  flex: 1;
+  min-width: 0;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .check {
+  flex-shrink: 0;
   width: var(--icon-sm);
   height: var(--icon-sm);
-  flex-shrink: 0;
   opacity: 0;
 
   [data-selected] > & {

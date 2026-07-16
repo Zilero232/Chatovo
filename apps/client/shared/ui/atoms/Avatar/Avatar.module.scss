@@ -1,14 +1,14 @@
 @use '@/shared/styles/functions' as *;
 
 .root {
+  user-select: none;
   position: relative;
+  overflow: hidden;
   display: flex;
+  flex-shrink: 0;
   width: 2rem;
   height: 2rem;
-  flex-shrink: 0;
-  overflow: hidden;
   border-radius: 9999px;
-  user-select: none;
 
   &[data-size='lg'] {
     width: 2.5rem;
@@ -30,19 +30,19 @@
 
 .fallback {
   display: flex;
-  width: 100%;
-  height: 100%;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
   border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
   background: linear-gradient(
     to bottom right,
     color-mix(in oklch, var(--brand-violet) 40%, transparent),
     color-mix(in oklch, var(--brand-cyan) 40%, transparent)
   );
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--foreground);
 
   .root[data-size='sm'] & {
     font-size: 0.75rem;
@@ -50,18 +50,18 @@
 }
 
 .badge {
+  user-select: none;
   position: absolute;
+  z-index: 10;
   right: 0;
   bottom: 0;
-  z-index: 10;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background: var(--brand-cyan);
   color: var(--background);
+  background: var(--brand-cyan);
   box-shadow: 0 0 0 rem(2) var(--background), 0 0 rem(10) rem(-2) oklch(0.82 0.16 200 / 0.7);
-  user-select: none;
 
   .root[data-size='sm'] & {
     width: 0.5rem;
@@ -108,18 +108,18 @@
 .groupCount {
   position: relative;
   display: flex;
-  width: 2rem;
-  height: 2rem;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
+  width: 2rem;
+  height: 2rem;
   border-radius: 9999px;
-  background: oklch(1 0 0 / 8%);
   font-size: 0.875rem;
   font-weight: 500;
   color: color-mix(in oklch, var(--foreground) 80%, transparent);
-  box-shadow: 0 0 0 rem(2) var(--background);
+  background: oklch(1 0 0 / 8%);
   backdrop-filter: blur(rem(12));
+  box-shadow: 0 0 0 rem(2) var(--background);
 
   svg {
     width: 1rem;

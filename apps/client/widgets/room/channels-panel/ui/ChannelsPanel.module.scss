@@ -1,13 +1,13 @@
 .root {
   display: flex;
-  height: 100%;
   flex-direction: column;
+  height: 100%;
 }
 
 .desktop {
-  height: 100%;
-  width: 16rem;
   flex-shrink: 0;
+  width: 16rem;
+  height: 100%;
   border-right: 1px solid oklch(1 0 0 / 10%);
   box-shadow: inset -1px 0 0 oklch(1 0 0 / 4%);
 }

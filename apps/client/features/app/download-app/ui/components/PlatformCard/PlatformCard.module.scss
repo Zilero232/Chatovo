@@ -2,20 +2,20 @@
 
 .root {
   display: flex;
-  min-height: 7.5rem;
   flex-direction: column;
+  gap: 0.625rem;
   align-items: center;
   justify-content: center;
-  gap: 0.625rem;
-  border-radius: 0.75rem;
-  border: 1px solid rgb(255 255 255 / 10%);
-  background: rgb(255 255 255 / 5%);
+  min-height: 7.5rem;
   padding: 1rem;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 0.75rem;
+  color: inherit;
   text-align: center;
+  text-decoration: none;
+  background: rgb(255 255 255 / 5%);
   backdrop-filter: blur(rem(12));
   transition: all 150ms ease;
-  text-decoration: none;
-  color: inherit;
 }
 
 .available {

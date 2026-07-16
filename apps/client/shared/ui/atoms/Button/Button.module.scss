@@ -23,8 +23,8 @@
 }
 
 .default {
-  background: var(--foreground);
   color: var(--background);
+  background: var(--foreground);
   box-shadow:
     0 1px 0 oklch(1 0 0 / 0.7) inset,
     0 -1px 0 oklch(0 0 0 / 0.15) inset,
@@ -38,8 +38,8 @@
 }
 
 .destructive {
-  background: var(--destructive);
   color: white;
+  background: var(--destructive);
   box-shadow:
     0 1px 0 oklch(1 0 0 / 0.18) inset,
     0 rem(4) rem(14) rem(-2) oklch(0.7 0.22 22 / 0.5),
@@ -52,8 +52,8 @@
 
 .outline {
   border: 1px solid oklch(1 0 0 / 12%);
-  background: oklch(1 0 0 / 3%);
   color: var(--foreground);
+  background: oklch(1 0 0 / 3%);
   box-shadow: 0 rem(1) rem(2) oklch(0 0 0 / 0.25);
 
   &:hover:not(:disabled) {
@@ -64,8 +64,8 @@
 
 .secondary {
   border: 1px solid oklch(1 0 0 / 10%);
-  background: oklch(1 0 0 / 5%);
   color: var(--foreground);
+  background: oklch(1 0 0 / 5%);
   box-shadow: 0 rem(1) rem(2) oklch(0 0 0 / 0.25);
 
   &:hover:not(:disabled) {
@@ -74,19 +74,19 @@
 }
 
 .ghost {
-  background: transparent;
   color: color-mix(in oklch, var(--foreground) 80%, transparent);
+  background: transparent;
 
   &:hover:not(:disabled) {
-    background: oklch(1 0 0 / 8%);
     color: var(--foreground);
+    background: oklch(1 0 0 / 8%);
   }
 }
 
 .link {
-  background: transparent;
   color: var(--brand-cyan);
   text-underline-offset: rem(4);
+  background: transparent;
 
   &:hover:not(:disabled) {
     text-decoration: underline;
@@ -99,10 +99,10 @@
 }
 
 .sizeXs {
-  height: var(--control-xs);
   gap: var(--space-1);
-  border-radius: var(--radius-md);
+  height: var(--control-xs);
   padding-inline: var(--space-2);
+  border-radius: var(--radius-md);
   font-size: var(--text-xs);
 
   svg {
@@ -112,16 +112,16 @@
 }
 
 .sizeSm {
-  height: var(--control-sm);
   gap: var(--space-2);
-  border-radius: var(--radius-md);
+  height: var(--control-sm);
   padding-inline: var(--space-3);
+  border-radius: var(--radius-md);
 }
 
 .sizeLg {
   height: var(--control-lg);
-  border-radius: var(--radius-lg);
   padding-inline: var(--space-5);
+  border-radius: var(--radius-lg);
 }
 
 .sizeIcon {
@@ -133,8 +133,8 @@
 .sizeIconXs {
   width: var(--control-xs);
   height: var(--control-xs);
-  border-radius: var(--radius-md);
   padding: 0;
+  border-radius: var(--radius-md);
 
   svg {
     width: var(--icon-xs);

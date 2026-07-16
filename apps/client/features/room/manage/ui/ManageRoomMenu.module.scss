@@ -1,20 +1,20 @@
 @use '@/shared/styles/mixins' as *;
 
 .trigger {
+  cursor: pointer;
   width: 1.5rem;
   height: 1.5rem;
-  border-radius: 0.375rem;
   border: 1px solid rgb(255 255 255 / 10%);
-  background: rgb(255 255 255 / 8%);
+  border-radius: 0.375rem;
   color: var(--muted-foreground);
+  background: rgb(255 255 255 / 8%);
   backdrop-filter: blur(rem(12));
   transition: all 150ms ease;
-  cursor: pointer;
 
   &:hover {
     border-color: color-mix(in oklch, var(--brand-violet) 40%, transparent);
-    background: rgb(255 255 255 / 15%);
     color: var(--foreground);
+    background: rgb(255 255 255 / 15%);
   }
 
   svg {
