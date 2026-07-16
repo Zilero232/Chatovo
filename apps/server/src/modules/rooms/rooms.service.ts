@@ -1,9 +1,10 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { isNonNullish } from 'remeda';
 
 import { RoomKind } from '../../../generated';
 import { DomainEvent } from '../../common/events/domain-events';
+import { AppConflictException } from '../../common/exceptions';
 import { PrismaService } from '../../core';
 import { assertCanManageRoom, getUserDisplayName, roomSelect } from '../../lib';
 
@@ -37,7 +38,7 @@ export class RoomsService {
     });
 
     if (existing) {
-      throw new ConflictException('A room with this name already exists');
+      throw new AppConflictException('ROOM_NAME_TAKEN', 'A room with this name already exists');
     }
   }
 

@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { env } from '@/shared/config';
 import { getAuthToken } from '../auth';
+import { toApiError } from './api-error';
 
 export const api = axios.create({
   baseURL: env.NEXT_PUBLIC_API_URL,
@@ -19,10 +20,10 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(undefined, (error) => {
   if (axios.isAxiosError(error)) {
-    const message = (error.response?.data as { error?: string } | undefined)?.error;
+    const apiError = toApiError(error.response?.data);
 
-    if (message) {
-      return Promise.reject(new Error(message));
+    if (apiError) {
+      return Promise.reject(apiError);
     }
   }
 

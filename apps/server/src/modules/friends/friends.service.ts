@@ -1,13 +1,13 @@
-import {
-  BadRequestException,
-  ConflictException,
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { isNullish } from 'remeda';
 
 import { FriendshipStatus, Prisma, RoomKind } from '../../../generated';
+import {
+  AppBadRequestException,
+  AppConflictException,
+  AppForbiddenException,
+  AppNotFoundException,
+} from '../../common/exceptions';
 import { PrismaService } from '../../core';
 import { getUserWithProfileOrThrow, roomSelect } from '../../lib';
 import { userWithProfileInclude } from '../../lib/selectors';
@@ -126,7 +126,7 @@ export class FriendsService {
     addresseeId: string,
   ): Promise<FriendshipRelation> {
     if (requesterId === addresseeId) {
-      throw new BadRequestException('Cannot friend yourself');
+      throw new AppBadRequestException('FRIEND_SELF', 'Cannot friend yourself');
     }
 
     await getUserWithProfileOrThrow(addresseeId);
@@ -135,11 +135,14 @@ export class FriendsService {
 
     if (!isNullish(existing)) {
       if (existing.status === FriendshipStatus.accepted) {
-        throw new ConflictException('Already friends');
+        throw new AppConflictException('FRIEND_ALREADY', 'Already friends');
       }
 
       if (existing.requesterId === addresseeId) {
-        throw new ConflictException('This user already sent you a request');
+        throw new AppConflictException(
+          'FRIEND_REQUEST_INCOMING_EXISTS',
+          'This user already sent you a request',
+        );
       }
 
       return toRelation(existing, requesterId);
@@ -156,7 +159,7 @@ export class FriendsService {
       return toRelation(row, requesterId);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
-        throw new ConflictException('Friend request already exists');
+        throw new AppConflictException('FRIEND_REQUEST_EXISTS', 'Friend request already exists');
       }
 
       throw error;
@@ -171,7 +174,7 @@ export class FriendsService {
     });
 
     if (isNullish(user)) {
-      throw new NotFoundException('User not found');
+      throw new AppNotFoundException('USER_NOT_FOUND', 'User not found');
     }
 
     return toFriendUser(user);
@@ -184,7 +187,7 @@ export class FriendsService {
     });
 
     if (isNullish(target)) {
-      throw new NotFoundException('User not found');
+      throw new AppNotFoundException('USER_NOT_FOUND', 'User not found');
     }
 
     return this.createFriendshipRequest(requesterId, target.id);
@@ -197,7 +200,7 @@ export class FriendsService {
     });
 
     if (isNullish(row) || row.addresseeId !== userId || row.status !== FriendshipStatus.pending) {
-      throw new NotFoundException('Request not found');
+      throw new AppNotFoundException('FRIEND_REQUEST_NOT_FOUND', 'Request not found');
     }
 
     const updated = await this.prisma.friendship.update({
@@ -215,7 +218,7 @@ export class FriendsService {
     const row = await this.prisma.friendship.findUnique({ where: { id: friendshipId } });
 
     if (isNullish(row) || row.addresseeId !== userId || row.status !== FriendshipStatus.pending) {
-      throw new NotFoundException('Request not found');
+      throw new AppNotFoundException('FRIEND_REQUEST_NOT_FOUND', 'Request not found');
     }
 
     bumpFriendsEpoch(userId, row.requesterId);
@@ -227,11 +230,14 @@ export class FriendsService {
     const row = await this.findFriendship(userId, otherUserId);
 
     if (isNullish(row)) {
-      throw new NotFoundException('Friendship not found');
+      throw new AppNotFoundException('FRIENDSHIP_NOT_FOUND', 'Friendship not found');
     }
 
     if (row.status === FriendshipStatus.pending && row.requesterId !== userId) {
-      throw new ForbiddenException('Cannot cancel this request');
+      throw new AppForbiddenException(
+        'FRIEND_REQUEST_NOT_CANCELABLE',
+        'Cannot cancel this request',
+      );
     }
 
     await this.prisma.friendship.delete({ where: { id: row.id } });
@@ -241,13 +247,13 @@ export class FriendsService {
 
   async getOrCreateDmRoom(userId: string, otherUserId: string): Promise<Room> {
     if (userId === otherUserId) {
-      throw new BadRequestException('Cannot create DM with yourself');
+      throw new AppBadRequestException('DM_SELF', 'Cannot create DM with yourself');
     }
 
     const relation = await this.findFriendship(userId, otherUserId);
 
     if (isNullish(relation) || relation.status !== FriendshipStatus.accepted) {
-      throw new ForbiddenException('Only friends can open DM');
+      throw new AppForbiddenException('DM_NOT_FRIENDS', 'Only friends can open DM');
     }
 
     const [dmUserAId, dmUserBId] =

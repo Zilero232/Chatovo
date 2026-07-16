@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { useErrorMessage } from '@/entities/app/locale';
 import {
   type ProfileValues,
   profileSchema,
@@ -19,6 +20,7 @@ import s from './UpdateProfileForm.module.scss';
 
 export const UpdateProfileForm = () => {
   const t = useTranslations('settings.profile');
+  const errorMessage = useErrorMessage();
 
   const { displayName, profileUrl, avatarUrl, bannerColor, bio } = useCurrentUser();
   const { isPending, mutate } = useUpdateProfile();
@@ -50,7 +52,7 @@ export const UpdateProfileForm = () => {
           reset(values);
           avatar.reset();
         },
-        onError: (err: Error) => toast.error(err.message),
+        onError: (err: Error) => toast.error(errorMessage(err)),
       },
     );
   });

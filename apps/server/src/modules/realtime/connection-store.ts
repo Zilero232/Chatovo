@@ -51,7 +51,7 @@ export const getConnectionByWs = (ws: WebSocket): RealtimeConnection | null => {
 
 export const registerConnection = (userId: string, ws: WebSocket): RealtimeConnection => {
   const id = crypto.randomUUID();
-  const connection: RealtimeConnection = { id, userId, ws, rooms: new Set() };
+  const connection: RealtimeConnection = { id, userId, ws, rooms: new Set(), isAlive: true };
 
   connections.set(id, connection);
 
@@ -143,6 +143,18 @@ export const hasUserConnection = (userId: string): boolean => {
   const userConnections = byUser.get(userId);
 
   return (userConnections?.size ?? 0) > 0;
+};
+
+export const markConnectionAlive = (ws: WebSocket): void => {
+  const connection = getConnectionByWs(ws);
+
+  if (connection) {
+    connection.isAlive = true;
+  }
+};
+
+export const listConnections = (): RealtimeConnection[] => {
+  return [...connections.values()];
 };
 
 export const sendToRoom = (roomId: string, message: RealtimeServerMessage): void => {

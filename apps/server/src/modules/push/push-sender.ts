@@ -28,8 +28,9 @@ const sendToUser = async ({
   notification,
   data,
   channelId,
+  force,
 }: SendPushToUserInput): Promise<void> => {
-  if (hasUserConnection(userId)) {
+  if (!force && hasUserConnection(userId)) {
     return;
   }
 
@@ -89,5 +90,6 @@ export const sendIncomingCallPush = async (input: {
       callerId: caller.id,
     },
     channelId: 'calls',
+    force: true,
   });
 };

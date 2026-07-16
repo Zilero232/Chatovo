@@ -10,4 +10,5 @@ export type PushTokensPayload = PushNotificationPayload & {
 
 export type SendPushToUserInput = PushNotificationPayload & {
   userId: string;
+  force?: boolean;
 };

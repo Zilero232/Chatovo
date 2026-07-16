@@ -26,6 +26,7 @@ export {
   sendFriendRequest,
 } from './friends';
 export { getAppDownloads } from './github';
+export { ApiError, apiErrorCode } from './http';
 export { fetchLiveKitToken } from './livekit';
 export { registerPushDevice, unregisterPushDevice } from './push';
 export { queryClient } from './query-client';

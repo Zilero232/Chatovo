@@ -1,1 +1,1 @@
-export { useDateLocale, useFieldError, useLocale } from './model/hooks';
+export { useDateLocale, useErrorMessage, useFieldError, useLocale } from './model/hooks';

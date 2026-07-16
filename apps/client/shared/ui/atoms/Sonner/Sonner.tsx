@@ -22,7 +22,7 @@ const DESKTOP_TOAST_OFFSET = {
 } as const;
 
 const MOBILE_TOAST_OFFSET = {
-  bottom: 'var(--toast-offset-bottom)',
+  top: 'var(--toast-offset-top)',
   left: 'var(--toast-offset-left)',
   right: 'var(--toast-offset-right)',
 } as const;
@@ -55,7 +55,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       className={`${s.toaster} group`}
       mobileOffset={MOBILE_TOAST_OFFSET}
       offset={isMobile ? MOBILE_TOAST_OFFSET : DESKTOP_TOAST_OFFSET}
-      position={isMobile ? 'bottom-right' : 'top-right'}
+      position="top-right"
       theme="dark"
       {...props}
     />

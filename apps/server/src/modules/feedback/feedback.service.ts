@@ -1,7 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
 import { DomainEvent } from '../../common/events/domain-events';
+import { AppBadRequestException } from '../../common/exceptions';
 import { AppConfigService } from '../../config/config.module';
 import { ATTACHMENT_MAX_BYTES } from '../../config/uploads';
 import { getUserWithProfileOrThrow } from '../../lib';
@@ -36,7 +37,7 @@ export class FeedbackService {
 
     if (screenshot) {
       if (screenshot.size > ATTACHMENT_MAX_BYTES) {
-        throw new BadRequestException('Screenshot is too large');
+        throw new AppBadRequestException('SCREENSHOT_TOO_LARGE', 'Screenshot is too large');
       }
 
       attachments.push({

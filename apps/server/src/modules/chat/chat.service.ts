@@ -1,11 +1,11 @@
-import {
-  BadRequestException,
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { extension } from 'mime-types';
 
+import {
+  AppBadRequestException,
+  AppForbiddenException,
+  AppNotFoundException,
+} from '../../common/exceptions';
 import { ATTACHMENT_MAX_BYTES } from '../../config/uploads';
 import { PrismaService } from '../../core';
 import { assertCanAccessDmRoom, assertRoomExists, senderSelect } from '../../lib';
@@ -35,10 +35,10 @@ export class ChatService {
     const { size, mimetype: type, originalname: name } = file;
 
     if (size === 0) {
-      throw new BadRequestException('Empty file');
+      throw new AppBadRequestException('FILE_EMPTY', 'Empty file');
     }
     if (size > ATTACHMENT_MAX_BYTES) {
-      throw new BadRequestException('File too large');
+      throw new AppBadRequestException('FILE_TOO_LARGE', 'File too large');
     }
 
     await assertRoomExists(roomId);
@@ -104,10 +104,10 @@ export class ChatService {
     });
 
     if (!message || message.deletedAt) {
-      throw new NotFoundException('Message not found');
+      throw new AppNotFoundException('MESSAGE_NOT_FOUND', 'Message not found');
     }
     if (message.senderId !== senderId) {
-      throw new ForbiddenException('Not your message');
+      throw new AppForbiddenException('MESSAGE_NOT_OWNED', 'Not your message');
     }
 
     await assertCanAccessDmRoom(message.roomId, senderId);

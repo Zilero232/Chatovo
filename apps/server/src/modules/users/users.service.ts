@@ -1,6 +1,7 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { extension } from 'mime-types';
 
+import { AppBadRequestException } from '../../common/exceptions';
 import { AVATAR_MAX_BYTES } from '../../config/uploads';
 import { PrismaService } from '../../core';
 import { ensureUserFriendTag, getUserWithProfileOrThrow } from '../../lib';
@@ -32,10 +33,10 @@ export class UsersService {
   ): Promise<string | null | undefined> {
     if (avatar && avatar.size > 0) {
       if (!avatar.mimetype.startsWith('image/')) {
-        throw new BadRequestException('Not an image');
+        throw new AppBadRequestException('FILE_NOT_IMAGE', 'Not an image');
       }
       if (avatar.size > AVATAR_MAX_BYTES) {
-        throw new BadRequestException('Image too large');
+        throw new AppBadRequestException('IMAGE_TOO_LARGE', 'Image too large');
       }
 
       return this.uploadAvatar(userId, avatar);
@@ -59,7 +60,7 @@ export class UsersService {
     const { displayName, profileUrl, bannerColor, bio, avatar, removeAvatar } = input;
 
     if (displayName.trim().length < 2) {
-      throw new BadRequestException('Invalid name');
+      throw new AppBadRequestException('DISPLAY_NAME_INVALID', 'Invalid name');
     }
 
     const avatarUrl = await this.resolveAvatarUrl(userId, avatar, removeAvatar);

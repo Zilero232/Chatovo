@@ -1,0 +1,115 @@
+@use '@/shared/styles/mixins' as *;
+
+.root {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: rem(28);
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: rem(24);
+  text-align: center;
+}
+
+.orb {
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  width: rem(420);
+  height: rem(420);
+  border-radius: 9999px;
+  opacity: 0.5;
+  filter: blur(rem(90));
+
+  &[data-tone='violet'] {
+    top: 12%;
+    left: 8%;
+    background: var(--brand-violet);
+    animation: error-drift 14s ease-in-out infinite;
+  }
+
+  &[data-tone='cyan'] {
+    right: 6%;
+    bottom: 10%;
+    background: var(--brand-cyan);
+    animation: error-drift 18s ease-in-out infinite reverse;
+  }
+}
+
+.badge {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: rem(88);
+  height: rem(88);
+  border-radius: rem(28);
+  color: var(--destructive);
+  animation: error-float 5s ease-in-out infinite;
+}
+
+.logo {
+  width: rem(48);
+  height: rem(48);
+}
+
+.title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(rem(20), 4vw, rem(28));
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.description {
+  position: relative;
+  z-index: 1;
+  max-width: rem(440);
+  margin: 0;
+  font-size: rem(15);
+  line-height: 1.6;
+}
+
+.actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: rem(12);
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes error-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(#{rem(-10)});
+  }
+}
+
+@keyframes error-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(#{rem(40)}, #{rem(-30)}) scale(1.12);
+  }
+}
+
+@include reduced-motion {
+  .badge,
+  .orb {
+    animation: none;
+  }
+}

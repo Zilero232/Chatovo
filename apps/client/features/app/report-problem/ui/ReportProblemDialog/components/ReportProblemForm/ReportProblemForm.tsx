@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useFieldError } from '@/entities/app/locale';
+import { useErrorMessage, useFieldError } from '@/entities/app/locale';
 import { FilePicker, FormField, Stack, SubmitButton, Textarea } from '@/shared/ui';
 import { useReportProblem } from '../../../../model/use-report-problem';
 
@@ -20,6 +20,7 @@ const DEFAULT_VALUES: ReportProblemValues = { description: '' };
 export const ReportProblemForm = ({ onSent }: ReportProblemFormProps) => {
   const t = useTranslations('feedback');
   const fieldError = useFieldError('feedback');
+  const errorMessage = useErrorMessage();
   const { isPending, mutate } = useReportProblem();
 
   const [screenshot, setScreenshot] = useState<File | undefined>(undefined);
@@ -44,7 +45,7 @@ export const ReportProblemForm = ({ onSent }: ReportProblemFormProps) => {
           setScreenshot(undefined);
           onSent();
         },
-        onError: (err: Error) => toast.error(err.message),
+        onError: (err: Error) => toast.error(errorMessage(err)),
       },
     );
   });
