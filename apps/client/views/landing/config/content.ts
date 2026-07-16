@@ -35,6 +35,9 @@ type Faq = {
 };
 
 export type LandingContent = {
+  nav: {
+    signIn: string;
+  };
   hero: {
     eyebrow: string;
     title: string;
@@ -72,6 +75,9 @@ const FEATURE_ICONS: Record<string, LucideIcon> = {
 
 export const LANDING_CONTENT: Record<LandingLocale, LandingContent> = {
   ru: {
+    nav: {
+      signIn: 'Войти',
+    },
     hero: {
       eyebrow: 'Голосовое общение без лишнего',
       title: 'Голосовые и видеокомнаты,',
@@ -190,6 +196,9 @@ export const LANDING_CONTENT: Record<LandingLocale, LandingContent> = {
     },
   },
   en: {
+    nav: {
+      signIn: 'Sign in',
+    },
     hero: {
       eyebrow: 'Voice chat without the setup',
       title: 'Voice and video rooms',

@@ -17,8 +17,8 @@ export const LandingHeader = ({ content, locale }: LandingSectionProps) => (
     </Link>
 
     <div className={s.headerActions}>
-      <Button href={ROUTES.auth} size="sm">
-        {content.hero.ctaPrimary}
+      <Button href={ROUTES.auth} size="sm" variant="ghost">
+        {content.nav.signIn}
       </Button>
     </div>
   </header>
