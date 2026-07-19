@@ -1,9 +1,9 @@
-import { FaqJsonLdScript } from '@/shared/seo';
-import { LANDING_CONTENT } from '../config';
 import {
   LandingBackground,
+  LandingDesktop,
   LandingFaq,
   LandingFeatures,
+  LandingFinalCta,
   LandingFooter,
   LandingHeader,
   LandingHero,
@@ -15,25 +15,22 @@ import s from './LandingPage.module.scss';
 
 import type { LandingPageProps } from './LandingPage.types';
 
-export const LandingPage = ({ locale }: LandingPageProps) => {
-  const content = LANDING_CONTENT[locale];
+export const LandingPage = ({ locale }: LandingPageProps) => (
+  <div className={s.root}>
+    <LandingControllers locale={locale} />
+    <LandingBackground />
 
-  return (
-    <div className={s.root}>
-      <FaqJsonLdScript items={content.faq.items} />
-      <LandingControllers locale={locale} />
-      <LandingBackground />
+    <LandingHeader locale={locale} />
 
-      <LandingHeader content={content} locale={locale} />
+    <main>
+      <LandingHero locale={locale} />
+      <LandingFeatures locale={locale} />
+      <LandingSteps locale={locale} />
+      <LandingDesktop locale={locale} />
+      <LandingFaq locale={locale} />
+      <LandingFinalCta locale={locale} />
+    </main>
 
-      <main>
-        <LandingHero content={content} locale={locale} />
-        <LandingFeatures content={content} />
-        <LandingSteps content={content} />
-        <LandingFaq content={content} />
-      </main>
-
-      <LandingFooter content={content} />
-    </div>
-  );
-};
+    <LandingFooter locale={locale} />
+  </div>
+);

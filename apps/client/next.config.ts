@@ -1,11 +1,14 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import createNextIntlPlugin from 'next-intl/plugin';
 
 import rootPackage from '../../package.json' with { type: 'json' };
 
 import type { NextConfig } from 'next';
 
 const clientRoot = path.dirname(fileURLToPath(import.meta.url));
+
+const withNextIntl = createNextIntlPlugin('./shared/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   env: {
@@ -27,4 +30,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

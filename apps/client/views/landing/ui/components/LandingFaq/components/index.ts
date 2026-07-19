@@ -1,0 +1,1 @@
+export { LandingFaqJsonLd } from './LandingFaqJsonLd';

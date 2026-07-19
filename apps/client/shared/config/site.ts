@@ -3,7 +3,7 @@ export const SITE = {
   name: 'Chatovo',
   title: 'Chatovo — голосовые и видеокомнаты в реальном времени',
   description:
-    'Chatovo — мессенджер с голосовыми и видеокомнатами. Создайте комнату в один клик, отправьте ссылку друзьям и общайтесь — в браузере или в приложении для компьютера. Бесплатно, без установки.',
+    'Бесплатные голосовые и видеокомнаты в браузере. Создайте комнату за секунды, отправьте ссылку — и общайтесь: голос, видео, демонстрация экрана. Без установки и регистрации сервера.',
   locale: 'ru_RU',
   lang: 'ru-RU',
   themeColor: {
@@ -34,7 +34,7 @@ export const SITE = {
   en: {
     title: 'Chatovo — Real-time voice & video rooms',
     description:
-      'Chatovo is a modern, Discord-inspired messenger built around private voice and video rooms. Spin up a room in one click, share the link, and start talking — in the browser or on the desktop.',
+      'Free voice and video rooms that run in your browser. Create a room in seconds, share the link, and talk — with screen sharing and chat. No install, no server setup.',
     locale: 'en_US',
     lang: 'en-US',
     keywords: [

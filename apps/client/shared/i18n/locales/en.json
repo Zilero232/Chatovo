@@ -298,6 +298,22 @@
       "urlInvalid": "Enter a valid URL",
       "bioMax": "Max 280 characters",
       "required": "Required"
+    },
+    "liveNow": "Live right now",
+    "roomDemoName": "Friday hangout",
+    "stats": {
+      "setup": {
+        "value": "15 sec",
+        "label": "to the first word"
+      },
+      "free": {
+        "value": "$0",
+        "label": "for everything"
+      },
+      "limit": {
+        "value": "∞",
+        "label": "minutes per call"
+      }
     }
   },
   "lobby": {
@@ -782,6 +798,151 @@
     "validation": {
       "feedbackMin": "At least 10 characters",
       "feedbackMax": "At most 2000 characters"
+    }
+  },
+  "landing": {
+    "nav": {
+      "signIn": "Sign in",
+      "ariaLabel": "Page sections",
+      "links": {
+        "features": "Features",
+        "how-it-works": "How it works",
+        "desktop": "Desktop app",
+        "faq": "FAQ"
+      },
+      "localeSwitch": "RU"
+    },
+    "hero": {
+      "eyebrow": "Voice chat without the setup",
+      "title": "Get everyone in a room",
+      "titleAccent": "in fifteen seconds",
+      "description": "Name it, share the link, start talking. No servers, no roles, no channels — just you and the people you invited.",
+      "ctaPrimary": "Start for free",
+      "ctaNote": "Right in your browser · No install",
+      "liveLabel": "{count} people live",
+      "stats": {
+        "setup": {
+          "value": "15 sec",
+          "suffix": " sec",
+          "label": "to the first word"
+        },
+        "install": {
+          "value": "0",
+          "suffix": "",
+          "label": "installs required"
+        },
+        "limit": {
+          "value": "∞",
+          "suffix": "",
+          "label": "minutes per call"
+        }
+      }
+    },
+    "features": {
+      "heading": "What Chatovo does",
+      "subheading": "Everything a conversation needs — and nothing you have to configure.",
+      "items": {
+        "rooms": {
+          "title": "A room in one click",
+          "description": "Press one button and the room exists. No structure to plan — the conversation starts right away."
+        },
+        "quality": {
+          "title": "Clear voice and video",
+          "description": "Echo cancellation, noise suppression and automatic gain. Video adapts to your connection speed."
+        },
+        "privacy": {
+          "title": "Private rooms",
+          "description": "Add a password or hide the room from the public list. You decide who gets in, not a default setting."
+        },
+        "screen": {
+          "title": "Screen and chat together",
+          "description": "Screen sharing, text chat and files live in the same window — nothing to switch between."
+        },
+        "link": {
+          "title": "Join by link",
+          "description": "Your friend opens a link and lands in the room. No waiting on a server invite to arrive."
+        },
+        "free": {
+          "title": "Open source",
+          "description": "No tiers, no call duration cap. The source is open, so you can run it on your own server."
+        }
+      }
+    },
+    "steps": {
+      "heading": "How it works",
+      "subheading": "Three steps from an empty screen to a live conversation.",
+      "items": {
+        "create": {
+          "title": "Create a room",
+          "description": "Give it a name and add a password if you want one."
+        },
+        "share": {
+          "title": "Share the link",
+          "description": "Copy the room address and drop it wherever you already talk."
+        },
+        "talk": {
+          "title": "Start talking",
+          "description": "Your mic goes live immediately — talk, share your screen, type along."
+        }
+      }
+    },
+    "desktop": {
+      "eyebrow": "For desktop",
+      "heading": "The app, when a browser tab is not enough",
+      "description": "Everything works in the browser. The app adds what a tab cannot: control while Chatovo is minimised.",
+      "cta": "Download the app",
+      "platforms": "Windows · macOS · Linux",
+      "items": {
+        "shortcuts": {
+          "title": "Global shortcuts",
+          "description": "Mute yourself without leaving your game or editor."
+        },
+        "ptt": {
+          "title": "Push-to-talk",
+          "description": "Your mic opens only while the key is held — handy in a noisy room."
+        },
+        "platforms": {
+          "title": "Three platforms",
+          "description": "One build for Windows, macOS and Linux, sharing the browser account."
+        }
+      }
+    },
+    "faq": {
+      "heading": "Frequently asked questions",
+      "subheading": "Short answers to what people ask most.",
+      "items": [
+        {
+          "question": "Is Chatovo free?",
+          "answer": "Completely. There are no paid tiers, no limit on call length, and no features hidden behind a subscription."
+        },
+        {
+          "question": "How is Chatovo different from Discord?",
+          "answer": "Discord is built around a server with roles and channels that you configure first. Chatovo is built around the conversation: a room takes seconds to make and lasts exactly as long as you need it."
+        },
+        {
+          "question": "How many people fit in a room?",
+          "answer": "From two people up to a few dozen at once — with voice, video and screen sharing."
+        },
+        {
+          "question": "Do I need an account?",
+          "answer": "Yes — an account keeps your rooms and friend list. Signing up with your email takes less than a minute."
+        },
+        {
+          "question": "Can I host Chatovo myself?",
+          "answer": "Yes. The project is open source: the server, the client and the LiveKit media server can all run on your own infrastructure."
+        }
+      ]
+    },
+    "finalCta": {
+      "heading": "Your room is waiting",
+      "description": "Create it now and share the link — the rest takes care of itself.",
+      "action": "Create a room",
+      "note": "Email sign-up · Under a minute"
+    },
+    "footer": {
+      "tagline": "Voice and video rooms that just work.",
+      "privacy": "Privacy",
+      "terms": "Terms"
     }
   }
 }

@@ -1,49 +1,74 @@
 import { clsx } from 'clsx';
+import { getTranslations } from 'next-intl/server';
 
 import { ROUTES } from '@/shared/constants';
 import { Button, Text } from '@/shared/ui';
-import { LANDING_WAVE_BARS } from '../../../config';
-import { LandingDownloadButton } from '../LandingDownloadButton';
+import {
+  LANDING_ACTIVE_SPEAKERS,
+  LANDING_HERO_STAT_COUNTS,
+  LANDING_HERO_STAT_KEYS,
+} from '../../../config';
+import { LandingHeroStat } from '../LandingHeroStat';
+import { LandingHeroVisual } from '../LandingHeroVisual';
+import { LandingReveal } from '../LandingReveal';
 
 import s from '../../LandingPage.module.scss';
 
 import type { LandingSectionProps } from '../../LandingPage.types';
 
-export const LandingHero = ({ content, locale }: LandingSectionProps) => (
-  <section className={clsx(s.container, s.hero)}>
-    <div className={s.heroCopy}>
-      <span className={s.eyebrow}>
-        <span aria-hidden className={s.eyebrowDot} />
-        {content.hero.eyebrow}
-      </span>
+export const LandingHero = async ({ locale }: LandingSectionProps) => {
+  const t = await getTranslations({ locale, namespace: 'landing.hero' });
 
-      <h1 className={s.heroTitle}>
-        {content.hero.title}{' '}
-        <span className={clsx(s.heroTitleAccent, 'gradient-text')}>{content.hero.titleAccent}</span>
-      </h1>
+  return (
+    <section className={clsx(s.container, s.hero)}>
+      <div className={s.heroCopy}>
+        <LandingReveal>
+          <Text as="span" className={s.eyebrow} size="xs" weight="medium">
+            <span aria-hidden className={s.eyebrowDot} />
+            {t('eyebrow')}
+          </Text>
+        </LandingReveal>
 
-      <Text className={s.heroDescription} size="lg" tone="muted">
-        {content.hero.description}
-      </Text>
+        <LandingReveal delay={0.06}>
+          <Text as="h1" className={s.heroTitle} weight="bold">
+            {t('title')}{' '}
+            <span className={clsx(s.heroTitleAccent, 'gradient-text')}>{t('titleAccent')}</span>
+          </Text>
+        </LandingReveal>
 
-      <div className={s.heroActions}>
-        <Button href={ROUTES.auth} size="lg">
-          {content.hero.ctaPrimary}
-        </Button>
-        <LandingDownloadButton label={content.hero.ctaSecondary} locale={locale} />
+        <LandingReveal delay={0.12}>
+          <Text className={s.heroDescription} size="lg" tone="muted">
+            {t('description')}
+          </Text>
+        </LandingReveal>
+
+        <LandingReveal delay={0.18}>
+          <div className={s.heroActions}>
+            <Button href={ROUTES.auth} size="lg">
+              {t('ctaPrimary')}
+            </Button>
+            <Text className={s.heroNote} size="sm" tone="muted">
+              {t('ctaNote')}
+            </Text>
+          </div>
+        </LandingReveal>
+
+        <LandingReveal delay={0.24}>
+          <dl className={s.heroStats}>
+            {LANDING_HERO_STAT_KEYS.map((key) => (
+              <LandingHeroStat
+                key={key}
+                count={LANDING_HERO_STAT_COUNTS[key]}
+                fallback={t(`stats.${key}.value`)}
+                label={t(`stats.${key}.label`)}
+                suffix={t(`stats.${key}.suffix`)}
+              />
+            ))}
+          </dl>
+        </LandingReveal>
       </div>
-    </div>
 
-    <div className={clsx(s.heroVisual, 'glass')}>
-      <div aria-hidden className={s.wave}>
-        {LANDING_WAVE_BARS.map((bar) => (
-          <span
-            key={bar.id}
-            className={s.waveBar}
-            style={{ height: bar.height, animationDelay: bar.delay }}
-          />
-        ))}
-      </div>
-    </div>
-  </section>
-);
+      <LandingHeroVisual liveLabel={t('liveLabel', { count: LANDING_ACTIVE_SPEAKERS })} />
+    </section>
+  );
+};

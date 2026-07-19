@@ -1,1 +1,0 @@
-export { TauriLandingRedirect } from './TauriLandingRedirect';
