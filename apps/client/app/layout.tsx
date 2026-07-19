@@ -2,7 +2,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 
 import { SITE } from '@/shared/config';
 import { getTauriMobileHmrShim } from '@/shared/lib/tauri-mobile-hmr-shim';
-import { JsonLdScript } from '@/shared/seo';
+import { SiteJsonLd } from '@/shared/seo';
 
 import type { ReactNode } from 'react';
 
@@ -39,7 +39,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => (
           dangerouslySetInnerHTML={{ __html: tauriMobileHmrShim }}
         />
       ) : null}
-      <JsonLdScript />
+      <SiteJsonLd />
     </head>
     <body className="font-sans">{children}</body>
   </html>

@@ -1,6 +1,5 @@
-export { defaultMetadata, defaultViewport } from './default-metadata';
-export { FaqJsonLdScript } from './faq-json-ld';
-export { JsonLdScript } from './json-ld-script';
-export { createPageMetadata } from './page-metadata';
+export { JsonLd, SiteJsonLd, siteJsonLd } from './json-ld';
+export { createPageMetadata, defaultMetadata, defaultViewport } from './site-metadata';
 
-export type { FaqJsonLdItem, FaqJsonLdProps } from './faq-json-ld.types';
+export type { JsonLdProps } from './json-ld';
+export type { PageMetadataInput } from './site-metadata';
