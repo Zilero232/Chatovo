@@ -1,93 +1,22 @@
 'use client';
 
-import { useLocalParticipant, useRoomContext } from '@livekit/components-react';
-import { isNullish } from 'remeda';
+import { useRoomContext } from '@livekit/components-react';
 
-import {
-  getCameraCaptureOptions,
-  getScreenCaptureOptions,
-  useAppSettings,
-} from '@/entities/app/settings';
-import { isTauriDesktop, prettyHotkey, toggleMicStream } from '@/shared/lib';
-import { resolveMicVisual } from '../../lib/mic-visual';
+import { useCameraControl } from './use-camera-control';
 import { useDeafen } from './use-deafen';
-import { usePttActive } from './use-ptt-active';
-
-import type { LocalParticipant } from 'livekit-client';
-
-const isCancelled = (err: unknown): boolean => {
-  return err instanceof DOMException && err.name === 'NotAllowedError';
-};
+import { useMicControl } from './use-mic-control';
+import { useScreenControl } from './use-screen-control';
 
 export const useRoomControls = () => {
   const room = useRoomContext();
-  const { localParticipant, isMicrophoneEnabled, isCameraEnabled, isScreenShareEnabled } =
-    useLocalParticipant();
-  const { settings } = useAppSettings();
 
-  const { isDeafened, toggle: toggleDeafen, undeafen } = useDeafen();
-
-  const pttState = usePttActive();
-  const isPtt = settings.audio.activationMode === 'pushToTalk';
-
-  const mic = resolveMicVisual(pttState, isMicrophoneEnabled);
-
-  const pttBinding = settings.shortcuts.pttHold;
-  const pttKey = isPtt && isTauriDesktop() && pttBinding ? prettyHotkey(pttBinding) : undefined;
-
-  const run = (action: (participant: LocalParticipant) => Promise<unknown>) => {
-    return async () => {
-      if (isNullish(localParticipant)) {
-        return;
-      }
-
-      try {
-        await action(localParticipant);
-      } catch (err) {
-        if (isCancelled(err)) {
-          return;
-        }
-
-        console.error('room control action failed', err);
-      }
-    };
-  };
-
-  const toggleMic = run(async (p) => {
-    const next = !p.isMicrophoneEnabled;
-    await p.setMicrophoneEnabled(next);
-
-    if (next && isDeafened) {
-      undeafen();
-    }
-    if (isPtt && next) {
-      toggleMicStream(p, false);
-    }
-  });
+  const { isDeafened, toggle: toggleDeafen } = useDeafen();
 
   return {
-    mic: { ...mic, pttKey, toggle: toggleMic },
+    mic: useMicControl(),
+    camera: useCameraControl(),
+    screen: useScreenControl(),
     deafen: { active: isDeafened, toggle: toggleDeafen },
-    camera: {
-      enabled: isCameraEnabled,
-      toggle: run((p) =>
-        p.setCameraEnabled(
-          !p.isCameraEnabled,
-          getCameraCaptureOptions(settings.video.cameraQuality),
-        ),
-      ),
-    },
-    screen: {
-      enabled: isScreenShareEnabled,
-      toggle: run((p) =>
-        p.setScreenShareEnabled(
-          !p.isScreenShareEnabled,
-          getScreenCaptureOptions(settings.video.screenQuality),
-        ),
-      ),
-    },
-    leave: () => {
-      room.disconnect();
-    },
+    leave: () => room.disconnect(),
   };
 };

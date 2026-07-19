@@ -22,7 +22,8 @@ apps/
 packages/schemas/    # Zod schemas (@chatovo/schemas), imported by client and server; grouped by domain
 docs/
 ├── fsd.md           # Frontend (apps/client) architecture — read before structural changes
-└── style.md         # Code style, import order, naming
+├── style.md         # Code style, import order, naming
+└── play-store/      # Android release: listing, data safety, signing
 infra/               # Caddy + LiveKit configs
 ```
 
@@ -58,7 +59,7 @@ The rules below apply repo-wide (every app and `packages/`).
 12. LiveKit room state, participants, tracks, chat → **`@livekit/components-react`** hooks (`useChat`, `useParticipants`, `useTracks`, `useConnectionState`). No raw `Room` event listeners unless the hook genuinely doesn't cover it.
 13. Tauri APIs (window, fs, deep-link, updater, global-shortcut, opener, os, process) → **`@tauri-apps/api`** + plugin packages. Always gate with `isTauri()`.
 14. Internationalization → **`next-intl`** (`useTranslations`, `useFormatter`, `useLocale`). No string maps.
-15. Markdown rendering (chat messages) → **`react-markdown`** + **`remark-gfm`**. No hand-rolled markdown-to-JSX. Custom renderers passed via `components` prop.
+15. Markdown rendering (chat messages) → **`react-markdown`** + **`remark-gfm`** + **`remark-breaks`**. No hand-rolled markdown-to-JSX. Custom renderers passed via `components` prop.
 16. Color picker → **`react-colorful`** (profile banner color). No custom HSL/hex picker.
 17. Animated number transitions → **`@number-flow/react`** (lobby stats, counters). No hand-tweened number rollups.
 18. Keyboard event → human-readable combo string → **`keyboard-event-to-string`** (shortcut recording UI). No hand-rolled key formatter.
@@ -110,8 +111,9 @@ bun db:migrate             # create + apply migration
 bun db:deploy              # apply pending migrations (prod)
 bun db:studio              # Prisma Studio GUI
 
-# Typecheck (no script — run directly)
-cd apps/client && bun x tsc --noEmit
+# Typecheck
+bun typecheck               # all workspaces
+bun --filter @chatovo/client typecheck
 ```
 
 > **DB schema changes**: prefer `bun db:push` for iterating locally (applies the diff directly, no migration files). Schema lives in `apps/server/prisma/schema/*.prisma` (split per domain: `auth`, `room`, `message`) plus `prisma/base.prisma` (generator + datasource). Auth is **better-auth** on a self-hosted Postgres — the `user`/`session`/`account`/`verification` tables live in `auth.prisma` and are fully owned by Prisma (no introspected Supabase schema anymore). Profile fields (displayName, avatarUrl, bannerColor, bio, verified) live in a separate `Profile` table (1-1 FK to `user`), auto-created by a better-auth `databaseHook` on signup. File uploads (avatars, chat attachments) are written to the `UPLOADS_DIR` folder on disk by the server (`lib/uploads.ts`) and served back under `/uploads`.
@@ -125,7 +127,7 @@ cd apps/client && bun x tsc --noEmit
 
 ## Workflow
 
-- **Type checking**: there's no `typecheck` script. Run `bun x tsc --noEmit` from `apps/client/` (or relevant workspace).
+- **Type checking**: `bun typecheck` from the root runs all workspaces; `bun --filter @chatovo/client typecheck` for one.
 - **Lint**: `bun lint:fix` runs Biome (TS/JS); it also sorts imports and exports automatically. Don't fight its output.
 - **Lint SCSS**: `bun lint:css:fix` runs Stylelint — сортирует свойства (порядок из `stylelint-config-clean-order`), запрещает ручные вендор-префиксы, ловит свойства без эффекта и `transition` на не-compositor свойствах. Конфиг — [stylelint.config.mjs](stylelint.config.mjs). Оба линтера подключены к pre-commit через lint-staged.
 - **Tests**: none currently. Don't fabricate test commands.

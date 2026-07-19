@@ -40,23 +40,13 @@
 }
 
 .mobileMark {
-  display: flex;
-  align-items: center;
+  flex-shrink: 0;
   align-self: flex-start;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
   margin-bottom: 1.25rem;
-  border-radius: 1rem;
-  color: var(--background);
 
   @include bp(lg) {
     display: none;
   }
-}
-
-.markIcon {
-  color: white;
 }
 
 .header {

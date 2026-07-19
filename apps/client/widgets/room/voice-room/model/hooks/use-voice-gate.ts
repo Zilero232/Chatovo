@@ -1,12 +1,12 @@
 'use client';
 
 import { useLocalParticipant } from '@livekit/components-react';
-import { LocalAudioTrack, ParticipantEvent, Track } from 'livekit-client';
 import { useEffect, useEffectEvent, useRef } from 'react';
 import { isNullish } from 'remeda';
 
 import { useAppSettings, VoiceGateProcessor } from '@/entities/app/settings';
 import { toggleMicStream } from '@/shared/lib';
+import { getLocalMicTrack, subscribeToMicTrack } from '../../lib';
 
 export const useVoiceGate = (enabled: boolean, setIsSpeaking: (speaking: boolean) => void) => {
   const { settings } = useAppSettings();
@@ -27,68 +27,60 @@ export const useVoiceGate = (enabled: boolean, setIsSpeaking: (speaking: boolean
   }, [autoSensitivity, micThreshold]);
 
   useEffect(() => {
-    if (!enabled || !isMicrophoneEnabled) {
-      setSpeaking(false);
-    }
-  }, [enabled, isMicrophoneEnabled]);
-
-  useEffect(() => {
     if (isNullish(localParticipant) || !enabled || !isMicrophoneEnabled) {
+      setSpeaking(false);
+
       return;
     }
 
-    const getMicTrack = () => {
-      const track = localParticipant.getTrackPublication(Track.Source.Microphone)?.track;
+    let pending = Promise.resolve();
 
-      return track instanceof LocalAudioTrack ? track : undefined;
-    };
-
-    const attach = async () => {
-      const track = getMicTrack();
-
-      if (isNullish(track) || processorRef.current) {
-        return;
-      }
-
-      toggleMicStream(localParticipant, true);
-
-      const processor = new VoiceGateProcessor(paramsRef.current, (_level, open) => {
-        setSpeaking(open);
+    const enqueue = (task: () => Promise<void>) => {
+      pending = pending.then(task).catch((err) => {
+        console.error('voice gate task failed', err);
       });
-      processorRef.current = processor;
 
-      try {
+      return pending;
+    };
+
+    const attach = () =>
+      enqueue(async () => {
+        const track = getLocalMicTrack(localParticipant);
+
+        if (isNullish(track) || processorRef.current) {
+          return;
+        }
+
+        toggleMicStream(localParticipant, true);
+
+        const processor = new VoiceGateProcessor(paramsRef.current, (_level, isOpen) => {
+          setSpeaking(isOpen);
+        });
+
         await track.setProcessor(processor);
-      } catch (err) {
-        console.error('voice gate: setProcessor failed', err);
+        processorRef.current = processor;
+      });
+
+    const detach = () =>
+      enqueue(async () => {
+        if (isNullish(processorRef.current)) {
+          return;
+        }
+
         processorRef.current = null;
-      }
-    };
 
-    const detach = async () => {
-      const processor = processorRef.current;
-      processorRef.current = null;
-
-      if (isNullish(processor)) {
-        return;
-      }
-
-      const track = getMicTrack();
-
-      try {
-        await track?.stopProcessor();
-      } catch {}
-    };
+        await getLocalMicTrack(localParticipant)?.stopProcessor();
+      });
 
     attach();
 
-    localParticipant.on(ParticipantEvent.LocalTrackPublished, attach);
-    localParticipant.on(ParticipantEvent.LocalTrackUnpublished, detach);
+    const unsubscribe = subscribeToMicTrack(localParticipant, {
+      onPublished: attach,
+      onUnpublished: detach,
+    });
 
     return () => {
-      localParticipant.off(ParticipantEvent.LocalTrackPublished, attach);
-      localParticipant.off(ParticipantEvent.LocalTrackUnpublished, detach);
-
+      unsubscribe();
       detach();
       setSpeaking(false);
     };

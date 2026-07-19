@@ -16,7 +16,7 @@ export {
 export { raceWithTimeout } from './race-with-timeout';
 export { isScreenShareSupported } from './screen-share';
 export { isTauriDesktop, isTauriMobile } from './tauri-platform';
-export { toggleMicStream } from './toggle-mic-stream';
+export { armPttStream, toggleMicStream } from './toggle-mic-stream';
 export {
   closeMainWindow,
   hideMainWindow,

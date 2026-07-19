@@ -6,7 +6,7 @@ import { isNullish } from 'remeda';
 
 import { useAppSettings } from '@/entities/app/settings';
 import { useTrayMenuItem } from '@/features/app/system-tray';
-import { appEvents, isTauriDesktop, toggleMicStream } from '@/shared/lib';
+import { appEvents, armPttStream, isTauriDesktop } from '@/shared/lib';
 
 export const RoomTrayController = () => {
   const { localParticipant, isMicrophoneEnabled } = useLocalParticipant();
@@ -27,9 +27,10 @@ export const RoomTrayController = () => {
 
       if (next) {
         appEvents.emit.micActivated();
-      }
-      if (isPtt && next) {
-        toggleMicStream(localParticipant, false);
+
+        if (isPtt) {
+          armPttStream(localParticipant);
+        }
       }
     } catch (err) {
       console.error('tray mute toggle failed', err);

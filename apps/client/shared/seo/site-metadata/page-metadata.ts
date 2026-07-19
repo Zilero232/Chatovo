@@ -1,14 +1,7 @@
 import { SITE } from '@/shared/config';
 
 import type { Metadata } from 'next';
-
-type PageMetadataInput = {
-  title: string;
-  description: string;
-  path: string;
-  index?: boolean;
-  follow?: boolean;
-};
+import type { PageMetadataInput } from './page-metadata.types';
 
 export const createPageMetadata = ({
   title,

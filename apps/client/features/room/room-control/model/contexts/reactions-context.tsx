@@ -1,7 +1,7 @@
 'use client';
 
 import { createContextHook } from '@siberiacancode/reactuse';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useRealtime, useRealtimeMessage } from '@/entities/app/realtime';
 import { useCurrentUser } from '@/entities/auth/user';
@@ -24,6 +24,18 @@ const useReactionsState = (roomId: string) => {
 
   const [reactions, setReactions] = useState<FloatingReaction[]>([]);
   const nextId = useRef(0);
+  const timeouts = useRef(new Set<ReturnType<typeof setTimeout>>());
+
+  useEffect(
+    () => () => {
+      for (const timeout of timeouts.current) {
+        clearTimeout(timeout);
+      }
+
+      timeouts.current.clear();
+    },
+    [],
+  );
 
   const addReaction = (emoji: string) => {
     const id = nextId.current++;
@@ -32,9 +44,12 @@ const useReactionsState = (roomId: string) => {
 
     setReactions((prev) => [...prev, { id, emoji, offset: (id % 4) * 6 }]);
 
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
+      timeouts.current.delete(timeout);
       setReactions((prev) => prev.filter((reaction) => reaction.id !== id));
     }, REACTION_LIFETIME);
+
+    timeouts.current.add(timeout);
   };
 
   useRealtimeMessage((message) => {

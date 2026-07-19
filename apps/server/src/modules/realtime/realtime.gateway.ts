@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { WebSocketGateway } from '@nestjs/websockets';
 
 import { auth } from '../auth/auth';
@@ -38,6 +39,8 @@ const authorize = async (token: string | null): Promise<string | null> => {
 export class RealtimeGateway
   implements OnGatewayConnection, OnGatewayDisconnect, OnModuleInit, OnModuleDestroy
 {
+  private readonly logger = new Logger(RealtimeGateway.name);
+
   private heartbeat: ReturnType<typeof setInterval> | null = null;
 
   constructor(private readonly friends: FriendsService) {}
@@ -82,7 +85,9 @@ export class RealtimeGateway
     });
 
     client.on('message', (data: Buffer) => {
-      void handleClientMessage(connection, data);
+      handleClientMessage(connection, data).catch((error: unknown) => {
+        this.logger.warn(`Realtime message failed: ${String(error)}`);
+      });
     });
 
     sendToConnection(connection.id, {

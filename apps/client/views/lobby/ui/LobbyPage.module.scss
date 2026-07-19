@@ -2,6 +2,7 @@
 
 .root {
   position: relative;
+  container: lobby-page / inline-size;
   height: 100%;
 }
 
@@ -10,16 +11,12 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: clamp(1.25rem, 3cqi, 2rem);
   width: 100%;
   max-width: rem(1400);
   margin-inline: auto;
-  padding: 1.5rem 1.25rem;
+  padding: clamp(1rem, 3cqi, 2rem);
   animation: lobby-enter 500ms ease-out both;
-
-  @include bp(sm) {
-    padding: 2rem;
-  }
 }
 
 @keyframes lobby-enter {

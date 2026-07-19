@@ -1,7 +1,7 @@
 import { realtimeClientMessageSchema, safeJsonParse } from '@chatovo/schemas';
 import { match } from 'ts-pattern';
 
-import { assertRoomExists } from '../../../lib';
+import { filterExistingRooms } from '../../../lib';
 import { patchParticipant } from '../../livekit/presence';
 import { setConnectionRooms } from '../connection-store';
 import { emitRoomEvent } from '../emit';
@@ -26,11 +26,9 @@ export const handleClientMessage = async (
 
   await match(parsed.data)
     .with({ op: 'subscribe' }, async ({ rooms }) => {
-      setConnectionRooms(connection.id, rooms);
+      const existing = await filterExistingRooms(rooms);
 
-      for (const roomId of rooms) {
-        await assertRoomExists(roomId);
-      }
+      setConnectionRooms(connection.id, existing);
     })
     .with({ op: 'presence.patch' }, ({ roomId, micMuted, deafened }) => {
       patchParticipant(roomId, connection.userId, { micMuted, deafened });

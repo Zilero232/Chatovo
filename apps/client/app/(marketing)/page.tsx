@@ -19,15 +19,19 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: SITE.locale,
+    alternateLocale: [SITE.en.locale],
     url: ROUTES.landing,
     siteName: SITE.name,
     title: SITE.title,
     description: SITE.description,
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE.title,
+    description: SITE.description,
+  },
   robots: { index: true, follow: true },
 };
-
-export const dynamic = 'force-static';
 
 const Page = () => <LandingPage locale="ru" />;
 

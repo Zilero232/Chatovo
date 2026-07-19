@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import type { PttState } from '../model/hooks';
+export type PttState = 'disabled' | 'idle' | 'active';
 
 export type ControlTone = 'on' | 'off' | 'active' | 'danger';
 

@@ -12,3 +12,5 @@ export const toggleMicStream = (participant: LocalParticipant, enabled: boolean)
 
   return true;
 };
+
+export const armPttStream = (participant: LocalParticipant) => toggleMicStream(participant, false);

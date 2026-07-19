@@ -1,11 +1,12 @@
 'use client';
 
 import { useLocalParticipant } from '@livekit/components-react';
-import { createAudioAnalyser, LocalAudioTrack, ParticipantEvent, Track } from 'livekit-client';
+import { createAudioAnalyser } from 'livekit-client';
 import { useEffect, useEffectEvent } from 'react';
 import { isNullish } from 'remeda';
 
 import { PTT_SPEAKING_LEVEL } from '../../config';
+import { getLocalMicTrack, subscribeToMicTrack } from '../../lib';
 
 export const usePttLocalSpeaking = (
   enabled: boolean,
@@ -22,12 +23,6 @@ export const usePttLocalSpeaking = (
       return;
     }
 
-    const getMicTrack = () => {
-      const track = localParticipant.getTrackPublication(Track.Source.Microphone)?.track;
-
-      return track instanceof LocalAudioTrack ? track : undefined;
-    };
-
     let rafId = 0;
     let analyser: ReturnType<typeof createAudioAnalyser> | null = null;
 
@@ -39,18 +34,18 @@ export const usePttLocalSpeaking = (
     };
 
     const tick = () => {
-      const stream = getMicTrack()?.mediaStreamTrack;
-      const streamOpen = stream?.enabled ?? false;
+      const isStreamOpen = getLocalMicTrack(localParticipant)?.mediaStreamTrack.enabled ?? false;
       const level = analyser?.calculateVolume() ?? 0;
 
-      setSpeaking(streamOpen && level > PTT_SPEAKING_LEVEL);
+      setSpeaking(isStreamOpen && level > PTT_SPEAKING_LEVEL);
       rafId = requestAnimationFrame(tick);
     };
 
     const attach = () => {
       stop();
 
-      const track = getMicTrack();
+      const track = getLocalMicTrack(localParticipant);
+
       if (isNullish(track)) {
         setSpeaking(false);
 
@@ -61,19 +56,18 @@ export const usePttLocalSpeaking = (
       tick();
     };
 
-    const onUnpublished = () => {
-      stop();
-      setSpeaking(false);
-    };
-
     attach();
 
-    localParticipant.on(ParticipantEvent.LocalTrackPublished, attach);
-    localParticipant.on(ParticipantEvent.LocalTrackUnpublished, onUnpublished);
+    const unsubscribe = subscribeToMicTrack(localParticipant, {
+      onPublished: attach,
+      onUnpublished: () => {
+        stop();
+        setSpeaking(false);
+      },
+    });
 
     return () => {
-      localParticipant.off(ParticipantEvent.LocalTrackPublished, attach);
-      localParticipant.off(ParticipantEvent.LocalTrackUnpublished, onUnpublished);
+      unsubscribe();
       stop();
       setSpeaking(false);
     };

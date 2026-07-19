@@ -1,11 +1,12 @@
 import { extname } from 'node:path';
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
-import { EventEmitterModule } from '@nestjs/event-emitter';
+import { EventEmitter2, EventEmitterModule } from '@nestjs/event-emitter';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 
+import { bindDomainEventEmitter } from './common/events/emit-domain-event';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { AppConfigModule } from './config/config.module';
 import { INLINE_IMAGE_EXTENSIONS } from './config/uploads';
@@ -76,4 +77,10 @@ import { UsersModule } from './modules/users/users.module';
     { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(eventEmitter: EventEmitter2) {
+    bindDomainEventEmitter((event, payload) => {
+      eventEmitter.emit(event, payload);
+    });
+  }
+}

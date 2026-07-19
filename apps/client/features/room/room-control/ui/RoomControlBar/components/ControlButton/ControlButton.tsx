@@ -3,7 +3,7 @@
 import { clsx } from 'clsx';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 
-import { Tooltip, TooltipContent } from '@/shared/ui';
+import { Spinner, Tooltip, TooltipContent } from '@/shared/ui';
 import { DeviceMenu } from '../DeviceMenu';
 import {
   controlButtonToneClass,
@@ -21,6 +21,7 @@ export const ControlButton = ({
   tone,
   pressed,
   disabled,
+  isPending,
   device,
   onClick,
 }: ControlButtonProps) => {
@@ -29,17 +30,19 @@ export const ControlButton = ({
   const animatedIcon = (
     <AnimatePresence initial={false} mode="popLayout">
       <motion.span
-        key={String(pressed)}
+        key={isPending ? 'pending' : String(pressed)}
         className={s.iconSlot}
         initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.4, rotate: -20 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
         exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.4, rotate: 20 }}
         transition={{ type: 'spring', stiffness: 500, damping: 26 }}
       >
-        {icon}
+        {isPending ? <Spinner decorative /> : icon}
       </motion.span>
     </AnimatePresence>
   );
+
+  const isDisabled = disabled || isPending;
   if (!device) {
     return (
       <Tooltip>
@@ -47,7 +50,7 @@ export const ControlButton = ({
           aria-label={label}
           aria-pressed={pressed}
           className={clsx(s.controlButton, controlButtonToneClass[tone])}
-          disabled={disabled}
+          disabled={isDisabled}
           type="button"
           onClick={onClick}
         >
@@ -65,7 +68,7 @@ export const ControlButton = ({
           aria-label={label}
           aria-pressed={pressed}
           className={clsx(s.controlMain, controlMainToneClass[tone])}
-          disabled={disabled}
+          disabled={isDisabled}
           type="button"
           onClick={onClick}
         >

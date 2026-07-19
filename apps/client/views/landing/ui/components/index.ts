@@ -1,8 +1,13 @@
 export { LandingBackground } from './LandingBackground';
+export { LandingDesktop } from './LandingDesktop';
 export { LandingDownloadButton } from './LandingDownloadButton';
 export { LandingFaq } from './LandingFaq';
 export { LandingFeatures } from './LandingFeatures';
+export { LandingFinalCta } from './LandingFinalCta';
 export { LandingFooter } from './LandingFooter';
 export { LandingHeader } from './LandingHeader';
 export { LandingHero } from './LandingHero';
+export { LandingHeroStat } from './LandingHeroStat';
+export { LandingHeroVisual } from './LandingHeroVisual';
+export { LandingReveal } from './LandingReveal';
 export { LandingSteps } from './LandingSteps';

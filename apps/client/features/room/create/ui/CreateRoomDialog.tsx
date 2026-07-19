@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui';
-import { CreateRoomForm } from './CreateRoomForm';
+import { CreateRoomForm } from './components';
 
 import type { CreateRoomDialogProps } from './CreateRoomDialog.types';
 
