@@ -194,18 +194,21 @@ export class FriendsService {
   }
 
   async acceptFriendRequest(userId: string, friendshipId: string): Promise<FriendshipRelation> {
-    const row = await this.prisma.friendship.findUnique({
-      where: { id: friendshipId },
-      include: friendshipInclude,
+    const { count } = await this.prisma.friendship.updateMany({
+      where: {
+        id: friendshipId,
+        addresseeId: userId,
+        status: FriendshipStatus.pending,
+      },
+      data: { status: FriendshipStatus.accepted },
     });
 
-    if (isNullish(row) || row.addresseeId !== userId || row.status !== FriendshipStatus.pending) {
+    if (count === 0) {
       throw new AppNotFoundException('FRIEND_REQUEST_NOT_FOUND', 'Request not found');
     }
 
-    const updated = await this.prisma.friendship.update({
+    const updated = await this.prisma.friendship.findUniqueOrThrow({
       where: { id: friendshipId },
-      data: { status: FriendshipStatus.accepted },
       include: friendshipInclude,
     });
 
@@ -221,9 +224,9 @@ export class FriendsService {
       throw new AppNotFoundException('FRIEND_REQUEST_NOT_FOUND', 'Request not found');
     }
 
-    bumpFriendsEpoch(userId, row.requesterId);
-
     await this.prisma.friendship.delete({ where: { id: friendshipId } });
+
+    bumpFriendsEpoch(userId, row.requesterId);
   }
 
   async removeFriendship(userId: string, otherUserId: string): Promise<void> {

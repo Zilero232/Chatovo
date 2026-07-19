@@ -1,6 +1,7 @@
 import { friendCallStatusSchema } from '@chatovo/schemas';
 
-import { sendIncomingCallPush } from '../push/push-sender';
+import { DomainEvent } from '../../common/events/domain-events';
+import { emitDomainEvent } from '../../common/events/emit-domain-event';
 import { emitFriendsSnapshot } from '../realtime/emit';
 
 import type { FriendCallStreamSnapshot } from '@chatovo/schemas';
@@ -98,7 +99,7 @@ export const setPendingCall = (
 
   emitUsers([input.calleeId, input.caller.id]);
 
-  void sendIncomingCallPush({
+  emitDomainEvent(DomainEvent.CallRinging, {
     calleeId: input.calleeId,
     caller: input.caller,
     roomId: input.roomId,

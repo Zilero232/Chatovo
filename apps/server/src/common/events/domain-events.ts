@@ -1,3 +1,5 @@
+import type { ChatMessage, FriendUser } from '@chatovo/schemas';
+
 export const DomainEvent = {
   RoomCreated: 'room.created',
   RoomDeleted: 'room.deleted',
@@ -5,6 +7,8 @@ export const DomainEvent = {
   ProblemReported: 'problem.reported',
   VoiceJoined: 'voice.joined',
   VoiceEmptied: 'voice.emptied',
+  CallRinging: 'call.ringing',
+  DmMessageSent: 'dm.message-sent',
 } as const;
 
 export type DomainEventPayloads = {
@@ -37,6 +41,15 @@ export type DomainEventPayloads = {
   [DomainEvent.VoiceEmptied]: {
     roomName: string;
   };
+  [DomainEvent.CallRinging]: {
+    calleeId: string;
+    caller: FriendUser;
+    roomId: string;
+  };
+  [DomainEvent.DmMessageSent]: {
+    recipientId: string;
+    message: ChatMessage;
+  };
 };
 
 export type RoomCreatedEvent = DomainEventPayloads[typeof DomainEvent.RoomCreated];
@@ -45,3 +58,5 @@ export type UserSignedUpEvent = DomainEventPayloads[typeof DomainEvent.UserSigne
 export type ProblemReportedEvent = DomainEventPayloads[typeof DomainEvent.ProblemReported];
 export type VoiceJoinedEvent = DomainEventPayloads[typeof DomainEvent.VoiceJoined];
 export type VoiceEmptiedEvent = DomainEventPayloads[typeof DomainEvent.VoiceEmptied];
+export type CallRingingEvent = DomainEventPayloads[typeof DomainEvent.CallRinging];
+export type DmMessageSentEvent = DomainEventPayloads[typeof DomainEvent.DmMessageSent];

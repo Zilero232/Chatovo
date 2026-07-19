@@ -57,7 +57,9 @@ In-memory stores (`connection-store`, `presence-store`, `call-store`) and `emit.
 
 ## Side effects via domain events
 
-Domain services do **not** import Telegram / email / push. They inject `EventEmitter2` and emit a typed event from [common/events.ts](src/common/events.ts) (e.g. `DomainEvent.RoomCreated`); a `*.listener.ts` in the notifications side handles it and owns its own try/catch. This keeps domain modules transport-agnostic and stops a failing notification from crashing the request (no more fire-and-forget `.then()` without `.catch()`).
+Domain services do **not** import Telegram / email / push. They inject `EventEmitter2` and emit a typed event from [common/events/domain-events.ts](src/common/events/domain-events.ts) (e.g. `DomainEvent.RoomCreated`); a `*.listener.ts` under [modules/notifications/](src/modules/notifications/) handles it and owns its own try/catch. This keeps domain modules transport-agnostic and stops a failing notification from crashing the request (no more fire-and-forget `.then()` without `.catch()`).
+
+Plain modules that can't inject (`call-store`, `emit-chat-event`) raise events through **`emitDomainEvent`** from [common/events/emit-domain-event.ts](src/common/events/emit-domain-event.ts) — a thin bridge bound once in `AppModule`, mirroring `bindRealtimeBroadcast`.
 
 ## Prisma
 

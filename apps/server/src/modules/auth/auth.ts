@@ -10,6 +10,7 @@ import { issueUniqueFriendTag } from '../../lib';
 import { ChangeEmail, ResetPassword, sendEmail, VerifyEmail } from '../email';
 import { notifyUserSignup } from '../telegram';
 import { authBaseURL } from './auth-base-url';
+import { withClientCallback } from './auth-callback-url';
 
 const env = validateEnv(process.env);
 
@@ -41,7 +42,7 @@ export const auth = betterAuth({
       await sendEmail({
         to: user.email,
         subject: 'Verify your email',
-        react: createElement(VerifyEmail, { url }),
+        react: createElement(VerifyEmail, { url: withClientCallback(url) }),
       });
     },
   },
@@ -52,7 +53,7 @@ export const auth = betterAuth({
         await sendEmail({
           to: user.email,
           subject: 'Approve email change',
-          react: createElement(ChangeEmail, { newEmail, url }),
+          react: createElement(ChangeEmail, { newEmail, url: withClientCallback(url) }),
         });
       },
     },

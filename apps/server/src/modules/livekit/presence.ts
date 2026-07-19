@@ -1,4 +1,5 @@
 import { participantMetadataSchema, safeJsonParse } from '@chatovo/schemas';
+import { Logger } from '@nestjs/common';
 import { RoomServiceClient, TrackSource } from 'livekit-server-sdk';
 
 import { env } from '../../core';
@@ -24,6 +25,15 @@ const roomService = new RoomServiceClient(
   env.LIVEKIT_API_SECRET,
 );
 
+const logger = new Logger('LivekitPresence');
+
+const isRoomNotFound = (error: unknown): boolean => {
+  const status = (error as { status?: number }).status;
+  const code = (error as { code?: string }).code;
+
+  return status === 404 || code === 'not_found';
+};
+
 export const parseParticipantMeta = (
   metadata: string | undefined,
 ): Pick<RoomParticipant, 'verified' | 'profileUrl' | 'avatarUrl' | 'bannerColor'> => {
@@ -34,16 +44,12 @@ export const parseParticipantMeta = (
   return { verified, profileUrl, avatarUrl, bannerColor };
 };
 
-// Mic counts as live only if an unmuted microphone track is published.
-// No track published yet → effectively silent for the room.
 export const isMicMuted = (tracks: TrackInfo[] | undefined): boolean => {
   const mic = tracks?.find((track) => track.source === TrackSource.MICROPHONE);
 
   return !mic || mic.muted;
 };
 
-// Reconciles the in-memory store with LiveKit's actual state — webhooks can be
-// missed (server restart, network blip). Called lazily and on server boot.
 export const syncRoom = async (roomId: string) => {
   try {
     const live = await roomService.listParticipants(roomId);
@@ -52,7 +58,13 @@ export const syncRoom = async (roomId: string) => {
     );
 
     replaceRoom(roomId, participants);
-  } catch {
-    replaceRoom(roomId, new Map());
+  } catch (error) {
+    if (isRoomNotFound(error)) {
+      replaceRoom(roomId, new Map());
+
+      return;
+    }
+
+    logger.warn(`Failed to sync presence for room ${roomId}: ${String(error)}`);
   }
 };

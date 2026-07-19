@@ -1,6 +1,7 @@
 import { RoomKind } from '../../../generated';
+import { DomainEvent } from '../../common/events/domain-events';
+import { emitDomainEvent } from '../../common/events/emit-domain-event';
 import { getRoomDmRouting } from '../../lib';
-import { sendDmMessagePush } from '../push/push-sender';
 import { emitRoomEvent, emitUserEvent } from '../realtime/emit';
 
 import type { ChatRealtimeEvent, ChatRealtimeEventInput } from './chat.types';
@@ -22,7 +23,7 @@ export const emitChatEvent = async (
       const recipientId =
         event.message.senderId === room.dmUserAId ? room.dmUserBId : room.dmUserAId;
 
-      void sendDmMessagePush({ recipientId, message: event.message });
+      emitDomainEvent(DomainEvent.DmMessageSent, { recipientId, message: event.message });
     }
 
     return;
