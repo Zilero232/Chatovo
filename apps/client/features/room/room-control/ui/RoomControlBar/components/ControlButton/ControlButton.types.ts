@@ -14,6 +14,7 @@ export type ControlButtonProps = {
   tone: ControlTone;
   pressed?: boolean;
   disabled?: boolean;
+  isPending?: boolean;
   device?: ControlDevice;
   onClick: () => void;
 };

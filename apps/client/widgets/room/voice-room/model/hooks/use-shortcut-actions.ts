@@ -6,7 +6,7 @@ import { isNullish } from 'remeda';
 import { toast } from 'sonner';
 
 import { useAppSettings } from '@/entities/app/settings';
-import { appEvents, isTauriDesktop, toggleMicStream } from '@/shared/lib';
+import { appEvents, armPttStream, isTauriDesktop, toggleMicStream } from '@/shared/lib';
 
 export const useShortcutActions = () => {
   const { localParticipant } = useLocalParticipant();
@@ -27,9 +27,10 @@ export const useShortcutActions = () => {
 
       if (next) {
         appEvents.emit.micActivated();
-      }
-      if (mode === 'pushToTalk' && next) {
-        toggleMicStream(localParticipant, false);
+
+        if (mode === 'pushToTalk') {
+          armPttStream(localParticipant);
+        }
       }
     } catch (err) {
       console.error('shortcut mute.toggle failed', err);

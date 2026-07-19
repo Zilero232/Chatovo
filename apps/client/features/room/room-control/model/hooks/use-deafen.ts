@@ -5,7 +5,7 @@ import { isNullish } from 'remeda';
 
 import { useRealtime } from '@/entities/app/realtime';
 import { useAppSettings } from '@/entities/app/settings';
-import { toggleMicStream } from '@/shared/lib';
+import { armPttStream } from '@/shared/lib';
 import { useDeafenContext } from '../contexts/deafen-context';
 
 import type { LocalParticipant } from 'livekit-client';
@@ -34,8 +34,17 @@ export const useDeafen = () => {
     await p.setMicrophoneEnabled(true);
 
     if (isPtt) {
-      toggleMicStream(p, false);
+      armPttStream(p);
     }
+  };
+
+  const publishDeafened = (value: boolean) => {
+    setIsDeafened(value);
+    send({
+      op: 'presence.patch',
+      roomId: room.name,
+      deafened: value,
+    });
   };
 
   const setDeafened = async (next: boolean) => {
@@ -43,17 +52,14 @@ export const useDeafen = () => {
       return;
     }
 
-    setIsDeafened(next);
-    send({
-      op: 'presence.patch',
-      roomId: room.name,
-      deafened: next,
-    });
+    publishDeafened(next);
 
     try {
       await (next ? enableDeafen(localParticipant) : disableDeafen(localParticipant));
     } catch (err) {
       console.error('deafen toggle failed', err);
+
+      publishDeafened(!next);
     }
   };
 

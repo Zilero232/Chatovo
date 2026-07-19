@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Controller } from 'react-hook-form';
 
 import { FormField, Input, Label, Row, Stack, SubmitButton, Switch } from '@/shared/ui';
-import { useCreateRoomForm } from '../model/hooks';
+import { useCreateRoomForm } from '../../../model/hooks';
 
 import type { CreateRoomFormProps } from './CreateRoomForm.types';
 

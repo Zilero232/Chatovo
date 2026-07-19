@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffectEvent, useRef } from 'react';
 
 import { getPublishDefaults, useAppSettings } from '@/entities/app/settings';
 import { useRecentRooms } from '@/entities/room/room';
@@ -18,27 +18,32 @@ export const useRoomConnection = ({
   const { push: pushRecent } = useRecentRooms();
 
   const hasConnectedRef = useRef(false);
+
   const audioCaptureRef = useRef(settings.audio);
   const publishDefaultsRef = useRef(
     getPublishDefaults(settings.video.cameraQuality, settings.video.screenQuality),
   );
 
-  const handleConnected = () => {
+  const handleConnected = useEffectEvent(() => {
     hasConnectedRef.current = true;
     pushRecent(roomId);
-  };
+  });
 
-  const handleDisconnected = (reason?: DisconnectReason) => {
-    if (!hasConnectedRef.current) {
-      if (reason !== undefined && FAILURE_REASONS.has(reason)) {
-        onConnectFailure(reason);
-      }
+  const handleDisconnected = useEffectEvent((reason?: DisconnectReason) => {
+    const hasConnected = hasConnectedRef.current;
+
+    hasConnectedRef.current = false;
+
+    if (hasConnected) {
+      onLeave();
 
       return;
     }
 
-    onLeave();
-  };
+    if (reason !== undefined && FAILURE_REASONS.has(reason)) {
+      onConnectFailure(reason);
+    }
+  });
 
   return {
     audioCapture: audioCaptureRef.current,

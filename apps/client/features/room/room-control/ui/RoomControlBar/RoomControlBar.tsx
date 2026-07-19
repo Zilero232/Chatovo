@@ -40,6 +40,7 @@ export const RoomControlBar = () => {
       <ControlButton
         device={toDevice(MIC_DEVICE)}
         icon={mic.isMuted ? <MicOff /> : <Mic />}
+        isPending={mic.isPending}
         label={micLabel}
         pressed={mic.isMuted}
         tone={mic.tone}
@@ -58,6 +59,7 @@ export const RoomControlBar = () => {
       <ControlButton
         device={toDevice(CAM_DEVICE)}
         icon={camera.enabled ? <Video /> : <VideoOff />}
+        isPending={camera.isPending}
         label={camera.enabled ? t('cameraOff') : t('camera')}
         pressed={camera.enabled}
         tone={camera.enabled ? 'active' : 'off'}
@@ -67,6 +69,7 @@ export const RoomControlBar = () => {
       {screenShareSupported && (
         <ControlButton
           icon={screen.enabled ? <MonitorOff /> : <Monitor />}
+          isPending={screen.isPending}
           label={screen.enabled ? t('stopShare') : t('screenShare')}
           pressed={screen.enabled}
           tone={screen.enabled ? 'active' : 'off'}

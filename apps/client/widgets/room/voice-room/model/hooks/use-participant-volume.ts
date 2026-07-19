@@ -14,6 +14,14 @@ const PERSIST_DELAY_MS = 300;
 
 type VolumeMap = Record<string, number>;
 
+const readVolumes = (): VolumeMap => {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.participantVolumes) ?? '{}');
+  } catch {
+    return {};
+  }
+};
+
 type ParticipantVolume = {
   volume: number;
   isMuted: boolean;
@@ -25,6 +33,7 @@ type ParticipantVolume = {
 const clampVolume = (value: number) => clamp(value, { min: 0, max: MAX_VOLUME });
 
 export const useParticipantVolume = (participant: Participant): ParticipantVolume => {
+  const { identity } = participant;
   const isControllable = participant instanceof RemoteParticipant;
 
   const { value, set: setVolumes } = useLocalStorage<VolumeMap>(
@@ -34,23 +43,25 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
 
   const volumes = defaultTo(value, {} as VolumeMap);
 
-  const [volume, setVolumeState] = useState(() => volumes[participant.identity] ?? DEFAULT_VOLUME);
+  const [volume, setVolumeState] = useState(() => volumes[identity] ?? DEFAULT_VOLUME);
 
   const volumeBeforeMute = useRef(DEFAULT_VOLUME);
 
-  const persist = useDebounceCallback((identity: string, next: number) => {
-    if (next === DEFAULT_VOLUME) {
-      setVolumes(omit(volumes, [identity]));
-    } else {
-      setVolumes({ ...volumes, [identity]: next });
-    }
+  const persist = useDebounceCallback((targetIdentity: string, next: number) => {
+    const stored = readVolumes();
+
+    setVolumes(
+      next === DEFAULT_VOLUME
+        ? omit(stored, [targetIdentity])
+        : { ...stored, [targetIdentity]: next },
+    );
   }, PERSIST_DELAY_MS);
 
   const apply = (next: number) => {
     const clamped = clampVolume(next);
 
     setVolumeState(clamped);
-    persist(participant.identity, clamped);
+    persist(identity, clamped);
 
     if (participant instanceof RemoteParticipant) {
       participant.setVolume(clamped);
@@ -68,11 +79,12 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
   const toggleMute = () => {
     if (volume > 0) {
       volumeBeforeMute.current = volume;
-
       apply(0);
-    } else {
-      apply(volumeBeforeMute.current || DEFAULT_VOLUME);
+
+      return;
     }
+
+    apply(volumeBeforeMute.current || DEFAULT_VOLUME);
   };
 
   useEffect(() => {
