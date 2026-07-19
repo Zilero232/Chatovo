@@ -1,39 +1,34 @@
-import {
-  ScreenSharePresets,
-  type TrackPublishDefaults,
-  type VideoCaptureOptions,
-  VideoPresets,
-  type VideoResolution,
-} from 'livekit-client';
-
+import type { TrackPublishDefaults, VideoCaptureOptions, VideoResolution } from 'livekit-client';
 import type { ScreenQuality, VideoQuality } from '../model/types';
 
+const ASPECT_16_9 = 16 / 9;
+
 const CAMERA_PRESETS: Record<VideoQuality, VideoResolution> = {
-  '720p': VideoPresets.h720.resolution,
-  '1080p': VideoPresets.h1080.resolution,
-  '1440p': VideoPresets.h1440.resolution,
-  '4k': VideoPresets.h2160.resolution,
+  '720p': { width: 1280, height: 720, frameRate: 30, aspectRatio: ASPECT_16_9 },
+  '1080p': { width: 1920, height: 1080, frameRate: 30, aspectRatio: ASPECT_16_9 },
+  '1440p': { width: 2560, height: 1440, frameRate: 30, aspectRatio: ASPECT_16_9 },
+  '4k': { width: 3840, height: 2160, frameRate: 30, aspectRatio: ASPECT_16_9 },
 };
 
 const CAMERA_BITRATES: Record<VideoQuality, number> = {
-  '720p': VideoPresets.h720.encoding.maxBitrate,
-  '1080p': VideoPresets.h1080.encoding.maxBitrate,
-  '1440p': VideoPresets.h1440.encoding.maxBitrate,
-  '4k': VideoPresets.h2160.encoding.maxBitrate,
+  '720p': 1_700_000,
+  '1080p': 3_000_000,
+  '1440p': 5_000_000,
+  '4k': 8_000_000,
 };
 
 const SCREEN_PRESETS: Record<ScreenQuality, VideoResolution> = {
-  '1080p15': ScreenSharePresets.h1080fps15.resolution,
-  '1080p30': ScreenSharePresets.h1080fps30.resolution,
-  '1440p30': VideoPresets.h1440.resolution,
-  '4k30': VideoPresets.h2160.resolution,
+  '1080p15': { width: 1920, height: 1080, frameRate: 15, aspectRatio: ASPECT_16_9 },
+  '1080p30': { width: 1920, height: 1080, frameRate: 30, aspectRatio: ASPECT_16_9 },
+  '1440p30': CAMERA_PRESETS['1440p'],
+  '4k30': CAMERA_PRESETS['4k'],
 };
 
 const SCREEN_BITRATES: Record<ScreenQuality, number> = {
-  '1080p15': ScreenSharePresets.h1080fps15.encoding.maxBitrate,
-  '1080p30': ScreenSharePresets.h1080fps30.encoding.maxBitrate,
-  '1440p30': VideoPresets.h1440.encoding.maxBitrate,
-  '4k30': VideoPresets.h2160.encoding.maxBitrate,
+  '1080p15': 2_500_000,
+  '1080p30': 5_000_000,
+  '1440p30': CAMERA_BITRATES['1440p'],
+  '4k30': CAMERA_BITRATES['4k'],
 };
 
 export const getCameraCaptureOptions = (quality: VideoQuality): VideoCaptureOptions => ({

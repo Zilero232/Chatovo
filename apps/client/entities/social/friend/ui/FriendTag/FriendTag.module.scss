@@ -36,14 +36,10 @@
   flex-shrink: 0;
   width: rem(12);
   height: rem(12);
-  opacity: 0;
+  opacity: 0.6;
   transition: opacity 150ms ease;
 
   .root:hover & {
-    opacity: 0.7;
-  }
-
-  @include coarse-pointer {
-    opacity: 0.5;
+    opacity: 1;
   }
 }
