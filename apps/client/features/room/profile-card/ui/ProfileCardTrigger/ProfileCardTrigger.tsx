@@ -19,6 +19,7 @@ export const ProfileCardTrigger = ({
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [hasOpened, setHasOpened] = useState(false);
 
   return (
     <>
@@ -27,22 +28,25 @@ export const ProfileCardTrigger = ({
         className={clsx(s.trigger, className)}
         type="button"
         onClick={() => {
+          setHasOpened(true);
           setIsOpen(true);
         }}
       >
         {children}
       </button>
 
-      <PopoverContent
-        align="start"
-        className={s.content}
-        isOpen={isOpen}
-        sideOffset={8}
-        triggerRef={triggerRef}
-        onOpenChange={setIsOpen}
-      >
-        <ProfileCard identity={identity} name={name} />
-      </PopoverContent>
+      {hasOpened && (
+        <PopoverContent
+          align="start"
+          className={s.content}
+          isOpen={isOpen}
+          sideOffset={8}
+          triggerRef={triggerRef}
+          onOpenChange={setIsOpen}
+        >
+          <ProfileCard identity={identity} name={name} />
+        </PopoverContent>
+      )}
     </>
   );
 };

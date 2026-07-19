@@ -16,6 +16,14 @@
     overlay-fade-in 300ms ease-out,
     slide-in-from-left 300ms ease-out;
   animation-fill-mode: both;
+
+  [data-variant='drawer'] & {
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
 
 .skeletonList {

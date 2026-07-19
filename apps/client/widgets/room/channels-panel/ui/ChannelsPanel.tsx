@@ -20,6 +20,7 @@ export const ChannelsPanel = ({ variant = 'desktop', onNavigate }: ChannelsPanel
         variant === 'desktop' ? s.desktop : s.drawer,
         variant === 'desktop' && 'surface-bar',
       )}
+      data-variant={variant}
     >
       <ChannelsHeader compact={variant === 'drawer'} />
       {isLobby ? <ChannelsLobbyBanner /> : <ChannelsList onNavigate={onNavigate} />}
