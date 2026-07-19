@@ -1,0 +1,1 @@
+export { AuthRoomPreview } from './AuthRoomPreview';

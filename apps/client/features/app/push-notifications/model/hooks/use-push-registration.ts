@@ -55,11 +55,17 @@ export const usePushRegistration = (enabled: boolean): void => {
 
       let permission = await checkPermissions();
 
-      if (permission === 'prompt' || permission === 'prompt-with-rationale') {
+      if (permission !== 'granted') {
         permission = await requestPermissions();
       }
 
-      if (permission !== 'granted' || cancelled) {
+      if (permission !== 'granted') {
+        console.warn('[push] notification permission not granted:', permission);
+
+        return;
+      }
+
+      if (cancelled) {
         return;
       }
 
@@ -71,16 +77,29 @@ export const usePushRegistration = (enabled: boolean): void => {
         return;
       }
 
+      if (!token) {
+        console.warn('[push] FCM returned an empty token');
+
+        return;
+      }
+
       tokenRef.current = token;
       await registerPushDevice({ token, platform });
 
       tokenListener = await onTokenRefresh(async (event) => {
         tokenRef.current = event.token;
-        await registerPushDevice({ token: event.token, platform });
+
+        try {
+          await registerPushDevice({ token: event.token, platform });
+        } catch (error) {
+          console.error('[push] failed to persist refreshed token', error);
+        }
       });
     };
 
-    void setup();
+    setup().catch((error: unknown) => {
+      console.error('[push] registration failed', error);
+    });
 
     return () => {
       cancelled = true;
@@ -90,7 +109,7 @@ export const usePushRegistration = (enabled: boolean): void => {
       tokenRef.current = null;
 
       if (token) {
-        void unregisterPushDevice({ token });
+        unregisterPushDevice({ token }).catch(() => {});
       }
     };
   }, [enabled]);

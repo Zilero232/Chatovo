@@ -3,8 +3,10 @@
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
-import { LogoMark, Text } from '@/shared/ui';
-import { AUTH_EQ_BARS, AUTH_FEATURES } from '../../../config';
+import { BrandMark, Text } from '@/shared/ui';
+import { AUTH_FEATURES } from '../../../config';
+import { AuthRoomPreview } from '../AuthRoomPreview';
+import { AuthStats } from '../AuthStats';
 
 import s from './AuthBrandPanel.module.scss';
 
@@ -16,14 +18,14 @@ export const AuthBrandPanel = () => {
       <div className={clsx(s.orb, 'auth-orb')} />
 
       <div className={s.top}>
-        <span className={clsx(s.mark, 'gradient-brand', 'shadow-glow-cyan')}>
-          <LogoMark className={s.markIcon} size={26} />
-        </span>
+        <BrandMark glow className={s.mark} size={38} />
         <span className={clsx(s.wordmark, 'gradient-text')}>{t('appName')}</span>
       </div>
 
       <div className={s.center}>
         <h2 className={s.tagline}>{t('tagline')}</h2>
+
+        <AuthRoomPreview />
 
         <div className={s.features}>
           {AUTH_FEATURES.map(({ key, Icon }, index) => (
@@ -48,15 +50,7 @@ export const AuthBrandPanel = () => {
         </div>
       </div>
 
-      <div className={s.equalizer} aria-hidden>
-        {AUTH_EQ_BARS.map((bar) => (
-          <span
-            key={bar.id}
-            className={s.eqBar}
-            style={{ height: bar.height, animationDelay: bar.delay }}
-          />
-        ))}
-      </div>
+      <AuthStats />
     </aside>
   );
 };

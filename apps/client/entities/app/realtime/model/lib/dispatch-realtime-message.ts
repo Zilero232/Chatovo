@@ -6,8 +6,6 @@ import { publishRealtimeMessage } from './message-listeners';
 
 import type { RealtimeServerMessage, RoomsParticipantsSnapshot } from '@chatovo/schemas';
 
-const EMPTY_PRESENCE: RoomsParticipantsSnapshot = { rooms: {}, lobbyOnline: 0 };
-
 export const parseRealtimeServerMessage = async (
   raw: unknown,
 ): Promise<RealtimeServerMessage | null> => {
@@ -41,4 +39,4 @@ export const dispatchRealtimeMessage = (
   }
 };
 
-export const emptyPresence = (): RoomsParticipantsSnapshot => EMPTY_PRESENCE;
+export const emptyPresence = (): RoomsParticipantsSnapshot => ({ rooms: {}, lobbyOnline: 0 });

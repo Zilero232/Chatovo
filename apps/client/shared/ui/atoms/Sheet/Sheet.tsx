@@ -2,9 +2,17 @@
 
 import { Dialog } from '@base-ui-components/react/dialog';
 import { clsx } from 'clsx';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { useState } from 'react';
 
 import { shouldKeepDialogOpen } from '@/shared/lib/nested-overlay';
-import { sideClass } from './Sheet.config';
+import {
+  OVERLAY_TRANSITION,
+  SHEET_REDUCED_TRANSITION,
+  SHEET_TRANSITION,
+  sheetVariants,
+  sideClass,
+} from './Sheet.config';
 
 import s from './Sheet.module.scss';
 
@@ -24,6 +32,9 @@ export const Sheet = ({
   children,
   ...props
 }: SheetProps) => {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen ?? false);
+  const isOpen = open ?? uncontrolledOpen;
+
   const handleOpenChange = (next: boolean, eventDetails: Dialog.Root.ChangeEventDetails) => {
     const isOutsidePress = eventDetails.reason === 'outside-press';
 
@@ -33,6 +44,7 @@ export const Sheet = ({
       return;
     }
 
+    setUncontrolledOpen(next);
     onOpenChange?.(next);
   };
 
@@ -40,9 +52,26 @@ export const Sheet = ({
     <Dialog.Root defaultOpen={defaultOpen} open={open} onOpenChange={handleOpenChange} {...props}>
       {trigger ? <Dialog.Trigger render={trigger as never} /> : null}
 
-      <Dialog.Portal>
-        <Dialog.Backdrop className={clsx(s.overlay, className)} data-slot="sheet" />
-        {children}
+      <Dialog.Portal keepMounted>
+        <AnimatePresence>
+          {isOpen ? (
+            <Dialog.Backdrop
+              key="sheet-backdrop"
+              className={clsx(s.overlay, className)}
+              data-slot="sheet"
+              render={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={OVERLAY_TRANSITION}
+                />
+              }
+            />
+          ) : null}
+        </AnimatePresence>
+
+        <AnimatePresence>{isOpen ? children : null}</AnimatePresence>
       </Dialog.Portal>
     </Dialog.Root>
   );
@@ -56,10 +85,22 @@ export const SheetContent = ({
   showCloseButton = true,
   ...props
 }: SheetContentProps) => {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <Dialog.Popup
+      key="sheet-popup"
       className={clsx(s.modal, sideClass[side], modalClassName)}
       data-slot="sheet-portal"
+      render={
+        <motion.div
+          variants={sheetVariants(side)}
+          initial={shouldReduceMotion ? { opacity: 0 } : 'hidden'}
+          animate={shouldReduceMotion ? { opacity: 1 } : 'visible'}
+          exit={shouldReduceMotion ? { opacity: 0 } : 'hidden'}
+          transition={shouldReduceMotion ? SHEET_REDUCED_TRANSITION : SHEET_TRANSITION}
+        />
+      }
       {...props}
     >
       <div className={clsx('glass-overlay', s.content, className)} data-slot="sheet-content">

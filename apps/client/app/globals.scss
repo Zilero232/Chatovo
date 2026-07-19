@@ -73,9 +73,15 @@ body {
 
 html.landing,
 html.landing body {
-  overflow: hidden auto;
+  overflow: clip auto;
   height: auto;
   min-height: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.landing {
+    scroll-behavior: smooth;
+  }
 }
 
 button:not(:disabled),

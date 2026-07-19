@@ -8,7 +8,7 @@ import { match } from 'ts-pattern';
 import { ForgotPasswordForm } from '@/features/auth/forgot-password';
 import { SignInForm } from '@/features/auth/sign-in';
 import { SignUpForm } from '@/features/auth/sign-up';
-import { AuthBackground, LogoMark, Text } from '@/shared/ui';
+import { AuthBackground, BrandMark, Text } from '@/shared/ui';
 import { AuthBrandPanel, AuthLegalFooter } from './components';
 
 import s from './AuthPage.module.scss';
@@ -28,9 +28,7 @@ export const AuthPage = () => {
         <AuthBrandPanel />
 
         <div className={s.panel}>
-          <span className={clsx(s.mobileMark, 'gradient-brand', 'shadow-glow-cyan')}>
-            <LogoMark className={s.markIcon} size={30} />
-          </span>
+          <BrandMark glow className={s.mobileMark} size={44} />
 
           <div className={s.header}>
             <h1 className={clsx(s.title, 'gradient-text')}>
