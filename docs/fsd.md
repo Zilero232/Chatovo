@@ -36,19 +36,24 @@ apps/client/            # (канон: src/)
 ├── views/              # Слой Views (канон: pages/)
 │   └── <view-name>/
 ├── widgets/            # Слой Widgets
-│   └── <domain>/       # auth | room | app | layout
+│   └── <domain>/       # app | chat | layout | room | social
 │       └── <widget-name>/
 ├── features/           # Слой Features
-│   └── <domain>/       # auth | room | app
+│   └── <domain>/       # app | auth | room | social
 │       └── <feature-name>/
 ├── entities/           # Слой Entities
-│   └── <domain>/       # auth | room | app
+│   └── <domain>/       # app | auth | room | social
 │       └── <entity-name>/
 └── shared/             # Слой Shared (без слайсов — только сегменты)
     ├── api/
-    ├── ui/
+    ├── config/
+    ├── constants/
+    ├── hooks/
+    ├── i18n/
     ├── lib/
-    └── config/
+    ├── seo/
+    ├── styles/
+    └── ui/
 ```
 
 > **Доменная группировка слайсов.** В Chatovo слайсы внутри `features/`, `entities/`, `widgets/` сгруппированы по бизнес-домену (`auth`, `room`, `app`, `layout`). Это надстройка поверх FSD-канона (`<layer>/<slice>/`). Импорты: `@/features/auth/sign-in`, `@/entities/room/room`, `@/widgets/layout/authed-shell`. Группа `app` — кросс-доменная инфраструктура приложения (release, locale, tray, shortcuts, update). Группа `layout` — корневой shell.
@@ -87,7 +92,9 @@ App → Views → Widgets → Features → Entities → Shared
 
 - `auth/` — авторизация (sign-in, sign-up, user)
 - `room/` — комнаты, голос, чат, presence
+- `social/` — друзья, профили, социальные диалоги
 - `app/` — инфраструктура приложения (release, locale, system-tray, shortcuts, check-app-update)
+- `chat/` (только widgets) — панель чата
 - `layout/` (только widgets) — корневой shell
 
 Доменная папка — организационный контейнер, **не публичный API**. Импорт всегда до уровня слайса: `@/features/room/create`, не `@/features/room`.
@@ -206,7 +213,7 @@ Feature
 - [ ] Слой Shared не содержит бизнес-логики — только project-agnostic код
 - [ ] Слой Entities не содержит UI-логики интеракций — это уровень Features
 
-> **Naming в Chatovo:** канон FSD требует kebab-case для всех файлов. Chatovo-кодстайл (см. `style-guide.md` секция 7): kebab-case для слайсов/сегментов, **PascalCase для папок и файлов компонентов** (`VoiceRoom/VoiceRoom.tsx`), camelCase для хуков/утилит. Это локальная конвенция поверх FSD.
+> **Naming в Chatovo:** канон FSD требует kebab-case для всех файлов. Chatovo-кодстайл (см. [`docs/style.md`](./style.md) §5): kebab-case для слайсов/сегментов, **PascalCase для папок и файлов компонентов** (`VoiceRoom/VoiceRoom.tsx`), camelCase для хуков/утилит. Это локальная конвенция поверх FSD.
 
 ---
 
@@ -229,4 +236,4 @@ Feature
 - Полная спецификация: [feature-sliced.design](https://feature-sliced.design)
 - Линтер FSD-правил: [Steiger](https://github.com/feature-sliced/steiger)
 - Cross-entity паттерн `@x` — секция 2 выше
-- Кодстайл Chatovo поверх FSD (структура слайса, naming, размер компонента): `docs/style-guide.md`
+- Кодстайл Chatovo поверх FSD (структура слайса, naming, размер компонента): [`docs/style.md`](./style.md)

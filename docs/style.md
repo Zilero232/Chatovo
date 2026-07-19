@@ -36,7 +36,7 @@ widgets/voice-room/
 widgets/voice-room/ui/
   VoiceRoom.tsx          ← JSX + entry-компонент
   VoiceRoom.types.ts     ← Props и локальные union-типы
-  VoiceRoom.module.scss  ← целевой формат; legacy — VoiceRoom.styles.ts (Tailwind, миграция)
+  VoiceRoom.module.scss  ← стили компонента
 ```
 
 **Подкомпоненты** (используются только внутри родителя) — каждый в папке `components/`:
@@ -44,13 +44,13 @@ widgets/voice-room/ui/
 ```
 widgets/channels-panel/ui/
   ChannelsPanel.tsx
-  ChannelsPanel.styles.ts
+  ChannelsPanel.module.scss
   components/
     index.ts                   ← barrel: re-exports всех подкомпонентов
     ChannelsHeader/
       ChannelsHeader.tsx
       ChannelsHeader.types.ts
-      ChannelsHeader.styles.ts
+      ChannelsHeader.module.scss
       index.ts                 ← `export { ChannelsHeader } from './ChannelsHeader';`
     ChannelsList/
       ...
@@ -69,12 +69,12 @@ import { ChannelsHeader } from './components/ChannelsHeader';
 **Правила файлов:**
 
 - `.types.ts` — создаётся только если есть Props или локальные union-типы.
-- `.module.scss` — стили компонента (импорт `import s from './Foo.module.scss'`). В `shared/ui` — **обязательно**; в widgets/features — целевой формат (миграция с `.styles.ts`).
+- `.module.scss` — стили компонента (импорт `import s from './Foo.module.scss'`). Обязательно на всех слоях.
 - `shared/ui/` — атомарный слой (atoms/molecules/organisms/icons). **Не плоские `button.tsx`** — каждый примитив в PascalCase-папке (§2.1). Снаружи — `@/shared/ui`.
 
 ### 2.1. Структура `shared/ui`
 
-Каждый примитив — отдельная папка. Плоские kebab-case файлы в `atoms/` — legacy, не добавлять новые.
+Каждый примитив — отдельная папка в PascalCase.
 
 ```
 shared/ui/
@@ -154,38 +154,34 @@ export type VoiceRoomProps = {
 };
 ```
 
-**`VoiceRoom.styles.ts`** — два паттерна:
+**`VoiceRoom.module.scss`:**
 
-```ts
-// A. Статичные классы
-export const voiceRoomStyles = {
-  root: 'flex h-full flex-col',
-  header: 'flex items-center gap-2 border-b px-4 py-2',
-} as const;
+```scss
+@use '@/shared/styles/mixins' as *;
 
-// B. Варианты с условиями
-import { cva } from 'class-variance-authority';
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
-export const channelItemStyles = cva(
-  'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm',
-  {
-    variants: {
-      active: {
-        true: 'bg-sidebar-accent text-sidebar-accent-foreground',
-        false: 'text-sidebar-foreground/80 hover:bg-sidebar-accent/50',
-      },
-    },
-    defaultVariants: { active: false },
-  },
-);
+.header {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--glass-border);
+}
 ```
+
+Варианты с условиями — `cva` из `class-variance-authority` поверх module-классов (см. `shared/ui/atoms/Text/Text.variants.ts`).
 
 **`VoiceRoom.tsx`:**
 
 ```tsx
 'use client';
 
-import { voiceRoomStyles as s } from './VoiceRoom.styles';
+import s from './VoiceRoom.module.scss';
 import type { VoiceRoomProps } from './VoiceRoom.types';
 
 export const VoiceRoom = ({ token, serverUrl }: VoiceRoomProps) => (
@@ -225,20 +221,19 @@ export type * from './use-friend-chat-unread.types';
 
 ---
 
-## 3. Стили: SCSS modules vs legacy `.styles.ts`
+## 3. Стили: SCSS modules
 
 | Слой | Формат |
 |---|---|
 | `shared/ui/**` | `*.module.scss` + CSS-переменные из `globals.scss` |
-| widgets / features / views (миграция) | целевой — `*.module.scss`; пока ещё встречается `*.styles.ts` с Tailwind-классами |
+| widgets / features / views | `*.module.scss` |
 
 | Случай | Куда |
 |---|---|
 | Стили компонента в `shared/ui` | `<Name>.module.scss` |
-| Стили подкомпонента слайса | `<Name>.module.scss` (или legacy `.styles.ts` до миграции) |
-| 1-2 utility-класса, не реюзается | inline `className` + `clsx()` — только на время миграции |
+| Стили подкомпонента слайса | `<Name>.module.scss` |
+| Склейка module-классов и опционального `className` prop | `clsx(...)` |
 | Условные классы | maps в TSX (`variantClass[variant]`) или SCSS-модификаторы |
-- `cn(...)` | `clsx(...)` | склейка module-классов и опционального `className` prop |
 
 Принцип — JSX читается, `s.root`/`s.header` рассказывают структуру.
 
@@ -1028,30 +1023,9 @@ const ChannelsList = () => {
 
 ---
 
-## 18. Server routes — OpenAPI
+## 18. Server — см. apps/server/CLAUDE.md
 
-```
-apps/server/src/routes/
-  rooms/ users/ livekit/ chat/ github/
-    routes.ts    ← createRoute({...}) определения
-    handlers.ts  ← RouteHandler<typeof route, Env>
-    index.ts     ← OpenAPIHono<Env>().openapi(route, handler)
-  shared/
-    schemas.ts   ← errorSchema и прочие общие zod-схемы
-    types.ts     ← Env (тип Hono-контекста, общий для всех роутеров)
-```
-
-- `routes.ts` — только route definitions.
-- `handlers.ts` — только обработчики. Общий `type Env` (`{ Variables: AuthVars }`)
-  не дублируем по роутерам — он живёт в `shared/types.ts`, импортируется оттуда.
-- Validation внутри `createRoute({ request: { body: { content: { ... schema } } } })`, не отдельный `zValidator`. Схемы — из `@chatovo/schemas`.
-- Все ответы (включая 4xx/5xx) описаны в `responses`.
-- `404`/`403`/прочие доменные ошибки — `throw new HTTPException(status, { message })` (ловит глобальный `app.onError`), а не повтор `if (!x) return c.json(...)` по хендлерам. Общий guard выноси в helper (напр. `requireRoomId`).
-- `OpenAPIHono` создаётся с `defaultHook`, нормализующим провал zod-валидации в `{ error }` (иначе клиент получает сырой zod-объект → `[object Object]`).
-- Тип строки Prisma (с `include`) — выводи через `Prisma.<Model>GetPayload<{...}>` рядом с хендлером, не дублируй поля вручную и не выноси в `@chatovo/schemas` (там чистый Zod, без Prisma).
-- Mount: публичные роуты (`github`, `health`) — без `authMiddleware`; защищённые — `.use('/<path>/*', authMiddleware)`.
-- Стрим-роуты (SSE через `streamSSE`) не описываются `createRoute` — обычный
-  `.get()` с хендлером типа `Handler<Env>`, тело хендлера всё равно в `handlers.ts`.
+Этот гайд покрывает `apps/client/`. Конвенции API (NestJS-модули, `createZodDto` из `nestjs-zod`, глобальный `AuthGuard` + `@Public()`, WebSocket-gateway, доменные события) описаны в [`apps/server/CLAUDE.md`](../apps/server/CLAUDE.md) — единственный источник правды по серверу.
 
 ---
 
@@ -1063,7 +1037,7 @@ apps/server/src/routes/
 - Deep imports мимо barrel.
 - Cross-import между слайсами одного слоя.
 - ESLint, Prettier, CSS-in-JS. Только Biome + SCSS modules.
-- `axios` / ручной `fetch` для бизнес-вызовов. Только Hono RPC client.
+- Ручной `fetch` / свой `axios.create` для бизнес-вызовов. Только общий инстанс из `shared/api/http`.
 - Дублирование схем client/server. Только `@chatovo/schemas`.
 - `useState` для form fields. Только `react-hook-form`.
 - Вложенные `if (...) return <X />` на 3+ ветки. Используй `ts-pattern match`.
