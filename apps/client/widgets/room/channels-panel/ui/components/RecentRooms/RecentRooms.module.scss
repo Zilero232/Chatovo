@@ -105,6 +105,18 @@
   }
 }
 
+.itemSkeleton {
+  height: 2.125rem;
+  border-radius: var(--radius-lg);
+}
+
+.stripItemSkeleton {
+  flex-shrink: 0;
+  width: 7rem;
+  height: 2.5rem;
+  border-radius: var(--radius-xl);
+}
+
 .dot {
   flex-shrink: 0;
   width: 0.5rem;

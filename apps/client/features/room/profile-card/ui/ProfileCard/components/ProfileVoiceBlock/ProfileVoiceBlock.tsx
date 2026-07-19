@@ -13,13 +13,13 @@ import s from './ProfileVoiceBlock.module.scss';
 
 import type { ProfileVoiceBlockProps } from './ProfileVoiceBlock.types';
 
-export const ProfileVoiceBlock = ({ identity, isSelf, isLoading }: ProfileVoiceBlockProps) => {
+export const ProfileVoiceBlock = ({ identity, isSelf }: ProfileVoiceBlockProps) => {
   const t = useTranslations('profileCard');
 
   const { user } = useCurrentUser();
 
-  const room = useParticipantRoom(identity);
-  const myRoom = useParticipantRoom(user?.id ?? '');
+  const { room, isLoading } = useParticipantRoom(identity);
+  const { room: myRoom } = useParticipantRoom(user?.id ?? '');
   const { isPending, mutate: enterRoom } = useEnterRoom();
 
   const inSameRoom = isNonNullish(room) && room.roomId === myRoom?.roomId;
@@ -51,6 +51,7 @@ export const ProfileVoiceBlock = ({ identity, isSelf, isLoading }: ProfileVoiceB
                 size="sm"
                 onClick={() => enterRoom({ roomId: current.roomId })}
               >
+                {isPending && <Spinner decorative size="xs" />}
                 {t('join')}
               </Button>
             )}

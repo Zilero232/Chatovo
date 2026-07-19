@@ -309,6 +309,12 @@
   color: var(--foreground);
 }
 
+.statValueSkeleton {
+  width: 2.5rem;
+  height: 1.5rem;
+  border-radius: var(--radius-sm);
+}
+
 .statLabel {
   font-size: rem(11);
   line-height: 1;

@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { useSendFriendRequest } from '@/entities/social/friend';
-import { Button, Input } from '@/shared/ui';
+import { Button, Input, Spinner } from '@/shared/ui';
 
 import s from '../../FriendsDialog.module.scss';
 
@@ -44,7 +44,7 @@ export const AddFriendForm = () => {
         onChange={(event) => setFriendTag(event.target.value)}
       />
       <Button disabled={!canSend} size="sm" onClick={send}>
-        <UserPlus aria-hidden />
+        {sendRequest.isPending ? <Spinner decorative /> : <UserPlus aria-hidden />}
         {t('sendByTag')}
       </Button>
     </div>

@@ -59,7 +59,7 @@ export const ProfileCard = ({ identity, name }: ProfileCardProps) => {
           </Text>
         )}
 
-        <ProfileVoiceBlock identity={identity} isSelf={isSelf} isLoading={false} />
+        <ProfileVoiceBlock identity={identity} isSelf={isSelf} />
 
         {!isSelf && profile?.friendTag && (
           <FriendProfileActions

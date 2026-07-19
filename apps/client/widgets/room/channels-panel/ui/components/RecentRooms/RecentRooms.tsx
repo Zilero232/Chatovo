@@ -7,6 +7,7 @@ import { filter, indexBy, isEmpty, isNonNullish, map } from 'remeda';
 
 import { useRecentRooms, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { buildRoomHref } from '@/shared/constants';
+import { Skeleton } from '@/shared/ui';
 
 import s from './RecentRooms.module.scss';
 
@@ -17,7 +18,7 @@ export const RecentRooms = ({ onNavigate, variant = 'list' }: RecentRoomsProps =
   const router = useRouter();
 
   const { recent } = useRecentRooms();
-  const { rooms } = useRooms();
+  const { rooms, isLoading } = useRooms();
   const presence = useRoomsPresence();
 
   const roomsById = indexBy(rooms, (room) => room.id);
@@ -26,11 +27,28 @@ export const RecentRooms = ({ onNavigate, variant = 'list' }: RecentRoomsProps =
     isNonNullish,
   );
 
+  const isStrip = variant === 'strip';
+
+  if (isLoading && !isEmpty(recent)) {
+    return (
+      <div className={isStrip ? s.rootStrip : s.root}>
+        <h4 className={isStrip ? s.headingStrip : s.heading}>
+          <Clock className={s.headingIcon} />
+          {t('heading')}
+        </h4>
+
+        <div className={isStrip ? s.strip : s.list}>
+          {recent.map((entry) => (
+            <Skeleton key={entry.id} className={isStrip ? s.stripItemSkeleton : s.itemSkeleton} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (isEmpty(entries)) {
     return null;
   }
-
-  const isStrip = variant === 'strip';
 
   const navigate = (roomId: string) => {
     router.push(buildRoomHref(roomId));

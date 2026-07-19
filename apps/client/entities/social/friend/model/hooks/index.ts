@@ -1,6 +1,7 @@
 export { useAcceptFriendRequest } from './use-accept-friend-request';
 export { useAcceptIncomingFriendCall } from './use-accept-incoming-friend-call';
 export { useCallFriend } from './use-call-friend';
+export { useCancelOutgoingFriendCall } from './use-cancel-outgoing-friend-call';
 export { useCloseWhenCallAccepted } from './use-close-when-call-accepted';
 export { useDeclineFriendRequest } from './use-decline-friend-request';
 export { useDeclineIncomingFriendCall } from './use-decline-incoming-friend-call';

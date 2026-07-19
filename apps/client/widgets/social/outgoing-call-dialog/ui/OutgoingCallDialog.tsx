@@ -11,6 +11,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  Spinner,
 } from '@/shared/ui';
 import { useOutgoingCall } from '../model/hooks';
 
@@ -18,10 +19,10 @@ import s from './OutgoingCallDialog.module.scss';
 
 export const OutgoingCallDialog = () => {
   const t = useTranslations('friends.outgoingCall');
-  const { call, isRinging, cancel } = useOutgoingCall();
+  const { call, isRinging, isBusy, cancel } = useOutgoingCall();
 
   return (
-    <Dialog open={isRinging} onOpenChange={(open) => !open && cancel()}>
+    <Dialog open={isRinging} onOpenChange={(open) => !open && !isBusy && cancel()}>
       <DialogContent className={s.content} showCloseButton={false}>
         {call && (
           <>
@@ -40,8 +41,14 @@ export const OutgoingCallDialog = () => {
               <span className={s.name}>{call.callee.name}</span>
             </div>
 
-            <Button className={s.cancel} size="lg" variant="secondary" onClick={cancel}>
-              <PhoneOff aria-hidden />
+            <Button
+              className={s.cancel}
+              isDisabled={isBusy}
+              size="lg"
+              variant="secondary"
+              onClick={cancel}
+            >
+              {isBusy ? <Spinner decorative /> : <PhoneOff aria-hidden />}
               {t('cancel')}
             </Button>
           </>

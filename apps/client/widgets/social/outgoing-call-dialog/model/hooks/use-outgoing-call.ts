@@ -7,8 +7,12 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useEffectEvent, useRef } from 'react';
 import { toast } from 'sonner';
 
-import { useFriendCallRingtone, useOutgoingFriendCall } from '@/entities/social/friend';
-import { ackOutgoingFriendCall, cancelOutgoingFriendCall } from '@/shared/api';
+import {
+  useCancelOutgoingFriendCall,
+  useFriendCallRingtone,
+  useOutgoingFriendCall,
+} from '@/entities/social/friend';
+import { ackOutgoingFriendCall } from '@/shared/api';
 import { buildRoomHref, QUERY_KEYS } from '@/shared/constants';
 
 const CALL_STATUS = friendCallStatusSchema.enum;
@@ -20,6 +24,8 @@ export const useOutgoingCall = () => {
   const handledRef = useRef<string | null>(null);
 
   const { data } = useOutgoingFriendCall();
+  const cancelCall = useCancelOutgoingFriendCall();
+
   const call = data?.call ?? null;
   const isRinging = call?.status === CALL_STATUS.ringing;
 
@@ -55,14 +61,11 @@ export const useOutgoingCall = () => {
     }
   }, [call, router, t]);
 
-  const cancel = async () => {
-    try {
-      await cancelOutgoingFriendCall();
-      queryClient.setQueryData(QUERY_KEYS.friendCallOutgoing(), { call: null });
-    } catch {
-      toast.error(t('cancelFailed'));
-    }
+  const cancel = () => {
+    cancelCall.mutate(undefined, {
+      onError: () => toast.error(t('cancelFailed')),
+    });
   };
 
-  return { call, isRinging, cancel };
+  return { call, isRinging, isBusy: cancelCall.isPending, cancel };
 };

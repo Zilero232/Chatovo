@@ -9,9 +9,9 @@ export type ParticipantRoom = {
   roomName: string;
 };
 
-export const useParticipantRoom = (identity: string): ParticipantRoom | null => {
+export const useParticipantRoom = (identity: string) => {
   const presence = useRoomsPresence();
-  const { rooms } = useRooms();
+  const { rooms, isLoading } = useRooms();
 
   const entry = pipe(
     entries(presence),
@@ -19,11 +19,11 @@ export const useParticipantRoom = (identity: string): ParticipantRoom | null => 
   );
 
   if (isNullish(entry)) {
-    return null;
+    return { room: null, isLoading };
   }
 
   const [roomId] = entry;
   const roomName = find(rooms, (room) => room.id === roomId)?.name ?? roomId;
 
-  return { roomId, roomName };
+  return { room: { roomId, roomName } satisfies ParticipantRoom, isLoading };
 };

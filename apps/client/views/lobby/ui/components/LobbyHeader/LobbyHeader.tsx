@@ -15,7 +15,7 @@ export const LobbyHeader = () => {
   const t = useTranslations('lobby');
   const tStats = useTranslations('lobby.stats');
 
-  const { rooms } = useRooms();
+  const { rooms, isLoading } = useRooms();
   const presence = useRoomsPresence();
   const lobbyOnline = useLobbyOnline();
 
@@ -44,6 +44,7 @@ export const LobbyHeader = () => {
         <div className={s.stats}>
           <LobbyStat
             icon={<Users className={s.statIconMuted} />}
+            isLoading={isLoading}
             label={tStats('rooms')}
             tone="rooms"
             value={rooms.length}
@@ -51,6 +52,7 @@ export const LobbyHeader = () => {
 
           <LobbyStat
             icon={<Radio className={liveRooms > 0 ? s.statIconLive : s.statIconMuted} />}
+            isLoading={isLoading}
             label={tStats('live')}
             tone="live"
             value={liveRooms}
