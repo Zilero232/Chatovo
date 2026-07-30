@@ -47,11 +47,7 @@ export const releaseAndroid = async () => {
   materializeKeystore(creds);
 
   log.step('build android apk + aab');
-  await $`bun --filter @chatovo/tauri android:build`.env({
-    ...process.env,
-    NODE_ENV: 'production'
-  });
-  await $`bun --filter @chatovo/tauri android:build:aab`.env({
+  await $`bun --filter @chatovo/tauri android:build:all`.env({
     ...process.env,
     NODE_ENV: 'production'
   });

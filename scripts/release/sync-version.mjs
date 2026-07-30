@@ -6,6 +6,8 @@ import { releaseVersion } from '../lib/version.mjs';
 
 const log = reporter('release:version');
 
+const WORKSPACES = ['apps/client', 'apps/server', 'apps/tauri', 'packages/schemas'];
+
 const tauri = join(workspace, 'apps', 'tauri');
 
 const patchJson = (path, version) => {
@@ -33,15 +35,18 @@ const patchCargoLock = (path, version) => {
   );
 };
 
-export const syncTauriVersion = () => {
+export const syncWorkspaceVersion = () => {
   const version = releaseVersion();
 
-  patchJson(join(tauri, 'package.json'), version);
+  for (const pkg of WORKSPACES) {
+    patchJson(join(workspace, pkg, 'package.json'), version);
+  }
+
   patchJson(join(tauri, 'tauri.conf.json'), version);
   patchCargoToml(join(tauri, 'Cargo.toml'), version);
   patchCargoLock(join(tauri, 'Cargo.lock'), version);
 
-  log.step(`synced tauri manifests to ${version}`);
+  log.step(`synced workspace manifests to ${version}`);
 
   return version;
 };

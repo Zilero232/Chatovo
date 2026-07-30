@@ -3,7 +3,7 @@ import { $, reporter, requireGh } from '../lib/shell.mjs';
 import { releaseTag, releaseVersion } from '../lib/version.mjs';
 import { releaseAndroid } from './android.mjs';
 import { releaseDesktop } from './desktop.mjs';
-import { syncTauriVersion } from './sync-version.mjs';
+import { syncWorkspaceVersion } from './sync-version.mjs';
 
 const log = reporter('release');
 
@@ -50,10 +50,7 @@ if (state === 'missing') {
   log.step(`reusing existing draft ${tag}`);
 }
 
-syncTauriVersion();
-
-log.step('build client');
-await $`bun --filter @chatovo/client build`.env({ ...process.env, NODE_ENV: 'production' });
+syncWorkspaceVersion();
 
 if (runDesktop) {
   await releaseDesktop();

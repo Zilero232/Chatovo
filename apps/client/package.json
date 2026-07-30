@@ -1,7 +1,7 @@
 {
   "name": "@chatovo/client",
   "type": "module",
-  "version": "0.0.0",
+  "version": "1.2.6",
   "private": true,
   "scripts": {
     "predev": "kill-port 3000",
