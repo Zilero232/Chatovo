@@ -1,16 +1,20 @@
 'use client';
 
+import type { Menu } from '@tauri-apps/api/menu';
+
 import { isTauri } from '@tauri-apps/api/core';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
+import type { TrayItems } from '../../lib/build-tray-menu';
+
 import { buildTrayMenu } from '../../lib/build-tray-menu';
 import { setupTray } from '../../lib/setup-tray';
 
-import type { Menu } from '@tauri-apps/api/menu';
-import type { TrayItems } from '../../lib/build-tray-menu';
-
-export type TrayMenuValue = { menu: Menu; items: TrayItems };
+export type TrayMenuValue = {
+  items: TrayItems;
+  menu: Menu;
+};
 
 export const useTraySetup = (): TrayMenuValue | null => {
   const t = useTranslations('tray');
@@ -30,12 +34,12 @@ export const useTraySetup = (): TrayMenuValue | null => {
           header: t('header'),
           mute: t('mute'),
           checkUpdates: t('checkUpdates'),
-          quit: t('quit'),
+          quit: t('quit')
         });
 
         const { dispose: disposeTray } = await setupTray({
           tooltip: t('tooltip'),
-          menu: built.menu,
+          menu: built.menu
         });
 
         if (cancelled) {

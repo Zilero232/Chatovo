@@ -1,10 +1,10 @@
 'use client';
 
+import type { ShortcutRowProps } from './ShortcutRow.types';
+
 import { ShortcutClearButton, ShortcutComboButton } from './components';
 
 import s from './ShortcutRow.module.scss';
-
-import type { ShortcutRowProps } from './ShortcutRow.types';
 
 export const ShortcutRow = ({
   label,
@@ -13,23 +13,21 @@ export const ShortcutRow = ({
   showConflictHint,
   clearVisible,
   onRecord,
-  onClear,
-}: ShortcutRowProps) => {
-  return (
-    <div className={s.root}>
-      <span className={s.label}>{label}</span>
+  onClear
+}: ShortcutRowProps) => (
+  <div className={s.root}>
+    <span className={s.label}>{label}</span>
 
-      <div className={s.controls}>
-        <ShortcutComboButton
-          display={display}
-          label={label}
-          recording={recording}
-          showConflictHint={showConflictHint}
-          onClick={onRecord}
-        />
+    <div className={s.controls}>
+      <ShortcutComboButton
+        display={display}
+        label={label}
+        recording={recording}
+        showConflictHint={showConflictHint}
+        onClick={onRecord}
+      />
 
-        <ShortcutClearButton visible={clearVisible} onClick={onClear} />
-      </div>
+      <ShortcutClearButton visible={clearVisible} onClick={onClear} />
     </div>
-  );
-};
+  </div>
+);

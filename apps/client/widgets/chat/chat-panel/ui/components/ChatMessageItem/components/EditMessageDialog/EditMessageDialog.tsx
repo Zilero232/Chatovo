@@ -5,17 +5,18 @@ import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { ConfirmDialog, Text } from '@/shared/ui';
+
+import type { EditMessageDialogProps } from './EditMessageDialog.types';
+
 import { normalizeMessage } from '../../../../../model/lib';
 
 import s from './EditMessageDialog.module.scss';
-
-import type { EditMessageDialogProps } from './EditMessageDialog.types';
 
 export const EditMessageDialog = ({
   open,
   initialValue,
   onOpenChange,
-  onSave,
+  onSave
 }: EditMessageDialogProps) => {
   const t = useTranslations('chat');
   const normalized = normalizeMessage(initialValue);
@@ -52,11 +53,11 @@ export const EditMessageDialog = ({
 
   return (
     <ConfirmDialog
-      open={open}
-      title={t('editTitle')}
       cancelLabel={t('cancel')}
       confirmLabel={t('save')}
-      confirmVariant="default"
+      confirmVariant='default'
+      open={open}
+      title={t('editTitle')}
       onConfirm={save}
       onOpenChange={onOpenChange}
     >
@@ -68,7 +69,7 @@ export const EditMessageDialog = ({
           value={value}
           onChange={(event) => set(event.target.value)}
         />
-        <Text className={s.hint} tone="muted">
+        <Text className={s.hint} tone='muted'>
           {t('editHint')}
         </Text>
       </div>

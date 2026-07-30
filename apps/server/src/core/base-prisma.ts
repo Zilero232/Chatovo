@@ -5,7 +5,9 @@ import { validateEnv } from '../config/env.schema';
 
 const env = validateEnv(process.env);
 
-type GlobalForPrisma = { basePrisma?: PrismaClient };
+type GlobalForPrisma = {
+  basePrisma?: PrismaClient;
+};
 const globalForPrisma = globalThis as unknown as GlobalForPrisma;
 
 const createBaseClient = () => {
@@ -13,7 +15,7 @@ const createBaseClient = () => {
 
   return new PrismaClient({
     adapter,
-    log: env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
+    log: env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error']
   });
 };
 

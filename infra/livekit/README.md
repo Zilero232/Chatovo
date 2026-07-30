@@ -7,7 +7,7 @@ The production LiveKit container is declared in the root `docker-compose.yml`
 (`livekit` service). This folder holds:
 
 | File           | Purpose                                                |
-|----------------|--------------------------------------------------------|
+| -------------- | ------------------------------------------------------ |
 | `livekit.yaml` | Production config TEMPLATE — copied to the VPS by hand |
 | `README.md`    | This file                                              |
 
@@ -41,11 +41,11 @@ PowerShell equivalent (no openssl needed):
 
 Required firewall ports on the VPS:
 
-| Port           | Proto | Purpose                                  |
-|----------------|-------|------------------------------------------|
-| 443            | tcp   | HTTPS — Caddy proxies WSS to LiveKit     |
-| 7881           | tcp   | TURN/TCP fallback (LiveKit listens here) |
-| 50000-50100    | udp   | WebRTC media (RTP)                       |
+| Port        | Proto | Purpose                                  |
+| ----------- | ----- | ---------------------------------------- |
+| 443         | tcp   | HTTPS — Caddy proxies WSS to LiveKit     |
+| 7881        | tcp   | TURN/TCP fallback (LiveKit listens here) |
+| 50000-50100 | udp   | WebRTC media (RTP)                       |
 
 Port 7880 (signalling) does NOT need to be open publicly — Caddy talks to it
 on localhost. Same for the UDP media range when serving entirely through TCP
@@ -63,17 +63,12 @@ locally, run your own LiveKit (compose file in the repo root):
 docker compose -f docker-compose.dev.yml up
 ```
 
-Then put the local-LiveKit values in `apps/server/.env`:
+Then put the local-LiveKit values in the root `.env` — server and client share it:
 
 ```bash
 LIVEKIT_URL=ws://localhost:7880
 LIVEKIT_API_KEY=devkey
 LIVEKIT_API_SECRET=devsecret_devsecret_devsecret_32
-```
-
-and in `apps/client/.env`:
-
-```bash
 NEXT_PUBLIC_LIVEKIT_URL=ws://localhost:7880
 ```
 
@@ -102,7 +97,7 @@ To enable it, the `webhook` block in `livekit.yaml` must be filled in:
 
 ```yaml
 webhook:
-  api_key: APIxxxxxxxxxxxx          # one of the keys: entries above
+  api_key: APIxxxxxxxxxxxx # one of the keys: entries above
   urls:
     - https://api.chatovo.ru/livekit/webhook
 ```

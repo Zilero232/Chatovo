@@ -27,10 +27,10 @@
 # Then open https://chatovo.localhost  (NOT localhost:3000 — go through Caddy).
 #
 # Local env values to match this setup:
-#   apps/client/.env :
+#   .env :
 #     NEXT_PUBLIC_API_URL=https://api.chatovo.localhost
 #     NEXT_PUBLIC_LIVEKIT_URL=wss://livekit.chatovo.localhost
-#   apps/server/.env :
+#   .env :
 #     CORS_ORIGINS=https://chatovo.localhost
 #     LIVEKIT_URL=ws://localhost:7880
 

@@ -1,16 +1,17 @@
 import { clsx } from 'clsx';
-import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
+import Link from 'next/link';
 
 import { SITE } from '@/shared/config';
 import { ROUTES } from '@/shared/constants';
 import { BrandMark, Button, Text } from '@/shared/ui';
+
+import type { LandingSectionProps } from '../../LandingPage.types';
+
 import { LANDING_LOCALE_SWITCH, LANDING_NAV_KEYS } from '../../../config';
 import { LandingHeaderShell } from './LandingHeaderShell';
 
 import s from '../../LandingPage.module.scss';
-
-import type { LandingSectionProps } from '../../LandingPage.types';
 
 export const LandingHeader = async ({ locale }: LandingSectionProps) => {
   const t = await getTranslations({ locale, namespace: 'landing.nav' });
@@ -20,7 +21,7 @@ export const LandingHeader = async ({ locale }: LandingSectionProps) => {
     <LandingHeaderShell>
       <Link className={s.brand} href={locale === 'ru' ? ROUTES.landing : ROUTES.landingEn}>
         <BrandMark glow size={30} />
-        <Text as="span" className={clsx(s.brandName, 'gradient-text')} tone="inherit">
+        <Text as='span' className={clsx(s.brandName, 'gradient-text')} tone='inherit'>
           {SITE.name}
         </Text>
       </Link>
@@ -38,7 +39,7 @@ export const LandingHeader = async ({ locale }: LandingSectionProps) => {
           {t('localeSwitch')}
         </Link>
 
-        <Button className={s.headerCta} href={ROUTES.auth} size="sm">
+        <Button className={s.headerCta} href={ROUTES.auth} size='sm'>
           {t('signIn')}
         </Button>
       </div>

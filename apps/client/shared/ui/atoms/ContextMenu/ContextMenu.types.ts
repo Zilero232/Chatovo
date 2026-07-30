@@ -22,13 +22,13 @@ export type ContextMenuLabelProps = ComponentProps<typeof ContextMenu.GroupLabel
 };
 
 export type ContextMenuContentProps = {
-  className?: string;
   children?: ReactNode;
+  className?: string;
 };
 
 export type ContextMenuSubContentProps = {
-  className?: string;
   children?: ReactNode;
+  className?: string;
 };
 
 export type ContextMenuRadioGroupProps = ComponentProps<typeof ContextMenu.RadioGroup>;

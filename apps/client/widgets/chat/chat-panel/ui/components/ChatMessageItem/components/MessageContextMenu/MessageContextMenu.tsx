@@ -1,18 +1,19 @@
 'use client';
 
 import { ContextMenu, ContextMenuContent, ContextMenuTrigger } from '@/shared/ui';
+
+import type { MessageContextMenuProps } from './MessageContextMenu.types';
+
 import { MessageMenuItems } from '../MessageMenuItems';
 
 import s from './MessageContextMenu.module.scss';
-
-import type { MessageContextMenuProps } from './MessageContextMenu.types';
 
 export const MessageContextMenu = ({
   children,
   enabled,
   canEdit,
   onEdit,
-  onDelete,
+  onDelete
 }: MessageContextMenuProps) => {
   if (!enabled) {
     return children;
@@ -23,7 +24,7 @@ export const MessageContextMenu = ({
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
 
       <ContextMenuContent className={s.content}>
-        <MessageMenuItems canEdit={canEdit} onEdit={onEdit} onDelete={onDelete} />
+        <MessageMenuItems canEdit={canEdit} onDelete={onDelete} onEdit={onEdit} />
       </ContextMenuContent>
     </ContextMenu>
   );

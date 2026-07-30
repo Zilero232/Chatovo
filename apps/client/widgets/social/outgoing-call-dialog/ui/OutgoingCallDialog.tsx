@@ -11,8 +11,9 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  Spinner,
+  Spinner
 } from '@/shared/ui';
+
 import { useOutgoingCall } from '../model/hooks';
 
 import s from './OutgoingCallDialog.module.scss';
@@ -44,8 +45,8 @@ export const OutgoingCallDialog = () => {
             <Button
               className={s.cancel}
               isDisabled={isBusy}
-              size="lg"
-              variant="secondary"
+              size='lg'
+              variant='secondary'
               onClick={cancel}
             >
               {isBusy ? <Spinner decorative /> : <PhoneOff aria-hidden />}

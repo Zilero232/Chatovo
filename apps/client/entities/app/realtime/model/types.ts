@@ -1,11 +1,11 @@
 export type RealtimeChatLine = {
-  id: string;
-  timestamp: number;
-  message: string;
-  editedAt?: number | null;
   deletedAt?: number | null;
+  editedAt?: number | null;
   from?: {
     identity: string;
     name?: string;
   };
+  id: string;
+  message: string;
+  timestamp: number;
 };

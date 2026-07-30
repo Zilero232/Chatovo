@@ -1,11 +1,12 @@
 import type { ComponentProps } from 'react';
+
 import type { Avatar } from '@/shared/ui';
 
 export type UserAvatarProps = {
-  name: string;
-  src?: string | null;
-  size?: ComponentProps<typeof Avatar>['size'];
-  colorize?: boolean;
   className?: string;
+  colorize?: boolean;
   fallbackClassName?: string;
+  name: string;
+  size?: ComponentProps<typeof Avatar>['size'];
+  src?: string | null;
 };

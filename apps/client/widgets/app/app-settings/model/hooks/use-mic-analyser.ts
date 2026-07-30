@@ -4,18 +4,18 @@ import { useInterval } from '@siberiacancode/reactuse';
 import { createAudioAnalyser, LocalAudioTrack } from 'livekit-client';
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
 
-import { audioConstraints } from '@/entities/app/settings';
-
 import type { AudioSettings } from '@/entities/app/settings';
+
+import { audioConstraints } from '@/entities/app/settings';
 
 const LEVEL_INTERVAL_MS = 60;
 
 type MicAnalyserArgs = {
-  deviceId: string;
-  audio: AudioSettings;
   active: boolean;
-  onReady?: (stream: MediaStream) => void;
+  audio: AudioSettings;
+  deviceId: string;
   onError?: () => void;
+  onReady?: (stream: MediaStream) => void;
 };
 
 export const useMicAnalyser = ({ deviceId, audio, active, onReady, onError }: MicAnalyserArgs) => {
@@ -42,7 +42,7 @@ export const useMicAnalyser = ({ deviceId, audio, active, onReady, onError }: Mi
     const start = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          audio: audioConstraints(flags, deviceId),
+          audio: audioConstraints(flags, deviceId)
         });
 
         if (cancelled) {

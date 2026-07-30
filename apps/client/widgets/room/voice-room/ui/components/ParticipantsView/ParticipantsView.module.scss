@@ -4,21 +4,20 @@
 .root {
   position: relative;
   z-index: 1;
-  overflow-y: auto;
-  flex: 1;
   min-height: 0;
+  flex: 1;
   padding: 0.625rem;
+  overflow-y: auto;
 
   @include bp(sm) {
     padding: 0.75rem;
   }
-
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr;
   gap: 0.625rem;
+  grid-template-columns: 1fr;
 
   @include bp(md) {
     grid-template-columns: repeat(2, 1fr);
@@ -26,15 +25,15 @@
 }
 
 .rootDm {
-  overflow: hidden;
   display: flex;
+  overflow: hidden;
 }
 
 .dmStage {
   position: relative;
   overflow: hidden;
-  flex: 1;
   min-height: 0;
+  flex: 1;
   border-radius: var(--radius-2xl);
 }
 
@@ -44,15 +43,15 @@
 
   > * {
     display: flex;
-    flex: 1;
     min-width: 0;
     min-height: 0;
+    flex: 1;
   }
 
   > * > * {
-    flex: 1;
     min-width: 0;
     min-height: 0;
+    flex: 1;
   }
 }
 
@@ -67,31 +66,31 @@
   right: 0.625rem;
   bottom: 0.625rem;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
   width: 38%;
   min-width: 6.5rem;
   max-width: 15rem;
-  border: 1px solid oklch(1 0 0 / 12%);
+  border: 1px solid oklch(100% 0 0deg / 12%);
   border-radius: var(--radius-lg);
-  box-shadow: 0 rem(10) rem(30) rem(-8) oklch(0 0 0 / 70%);
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 rem(10) rem(30) rem(-8) oklch(0% 0 0deg / 70%);
 
   @include bp(sm) {
     right: 1rem;
     bottom: 1rem;
-    aspect-ratio: 16 / 9;
     width: 30%;
     min-width: 9rem;
     border-radius: var(--radius-xl);
+    aspect-ratio: 16 / 9;
   }
 }
 
 .dmWaiting {
   position: absolute;
-  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
   font-size: 0.9375rem;
+  inset: 0;
   text-align: center;
 }

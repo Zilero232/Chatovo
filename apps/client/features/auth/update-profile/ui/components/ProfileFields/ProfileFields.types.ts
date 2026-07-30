@@ -1,4 +1,5 @@
 import type { Control, FieldErrors, UseFormRegister } from 'react-hook-form';
+
 import type { ProfileValues } from '@/entities/auth/user';
 
 export type ProfileFieldsProps = {

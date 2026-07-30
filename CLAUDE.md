@@ -17,15 +17,18 @@ Chatovo — real-time voice rooms (web + desktop). Bun-workspaces monorepo.
 ```text
 apps/
 ├── client/          # Next.js — FSD architecture (CLAUDE.md)
-├── server/          # NestJS API — modules/ (module+controller+service+dto), lib/, core/, common/ (CLAUDE.md)
+├── server/          # NestJS API — modules/ (module+controller+services/+dto+lib/), lib/, core/, common/ (CLAUDE.md)
 └── tauri/           # Rust shell (src/), capabilities/, tauri.conf.json (CLAUDE.md)
 packages/schemas/    # Zod schemas (@chatovo/schemas), imported by client and server; grouped by domain
+scripts/            # Локальные release/deploy скрипты (CI нет) — lib/, deploy/, release/
 docs/
 ├── fsd.md           # Frontend (apps/client) architecture — read before structural changes
 ├── style.md         # Code style, import order, naming
 └── play-store/      # Android release: listing, data safety, signing
 infra/               # Caddy + LiveKit configs
 ```
+
+**Env**: один общий `.env` в корне на клиент и сервер (`.env.example` — шаблон). Клиент читает из него `NEXT_PUBLIC_*` через `loadRootEnv()` в [apps/client/next.config.ts](apps/client/next.config.ts). Отдельные `.env` есть только у `apps/tauri/` (машинные пути Android SDK/JDK). Креды для релиза и деплоя — в `.env.release` (`.env.release.example`). Всё, кроме `*.example`, в `.gitignore`.
 
 Each app folder has its own `CLAUDE.md` (see [Per-app guidance](#per-app-guidance)).
 
@@ -95,11 +98,21 @@ bun dev:client             # client only
 bun dev:server             # server only
 bun dev:livekit            # local SFU + Caddy via docker
 bun dev:full               # docker + bun dev
-bun lint                   # biome check (TS/JS)
-bun lint:fix               # biome check --write
+bun lint                   # eslint (TS/JS)
+bun lint:fix               # eslint --fix
 bun lint:css               # stylelint (SCSS)
 bun lint:css:fix           # stylelint --fix — сортирует свойства, чинит порядок
+bun format                 # prettier --write
+bun format:check           # prettier --check
+bun verify                 # typecheck + lint + format:check + lint:css — прогони перед коммитом
+bun fix                    # lint:fix + format + lint:css:fix
 bun build                  # server + client production build
+
+# Release / deploy (локально, CI нет — креды в .env.release)
+bun deploy:web             # собрать образы, запушить в ghcr, перезапустить стек на VPS
+bun release                # desktop + android → GitHub Release vX.Y.Z
+bun release:desktop        # только desktop
+bun release:android        # только android
 
 # Tauri (desktop)
 bun tauri:dev              # run Tauri dev shell
@@ -127,9 +140,11 @@ bun --filter @chatovo/client typecheck
 
 ## Workflow
 
+- **Verification**: `bun run verify` — одна команда на всё (typecheck × 3 пакета, ESLint, Prettier, Stylelint). Контрпара — `bun run fix`. Прогоняй `verify` перед коммитом.
 - **Type checking**: `bun typecheck` from the root runs all workspaces; `bun --filter @chatovo/client typecheck` for one.
-- **Lint**: `bun lint:fix` runs Biome (TS/JS); it also sorts imports and exports automatically. Don't fight its output.
-- **Lint SCSS**: `bun lint:css:fix` runs Stylelint — сортирует свойства (порядок из `stylelint-config-clean-order`), запрещает ручные вендор-префиксы, ловит свойства без эффекта и `transition` на не-compositor свойствах. Конфиг — [stylelint.config.mjs](stylelint.config.mjs). Оба линтера подключены к pre-commit через lint-staged.
+- **Lint**: `bun lint:fix` runs ESLint (`@siberiacancode/eslint`); он же сортирует импорты. Форматирование — отдельно, `bun format` (Prettier, `@siberiacancode/prettier`). Не правь стиль руками, не спорь с выводом.
+- **Lint SCSS**: `bun lint:css:fix` runs Stylelint (`@siberiacancode/stylelint`, порядок свойств из `stylelint-config-idiomatic-order`). Конфиг — [stylelint.config.mjs](stylelint.config.mjs). Все линтеры подключены к pre-commit через lint-staged.
+- **Общие версии — в каталоге**: `workspaces.catalog` в корневом [package.json](package.json) — единственный источник правды для react, zod, typescript, remeda, ts-pattern, date-fns, better-auth. В пакетах пиши `"zod": "catalog:"`, не версию.
 - **Tests**: none currently. Don't fabricate test commands.
 - **Commits**: Conventional Commits style (see git log).
 - **Branches**: feature branches off `master`. PRs target `master`.

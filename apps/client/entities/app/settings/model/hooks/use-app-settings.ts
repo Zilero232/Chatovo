@@ -4,14 +4,15 @@ import { useLocalStorage } from '@siberiacancode/reactuse';
 import { mergeDeep } from 'remeda';
 
 import { STORAGE_KEYS } from '@/shared/constants';
-import { DEFAULT_APP_SETTINGS } from '../../config/config';
 
 import type { AppSettings, UseAppSettings } from '../types';
+
+import { DEFAULT_APP_SETTINGS } from '../../config/config';
 
 export const useAppSettings = (): UseAppSettings => {
   const { value, set } = useLocalStorage<AppSettings>(
     STORAGE_KEYS.appSettings,
-    DEFAULT_APP_SETTINGS,
+    DEFAULT_APP_SETTINGS
   );
 
   const settings: AppSettings = mergeDeep(DEFAULT_APP_SETTINGS, value ?? {});
@@ -22,7 +23,7 @@ export const useAppSettings = (): UseAppSettings => {
 
   const toggleSound: UseAppSettings['toggleSound'] = (category) => {
     setGroup('sounds', {
-      enabled: { ...settings.sounds.enabled, [category]: !settings.sounds.enabled[category] },
+      enabled: { ...settings.sounds.enabled, [category]: !settings.sounds.enabled[category] }
     });
   };
 

@@ -30,8 +30,8 @@ export const AddFriendForm = () => {
         },
         onError: () => {
           toast.error(t('sendFailed'));
-        },
-      },
+        }
+      }
     );
   };
 
@@ -43,9 +43,15 @@ export const AddFriendForm = () => {
         value={friendTag}
         onChange={(event) => setFriendTag(event.target.value)}
       />
-      <Button disabled={!canSend} size="sm" onClick={send}>
+      <Button
+        aria-label={t('sendByTag')}
+        className={s.searchButton}
+        disabled={!canSend}
+        size='sm'
+        onClick={send}
+      >
         {sendRequest.isPending ? <Spinner decorative /> : <UserPlus aria-hidden />}
-        {t('sendByTag')}
+        <span className={s.searchButtonLabel}>{t('sendByTag')}</span>
       </Button>
     </div>
   );

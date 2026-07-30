@@ -6,7 +6,7 @@ export {
   resetPasswordSchema,
   signInSchema,
   signUpSchema,
-  userRoleSchema,
+  userRoleSchema
 } from './inputs';
 
 export type {
@@ -18,5 +18,5 @@ export type {
   SignInValues,
   SignUpValues,
   UpdateProfileInput,
-  UserRole,
+  UserRole
 } from './types';

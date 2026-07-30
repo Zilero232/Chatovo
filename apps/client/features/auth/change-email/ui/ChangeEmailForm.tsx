@@ -5,13 +5,10 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import type { ChangeEmailValues } from '@/entities/auth/user';
+
 import { useErrorMessage, useFieldError } from '@/entities/app/locale';
-import {
-  type ChangeEmailValues,
-  changeEmailSchema,
-  useChangeEmail,
-  useCurrentUser,
-} from '@/entities/auth/user';
+import { changeEmailSchema, useChangeEmail, useCurrentUser } from '@/entities/auth/user';
 import { FormField, Input, SubmitButton } from '@/shared/ui';
 
 import s from './ChangeEmailForm.module.scss';
@@ -30,10 +27,10 @@ export const ChangeEmailForm = () => {
     formState: { errors, isDirty },
     handleSubmit,
     register,
-    reset,
+    reset
   } = useForm<ChangeEmailValues>({
     resolver: zodResolver(changeEmailSchema),
-    defaultValues: { newEmail: '' },
+    defaultValues: { newEmail: '' }
   });
 
   const onSubmit = handleSubmit((values) => {
@@ -42,32 +39,32 @@ export const ChangeEmailForm = () => {
         toast.success(t('emailChangeRequested'));
         reset();
       },
-      onError: (err: Error) => toast.error(errorMessage(err)),
+      onError: (err: Error) => toast.error(errorMessage(err))
     });
   });
 
   return (
     <form className={s.form} onSubmit={onSubmit}>
-      <FormField htmlFor="current-email" label={t('currentEmailLabel')}>
-        <Input disabled id="current-email" type="email" value={currentEmail} />
+      <FormField htmlFor='current-email' label={t('currentEmailLabel')}>
+        <Input disabled id='current-email' type='email' value={currentEmail} />
       </FormField>
 
       <FormField
-        htmlFor="new-email"
-        label={t('newEmailLabel')}
-        hint={errors.newEmail ? undefined : t('emailChangeHint')}
         error={errors.newEmail && fieldError(errors.newEmail)}
+        hint={errors.newEmail ? undefined : t('emailChangeHint')}
+        htmlFor='new-email'
+        label={t('newEmailLabel')}
       >
         <Input
-          autoComplete="email"
-          id="new-email"
+          autoComplete='email'
+          id='new-email'
           placeholder={t('newEmailPlaceholder')}
-          type="email"
+          type='email'
           {...register('newEmail')}
         />
       </FormField>
 
-      <SubmitButton className={s.submit} disabled={!isDirty} isPending={isPending} type="submit">
+      <SubmitButton className={s.submit} disabled={!isDirty} isPending={isPending} type='submit'>
         {t('changeEmail')}
       </SubmitButton>
     </form>

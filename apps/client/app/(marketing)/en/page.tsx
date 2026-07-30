@@ -1,8 +1,8 @@
+import type { Metadata } from 'next';
+
 import { SITE } from '@/shared/config';
 import { ROUTES } from '@/shared/constants';
 import { LandingPage } from '@/views/landing';
-
-import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: SITE.en.title,
@@ -13,8 +13,8 @@ export const metadata: Metadata = {
     languages: {
       ru: ROUTES.landing,
       en: ROUTES.landingEn,
-      'x-default': ROUTES.landing,
-    },
+      'x-default': ROUTES.landing
+    }
   },
   openGraph: {
     type: 'website',
@@ -23,16 +23,16 @@ export const metadata: Metadata = {
     url: ROUTES.landingEn,
     siteName: SITE.name,
     title: SITE.en.title,
-    description: SITE.en.description,
+    description: SITE.en.description
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE.en.title,
-    description: SITE.en.description,
+    description: SITE.en.description
   },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true }
 };
 
-const Page = () => <LandingPage locale="en" />;
+const Page = () => <LandingPage locale='en' />;
 
 export default Page;

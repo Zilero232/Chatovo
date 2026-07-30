@@ -12,9 +12,9 @@ export const reportProblemSchema = z.object({
   description: descriptionSchema,
   appVersion: z.string().optional(),
   userAgent: z.string().optional(),
-  platform: feedbackPlatformSchema.optional(),
+  platform: feedbackPlatformSchema.optional()
 });
 
 export const reportProblemFormSchema = reportProblemSchema.extend({
-  screenshot: z.instanceof(File).optional(),
+  screenshot: z.instanceof(File).optional()
 });

@@ -1,7 +1,7 @@
 export { appEvents } from './app-bus';
+export { getDefaultAvatar } from './default-avatar';
 export { detectAssetPlatform } from './detect-asset-platform';
 export { firstNonEmpty } from './first-non-empty';
-export { formatBytes } from './format-bytes';
 export { formatBadgeCount } from './format-count';
 export { formatMessageTime, getDateDivider, isSameCalendarDay } from './format-date';
 export { formatPercent } from './format-percent';
@@ -11,7 +11,7 @@ export {
   hasNestedDialogOpen,
   hasOpenNestedOverlay,
   isNestedOverlayTarget,
-  shouldKeepDialogOpen,
+  shouldKeepDialogOpen
 } from './nested-overlay';
 export { raceWithTimeout } from './race-with-timeout';
 export { isScreenShareSupported } from './screen-share';
@@ -25,5 +25,5 @@ export {
   onMainWindowResized,
   showMainWindow,
   toggleMainWindow,
-  toggleMaximizeMainWindow,
+  toggleMaximizeMainWindow
 } from './window-controls/window-controls';

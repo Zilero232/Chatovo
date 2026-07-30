@@ -1,5 +1,7 @@
 'use client';
 
+import type { Update } from '@tauri-apps/plugin-updater';
+
 import { useCounter } from '@siberiacancode/reactuse';
 import { relaunch } from '@tauri-apps/plugin-process';
 import { check } from '@tauri-apps/plugin-updater';
@@ -10,18 +12,18 @@ import { toast } from 'sonner';
 import { match } from 'ts-pattern';
 
 import { appEvents, isTauriDesktop, raceWithTimeout } from '@/shared/lib';
-import { APP_UPDATE_CONFIG } from '../config/config';
 
-import type { Update } from '@tauri-apps/plugin-updater';
 import type { UpdateInfo } from './types';
+
+import { APP_UPDATE_CONFIG } from '../config/config';
 
 export const useCheckAppUpdate = () => {
   const t = useTranslations('update');
 
   const [update, setUpdate] = useState<Update | null>(null);
-  const [status, setStatus] = useState<UpdateInfo['status']>(() => {
-    return isTauriDesktop() ? 'checking' : 'idle';
-  });
+  const [status, setStatus] = useState<UpdateInfo['status']>(() =>
+    isTauriDesktop() ? 'checking' : 'idle'
+  );
   const [progress, setProgress] = useState(0);
   const [silent, setSilent] = useState(true);
 
@@ -63,7 +65,6 @@ export const useCheckAppUpdate = () => {
     }
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: recheckTick.value is the manual re-trigger; bumping it must re-run the effect
   useEffect(() => {
     if (!isTauriDesktop()) {
       return;
@@ -129,6 +130,7 @@ export const useCheckAppUpdate = () => {
     return () => {
       cancelled = true;
     };
+    // eslint-disable-next-line react/exhaustive-deps -- recheckTick.value is the manual re-trigger; bumping it must re-run the effect
   }, [recheckTick.value]);
 
   appEvents.on.recheckUpdate(() => {
@@ -161,6 +163,6 @@ export const useCheckAppUpdate = () => {
     progress,
     silent,
     install,
-    dismiss,
+    dismiss
   };
 };

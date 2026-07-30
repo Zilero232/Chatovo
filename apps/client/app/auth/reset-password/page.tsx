@@ -7,7 +7,7 @@ export const metadata = createPageMetadata({
   description: 'Choose a new password for your Chatovo account.',
   path: ROUTES.resetPassword,
   index: false,
-  follow: false,
+  follow: false
 });
 
 const Page = () => <ResetPasswordPage />;

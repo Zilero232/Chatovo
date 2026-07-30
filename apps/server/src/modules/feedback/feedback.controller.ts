@@ -6,7 +6,7 @@ import { ZodResponse } from 'nestjs-zod';
 
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { ReportProblemDto, ReportProblemResultDto } from './dto/feedback.dto';
-import { FeedbackService } from './feedback.service';
+import { FeedbackService } from './services';
 
 @ApiTags('feedback')
 @Controller('feedback')
@@ -21,15 +21,15 @@ export class FeedbackController {
   async reportProblem(
     @Body() body: ReportProblemDto,
     @CurrentUser() userId: string,
-    @UploadedFile() screenshot?: Express.Multer.File,
+    @UploadedFile() screenshot?: Express.Multer.File
   ) {
     const file = screenshot
       ? new File([new Uint8Array(screenshot.buffer)], screenshot.originalname, {
-          type: screenshot.mimetype,
+          type: screenshot.mimetype
         })
       : undefined;
 
-    await this.feedback.reportProblem({ ...body, screenshot: file }, userId);
+    await this.feedback.reportProblem({ input: { ...body, screenshot: file }, userId });
 
     return { ok: true };
   }

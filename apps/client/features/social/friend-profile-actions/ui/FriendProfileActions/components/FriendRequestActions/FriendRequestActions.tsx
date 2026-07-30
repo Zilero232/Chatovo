@@ -5,19 +5,19 @@ import { useTranslations } from 'next-intl';
 
 import { Button } from '@/shared/ui';
 
-import s from '../../FriendProfileActions.module.scss';
-
 import type {
   AddFriendActionProps,
   CancelRequestActionProps,
-  IncomingRequestActionsProps,
+  IncomingRequestActionsProps
 } from './FriendRequestActions.types';
+
+import s from '../../FriendProfileActions.module.scss';
 
 export const AddFriendAction = ({ isBusy, onAdd }: AddFriendActionProps) => {
   const t = useTranslations('friends');
 
   return (
-    <Button className={s.button} disabled={isBusy} size="sm" onClick={onAdd}>
+    <Button className={s.button} disabled={isBusy} size='sm' onClick={onAdd}>
       <UserPlus aria-hidden />
       {t('addFriend')}
     </Button>
@@ -28,7 +28,7 @@ export const CancelRequestAction = ({ isBusy, onCancel }: CancelRequestActionPro
   const t = useTranslations('friends');
 
   return (
-    <Button className={s.button} disabled={isBusy} size="sm" variant="secondary" onClick={onCancel}>
+    <Button className={s.button} disabled={isBusy} size='sm' variant='secondary' onClick={onCancel}>
       <X aria-hidden />
       {t('cancelRequest')}
     </Button>
@@ -38,21 +38,21 @@ export const CancelRequestAction = ({ isBusy, onCancel }: CancelRequestActionPro
 export const IncomingRequestActions = ({
   isBusy,
   onAccept,
-  onDecline,
+  onDecline
 }: IncomingRequestActionsProps) => {
   const t = useTranslations('friends');
 
   return (
     <div className={s.row}>
-      <Button className={s.button} disabled={isBusy} size="sm" onClick={onAccept}>
+      <Button className={s.button} disabled={isBusy} size='sm' onClick={onAccept}>
         <Check aria-hidden />
         {t('accept')}
       </Button>
       <Button
         className={s.button}
         disabled={isBusy}
-        size="sm"
-        variant="secondary"
+        size='sm'
+        variant='secondary'
         onClick={onDecline}
       >
         <X aria-hidden />

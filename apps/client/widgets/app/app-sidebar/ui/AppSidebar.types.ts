@@ -1,8 +1,8 @@
-export type AppSidebarOrientation = 'vertical' | 'horizontal';
+export type AppSidebarOrientation = 'horizontal' | 'vertical';
 
 export type AppSidebarProps = {
   channelsOpened: boolean;
-  onToggleChannels: () => void;
   orientation?: AppSidebarOrientation;
   showToggleChannels?: boolean;
+  onToggleChannels: () => void;
 };

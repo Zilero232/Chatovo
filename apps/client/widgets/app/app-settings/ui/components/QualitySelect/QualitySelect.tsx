@@ -7,5 +7,5 @@ import type { QualitySelectProps } from './QualitySelect.types';
 export const QualitySelect = <T extends string>({
   value,
   options,
-  onChange,
+  onChange
 }: QualitySelectProps<T>) => <Select options={options} value={value} onChange={onChange} />;

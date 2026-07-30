@@ -3,5 +3,5 @@ export {
   editChatMessage,
   fetchChatMessages,
   sendChatMessage,
-  uploadChatAttachment,
+  uploadChatAttachment
 } from './chat';

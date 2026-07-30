@@ -1,13 +1,13 @@
+import type { RealtimeServerMessage, RoomsParticipantsSnapshot } from '@chatovo/schemas';
+
 import { realtimeServerMessageSchema, safeJsonParse } from '@chatovo/schemas';
 import { match } from 'ts-pattern';
 
 import { decodeRealtimePayload } from './decode-realtime-payload';
 import { publishRealtimeMessage } from './message-listeners';
 
-import type { RealtimeServerMessage, RoomsParticipantsSnapshot } from '@chatovo/schemas';
-
 export const parseRealtimeServerMessage = async (
-  raw: unknown,
+  raw: unknown
 ): Promise<RealtimeServerMessage | null> => {
   const text = await decodeRealtimePayload(raw);
 
@@ -24,7 +24,7 @@ export const dispatchRealtimeMessage = (
   message: RealtimeServerMessage,
   deps: {
     setPresence: (snapshot: RoomsParticipantsSnapshot) => void;
-  },
+  }
 ): void => {
   const { setPresence } = deps;
 

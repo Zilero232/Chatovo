@@ -1,1 +1,1 @@
-export { type ConflictsState, conflictsActions, conflictsStoreApi } from './conflicts';
+export { conflictsActions, type ConflictsState, conflictsStoreApi } from './conflicts';

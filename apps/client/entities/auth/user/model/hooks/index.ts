@@ -1,18 +1,14 @@
+export { changeEmailSchema, type ChangeEmailValues, useChangeEmail } from './use-change-email';
 export {
-  type ChangeEmailValues,
-  changeEmailSchema,
-  useChangeEmail,
-} from './use-change-email';
-export {
-  type ChangePasswordValues,
   changePasswordSchema,
-  useChangePassword,
+  type ChangePasswordValues,
+  useChangePassword
 } from './use-change-password';
 export { useCurrentUser } from './use-current-user';
 export { useSendVerificationEmail } from './use-send-verification-email';
 export {
-  type ProfileValues,
   profileSchema,
+  type ProfileValues,
   type UpdateProfileInput,
-  useUpdateProfile,
+  useUpdateProfile
 } from './use-update-profile';

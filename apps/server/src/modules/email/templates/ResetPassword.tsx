@@ -7,16 +7,14 @@ type ResetPasswordProps = {
   url: string;
 };
 
-export const ResetPassword = ({ url }: ResetPasswordProps) => {
-  return (
-    <BaseEmail
-      preview="Reset your Chatovo password"
-      heading="Reset your password"
-      action={{ url, label: 'Reset password' }}
-    >
-      <Text style={emailStyles.text}>
-        Click below to choose a new password for your Chatovo account.
-      </Text>
-    </BaseEmail>
-  );
-};
+export const ResetPassword = ({ url }: ResetPasswordProps) => (
+  <BaseEmail
+    action={{ url, label: 'Reset password' }}
+    heading='Reset your password'
+    preview='Reset your Chatovo password'
+  >
+    <Text style={emailStyles.text}>
+      Click below to choose a new password for your Chatovo account.
+    </Text>
+  </BaseEmail>
+);

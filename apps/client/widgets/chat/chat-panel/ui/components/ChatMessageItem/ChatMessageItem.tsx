@@ -1,11 +1,11 @@
 'use client';
 
+import type { ChatMessageItemProps } from './ChatMessageItem.types';
+
 import { useChatMessageItem } from '../../../model/hooks';
 import { MessageColumn, MessageDialogs } from './components';
 
 import s from './ChatMessageItem.module.scss';
-
-import type { ChatMessageItemProps } from './ChatMessageItem.types';
 
 export const ChatMessageItem = ({
   message,
@@ -16,7 +16,7 @@ export const ChatMessageItem = ({
   onEdit,
   onDelete,
   onRetry,
-  onDiscard,
+  onDiscard
 }: ChatMessageItemProps) => {
   const {
     isEditing,
@@ -32,46 +32,46 @@ export const ChatMessageItem = ({
     canEdit,
     showHeader,
     showActions,
-    startEdit,
+    startEdit
   } = useChatMessageItem({ message, isOwn, isGrouped, canManage });
 
   return (
     <div
+      data-message-root
       className={s.root}
       data-own={isOwn}
       data-pending={message.status === 'sending'}
-      data-message-root
     >
       <MessageColumn
-        message={message}
         attachment={attachment}
         author={author}
+        canEdit={canEdit}
         identity={identity}
-        verified={verified}
-        isOwn={isOwn}
-        isTail={isTail}
         isDeleted={isDeleted}
         isEdited={isEdited}
-        canEdit={canEdit}
-        showHeader={showHeader}
+        isOwn={isOwn}
+        isTail={isTail}
+        message={message}
         showActions={showActions}
-        onEdit={startEdit}
+        showHeader={showHeader}
+        verified={verified}
         onDelete={() => setIsConfirmingDelete(true)}
-        onRetry={() => onRetry(message.id, message.message)}
         onDiscard={() => onDiscard(message.id)}
+        onEdit={startEdit}
+        onRetry={() => onRetry(message.id, message.message)}
       />
 
       <MessageDialogs
         body={message.message}
-        isEditing={isEditing}
         isConfirmingDelete={isConfirmingDelete}
-        onEditingChange={setIsEditing}
-        onConfirmingDeleteChange={setIsConfirmingDelete}
-        onSave={(body) => onEdit(message.id, body)}
+        isEditing={isEditing}
         onConfirmDelete={() => {
           onDelete(message.id);
           setIsConfirmingDelete(false);
         }}
+        onConfirmingDeleteChange={setIsConfirmingDelete}
+        onEditingChange={setIsEditing}
+        onSave={(body) => onEdit(message.id, body)}
       />
     </div>
   );

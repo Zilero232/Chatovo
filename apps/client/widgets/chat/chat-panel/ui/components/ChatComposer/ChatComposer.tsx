@@ -7,9 +7,9 @@ import { useTranslations } from 'next-intl';
 
 import { Button, Spinner } from '@/shared/ui';
 
-import s from './ChatComposer.module.scss';
-
 import type { ChatComposerProps } from './ChatComposer.types';
+
+import s from './ChatComposer.module.scss';
 
 export const ChatComposer = ({ isUploading, onSend, onAttach, onPaste }: ChatComposerProps) => {
   const t = useTranslations('chat');
@@ -50,13 +50,13 @@ export const ChatComposer = ({ isUploading, onSend, onAttach, onPaste }: ChatCom
         submit();
       }}
     >
-      <span aria-hidden className="accent-top-line" />
+      <span aria-hidden className='accent-top-line' />
       <Button
         aria-label={t('attach')}
         disabled={busy}
-        size="icon-sm"
-        type="button"
-        variant="ghost"
+        size='icon-sm'
+        type='button'
+        variant='ghost'
         onClick={onAttach}
       >
         {isUploading ? <Spinner /> : <Paperclip />}
@@ -76,8 +76,8 @@ export const ChatComposer = ({ isUploading, onSend, onAttach, onPaste }: ChatCom
         aria-label={t('send')}
         className={clsx({ [s.sendActive]: canSend })}
         disabled={!canSend}
-        size="icon-sm"
-        type="submit"
+        size='icon-sm'
+        type='submit'
       >
         <SendHorizontal className={clsx({ [s.sendIconActive]: canSend })} />
       </Button>

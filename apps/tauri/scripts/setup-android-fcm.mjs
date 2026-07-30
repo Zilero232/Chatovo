@@ -26,7 +26,7 @@ let rootGradle = readFileSync(rootGradlePath, 'utf8');
 if (!rootGradle.includes('com.google.gms:google-services')) {
   rootGradle = rootGradle.replace(
     'classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.25")',
-    'classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.25")\n        classpath("com.google.gms:google-services:4.4.2")',
+    'classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.25")\n        classpath("com.google.gms:google-services:4.4.2")'
   );
   writeFileSync(rootGradlePath, rootGradle);
 }
@@ -36,7 +36,7 @@ let appGradle = readFileSync(appGradlePath, 'utf8');
 if (!appGradle.includes('com.google.gms.google-services')) {
   appGradle = appGradle.replace(
     'id("rust")',
-    'id("rust")\n    id("com.google.gms.google-services")',
+    'id("rust")\n    id("com.google.gms.google-services")'
   );
   writeFileSync(appGradlePath, appGradle);
 }

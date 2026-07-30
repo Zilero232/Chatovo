@@ -9,12 +9,12 @@ export const useRoomById = (roomId: string | null) => {
   const {
     data: room,
     isLoading,
-    isError,
+    isError
   } = useQuery({
     queryKey: QUERY_KEYS.room(roomId),
     queryFn: () => getRoom(roomId as string),
     enabled: isNonNullish(roomId),
-    retry: false,
+    retry: false
   });
 
   return {
@@ -23,6 +23,6 @@ export const useRoomById = (roomId: string | null) => {
     isError,
     displayName: room?.name ?? roomId ?? '',
     isPrivate: !!room?.isPrivate,
-    isDm: room?.kind === roomKindSchema.enum.dm,
+    isDm: room?.kind === roomKindSchema.enum.dm
   };
 };

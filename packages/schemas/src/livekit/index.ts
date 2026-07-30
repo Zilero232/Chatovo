@@ -3,7 +3,7 @@ export {
   participantMetadataSchema,
   roomParticipantSchema,
   roomsParticipantsSnapshotSchema,
-  tokenResponseSchema,
+  tokenResponseSchema
 } from './outputs';
 
 export type {
@@ -11,5 +11,5 @@ export type {
   RoomParticipant,
   RoomsParticipantsSnapshot,
   TokenRequest,
-  TokenResponse,
+  TokenResponse
 } from './types';

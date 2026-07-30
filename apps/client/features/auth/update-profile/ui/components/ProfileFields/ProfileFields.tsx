@@ -4,10 +4,11 @@ import { useTranslations } from 'next-intl';
 import { Controller } from 'react-hook-form';
 
 import { useFieldError } from '@/entities/app/locale';
-import { BannerColorField } from '../BannerColorField';
-import { ProfileTextField } from '../ProfileTextField';
 
 import type { ProfileFieldsProps } from './ProfileFields.types';
+
+import { BannerColorField } from '../BannerColorField';
+import { ProfileTextField } from '../ProfileTextField';
 
 export const ProfileFields = ({ control, errors, register }: ProfileFieldsProps) => {
   const t = useTranslations('settings.profile');
@@ -16,39 +17,39 @@ export const ProfileFields = ({ control, errors, register }: ProfileFieldsProps)
   return (
     <>
       <ProfileTextField
-        id="profile-display-name"
-        label={t('displayNameLabel')}
-        hint={t('displayNameHint')}
+        autoComplete='name'
         error={errors.displayName && fieldError(errors.displayName)}
+        hint={t('displayNameHint')}
+        id='profile-display-name'
+        label={t('displayNameLabel')}
         registration={register('displayName')}
-        autoComplete="name"
       />
 
       <ProfileTextField
-        id="profile-url"
-        label={t('profileUrlLabel')}
-        hint={t('profileUrlHint')}
+        autoComplete='url'
         error={errors.profileUrl && fieldError(errors.profileUrl)}
-        registration={register('profileUrl')}
-        autoComplete="url"
+        hint={t('profileUrlHint')}
+        id='profile-url'
+        label={t('profileUrlLabel')}
         placeholder={t('profileUrlPlaceholder')}
-        type="url"
+        registration={register('profileUrl')}
+        type='url'
       />
 
       <ProfileTextField
-        id="profile-bio"
-        label={t('bioLabel')}
-        hint={t('bioHint')}
-        error={errors.bio && fieldError(errors.bio)}
-        registration={register('bio')}
-        placeholder={t('bioPlaceholder')}
-        rows={3}
         multiline
+        error={errors.bio && fieldError(errors.bio)}
+        hint={t('bioHint')}
+        id='profile-bio'
+        label={t('bioLabel')}
+        placeholder={t('bioPlaceholder')}
+        registration={register('bio')}
+        rows={3}
       />
 
       <Controller
         control={control}
-        name="bannerColor"
+        name='bannerColor'
         render={({ field }) => <BannerColorField value={field.value} onChange={field.onChange} />}
       />
     </>

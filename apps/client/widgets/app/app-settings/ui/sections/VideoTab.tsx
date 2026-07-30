@@ -2,8 +2,11 @@
 
 import { useTranslations } from 'next-intl';
 
-import { type ScreenQuality, useAppSettings, type VideoQuality } from '@/entities/app/settings';
+import type { ScreenQuality, VideoQuality } from '@/entities/app/settings';
+
+import { useAppSettings } from '@/entities/app/settings';
 import { Switch } from '@/shared/ui';
+
 import { DeviceSelect } from '../components/DeviceSelect';
 import { QualitySelect } from '../components/QualitySelect';
 import { SettingRow } from '../components/SettingRow';
@@ -22,53 +25,53 @@ export const VideoTab = () => {
   return (
     <div className={s.tabPanel}>
       <SettingRow
-        label={t('camera')}
-        hint={t('cameraHint')}
-        control={<DeviceSelect kind="videoinput" />}
         stacked
+        control={<DeviceSelect kind='videoinput' />}
+        hint={t('cameraHint')}
+        label={t('camera')}
       />
 
       <SettingRow
-        label={t('cameraQuality')}
-        hint={t('cameraQualityHint')}
+        stacked
         control={
           <QualitySelect
-            value={video.cameraQuality}
             options={CAMERA_QUALITIES.map((value) => ({
               value,
-              label: t(`cameraQualityOptions.${value}`),
+              label: t(`cameraQualityOptions.${value}`)
             }))}
+            value={video.cameraQuality}
             onChange={(value) => setGroup('video', { cameraQuality: value })}
           />
         }
-        stacked
+        hint={t('cameraQualityHint')}
+        label={t('cameraQuality')}
       />
 
       <SettingRow
-        label={t('screenQuality')}
-        hint={t('screenQualityHint')}
+        stacked
         control={
           <QualitySelect
-            value={video.screenQuality}
             options={SCREEN_QUALITIES.map((value) => ({
               value,
-              label: t(`screenQualityOptions.${value}`),
+              label: t(`screenQualityOptions.${value}`)
             }))}
+            value={video.screenQuality}
             onChange={(value) => setGroup('video', { screenQuality: value })}
           />
         }
-        stacked
+        hint={t('screenQualityHint')}
+        label={t('screenQuality')}
       />
 
       <SettingRow
-        label={t('mirror')}
-        hint={t('mirrorHint')}
         control={
           <Switch
             checked={video.mirrorVideo}
             onCheckedChange={(value) => setGroup('video', { mirrorVideo: value })}
           />
         }
+        hint={t('mirrorHint')}
+        label={t('mirror')}
       />
     </div>
   );

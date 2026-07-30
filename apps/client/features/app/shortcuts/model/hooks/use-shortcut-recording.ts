@@ -6,12 +6,13 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useEffectEvent, useRef } from 'react';
 import { toast } from 'sonner';
 
+import type { ShortcutActionId, ShortcutSettings } from '@/entities/app/shortcut';
+
 import { formatHotkey, hasModifier, isPureModifier } from '@/shared/lib';
+
 import { buildShortcutPatch, isOwnedByUs } from '../../lib/build-shortcut-patch';
 import { probeOsAvailability } from '../../lib/probe-os-availability';
 import { syncShortcuts, teardownShortcuts } from '../../lib/shortcuts-registry';
-
-import type { ShortcutActionId, ShortcutSettings } from '@/entities/app/shortcut';
 
 type Options = {
   actionId: ShortcutActionId;
@@ -52,13 +53,14 @@ export const useShortcutRecording = ({ actionId, allBindings, onPatch }: Options
 
   const restoreShortcuts = useEffectEvent(() => syncShortcuts(allBindings));
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       if (isTauri() && isTornDownRef.current) {
         restoreShortcuts();
       }
-    };
-  }, []);
+    },
+    []
+  );
 
   useEventListener(
     target(window),
@@ -100,7 +102,7 @@ export const useShortcutRecording = ({ actionId, allBindings, onPatch }: Options
 
       onPatch(buildShortcutPatch(actionId, hotkey, allBindings));
     },
-    { enabled: recording, capture: true },
+    { enabled: recording, capture: true }
   );
 
   return { recording, start };

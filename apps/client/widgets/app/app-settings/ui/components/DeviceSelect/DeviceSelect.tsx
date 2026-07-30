@@ -4,10 +4,11 @@ import { useMediaDeviceSelect } from '@livekit/components-react';
 import { useTranslations } from 'next-intl';
 import { isEmpty } from 'remeda';
 
+import type { SelectOption } from '@/shared/ui';
+
 import { KIND_TO_SLOT, useAppSettings } from '@/entities/app/settings';
 import { Select } from '@/shared/ui';
 
-import type { SelectOption } from '@/shared/ui';
 import type { DeviceSelectProps } from './DeviceSelect.types';
 
 export const DeviceSelect = ({ kind, emptyLabel }: DeviceSelectProps) => {
@@ -23,7 +24,7 @@ export const DeviceSelect = ({ kind, emptyLabel }: DeviceSelectProps) => {
 
   const options: SelectOption<string>[] = devices.map((device) => ({
     value: device.deviceId,
-    label: device.label || t('unknownDevice'),
+    label: device.label || t('unknownDevice')
   }));
 
   const selectDevice = (deviceId: string) => {

@@ -52,5 +52,6 @@ UI-примитивы в `shared/ui` построены на **`@base-ui-compone
 ```bash
 bun dev:client                 # from repo root
 bun --filter @chatovo/client typecheck # or: cd apps/client && bun typecheck
-bun lint:fix                   # Biome (from root) — sorts imports/exports
+bun lint:fix                   # ESLint (from root) — sorts imports/exports
+bun format                     # Prettier (from root)
 ```

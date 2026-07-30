@@ -6,6 +6,6 @@ export const getCardTint = (color: string | null | undefined): CSSProperties | u
   }
 
   return {
-    backgroundImage: `linear-gradient(to bottom right, ${color}33, ${color}14 45%, transparent 75%)`,
+    backgroundImage: `linear-gradient(to bottom right, ${color}33, ${color}14 45%, transparent 75%)`
   };
 };

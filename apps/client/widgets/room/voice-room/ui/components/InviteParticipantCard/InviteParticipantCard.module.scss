@@ -2,31 +2,31 @@
 
 .root {
   display: flex;
+  width: 100%;
   flex-direction: column;
-  gap: 0.5rem;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 16 / 9;
-  width: 100%;
   padding: 1rem;
-  border: 1px dashed oklch(1 0 0 / 12%);
+  border: 1px dashed oklch(100% 0 0deg / 12%);
   border-radius: var(--radius-2xl);
-  text-align: center;
-  background: oklch(1 0 0 / 3%);
-  transition: all 200ms ease;
   animation:
     overlay-fade-in 200ms ease-out,
     card-zoom-in 200ms ease-out;
   animation-fill-mode: both;
+  aspect-ratio: 16 / 9;
+  background: oklch(100% 0 0deg / 3%);
+  gap: 0.5rem;
+  text-align: center;
+  transition: all 200ms ease;
 
   &:hover {
     border-color: color-mix(in oklch, var(--brand-violet) 40%, transparent);
-    background: oklch(1 0 0 / 6%);
+    background: oklch(100% 0 0deg / 6%);
   }
 
   &:focus-visible {
-    outline: none;
     box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--brand-violet) 40%, transparent);
+    outline: none;
   }
 }
 
@@ -47,8 +47,8 @@
 }
 
 .label {
-  font-size: 0.75rem;
   color: var(--muted-foreground);
+  font-size: 0.75rem;
 }
 
 .labelCopied {

@@ -8,9 +8,9 @@ import { formatBadgeCount } from '@/shared/lib';
 import { Button } from '@/shared/ui';
 import { useChatUnread } from '@/widgets/chat/chat-panel';
 
-import s from './VoiceRoomChatButton.module.scss';
-
 import type { VoiceRoomChatButtonProps } from './VoiceRoomChatButton.types';
+
+import s from './VoiceRoomChatButton.module.scss';
 
 export const VoiceRoomChatButton = ({ roomId, isOpen, onToggle }: VoiceRoomChatButtonProps) => {
   const t = useTranslations('chat');
@@ -22,8 +22,8 @@ export const VoiceRoomChatButton = ({ roomId, isOpen, onToggle }: VoiceRoomChatB
         aria-label={isOpen ? t('hide') : t('open')}
         aria-pressed={isOpen}
         className={s.button}
-        size="icon-lg"
-        type="button"
+        size='icon-lg'
+        type='button'
         variant={isOpen ? 'secondary' : 'ghost'}
         onClick={onToggle}
       >
@@ -31,7 +31,7 @@ export const VoiceRoomChatButton = ({ roomId, isOpen, onToggle }: VoiceRoomChatB
       </Button>
 
       {unread > 0 && !isOpen && (
-        <span aria-live="polite" className={clsx(s.badge, s.badgePulse)} key={unread}>
+        <span key={unread} aria-live='polite' className={clsx(s.badge, s.badgePulse)}>
           {formatBadgeCount(unread)}
         </span>
       )}

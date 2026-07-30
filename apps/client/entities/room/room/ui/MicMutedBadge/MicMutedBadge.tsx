@@ -4,9 +4,9 @@ import { clsx } from 'clsx';
 import { MicOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import s from './MicMutedBadge.module.scss';
-
 import type { MicMutedBadgeProps } from './MicMutedBadge.types';
+
+import s from './MicMutedBadge.module.scss';
 
 export const MicMutedBadge = ({ className }: MicMutedBadgeProps) => {
   const t = useTranslations('lobby.card');
@@ -15,7 +15,7 @@ export const MicMutedBadge = ({ className }: MicMutedBadgeProps) => {
     <span
       aria-label={t('micMuted')}
       className={clsx(s.root, className)}
-      role="img"
+      role='img'
       title={t('micMuted')}
     >
       <MicOff className={s.icon} />

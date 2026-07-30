@@ -1,6 +1,6 @@
 export type LandingFaqJsonLdItem = {
-  question: string;
   answer: string;
+  question: string;
 };
 
 export type LandingFaqJsonLdProps = {

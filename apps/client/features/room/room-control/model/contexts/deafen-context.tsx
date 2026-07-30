@@ -1,9 +1,9 @@
 'use client';
 
+import type { ReactNode } from 'react';
+
 import { createContextHook } from '@siberiacancode/reactuse';
 import { useRef, useState } from 'react';
-
-import type { ReactNode } from 'react';
 
 const useDeafenState = () => {
   const [isDeafened, setIsDeafened] = useState(false);

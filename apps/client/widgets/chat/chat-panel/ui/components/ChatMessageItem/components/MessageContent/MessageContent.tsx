@@ -1,17 +1,18 @@
 'use client';
 
+import type { Components } from 'react-markdown';
+
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 import Markdown from 'react-markdown';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
+import type { MessageContentProps } from './MessageContent.types';
+
 import { normalizeMessage } from '../../../../../model/lib';
 
 import s from './MessageContent.module.scss';
-
-import type { Components } from 'react-markdown';
-import type { MessageContentProps } from './MessageContent.types';
 
 export const MessageContent = ({ message, isOwn, isEdited }: MessageContentProps) => {
   const t = useTranslations('chat');
@@ -21,14 +22,14 @@ export const MessageContent = ({ message, isOwn, isEdited }: MessageContentProps
       <a
         className={clsx({ [s.linkOwn]: isOwn, [s.linkOther]: !isOwn })}
         href={href}
-        rel="noopener noreferrer"
-        target="_blank"
+        rel='noopener noreferrer'
+        target='_blank'
       >
         {children}
       </a>
     ),
     code: ({ children }) => <code className={s.code}>{children}</code>,
-    pre: ({ children }) => <pre className={s.pre}>{children}</pre>,
+    pre: ({ children }) => <pre className={s.pre}>{children}</pre>
   };
 
   return (

@@ -1,5 +1,3 @@
-import 'reflect-metadata';
-
 import { NestFactory } from '@nestjs/core';
 import { WsAdapter } from '@nestjs/platform-ws';
 import { SwaggerModule } from '@nestjs/swagger';
@@ -13,9 +11,11 @@ import { allowedOrigins } from './config/cors';
 import { env } from './core';
 import { buildOpenApiConfig } from './openapi';
 
+import 'reflect-metadata';
+
 const app = await NestFactory.create(AppModule, {
   bodyParser: false,
-  bufferLogs: true,
+  bufferLogs: true
 });
 
 app.useLogger(app.get(Logger));
@@ -25,7 +25,7 @@ app.use(helmet({ contentSecurityPolicy: false }));
 app.enableCors({
   origin: allowedOrigins,
   credentials: true,
-  exposedHeaders: ['set-auth-token'],
+  exposedHeaders: ['set-auth-token']
 });
 
 app.use('/livekit/webhook', raw({ type: '*/*' }));
@@ -37,7 +37,7 @@ app.useGlobalPipes(new ZodValidationPipe());
 app.enableShutdownHooks();
 
 SwaggerModule.setup('docs', app, () =>
-  cleanupOpenApiDoc(SwaggerModule.createDocument(app, buildOpenApiConfig())),
+  cleanupOpenApiDoc(SwaggerModule.createDocument(app, buildOpenApiConfig()))
 );
 
 await app.listen(env.PORT);

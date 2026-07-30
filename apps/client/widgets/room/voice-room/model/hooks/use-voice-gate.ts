@@ -6,6 +6,7 @@ import { isNullish } from 'remeda';
 
 import { useAppSettings, VoiceGateProcessor } from '@/entities/app/settings';
 import { toggleMicStream } from '@/shared/lib';
+
 import { getLocalMicTrack, subscribeToMicTrack } from '../../lib';
 
 export const useVoiceGate = (enabled: boolean, setIsSpeaking: (speaking: boolean) => void) => {
@@ -76,7 +77,7 @@ export const useVoiceGate = (enabled: boolean, setIsSpeaking: (speaking: boolean
 
     const unsubscribe = subscribeToMicTrack(localParticipant, {
       onPublished: attach,
-      onUnpublished: detach,
+      onUnpublished: detach
     });
 
     return () => {

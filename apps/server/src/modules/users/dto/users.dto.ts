@@ -7,7 +7,7 @@ const updateProfileFormSchema = z.object({
   profileUrl: z.string(),
   bannerColor: z.string(),
   bio: z.string(),
-  removeAvatar: z.string().optional(),
+  removeAvatar: z.string().optional()
 });
 
 export class UpdateProfileDto extends createZodDto(updateProfileFormSchema) {}

@@ -7,5 +7,5 @@ import { CenteredState, Spinner } from '@/shared/ui';
 export const RoomConnecting = () => {
   const t = useTranslations('room');
 
-  return <CenteredState icon={<Spinner size="sm" />} size="sm" title={t('authorizing')} />;
+  return <CenteredState icon={<Spinner size='sm' />} size='sm' title={t('authorizing')} />;
 };

@@ -1,16 +1,16 @@
 import { clsx } from 'clsx';
 import { useId } from 'react';
 
+import type { CenteredStateProps } from './CenteredState.types';
+
 import { Text } from '../../atoms';
 import {
   centeredStateIconBoxVariants,
   centeredStateTitleVariants,
-  centeredStateVariants,
+  centeredStateVariants
 } from './CenteredState.variants';
 
 import s from './CenteredState.module.scss';
-
-import type { CenteredStateProps } from './CenteredState.types';
 
 export const CenteredState = ({
   icon,
@@ -18,7 +18,7 @@ export const CenteredState = ({
   description,
   action,
   size = 'md',
-  className,
+  className
 }: CenteredStateProps) => {
   const titleId = useId();
   const descriptionId = useId();
@@ -38,7 +38,7 @@ export const CenteredState = ({
         {title}
       </h2>
       {description && (
-        <Text className={s.description} id={descriptionId} size="sm" tone="muted">
+        <Text className={s.description} id={descriptionId} size='sm' tone='muted'>
           {description}
         </Text>
       )}

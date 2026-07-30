@@ -4,7 +4,7 @@ import { Public } from '@thallesp/nestjs-better-auth';
 import { ZodResponse } from 'nestjs-zod';
 
 import { AppDownloadsDto, GitHubReleaseDto } from './dto/github.dto';
-import { GithubService } from './github.service';
+import { GithubService } from './services';
 
 @ApiTags('github')
 @Controller('github')

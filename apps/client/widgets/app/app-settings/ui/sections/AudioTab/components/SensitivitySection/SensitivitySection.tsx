@@ -3,34 +3,35 @@
 import { useTranslations } from 'next-intl';
 
 import { Switch } from '@/shared/ui';
-import { SensitivityControl } from '../../../../components/SensitivityControl';
-import { SettingRow } from '../../../../components/SettingRow';
 
 import type { SensitivitySectionProps } from './SensitivitySection.types';
+
+import { SensitivityControl } from '../../../../components/SensitivityControl';
+import { SettingRow } from '../../../../components/SettingRow';
 
 export const SensitivitySection = ({
   audio,
   deviceId,
-  onAutoSensitivityChange,
+  onAutoSensitivityChange
 }: SensitivitySectionProps) => {
   const t = useTranslations('settings.audio');
 
   return (
     <>
       <SettingRow
-        label={t('autoSensitivity')}
-        hint={t('autoSensitivityHint')}
         control={
           <Switch checked={audio.autoSensitivity} onCheckedChange={onAutoSensitivityChange} />
         }
+        hint={t('autoSensitivityHint')}
+        label={t('autoSensitivity')}
       />
 
       {!audio.autoSensitivity && (
         <SettingRow
-          label={t('sensitivity')}
-          hint={t('sensitivityHint')}
-          control={<SensitivityControl audio={audio} deviceId={deviceId} />}
           stacked
+          control={<SensitivityControl audio={audio} deviceId={deviceId} />}
+          hint={t('sensitivityHint')}
+          label={t('sensitivity')}
         />
       )}
     </>

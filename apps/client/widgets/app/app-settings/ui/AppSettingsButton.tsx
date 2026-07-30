@@ -20,13 +20,14 @@ import {
   TabsList,
   TabsTrigger,
   Tooltip,
-  TooltipContent,
+  TooltipContent
 } from '@/shared/ui';
+
+import type { SettingsTabId } from '../config';
+
 import { SETTINGS_TABS } from '../config';
 
 import s from './AppSettingsButton.module.scss';
-
-import type { SettingsTabId } from '../config';
 
 export const AppSettingsButton = () => {
   const t = useTranslations('settings');
@@ -45,9 +46,9 @@ export const AppSettingsButton = () => {
         <Button
           aria-label={t('open')}
           className={clsx({ [s.settingsButtonAlert]: needsEmailVerification })}
-          size="icon"
-          type="button"
-          variant="ghost"
+          size='icon'
+          type='button'
+          variant='ghost'
           onClick={() => toggleOpen(true)}
         >
           <Settings />
@@ -65,7 +66,7 @@ export const AppSettingsButton = () => {
 
           <Tabs
             className={s.tabs}
-            orientation="vertical"
+            orientation='vertical'
             value={activeTab}
             onValueChange={(value) => setActiveTab(value as SettingsTabId)}
           >

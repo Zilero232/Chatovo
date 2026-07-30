@@ -1,14 +1,14 @@
+import type { ChatRealtimeEvent, ChatRealtimeEventInput } from './chat.types';
+
 import { RoomKind } from '../../../generated';
 import { DomainEvent } from '../../common/events/domain-events';
 import { emitDomainEvent } from '../../common/events/emit-domain-event';
 import { getRoomDmRouting } from '../../lib';
-import { emitRoomEvent, emitUserEvent } from '../realtime/emit';
-
-import type { ChatRealtimeEvent, ChatRealtimeEventInput } from './chat.types';
+import { emitRoomEvent, emitUserEvent } from '../realtime';
 
 export const emitChatEvent = async (
   roomId: string,
-  event: ChatRealtimeEventInput,
+  event: ChatRealtimeEventInput
 ): Promise<void> => {
   const room = await getRoomDmRouting(roomId);
 

@@ -536,6 +536,8 @@
     "checkUpdateLabel": "Check for app updates",
     "github": "GitHub",
     "githubLabel": "Open project on GitHub",
+    "gnomeVpn": "GnomeVPN",
+    "gnomeVpnLabel": "Open GnomeVPN website",
     "logout": "Logout",
     "signedOut": "Signed out",
     "showChannels": "Show channels",

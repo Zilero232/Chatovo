@@ -3,9 +3,9 @@
 import { clsx } from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
-import s from '../../LandingPage.module.scss';
-
 import type { LandingHeaderShellProps } from './LandingHeaderShell.types';
+
+import s from '../../LandingPage.module.scss';
 
 export const LandingHeaderShell = ({ children }: LandingHeaderShellProps) => {
   const sentinelRef = useRef<HTMLDivElement>(null);
@@ -19,7 +19,7 @@ export const LandingHeaderShell = ({ children }: LandingHeaderShellProps) => {
     }
 
     const observer = new IntersectionObserver(([entry]) => setIsScrolled(!entry.isIntersecting), {
-      rootMargin: '0px',
+      rootMargin: '0px'
     });
 
     observer.observe(sentinel);
@@ -29,7 +29,7 @@ export const LandingHeaderShell = ({ children }: LandingHeaderShellProps) => {
 
   return (
     <>
-      <div ref={sentinelRef} aria-hidden className={s.headerSentinel} />
+      <div aria-hidden ref={sentinelRef} className={s.headerSentinel} />
 
       <header className={clsx(s.header, isScrolled && s.headerScrolled)}>
         <div className={clsx(s.container, s.headerInner)}>{children}</div>

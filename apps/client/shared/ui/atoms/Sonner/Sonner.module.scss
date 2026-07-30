@@ -15,16 +15,16 @@
   border: 1px solid var(--border-strong);
   backdrop-filter: blur(rem(24));
   box-shadow:
-    0 rem(24) rem(64) rem(-16) oklch(0 0 0 / 55%),
-    inset 0 1px 0 oklch(1 0 0 / 8%);
+    0 rem(24) rem(64) rem(-16) oklch(0% 0 0deg / 55%),
+    inset 0 1px 0 oklch(100% 0 0deg / 8%);
 
-  &::before {
-    content: '';
+  &:before {
     position: absolute;
-    inset-block: 0;
     left: 0;
     width: rem(2);
     border-radius: 9999px;
+    content: '';
+    inset-block: 0;
   }
 }
 
@@ -46,7 +46,7 @@
 .success {
   box-shadow: var(--glow-cyan);
 
-  &::before {
+  &:before {
     background: var(--brand-cyan);
   }
 
@@ -58,7 +58,7 @@
 .error {
   box-shadow: var(--glow-fuchsia);
 
-  &::before {
+  &:before {
     background: var(--destructive);
   }
 
@@ -68,7 +68,7 @@
 }
 
 .warning {
-  &::before {
+  &:before {
     background: var(--brand-lime);
   }
 
@@ -80,7 +80,7 @@
 .info {
   box-shadow: var(--glow-violet);
 
-  &::before {
+  &:before {
     background: var(--brand-violet);
   }
 

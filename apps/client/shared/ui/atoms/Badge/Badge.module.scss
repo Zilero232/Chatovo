@@ -3,55 +3,55 @@
 .root {
   display: inline-flex;
   flex-shrink: 0;
-  gap: 0.375rem;
   align-items: center;
   padding: 0.125rem 0.5rem;
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 500;
+  gap: 0.375rem;
   line-height: 1.25;
   transition: colors 150ms ease;
 }
 
 .tonePrimary {
   border: 1px solid color-mix(in oklch, var(--brand-violet) 40%, transparent);
-  color: var(--brand-violet);
   background: color-mix(in oklch, var(--brand-violet) 15%, transparent);
-  box-shadow: 0 0 rem(12) rem(-4) oklch(0.7 0.22 295 / 0.5);
+  box-shadow: 0 0 rem(12) rem(-4) oklch(70% 0.22 295deg / 50%);
+  color: var(--brand-violet);
 }
 
 .toneMuted {
-  border: 1px solid oklch(1 0 0 / 10%);
+  border: 1px solid oklch(100% 0 0deg / 10%);
+  background: oklch(100% 0 0deg / 5%);
   color: var(--muted-foreground);
-  background: oklch(1 0 0 / 5%);
 }
 
 .toneAmber {
-  border: 1px solid oklch(0.85 0.18 85 / 40%);
-  color: oklch(0.9 0.12 85);
-  background: oklch(0.85 0.18 85 / 10%);
-  box-shadow: 0 0 rem(12) rem(-4) oklch(0.85 0.18 85 / 0.5);
+  border: 1px solid oklch(85% 0.18 85deg / 40%);
+  background: oklch(85% 0.18 85deg / 10%);
+  box-shadow: 0 0 rem(12) rem(-4) oklch(85% 0.18 85deg / 50%);
+  color: oklch(90% 0.12 85deg);
 }
 
 .toneDanger {
   border: 1px solid color-mix(in oklch, var(--destructive) 40%, transparent);
-  color: var(--destructive);
   background: color-mix(in oklch, var(--destructive) 15%, transparent);
-  box-shadow: 0 0 rem(12) rem(-4) oklch(0.7 0.22 22 / 0.5);
+  box-shadow: 0 0 rem(12) rem(-4) oklch(70% 0.22 22deg / 50%);
+  color: var(--destructive);
 }
 
 .toneDark {
-  border: 1px solid oklch(1 0 0 / 10%);
-  color: white;
-  background: oklch(0 0 0 / 55%);
+  border: 1px solid oklch(100% 0 0deg / 10%);
   backdrop-filter: blur(rem(12));
+  background: oklch(0% 0 0deg / 55%);
+  color: #fff;
 }
 
 .toneOutline {
-  border: 1px solid oklch(1 0 0 / 15%);
-  color: color-mix(in oklch, var(--foreground) 85%, transparent);
-  background: oklch(1 0 0 / 5%);
+  border: 1px solid oklch(100% 0 0deg / 15%);
   backdrop-filter: blur(rem(12));
+  background: oklch(100% 0 0deg / 5%);
+  color: color-mix(in oklch, var(--foreground) 85%, transparent);
 
   &:hover {
     border-color: color-mix(in oklch, var(--brand-violet) 40%, transparent);
@@ -60,9 +60,9 @@
 }
 
 .sizeSm {
-  gap: 0.25rem;
   padding: 0 0.375rem;
   font-size: 0.625rem;
+  gap: 0.25rem;
 }
 
 .sizeMd {

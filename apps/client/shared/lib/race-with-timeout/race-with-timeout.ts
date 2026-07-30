@@ -1,4 +1,4 @@
-type RaceResult<T> = { ok: true; value: T } | { ok: false; reason: 'timeout' };
+type RaceResult<T> = { ok: false; reason: 'timeout' } | { ok: true; value: T };
 
 const wrapWork = async <T>(promise: Promise<T>): Promise<RaceResult<T>> => {
   const value = await promise;
@@ -8,10 +8,10 @@ const wrapWork = async <T>(promise: Promise<T>): Promise<RaceResult<T>> => {
 
 const wrapTimeout = <T>(timeoutMs: number) =>
   new Promise<RaceResult<T>>((resolve) => {
-    setTimeout(() => resolve({ ok: false, reason: 'timeout' }), timeoutMs);
+    setTimeout(resolve, timeoutMs, { ok: false, reason: 'timeout' });
   });
 
 export const raceWithTimeout = async <T>(
   promise: Promise<T>,
-  timeoutMs: number,
+  timeoutMs: number
 ): Promise<RaceResult<T>> => Promise.race([wrapWork(promise), wrapTimeout<T>(timeoutMs)]);

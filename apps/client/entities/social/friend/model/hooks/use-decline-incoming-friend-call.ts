@@ -12,6 +12,6 @@ export const useDeclineIncomingFriendCall = () => {
     mutationFn: declineIncomingFriendCall,
     onSuccess: () => {
       queryClient.setQueryData(QUERY_KEYS.friendCallIncoming(), { call: null });
-    },
+    }
   });
 };

@@ -1,7 +1,7 @@
 import {
   editMessageInputSchema,
   listMessagesQuerySchema,
-  sendMessageInputSchema,
+  sendMessageInputSchema
 } from '@chatovo/schemas';
 import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';

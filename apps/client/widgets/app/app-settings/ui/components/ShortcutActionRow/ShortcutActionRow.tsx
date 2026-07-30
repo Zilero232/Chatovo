@@ -20,14 +20,14 @@ export const ShortcutActionRow = ({ actionId }: ShortcutActionRowProps) => {
   const { recording, start } = useShortcutRecording({
     actionId,
     allBindings: bindings,
-    onPatch: (patch) => setGroup('shortcuts', { ...bindings, ...patch }),
+    onPatch: (patch) => setGroup('shortcuts', { ...bindings, ...patch })
   });
 
   const hasConflict = useShortcutConflict(binding);
 
   const display = formatBindingDisplay(recording, binding, {
     recording: t('recording'),
-    unassigned: t('unassigned'),
+    unassigned: t('unassigned')
   });
 
   return (

@@ -1,6 +1,6 @@
 export type RoomControlsBarProps = {
-  roomId: string;
-  isDm: boolean;
   isChatOpen: boolean;
+  isDm: boolean;
+  roomId: string;
   onToggleChat: () => void;
 };

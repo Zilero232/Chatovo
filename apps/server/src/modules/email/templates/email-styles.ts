@@ -3,7 +3,7 @@ export const emailStyles = {
     backgroundColor: '#f5f5f5',
     margin: 0,
     fontFamily:
-      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
   },
   outer: {
     maxWidth: '520px',
@@ -11,7 +11,7 @@ export const emailStyles = {
     paddingTop: '32px',
     paddingBottom: '32px',
     paddingLeft: '16px',
-    paddingRight: '16px',
+    paddingRight: '16px'
   },
   card: {
     backgroundColor: '#ffffff',
@@ -19,20 +19,20 @@ export const emailStyles = {
     paddingTop: '40px',
     paddingBottom: '40px',
     paddingLeft: '32px',
-    paddingRight: '32px',
+    paddingRight: '32px'
   },
   heading: {
     margin: '0 0 16px',
     fontSize: '20px',
     fontWeight: 600,
     color: '#171717',
-    lineHeight: '28px',
+    lineHeight: '28px'
   },
   text: {
     margin: '0 0 24px',
     fontSize: '14px',
     lineHeight: '24px',
-    color: '#525252',
+    color: '#525252'
   },
   button: {
     backgroundColor: '#171717',
@@ -47,27 +47,27 @@ export const emailStyles = {
     paddingLeft: '20px',
     paddingRight: '20px',
     textAlign: 'center' as const,
-    textDecoration: 'none',
+    textDecoration: 'none'
   },
   hr: {
     marginTop: '28px',
     marginBottom: '28px',
     borderColor: '#e5e5e5',
-    borderWidth: '1px 0 0 0',
+    borderWidth: '1px 0 0 0'
   },
   footnote: {
     margin: 0,
     fontSize: '12px',
     lineHeight: '20px',
-    color: '#a3a3a3',
+    color: '#a3a3a3'
   },
   link: {
     color: '#737373',
     textDecoration: 'underline',
-    wordBreak: 'break-all' as const,
+    wordBreak: 'break-all' as const
   },
   label: {
     fontWeight: 600,
-    color: '#171717',
-  },
+    color: '#171717'
+  }
 } as const;

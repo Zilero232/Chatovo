@@ -1,6 +1,6 @@
-import { LocalAudioTrack, ParticipantEvent, Track } from 'livekit-client';
-
 import type { LocalParticipant } from 'livekit-client';
+
+import { LocalAudioTrack, ParticipantEvent, Track } from 'livekit-client';
 
 export const getLocalMicTrack = (participant: LocalParticipant) => {
   const track = participant.getTrackPublication(Track.Source.Microphone)?.track;
@@ -15,7 +15,7 @@ type MicTrackHandlers = {
 
 export const subscribeToMicTrack = (
   participant: LocalParticipant,
-  { onPublished, onUnpublished }: MicTrackHandlers,
+  { onPublished, onUnpublished }: MicTrackHandlers
 ) => {
   participant.on(ParticipantEvent.LocalTrackPublished, onPublished);
   participant.on(ParticipantEvent.LocalTrackUnpublished, onUnpublished);

@@ -1,8 +1,9 @@
 import type { z } from 'zod';
+
 import type {
   pushPlatformSchema,
   registerPushDeviceInputSchema,
-  unregisterPushDeviceInputSchema,
+  unregisterPushDeviceInputSchema
 } from './inputs';
 
 export type PushPlatform = z.infer<typeof pushPlatformSchema>;

@@ -20,13 +20,13 @@ export const RoomsListError = () => {
   return (
     <CenteredState
       action={
-        <Button size="sm" type="button" variant="secondary" onClick={retry}>
+        <Button size='sm' type='button' variant='secondary' onClick={retry}>
           {t('retry')}
         </Button>
       }
       description={t('description')}
       icon={<WifiOff className={s.icon} />}
-      size="sm"
+      size='sm'
       title={t('title')}
     />
   );

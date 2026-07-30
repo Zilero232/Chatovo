@@ -10,20 +10,20 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/shared/ui';
 
-import s from './FriendListItem.module.scss';
-
 import type { FriendListItemProps } from './FriendListItem.types';
+
+import s from './FriendListItem.module.scss';
 
 export const FriendListItem = ({ user, dmUnread = 0, onOpen, onRemove }: FriendListItemProps) => {
   const t = useTranslations('friends');
 
   return (
     <div className={s.root}>
-      <button className={s.main} type="button" onClick={() => onOpen(user)}>
-        <UserAvatar className={s.avatar} name={user.name} size="sm" src={user.avatarUrl} />
+      <button className={s.main} type='button' onClick={() => onOpen(user)}>
+        <UserAvatar className={s.avatar} name={user.name} size='sm' src={user.avatarUrl} />
         <div className={s.info}>
           <UserName className={s.name} name={user.name} verified={user.verified} />
           <span className={clsx(s.status, { [s.statusOnline]: user.isOnline })}>
@@ -33,7 +33,7 @@ export const FriendListItem = ({ user, dmUnread = 0, onOpen, onRemove }: FriendL
         </div>
         {dmUnread > 0 && (
           <span
-            aria-live="polite"
+            aria-live='polite'
             className={s.unread}
             title={t('unreadMessages', { count: dmUnread })}
           >
@@ -47,13 +47,13 @@ export const FriendListItem = ({ user, dmUnread = 0, onOpen, onRemove }: FriendL
         <DropdownMenuTrigger
           aria-label={t('friendActions')}
           className={s.menuTrigger}
-          size="icon-sm"
-          type="button"
-          variant="ghost"
+          size='icon-sm'
+          type='button'
+          variant='ghost'
         >
           <MoreVertical />
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align='end'>
           <DropdownMenuItem className={s.menuItemDestructive} onClick={() => onRemove(user)}>
             <UserMinus />
             {t('removeFriend')}

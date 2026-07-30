@@ -9,6 +9,7 @@ import { match } from 'ts-pattern';
 import { groupRooms, RoomsListError, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { Button, CenteredState } from '@/shared/ui';
 import { RecentRooms } from '@/widgets/room/channels-panel';
+
 import { LobbyEmpty } from '../LobbyEmpty';
 import { LobbyRoomsSearch, LobbyRoomsSections, LobbyRoomsSkeleton } from './components';
 
@@ -26,7 +27,7 @@ export const LobbyRooms = () => {
 
   return (
     <div className={s.root}>
-      <RecentRooms variant="strip" />
+      <RecentRooms variant='strip' />
 
       <LobbyRoomsSearch query={query} onQueryChange={setQuery} />
 
@@ -37,14 +38,14 @@ export const LobbyRooms = () => {
         .with({ nothingFound: true }, () => (
           <CenteredState
             action={
-              <Button size="sm" type="button" variant="secondary" onClick={() => setQuery('')}>
+              <Button size='sm' type='button' variant='secondary' onClick={() => setQuery('')}>
                 {t('clearSearch')}
               </Button>
             }
             className={s.nothingFoundState}
             description={t('nothingFound', { query })}
             icon={<Search className={s.searchStateIcon} />}
-            size="sm"
+            size='sm'
             title={t('nothingFoundTitle')}
           />
         ))

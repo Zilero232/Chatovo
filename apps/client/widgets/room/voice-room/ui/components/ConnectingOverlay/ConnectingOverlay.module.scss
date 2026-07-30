@@ -3,21 +3,26 @@
 .root {
   position: absolute;
   z-index: 10;
-  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(0 0 0 / 40%);
-  backdrop-filter: blur(rem(12));
+  backdrop-filter: blur(var(--scrim-blur)) saturate(0.7);
+  background: var(--scrim);
+  inset: 0;
+
+  @media (pointer: coarse) {
+    backdrop-filter: none;
+    background: var(--scrim-strong);
+  }
 }
 
 .box {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
   align-items: center;
   padding: 1.5rem 2rem;
   border-radius: var(--radius-2xl);
+  gap: 0.75rem;
 }
 
 .text {

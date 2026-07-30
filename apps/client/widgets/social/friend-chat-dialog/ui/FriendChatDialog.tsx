@@ -4,7 +4,7 @@ import { Phone, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
-import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
+import { useCurrentUser, UserAvatar, UserName } from '@/entities/auth/user';
 import { useCallFriend } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 import { Button, Dialog, DialogContent, DialogTitle, Spinner } from '@/shared/ui';
@@ -45,7 +45,7 @@ export const FriendChatDialog = () => {
         {peer && (
           <header className={s.header}>
             <div className={s.headerMain}>
-              <UserAvatar name={peer.name} size="sm" src={peer.avatarUrl} />
+              <UserAvatar name={peer.name} size='sm' src={peer.avatarUrl} />
               <DialogTitle className={s.name}>
                 <UserName name={peer.name} verified={peer.verified} />
               </DialogTitle>
@@ -54,18 +54,18 @@ export const FriendChatDialog = () => {
               <Button
                 aria-label={tFriends('callFriend')}
                 disabled={callFriend.isPending || isOpening || !roomId}
-                size="icon-sm"
-                type="button"
-                variant="ghost"
+                size='icon-sm'
+                type='button'
+                variant='ghost'
                 onClick={handleCall}
               >
                 <Phone />
               </Button>
               <Button
                 aria-label={t('close')}
-                size="icon-sm"
-                type="button"
-                variant="ghost"
+                size='icon-sm'
+                type='button'
+                variant='ghost'
                 onClick={close}
               >
                 <X />
@@ -80,7 +80,7 @@ export const FriendChatDialog = () => {
               <Spinner />
             </div>
           ) : (
-            <ChatConversation roomId={roomId} currentUserId={currentUserId} />
+            <ChatConversation currentUserId={currentUserId} roomId={roomId} />
           )}
         </div>
       </DialogContent>

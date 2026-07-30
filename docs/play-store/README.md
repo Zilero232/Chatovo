@@ -13,7 +13,7 @@ Checklist and copy-paste materials for publishing `chatovo.app`.
 | Android mic/camera manifest | Done (`build.rs` → `tauri_utils::build::update_android_manifest`) |
 | Desktop-only UI gated | Done (`isTauriDesktop()`) |
 | CORS for Android WebView | Done (`http(s)://localhost`) |
-| `gen/android/` project | Run `bun tauri:android:init` locally / in CI (gitignored) |
+| `gen/android/` project | Run `bun android:init` locally / in CI (gitignored) |
 | Release keystore | Required for CI APK sideload — see `signing.md` |
 | GitHub Actions | `deploy-web.yml`, `release-app.yml` |
 | Play Console listing | See `listing.md` |
@@ -24,13 +24,13 @@ Checklist and copy-paste materials for publishing `chatovo.app`.
 
 ```bash
 # One-time: Android Studio + SDK/NDK, rust android targets
-bun tauri:android:init
+bun android:init
 
 # Dev on device/emulator
-bun tauri:android:dev
+bun android:dev
 
 # Release bundle for Play Store
-bun tauri:android:build
+bun android:build
 # Output: apps/tauri/gen/android/app/build/outputs/bundle/universalRelease/app-universal-release.aab
 ```
 

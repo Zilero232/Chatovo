@@ -4,15 +4,16 @@ import { useState } from 'react';
 import { match } from 'ts-pattern';
 
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
+
+import type { FriendProfileActionsBodyProps } from './FriendProfileActionsBody.types';
+
 import { useFriendProfileActions } from '../../model/hooks';
 import {
   AddFriendAction,
   CancelRequestAction,
   FriendActions,
-  IncomingRequestActions,
+  IncomingRequestActions
 } from './components';
-
-import type { FriendProfileActionsBodyProps } from './FriendProfileActionsBody.types';
 
 export const FriendProfileActionsBody = ({
   state,
@@ -20,7 +21,7 @@ export const FriendProfileActionsBody = ({
   friendTag,
   displayName,
   avatarUrl,
-  verified,
+  verified
 }: FriendProfileActionsBodyProps) => {
   const [removeOpen, setRemoveOpen] = useState(false);
 
@@ -29,7 +30,7 @@ export const FriendProfileActionsBody = ({
     friendTag,
     displayName,
     avatarUrl,
-    verified,
+    verified
   });
 
   return (

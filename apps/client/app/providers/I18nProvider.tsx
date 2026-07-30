@@ -1,5 +1,7 @@
 'use client';
 
+import type { ReactNode } from 'react';
+
 import { NextIntlClientProvider } from 'next-intl';
 import { useEffect } from 'react';
 
@@ -7,10 +9,8 @@ import { useLocale } from '@/entities/app/locale';
 import { DEFAULT_LOCALE, messages } from '@/shared/i18n';
 import { AppSplash } from '@/shared/ui';
 
-import type { ReactNode } from 'react';
-
 const timeZone =
-  typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'UTC';
+  typeof Intl !== 'undefined' ? new Intl.DateTimeFormat().resolvedOptions().timeZone : 'UTC';
 
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
   const { locale, isReady } = useLocale();

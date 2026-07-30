@@ -4,6 +4,7 @@ import { clsx } from 'clsx';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { useNavHistory } from '@/shared/hooks';
+
 import { useWindowControls, useWindowPlatform } from '../../model/hooks';
 import { TitleBarControls } from './components';
 
@@ -24,13 +25,13 @@ export const TitleBar = () => {
     <div className={clsx(s.root, { [s.rootMacos]: isMacos })}>
       {!isMacos && (
         <div className={s.navButtons}>
-          <button type="button" className={s.navButton} disabled={!canGoBack} onClick={goBack}>
+          <button className={s.navButton} disabled={!canGoBack} type='button' onClick={goBack}>
             <ChevronLeft className={s.navIcon} />
           </button>
           <button
-            type="button"
             className={s.navButton}
             disabled={!canGoForward}
+            type='button'
             onClick={goForward}
           >
             <ChevronRight className={s.navIcon} />
@@ -38,7 +39,7 @@ export const TitleBar = () => {
         </div>
       )}
 
-      <div className={s.dragRegion} data-tauri-drag-region />
+      <div data-tauri-drag-region className={s.dragRegion} />
 
       {!isMacos && (
         <TitleBarControls

@@ -8,7 +8,7 @@ export const metadata = createPageMetadata({
     'Browse open voice and video rooms or create your own in seconds. Public, private, or password-protected — your call.',
   path: ROUTES.lobby,
   index: false,
-  follow: false,
+  follow: false
 });
 
 const Page = () => <LobbyPage />;

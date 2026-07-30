@@ -7,7 +7,10 @@ import { toast } from 'sonner';
 
 import { useErrorMessage, useFieldError } from '@/entities/app/locale';
 import { FormField, Input, PasswordInput, Stack, SubmitButton } from '@/shared/ui';
-import { type SignUpValues, signUpSchema, useSignUp } from '../model/use-sign-up';
+
+import type { SignUpValues } from '../model/use-sign-up';
+
+import { signUpSchema, useSignUp } from '../model/use-sign-up';
 
 import s from './SignUpForm.module.scss';
 
@@ -15,7 +18,7 @@ const DEFAULT_VALUES: SignUpValues = {
   name: '',
   email: '',
   password: '',
-  confirmPassword: '',
+  confirmPassword: ''
 };
 
 export const SignUpForm = () => {
@@ -27,53 +30,53 @@ export const SignUpForm = () => {
   const {
     formState: { errors },
     handleSubmit,
-    register,
+    register
   } = useForm<SignUpValues>({
     resolver: zodResolver(signUpSchema),
-    defaultValues: DEFAULT_VALUES,
+    defaultValues: DEFAULT_VALUES
   });
 
   const onSubmit = handleSubmit((values) => {
     mutate(values, {
       onSuccess: () => toast.success(t('signedIn')),
-      onError: (err: Error) => toast.error(errorMessage(err)),
+      onError: (err: Error) => toast.error(errorMessage(err))
     });
   });
 
   return (
-    <Stack as="form" gap="4" onSubmit={onSubmit}>
+    <Stack as='form' gap='4' onSubmit={onSubmit}>
       <FormField
-        htmlFor="signup-name"
-        label={t('fields.name')}
         error={errors.name && fieldError(errors.name)}
+        htmlFor='signup-name'
+        label={t('fields.name')}
       >
-        <Input autoComplete="name" id="signup-name" type="text" {...register('name')} />
+        <Input autoComplete='name' id='signup-name' type='text' {...register('name')} />
       </FormField>
 
       <FormField
-        htmlFor="signup-email"
-        label={t('fields.email')}
         error={errors.email && fieldError(errors.email)}
+        htmlFor='signup-email'
+        label={t('fields.email')}
       >
-        <Input autoComplete="email" id="signup-email" type="email" {...register('email')} />
+        <Input autoComplete='email' id='signup-email' type='email' {...register('email')} />
       </FormField>
 
       <FormField
-        htmlFor="signup-password"
-        label={t('fields.password')}
         error={errors.password && fieldError(errors.password)}
+        htmlFor='signup-password'
+        label={t('fields.password')}
       >
-        <PasswordInput autoComplete="new-password" id="signup-password" {...register('password')} />
+        <PasswordInput autoComplete='new-password' id='signup-password' {...register('password')} />
       </FormField>
 
       <FormField
-        htmlFor="signup-confirm-password"
-        label={t('fields.confirmPassword')}
         error={errors.confirmPassword && fieldError(errors.confirmPassword)}
+        htmlFor='signup-confirm-password'
+        label={t('fields.confirmPassword')}
       >
         <PasswordInput
-          autoComplete="new-password"
-          id="signup-confirm-password"
+          autoComplete='new-password'
+          id='signup-confirm-password'
           {...register('confirmPassword')}
         />
       </FormField>

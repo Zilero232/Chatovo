@@ -4,6 +4,7 @@ import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { Text } from '@/shared/ui';
+
 import { AUTH_EQ_BARS, AUTH_ROOM_SPEAKERS } from '../../../config';
 
 import s from './AuthRoomPreview.module.scss';
@@ -17,10 +18,10 @@ export const AuthRoomPreview = () => {
     <div aria-hidden className={clsx(s.root, 'glass')}>
       <div className={s.header}>
         <span className={s.liveDot} />
-        <Text size="xs" tone="muted" weight="medium">
+        <Text size='xs' tone='muted' weight='medium'>
           {t('liveNow')}
         </Text>
-        <Text className={s.roomName} size="xs" weight="semibold">
+        <Text className={s.roomName} size='xs' weight='semibold'>
           {t('roomDemoName')}
         </Text>
       </div>

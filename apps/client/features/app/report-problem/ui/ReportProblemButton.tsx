@@ -5,6 +5,7 @@ import { Bug } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { Button, Tooltip, TooltipContent } from '@/shared/ui';
+
 import { ReportProblemDialog } from './ReportProblemDialog';
 
 export const ReportProblemButton = () => {
@@ -17,9 +18,9 @@ export const ReportProblemButton = () => {
       <Tooltip>
         <Button
           aria-label={t('title')}
-          size="icon"
-          type="button"
-          variant="ghost"
+          size='icon'
+          type='button'
+          variant='ghost'
           onClick={() => toggleOpen(true)}
         >
           <Bug />

@@ -1,4 +1,5 @@
 import type { z } from 'zod';
+
 import type { updateProfileInputSchema } from './inputs';
 import type { userProfileSchema } from './outputs';
 

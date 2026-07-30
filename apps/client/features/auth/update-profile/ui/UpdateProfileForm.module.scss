@@ -18,8 +18,8 @@
 }
 
 .hint {
-  font-size: 0.75rem;
   color: var(--muted-foreground);
+  font-size: 0.75rem;
 }
 
 .submit {
@@ -28,19 +28,19 @@
 
 .avatarRow {
   display: flex;
-  gap: 1rem;
   align-items: center;
+  gap: 1rem;
 }
 
 .avatarButton {
-  cursor: pointer;
   position: relative;
-  flex-shrink: 0;
   width: 4rem;
   height: 4rem;
+  flex-shrink: 0;
   padding: 0;
   border: none;
   border-radius: 9999px;
+  cursor: pointer;
   outline: none;
 
   &:focus-visible {
@@ -59,20 +59,20 @@
 
 .avatarOverlay {
   position: absolute;
-  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  opacity: 0;
   background: rgb(0 0 0 / 50%);
+  inset: 0;
+  opacity: 0;
   transition: opacity 150ms ease;
 }
 
 .avatarOverlayIcon {
   width: 1.25rem;
   height: 1.25rem;
-  color: white;
+  color: #fff;
 }
 
 .avatarMeta {
@@ -82,14 +82,14 @@
 }
 
 .avatarRemove {
-  cursor: pointer;
   align-self: flex-start;
   padding: 0;
   border: none;
-  font-size: 0.75rem;
-  color: var(--destructive);
-  text-underline-offset: rem(2);
   background: none;
+  color: var(--destructive);
+  cursor: pointer;
+  font-size: 0.75rem;
+  text-underline-offset: rem(2);
 
   &:hover {
     text-decoration: underline;
@@ -104,16 +104,16 @@
 .bannerRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .bannerSwatch {
-  cursor: pointer;
   width: 1.75rem;
   height: 1.75rem;
   border: 1px solid rgb(255 255 255 / 15%);
   border-radius: 9999px;
+  cursor: pointer;
   outline: none;
   transition: transform 150ms ease;
 
@@ -133,20 +133,20 @@
 
 .bannerSwatchActive {
   box-shadow:
-    0 0 0 rem(2) white,
+    0 0 0 rem(2) #fff,
     0 0 0 rem(4) var(--background);
 }
 
 .bannerCustomTrigger {
-  cursor: pointer;
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 1.75rem;
   height: 1.75rem;
+  align-items: center;
+  justify-content: center;
   border: 1px dashed rgb(255 255 255 / 30%);
   border-radius: 9999px;
   background: transparent;
+  cursor: pointer;
   outline: none;
   transition: transform 150ms ease;
 
@@ -167,7 +167,7 @@
 .bannerCustomIcon {
   width: 0.875rem;
   height: 0.875rem;
-  color: white;
+  color: #fff;
   mix-blend-mode: difference;
 }
 

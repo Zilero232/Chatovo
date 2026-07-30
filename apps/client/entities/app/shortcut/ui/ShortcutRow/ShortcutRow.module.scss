@@ -1,8 +1,8 @@
 .root {
   display: flex;
-  gap: 1rem;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
   padding-block: 0.5rem;
 }
 
@@ -13,25 +13,25 @@
 
 .controls {
   display: flex;
-  gap: 0.5rem;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .warnIcon {
-  flex-shrink: 0;
   width: 0.875rem;
   height: 0.875rem;
-  color: oklch(0.828 0.189 84.429);
+  flex-shrink: 0;
+  color: oklch(82.8% 0.189 84.429deg);
 }
 
 .tooltip {
   max-width: 12.5rem;
-  border: 1px solid oklch(0.828 0.189 84.429 / 40%);
+  border: 1px solid oklch(82.8% 0.189 84.429deg / 40%);
+  background: var(--popover);
+  color: oklch(90.1% 0.076 70.697deg);
   line-height: 1.375;
-  color: oklch(0.901 0.076 70.697);
   text-align: center;
   text-wrap: wrap;
-  background: var(--popover);
 
   :global([data-slot='tooltip-arrow']) {
     background: var(--popover);
@@ -40,20 +40,20 @@
 }
 
 .shortcutButton {
-  gap: 0.5rem;
-  justify-content: center;
   width: 13.75rem;
+  justify-content: center;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.75rem;
+  gap: 0.5rem;
 }
 
 .shortcutButtonConflict {
-  border-color: oklch(0.828 0.189 84.429 / 40%);
-  color: oklch(0.901 0.076 70.697);
-  background: oklch(0.828 0.189 84.429 / 6%);
+  border-color: oklch(82.8% 0.189 84.429deg / 40%);
+  background: oklch(82.8% 0.189 84.429deg / 6%);
+  color: oklch(90.1% 0.076 70.697deg);
 
   &:hover:not(:disabled) {
-    background: oklch(0.828 0.189 84.429 / 10%);
+    background: oklch(82.8% 0.189 84.429deg / 10%);
   }
 }
 

@@ -1,19 +1,13 @@
 export type UpdateStatus =
-  | 'idle'
-  | 'checking'
-  | 'unavailable'
-  | 'available'
-  | 'downloading'
-  | 'installing'
-  | 'error';
+  'available' | 'checking' | 'downloading' | 'error' | 'idle' | 'installing' | 'unavailable';
 
 export type UpdateInfo = {
-  status: UpdateStatus;
   currentVersion: string | null;
-  version: string | null;
   date: string | null;
   progress: number;
   silent: boolean;
-  install: () => void;
+  status: UpdateStatus;
+  version: string | null;
   dismiss: () => void;
+  install: () => void;
 };

@@ -1,5 +1,7 @@
 'use client';
 
+import type { ClipboardEvent } from 'react';
+
 import { encodeChatAttachment } from '@chatovo/schemas';
 import { useDropZone, useFileDialog } from '@siberiacancode/reactuse';
 import { useMutation } from '@tanstack/react-query';
@@ -8,13 +10,11 @@ import { toast } from 'sonner';
 
 import { uploadChatAttachment } from '@/shared/api';
 
-import type { ClipboardEvent } from 'react';
-
 const ATTACHMENT_MAX_BYTES = 25 * 1024 * 1024;
 
 type UseChatFilesParams = {
-  roomId: string;
   disabled: boolean;
+  roomId: string;
   onSend: (value: string) => Promise<unknown>;
 };
 
@@ -31,7 +31,7 @@ export const useChatFiles = ({ roomId, disabled, onSend }: UseChatFilesParams) =
     },
     onError: () => {
       toast.error(t('uploadFailed'));
-    },
+    }
   });
 
   const sendFiles = (files: File[]) => {
@@ -78,6 +78,6 @@ export const useChatFiles = ({ roomId, disabled, onSend }: UseChatFilesParams) =
     dropRef: ref,
     overed,
     onPaste,
-    openPicker: open,
+    openPicker: open
   };
 };

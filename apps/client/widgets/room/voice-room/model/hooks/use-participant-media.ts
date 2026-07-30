@@ -1,13 +1,14 @@
 'use client';
 
+import type { Participant } from 'livekit-client';
+
 import { useIsMuted, useParticipantInfo, useParticipantTracks } from '@livekit/components-react';
 import { Track } from 'livekit-client';
 import { isNonNullish } from 'remeda';
 
 import { readParticipantMeta } from '@/entities/room/room';
-import { useParticipantIsSpeaking } from './use-participant-is-speaking';
 
-import type { Participant } from 'livekit-client';
+import { useParticipantIsSpeaking } from './use-participant-is-speaking';
 
 export const useParticipantMedia = (participant: Participant) => {
   const [cameraTrack] = useParticipantTracks([Track.Source.Camera], participant.identity);
@@ -37,6 +38,6 @@ export const useParticipantMedia = (participant: Participant) => {
     isLocal: participant.isLocal,
     hasCamera,
     hasScreen,
-    hasVideo: hasCamera || hasScreen,
+    hasVideo: hasCamera || hasScreen
   };
 };

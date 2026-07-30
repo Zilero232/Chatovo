@@ -7,9 +7,9 @@ import { HexColorPicker } from 'react-colorful';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui';
 
-import s from '../../UpdateProfileForm.module.scss';
-
 import type { BannerColorFieldProps } from './BannerColorField.types';
+
+import s from '../../UpdateProfileForm.module.scss';
 
 const PRESETS = ['#7c5cff', '#22d3ee', '#f43f5e', '#f59e0b', '#10b981', '#64748b'];
 
@@ -31,7 +31,7 @@ export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => 
             aria-label={color}
             className={clsx(s.bannerSwatch, { [s.bannerSwatchActive]: value === color })}
             style={{ backgroundColor: color }}
-            type="button"
+            type='button'
             onClick={() => onChange(color)}
           />
         ))}
@@ -41,7 +41,7 @@ export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => 
             aria-label={t('bannerCustom')}
             className={clsx(s.bannerCustomTrigger, { [s.bannerSwatchActive]: isCustom })}
             style={{ backgroundColor: isCustom ? current : undefined }}
-            variant="ghost"
+            variant='ghost'
           >
             <Palette className={s.bannerCustomIcon} />
           </PopoverTrigger>
@@ -52,7 +52,7 @@ export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => 
       </div>
 
       {value && (
-        <button className={s.avatarRemove} type="button" onClick={() => onChange(null)}>
+        <button className={s.avatarRemove} type='button' onClick={() => onChange(null)}>
           {t('bannerReset')}
         </button>
       )}

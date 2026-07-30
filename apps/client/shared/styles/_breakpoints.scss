@@ -5,9 +5,8 @@ $breakpoints: (
   md: 768px,
   lg: 1024px,
   xl: 1280px,
-  2xl: 1536px,
+  2xl: 1536px
 );
-
 $bp-sm: map.get($breakpoints, sm);
 $bp-md: map.get($breakpoints, md);
 $bp-lg: map.get($breakpoints, lg);

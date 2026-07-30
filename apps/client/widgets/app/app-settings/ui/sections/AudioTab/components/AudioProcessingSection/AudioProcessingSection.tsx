@@ -3,10 +3,11 @@
 import { useTranslations } from 'next-intl';
 
 import { Switch } from '@/shared/ui';
-import { SettingRow } from '../../../../components/SettingRow';
-import { AUDIO_FLAGS } from '../../AudioTab.config';
 
 import type { AudioProcessingSectionProps } from './AudioProcessingSection.types';
+
+import { SettingRow } from '../../../../components/SettingRow';
+import { AUDIO_FLAGS } from '../../AudioTab.config';
 
 export const AudioProcessingSection = ({ audio, onFlagChange }: AudioProcessingSectionProps) => {
   const t = useTranslations('settings.audio');
@@ -16,11 +17,11 @@ export const AudioProcessingSection = ({ audio, onFlagChange }: AudioProcessingS
       {AUDIO_FLAGS.map((flag) => (
         <SettingRow
           key={flag}
-          label={t(flag)}
-          hint={t(`${flag}Hint`)}
           control={
             <Switch checked={audio[flag]} onCheckedChange={(value) => onFlagChange(flag, value)} />
           }
+          hint={t(`${flag}Hint`)}
+          label={t(flag)}
         />
       ))}
     </>

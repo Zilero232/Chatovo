@@ -1,9 +1,9 @@
-export type UserNameSize = 'sm' | 'md';
+export type UserNameSize = 'md' | 'sm';
 
 export type UserNameProps = {
+  className?: string;
   name: string;
-  verified?: boolean;
   profileUrl?: string | null;
   size?: UserNameSize;
-  className?: string;
+  verified?: boolean;
 };

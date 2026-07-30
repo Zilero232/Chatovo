@@ -1,22 +1,22 @@
 'use client';
 
+import type { LocalParticipant } from 'livekit-client';
+
 import { useEffect, useRef, useState } from 'react';
 import { isNullish } from 'remeda';
 
 import { isCancelled } from '../../lib/media-errors';
 
-import type { LocalParticipant } from 'livekit-client';
-
 const PENDING_VISIBLE_AFTER_MS = 250;
 
 export type ParticipantAction = {
-  run: () => Promise<void>;
   isPending: boolean;
+  run: () => Promise<void>;
 };
 
 export const useParticipantAction = (
   participant: LocalParticipant | undefined,
-  action: (participant: LocalParticipant) => Promise<unknown>,
+  action: (participant: LocalParticipant) => Promise<unknown>
 ): ParticipantAction => {
   const [isPending, setIsPending] = useState(false);
   const isRunningRef = useRef(false);

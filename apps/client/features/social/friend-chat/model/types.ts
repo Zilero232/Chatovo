@@ -1,8 +1,8 @@
 import type { FriendUser } from '@chatovo/schemas';
 
-export type FriendChatPeer = Pick<FriendUser, 'id' | 'name' | 'avatarUrl' | 'verified'>;
+export type FriendChatPeer = Pick<FriendUser, 'avatarUrl' | 'id' | 'name' | 'verified'>;
 
 export type FriendChatSession = {
-  roomId: string;
   peer: FriendChatPeer;
+  roomId: string;
 };

@@ -2,9 +2,9 @@
 
 .root {
   display: flex;
-  gap: 0.125rem;
   align-items: center;
   align-self: center;
+  gap: 0.125rem;
   opacity: 0;
   transition: opacity 150ms ease;
 

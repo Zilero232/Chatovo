@@ -7,15 +7,13 @@ import { toast } from 'sonner';
 
 import { useErrorMessage, useFieldError } from '@/entities/app/locale';
 import { FormField, PasswordInput, Stack, SubmitButton } from '@/shared/ui';
-import {
-  type ResetPasswordValues,
-  resetPasswordSchema,
-  useResetPassword,
-} from '../model/use-reset-password';
+
+import type { ResetPasswordValues } from '../model/use-reset-password';
+import type { ResetPasswordFormProps } from './ResetPasswordForm.types';
+
+import { resetPasswordSchema, useResetPassword } from '../model/use-reset-password';
 
 import s from './ResetPasswordForm.module.scss';
-
-import type { ResetPasswordFormProps } from './ResetPasswordForm.types';
 
 const DEFAULT_VALUES: ResetPasswordValues = { newPassword: '', confirmPassword: '' };
 
@@ -28,10 +26,10 @@ export const ResetPasswordForm = ({ token, onSuccess }: ResetPasswordFormProps) 
   const {
     formState: { errors },
     handleSubmit,
-    register,
+    register
   } = useForm<ResetPasswordValues>({
     resolver: zodResolver(resetPasswordSchema),
-    defaultValues: DEFAULT_VALUES,
+    defaultValues: DEFAULT_VALUES
   });
 
   const onSubmit = handleSubmit((values) => {
@@ -40,32 +38,32 @@ export const ResetPasswordForm = ({ token, onSuccess }: ResetPasswordFormProps) 
         toast.success(t('passwordReset'));
         onSuccess();
       },
-      onError: (err: Error) => toast.error(errorMessage(err)),
+      onError: (err: Error) => toast.error(errorMessage(err))
     });
   });
 
   return (
-    <Stack as="form" gap="4" onSubmit={onSubmit}>
+    <Stack as='form' gap='4' onSubmit={onSubmit}>
       <FormField
-        htmlFor="reset-new-password"
-        label={t('fields.password')}
         error={errors.newPassword && fieldError(errors.newPassword)}
+        htmlFor='reset-new-password'
+        label={t('fields.password')}
       >
         <PasswordInput
-          autoComplete="new-password"
-          id="reset-new-password"
+          autoComplete='new-password'
+          id='reset-new-password'
           {...register('newPassword')}
         />
       </FormField>
 
       <FormField
-        htmlFor="reset-confirm-password"
-        label={t('fields.confirmPassword')}
         error={errors.confirmPassword && fieldError(errors.confirmPassword)}
+        htmlFor='reset-confirm-password'
+        label={t('fields.confirmPassword')}
       >
         <PasswordInput
-          autoComplete="new-password"
-          id="reset-confirm-password"
+          autoComplete='new-password'
+          id='reset-confirm-password'
           {...register('confirmPassword')}
         />
       </FormField>

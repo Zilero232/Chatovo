@@ -3,8 +3,8 @@
 import { isTauri } from '@tauri-apps/api/core';
 import { clsx } from 'clsx';
 import { CheckCircle2 } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -24,13 +24,13 @@ export const ResetPasswordPage = () => {
 
   const [done, setDone] = useState(false);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: redirect once on mount when the link is invalid
   useEffect(() => {
     if (invalid) {
       toast.error(t('resetTokenMissing'), { id: 'reset-token-invalid' });
 
       router.replace(ROUTES.auth);
     }
+    // eslint-disable-next-line react/exhaustive-deps -- redirect once on mount when the link is invalid
   }, []);
 
   if (invalid) {
@@ -55,7 +55,7 @@ export const ResetPasswordPage = () => {
             <h1 className={clsx(s.title, 'gradient-text')}>
               {done ? t('resetDoneTitle') : t('resetPasswordTitle')}
             </h1>
-            <Text size="sm" tone="muted">
+            <Text size='sm' tone='muted'>
               {done ? t('resetDoneSubtitle') : t('resetPasswordSubtitle')}
             </Text>
           </div>
@@ -65,7 +65,7 @@ export const ResetPasswordPage = () => {
               {isTauri() ? (
                 <Button
                   className={s.fullWidth}
-                  type="button"
+                  type='button'
                   onClick={() => router.replace(ROUTES.auth)}
                 >
                   {t('signInInBrowser')}

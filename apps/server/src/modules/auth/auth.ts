@@ -21,7 +21,7 @@ export const auth = betterAuth({
   trustedOrigins: allowedOrigins,
   account: {
     storeStateStrategy: 'database',
-    skipStateCookieCheck: true,
+    skipStateCookieCheck: true
   },
   emailAndPassword: {
     enabled: true,
@@ -30,9 +30,9 @@ export const auth = betterAuth({
       await sendEmail({
         to: user.email,
         subject: 'Reset your password',
-        react: createElement(ResetPassword, { url }),
+        react: createElement(ResetPassword, { url })
       });
-    },
+    }
   },
   emailVerification: {
     sendOnSignUp: true,
@@ -42,9 +42,9 @@ export const auth = betterAuth({
       await sendEmail({
         to: user.email,
         subject: 'Verify your email',
-        react: createElement(VerifyEmail, { url: withClientCallback(url) }),
+        react: createElement(VerifyEmail, { url: withClientCallback(url) })
       });
-    },
+    }
   },
   user: {
     changeEmail: {
@@ -53,29 +53,29 @@ export const auth = betterAuth({
         await sendEmail({
           to: user.email,
           subject: 'Approve email change',
-          react: createElement(ChangeEmail, { newEmail, url: withClientCallback(url) }),
+          react: createElement(ChangeEmail, { newEmail, url: withClientCallback(url) })
         });
-      },
+      }
     },
     additionalFields: {
       role: {
         type: 'string',
         required: false,
         defaultValue: 'user',
-        input: false,
+        input: false
       },
       verified: {
         type: 'boolean',
         required: false,
         defaultValue: false,
-        input: false,
+        input: false
       },
       friendTag: {
         type: 'string',
         required: false,
-        input: false,
-      },
-    },
+        input: false
+      }
+    }
   },
   databaseHooks: {
     user: {
@@ -86,20 +86,20 @@ export const auth = betterAuth({
           return {
             data: {
               ...user,
-              friendTag,
-            },
+              friendTag
+            }
           };
         },
         after: async (user) => {
           await basePrisma.profile.create({
-            data: { userId: user.id, displayName: user.name },
+            data: { userId: user.id, displayName: user.name }
           });
 
           notifyUserSignup({ name: user.name, email: user.email });
-        },
-      },
-    },
+        }
+      }
+    }
   },
   plugins: [bearer()],
-  database: prismaAdapter(basePrisma, { provider: 'postgresql' }),
+  database: prismaAdapter(basePrisma, { provider: 'postgresql' })
 });

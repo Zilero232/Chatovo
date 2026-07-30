@@ -3,7 +3,11 @@
 import { useBoolean } from '@siberiacancode/reactuse';
 import { useTranslations } from 'next-intl';
 
-import { useCloseWhenCallAccepted, useIncomingFriendRequests } from '@/entities/social/friend';
+import {
+  useCloseWhenCallAccepted,
+  useFriends,
+  useIncomingFriendRequests
+} from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 import { useCloseWhenInVoiceRoom } from '@/shared/hooks';
 import {
@@ -15,14 +19,15 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,
+  TabsTrigger
 } from '@/shared/ui';
+
 import {
   AddFriendForm,
   FriendsDialogTrigger,
   FriendsTab,
   OwnFriendTag,
-  RequestsTab,
+  RequestsTab
 } from './components';
 
 import s from './FriendsDialog.module.scss';
@@ -34,11 +39,13 @@ export const FriendsDialog = () => {
   const { blocksParentDialogClose, dmUnread } = useFriendChat();
 
   const { data: requests } = useIncomingFriendRequests();
+  const { data: friends } = useFriends(open);
 
   useCloseWhenInVoiceRoom(() => toggleOpen(false));
   useCloseWhenCallAccepted(() => toggleOpen(false));
 
   const incomingCount = requests?.length ?? 0;
+  const friendsCount = friends?.length ?? 0;
 
   return (
     <>
@@ -64,20 +71,23 @@ export const FriendsDialog = () => {
           <OwnFriendTag />
           <AddFriendForm />
 
-          <Tabs defaultValue="friends">
+          <Tabs defaultValue='friends'>
             <TabsList className={s.tabsList}>
-              <TabsTrigger value="friends">{t('friendsTab')}</TabsTrigger>
-              <TabsTrigger value="requests">
+              <TabsTrigger value='friends'>
+                {t('friendsTab')}
+                {friendsCount > 0 && <span className={s.count}>{friendsCount}</span>}
+              </TabsTrigger>
+              <TabsTrigger value='requests'>
                 {t('requestsTab')}
                 {incomingCount > 0 && <span className={s.badge}>{incomingCount}</span>}
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="friends">
+            <TabsContent value='friends'>
               <FriendsTab enabled={open} />
             </TabsContent>
 
-            <TabsContent value="requests">
+            <TabsContent value='requests'>
               <RequestsTab />
             </TabsContent>
           </Tabs>

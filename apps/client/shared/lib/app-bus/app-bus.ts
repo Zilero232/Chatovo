@@ -1,19 +1,19 @@
-import { createEventEmitter } from '@siberiacancode/reactuse';
-
 import type { RoomKind } from '@chatovo/schemas';
 
+import { createEventEmitter } from '@siberiacancode/reactuse';
+
 type AppBusEvents = {
-  recheckUpdate: undefined;
-  updateCheckSettled: undefined;
-  trayMuteToggle: undefined;
-  muteToggle: undefined;
+  chatMessage: { roomId: string; senderId: string | null; roomKind: RoomKind };
+  chatToggle: undefined;
   deafenToggle: undefined;
   micActivated: undefined;
-  pttKey: { phase: 'pressed' | 'released' };
+  muteToggle: undefined;
   pttHold: { phase: 'pressed' | 'released' };
-  chatToggle: undefined;
-  chatMessage: { roomId: string; senderId: string | null; roomKind: RoomKind };
+  pttKey: { phase: 'pressed' | 'released' };
   reaction: undefined;
+  recheckUpdate: undefined;
+  trayMuteToggle: undefined;
+  updateCheckSettled: undefined;
 };
 
 type EventName = keyof AppBusEvents;
@@ -34,12 +34,12 @@ const bus = createEventEmitter<AppBusEvents>();
 
 const emit = new Proxy({} as Emitters, {
   get: (_target, event: string) => (payload?: unknown) =>
-    bus.push(event as EventName, payload as AppBusEvents[EventName]),
+    bus.push(event as EventName, payload as AppBusEvents[EventName])
 });
 
 const on = new Proxy({} as Subscribers, {
   get: (_target, event: string) => (listener: (payload: AppBusEvents[EventName]) => void) =>
-    bus.useSubscribe(event as EventName, listener),
+    bus.useSubscribe(event as EventName, listener)
 });
 
 /**

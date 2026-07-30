@@ -22,7 +22,7 @@ export const useCurrentUser = () => {
     queryKey: QUERY_KEYS.userProfile(userId ?? ''),
     queryFn: () => getUserProfile(userId as string),
     enabled: isNonNullish(userId) && hasToken,
-    staleTime: minutesToMilliseconds(5),
+    staleTime: minutesToMilliseconds(5)
   });
 
   const role: UserRole = user?.role === USER_ROLE.admin ? USER_ROLE.admin : USER_ROLE.user;
@@ -45,6 +45,6 @@ export const useCurrentUser = () => {
     profileUrl: firstNonEmpty(profile?.profileUrl),
     bannerColor: firstNonEmpty(profile?.bannerColor),
     bio: firstNonEmpty(profile?.bio),
-    isAuthenticated: isNonNullish(user),
+    isAuthenticated: isNonNullish(user)
   };
 };

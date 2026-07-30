@@ -1,8 +1,8 @@
 import type { FriendUser } from '@chatovo/schemas';
 
 export type FriendListItemProps = {
-  user: FriendUser;
   dmUnread?: number;
+  user: FriendUser;
   onOpen: (user: FriendUser) => void;
   onRemove: (user: FriendUser) => void;
 };

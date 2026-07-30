@@ -1,11 +1,11 @@
 import type { RoomParticipant } from '@chatovo/schemas';
 
 export type IssueTokenInput = {
-  roomId: string;
-  password?: string;
-  userId: string;
   email: string | null;
   isAdmin: boolean;
+  password?: string;
+  roomId: string;
+  userId: string;
 };
 
-export type ParticipantPatch = Partial<Pick<RoomParticipant, 'micMuted' | 'deafened'>>;
+export type ParticipantPatch = Partial<Pick<RoomParticipant, 'deafened' | 'micMuted'>>;

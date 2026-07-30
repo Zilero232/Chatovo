@@ -8,10 +8,10 @@
 Всё работает на одном VPS. Сайт, API и LiveKit разнесены по поддоменам одного
 домена `chatovo.ru`:
 
-| Поддомен | Что отдаёт |
-|----------|------------|
-| `chatovo.ru` | Статика веб-клиента |
-| `api.chatovo.ru` | Hono API (Bun) |
+| Поддомен             | Что отдаёт                  |
+| -------------------- | --------------------------- |
+| `chatovo.ru`         | Статика веб-клиента         |
+| `api.chatovo.ru`     | Hono API (Bun)              |
 | `livekit.chatovo.ru` | LiveKit SFU (WSS-сигналинг) |
 
 Клиент и сервер упакованы в Docker-образы — образы собираются в CI и
@@ -84,7 +84,7 @@
 Серверные переменные:
 
 1. На VPS ты создаёшь файл `.env` в рабочей папке (`/opt/chatovo/.env`) —
-   за образец берёшь `apps/server/.env.example` из репозитория. Файл лежит
+   за образец берёшь `.env.example` из репозитория. Файл лежит
    физически на сервере, в git его нет.
 2. При запуске контейнера Docker читает его — строка `env_file: ./.env`
    в `docker-compose.yml` — и кладёт переменные в окружение процесса.
@@ -99,17 +99,17 @@
 
 ## Что лежит в репозитории
 
-| Файл | Назначение |
-|------|------------|
-| `apps/client/Dockerfile` | Образ клиента: сборка статики + Caddy; собирается в CI |
-| `apps/server/Dockerfile` | Образ сервера (Bun + Prisma); собирается в CI |
-| `infra/caddy/Caddyfile` | Конфиг Caddy (копируется внутрь образа клиента) |
-| `infra/livekit/livekit.yaml` | Шаблон конфига self-hosted LiveKit-сервера |
-| `infra/caddy/README.md` | Этот документ — инструкция по деплою |
-| `docker-compose.yml` | Запуск web + server + livekit на VPS (образы из ghcr.io) |
-| `.github/workflows/deploy-web.yml` | CI/CD: lint → сборка образов → деплой |
-| `apps/server/.env.example` | Шаблон переменных сервера |
-| `apps/client/.env.example` | Шаблон переменных клиента (web и Tauri) |
+| Файл                               | Назначение                                               |
+| ---------------------------------- | -------------------------------------------------------- |
+| `apps/client/Dockerfile`           | Образ клиента: сборка статики + Caddy; собирается в CI   |
+| `apps/server/Dockerfile`           | Образ сервера (Bun + Prisma); собирается в CI            |
+| `infra/caddy/Caddyfile`            | Конфиг Caddy (копируется внутрь образа клиента)          |
+| `infra/livekit/livekit.yaml`       | Шаблон конфига self-hosted LiveKit-сервера               |
+| `infra/caddy/README.md`            | Этот документ — инструкция по деплою                     |
+| `docker-compose.yml`               | Запуск web + server + livekit на VPS (образы из ghcr.io) |
+| `.github/workflows/deploy-web.yml` | CI/CD: lint → сборка образов → деплой                    |
+| `.env.example`                     | Шаблон переменных сервера                                |
+| `.env.example`                     | Шаблон переменных клиента (web и Tauri)                  |
 
 ---
 
@@ -128,12 +128,12 @@
 
 В настройках домена `chatovo.ru` добавьте A-записи на IP сервера:
 
-| Тип | Имя | Значение |
-|-----|-----|----------|
-| A | `@` | `<IP сервера>` |
-| A | `www` | `<IP сервера>` |
-| A | `api` | `<IP сервера>` |
-| A | `livekit` | `<IP сервера>` |
+| Тип | Имя       | Значение       |
+| --- | --------- | -------------- |
+| A   | `@`       | `<IP сервера>` |
+| A   | `www`     | `<IP сервера>` |
+| A   | `api`     | `<IP сервера>` |
+| A   | `livekit` | `<IP сервера>` |
 
 Дождитесь распространения (`ping chatovo.ru` отдаёт ваш IP). Поддомены:
 
@@ -183,7 +183,7 @@ mkdir -p /opt/chatovo
 ### 1.5. Создать файл переменных сервера
 
 В папке `/opt/chatovo` создайте файл `.env`. За образец возьмите шаблон
-`apps/server/.env.example` из репозитория (откройте его на GitHub):
+`.env.example` из репозитория (откройте его на GitHub):
 
 ```bash
 nano /opt/chatovo/.env
@@ -279,12 +279,12 @@ IP и слушал media-порты на нём напрямую. За Docker NA
 
 ### Порты
 
-| Порт | Протокол | Кто открывает | Зачем |
-|------|----------|---------------|-------|
-| 443 | tcp | Caddy (наружу) | HTTPS → WSS на сигналинг LiveKit |
-| 7880 | tcp | LiveKit (на хосте) | Signalling, доступен только локально |
-| 7881 | tcp | LiveKit (наружу) | TURN/TCP fallback для клиентов без UDP |
-| 50000-50100 | udp | LiveKit (наружу) | WebRTC media (RTP) |
+| Порт        | Протокол | Кто открывает      | Зачем                                  |
+| ----------- | -------- | ------------------ | -------------------------------------- |
+| 443         | tcp      | Caddy (наружу)     | HTTPS → WSS на сигналинг LiveKit       |
+| 7880        | tcp      | LiveKit (на хосте) | Signalling, доступен только локально   |
+| 7881        | tcp      | LiveKit (наружу)   | TURN/TCP fallback для клиентов без UDP |
+| 50000-50100 | udp      | LiveKit (наружу)   | WebRTC media (RTP)                     |
 
 Все наружные порты открываются в шаге 1.3.
 
@@ -327,11 +327,11 @@ nano /opt/chatovo/livekit.yaml
 смены LiveKit Cloud → self-hosted (или наоборот) нужен **новый прогон CI**,
 чтобы изменения попали в браузерный бандл и в Tauri-сборку.
 
-| Где задаётся | Значение для self-hosted |
-|--------------|--------------------------|
+| Где задаётся                            | Значение для self-hosted   |
+| --------------------------------------- | -------------------------- |
 | GitHub Secret `NEXT_PUBLIC_LIVEKIT_URL` | `wss://livekit.chatovo.ru` |
-| `apps/client/.env` (локальная dev-сборка / Tauri) | `wss://livekit.chatovo.ru` |
-| `/opt/chatovo/.env` → `LIVEKIT_URL` | `wss://livekit.chatovo.ru` |
+| `.env` (локальная dev-сборка / Tauri)   | `wss://livekit.chatovo.ru` |
+| `/opt/chatovo/.env` → `LIVEKIT_URL`     | `wss://livekit.chatovo.ru` |
 
 ### Проверка после запуска
 
@@ -419,7 +419,7 @@ ssh-copy-id -i chatovo_deploy.pub root@<IP>
 > руками: откройте `chatovo_deploy.pub`, скопируйте его содержимое (одна
 > строка), на VPS допишите её отдельной строкой в `~/.ssh/authorized_keys`
 > (создайте файл, если его нет). Права папки: `chmod 700 ~/.ssh && chmod 600
-> ~/.ssh/authorized_keys`.
+~/.ssh/authorized_keys`.
 
 #### Альтернатива: сгенерировать ключ прямо на VPS
 
@@ -498,11 +498,11 @@ Telegram/почту и подобное. Приватный ключ не дол
 
 #### Итог — где что должно оказаться
 
-| Файл | Куда | Зачем |
-|------|------|-------|
-| `chatovo_deploy` (приватный) | GitHub Secrets → `SSH_PRIVATE_KEY` | Чтобы CI мог зайти на VPS |
-| `chatovo_deploy.pub` (публичный) | VPS → `~/.ssh/authorized_keys` | Чтобы VPS принял этот ключ |
-| Оба файла на локальной машине | можно удалить или сохранить в безопасном месте | На случай потери — пересоздайте пару |
+| Файл                             | Куда                                           | Зачем                                |
+| -------------------------------- | ---------------------------------------------- | ------------------------------------ |
+| `chatovo_deploy` (приватный)     | GitHub Secrets → `SSH_PRIVATE_KEY`             | Чтобы CI мог зайти на VPS            |
+| `chatovo_deploy.pub` (публичный) | VPS → `~/.ssh/authorized_keys`                 | Чтобы VPS принял этот ключ           |
+| Оба файла на локальной машине    | можно удалить или сохранить в безопасном месте | На случай потери — пересоздайте пару |
 
 > Никогда не коммитьте приватный ключ в git и не делитесь им. Если он
 > утёк — удалите соответствующую строку из `~/.ssh/authorized_keys` на VPS
@@ -526,14 +526,14 @@ VPS должен скачивать приватные образы из ghcr.io
 
 Repo → **Settings → Secrets and variables → Actions → New repository secret**:
 
-| Секрет | Значение |
-|--------|----------|
-| `SSH_HOST` | IP сервера |
-| `SSH_USER` | `root` (или пользователь деплоя) |
-| `SSH_PORT` | `22` |
-| `SSH_PRIVATE_KEY` | содержимое файла `chatovo_deploy` (приватный ключ целиком) |
-| `DEPLOY_PATH` | `/opt/chatovo` |
-| `NEXT_PUBLIC_API_URL` | `https://api.chatovo.ru` (один секрет на веб и Tauri) |
+| Секрет                    | Значение                                                                     |
+| ------------------------- | ---------------------------------------------------------------------------- |
+| `SSH_HOST`                | IP сервера                                                                   |
+| `SSH_USER`                | `root` (или пользователь деплоя)                                             |
+| `SSH_PORT`                | `22`                                                                         |
+| `SSH_PRIVATE_KEY`         | содержимое файла `chatovo_deploy` (приватный ключ целиком)                   |
+| `DEPLOY_PATH`             | `/opt/chatovo`                                                               |
+| `NEXT_PUBLIC_API_URL`     | `https://api.chatovo.ru` (один секрет на веб и Tauri)                        |
 | `NEXT_PUBLIC_LIVEKIT_URL` | `wss://livekit.chatovo.ru` (self-hosted) или `wss://<project>.livekit.cloud` |
 
 ### 2.4. Запустить деплой
@@ -547,13 +547,13 @@ Push в `master` — либо вкладка **Actions → Deploy Web → Run wo
 
 ## Повседневная работа
 
-| Действие | Команда |
-|----------|---------|
-| Деплой | `git push` в `master` |
-| Логи клиента/Caddy | `docker compose logs -f web` (на VPS) |
-| Логи сервера | `docker compose logs -f server` |
+| Действие                              | Команда                                       |
+| ------------------------------------- | --------------------------------------------- |
+| Деплой                                | `git push` в `master`                         |
+| Логи клиента/Caddy                    | `docker compose logs -f web` (на VPS)         |
+| Логи сервера                          | `docker compose logs -f server`               |
 | Скачать свежие образы и перезапустить | `docker compose pull && docker compose up -d` |
-| Статус контейнеров | `docker compose ps` |
+| Статус контейнеров                    | `docker compose ps`                           |
 
 ### Откат на предыдущую версию
 
@@ -570,7 +570,7 @@ SHA рабочего коммита можно посмотреть в исто�
 ### Обновление схемы БД
 
 Миграции Prisma в CI не запускаются — схема управляется вручную. С машины
-разработчика, имея `apps/server/.env` с боевыми `DATABASE_URL`/`DIRECT_URL`:
+разработчика, имея `.env` с боевыми `DATABASE_URL`/`DIRECT_URL`:
 
 ```bash
 cd apps/server
@@ -589,8 +589,8 @@ Tauri использует ту же статику и тот же боевой 
 
 ```bash
 # 1. Подготовить .env клиента для прод-сборки
-cp apps/client/.env.example apps/client/.env
-nano apps/client/.env
+cp .env.example .env
+nano .env
 #    NEXT_PUBLIC_API_URL=https://api.chatovo.ru
 #    остальные NEXT_PUBLIC_* — боевые значения
 

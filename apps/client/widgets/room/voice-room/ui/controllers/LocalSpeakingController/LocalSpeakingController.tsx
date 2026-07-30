@@ -1,6 +1,7 @@
 'use client';
 
 import { useAppSettings } from '@/entities/app/settings';
+
 import { useLocalSpeaking } from '../../../model/contexts';
 import { usePttLocalSpeaking, useVoiceGate } from '../../../model/hooks';
 

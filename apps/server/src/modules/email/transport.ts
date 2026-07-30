@@ -1,9 +1,9 @@
 import { render } from '@react-email/render';
 import nodemailer from 'nodemailer';
 
-import { env } from '../../core';
-
 import type { SendEmailParams } from './email.types';
+
+import { env } from '../../core';
 
 const transporter = nodemailer.createTransport({
   host: env.SMTP_HOST,
@@ -11,15 +11,15 @@ const transporter = nodemailer.createTransport({
   secure: env.SMTP_SECURE,
   auth: {
     user: env.SMTP_USER,
-    pass: env.SMTP_PASSWORD,
-  },
+    pass: env.SMTP_PASSWORD
+  }
 });
 
 export const sendEmail = async ({
   to,
   subject,
   react,
-  attachments,
+  attachments
 }: SendEmailParams): Promise<void> => {
   const recipient =
     env.NODE_ENV !== 'production' && env.DEV_EMAIL_OVERRIDE ? env.DEV_EMAIL_OVERRIDE : to;
@@ -33,7 +33,7 @@ export const sendEmail = async ({
       subject,
       html,
       text,
-      attachments,
+      attachments
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'unknown error';

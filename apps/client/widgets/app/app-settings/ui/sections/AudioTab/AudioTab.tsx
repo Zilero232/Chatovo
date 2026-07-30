@@ -3,21 +3,23 @@
 import { useTranslations } from 'next-intl';
 import { isNullish } from 'remeda';
 
+import type { AudioSettings, MicActivationMode } from '@/entities/app/settings';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { isTauriDesktop } from '@/shared/lib';
+
+import type { AudioTabProps } from './AudioTab.types';
+
 import { MicTest } from '../../components/MicTest';
 import { SettingRow } from '../../components/SettingRow';
 import {
   AudioDevicesSection,
   AudioProcessingSection,
   MicActivationSection,
-  SensitivitySection,
+  SensitivitySection
 } from './components';
 
 import s from '../../AppSettingsButton.module.scss';
-
-import type { AudioSettings, MicActivationMode } from '@/entities/app/settings';
-import type { AudioTabProps } from './AudioTab.types';
 
 export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
   const t = useTranslations('settings.audio');
@@ -60,10 +62,10 @@ export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
       )}
 
       <SettingRow
-        label={t('testMic')}
-        hint={t('testMicHint')}
-        control={<MicTest deviceId={settings.devices.audioInput} audio={audio} />}
         stacked
+        control={<MicTest audio={audio} deviceId={settings.devices.audioInput} />}
+        hint={t('testMicHint')}
+        label={t('testMic')}
       />
 
       <AudioProcessingSection audio={audio} onFlagChange={setFlag} />

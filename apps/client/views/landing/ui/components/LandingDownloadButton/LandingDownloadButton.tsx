@@ -16,8 +16,8 @@ export const LandingDownloadButton = ({ label, locale }: LandingDownloadButtonPr
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NextIntlClientProvider locale={locale} messages={messages[locale]} timeZone="UTC">
-        <Button size="lg" variant="outline" onClick={() => setIsOpen(true)}>
+      <NextIntlClientProvider locale={locale} messages={messages[locale]} timeZone='UTC'>
+        <Button size='lg' variant='outline' onClick={() => setIsOpen(true)}>
           {label}
         </Button>
 

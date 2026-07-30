@@ -6,6 +6,7 @@ import { SmilePlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui';
+
 import { QUICK_REACTIONS } from '../../../../config/reactions';
 import { useReactions } from '../../../../model/contexts';
 import { controlButtonToneClass } from '../ControlButton/control-button-tones';
@@ -35,10 +36,10 @@ export const ReactionButton = () => {
       </PopoverTrigger>
 
       <PopoverContent
-        align="center"
+        align='center'
         className={sReaction.popover}
         initialFocus={false}
-        side="top"
+        side='top'
         sideOffset={24}
       >
         <div className={sReaction.row}>
@@ -47,7 +48,7 @@ export const ReactionButton = () => {
               key={emoji}
               aria-label={emoji}
               className={sReaction.emoji}
-              type="button"
+              type='button'
               onClick={() => pick(emoji)}
             >
               {emoji}

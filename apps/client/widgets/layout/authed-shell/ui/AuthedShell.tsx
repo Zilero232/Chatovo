@@ -10,15 +10,15 @@ import { ChannelsPanel } from '@/widgets/room/channels-panel';
 import { IncomingCallDialog } from '@/widgets/social/incoming-call-dialog';
 import { OutgoingCallDialog } from '@/widgets/social/outgoing-call-dialog';
 
-const FriendChatDialog = dynamic(
-  () =>
-    import('@/widgets/social/friend-chat-dialog').then((m) => ({ default: m.FriendChatDialog })),
-  { ssr: false },
-);
+import type { AuthedShellProps } from './AuthedShell.types';
 
 import s from './AuthedShell.module.scss';
 
-import type { AuthedShellProps } from './AuthedShell.types';
+const FriendChatDialog = dynamic(
+  () =>
+    import('@/widgets/social/friend-chat-dialog').then((m) => ({ default: m.FriendChatDialog })),
+  { ssr: false }
+);
 
 export const AuthedShell = ({ children }: AuthedShellProps) => {
   const [channelsOpened, toggleChannels] = useBoolean(true);

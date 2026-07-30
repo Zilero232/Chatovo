@@ -1,13 +1,13 @@
 'use client';
 
+import type { ReactNode } from 'react';
+
 import { isTauri } from '@tauri-apps/api/core';
 import { getCurrent, onOpenUrl } from '@tauri-apps/plugin-deep-link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 import { parseDeepLinkToAppPath } from '@/shared/lib/deep-link';
-
-import type { ReactNode } from 'react';
 
 const navigateDeepLinks = (urls: string[], navigate: (path: string) => void) => {
   for (const url of urls) {

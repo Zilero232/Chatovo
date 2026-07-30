@@ -4,11 +4,11 @@ import { clsx } from 'clsx';
 import { Check, UserPlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import type { InviteParticipantCardProps } from './InviteParticipantCard.types';
+
 import { useCopyInviteLink } from '../../../model/hooks';
 
 import s from './InviteParticipantCard.module.scss';
-
-import type { InviteParticipantCardProps } from './InviteParticipantCard.types';
 
 export const InviteParticipantCard = ({ roomId }: InviteParticipantCardProps) => {
   const t = useTranslations('room.invite');
@@ -17,7 +17,7 @@ export const InviteParticipantCard = ({ roomId }: InviteParticipantCardProps) =>
   return (
     <button
       className={clsx(s.root, { [s.rootCopied]: copied })}
-      type="button"
+      type='button'
       onClick={copyInviteLink}
     >
       {copied ? <Check className={clsx(s.icon, s.iconCopied)} /> : <UserPlus className={s.icon} />}

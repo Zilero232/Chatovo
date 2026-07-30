@@ -1,5 +1,3 @@
-import { api } from '../http';
-
 import type {
   FriendEntry,
   FriendRequestEntry,
@@ -9,8 +7,10 @@ import type {
   IncomingFriendCallResponse,
   OutgoingFriendCallResponse,
   Room,
-  SendFriendRequestInput,
+  SendFriendRequestInput
 } from '@chatovo/schemas';
+
+import { api } from '../http';
 
 export const listFriends = async (): Promise<FriendEntry[]> => {
   const { data } = await api.get('/friends');
@@ -31,7 +31,7 @@ export const getFriendshipRelation = async (userId: string): Promise<FriendshipR
 };
 
 export const sendFriendRequest = async (
-  input: SendFriendRequestInput,
+  input: SendFriendRequestInput
 ): Promise<FriendshipRelation> => {
   const { data } = await api.post('/friends/requests', input);
 

@@ -1,22 +1,25 @@
-'use client';
-
 import { clsx } from 'clsx';
 import { ArrowLeft } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
 
 import { LEGAL } from '@/shared/config';
 import { EXTERNAL_LINKS, ROUTES } from '@/shared/constants';
 import { Text } from '@/shared/ui';
-import { useLegalDocument } from '../model';
-
-import s from './LegalDocumentPage.module.scss';
 
 import type { LegalDocumentPageProps } from './LegalDocumentPage.types';
 
-export const LegalDocumentPage = ({ documentId, alternatePath }: LegalDocumentPageProps) => {
-  const t = useTranslations('legal');
-  const content = useLegalDocument(documentId);
+import { getLegalDocument } from '../model';
+
+import s from './LegalDocumentPage.module.scss';
+
+export const LegalDocumentPage = async ({
+  documentId,
+  alternatePath,
+  locale
+}: LegalDocumentPageProps) => {
+  const t = await getTranslations({ locale, namespace: 'legal' });
+  const content = await getLegalDocument({ documentId, locale });
 
   const alternateLabel = alternatePath === LEGAL.termsPath ? t('terms') : t('privacy');
 
@@ -31,7 +34,7 @@ export const LegalDocumentPage = ({ documentId, alternatePath }: LegalDocumentPa
 
           <header className={s.header}>
             <h1 className={clsx(s.title, 'gradient-text')}>{content.title}</h1>
-            <Text size="sm" tone="muted">
+            <Text size='sm' tone='muted'>
               {content.updated}
             </Text>
           </header>
@@ -44,7 +47,7 @@ export const LegalDocumentPage = ({ documentId, alternatePath }: LegalDocumentPa
                 <h2 className={s.heading}>{section.heading}</h2>
                 <div className={s.body}>
                   {section.paragraphs.map((paragraph) => (
-                    <Text key={paragraph} className={s.paragraph} size="sm" tone="muted">
+                    <Text key={paragraph} className={s.paragraph} size='sm' tone='muted'>
                       {paragraph}
                     </Text>
                   ))}

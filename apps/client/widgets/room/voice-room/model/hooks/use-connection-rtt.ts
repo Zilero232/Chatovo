@@ -36,7 +36,7 @@ export const useConnectionRtt = (): number | null => {
     };
   }, []);
 
-  const sample = useEffectEvent(async () => {
+  const sample = async () => {
     const publisher = room.engine?.pcManager?.publisher;
 
     if (!publisher) {
@@ -56,11 +56,14 @@ export const useConnectionRtt = (): number | null => {
         setRtt(null);
       }
     }
+  };
+
+  const sampleOnRoomChange = useEffectEvent(() => {
+    void sample();
   });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: resample when the room instance changes
   useEffect(() => {
-    void sample();
+    sampleOnRoomChange();
   }, [room]);
 
   useInterval(() => {

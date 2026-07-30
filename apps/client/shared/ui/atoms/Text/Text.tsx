@@ -1,9 +1,10 @@
+import type { ElementType } from 'react';
+
 import { clsx } from 'clsx';
 
-import { textVariants } from './Text.variants';
-
-import type { ElementType } from 'react';
 import type { TextProps } from './Text.types';
+
+import { textVariants } from './Text.variants';
 
 export const Text = <T extends ElementType = 'p'>({
   as,
@@ -21,7 +22,7 @@ export const Text = <T extends ElementType = 'p'>({
   return (
     <Component
       className={clsx(textVariants({ size, weight, tone, align, truncate }), className)}
-      data-slot="text"
+      data-slot='text'
       {...props}
     >
       {children}

@@ -3,12 +3,14 @@
 import { useLocalStorage, useMount } from '@siberiacancode/reactuse';
 import { useState } from 'react';
 
+import type { Locale } from '@/shared/i18n';
+
 import { STORAGE_KEYS } from '@/shared/constants';
-import { DEFAULT_LOCALE, type Locale, resolveLocale } from '@/shared/i18n';
+import { DEFAULT_LOCALE, resolveLocale } from '@/shared/i18n';
 
 type UseLocale = {
-  locale: Locale;
   isReady: boolean;
+  locale: Locale;
   setLocale: (locale: Locale) => void;
 };
 

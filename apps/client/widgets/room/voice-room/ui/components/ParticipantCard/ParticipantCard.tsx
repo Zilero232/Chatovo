@@ -6,14 +6,21 @@ import { motion, useReducedMotion } from 'motion/react';
 
 import { UserAvatar, UserName } from '@/entities/auth/user';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
+
+import type { ParticipantCardProps } from './ParticipantCard.types';
+
 import { useParticipantMedia } from '../../../model/hooks';
 import { CardVideo } from '../CardVideo';
 import { ParticipantCardMenu } from '../ParticipantCardMenu';
 import { getCardTint } from './lib';
+import {
+  PARTICIPANT_CARD_ANIMATE,
+  PARTICIPANT_CARD_HIDDEN,
+  PARTICIPANT_CARD_REDUCED_HIDDEN,
+  PARTICIPANT_CARD_TRANSITION
+} from './ParticipantCard.motion';
 
 import s from './ParticipantCard.module.scss';
-
-import type { ParticipantCardProps } from './ParticipantCard.types';
 
 export const ParticipantCard = ({ participant, deafened, fill = false }: ParticipantCardProps) => {
   const shouldReduceMotion = useReducedMotion();
@@ -30,20 +37,20 @@ export const ParticipantCard = ({ participant, deafened, fill = false }: Partici
     isLocal,
     hasCamera,
     hasScreen,
-    hasVideo,
+    hasVideo
   } = useParticipantMedia(participant);
 
   return (
     <ParticipantCardMenu participant={participant}>
       <motion.div
         layout
+        animate={PARTICIPANT_CARD_ANIMATE}
         className={clsx(s.root, { [s.rootFill]: fill })}
         data-local={isLocal}
         data-speaking={isSpeaking}
-        initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.92 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.92 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 32 }}
+        exit={shouldReduceMotion ? PARTICIPANT_CARD_REDUCED_HIDDEN : PARTICIPANT_CARD_HIDDEN}
+        initial={shouldReduceMotion ? PARTICIPANT_CARD_REDUCED_HIDDEN : PARTICIPANT_CARD_HIDDEN}
+        transition={PARTICIPANT_CARD_TRANSITION}
       >
         <div className={s.stage}>
           {hasVideo ? (
@@ -58,15 +65,15 @@ export const ParticipantCard = ({ participant, deafened, fill = false }: Partici
                 aria-hidden
                 className={clsx(s.avatarHalo, {
                   [s.avatarHaloSpeaking]: isSpeaking,
-                  [s.avatarHaloLocalSpeaking]: isLocal && isSpeaking,
+                  [s.avatarHaloLocalSpeaking]: isLocal && isSpeaking
                 })}
               />
 
               <UserAvatar
-                name={displayName}
-                src={avatarUrl}
                 className={clsx(s.avatar, { [s.avatarSpeaking]: isSpeaking })}
                 fallbackClassName={s.avatarFallback}
+                name={displayName}
+                src={avatarUrl}
               />
             </div>
           )}
@@ -89,7 +96,7 @@ export const ParticipantCard = ({ participant, deafened, fill = false }: Partici
             identity={participant.identity}
             name={displayName}
           >
-            <UserName name={displayName} verified={verified} className={s.name} />
+            <UserName className={s.name} name={displayName} verified={verified} />
           </ProfileCardTrigger>
         </div>
       </motion.div>

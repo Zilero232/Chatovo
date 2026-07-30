@@ -1,19 +1,19 @@
 import type { ReactNode } from 'react';
 
 export type SelectOption<T extends string> = {
-  value: T;
-  label: string;
   icon?: ReactNode;
   isDisabled?: boolean;
+  label: string;
+  value: T;
 };
 
 export type SelectProps<T extends string> = {
-  value: T | null;
+  'aria-label'?: string;
+  className?: string;
+  isDisabled?: boolean;
+  menuClassName?: string;
   options: SelectOption<T>[];
   placeholder?: string;
-  isDisabled?: boolean;
-  className?: string;
-  menuClassName?: string;
-  'aria-label'?: string;
+  value: T | null;
   onChange: (value: T) => void;
 };

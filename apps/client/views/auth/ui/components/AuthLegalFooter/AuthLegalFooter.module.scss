@@ -2,21 +2,21 @@
 
 .root {
   margin-top: 1.5rem;
-  color: oklch(0.55 0.01 280);
+  color: oklch(55% 0.01 280deg);
 }
 
 .link {
-  color: oklch(0.65 0.01 280);
+  color: oklch(65% 0.01 280deg);
   text-underline-offset: rem(4);
   transition: color 150ms ease;
 
   &:hover {
-    color: oklch(0.85 0.01 280);
+    color: oklch(85% 0.01 280deg);
     text-decoration: underline;
   }
 }
 
 .sep {
+  color: oklch(45% 0.01 280deg);
   margin-inline: 0.5rem;
-  color: oklch(0.45 0.01 280);
 }

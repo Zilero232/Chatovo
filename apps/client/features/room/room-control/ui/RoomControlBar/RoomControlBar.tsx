@@ -9,19 +9,20 @@ import {
   Monitor,
   MonitorOff,
   Video,
-  VideoOff,
+  VideoOff
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { isScreenShareSupported } from '@/shared/lib';
+
+import type { RoomControlDevice } from '../../config/devices';
+import type { ControlDevice } from './components';
+
 import { CAM_DEVICE, MIC_DEVICE, SPEAKER_DEVICE } from '../../config/devices';
 import { useRoomControls } from '../../model/hooks';
 import { ControlButton, ReactionButton } from './components';
 
 import s from './RoomControlBar.module.scss';
-
-import type { RoomControlDevice } from '../../config/devices';
-import type { ControlDevice } from './components';
 
 export const RoomControlBar = () => {
   const t = useTranslations('room.controls');
@@ -31,9 +32,11 @@ export const RoomControlBar = () => {
 
   const micLabel = mic.pttKey ? `${t(mic.labelKey)} · ${mic.pttKey}` : t(mic.labelKey);
 
-  const toDevice = ({ kind, slot, labelKey }: RoomControlDevice): ControlDevice => {
-    return { kind, slot, label: t(labelKey) };
-  };
+  const toDevice = ({ kind, slot, labelKey }: RoomControlDevice): ControlDevice => ({
+    kind,
+    slot,
+    label: t(labelKey)
+  });
 
   return (
     <div className={s.root}>
@@ -81,7 +84,7 @@ export const RoomControlBar = () => {
 
       <span aria-hidden className={s.divider} />
 
-      <ControlButton icon={<LogOut />} label={t('leave')} tone="leave" onClick={leave} />
+      <ControlButton icon={<LogOut />} label={t('leave')} tone='leave' onClick={leave} />
     </div>
   );
 };

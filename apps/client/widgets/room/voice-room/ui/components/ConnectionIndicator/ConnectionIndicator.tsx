@@ -3,7 +3,7 @@
 import {
   useConnectionQualityIndicator,
   useConnectionState,
-  useLocalParticipant,
+  useLocalParticipant
 } from '@livekit/components-react';
 import { clsx } from 'clsx';
 import { ConnectionQuality, ConnectionState } from 'livekit-client';
@@ -20,7 +20,7 @@ const BAR_HEIGHTS = [4, 7, 10, 13, 16] as const;
 const barToneClass = {
   good: s.barGood,
   fair: s.barFair,
-  poor: s.barPoor,
+  poor: s.barPoor
 } as const;
 
 const barsFromRtt = (rtt: number): number => {
@@ -40,14 +40,13 @@ const barsFromRtt = (rtt: number): number => {
   return 1;
 };
 
-const barsFromQuality = (quality: ConnectionQuality): number => {
-  return match(quality)
+const barsFromQuality = (quality: ConnectionQuality): number =>
+  match(quality)
     .with(ConnectionQuality.Excellent, () => 5)
     .with(ConnectionQuality.Good, () => 3)
     .with(ConnectionQuality.Poor, () => 1)
     .with(ConnectionQuality.Lost, () => 0)
     .otherwise(() => 0);
-};
 
 export const ConnectionIndicator = () => {
   const t = useTranslations('room.connection');
@@ -68,11 +67,11 @@ export const ConnectionIndicator = () => {
   const label = hasRtt ? t('ping', { ms: rtt }) : t('measuring');
 
   return (
-    <div aria-label={label} className={s.root} role="img" title={label}>
+    <div aria-label={label} className={s.root} role='img' title={label}>
       <div className={s.bars}>
         {BAR_HEIGHTS.map((height, index) => (
           <span
-            // biome-ignore lint/suspicious/noArrayIndexKey: fixed-length static list
+            // eslint-disable-next-line react/no-array-index-key -- fixed-length static list
             key={index}
             className={clsx(s.bar, index < bars ? barToneClass[tone] : s.barInactive)}
             style={{ height }}

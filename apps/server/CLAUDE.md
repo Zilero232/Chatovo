@@ -23,16 +23,29 @@ Each feature is a folder under `modules/<name>/` laid out the Nest way:
 
 ```
 modules/rooms/
+├── index.ts              # public API — the Module + services others inject. Cross-module imports go through THIS
 ├── rooms.module.ts       # @Module — declares controllers + providers, imports deps, exports the service if others need it
 ├── rooms.controller.ts   # transport only: @Controller, route decorators, @Body/@Param/@Query, calls the service
-├── rooms.service.ts      # @Injectable — business logic. Plain methods, returns data or throws Nest HttpException subclasses
+├── services/
+│   ├── index.ts          # barrel
+│   ├── rooms.service.types.ts # <Fn>Input shapes, next to the services that use them
+│   └── rooms.service.ts  # @Injectable — business logic. Returns data or throws Nest HttpException subclasses
 └── dto/
     └── rooms.dto.ts      # createZodDto(...) classes built from @chatovo/schemas Zod schemas
 ```
 
-Bigger modules keep the same shape with extra segments: `mappers.ts`, `<name>.listener.ts` (event handlers), `handlers/` for a gateway's message handlers, in-memory `*-store.ts`. Match the existing neighbours.
+**Rules that keep this predictable:**
+
+- **`services/` always**, even for a single service — one file per domain of work, never a fat `<name>.service.ts` at module root. `friends/` splits into `friendship` / `dm-room` / `friend-call`; `chat/` into `chat-message` / `chat-attachment`.
+- **`index.ts` is the public API.** Import other modules through their barrel (`from '../realtime'`), never a deep path (`from '../realtime/emit'`). Relative paths are for _inside_ a module only. Controllers and DTOs are not exported.
+- **Two or more parameters → one object**, typed `<Fn>Input` in `<module>.service.types.ts` at module root. Single-arg methods (`listFriends(userId)`) stay positional.
+- **Nothing but the class in a service/controller file.** Constants → `config/<name>.config.ts`. Pure functions → `lib/<fn-name>/` (folder per function: `<fn-name>.ts` + `index.ts` + `<fn-name>.types.ts` when it takes 2+ params).
+- Shared cross-module helpers live in [src/lib/](src/lib/) with the same folder-per-function shape.
+
+Bigger modules keep the same shape with extra segments: `mappers.ts`, `listeners/` (event handlers), `handlers/` for a gateway's message handlers, in-memory `*-store.ts`. Match the existing neighbours.
 
 **Layering rule:**
+
 - **controller** — transport only: validated input in (`@Body() dto`), a service call, a return value out. No Prisma, no business rules. Let the return value serialize; don't hand-build responses.
 - **service** — business logic. Injects `PrismaService` (call models directly: `this.prisma.<model>`), other services, `AppConfigService`, `EventEmitter2`. Takes plain args (no `Request`), returns data or **throws** `ConflictException` / `NotFoundException` / `ForbiddenException` / `BadRequestException` from `@nestjs/common`. Never build error responses — the global `AllExceptionsFilter` turns thrown errors into `{ error: string }`.
 - Reusable guards (`assertRoomExists`, `assertCanManageRoom`, `getUserWithProfileOrThrow`) and Prisma selects (`roomSelect`, `senderSelect`) live in [lib/](src/lib/) — don't re-declare per module. These are plain functions using `basePrisma`, not providers.

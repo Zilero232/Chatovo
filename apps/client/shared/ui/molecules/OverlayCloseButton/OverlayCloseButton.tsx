@@ -3,9 +3,9 @@
 import { XIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Button } from '../../atoms/Button';
-
 import type { OverlayCloseButtonProps } from './OverlayCloseButton.types';
+
+import { Button } from '../../atoms/Button';
 
 export const OverlayCloseButton = ({ className, onClick, ...props }: OverlayCloseButtonProps) => {
   const t = useTranslations('common');
@@ -14,8 +14,8 @@ export const OverlayCloseButton = ({ className, onClick, ...props }: OverlayClos
     <Button
       aria-label={t('close')}
       className={className}
-      size="icon-xs"
-      variant="ghost"
+      size='icon-xs'
+      variant='ghost'
       onClick={onClick}
       {...props}
     >

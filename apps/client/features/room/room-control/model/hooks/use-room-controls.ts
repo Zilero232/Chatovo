@@ -17,6 +17,6 @@ export const useRoomControls = () => {
     camera: useCameraControl(),
     screen: useScreenControl(),
     deafen: { active: isDeafened, toggle: toggleDeafen },
-    leave: () => room.disconnect(),
+    leave: () => room.disconnect()
   };
 };

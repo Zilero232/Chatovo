@@ -17,6 +17,6 @@ export const useCallFriend = () => {
     onSuccess: async () => {
       const outgoing = await getOutgoingFriendCall();
       queryClient.setQueryData(QUERY_KEYS.friendCallOutgoing(), outgoing);
-    },
+    }
   });
 };

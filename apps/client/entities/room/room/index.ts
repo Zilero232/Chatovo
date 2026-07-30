@@ -12,16 +12,16 @@ export {
   useRooms,
   useRoomsPresence,
   useRoomToken,
-  useUpdateRoom,
+  useUpdateRoom
 } from './model/hooks';
 export { LeaveSoundProvider, useLeaveSound } from './model/leave-sound';
 export { DeafenedBadge } from './ui/DeafenedBadge';
-export { MicMutedBadge } from './ui/MicMutedBadge';
-export { OwnerBadge } from './ui/OwnerBadge';
-export { OwnerCrown } from './ui/OwnerCrown';
-export { RoomsListError } from './ui/RoomsListError';
-
 export type { DeafenedBadgeProps } from './ui/DeafenedBadge';
+export { MicMutedBadge } from './ui/MicMutedBadge';
 export type { MicMutedBadgeProps } from './ui/MicMutedBadge';
+export { OwnerBadge } from './ui/OwnerBadge';
+
 export type { OwnerBadgeProps } from './ui/OwnerBadge';
+export { OwnerCrown } from './ui/OwnerCrown';
 export type { OwnerCrownProps } from './ui/OwnerCrown';
+export { RoomsListError } from './ui/RoomsListError';

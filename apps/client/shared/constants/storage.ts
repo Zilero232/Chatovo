@@ -4,5 +4,5 @@ export const STORAGE_KEYS = {
   appSettings: 'chatovo.app-settings',
   locale: 'chatovo.locale',
   landingLocaleRedirected: 'chatovo.landing-locale-redirected',
-  recentRooms: 'chatovo.recent-rooms',
+  recentRooms: 'chatovo.recent-rooms'
 } as const;

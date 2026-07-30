@@ -11,7 +11,7 @@ export {
   incomingFriendCallResponseSchema,
   incomingFriendCallSchema,
   outgoingFriendCallResponseSchema,
-  outgoingFriendCallSchema,
+  outgoingFriendCallSchema
 } from './outputs';
 
 export type {
@@ -25,5 +25,5 @@ export type {
   IncomingFriendCallResponse,
   OutgoingFriendCall,
   OutgoingFriendCallResponse,
-  SendFriendRequestInput,
+  SendFriendRequestInput
 } from './types';

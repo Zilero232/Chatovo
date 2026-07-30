@@ -4,5 +4,5 @@ export {
   notifyRoomDeleted,
   notifyUserSignup,
   notifyVoiceEmpty,
-  notifyVoiceJoin,
-} from './telegram.service';
+  notifyVoiceJoin
+} from './telegram.notifications';

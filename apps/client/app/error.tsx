@@ -1,6 +1,7 @@
 'use client';
 
 import { ErrorPage } from '@/views/error';
+
 import { AppProviders } from './providers/index';
 
 type ErrorProps = {

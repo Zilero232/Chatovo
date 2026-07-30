@@ -21,7 +21,7 @@ const GlobalError = ({ reset }: GlobalErrorProps) => (
           justifyContent: 'center',
           minHeight: '100vh',
           padding: '1.5rem',
-          textAlign: 'center',
+          textAlign: 'center'
         }}
       >
         <h1 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 600 }}>Что-то пошло не так</h1>
@@ -36,9 +36,9 @@ const GlobalError = ({ reset }: GlobalErrorProps) => (
             border: '1px solid rgb(255 255 255 / 15%)',
             borderRadius: '0.5rem',
             color: 'inherit',
-            background: 'rgb(255 255 255 / 8%)',
+            background: 'rgb(255 255 255 / 8%)'
           }}
-          type="button"
+          type='button'
           onClick={reset}
         >
           Обновить

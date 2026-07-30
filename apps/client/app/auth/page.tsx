@@ -7,7 +7,7 @@ export const metadata = createPageMetadata({
   description:
     'Sign in to Chatovo with email to create and join private voice and video rooms in one click.',
   path: ROUTES.auth,
-  index: false,
+  index: false
 });
 
 const Page = () => <AuthPage />;

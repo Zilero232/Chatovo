@@ -131,13 +131,13 @@ Frontend follows **[Feature-Sliced Design](docs/fsd.md)** — the `pages/` layer
 
 ## Tech stack
 
-| Layer | Stack |
-|:--|:--|
-| **Client** | React 19 · SCSS modules · Base UI · Motion · TanStack Query · React Hook Form · Zod |
-| **Native** | Tauri 2 · Rust · deep-link · updater · global-shortcut |
-| **Server** | NestJS on Bun · Prisma · better-auth · React Email |
-| **Shared** | `@chatovo/schemas` — Zod types for client & server |
-| **Tooling** | Biome · Stylelint · TypeScript · React Compiler · Bun workspaces |
+| Layer       | Stack                                                                               |
+| :---------- | :---------------------------------------------------------------------------------- |
+| **Client**  | React 19 · SCSS modules · Base UI · Motion · TanStack Query · React Hook Form · Zod |
+| **Native**  | Tauri 2 · Rust · deep-link · updater · global-shortcut                              |
+| **Server**  | NestJS on Bun · Prisma · better-auth · React Email                                  |
+| **Shared**  | `@chatovo/schemas` — Zod types for client & server                                  |
+| **Tooling** | Biome · Stylelint · TypeScript · React Compiler · Bun workspaces                    |
 
 <br/>
 
@@ -162,11 +162,11 @@ chatovo/
 
 ### 1 · Prerequisites
 
-| Tool | Required for |
-|:--|:--|
-| [Bun](https://bun.sh) ≥ 1.1 | Everything |
-| Docker + Compose | Local LiveKit / Postgres |
-| Rust + SDKs | Tauri builds only → [docs](https://v2.tauri.app/start/prerequisites/) |
+| Tool                        | Required for                                                          |
+| :-------------------------- | :-------------------------------------------------------------------- |
+| [Bun](https://bun.sh) ≥ 1.1 | Everything                                                            |
+| Docker + Compose            | Local LiveKit / Postgres                                              |
+| Rust + SDKs                 | Tauri builds only → [docs](https://v2.tauri.app/start/prerequisites/) |
 
 ### 2 · Clone & install
 
@@ -183,14 +183,14 @@ cp apps/server/.env.example apps/server/.env
 cp apps/client/.env.example apps/client/.env
 ```
 
-| Variable | Purpose |
-|:--|:--|
-| `BETTER_AUTH_SECRET` | Auth signing |
+| Variable                      | Purpose                                            |
+| :---------------------------- | :------------------------------------------------- |
+| `BETTER_AUTH_SECRET`          | Auth signing                                       |
 | `DATABASE_URL` / `DIRECT_URL` | Postgres (**`DIRECT_URL` is required** for Prisma) |
-| `LIVEKIT_*` | SFU credentials (server) |
-| `NEXT_PUBLIC_API_URL` | Client → API |
-| `NEXT_PUBLIC_LIVEKIT_URL` | Client → media |
-| `CORS_ORIGINS` | Allowed web origins |
+| `LIVEKIT_*`                   | SFU credentials (server)                           |
+| `NEXT_PUBLIC_API_URL`         | Client → API                                       |
+| `NEXT_PUBLIC_LIVEKIT_URL`     | Client → media                                     |
+| `CORS_ORIGINS`                | Allowed web origins                                |
 
 ### 4 · Database
 
@@ -221,9 +221,9 @@ bun dev            # terminal 2
 ```bash
 bun tauri:dev                 # desktop dev
 bun tauri:build               # desktop release
-bun tauri:android:init        # first-time Android setup
-bun tauri:android:dev         # Android on device / emulator
-bun tauri:android:build       # AAB / APK
+bun android:init        # first-time Android setup
+bun android:dev         # Android on device / emulator
+bun android:build       # AAB / APK
 bun tauri:icon                # icons from apps/client/app/icon.svg
 ```
 
@@ -242,10 +242,10 @@ bun build
 
 ## Deployment
 
-| Target | Trigger |
-|:--|:--|
-| **Web + API** | Push to `master` → CI deploys Docker images (GHCR) |
-| **Desktop + APK** | Bump root `package.json` version → GitHub Release |
+| Target            | Trigger                                            |
+| :---------------- | :------------------------------------------------- |
+| **Web + API**     | Push to `master` → CI deploys Docker images (GHCR) |
+| **Desktop + APK** | Bump root `package.json` version → GitHub Release  |
 
 On the VPS:
 
@@ -257,14 +257,14 @@ docker compose pull && docker compose up -d
 
 ## Roadmap
 
-| | Item |
-|:--:|:--|
-| ✅ | Voice & video rooms |
-| ✅ | In-room text chat |
-| ✅ | Web · desktop · Android |
-| ✅ | Tray · shortcuts · PTT · screen share · auto-update |
-| ⬜ | iOS client |
-| ⬜ | Play Store listing |
+|     | Item                                                |
+| :-: | :-------------------------------------------------- |
+| ✅  | Voice & video rooms                                 |
+| ✅  | In-room text chat                                   |
+| ✅  | Web · desktop · Android                             |
+| ✅  | Tray · shortcuts · PTT · screen share · auto-update |
+| ⬜  | iOS client                                          |
+| ⬜  | Play Store listing                                  |
 
 <br/>
 

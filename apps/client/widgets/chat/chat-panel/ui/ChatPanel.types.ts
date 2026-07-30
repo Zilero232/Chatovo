@@ -1,5 +1,5 @@
 export type ChatPanelProps = {
-  roomId: string;
   isOpen: boolean;
+  roomId: string;
   onClose: () => void;
 };

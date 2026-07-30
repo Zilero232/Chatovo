@@ -3,9 +3,9 @@
 import { Separator as BaseSeparator } from '@base-ui-components/react/separator';
 import { clsx } from 'clsx';
 
-import s from './Separator.module.scss';
-
 import type { SeparatorProps } from './Separator.types';
+
+import s from './Separator.module.scss';
 
 const Separator = ({
   className,
@@ -15,7 +15,7 @@ const Separator = ({
 }: SeparatorProps) => (
   <BaseSeparator
     className={clsx(s.root, className)}
-    data-slot="separator"
+    data-slot='separator'
     orientation={orientation}
     {...props}
   />

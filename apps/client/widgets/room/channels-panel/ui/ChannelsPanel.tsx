@@ -4,11 +4,12 @@ import { clsx } from 'clsx';
 import { usePathname } from 'next/navigation';
 
 import { ROUTES } from '@/shared/constants';
+
+import type { ChannelsPanelProps } from './ChannelsPanel.types';
+
 import { ChannelsFooter, ChannelsHeader, ChannelsList, ChannelsLobbyBanner } from './components';
 
 import s from './ChannelsPanel.module.scss';
-
-import type { ChannelsPanelProps } from './ChannelsPanel.types';
 
 export const ChannelsPanel = ({ variant = 'desktop', onNavigate }: ChannelsPanelProps = {}) => {
   const isLobby = usePathname() === ROUTES.lobby;
@@ -18,7 +19,7 @@ export const ChannelsPanel = ({ variant = 'desktop', onNavigate }: ChannelsPanel
       className={clsx(
         s.root,
         variant === 'desktop' ? s.desktop : s.drawer,
-        variant === 'desktop' && 'surface-bar',
+        variant === 'desktop' && 'surface-bar'
       )}
       data-variant={variant}
     >

@@ -1,18 +1,20 @@
 'use client';
 
-import { useEffectEvent, useRef } from 'react';
+import type { DisconnectReason } from 'livekit-client';
+
+import { useRef } from 'react';
 
 import { getPublishDefaults, useAppSettings } from '@/entities/app/settings';
 import { useRecentRooms } from '@/entities/room/room';
-import { FAILURE_REASONS } from '../../../config';
 
-import type { DisconnectReason } from 'livekit-client';
 import type { UseRoomConnectionInput } from './use-room-connection.types';
+
+import { FAILURE_REASONS } from '../../../config';
 
 export const useRoomConnection = ({
   roomId,
   onConnectFailure,
-  onLeave,
+  onLeave
 }: UseRoomConnectionInput) => {
   const { settings } = useAppSettings();
   const { push: pushRecent } = useRecentRooms();
@@ -21,15 +23,15 @@ export const useRoomConnection = ({
 
   const audioCaptureRef = useRef(settings.audio);
   const publishDefaultsRef = useRef(
-    getPublishDefaults(settings.video.cameraQuality, settings.video.screenQuality),
+    getPublishDefaults(settings.video.cameraQuality, settings.video.screenQuality)
   );
 
-  const handleConnected = useEffectEvent(() => {
+  const handleConnected = () => {
     hasConnectedRef.current = true;
     pushRecent(roomId);
-  });
+  };
 
-  const handleDisconnected = useEffectEvent((reason?: DisconnectReason) => {
+  const handleDisconnected = (reason?: DisconnectReason) => {
     const hasConnected = hasConnectedRef.current;
 
     hasConnectedRef.current = false;
@@ -43,12 +45,12 @@ export const useRoomConnection = ({
     if (reason !== undefined && FAILURE_REASONS.has(reason)) {
       onConnectFailure(reason);
     }
-  });
+  };
 
   return {
     audioCapture: audioCaptureRef.current,
     publishDefaults: publishDefaultsRef.current,
     handleConnected,
-    handleDisconnected,
+    handleDisconnected
   };
 };

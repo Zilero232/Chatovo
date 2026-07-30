@@ -4,11 +4,6 @@ import { Popover as BasePopover } from '@base-ui-components/react/popover';
 import { clsx } from 'clsx';
 import { isNullish } from 'remeda';
 
-import { Button } from '../Button';
-import { Text } from '../Text';
-
-import s from './Popover.module.scss';
-
 import type {
   PopoverAnchorProps,
   PopoverContentProps,
@@ -16,8 +11,13 @@ import type {
   PopoverHeaderProps,
   PopoverProps,
   PopoverTitleProps,
-  PopoverTriggerProps,
+  PopoverTriggerProps
 } from './Popover.types';
+
+import { Button } from '../Button';
+import { Text } from '../Text';
+
+import s from './Popover.module.scss';
 
 const Popover = ({ open, defaultOpen, onOpenChange, children, ...props }: PopoverProps) => (
   <BasePopover.Root defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange} {...props}>
@@ -27,7 +27,7 @@ const Popover = ({ open, defaultOpen, onOpenChange, children, ...props }: Popove
 
 const PopoverTrigger = ({ className, children, ...props }: PopoverTriggerProps) => (
   <BasePopover.Trigger
-    data-slot="popover-trigger"
+    data-slot='popover-trigger'
     render={<Button className={className} {...props} />}
   >
     {children}
@@ -41,7 +41,7 @@ const PopoverPopup = ({
   sideOffset = 4,
   triggerRef,
   initialFocus,
-  children,
+  children
 }: PopoverContentProps) => (
   <BasePopover.Portal>
     <BasePopover.Positioner
@@ -53,7 +53,7 @@ const PopoverPopup = ({
     >
       <BasePopover.Popup
         className={clsx('glass-overlay', s.popup, className)}
-        data-slot="popover-content"
+        data-slot='popover-content'
         initialFocus={initialFocus}
       >
         {children}
@@ -75,19 +75,19 @@ const PopoverContent = ({ isOpen, onOpenChange, ...props }: PopoverContentProps)
 };
 
 const PopoverAnchor = ({ className, ...props }: PopoverAnchorProps) => (
-  <div className={clsx(s.anchor, className)} data-slot="popover-anchor" {...props} />
+  <div className={clsx(s.anchor, className)} data-slot='popover-anchor' {...props} />
 );
 
 const PopoverHeader = ({ className, ...props }: PopoverHeaderProps) => (
-  <div className={clsx(s.header, className)} data-slot="popover-header" {...props} />
+  <div className={clsx(s.header, className)} data-slot='popover-header' {...props} />
 );
 
 const PopoverTitle = ({ className, ...props }: PopoverTitleProps) => (
-  <div className={clsx(s.title, className)} data-slot="popover-title" {...props} />
+  <div className={clsx(s.title, className)} data-slot='popover-title' {...props} />
 );
 
 const PopoverDescription = ({ className, ...props }: PopoverDescriptionProps) => (
-  <Text className={className} data-slot="popover-description" tone="muted" {...props} />
+  <Text className={className} data-slot='popover-description' tone='muted' {...props} />
 );
 
 export {
@@ -97,5 +97,5 @@ export {
   PopoverDescription,
   PopoverHeader,
   PopoverTitle,
-  PopoverTrigger,
+  PopoverTrigger
 };

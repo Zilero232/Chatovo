@@ -1,12 +1,13 @@
+import type { ServiceAccount } from 'firebase-admin/app';
+import type { Message, Messaging, SendResponse } from 'firebase-admin/messaging';
+
 import { Logger } from '@nestjs/common';
 import { cert, getApps, initializeApp } from 'firebase-admin/app';
 import { getMessaging } from 'firebase-admin/messaging';
 
-import { env } from '../../core';
+import type { PushTokensPayload } from './push.types';
 
-import type { ServiceAccount } from 'firebase-admin/app';
-import type { Message, Messaging, SendResponse } from 'firebase-admin/messaging';
-import type { PushTokensPayload } from './types';
+import { env } from '../../core';
 
 const logger = new Logger('FirebaseClient');
 
@@ -44,8 +45,8 @@ const getMessagingClient = (): Messaging | null => {
   return messaging;
 };
 
-const pickInvalidTokens = (tokens: string[], responses: SendResponse[]): string[] => {
-  return tokens.filter((_, index) => {
+const pickInvalidTokens = (tokens: string[], responses: SendResponse[]): string[] =>
+  tokens.filter((_, index) => {
     const code = responses[index]?.error?.code;
 
     return (
@@ -53,13 +54,12 @@ const pickInvalidTokens = (tokens: string[], responses: SendResponse[]): string[
       code === 'messaging/registration-token-not-registered'
     );
   });
-};
 
 export const sendPushToTokens = async ({
   tokens,
   notification,
   data,
-  channelId,
+  channelId
 }: PushTokensPayload): Promise<string[]> => {
   const client = getMessagingClient();
 
@@ -67,18 +67,16 @@ export const sendPushToTokens = async ({
     return [];
   }
 
-  const messages: Message[] = tokens.map((token) => {
-    return {
-      token,
-      notification,
-      data,
-      android: {
-        priority: 'high',
-        notification: { channelId },
-      },
-      apns: { payload: { aps: { sound: 'default' } } },
-    };
-  });
+  const messages: Message[] = tokens.map((token) => ({
+    token,
+    notification,
+    data,
+    android: {
+      priority: 'high',
+      notification: { channelId }
+    },
+    apns: { payload: { aps: { sound: 'default' } } }
+  }));
 
   try {
     const result = await client.sendEach(messages);

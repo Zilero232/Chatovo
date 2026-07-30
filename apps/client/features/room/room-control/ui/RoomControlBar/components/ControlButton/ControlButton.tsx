@@ -4,16 +4,24 @@ import { clsx } from 'clsx';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 
 import { Spinner, Tooltip, TooltipContent } from '@/shared/ui';
+
+import type { ControlButtonProps } from './ControlButton.types';
+
 import { DeviceMenu } from '../DeviceMenu';
 import {
   controlButtonToneClass,
   controlMainToneClass,
-  controlShellToneClass,
+  controlShellToneClass
 } from './control-button-tones';
+import {
+  CONTROL_ICON_ANIMATE,
+  CONTROL_ICON_EXIT,
+  CONTROL_ICON_INITIAL,
+  CONTROL_ICON_REDUCED,
+  CONTROL_ICON_TRANSITION
+} from './ControlButton.motion';
 
 import s from './ControlButton.module.scss';
-
-import type { ControlButtonProps } from './ControlButton.types';
 
 export const ControlButton = ({
   icon,
@@ -23,19 +31,19 @@ export const ControlButton = ({
   disabled,
   isPending,
   device,
-  onClick,
+  onClick
 }: ControlButtonProps) => {
   const shouldReduceMotion = useReducedMotion();
 
   const animatedIcon = (
-    <AnimatePresence initial={false} mode="popLayout">
+    <AnimatePresence initial={false} mode='popLayout'>
       <motion.span
         key={isPending ? 'pending' : String(pressed)}
+        animate={CONTROL_ICON_ANIMATE}
         className={s.iconSlot}
-        initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.4, rotate: -20 }}
-        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-        exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.4, rotate: 20 }}
-        transition={{ type: 'spring', stiffness: 500, damping: 26 }}
+        exit={shouldReduceMotion ? CONTROL_ICON_REDUCED : CONTROL_ICON_EXIT}
+        initial={shouldReduceMotion ? CONTROL_ICON_REDUCED : CONTROL_ICON_INITIAL}
+        transition={CONTROL_ICON_TRANSITION}
       >
         {isPending ? <Spinner decorative /> : icon}
       </motion.span>
@@ -51,7 +59,7 @@ export const ControlButton = ({
           aria-pressed={pressed}
           className={clsx(s.controlButton, controlButtonToneClass[tone])}
           disabled={isDisabled}
-          type="button"
+          type='button'
           onClick={onClick}
         >
           {animatedIcon}
@@ -69,7 +77,7 @@ export const ControlButton = ({
           aria-pressed={pressed}
           className={clsx(s.controlMain, controlMainToneClass[tone])}
           disabled={isDisabled}
-          type="button"
+          type='button'
           onClick={onClick}
         >
           {animatedIcon}

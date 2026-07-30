@@ -1,7 +1,7 @@
-import { createParamDecorator } from '@nestjs/common';
-
 import type { ExecutionContext } from '@nestjs/common';
 import type { UserSession } from '@thallesp/nestjs-better-auth';
+
+import { createParamDecorator } from '@nestjs/common';
 
 export const CurrentUser = createParamDecorator((_data: unknown, ctx: ExecutionContext): string => {
   const request = ctx.switchToHttp().getRequest<{ session?: UserSession }>();
@@ -10,7 +10,6 @@ export const CurrentUser = createParamDecorator((_data: unknown, ctx: ExecutionC
 });
 
 export const CurrentSession = createParamDecorator(
-  (_data: unknown, ctx: ExecutionContext): UserSession => {
-    return ctx.switchToHttp().getRequest<{ session: UserSession }>().session;
-  },
+  (_data: unknown, ctx: ExecutionContext): UserSession =>
+    ctx.switchToHttp().getRequest<{ session: UserSession }>().session
 );

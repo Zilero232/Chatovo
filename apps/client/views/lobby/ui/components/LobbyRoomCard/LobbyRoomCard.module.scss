@@ -2,30 +2,29 @@
 
 .root {
   position: relative;
-  overflow: hidden;
   display: flex;
-  flex-direction: column;
+  overflow: hidden;
   height: 100%;
   min-height: rem(148);
+  flex-direction: column;
   border-color: rgb(255 255 255 / 10%);
   border-radius: 1rem;
   transition: all 300ms ease;
 
   &:hover {
+    box-shadow: 0 rem(16) rem(40) rem(-20) oklch(70% 0.2 270deg / 55%);
     transform: translateY(rem(-2));
-    box-shadow: 0 rem(16) rem(40) rem(-20) oklch(0.7 0.2 270 / 0.55);
   }
 
   &[data-live='true'] {
     border-color: color-mix(in oklch, var(--brand-cyan) 35%, transparent);
     box-shadow:
-      0 0 0 1px oklch(0.82 0.16 200 / 0.2),
-      0 rem(12) rem(36) rem(-16) oklch(0.82 0.16 200 / 0.45);
+      0 0 0 1px oklch(82% 0.16 200deg / 20%),
+      0 rem(12) rem(36) rem(-16) oklch(82% 0.16 200deg / 45%);
   }
 }
 
 .liveGlow {
-  pointer-events: none;
   position: absolute;
   right: -2rem;
   bottom: -2.5rem;
@@ -34,6 +33,7 @@
   border-radius: 50%;
   background: color-mix(in oklch, var(--brand-cyan) 20%, transparent);
   filter: blur(rem(32));
+  pointer-events: none;
   transition: opacity 150ms ease;
 
   .root:hover & {
@@ -42,18 +42,18 @@
 }
 
 .liveAccent {
-  pointer-events: none;
   position: absolute;
-  inset-inline: 0;
   top: 0;
   height: rem(2);
-  opacity: 0;
   background: linear-gradient(
     90deg,
     color-mix(in oklch, var(--brand-cyan) 0%, transparent),
     color-mix(in oklch, var(--brand-cyan) 80%, transparent),
     color-mix(in oklch, var(--brand-violet) 0%, transparent)
   );
+  inset-inline: 0;
+  opacity: 0;
+  pointer-events: none;
   transition: opacity 150ms ease;
 
   .root:hover & {
@@ -66,39 +66,39 @@
 }
 
 .watermark {
-  pointer-events: none;
   position: absolute;
   right: 0.75rem;
   bottom: 0.5rem;
   width: 4rem;
   height: 4rem;
   color: color-mix(in oklch, var(--brand-violet) 8%, transparent);
+  pointer-events: none;
   transition:
     transform 300ms ease,
     color 300ms ease;
 
   .root:hover & {
-    transform: scale(1.1);
     color: color-mix(in oklch, var(--brand-violet) 12%, transparent);
+    transform: scale(1.1);
   }
 }
 
 .enter {
-  cursor: pointer;
   position: relative;
   display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 0.75rem;
   width: 100%;
   min-height: 0;
+  flex: 1;
+  flex-direction: column;
   padding: 1rem;
   padding-right: 2.75rem;
   border: none;
   border-radius: 1rem;
-  text-align: left;
   background: transparent;
+  cursor: pointer;
+  gap: 0.75rem;
   outline: none;
+  text-align: left;
 
   &:focus-visible {
     box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--brand-violet) 40%, transparent);
@@ -107,29 +107,29 @@
 
 .header {
   display: flex;
-  gap: 0.5rem;
   align-items: flex-start;
   justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .headerBadges {
   display: flex;
   flex-shrink: 0;
-  gap: 0.375rem;
   align-items: center;
+  gap: 0.375rem;
 }
 
 .name {
-  overflow: hidden;
   display: flex;
-  gap: 0.375rem;
-  align-items: center;
+  overflow: hidden;
   min-width: 0;
+  align-items: center;
   font-size: rem(15);
   font-weight: 600;
+  gap: 0.375rem;
   text-overflow: ellipsis;
-  white-space: nowrap;
   transition: color 150ms ease;
+  white-space: nowrap;
 
   .root:hover & {
     color: var(--foreground);
@@ -137,9 +137,9 @@
 }
 
 .privateIcon {
-  flex-shrink: 0;
   width: 0.875rem;
   height: 0.875rem;
+  flex-shrink: 0;
   color: var(--muted-foreground);
 }
 
@@ -147,22 +147,22 @@
   width: 0.375rem;
   height: 0.375rem;
   border-radius: 9999px;
-  background: var(--primary);
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background: var(--primary);
 }
 
 .body {
   display: flex;
-  gap: 0.5rem;
-  align-items: center;
   min-height: 1.75rem;
+  align-items: center;
   margin-top: auto;
+  gap: 0.5rem;
 }
 
 .participants {
   display: flex;
-  gap: 0.625rem;
   align-items: center;
+  gap: 0.625rem;
 }
 
 .avatars {
@@ -185,16 +185,16 @@
 }
 
 .countLabel {
-  font-size: 0.75rem;
   color: var(--muted-foreground);
+  font-size: 0.75rem;
 }
 
 .emptySlots {
   display: flex;
-  gap: 0.5rem;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  gap: 0.5rem;
 }
 
 .emptyAvatars {
@@ -224,15 +224,15 @@
   padding: 0.25rem 0.625rem;
   border: 1px solid rgb(255 255 255 / 10%);
   border-radius: 9999px;
-  font-size: rem(11);
-  color: var(--muted-foreground);
   background: rgb(255 255 255 / 5%);
+  color: var(--muted-foreground);
+  font-size: rem(11);
   transition: colors 150ms ease;
 
   .root:hover & {
     border-color: color-mix(in oklch, var(--brand-cyan) 25%, transparent);
-    color: var(--brand-cyan);
     background: color-mix(in oklch, var(--brand-cyan) 10%, transparent);
+    color: var(--brand-cyan);
   }
 }
 
@@ -240,22 +240,22 @@
   position: absolute;
   top: 0.625rem;
   right: 0.625rem;
-  visibility: hidden;
   opacity: 0;
   transition:
     opacity 150ms ease,
     visibility 150ms ease;
+  visibility: hidden;
 
   .root:hover &,
   &:focus-within,
   &:has([aria-expanded='true']) {
-    visibility: visible;
     opacity: 1;
+    visibility: visible;
   }
 
   @include coarse-pointer {
-    visibility: visible;
     opacity: 1;
+    visibility: visible;
   }
 }
 

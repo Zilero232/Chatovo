@@ -6,9 +6,9 @@ import { useRef } from 'react';
 
 import { Text } from '@/shared/ui';
 
-import s from '../../LandingPage.module.scss';
-
 import type { LandingHeroStatProps } from './LandingHeroStat.types';
+
+import s from '../../LandingPage.module.scss';
 
 export const LandingHeroStat = ({ count, fallback, suffix, label }: LandingHeroStatProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -19,11 +19,11 @@ export const LandingHeroStat = ({ count, fallback, suffix, label }: LandingHeroS
 
   return (
     <div ref={ref} className={s.heroStat}>
-      <Text as="dt" className={s.heroStatValue} weight="bold">
+      <Text as='dt' className={s.heroStatValue} weight='bold'>
         {isAnimated ? <NumberFlow suffix={suffix} value={isInView ? count : 0} /> : fallback}
       </Text>
 
-      <Text as="dd" className={s.heroStatLabel} size="sm" tone="muted">
+      <Text as='dd' className={s.heroStatLabel} size='sm' tone='muted'>
         {label}
       </Text>
     </div>

@@ -2,40 +2,40 @@
 
 .root {
   position: relative;
-  overflow: hidden;
   display: flex;
+  overflow: hidden;
+  min-height: 100%;
   flex: 1;
   flex-direction: column;
-  gap: rem(28);
   align-items: center;
   justify-content: center;
-  min-height: 100%;
   padding: rem(24);
+  gap: rem(28);
   text-align: center;
 }
 
 .orb {
-  pointer-events: none;
   position: absolute;
   z-index: 0;
   width: rem(420);
   height: rem(420);
   border-radius: 9999px;
-  opacity: 0.5;
   filter: blur(rem(90));
+  opacity: 0.5;
+  pointer-events: none;
 
   &[data-tone='violet'] {
     top: 12%;
     left: 8%;
-    background: var(--brand-violet);
     animation: error-drift 14s ease-in-out infinite;
+    background: var(--brand-violet);
   }
 
   &[data-tone='cyan'] {
     right: 6%;
     bottom: 10%;
-    background: var(--brand-cyan);
     animation: error-drift 18s ease-in-out infinite reverse;
+    background: var(--brand-cyan);
   }
 }
 
@@ -43,13 +43,13 @@
   position: relative;
   z-index: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: rem(88);
   height: rem(88);
+  align-items: center;
+  justify-content: center;
   border-radius: rem(28);
-  color: var(--destructive);
   animation: error-float 5s ease-in-out infinite;
+  color: var(--destructive);
 }
 
 .logo {
@@ -61,9 +61,9 @@
   position: relative;
   z-index: 1;
   margin: 0;
+  color: var(--foreground);
   font-size: clamp(rem(20), 4vw, rem(28));
   font-weight: 600;
-  color: var(--foreground);
 }
 
 .description {
@@ -80,9 +80,9 @@
   z-index: 1;
   display: flex;
   flex-wrap: wrap;
-  gap: rem(12);
   align-items: center;
   justify-content: center;
+  gap: rem(12);
 }
 
 @keyframes error-float {

@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 
 import { useErrorMessage } from '@/entities/app/locale';
@@ -29,18 +29,18 @@ export const DeleteRoomDialog = ({ room, open, onOpenChange }: DeleteRoomDialogP
           router.replace(ROUTES.lobby);
         }
       },
-      onError: (err: Error) => toast.error(errorMessage(err)),
+      onError: (err: Error) => toast.error(errorMessage(err))
     });
   };
 
   return (
     <ConfirmDialog
-      open={open}
-      title={t('title', { name: room.name })}
-      description={t('description')}
       cancelLabel={t('cancel')}
       confirmLabel={t('confirm')}
+      description={t('description')}
       isPending={deleteMutation.isPending}
+      open={open}
+      title={t('title', { name: room.name })}
       onConfirm={onConfirm}
       onOpenChange={onOpenChange}
     />

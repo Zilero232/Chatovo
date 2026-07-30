@@ -5,12 +5,12 @@ import { target, useEventListener } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
+import type { ChatPanelProps } from './ChatPanel.types';
+
 import { ChatConversation } from './ChatConversation';
 import { ChatHeader } from './components';
 
 import s from './ChatPanel.module.scss';
-
-import type { ChatPanelProps } from './ChatPanel.types';
 
 export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
   const t = useTranslations('chat');
@@ -42,16 +42,16 @@ export const ChatPanel = ({ roomId, isOpen, onClose }: ChatPanelProps) => {
         className={s.scrim}
         data-open={isOpen}
         tabIndex={isOpen ? 0 : -1}
-        type="button"
+        type='button'
         onClick={onClose}
       />
 
       <aside className={clsx('glass-strong', 'pb-safe', s.root)} data-open={isOpen} inert={!isOpen}>
         <ChatHeader onClose={onClose} />
         <ChatConversation
-          roomId={roomId}
           currentUserId={localParticipant.identity}
           enabled={isOpen}
+          roomId={roomId}
         />
       </aside>
     </>

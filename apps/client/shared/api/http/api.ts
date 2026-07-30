@@ -1,11 +1,12 @@
 import axios from 'axios';
 
 import { env } from '@/shared/config';
+
 import { getAuthToken } from '../auth';
 import { toApiError } from './api-error';
 
 export const api = axios.create({
-  baseURL: env.NEXT_PUBLIC_API_URL,
+  baseURL: env.NEXT_PUBLIC_API_URL
 });
 
 api.interceptors.request.use((config) => {

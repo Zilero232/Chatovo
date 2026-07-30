@@ -37,9 +37,7 @@ export const useFriendChatUnread = ({ openRoomId }: UseFriendChatUnreadInput) =>
     });
   };
 
-  const getFriendUnread = (friendId: string) => {
-    return unreadByFriend[friendId] ?? 0;
-  };
+  const getFriendUnread = (friendId: string) => unreadByFriend[friendId] ?? 0;
 
   appEvents.on.chatMessage(({ roomId, senderId, roomKind }) => {
     if (
@@ -54,7 +52,7 @@ export const useFriendChatUnread = ({ openRoomId }: UseFriendChatUnreadInput) =>
 
     setUnreadByFriend((prev) => ({
       ...prev,
-      [senderId]: (prev[senderId] ?? 0) + 1,
+      [senderId]: (prev[senderId] ?? 0) + 1
     }));
 
     if (!settings.sounds.enabled.message) {

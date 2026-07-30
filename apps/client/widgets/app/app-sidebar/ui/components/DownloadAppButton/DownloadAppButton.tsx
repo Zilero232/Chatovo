@@ -16,13 +16,13 @@ export const DownloadAppButton = () => {
       <Tooltip>
         <Button
           aria-label={t('downloadAppLabel')}
-          size="icon"
-          variant="ghost"
+          size='icon'
+          variant='ghost'
           onClick={() => toggle(true)}
         >
           <Download />
         </Button>
-        <TooltipContent side="right">{t('downloadApp')}</TooltipContent>
+        <TooltipContent side='right'>{t('downloadApp')}</TooltipContent>
       </Tooltip>
 
       <DownloadAppDialog open={isOpen} onOpenChange={toggle} />

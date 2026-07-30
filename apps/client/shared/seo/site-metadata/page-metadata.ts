@@ -1,6 +1,7 @@
+import type { Metadata } from 'next';
+
 import { SITE } from '@/shared/config';
 
-import type { Metadata } from 'next';
 import type { PageMetadataInput } from './page-metadata.types';
 
 export const createPageMetadata = ({
@@ -8,7 +9,7 @@ export const createPageMetadata = ({
   description,
   path,
   index = true,
-  follow = true,
+  follow = true
 }: PageMetadataInput): Metadata => {
   const ogTitle = `${title} · ${SITE.name}`;
 
@@ -21,11 +22,11 @@ export const createPageMetadata = ({
       title: ogTitle,
       description,
       url: path,
-      type: 'website',
+      type: 'website'
     },
     twitter: {
       title: ogTitle,
-      description,
-    },
+      description
+    }
   };
 };

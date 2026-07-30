@@ -1,4 +1,5 @@
 import type { ComponentProps, ElementType, ReactNode } from 'react';
+
 import type { StackVariantProps } from './Stack.variants';
 
 export type StackGap = NonNullable<StackVariantProps['gap']>;

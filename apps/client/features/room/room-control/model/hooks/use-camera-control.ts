@@ -3,6 +3,7 @@
 import { useLocalParticipant } from '@livekit/components-react';
 
 import { getCameraCaptureOptions, useAppSettings } from '@/entities/app/settings';
+
 import { isOverconstrained } from '../../lib/media-errors';
 import { useParticipantAction } from './use-participant-action';
 
@@ -20,7 +21,7 @@ export const useCameraControl = () => {
     try {
       await participant.setCameraEnabled(
         true,
-        getCameraCaptureOptions(settings.video.cameraQuality),
+        getCameraCaptureOptions(settings.video.cameraQuality)
       );
     } catch (err) {
       if (!isOverconstrained(err)) {

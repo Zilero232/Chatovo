@@ -20,6 +20,6 @@ export const useEnterRoom = () => {
       queryClient.setQueryData(QUERY_KEYS.livekitToken(roomId), response);
 
       router.push(buildRoomHref(roomId));
-    },
+    }
   });
 };

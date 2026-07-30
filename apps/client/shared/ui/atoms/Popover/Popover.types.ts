@@ -1,5 +1,6 @@
 import type { Popover } from '@base-ui-components/react/popover';
 import type { ComponentProps, ReactNode, RefObject } from 'react';
+
 import type { ButtonProps } from '../Button';
 
 export type PopoverProps = Omit<ComponentProps<typeof Popover.Root>, 'children' | 'open'> & {
@@ -11,14 +12,14 @@ export type PopoverTriggerProps = ButtonProps;
 
 export type PopoverContentProps = {
   align?: ComponentProps<typeof Popover.Positioner>['align'];
+  children?: ReactNode;
+  className?: string;
+  initialFocus?: ComponentProps<typeof Popover.Popup>['initialFocus'];
+  isOpen?: boolean;
   side?: ComponentProps<typeof Popover.Positioner>['side'];
   sideOffset?: number;
-  className?: string;
-  isOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
   triggerRef?: RefObject<HTMLElement | null>;
-  initialFocus?: ComponentProps<typeof Popover.Popup>['initialFocus'];
-  children?: ReactNode;
+  onOpenChange?: (open: boolean) => void;
 };
 
 export type PopoverAnchorProps = ComponentProps<'div'>;

@@ -4,16 +4,16 @@ import { BaseEmail } from './BaseEmail';
 import { emailStyles } from './email-styles';
 
 type BugReportContext = {
-  reporter: string;
-  email: string;
   appVersion?: string;
+  email: string;
   platform?: string;
+  reporter: string;
   userAgent?: string;
 };
 
 type BugReportProps = {
-  description: string;
   context: BugReportContext;
+  description: string;
 };
 
 const Row = ({ label, value }: { label: string; value?: string }) =>
@@ -24,18 +24,16 @@ const Row = ({ label, value }: { label: string; value?: string }) =>
     </Text>
   );
 
-export const BugReport = ({ description, context }: BugReportProps) => {
-  return (
-    <BaseEmail preview={`New bug report from ${context.reporter}`} heading="New bug report">
-      <Text style={{ ...emailStyles.text, whiteSpace: 'pre-wrap' }}>{description}</Text>
+export const BugReport = ({ description, context }: BugReportProps) => (
+  <BaseEmail heading='New bug report' preview={`New bug report from ${context.reporter}`}>
+    <Text style={{ ...emailStyles.text, whiteSpace: 'pre-wrap' }}>{description}</Text>
 
-      <Hr style={emailStyles.hr} />
+    <Hr style={emailStyles.hr} />
 
-      <Row label="Reporter" value={context.reporter} />
-      <Row label="Email" value={context.email} />
-      <Row label="Version" value={context.appVersion} />
-      <Row label="Platform" value={context.platform} />
-      <Row label="User agent" value={context.userAgent} />
-    </BaseEmail>
-  );
-};
+    <Row label='Reporter' value={context.reporter} />
+    <Row label='Email' value={context.email} />
+    <Row label='Version' value={context.appVersion} />
+    <Row label='Platform' value={context.platform} />
+    <Row label='User agent' value={context.userAgent} />
+  </BaseEmail>
+);

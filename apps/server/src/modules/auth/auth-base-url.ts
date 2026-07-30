@@ -16,6 +16,6 @@ export const authBaseURL = () => {
   return {
     allowedHosts: [...DEV_ALLOWED_HOSTS, ...(extraHosts ?? [])],
     fallback: env.BETTER_AUTH_URL,
-    protocol: 'http' as const,
+    protocol: 'http' as const
   };
 };

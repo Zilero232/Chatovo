@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 
 export type SettingRowProps = {
-  label: string;
-  hint?: string;
   control: ReactNode;
+  hint?: string;
+  label: string;
   stacked?: boolean;
 };

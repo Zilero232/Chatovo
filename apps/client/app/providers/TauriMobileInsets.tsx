@@ -1,7 +1,7 @@
 'use client';
 
 import { target, useEventListener } from '@siberiacancode/reactuse';
-import { useEffect, useEffectEvent } from 'react';
+import { useEffect } from 'react';
 
 import { isTauriMobile } from '@/shared/lib';
 
@@ -24,11 +24,11 @@ const syncInsetsFromPlugin = async () => {
   }
 };
 
-export const TauriMobileInsets = () => {
-  const syncInsets = useEffectEvent(() => {
-    void syncInsetsFromPlugin();
-  });
+const syncInsets = () => {
+  void syncInsetsFromPlugin();
+};
 
+export const TauriMobileInsets = () => {
   useEventListener(target(window), 'resize', syncInsets);
 
   useEffect(() => {

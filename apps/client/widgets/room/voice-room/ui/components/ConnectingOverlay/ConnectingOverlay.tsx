@@ -9,9 +9,18 @@ import { match } from 'ts-pattern';
 
 import { Spinner, Text } from '@/shared/ui';
 
-import s from './ConnectingOverlay.module.scss';
-
 import type { ConnectingOverlayProps } from './ConnectingOverlay.types';
+
+import {
+  BOX_ANIMATE,
+  BOX_EXIT,
+  BOX_INITIAL,
+  BOX_REDUCED,
+  BOX_TRANSITION,
+  OVERLAY_TRANSITION
+} from './ConnectingOverlay.motion';
+
+import s from './ConnectingOverlay.module.scss';
 
 export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
   const t = useTranslations('room');
@@ -21,7 +30,7 @@ export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
   const text = match(state)
     .with(ConnectionState.Connected, ConnectionState.Disconnected, () => null)
     .with(ConnectionState.Reconnecting, ConnectionState.SignalReconnecting, () =>
-      t('reconnecting', { name: roomName }),
+      t('reconnecting', { name: roomName })
     )
     .with(ConnectionState.Connecting, () => t('connecting', { name: roomName }))
     .exhaustive();
@@ -30,21 +39,21 @@ export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
     <AnimatePresence>
       {text !== null && (
         <motion.div
-          className={s.root}
-          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          className={s.root}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
+          initial={{ opacity: 0 }}
+          transition={OVERLAY_TRANSITION}
         >
           <motion.div
+            animate={BOX_ANIMATE}
             className={clsx(s.box, 'glass shadow-glow-violet')}
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.9, y: 8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
-            transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+            exit={shouldReduceMotion ? BOX_REDUCED : BOX_EXIT}
+            initial={shouldReduceMotion ? BOX_REDUCED : BOX_INITIAL}
+            transition={BOX_TRANSITION}
           >
-            <Spinner size="lg" />
-            <Text className={s.text} size="sm" tone="inherit">
+            <Spinner size='lg' />
+            <Text className={s.text} size='sm' tone='inherit'>
               {text}
             </Text>
           </motion.div>

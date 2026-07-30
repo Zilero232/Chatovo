@@ -6,22 +6,23 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useState } from 'react';
 
 import { shouldKeepDialogOpen } from '@/shared/lib/nested-overlay';
-import {
-  OVERLAY_TRANSITION,
-  SHEET_REDUCED_TRANSITION,
-  SHEET_TRANSITION,
-  sheetVariants,
-  sideClass,
-} from './Sheet.config';
-
-import s from './Sheet.module.scss';
 
 import type {
   SheetContentProps,
   SheetDescriptionProps,
   SheetProps,
-  SheetTitleProps,
+  SheetTitleProps
 } from './Sheet.types';
+
+import {
+  OVERLAY_TRANSITION,
+  SHEET_REDUCED_TRANSITION,
+  SHEET_TRANSITION,
+  sheetVariants,
+  sideClass
+} from './Sheet.motion';
+
+import s from './Sheet.module.scss';
 
 export const Sheet = ({
   open,
@@ -56,17 +57,17 @@ export const Sheet = ({
         <AnimatePresence>
           {isOpen ? (
             <Dialog.Backdrop
-              key="sheet-backdrop"
-              className={clsx(s.overlay, className)}
-              data-slot="sheet"
+              key='sheet-backdrop'
               render={
                 <motion.div
-                  initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
+                  initial={{ opacity: 0 }}
                   transition={OVERLAY_TRANSITION}
                 />
               }
+              className={clsx(s.overlay, className)}
+              data-slot='sheet'
             />
           ) : null}
         </AnimatePresence>
@@ -89,24 +90,24 @@ export const SheetContent = ({
 
   return (
     <Dialog.Popup
-      key="sheet-popup"
-      className={clsx(s.modal, sideClass[side], modalClassName)}
-      data-slot="sheet-portal"
+      key='sheet-popup'
       render={
         <motion.div
-          variants={sheetVariants(side)}
-          initial={shouldReduceMotion ? { opacity: 0 } : 'hidden'}
           animate={shouldReduceMotion ? { opacity: 1 } : 'visible'}
           exit={shouldReduceMotion ? { opacity: 0 } : 'hidden'}
+          initial={shouldReduceMotion ? { opacity: 0 } : 'hidden'}
           transition={shouldReduceMotion ? SHEET_REDUCED_TRANSITION : SHEET_TRANSITION}
+          variants={sheetVariants(side)}
         />
       }
+      className={clsx(s.modal, sideClass[side], modalClassName)}
+      data-slot='sheet-portal'
       {...props}
     >
-      <div className={clsx('glass-overlay', s.content, className)} data-slot="sheet-content">
+      <div className={clsx('glass-overlay', s.content, className)} data-slot='sheet-content'>
         {children}
         {showCloseButton && (
-          <Dialog.Close className={s.close} data-slot="sheet-close">
+          <Dialog.Close className={s.close} data-slot='sheet-close'>
             <span aria-hidden>×</span>
           </Dialog.Close>
         )}
@@ -115,22 +116,18 @@ export const SheetContent = ({
   );
 };
 
-export const SheetTitle = ({ className, children, ...props }: SheetTitleProps) => {
-  return (
-    <Dialog.Title className={clsx(s.title, className)} data-slot="sheet-title" {...props}>
-      {children}
-    </Dialog.Title>
-  );
-};
+export const SheetTitle = ({ className, children, ...props }: SheetTitleProps) => (
+  <Dialog.Title className={clsx(s.title, className)} data-slot='sheet-title' {...props}>
+    {children}
+  </Dialog.Title>
+);
 
-export const SheetDescription = ({ className, children, ...props }: SheetDescriptionProps) => {
-  return (
-    <Dialog.Description
-      className={clsx(s.description, className)}
-      data-slot="sheet-description"
-      {...props}
-    >
-      {children}
-    </Dialog.Description>
-  );
-};
+export const SheetDescription = ({ className, children, ...props }: SheetDescriptionProps) => (
+  <Dialog.Description
+    className={clsx(s.description, className)}
+    data-slot='sheet-description'
+    {...props}
+  >
+    {children}
+  </Dialog.Description>
+);

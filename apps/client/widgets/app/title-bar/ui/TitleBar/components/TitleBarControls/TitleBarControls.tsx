@@ -3,28 +3,28 @@
 import { Copy, Minus, Square, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import s from './TitleBarControls.module.scss';
-
 import type { TitleBarControlsProps } from './TitleBarControls.types';
+
+import s from './TitleBarControls.module.scss';
 
 export const TitleBarControls = ({
   isMaximized,
   onMinimize,
   onToggleMaximize,
-  onClose,
+  onClose
 }: TitleBarControlsProps) => {
   const t = useTranslations('window');
 
   return (
     <div className={s.root}>
-      <button aria-label={t('minimize')} className={s.button} type="button" onClick={onMinimize}>
+      <button aria-label={t('minimize')} className={s.button} type='button' onClick={onMinimize}>
         <Minus className={s.icon} strokeWidth={1.5} />
       </button>
 
       <button
         aria-label={isMaximized ? t('restore') : t('maximize')}
         className={s.button}
-        type="button"
+        type='button'
         onClick={onToggleMaximize}
       >
         {isMaximized ? (
@@ -34,7 +34,7 @@ export const TitleBarControls = ({
         )}
       </button>
 
-      <button aria-label={t('close')} className={s.closeButton} type="button" onClick={onClose}>
+      <button aria-label={t('close')} className={s.closeButton} type='button' onClick={onClose}>
         <X className={s.icon} strokeWidth={1.5} />
       </button>
     </div>

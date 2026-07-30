@@ -6,6 +6,6 @@ export const getBannerStyle = (color: string | null | undefined): CSSProperties 
   }
 
   return {
-    backgroundImage: `linear-gradient(to bottom right, ${color}, ${color}33)`,
+    backgroundImage: `linear-gradient(to bottom right, ${color}, ${color}33)`
   };
 };

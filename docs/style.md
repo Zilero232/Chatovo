@@ -4,11 +4,15 @@
 
 Инструменты:
 
-- **Biome** (`bun lint` / `bun lint:fix`) — форматтер + линтер + organize imports. Конфиг: корневой `biome.json`.
+- **ESLint** (`bun lint` / `bun lint:fix`) — линтер + сортировка импортов. Конфиг: корневой `eslint.config.mjs` поверх `@siberiacancode/eslint` (`{ typescript: true, react: true, jsxA11y: true }`).
+- **Prettier** (`bun format` / `bun format:check`) — форматтер. Конфиг: `prettier.config.mjs` (реэкспорт `@siberiacancode/prettier` без изменений), исключения — `.prettierignore`.
+- **Stylelint** (`bun lint:css` / `bun lint:css:fix`) — SCSS. Конфиг: `stylelint.config.mjs` поверх `@siberiacancode/stylelint`; порядок свойств — `stylelint-config-idiomatic-order`.
 - **TypeScript** strict + `noUnusedLocals` + `noUnusedParameters`.
-- FSD-границы и ряд React-конвенций держим руками + ловим на review (Biome не покрывает: порядок хуков, `padding-line-between-statements`, FSD cross-slice imports).
+- FSD-границы и ряд React-конвенций держим руками + ловим на review (линтер не покрывает: порядок хуков, `padding-line-between-statements`, FSD cross-slice imports).
 
-**Почему Biome:** один инструмент вместо ESLint+Prettier, на порядок быстрее, один конфиг без плагин-зоопарка. `useExhaustiveDependencies` закрыт; сортировка Tailwind-классов больше не актуальна (стили → SCSS modules).
+Одной командой: `bun run verify` (typecheck + lint + format:check + lint:css) и `bun run fix` (lint:fix + format + lint:css:fix).
+
+**Почему ESLint + Prettier:** общие пресеты `@siberiacancode/*` разделяются между проектами автора (тот же стек в GnomeVPN) — одинаковые правила без перенастройки на каждом репозитории. ESLint даёт React-специфичные правила (`rules-of-hooks`, `exhaustive-deps`, purity), которых у Biome нет.
 
 ---
 
@@ -300,31 +304,37 @@ shared/ui/atoms/Dialog/
 
 ### Порядок групп
 
-Biome organize-imports (`bun lint:fix`) сортирует на 4 группы в этом порядке, **с пустой строкой между группами** (`:BLANK_LINE:` в `biome.json`):
+Сортировку делает правило `perfectionist/sort-imports` из пресета `@siberiacancode/eslint`, применяется через `bun lint:fix`. Группы, **с пустой строкой между ними**:
 
-1. **Внешние value-импорты** — пакеты, `node:`-builtins, `@chatovo/*`.
-2. **Локальные value-импорты** — `@/`-алиасы и относительные `./` `../`.
-3. **Стили** — `*.css` / `*.scss` (`:STYLE:`).
-4. **Все типы** — любой `import type`, внешний и локальный вместе.
+1. **Внешние типы** — `import type` из пакетов.
+2. **Внешние value-импорты** — пакеты, `node:`-builtins, `@chatovo/*`.
+3. **Локальные типы** — `import type` по `@/`-алиасу.
+4. **Локальные value-импорты** — `@/`-алиасы.
+5. **Относительные типы** — `import type` из `./` `../`.
+6. **Относительные value-импорты** — `./` `../`.
+7. **Стили** — `*.css` / `*.scss`.
 
 ```ts
-// 1. внешние value
+// 1. внешние типы
+import type { MouseEvent } from 'react';
+
+// 2. внешние value
 import { useForm } from 'react-hook-form';
 
-// 2. локальные value
+// 3-4. локальные типы и value по алиасу
 import { useCurrentUser } from '@/entities/auth/user';
+
+// 5. относительные типы
+import type { VoiceRoomProps } from './VoiceRoom.types';
+
+// 6. относительные value
 import { groupMessages } from '../lib/grouping';
 
-// 3. стили
+// 7. стили
 import s from './VoiceRoom.module.scss';
-
-// 4. типы (внешние + локальные)
-import type { Room } from '@chatovo/schemas/rooms';
-import type { VoiceRoomProps } from './VoiceRoom.types';
 ```
 
-Конфигурация — `assist.actions.source.organizeImports.options.groups` в `biome.json`.
-Пустые строки между группами вставляет Biome при `bun lint:fix`; не удаляй их вручную.
+Внутри группы — алфавитный порядок. Пустые строки между группами расставляет ESLint при `bun lint:fix`; не удаляй их вручную.
 
 ### Запреты
 
@@ -342,7 +352,7 @@ import { Button } from '@/shared/ui';
 
 `shared/ui` — единый корневой barrel `@/shared/ui` (атомарный слой под капотом). Внутри слайса — относительные ОК.
 
-Biome не проверяет FSD-границы — ловим на review.
+ESLint не проверяет FSD-границы — ловим на review.
 
 ---
 
@@ -379,12 +389,11 @@ Wildcard-экспорты (`export * from`) — запрещены. Только
 
 ## 8. Типы
 
-- **Всё через `type`** — Props, unions, алиасы, DTO. `interface` запрещён: Biome
-  `useConsistentTypeDefinitions: { style: type }` (autofix через `--unsafe`).
+- **Всё через `type`** — Props, unions, алиасы, DTO. `interface` запрещён.
 - Props всегда в `<Name>.types.ts` рядом с компонентом.
-- `import type { ... }` — Biome enforce (`useImportType: error`), `bun lint:fix` чинит сам.
-- `export type { ... }` — Biome enforce (`useExportType: error`).
-- `unknown` вместо `any`. `any` запрещён (`noExplicitAny: error`).
+- `import type { ... }` — enforce правилом `ts/consistent-type-imports`, `bun lint:fix` чинит сам (в `apps/server/**` правило отключено: Nest резолвит зависимости по метаданным декораторов).
+- `export type { ... }` — enforce правилом `ts/consistent-type-exports`.
+- `unknown` вместо `any`. `any` запрещён (`ts/no-explicit-any`).
 - Discriminated unions для вариантов состояния:
 
 ```ts
@@ -420,7 +429,7 @@ export const UserName = ({
   profileUrl,
   size = 'sm',
   className,
-  onClick,
+  onClick
 }: UserNameProps) => {
   ...
 };
@@ -497,7 +506,7 @@ const readRole = (user: User | null): UserRole =>
 
 ### 9.5 `if` / `else` — всегда с фигурными скобками
 
-**Тело `if`, `else if`, `else` всегда в `{}`, даже на одну строку.** Однострочный `if (cond) doThing();` запрещён: добавление второго стейтмента в ветку не требует переписывать структуру, диффы чище, нет ловушки «забыл скобки». Enforced биомом (`style/useBlockStatements`, `error`) — `bun lint:fix` чинит автоматически.
+**Тело `if`, `else if`, `else` всегда в `{}`, даже на одну строку.** Однострочный `if (cond) doThing();` запрещён: добавление второго стейтмента в ветку не требует переписывать структуру, диффы чище, нет ловушки «забыл скобки». Соблюдаем руками + ловим на review.
 
 ```ts
 // ✓ ОК
@@ -528,7 +537,7 @@ if (isManual) toast.success(t('upToDate'));
 
 ### 9.1 Порядок хуков
 
-Biome не сортирует хуки — соблюдаем руками + ловим на review.
+ESLint не сортирует хуки — соблюдаем руками + ловим на review.
 
 Порядок групп:
 
@@ -576,7 +585,7 @@ export const ChannelsPanel = () => {
 
 `deps`-массив `useEffect` — только то, что **реально должно триггерить перезапуск** эффекта. Знаем что эффекту нужен один `roomId` — не добавляем `room`, `router`, объекты мутаций «чтобы линтер молчал».
 
-**Стабильные ref не идут в deps.** `router` из `next/navigation`, `reset`/`mutate` из react-query стабильны между рендерами. Добавлять их смысла нет — эффект не должен реагировать на их «смену». `// biome-ignore lint/correctness/useExhaustiveDependencies` с явной причиной — нормальная практика, не костыль.
+**Стабильные ref не идут в deps.** `router` из `next/navigation`, `reset`/`mutate` из react-query стабильны между рендерами. Добавлять их смысла нет — эффект не должен реагировать на их «смену». `// eslint-disable-next-line react/exhaustive-deps -- причина` с явной причиной — нормальная практика, не костыль.
 
 ```tsx
 // ✗ ПЛОХО — лишние deps, объект мутации меняет ref каждый рендер
@@ -585,7 +594,7 @@ useEffect(() => {
 }, [roomId, room, router, tokenMutation]);
 
 // ✓ ОК — триггер только roomId, причина зафиксирована
-// biome-ignore lint/correctness/useExhaustiveDependencies: redirect must fire only on roomId change; router is a stable ref
+// eslint-disable-next-line react/exhaustive-deps -- redirect must fire only on roomId change; router is a stable ref
 useEffect(() => {
   if (!roomId) router.replace(ROUTES.lobby);
 }, [roomId]);
@@ -791,7 +800,7 @@ export const createRoom = async (input: CreateRoomRequest): Promise<Room> => {
 
 ## 13. Пустые строки между логическими шагами
 
-Biome не автофиксит `padding-line-between-statements`. Соблюдаем руками.
+ESLint не автофиксит `padding-line-between-statements`. Соблюдаем руками.
 
 **Пустая строка перед:**
 
@@ -889,7 +898,7 @@ const { formState: { errors }, handleSubmit, register, reset } = useForm<
   CreateRoomInput
 >({
   resolver: zodResolver(createRoomInputSchema),
-  defaultValues: DEFAULT_VALUES,
+  defaultValues: DEFAULT_VALUES
 });
 ```
 
@@ -1031,12 +1040,12 @@ const ChannelsList = () => {
 
 ## 19. Запреты
 
-- `console.log` в коммите. Biome `noConsole: warn` (`shared/ui/**`, `scripts/**` — off).
-- `any` — Biome `noExplicitAny: error`. Используй `unknown`.
-- Non-null assertion `!` без обоснования — Biome `noNonNullAssertion: warn`.
+- `console.log` в коммите. Правило `no-console` (`**/scripts/**` — off).
+- `any` — правило `ts/no-explicit-any`. Используй `unknown`.
+- Non-null assertion `!` без обоснования — правило `ts/no-non-null-assertion`.
 - Deep imports мимо barrel.
 - Cross-import между слайсами одного слоя.
-- ESLint, Prettier, CSS-in-JS. Только Biome + SCSS modules.
+- CSS-in-JS. Только SCSS modules.
 - Ручной `fetch` / свой `axios.create` для бизнес-вызовов. Только общий инстанс из `shared/api/http`.
 - Дублирование схем client/server. Только `@chatovo/schemas`.
 - `useState` для form fields. Только `react-hook-form`.
@@ -1048,12 +1057,10 @@ const ChannelsList = () => {
 ## 20. Чек-лист перед коммитом
 
 ```bash
-bun lint:fix                               # Biome: формат + organize imports + safe fixes
-bun lint                                   # должно быть 0 errors/warnings
-cd apps/client && bunx tsc --noEmit        # типы client
-cd apps/server && bunx tsc --noEmit        # типы server
+bun run fix                                # ESLint --fix + Prettier + Stylelint --fix
+bun run verify                             # typecheck + lint + format:check + lint:css
 bun --filter @chatovo/client build          # сборка client
 bun --filter @chatovo/server build          # сборка server
 ```
 
-`bun lint:fix` не чинит: пустые строки (секция 13), порядок хуков (секция 9.1), FSD-границы импортов (→ [`docs/fsd.md`](./fsd.md)).
+`bun run fix` не чинит: пустые строки (секция 13), порядок хуков (секция 9.1), FSD-границы импортов (→ [`docs/fsd.md`](./fsd.md)).

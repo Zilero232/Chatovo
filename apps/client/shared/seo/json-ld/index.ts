@@ -1,5 +1,5 @@
 export { JsonLd } from './JsonLd';
-export { SiteJsonLd } from './SiteJsonLd';
+export type { JsonLdProps } from './JsonLd';
 export { siteJsonLd } from './site-json-ld';
 
-export type { JsonLdProps } from './JsonLd';
+export { SiteJsonLd } from './SiteJsonLd';

@@ -5,12 +5,10 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import type { ChangePasswordValues } from '@/entities/auth/user';
+
 import { useErrorMessage, useFieldError } from '@/entities/app/locale';
-import {
-  type ChangePasswordValues,
-  changePasswordSchema,
-  useChangePassword,
-} from '@/entities/auth/user';
+import { changePasswordSchema, useChangePassword } from '@/entities/auth/user';
 import { FormField, Input, SubmitButton } from '@/shared/ui';
 
 import s from './ChangePasswordForm.module.scss';
@@ -26,10 +24,10 @@ export const ChangePasswordForm = () => {
     formState: { errors, isDirty },
     handleSubmit,
     register,
-    reset,
+    reset
   } = useForm<ChangePasswordValues>({
     resolver: zodResolver(changePasswordSchema),
-    defaultValues: { currentPassword: '', newPassword: '', confirmPassword: '' },
+    defaultValues: { currentPassword: '', newPassword: '', confirmPassword: '' }
   });
 
   const onSubmit = handleSubmit((values) => {
@@ -38,47 +36,47 @@ export const ChangePasswordForm = () => {
         toast.success(t('passwordChanged'));
         reset();
       },
-      onError: (err: Error) => toast.error(errorMessage(err)),
+      onError: (err: Error) => toast.error(errorMessage(err))
     });
   });
 
   return (
     <form className={s.form} onSubmit={onSubmit}>
       <FormField
-        htmlFor="current-password"
-        label={t('currentPasswordLabel')}
         error={errors.currentPassword && fieldError(errors.currentPassword)}
+        htmlFor='current-password'
+        label={t('currentPasswordLabel')}
       >
         <Input
-          autoComplete="current-password"
-          id="current-password"
-          type="password"
+          autoComplete='current-password'
+          id='current-password'
+          type='password'
           {...register('currentPassword')}
         />
       </FormField>
 
       <FormField
-        htmlFor="new-password"
-        label={t('newPasswordLabel')}
         error={errors.newPassword && fieldError(errors.newPassword)}
+        htmlFor='new-password'
+        label={t('newPasswordLabel')}
       >
         <Input
-          autoComplete="new-password"
-          id="new-password"
-          type="password"
+          autoComplete='new-password'
+          id='new-password'
+          type='password'
           {...register('newPassword')}
         />
       </FormField>
 
       <FormField
-        htmlFor="confirm-password"
-        label={t('confirmPasswordLabel')}
         error={errors.confirmPassword && fieldError(errors.confirmPassword)}
+        htmlFor='confirm-password'
+        label={t('confirmPasswordLabel')}
       >
         <Input
-          autoComplete="new-password"
-          id="confirm-password"
-          type="password"
+          autoComplete='new-password'
+          id='confirm-password'
+          type='password'
           {...register('confirmPassword')}
         />
       </FormField>

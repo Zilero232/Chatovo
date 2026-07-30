@@ -1,5 +1,7 @@
 'use client';
 
+import type { ReactNode } from 'react';
+
 import { createContextHook } from '@siberiacancode/reactuse';
 import { useEffect, useRef, useState } from 'react';
 
@@ -7,11 +9,9 @@ import { useRealtime, useRealtimeMessage } from '@/entities/app/realtime';
 import { useCurrentUser } from '@/entities/auth/user';
 import { appEvents } from '@/shared/lib';
 
-import type { ReactNode } from 'react';
-
 export type FloatingReaction = {
-  id: number;
   emoji: string;
+  id: number;
   offset: number;
 };
 
@@ -34,7 +34,7 @@ const useReactionsState = (roomId: string) => {
 
       timeouts.current.clear();
     },
-    [],
+    []
   );
 
   const addReaction = (emoji: string) => {
@@ -76,7 +76,7 @@ const { Provider, use } = createContextHook(useReactionsState);
 
 export const ReactionsProvider = ({
   roomId,
-  children,
+  children
 }: {
   roomId: string;
   children: ReactNode;

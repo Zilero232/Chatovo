@@ -2,12 +2,13 @@ import { CheckMenuItem, Menu, MenuItem, PredefinedMenuItem } from '@tauri-apps/a
 import { exit } from '@tauri-apps/plugin-process';
 
 import { appEvents, showMainWindow } from '@/shared/lib';
+
 import { TRAY_MENU_ID } from '../config/menu-ids';
 
 type TrayMenuLabels = {
+  checkUpdates: string;
   header: string;
   mute: string;
-  checkUpdates: string;
   quit: string;
 };
 
@@ -15,7 +16,7 @@ export const buildTrayMenu = async (labels: TrayMenuLabels) => {
   const header = await MenuItem.new({
     id: TRAY_MENU_ID.header,
     text: labels.header,
-    enabled: false,
+    enabled: false
   });
 
   const mute = await CheckMenuItem.new({
@@ -25,7 +26,7 @@ export const buildTrayMenu = async (labels: TrayMenuLabels) => {
     enabled: true,
     action: () => {
       appEvents.emit.trayMuteToggle();
-    },
+    }
   });
 
   const checkUpdates = await MenuItem.new({
@@ -37,7 +38,7 @@ export const buildTrayMenu = async (labels: TrayMenuLabels) => {
       try {
         await showMainWindow();
       } catch {}
-    },
+    }
   });
 
   const quit = await MenuItem.new({
@@ -47,7 +48,7 @@ export const buildTrayMenu = async (labels: TrayMenuLabels) => {
       try {
         await exit(0);
       } catch {}
-    },
+    }
   });
 
   const separator = () => PredefinedMenuItem.new({ item: 'Separator' });
@@ -62,8 +63,8 @@ export const buildTrayMenu = async (labels: TrayMenuLabels) => {
       await separator(),
       checkUpdates,
       await separator(),
-      quit,
-    ],
+      quit
+    ]
   });
 
   return { menu, items };

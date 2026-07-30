@@ -9,11 +9,12 @@ import { ForgotPasswordForm } from '@/features/auth/forgot-password';
 import { SignInForm } from '@/features/auth/sign-in';
 import { SignUpForm } from '@/features/auth/sign-up';
 import { AuthBackground, BrandMark, Text } from '@/shared/ui';
+
+import type { AuthMode } from './AuthPage.types';
+
 import { AuthBrandPanel, AuthLegalFooter } from './components';
 
 import s from './AuthPage.module.scss';
-
-import type { AuthMode } from './AuthPage.types';
 
 export const AuthPage = () => {
   const t = useTranslations('auth');
@@ -37,7 +38,7 @@ export const AuthPage = () => {
                 .with('forgot', () => t('forgotPasswordTitle'))
                 .otherwise(() => t('signIn'))}
             </h1>
-            <Text size="sm" tone="muted">
+            <Text size='sm' tone='muted'>
               {match(mode)
                 .with('signup', () => t('subtitleSignUp'))
                 .with('forgot', () => t('forgotPasswordSubtitle'))
@@ -55,11 +56,11 @@ export const AuthPage = () => {
           </div>
 
           {mode !== 'forgot' && (
-            <Text align="center" className={s.toggle} size="sm" tone="muted">
+            <Text align='center' className={s.toggle} size='sm' tone='muted'>
               {t(mode === 'signup' ? 'hasAccount' : 'noAccount')}{' '}
               <button
                 className={s.toggleButton}
-                type="button"
+                type='button'
                 onClick={() => setMode(mode === 'signup' ? 'signin' : 'signup')}
               >
                 {t(mode === 'signup' ? 'signIn' : 'signUp')}

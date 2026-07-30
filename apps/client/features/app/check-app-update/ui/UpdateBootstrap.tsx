@@ -1,13 +1,14 @@
 'use client';
 
+import type { ReactNode } from 'react';
+
 import { useTranslations } from 'next-intl';
 import { match } from 'ts-pattern';
 
 import { AppSplash } from '@/shared/ui';
+
 import { useCheckAppUpdate } from '../model/use-check-app-update';
 import { UpdateDialog } from './UpdateDialog';
-
-import type { ReactNode } from 'react';
 
 export const UpdateBootstrap = ({ children }: { children: ReactNode }) => {
   const t = useTranslations('update');

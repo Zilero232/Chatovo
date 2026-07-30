@@ -1,3 +1,5 @@
+import type { LandingPageProps } from './LandingPage.types';
+
 import {
   LandingBackground,
   LandingDesktop,
@@ -7,13 +9,11 @@ import {
   LandingFooter,
   LandingHeader,
   LandingHero,
-  LandingSteps,
+  LandingSteps
 } from './components';
 import { LandingControllers } from './controllers';
 
 import s from './LandingPage.module.scss';
-
-import type { LandingPageProps } from './LandingPage.types';
 
 export const LandingPage = ({ locale }: LandingPageProps) => (
   <div className={s.root}>

@@ -15,7 +15,7 @@ export const ChatEmpty = () => {
       className={s.root}
       description={t('description')}
       icon={<MessageSquare className={s.icon} />}
-      size="sm"
+      size='sm'
       title={t('title')}
     />
   );

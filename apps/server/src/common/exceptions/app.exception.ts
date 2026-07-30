@@ -1,16 +1,17 @@
+import type { ApiErrorCode } from '@chatovo/schemas';
+
 import {
   BadRequestException,
   ConflictException,
   ForbiddenException,
+  InternalServerErrorException,
   NotFoundException,
-  UnauthorizedException,
+  UnauthorizedException
 } from '@nestjs/common';
 
-import type { ApiErrorCode } from '@chatovo/schemas';
-
 type CodedResponse = {
-  error: string;
   code: ApiErrorCode;
+  error: string;
 };
 
 const body = (code: ApiErrorCode, error: string): CodedResponse => ({ error, code });
@@ -46,6 +47,12 @@ export class AppBadRequestException extends BadRequestException {
 }
 
 export class AppUnauthorizedException extends UnauthorizedException {
+  constructor(code: ApiErrorCode, error: string) {
+    super(body(code, error));
+  }
+}
+
+export class AppInternalException extends InternalServerErrorException {
   constructor(code: ApiErrorCode, error: string) {
     super(body(code, error));
   }

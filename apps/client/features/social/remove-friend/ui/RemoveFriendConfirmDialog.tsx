@@ -12,7 +12,7 @@ export const RemoveFriendConfirmDialog = ({
   open,
   onOpenChange,
   userId,
-  friendName,
+  friendName
 }: RemoveFriendConfirmDialogProps) => {
   const t = useTranslations('friends.removeFriendConfirm');
 
@@ -21,7 +21,7 @@ export const RemoveFriendConfirmDialog = ({
   const handleConfirm = () => {
     removeFriendship.mutate(userId, {
       onSuccess: () => onOpenChange(false),
-      onError: () => toast.error(t('failed')),
+      onError: () => toast.error(t('failed'))
     });
   };
 

@@ -14,5 +14,5 @@ export {
   listIncomingFriendRequests,
   removeFriendship,
   ringFriendCall,
-  sendFriendRequest,
+  sendFriendRequest
 } from './friends';

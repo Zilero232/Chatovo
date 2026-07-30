@@ -10,13 +10,14 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/shared/ui';
+
+import type { ManageRoomMenuProps } from './ManageRoomMenu.types';
+
 import { DeleteRoomDialog, EditRoomDialog } from './components';
 
 import s from './ManageRoomMenu.module.scss';
-
-import type { ManageRoomMenuProps } from './ManageRoomMenu.types';
 
 export const ManageRoomMenu = ({ room, className }: ManageRoomMenuProps) => {
   const t = useTranslations('manageRoom.menu');
@@ -38,18 +39,18 @@ export const ManageRoomMenu = ({ room, className }: ManageRoomMenuProps) => {
         <DropdownMenuTrigger
           aria-label={t('open')}
           className={clsx(s.trigger, className)}
-          size="icon"
-          variant="ghost"
+          size='icon'
+          variant='ghost'
           onPointerDown={(event) => event.stopPropagation()}
         >
           <MoreHorizontal />
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" onClick={(event) => event.stopPropagation()}>
+        <DropdownMenuContent align='end' onClick={(event) => event.stopPropagation()}>
           <DropdownMenuItem onSelect={() => setEditOpen(true)}>
             <Pencil />
             {t('edit')}
           </DropdownMenuItem>
-          <DropdownMenuItem variant="destructive" onSelect={() => setDeleteOpen(true)}>
+          <DropdownMenuItem variant='destructive' onSelect={() => setDeleteOpen(true)}>
             <Trash2 />
             {t('delete')}
           </DropdownMenuItem>

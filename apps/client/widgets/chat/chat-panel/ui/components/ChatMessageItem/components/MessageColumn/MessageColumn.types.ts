@@ -1,7 +1,7 @@
 import type { MessageBubbleProps } from '../MessageBubble/MessageBubble.types';
 import type { MessageMetaProps } from '../MessageMeta/MessageMeta.types';
 
-export type MessageColumnProps = Omit<MessageBubbleProps, 'onEdit' | 'onDelete'> &
+export type MessageColumnProps = Omit<MessageBubbleProps, 'onDelete' | 'onEdit'> &
   Pick<MessageMetaProps, 'author' | 'identity' | 'verified'> & {
     isDeleted: boolean;
     showHeader: boolean;

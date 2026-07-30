@@ -3,7 +3,7 @@ import type { AppSettings, DeviceSettings } from '../model/types';
 export const KIND_TO_SLOT: Record<MediaDeviceKind, keyof DeviceSettings> = {
   audioinput: 'audioInput',
   audiooutput: 'audioOutput',
-  videoinput: 'videoInput',
+  videoinput: 'videoInput'
 };
 
 export const DEFAULT_APP_SETTINGS: AppSettings = {
@@ -14,17 +14,17 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
     autoGainControl: true,
     voiceIsolation: false,
     autoSensitivity: true,
-    activationMode: 'voiceActivity',
+    activationMode: 'voiceActivity'
   },
   video: {
     mirrorVideo: false,
     cameraQuality: '1080p',
-    screenQuality: '1080p30',
+    screenQuality: '1080p30'
   },
   devices: {
     audioInput: '',
     audioOutput: '',
-    videoInput: '',
+    videoInput: ''
   },
   sounds: {
     volume: 0.5,
@@ -35,18 +35,18 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
       reconnect: true,
       message: true,
       reaction: true,
-      call: true,
-    },
+      call: true
+    }
   },
   system: {
     tray: {
-      closeToTray: true,
-    },
+      closeToTray: true
+    }
   },
   shortcuts: {
     muteToggle: 'Ctrl+Shift+M',
     deafenToggle: 'Ctrl+Shift+D',
     pttHold: 'Alt+L',
-    chatToggle: 'Ctrl+Shift+C',
-  },
+    chatToggle: 'Ctrl+Shift+C'
+  }
 };

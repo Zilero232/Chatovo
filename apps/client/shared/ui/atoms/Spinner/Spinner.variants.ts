@@ -1,4 +1,6 @@
-import { cva, type VariantProps } from 'class-variance-authority';
+import type { VariantProps } from 'class-variance-authority';
+
+import { cva } from 'class-variance-authority';
 
 import s from './Spinner.module.scss';
 
@@ -9,12 +11,12 @@ export const spinnerVariants = cva(s.root, {
       sm: s.sizeSm,
       md: s.sizeMd,
       lg: s.sizeLg,
-      xl: s.sizeXl,
-    },
+      xl: s.sizeXl
+    }
   },
   defaultVariants: {
-    size: 'sm',
-  },
+    size: 'sm'
+  }
 });
 
 export type SpinnerVariantProps = VariantProps<typeof spinnerVariants>;

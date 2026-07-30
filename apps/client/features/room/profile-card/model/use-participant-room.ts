@@ -15,7 +15,7 @@ export const useParticipantRoom = (identity: string) => {
 
   const entry = pipe(
     entries(presence),
-    find(([, participants]) => participants.some((p) => p.identity === identity)),
+    find(([, participants]) => participants.some((p) => p.identity === identity))
   );
 
   if (isNullish(entry)) {

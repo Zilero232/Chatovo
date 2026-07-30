@@ -7,14 +7,15 @@ import { useRef } from 'react';
 import {
   useAppSettings,
   VOICE_GATE_MANUAL_RANGE,
-  VoiceGateDetector,
+  VoiceGateDetector
 } from '@/entities/app/settings';
 import { formatPercent } from '@/shared/lib';
+
+import type { SensitivityControlProps } from './SensitivityControl.types';
+
 import { useMicAnalyser } from '../../../model/hooks';
 
 import s from '../../AppSettingsButton.module.scss';
-
-import type { SensitivityControlProps } from './SensitivityControl.types';
 
 export const SensitivityControl = ({ deviceId, audio }: SensitivityControlProps) => {
   const t = useTranslations('settings.audio');
@@ -32,7 +33,7 @@ export const SensitivityControl = ({ deviceId, audio }: SensitivityControlProps)
 
   const open = gateRef.current.step(level, {
     autoSensitivity: audio.autoSensitivity,
-    threshold: audio.micThreshold,
+    threshold: audio.micThreshold
   });
 
   return (

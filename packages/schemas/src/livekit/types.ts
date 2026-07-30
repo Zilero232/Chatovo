@@ -1,10 +1,11 @@
 import type { z } from 'zod';
+
 import type { tokenRequestSchema } from './inputs';
 import type {
   participantMetadataSchema,
   roomParticipantSchema,
   roomsParticipantsSnapshotSchema,
-  tokenResponseSchema,
+  tokenResponseSchema
 } from './outputs';
 
 export type TokenRequest = z.infer<typeof tokenRequestSchema>;

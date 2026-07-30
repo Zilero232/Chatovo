@@ -9,13 +9,12 @@ type Options = {
   password?: string;
 };
 
-export const useRoomToken = (roomId: string | null, { isPrivate, password }: Options) => {
-  return useQuery({
+export const useRoomToken = (roomId: string | null, { isPrivate, password }: Options) =>
+  useQuery({
     queryKey: QUERY_KEYS.livekitToken(roomId),
     queryFn: () => fetchLiveKitToken({ roomId: roomId as string, password }),
     select: ({ token }) => token,
     enabled: isNonNullish(roomId) && (!isPrivate || isNonNullish(password)),
     retry: false,
-    gcTime: 0,
+    gcTime: 0
   });
-};

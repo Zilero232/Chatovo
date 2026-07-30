@@ -1,9 +1,10 @@
+import type { ComponentProps } from 'react';
+
 import { isNullish } from 'remeda';
 
-import { buttonVariants } from './Button.variants';
-
-import type { ComponentProps } from 'react';
 import type { ButtonProps } from './Button.types';
+
+import { buttonVariants } from './Button.variants';
 
 const Button = ({
   className,
@@ -26,7 +27,7 @@ const Button = ({
     return (
       <a
         data-size={size}
-        data-slot="button"
+        data-slot='button'
         data-variant={variant}
         download={download}
         href={href}
@@ -44,7 +45,7 @@ const Button = ({
   return (
     <button
       data-size={size}
-      data-slot="button"
+      data-slot='button'
       data-variant={variant}
       disabled={isDisabled ?? disabled}
       type={type}

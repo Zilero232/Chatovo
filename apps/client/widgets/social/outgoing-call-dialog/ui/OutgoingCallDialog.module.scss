@@ -1,12 +1,12 @@
 @use '@/shared/styles/mixins' as *;
 
 .content {
-  gap: 1.5rem;
   max-width: 24rem;
-  border-color: oklch(1 0 0 / 12%);
-  background: color-mix(in oklch, var(--shell-surface) 95%, transparent);
+  border-color: oklch(100% 0 0deg / 12%);
   backdrop-filter: blur(rem(24));
-  box-shadow: 0 rem(24) rem(64) rem(-24) oklch(0.82 0.16 200 / 45%);
+  background: color-mix(in oklch, var(--shell-surface) 95%, transparent);
+  box-shadow: 0 rem(24) rem(64) rem(-24) oklch(82% 0.16 200deg / 45%);
+  gap: 1.5rem;
 }
 
 .header {
@@ -20,8 +20,8 @@
 .callee {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
   align-items: center;
+  gap: 0.75rem;
 }
 
 .avatar {
@@ -29,7 +29,7 @@
   height: 5rem;
   box-shadow:
     0 0 0 rem(4) color-mix(in oklch, var(--brand-cyan) 20%, transparent),
-    0 0 rem(40) rem(-8) oklch(0.82 0.16 200 / 65%);
+    0 0 rem(40) rem(-8) oklch(82% 0.16 200deg / 65%);
 }
 
 .avatarFallback {
@@ -37,11 +37,15 @@
 }
 
 .name {
+  background-clip: text;
+  background-image: linear-gradient(
+    to right,
+    var(--foreground),
+    color-mix(in oklch, var(--foreground) 80%, transparent)
+  );
+  color: transparent;
   font-size: 1.125rem;
   font-weight: 600;
-  color: transparent;
-  background-image: linear-gradient(to right, var(--foreground), color-mix(in oklch, var(--foreground) 80%, transparent));
-  background-clip: text;
 }
 
 .cancel {

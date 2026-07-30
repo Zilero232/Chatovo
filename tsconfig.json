@@ -1,12 +1,8 @@
 {
+  "extends": "@siberiacancode/tsconfig/tsconfig.bundler.json",
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "strict": true
+    "experimentalDecorators": true
   }
 }

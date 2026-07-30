@@ -2,12 +2,12 @@
 
 .root {
   display: flex;
+  height: 2rem;
   flex-shrink: 0;
   align-items: stretch;
-  height: 2rem;
   border-bottom: 1px solid var(--border);
-  background: color-mix(in oklch, var(--background) 80%, transparent);
   backdrop-filter: blur(rem(12));
+  background: color-mix(in oklch, var(--background) 80%, transparent);
 }
 
 .rootMacos {
@@ -22,32 +22,32 @@
 
 .navButtons {
   display: flex;
-  gap: 0.125rem;
   align-items: center;
+  gap: 0.125rem;
   padding-inline: 0.5rem;
 }
 
 .navButton {
-  cursor: pointer;
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 1.5rem;
   height: 1.5rem;
+  align-items: center;
+  justify-content: center;
   border: none;
   border-radius: var(--radius-md);
-  color: var(--muted-foreground);
   background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
   transition: colors 150ms ease-out;
 
   &:hover:not(:disabled) {
-    color: var(--foreground);
     background: var(--accent);
+    color: var(--foreground);
   }
 
   &:disabled {
-    pointer-events: none;
     opacity: 0.3;
+    pointer-events: none;
   }
 }
 

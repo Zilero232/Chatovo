@@ -1,5 +1,7 @@
 'use client';
 
+import type { FriendEntry, FriendUser } from '@chatovo/schemas';
+
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
@@ -9,16 +11,22 @@ import { useFriends } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
 import { Spinner, Text } from '@/shared/ui';
+
+import type { FriendsTabProps, RemoveTarget } from './FriendsTab.types';
+
 import { FriendListItem } from '../FriendListItem';
+import {
+  FRIEND_ITEM_ANIMATE,
+  FRIEND_ITEM_EXIT,
+  FRIEND_ITEM_INITIAL,
+  FRIEND_ITEM_REDUCED,
+  FRIEND_ITEM_TRANSITION
+} from './FriendsTab.motion';
 
 import s from '../../FriendsDialog.module.scss';
 
-import type { FriendEntry, FriendUser } from '@chatovo/schemas';
-import type { FriendsTabProps, RemoveTarget } from './FriendsTab.types';
-
-const hasFriends = (friends: FriendEntry[] | undefined): friends is FriendEntry[] => {
-  return (friends?.length ?? 0) > 0;
-};
+const hasFriends = (friends: FriendEntry[] | undefined): friends is FriendEntry[] =>
+  (friends?.length ?? 0) > 0;
 
 export const FriendsTab = ({ enabled }: FriendsTabProps) => {
   const t = useTranslations('friends');
@@ -40,15 +48,15 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
         .with({ isPending: true }, () => <Spinner className={s.spinner} />)
         .with({ friends: P.when(hasFriends) }, ({ friends: items }) => (
           <div className={s.list}>
-            <AnimatePresence initial={false} mode="popLayout">
+            <AnimatePresence initial={false} mode='popLayout'>
               {items.map((entry) => (
                 <motion.div
-                  key={entry.friendshipId}
                   layout
-                  initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
-                  transition={{ type: 'spring', stiffness: 460, damping: 34 }}
+                  key={entry.friendshipId}
+                  animate={FRIEND_ITEM_ANIMATE}
+                  exit={shouldReduceMotion ? FRIEND_ITEM_REDUCED : FRIEND_ITEM_EXIT}
+                  initial={shouldReduceMotion ? FRIEND_ITEM_REDUCED : FRIEND_ITEM_INITIAL}
+                  transition={FRIEND_ITEM_TRANSITION}
                 >
                   <FriendListItem
                     dmUnread={getFriendUnread(entry.user.id)}
@@ -62,7 +70,7 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
           </div>
         ))
         .otherwise(() => (
-          <Text className={s.empty} size="sm" tone="muted">
+          <Text className={s.empty} size='sm' tone='muted'>
             {t('emptyFriends')}
           </Text>
         ))}

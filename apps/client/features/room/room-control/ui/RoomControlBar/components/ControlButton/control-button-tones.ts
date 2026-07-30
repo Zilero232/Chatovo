@@ -5,7 +5,7 @@ export const controlButtonToneClass = {
   off: s.toneOff,
   active: s.toneActive,
   danger: s.toneDanger,
-  leave: s.toneLeave,
+  leave: s.toneLeave
 } as const;
 
 export const controlShellToneClass = {
@@ -13,7 +13,7 @@ export const controlShellToneClass = {
   off: s.shellToneOff,
   active: s.shellToneActive,
   danger: s.shellToneDanger,
-  leave: s.shellToneLeave,
+  leave: s.shellToneLeave
 } as const;
 
 export const controlMainToneClass = {
@@ -21,7 +21,7 @@ export const controlMainToneClass = {
   off: s.mainToneOff,
   active: s.mainToneActive,
   danger: s.mainToneDanger,
-  leave: s.mainToneLeave,
+  leave: s.mainToneLeave
 } as const;
 
 export type ControlTone = keyof typeof controlButtonToneClass;

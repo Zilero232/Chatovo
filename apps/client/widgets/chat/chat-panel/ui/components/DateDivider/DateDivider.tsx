@@ -5,9 +5,9 @@ import { match } from 'ts-pattern';
 
 import { getDateDivider } from '@/shared/lib';
 
-import s from './DateDivider.module.scss';
-
 import type { DateDividerProps } from './DateDivider.types';
+
+import s from './DateDivider.module.scss';
 
 export const DateDivider = ({ timestamp }: DateDividerProps) => {
   const t = useTranslations('chat');

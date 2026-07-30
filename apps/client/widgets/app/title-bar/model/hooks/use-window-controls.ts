@@ -10,7 +10,7 @@ import {
   isTauriDesktop,
   minimizeMainWindow,
   onMainWindowResized,
-  toggleMaximizeMainWindow,
+  toggleMaximizeMainWindow
 } from '@/shared/lib';
 
 export const useWindowControls = () => {
@@ -52,6 +52,6 @@ export const useWindowControls = () => {
     isMaximized,
     minimize: minimizeMainWindow,
     toggleMaximize: toggleMaximizeMainWindow,
-    close,
+    close
   };
 };

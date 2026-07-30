@@ -3,9 +3,9 @@
 import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { spinnerVariants } from './Spinner.variants';
-
 import type { SpinnerProps } from './Spinner.types';
+
+import { spinnerVariants } from './Spinner.variants';
 
 export const Spinner = ({
   className,

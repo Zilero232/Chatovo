@@ -20,7 +20,7 @@ export const MicStateController = ({ roomId }: MicStateControllerProps) => {
     send({
       op: 'presence.patch',
       roomId,
-      micMuted: !localParticipant.isMicrophoneEnabled,
+      micMuted: !localParticipant.isMicrophoneEnabled
     });
   });
 

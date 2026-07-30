@@ -10,13 +10,13 @@ export const siteJsonLd = {
       name: SITE.name,
       description: SITE.description,
       inLanguage: SITE.lang,
-      publisher: { '@id': `${SITE.url}/#author` },
+      publisher: { '@id': `${SITE.url}/#author` }
     },
     {
       '@type': 'Person',
       '@id': `${SITE.url}/#author`,
       name: 'Alexandr Artemev',
-      url: SITE.url,
+      url: SITE.url
     },
     {
       '@type': 'SoftwareApplication',
@@ -38,7 +38,7 @@ export const siteJsonLd = {
         '@type': 'Offer',
         price: '0',
         priceCurrency: 'USD',
-        availability: 'https://schema.org/InStock',
+        availability: 'https://schema.org/InStock'
       },
       featureList: [
         'Real-time voice rooms',
@@ -49,8 +49,8 @@ export const siteJsonLd = {
         'Global shortcuts and push-to-talk on desktop',
         'Email sign-in',
         'Native desktop app for Windows, macOS and Linux',
-        'Self-hostable open source project',
-      ],
-    },
-  ],
+        'Self-hostable open source project'
+      ]
+    }
+  ]
 } as const;

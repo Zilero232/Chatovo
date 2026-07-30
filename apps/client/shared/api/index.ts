@@ -4,7 +4,7 @@ export {
   editChatMessage,
   fetchChatMessages,
   sendChatMessage,
-  uploadChatAttachment,
+  uploadChatAttachment
 } from './chat';
 export { reportProblem } from './feedback';
 export {
@@ -23,7 +23,7 @@ export {
   listIncomingFriendRequests,
   removeFriendship,
   ringFriendCall,
-  sendFriendRequest,
+  sendFriendRequest
 } from './friends';
 export { getAppDownloads } from './github';
 export { ApiError, apiErrorCode } from './http';

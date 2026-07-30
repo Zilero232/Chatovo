@@ -31,7 +31,7 @@ export const useFriendChatSession = () => {
     onError: () => {
       setOpeningPeer(null);
       toast.error(t('openDmFailed'));
-    },
+    }
   });
 
   const open = (peer: FriendChatPeer) => {
@@ -72,6 +72,6 @@ export const useFriendChatSession = () => {
     isOpening: openMutation.isPending,
     blocksParentDialogClose,
     open,
-    close,
+    close
   };
 };

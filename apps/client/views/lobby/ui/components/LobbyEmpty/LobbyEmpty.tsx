@@ -14,18 +14,18 @@ export const LobbyEmpty = () => {
 
   return (
     <CenteredState
-      icon={<AudioLines className={s.icon} />}
-      title={t('title')}
-      description={t('text')}
       action={
         <CreateRoomDialog
           trigger={
-            <Button type="button" variant="secondary">
+            <Button type='button' variant='secondary'>
               {tCreate('trigger')}
             </Button>
           }
         />
       }
+      description={t('text')}
+      icon={<AudioLines className={s.icon} />}
+      title={t('title')}
     />
   );
 };

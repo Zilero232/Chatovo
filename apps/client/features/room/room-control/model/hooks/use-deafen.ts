@@ -1,14 +1,15 @@
 'use client';
 
+import type { LocalParticipant } from 'livekit-client';
+
 import { useLocalParticipant, useRoomContext } from '@livekit/components-react';
 import { isNullish } from 'remeda';
 
 import { useRealtime } from '@/entities/app/realtime';
 import { useAppSettings } from '@/entities/app/settings';
 import { armPttStream } from '@/shared/lib';
-import { useDeafenContext } from '../contexts/deafen-context';
 
-import type { LocalParticipant } from 'livekit-client';
+import { useDeafenContext } from '../contexts/deafen-context';
 
 export const useDeafen = () => {
   const room = useRoomContext();
@@ -43,7 +44,7 @@ export const useDeafen = () => {
     send({
       op: 'presence.patch',
       roomId: room.name,
-      deafened: value,
+      deafened: value
     });
   };
 
@@ -66,6 +67,6 @@ export const useDeafen = () => {
   return {
     isDeafened,
     toggle: () => setDeafened(!isDeafened),
-    undeafen: () => setDeafened(false),
+    undeafen: () => setDeafened(false)
   };
 };

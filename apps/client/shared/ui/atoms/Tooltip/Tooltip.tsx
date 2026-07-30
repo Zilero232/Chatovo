@@ -1,14 +1,15 @@
 'use client';
 
+import type { ReactElement } from 'react';
+
 import { Tooltip as BaseTooltip } from '@base-ui-components/react/tooltip';
 import { useMediaQuery } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { Children, isValidElement } from 'react';
 
-import s from './Tooltip.module.scss';
-
-import type { ReactElement } from 'react';
 import type { TooltipContentProps, TooltipProps, TooltipProviderProps } from './Tooltip.types';
+
+import s from './Tooltip.module.scss';
 
 const TooltipProvider = ({ delay, delayDuration, children }: TooltipProviderProps) => (
   <BaseTooltip.Provider delay={delay ?? delayDuration}>{children}</BaseTooltip.Provider>
@@ -30,10 +31,10 @@ const Tooltip = ({
   const items = Children.toArray(children);
   const content = items.find(
     (child): child is ReactElement<TooltipContentProps> =>
-      isValidElement(child) && child.type === TooltipContent,
+      isValidElement(child) && child.type === TooltipContent
   );
   const triggers = items.filter(
-    (child) => !(isValidElement(child) && child.type === TooltipContent),
+    (child) => !(isValidElement(child) && child.type === TooltipContent)
   );
 
   if (isTouch || !content || triggers.length === 0) {
@@ -44,7 +45,7 @@ const Tooltip = ({
     className: contentClassName,
     side = 'top',
     sideOffset = 0,
-    children: contentChildren,
+    children: contentChildren
   } = content.props;
 
   return (
@@ -55,9 +56,9 @@ const Tooltip = ({
     >
       {triggers.map((trigger, index) => (
         <BaseTooltip.Trigger
-          // biome-ignore lint/suspicious/noArrayIndexKey: static child list, order never changes
+          // eslint-disable-next-line react/no-array-index-key -- static child list, order never changes
           key={index}
-          data-slot="tooltip"
+          data-slot='tooltip'
           delay={delay}
           render={trigger as ReactElement<Record<string, unknown>>}
         />
@@ -67,7 +68,7 @@ const Tooltip = ({
         <BaseTooltip.Positioner className={s.positioner} side={side} sideOffset={sideOffset}>
           <BaseTooltip.Popup
             className={clsx('glass-overlay', s.popup, contentClassName)}
-            data-slot="tooltip-content"
+            data-slot='tooltip-content'
           >
             {contentChildren}
           </BaseTooltip.Popup>

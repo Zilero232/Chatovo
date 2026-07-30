@@ -17,8 +17,8 @@ html.tauri-desktop {
 }
 
 *,
-*::before,
-*::after {
+*:before,
+*:after {
   border-color: var(--border);
 }
 
@@ -49,17 +49,17 @@ object {
 input,
 select,
 textarea {
-  font: inherit;
   color: inherit;
+  font: inherit;
 }
 
 button {
   padding: 0;
   border: none;
-  font: inherit;
-  color: inherit;
-  text-align: inherit;
   background: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
 }
 
 html,
@@ -109,22 +109,28 @@ button:disabled,
 }
 
 body {
-  background-color: oklch(0.13 0.012 280);
-  background-image:
-    radial-gradient(ellipse 70% 50% at 15% 10%, oklch(0.7 0.2 270 / 0.3), transparent 60%),
-    radial-gradient(ellipse 60% 50% at 90% 25%, oklch(0.82 0.16 200 / 0.28), transparent 60%),
-    radial-gradient(ellipse 60% 60% at 85% 100%, oklch(0.7 0.2 270 / 0.22), transparent 60%),
-    radial-gradient(ellipse 50% 50% at 10% 90%, oklch(0.82 0.16 200 / 0.2), transparent 60%);
   background-attachment: fixed;
+  background-color: oklch(13% 0.012 280deg);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 15% 10%, oklch(70% 0.2 270deg / 30%), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 25%, oklch(82% 0.16 200deg / 28%), transparent 60%),
+    radial-gradient(ellipse 60% 60% at 85% 100%, oklch(70% 0.2 270deg / 22%), transparent 60%),
+    radial-gradient(ellipse 50% 50% at 10% 90%, oklch(82% 0.16 200deg / 20%), transparent 60%);
 }
 
 ::selection {
-  color: oklch(0.985 0 0);
-  background: oklch(0.7 0.22 295 / 0.4);
+  background: oklch(70% 0.22 295deg / 40%);
+  color: oklch(98.5% 0 0deg);
 }
 
 .font-sans {
-  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family:
+    var(--font-sans),
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
 }
 
 .sr-only {
@@ -132,11 +138,11 @@ body {
   overflow: hidden;
   width: 1px;
   height: 1px;
-  margin: -1px;
   padding: 0;
   border: 0;
-  white-space: nowrap;
+  margin: -1px;
   clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .scrollbar-none {
@@ -223,37 +229,39 @@ body {
 
 .glass {
   border: 1px solid var(--glass-border);
-  background-color: var(--surface-1);
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  background-color: var(--surface-1);
   box-shadow: var(--shadow-soft);
 }
 
 .glass-strong {
   border: 1px solid var(--glass-border);
-  background-color: var(--surface-2);
   backdrop-filter: blur(calc(var(--glass-blur) + rem(6))) saturate(var(--glass-saturate));
+  background-color: var(--surface-2);
   box-shadow: var(--shadow-soft);
 }
 
 .shell-panel {
   border: 1px solid var(--glass-border);
-  background-color: var(--shell-surface);
   backdrop-filter: blur(rem(16)) saturate(140%);
+  background-color: var(--shell-surface);
   box-shadow: var(--shadow-elevated);
 }
 
 .surface-card {
-  border: 1px solid oklch(1 0 0 / 10%);
-  background-color: var(--shell-surface-raised);
+  border: 1px solid oklch(100% 0 0deg / 10%);
   backdrop-filter: blur(rem(12)) saturate(135%);
+  background-color: var(--shell-surface-raised);
   box-shadow: var(--shadow-soft);
 }
 
 .glass-overlay {
   border: 1px solid var(--glass-border);
-  background-color: var(--surface-overlay);
   backdrop-filter: blur(calc(var(--glass-blur) + rem(10))) saturate(var(--glass-saturate));
-  box-shadow: 0 rem(24) rem(64) rem(-16) oklch(0 0 0 / 0.55), 0 1px 0 oklch(1 0 0 / 8%) inset;
+  background-color: var(--surface-overlay);
+  box-shadow:
+    0 rem(24) rem(64) rem(-16) oklch(0% 0 0deg / 55%),
+    0 1px 0 oklch(100% 0 0deg / 8%) inset;
 }
 
 .glass-hover {
@@ -275,17 +283,17 @@ body {
 
 .neon-text-violet {
   color: var(--brand-violet);
-  text-shadow: 0 0 rem(18) oklch(0.7 0.22 295 / 0.55);
+  text-shadow: 0 0 rem(18) oklch(70% 0.22 295deg / 55%);
 }
 
 .neon-text-cyan {
   color: var(--brand-cyan);
-  text-shadow: 0 0 rem(18) oklch(0.82 0.16 200 / 0.55);
+  text-shadow: 0 0 rem(18) oklch(82% 0.16 200deg / 55%);
 }
 
 .neon-text-fuchsia {
   color: var(--brand-fuchsia);
-  text-shadow: 0 0 rem(18) oklch(0.74 0.25 330 / 0.55);
+  text-shadow: 0 0 rem(18) oklch(74% 0.25 330deg / 55%);
 }
 
 .gradient-brand {
@@ -293,24 +301,24 @@ body {
 }
 
 .gradient-text {
-  color: transparent;
-  background-image: linear-gradient(135deg, var(--brand-cyan), var(--brand-violet));
   background-clip: text;
+  background-image: linear-gradient(135deg, var(--brand-cyan), var(--brand-violet));
+  color: transparent;
 }
 
 .lobby-ambience {
-  pointer-events: none;
   position: absolute;
-  inset: 0;
   overflow: hidden;
+  inset: 0;
+  pointer-events: none;
 }
 
 .lobby-ambience-orb {
-  will-change: transform;
   position: absolute;
   border-radius: 50%;
-  filter: blur(rem(80));
   animation: aurora-drift 24s ease-in-out infinite;
+  filter: blur(rem(80));
+  will-change: transform;
 }
 
 .lobby-ambience-orb-violet {
@@ -318,7 +326,7 @@ body {
   right: 8%;
   width: 22rem;
   height: 22rem;
-  background: radial-gradient(circle, oklch(0.7 0.2 270 / 0.35), transparent 68%);
+  background: radial-gradient(circle, oklch(70% 0.2 270deg / 35%), transparent 68%);
 }
 
 .lobby-ambience-orb-cyan {
@@ -326,152 +334,153 @@ body {
   left: -4%;
   width: 18rem;
   height: 18rem;
-  background: radial-gradient(circle, oklch(0.82 0.16 200 / 0.28), transparent 68%);
-  animation-duration: 30s;
   animation-direction: reverse;
+  animation-duration: 30s;
+  background: radial-gradient(circle, oklch(82% 0.16 200deg / 28%), transparent 68%);
 }
 
 .lobby-header-grid {
-  pointer-events: none;
   position: absolute;
-  inset: 0;
   background-image:
-    linear-gradient(to right, oklch(1 0 0 / 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, oklch(1 0 0 / 0.04) 1px, transparent 1px);
+    linear-gradient(to right, oklch(100% 0 0deg / 4%) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(100% 0 0deg / 4%) 1px, transparent 1px);
   background-size: rem(48) rem(48);
-  mask-image: radial-gradient(ellipse 90% 80% at 30% 20%, black, transparent 75%);
+  inset: 0;
+  mask-image: radial-gradient(ellipse 90% 80% at 30% 20%, #000, transparent 75%);
+  pointer-events: none;
 }
 
 .accent-top-line {
-  pointer-events: none;
   position: absolute;
-  inset-inline: 0;
   top: 0;
   height: 1px;
   background: linear-gradient(
     90deg,
-    oklch(0.7 0.2 270 / 0),
-    oklch(0.82 0.16 200 / 0.65),
-    oklch(0.74 0.25 330 / 0)
+    oklch(70% 0.2 270deg / 0%),
+    oklch(82% 0.16 200deg / 65%),
+    oklch(74% 0.25 330deg / 0%)
   );
+  inset-inline: 0;
+  pointer-events: none;
 }
 
 .surface-bar {
-  border-color: oklch(1 0 0 / 8%);
-  background-color: oklch(1 0 0 / 3%);
+  border-color: oklch(100% 0 0deg / 8%);
   backdrop-filter: blur(rem(12)) saturate(140%);
+  background-color: oklch(100% 0 0deg / 3%);
 }
 
 .shimmer {
+  animation: shimmer-slide 1.9s ease-in-out infinite;
   background: linear-gradient(
     90deg,
-    oklch(1 0 0 / 0.05) 0%,
-    oklch(0.82 0.16 200 / 0.14) 45%,
-    oklch(0.7 0.2 270 / 0.1) 55%,
-    oklch(1 0 0 / 0.05) 100%
+    oklch(100% 0 0deg / 5%) 0%,
+    oklch(82% 0.16 200deg / 14%) 45%,
+    oklch(70% 0.2 270deg / 10%) 55%,
+    oklch(100% 0 0deg / 5%) 100%
   );
   background-size: 220% 100%;
-  animation: shimmer-slide 1.9s ease-in-out infinite;
 }
 
 .auth-bg {
-  pointer-events: none;
   position: absolute;
-  inset: 0;
   overflow: hidden;
+  inset: 0;
+  pointer-events: none;
+
   --px: 0;
   --py: 0;
 
-  &::after {
-    content: '';
+  &:after {
     position: absolute;
     z-index: 1;
-    inset: 0;
     background: linear-gradient(
       to bottom,
-      oklch(0.16 0.012 280 / 0.35) 0%,
-      oklch(0.16 0.012 280 / 0.65) 55%,
-      oklch(0.16 0.012 280 / 0.8) 100%
+      oklch(16% 0.012 280deg / 35%) 0%,
+      oklch(16% 0.012 280deg / 65%) 55%,
+      oklch(16% 0.012 280deg / 80%) 100%
     );
+    content: '';
+    inset: 0;
   }
 }
 
 .auth-aurora {
-  pointer-events: none;
   position: absolute;
   inset: -25%;
-  translate: calc(var(--px) * rem(70)) calc(var(--py) * rem(70));
+  pointer-events: none;
   transition: translate 300ms ease-out;
+  translate: calc(var(--px) * rem(70)) calc(var(--py) * rem(70));
 
-  &::before,
-  &::after {
-    will-change: transform;
-    content: '';
+  &:before,
+  &:after {
     position: absolute;
     border-radius: 50%;
+    content: '';
+    will-change: transform;
   }
 
-  &::before {
+  &:before {
     top: 2%;
     left: 4%;
     width: 52%;
     height: 52%;
-    background: radial-gradient(circle, oklch(0.7 0.2 270 / 0.55), transparent 70%);
     animation: aurora-drift 18s ease-in-out infinite;
+    background: radial-gradient(circle, oklch(70% 0.2 270deg / 55%), transparent 70%);
   }
 
-  &::after {
+  &:after {
     right: 2%;
     bottom: 0%;
     width: 56%;
     height: 56%;
-    background: radial-gradient(circle, oklch(0.82 0.16 200 / 0.5), transparent 70%);
     animation: aurora-drift 22s ease-in-out infinite reverse;
+    background: radial-gradient(circle, oklch(82% 0.16 200deg / 50%), transparent 70%);
   }
 }
 
 .auth-orb {
-  pointer-events: none;
-  will-change: transform;
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, oklch(0.74 0.25 330 / 0.45), transparent 70%);
   animation: aurora-drift 26s ease-in-out infinite;
+  background: radial-gradient(circle, oklch(74% 0.25 330deg / 45%), transparent 70%);
+  pointer-events: none;
+  will-change: transform;
 }
 
 .auth-orb-1 {
   top: 8%;
   right: 12%;
-  translate: calc(var(--px) * rem(130)) calc(var(--py) * rem(130));
   width: 26rem;
   height: 26rem;
   transition: translate 250ms ease-out;
+  translate: calc(var(--px) * rem(130)) calc(var(--py) * rem(130));
 }
 
 .auth-orb-2 {
   bottom: 6%;
   left: 10%;
-  translate: calc(var(--px) * rem(-110)) calc(var(--py) * rem(-110));
   width: 22rem;
   height: 22rem;
-  background: radial-gradient(circle, oklch(0.88 0.2 140 / 0.28), transparent 70%);
-  transition: translate 250ms ease-out;
-  animation-duration: 30s;
   animation-direction: reverse;
+  animation-duration: 30s;
+  background: radial-gradient(circle, oklch(88% 0.2 140deg / 28%), transparent 70%);
+  transition: translate 250ms ease-out;
+  translate: calc(var(--px) * rem(-110)) calc(var(--py) * rem(-110));
 }
 
 .auth-grid {
-  pointer-events: none;
-  will-change: translate;
   position: absolute;
-  inset: 0;
-  translate: calc(var(--px) * rem(-34)) calc(var(--py) * rem(-34));
   background-image:
-    linear-gradient(to right, oklch(1 0 0 / 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, oklch(1 0 0 / 0.06) 1px, transparent 1px);
+    linear-gradient(to right, oklch(100% 0 0deg / 6%) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(100% 0 0deg / 6%) 1px, transparent 1px);
   background-size: rem(56) rem(56);
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, black, transparent 78%);
+  inset: 0;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000, transparent 78%);
+  pointer-events: none;
   transition: translate 400ms ease-out;
+  translate: calc(var(--px) * rem(-34)) calc(var(--py) * rem(-34));
+  will-change: translate;
 }
 
 .animate-reaction-float {
@@ -508,13 +517,13 @@ body {
 
 @keyframes reaction-float {
   0% {
-    transform: translateY(0) scale(0.4) rotate(-8deg);
     opacity: 0;
+    transform: translateY(0) scale(0.4) rotate(-8deg);
   }
 
   12% {
-    transform: translateY(rem(-16)) scale(1.15) rotate(4deg);
     opacity: 1;
+    transform: translateY(rem(-16)) scale(1.15) rotate(4deg);
   }
 
   30% {
@@ -522,8 +531,8 @@ body {
   }
 
   100% {
-    transform: translateY(rem(-280)) scale(0.85) rotate(2deg);
     opacity: 0;
+    transform: translateY(rem(-280)) scale(0.85) rotate(2deg);
   }
 }
 
@@ -615,16 +624,15 @@ body {
     translate: none;
   }
 
-  .auth-aurora::before,
-  .auth-aurora::after,
+  .auth-aurora:before,
+  .auth-aurora:after,
   .auth-orb,
-  .lobby-ambience-orb,
-  .auth-orb {
+  .lobby-ambience-orb {
     animation: none;
   }
 
   .shimmer {
-    background: oklch(1 0 0 / 8%);
     animation: none;
+    background: oklch(100% 0 0deg / 8%);
   }
 }

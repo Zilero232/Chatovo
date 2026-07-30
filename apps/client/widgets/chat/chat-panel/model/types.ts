@@ -1,15 +1,15 @@
-export type ChatLineStatus = 'sending' | 'failed';
+export type ChatLineStatus = 'failed' | 'sending';
 
 export type ChatLine = {
-  id: string;
-  timestamp: number;
-  message: string;
-  editedAt?: number | null;
   deletedAt?: number | null;
-  status?: ChatLineStatus;
+  editedAt?: number | null;
   from?: {
     identity: string;
     name?: string;
     metadata?: string;
   };
+  id: string;
+  message: string;
+  status?: ChatLineStatus;
+  timestamp: number;
 };

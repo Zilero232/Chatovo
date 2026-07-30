@@ -1,5 +1,7 @@
 'use client';
 
+import type { MessageColumnProps } from './MessageColumn.types';
+
 import { MessageActions } from '../MessageActions';
 import { MessageBody } from '../MessageBody';
 import { MessageBubble } from '../MessageBubble';
@@ -7,8 +9,6 @@ import { MessageMeta } from '../MessageMeta';
 import { MessageStatus } from '../MessageStatus';
 
 import s from '../../ChatMessageItem.module.scss';
-
-import type { MessageColumnProps } from './MessageColumn.types';
 
 export const MessageColumn = ({
   message,
@@ -26,16 +26,16 @@ export const MessageColumn = ({
   onEdit,
   onDelete,
   onRetry,
-  onDiscard,
+  onDiscard
 }: MessageColumnProps) => (
   <div className={s.column} data-own={isOwn}>
     {showHeader && (
       <MessageMeta
         author={author}
         identity={identity}
+        isOwn={isOwn}
         timestamp={message.timestamp}
         verified={verified}
-        isOwn={isOwn}
       />
     )}
 
@@ -43,25 +43,25 @@ export const MessageColumn = ({
       <MessageBody
         bubble={
           <MessageBubble
-            message={message}
             attachment={attachment}
+            canEdit={canEdit}
+            isEdited={isEdited}
             isOwn={isOwn}
             isTail={isTail}
-            isEdited={isEdited}
-            canEdit={canEdit}
+            message={message}
             showActions={showActions}
-            onEdit={onEdit}
             onDelete={onDelete}
+            onEdit={onEdit}
           />
         }
         isDeleted={isDeleted}
       />
 
-      {showActions && <MessageActions canEdit={canEdit} onEdit={onEdit} onDelete={onDelete} />}
+      {showActions && <MessageActions canEdit={canEdit} onDelete={onDelete} onEdit={onEdit} />}
     </div>
 
     {message.status && (
-      <MessageStatus status={message.status} onRetry={onRetry} onDiscard={onDiscard} />
+      <MessageStatus status={message.status} onDiscard={onDiscard} onRetry={onRetry} />
     )}
   </div>
 );

@@ -10,27 +10,26 @@ export const ROUTES = {
   resetPassword: `${AUTH_PATH}/reset-password`,
   room: '/room',
   privacy: '/privacy',
-  terms: '/terms',
+  terms: '/terms'
 } as const;
 
 const PUBLIC_ROUTES = [ROUTES.auth, ROUTES.resetPassword, ROUTES.privacy, ROUTES.terms] as const;
 
-const LANDING_ROUTES = [ROUTES.landing, ROUTES.landingEn] as const;
+const LANDING_ROUTES: readonly string[] = [ROUTES.landing, ROUTES.landingEn];
 
-const isLandingRoute = (pathname: string): boolean =>
-  LANDING_ROUTES.some((route) => pathname === route);
+const isLandingRoute = (pathname: string): boolean => LANDING_ROUTES.includes(pathname);
 
 export const isPublicRoute = (pathname: string): boolean =>
   isLandingRoute(pathname) ||
   PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(`${route}/`));
 
 export const DEEP_LINKS = {
-  auth: `${APP_SCHEME}://auth`,
+  auth: `${APP_SCHEME}://auth`
 } as const;
 
 type BuildRoomHrefOptions = {
-  view?: 'chat';
   title?: string;
+  view?: 'chat';
 };
 
 export const buildRoomHref = (roomId: string, options?: BuildRoomHrefOptions) => {

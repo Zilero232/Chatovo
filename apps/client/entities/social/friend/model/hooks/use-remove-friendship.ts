@@ -3,6 +3,7 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { removeFriendship } from '@/shared/api';
+
 import { useInvalidateFriends } from './use-invalidate-friends';
 
 export const useRemoveFriendship = () => {
@@ -12,6 +13,6 @@ export const useRemoveFriendship = () => {
     mutationFn: (userId: string) => removeFriendship(userId),
     onSuccess: (_data, userId) => {
       invalidate(userId);
-    },
+    }
   });
 };

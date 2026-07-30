@@ -3,7 +3,7 @@
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
-import { UserAvatar, useCurrentUser } from '@/entities/auth/user';
+import { useCurrentUser, UserAvatar } from '@/entities/auth/user';
 import { Text } from '@/shared/ui';
 
 import s from '../../LobbyHeader.module.scss';
@@ -20,10 +20,10 @@ export const LobbyGreeting = () => {
     <div className={s.identity}>
       <div className={s.avatarWrap}>
         <UserAvatar
-          name={displayName}
-          src={avatarUrl}
           className={s.avatar}
           fallbackClassName={clsx(s.avatarFallback, 'gradient-brand')}
+          name={displayName}
+          src={avatarUrl}
         />
       </div>
 
@@ -38,7 +38,7 @@ export const LobbyGreeting = () => {
             <span className={clsx(s.titleName, 'gradient-text')}>{welcomeLead}</span>
           )}
         </h2>
-        <Text className={s.subtitle} size="sm" tone="muted">
+        <Text className={s.subtitle} size='sm' tone='muted'>
           {t('subtitle')}
         </Text>
       </div>

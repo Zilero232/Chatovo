@@ -1,6 +1,6 @@
-import { api } from '../http';
-
 import type { RegisterPushDeviceInput, UnregisterPushDeviceInput } from '@chatovo/schemas';
+
+import { api } from '../http';
 
 export const registerPushDevice = async (input: RegisterPushDeviceInput): Promise<void> => {
   await api.post('/push/devices', input);

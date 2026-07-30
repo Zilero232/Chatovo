@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 import { LEGAL } from '@/shared/config';
 import { Text } from '@/shared/ui';
@@ -12,7 +12,7 @@ export const AuthLegalFooter = () => {
   const t = useTranslations('legal');
 
   return (
-    <Text align="center" className={s.root} size="xs" tone="inherit">
+    <Text align='center' className={s.root} size='xs' tone='inherit'>
       <Link className={s.link} href={LEGAL.privacyPath}>
         {t('privacy')}
       </Link>

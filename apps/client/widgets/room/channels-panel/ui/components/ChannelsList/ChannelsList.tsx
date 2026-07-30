@@ -1,19 +1,22 @@
 'use client';
 
+import type { ReactNode } from 'react';
+
 import { clsx } from 'clsx';
 import { Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { type ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { isEmpty as isEmptyList } from 'remeda';
 import { match } from 'ts-pattern';
 
 import { groupRooms, RoomsListError, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { CenteredState, ScrollArea, Skeleton } from '@/shared/ui';
+
+import type { ChannelsListProps } from './ChannelsList.types';
+
 import { ChannelsRoomItem } from '../ChannelsRoomItem';
 
 import s from './ChannelsList.module.scss';
-
-import type { ChannelsListProps } from './ChannelsList.types';
 
 const CHANNELS_SKELETON_KEYS = ['a', 'b', 'c', 'd', 'e'] as const;
 
@@ -67,12 +70,12 @@ export const ChannelsList = ({ onNavigate }: ChannelsListProps = {}) => {
               <CenteredState
                 className={s.emptyState}
                 description={t('banner.hint')}
-                size="sm"
+                size='sm'
                 title={t('noRoomsYet')}
               />
             ))
             .with({ nothingFound: true }, () => (
-              <CenteredState className={s.emptyState} size="sm" title={t('nothingFound')} />
+              <CenteredState className={s.emptyState} size='sm' title={t('nothingFound')} />
             ))
             .otherwise(() =>
               sections.map((section, index) => (
@@ -89,7 +92,7 @@ export const ChannelsList = ({ onNavigate }: ChannelsListProps = {}) => {
                     </div>
                   ))}
                 </div>
-              )),
+              ))
             )}
         </div>
       </ScrollArea>

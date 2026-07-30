@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const tokenResponseSchema = z.object({
-  token: z.string(),
+  token: z.string()
 });
 
 // Profile facts that travel with a participant — embedded in LiveKit metadata
@@ -11,13 +11,13 @@ const participantProfileSchema = z.object({
   verified: z.boolean().default(false),
   profileUrl: z.string().nullable().default(null),
   avatarUrl: z.string().nullable().default(null),
-  bannerColor: z.string().nullable().default(null),
+  bannerColor: z.string().nullable().default(null)
 });
 
 // Shape of the JSON string carried in LiveKit participant.metadata. The only
 // channel for per-user data like the verified mark.
 export const participantMetadataSchema = participantProfileSchema.extend({
-  email: z.string().nullable().default(null),
+  email: z.string().nullable().default(null)
 });
 
 export const roomParticipantSchema = participantProfileSchema.extend({
@@ -29,12 +29,12 @@ export const roomParticipantSchema = participantProfileSchema.extend({
   micMuted: z.boolean().default(true),
   // True when the participant has muted all incoming audio (deafen). Carried
   // live via the deafen-state endpoint, mirroring micMuted.
-  deafened: z.boolean().default(false),
+  deafened: z.boolean().default(false)
 });
 
 // SSE payload pushed to clients: the full participant list of every active
 // room, keyed by roomId. The client replaces its cache wholesale on each event.
 export const roomsParticipantsSnapshotSchema = z.object({
   rooms: z.record(z.string(), z.array(roomParticipantSchema)),
-  lobbyOnline: z.number().int().nonnegative().default(0),
+  lobbyOnline: z.number().int().nonnegative().default(0)
 });

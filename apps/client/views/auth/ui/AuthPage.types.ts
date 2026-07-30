@@ -1,1 +1,1 @@
-export type AuthMode = 'signin' | 'signup' | 'forgot';
+export type AuthMode = 'forgot' | 'signin' | 'signup';

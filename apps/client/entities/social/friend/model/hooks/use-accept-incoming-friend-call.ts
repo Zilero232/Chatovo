@@ -12,6 +12,6 @@ export const useAcceptIncomingFriendCall = () => {
     mutationFn: acceptIncomingFriendCall,
     onSuccess: () => {
       queryClient.setQueryData(QUERY_KEYS.friendCallIncoming(), { call: null });
-    },
+    }
   });
 };

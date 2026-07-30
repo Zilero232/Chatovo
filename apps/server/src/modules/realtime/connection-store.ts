@@ -1,8 +1,9 @@
-import { bindRealtimeBroadcast as bindEmit } from './emit';
-
 import type { RealtimeServerMessage } from '@chatovo/schemas';
 import type { WebSocket } from 'ws';
+
 import type { RealtimeConnection } from './realtime.types';
+
+import { bindRealtimeBroadcast as bindEmit } from './emit';
 
 const connections = new Map<string, RealtimeConnection>();
 const byUser = new Map<string, Set<string>>();
@@ -67,9 +68,8 @@ export const registerConnection = (userId: string, ws: WebSocket): RealtimeConne
   return connection;
 };
 
-export const getConnection = (connectionId: string): RealtimeConnection | null => {
-  return connections.get(connectionId) ?? null;
-};
+export const getConnection = (connectionId: string): RealtimeConnection | null =>
+  connections.get(connectionId) ?? null;
 
 export const unregisterConnection = (connectionId: string): RealtimeConnection | null => {
   const connection = connections.get(connectionId);
@@ -153,9 +153,7 @@ export const markConnectionAlive = (ws: WebSocket): void => {
   }
 };
 
-export const listConnections = (): RealtimeConnection[] => {
-  return [...connections.values()];
-};
+export const listConnections = (): RealtimeConnection[] => [...connections.values()];
 
 export const sendToRoom = (roomId: string, message: RealtimeServerMessage): void => {
   const roomConnections = byRoom.get(roomId);
@@ -189,6 +187,6 @@ export const initRealtimeBroadcast = (): void => {
     },
     room: (roomId, message) => {
       sendToRoom(roomId, message);
-    },
+    }
   });
 };

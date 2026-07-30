@@ -1,10 +1,10 @@
+import type { ReactNode } from 'react';
+
 import { Inter, JetBrains_Mono } from 'next/font/google';
 
 import { SITE } from '@/shared/config';
 import { getTauriMobileHmrShim } from '@/shared/lib/tauri-mobile-hmr-shim';
 import { SiteJsonLd } from '@/shared/seo';
-
-import type { ReactNode } from 'react';
 
 import 'modern-normalize/modern-normalize.css';
 import './globals.scss';
@@ -14,13 +14,13 @@ export { defaultMetadata as metadata, defaultViewport as viewport } from '@/shar
 const sans = Inter({
   subsets: ['latin', 'cyrillic'],
   variable: '--font-sans',
-  display: 'swap',
+  display: 'swap'
 });
 
 const mono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
-  display: 'swap',
+  display: 'swap'
 });
 
 const tauriMobileHmrShim = getTauriMobileHmrShim();
@@ -35,13 +35,13 @@ const RootLayout = ({ children }: { children: ReactNode }) => (
       {tauriMobileHmrShim ? (
         <script
           suppressHydrationWarning
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: dev-only inline HMR shim for Tauri Android WebView
+          // eslint-disable-next-line react/dom-no-dangerously-set-innerhtml -- dev-only inline HMR shim for Tauri Android WebView
           dangerouslySetInnerHTML={{ __html: tauriMobileHmrShim }}
         />
       ) : null}
       <SiteJsonLd />
     </head>
-    <body className="font-sans">{children}</body>
+    <body className='font-sans'>{children}</body>
   </html>
 );
 

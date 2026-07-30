@@ -4,10 +4,15 @@
 
 .overlay {
   position: fixed;
-  z-index: 50;
+  z-index: 60;
+  backdrop-filter: blur(var(--scrim-blur)) saturate(0.7);
+  background: var(--scrim);
   inset: 0;
-  background: rgb(0 0 0 / 55%);
-  backdrop-filter: blur(#{rem(12)});
+
+  @media (pointer: coarse) {
+    backdrop-filter: none;
+    background: var(--scrim-strong);
+  }
 
   &[data-ending-style] {
     animation: overlay-fade-out 200ms ease-in;
@@ -19,33 +24,37 @@
 }
 
 .modal {
-  pointer-events: none;
   position: fixed;
-  z-index: 51;
-  inset: 0;
+  z-index: 61;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: rem(16);
+  padding: calc(#{rem(16)} + var(--safe-area-top)) #{rem(16)}
+    calc(#{rem(16)} + var(--safe-area-bottom));
+  inset: 0;
+  pointer-events: none;
 
   &[data-starting-style] .content,
   &[data-ending-style] .content {
-    transform: scale(0.95);
     opacity: 0;
+    transform: scale(0.95);
   }
 }
 
 .content {
-  pointer-events: auto;
   position: relative;
-  overflow-y: auto;
   display: grid;
-  gap: var(--space-4);
   width: 100%;
+  max-height: 100%;
   padding: var(--space-6);
   border-radius: var(--radius-2xl);
+  gap: var(--space-4);
   outline: none;
-  transition: transform 200ms ease-out, opacity 200ms ease-out;
+  overflow-y: auto;
+  pointer-events: auto;
+  transition:
+    transform 200ms ease-out,
+    opacity 200ms ease-out;
 
   @include bp-sm-up {
     max-width: rem(512);
@@ -59,8 +68,8 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
   padding-right: rem(40);
+  gap: var(--space-2);
   text-align: center;
 
   @include bp-sm-up {
@@ -87,38 +96,38 @@
 }
 
 .description {
-  font-size: rem(14);
   color: var(--muted-foreground);
+  font-size: rem(14);
 }
 
 .close {
-  cursor: pointer;
   position: absolute;
   z-index: 10;
   top: var(--space-4);
   right: var(--space-4);
   display: inline-flex;
+  width: var(--control-md);
+  height: var(--control-md);
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: var(--control-md);
-  height: var(--control-md);
-  border: 1px solid oklch(1 0 0 / 10%);
+  border: 1px solid oklch(100% 0 0deg / 10%);
   border-radius: var(--radius-lg);
-  color: color-mix(in oklch, var(--foreground) 70%, transparent);
-  background: oklch(1 0 0 / 5%);
   backdrop-filter: blur(#{rem(4)});
+  background: oklch(100% 0 0deg / 5%);
+  color: color-mix(in oklch, var(--foreground) 70%, transparent);
+  cursor: pointer;
   transition: all 150ms ease;
 
   &:hover {
-    border-color: oklch(1 0 0 / 20%);
+    border-color: oklch(100% 0 0deg / 20%);
+    background: oklch(100% 0 0deg / 10%);
     color: var(--foreground);
-    background: oklch(1 0 0 / 10%);
   }
 
   &:focus-visible {
-    outline: none;
     box-shadow: 0 0 0 #{rem(2)} color-mix(in oklch, var(--brand-violet) 40%, transparent);
+    outline: none;
   }
 
   &:disabled,
@@ -127,8 +136,8 @@
   }
 
   svg {
-    pointer-events: none;
     width: var(--icon-sm);
     height: var(--icon-sm);
+    pointer-events: none;
   }
 }

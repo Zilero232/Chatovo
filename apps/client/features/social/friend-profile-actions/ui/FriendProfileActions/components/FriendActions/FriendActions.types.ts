@@ -1,6 +1,6 @@
 export type FriendActionsProps = {
   isBusy: boolean;
-  onOpenChat: () => void;
   onCall: () => void;
+  onOpenChat: () => void;
   onRemove: () => void;
 };

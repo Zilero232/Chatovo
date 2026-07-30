@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "tauri": "tauri",
-    "predev": "node ./scripts/kill-stale.mjs && bun run icon",
+    "predev": "fkill --force --silent chatovo.exe chatovo; bun run icon",
     "dev": "tauri dev",
     "build": "bun run icon && tauri build",
     "build:debug": "bun run icon && tauri build --debug",

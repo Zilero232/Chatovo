@@ -1,5 +1,6 @@
 import type { Menu } from '@base-ui-components/react/menu';
 import type { ComponentProps } from 'react';
+
 import type { ButtonProps } from '../Button';
 
 export type DropdownMenuProps = ComponentProps<typeof Menu.Root>;
@@ -28,8 +29,8 @@ export type DropdownMenuContentProps = Omit<ComponentProps<typeof Menu.Popup>, '
 };
 
 export type DropdownMenuSubContentProps = {
-  className?: string;
   children?: ComponentProps<typeof Menu.Popup>['children'];
+  className?: string;
 };
 
 export type DropdownMenuRadioGroupProps = ComponentProps<typeof Menu.RadioGroup>;

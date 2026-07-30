@@ -1,13 +1,13 @@
 import { match } from 'ts-pattern';
 
-import { appEvents } from '@/shared/lib';
-
 import type { ShortcutActionId } from '@/entities/app/shortcut';
+
+import { appEvents } from '@/shared/lib';
 
 type KeyState = 'Pressed' | 'Released';
 
-export const dispatchShortcut = (actionId: ShortcutActionId, state: KeyState) => {
-  return match({ actionId, state })
+export const dispatchShortcut = (actionId: ShortcutActionId, state: KeyState) =>
+  match({ actionId, state })
     .with({ actionId: 'pttHold' }, ({ state: s }) => {
       appEvents.emit.pttKey({ phase: s === 'Pressed' ? 'pressed' : 'released' });
     })
@@ -21,4 +21,3 @@ export const dispatchShortcut = (actionId: ShortcutActionId, state: KeyState) =>
       appEvents.emit.chatToggle();
     })
     .otherwise(() => {});
-};

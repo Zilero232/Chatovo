@@ -20,9 +20,9 @@
 services:
   postgres:
     # Local Postgres for `bun dev`. The API runs on the host and connects via
-    # the published port, so DATABASE_URL/DIRECT_URL in apps/server/.env point
-    # at localhost:5432 (NOT the compose service name). Credentials come from
-    # apps/server/.env (the same file `bun dev` reads). Data lives in its own
+    # the published port, so DATABASE_URL/DIRECT_URL in the root .env point
+    # at localhost:5433 (NOT the compose service name). Credentials come from
+    # that same root .env (the file `bun dev` reads). Data lives in its own
     # pgdata_dev volume, isolated from the production pgdata.
     image: postgres:17-alpine
     container_name: chatovo-postgres-dev
@@ -32,15 +32,15 @@ services:
     # (NOT from env_file), so it would inject blank values and the container
     # would refuse to start ("POSTGRES_PASSWORD must be non-empty").
     env_file:
-      - ./apps/server/.env
+      - ./.env
     # Published on 5433 (not 5432) to avoid colliding with a host-installed
     # Postgres that already binds 5432 — DATABASE_URL/DIRECT_URL use localhost:5433.
     ports:
-      - "5433:5432"
+      - '5433:5432'
     volumes:
       - pgdata_dev:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      test: [CMD-SHELL, 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
       interval: 30s
       timeout: 5s
       retries: 5
@@ -56,35 +56,35 @@ services:
     image: axllent/mailpit:latest
     container_name: chatovo-mailpit-dev
     ports:
-      - "1025:1025" # SMTP
-      - "8025:8025" # Web UI
+      - '1025:1025' # SMTP
+      - '8025:8025' # Web UI
     environment:
-      MP_SMTP_AUTH_ACCEPT_ANY: "true"
-      MP_SMTP_AUTH_ALLOW_INSECURE: "true"
+      MP_SMTP_AUTH_ACCEPT_ANY: 'true'
+      MP_SMTP_AUTH_ALLOW_INSECURE: 'true'
 
   livekit:
     image: livekit/livekit-server:v1.12.0
     container_name: chatovo-livekit-dev
     command: --config /etc/livekit.yaml
     ports:
-      - "7880:7880" # WebSocket signalling
-      - "7881:7881" # TCP fallback for WebRTC media
+      - '7880:7880' # WebSocket signalling
+      - '7881:7881' # TCP fallback for WebRTC media
       # UDP media range. Must match port_range_start/end in infra/livekit/livekit.dev.yaml.
       # 50100-50200 avoids the Windows WinNAT reserved range (50000-50059).
-      - "50100-50200:50100-50200/udp"
+      - '50100-50200:50100-50200/udp'
     volumes:
       - ./infra/livekit/livekit.dev.yaml:/etc/livekit.yaml:ro
     # Lets the container reach the API running on the host (bun dev, :4000)
     # for webhook delivery. Implicit on Docker Desktop, explicit here for Linux.
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
 
   caddy:
     image: caddy:2-alpine
     container_name: chatovo-caddy-dev
     ports:
-      - "80:80" # HTTP — Caddy redirects to HTTPS
-      - "443:443" # HTTPS — all three *.localhost sites (HTTP/2)
+      - '80:80' # HTTP — Caddy redirects to HTTPS
+      - '443:443' # HTTPS — all three *.localhost sites (HTTP/2)
     volumes:
       - ./infra/caddy/Caddyfile.dev:/etc/caddy/Caddyfile:ro
       # Persists the locally-issued CA + certs so the trusted root survives
@@ -93,7 +93,7 @@ services:
     # Caddy proxies chatovo.localhost / api.chatovo.localhost to `bun dev`
     # running on the host; livekit.chatovo.localhost to the SFU container.
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
 
 volumes:
   caddy_dev_data:

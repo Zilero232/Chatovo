@@ -2,19 +2,20 @@
 
 import { clsx } from 'clsx';
 import { Lock, Radio } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 import { useCurrentUser } from '@/entities/auth/user';
 import { OwnerBadge, useRoomParticipants } from '@/entities/room/room';
 import { ManageRoomMenu } from '@/features/room/manage';
 import { buildRoomHref } from '@/shared/constants';
 import { Badge } from '@/shared/ui';
+
+import type { LobbyRoomCardProps } from './LobbyRoomCard.types';
+
 import { RoomCardEmptySlots, RoomCardParticipants } from './components';
 
 import s from './LobbyRoomCard.module.scss';
-
-import type { LobbyRoomCardProps } from './LobbyRoomCard.types';
 
 export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
   const t = useTranslations('lobby.card');
@@ -37,7 +38,7 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
         </>
       )}
 
-      <button className={s.enter} type="button" onClick={() => router.push(buildRoomHref(room.id))}>
+      <button className={s.enter} type='button' onClick={() => router.push(buildRoomHref(room.id))}>
         <div className={s.header}>
           <span className={s.name}>
             {room.name}
@@ -47,12 +48,12 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
           <div className={s.headerBadges}>
             {isOwner && <OwnerBadge />}
             {isLive ? (
-              <Badge tone="primary">
+              <Badge tone='primary'>
                 <span className={s.liveDot} />
                 {t('live')}
               </Badge>
             ) : (
-              <Badge tone="muted">{t('empty')}</Badge>
+              <Badge tone='muted'>{t('empty')}</Badge>
             )}
           </div>
         </div>

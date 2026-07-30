@@ -35,10 +35,10 @@ export const apiErrorCodeSchema = z.enum([
   'IMAGE_TOO_LARGE',
   'SCREENSHOT_TOO_LARGE',
 
-  'WEBHOOK_SIGNATURE_INVALID',
+  'WEBHOOK_SIGNATURE_INVALID'
 ]);
 
 export const apiErrorSchema = z.object({
   error: z.string(),
-  code: apiErrorCodeSchema.catch('INTERNAL_ERROR'),
+  code: apiErrorCodeSchema.catch('INTERNAL_ERROR')
 });

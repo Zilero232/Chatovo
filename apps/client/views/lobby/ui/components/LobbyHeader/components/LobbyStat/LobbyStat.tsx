@@ -3,9 +3,9 @@ import { clsx } from 'clsx';
 
 import { Skeleton } from '@/shared/ui';
 
-import s from '../../LobbyHeader.module.scss';
-
 import type { LobbyStatProps } from './LobbyStat.types';
+
+import s from '../../LobbyHeader.module.scss';
 
 export const LobbyStat = ({ icon, isLoading, label, tone, value }: LobbyStatProps) => (
   <div className={clsx(s.stat, 'surface-card')} data-tone={tone}>

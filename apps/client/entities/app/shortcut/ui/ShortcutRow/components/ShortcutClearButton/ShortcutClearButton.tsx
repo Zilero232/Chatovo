@@ -6,9 +6,9 @@ import { useTranslations } from 'next-intl';
 
 import { Button } from '@/shared/ui';
 
-import s from '../../ShortcutRow.module.scss';
-
 import type { ShortcutClearButtonProps } from './ShortcutClearButton.types';
+
+import s from '../../ShortcutRow.module.scss';
 
 export const ShortcutClearButton = ({ visible, onClick }: ShortcutClearButtonProps) => {
   const t = useTranslations('settings.shortcuts');
@@ -18,10 +18,10 @@ export const ShortcutClearButton = ({ visible, onClick }: ShortcutClearButtonPro
       aria-hidden={!visible}
       aria-label={t('clear')}
       className={clsx({ [s.hidden]: !visible })}
-      size="icon"
+      size='icon'
       tabIndex={visible ? 0 : -1}
-      type="button"
-      variant="ghost"
+      type='button'
+      variant='ghost'
       onClick={onClick}
     >
       <X />

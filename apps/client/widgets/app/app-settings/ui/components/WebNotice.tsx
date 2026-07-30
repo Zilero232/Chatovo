@@ -17,13 +17,13 @@ export const WebNotice = () => {
     <>
       <div className={s.webNotice}>
         <Info className={s.webNoticeIcon} />
-        <Text className={s.webNoticeText} size="sm" tone="inherit">
+        <Text className={s.webNoticeText} size='sm' tone='inherit'>
           {t.rich('webNotice', {
             link: (chunks) => (
-              <button className={s.webNoticeLink} onClick={() => toggleOpen(true)} type="button">
+              <button className={s.webNoticeLink} type='button' onClick={() => toggleOpen(true)}>
                 {chunks}
               </button>
-            ),
+            )
           })}
         </Text>
       </div>

@@ -1,7 +1,7 @@
 export type AuthEqBar = {
-  id: string;
-  height: string;
   delay: string;
+  height: string;
+  id: string;
 };
 
 export const AUTH_EQ_BARS: AuthEqBar[] = [
@@ -10,5 +10,5 @@ export const AUTH_EQ_BARS: AuthEqBar[] = [
   { id: 'c', height: '60%', delay: '240ms' },
   { id: 'd', height: '100%', delay: '90ms' },
   { id: 'e', height: '55%', delay: '320ms' },
-  { id: 'f', height: '75%', delay: '180ms' },
+  { id: 'f', height: '75%', delay: '180ms' }
 ];

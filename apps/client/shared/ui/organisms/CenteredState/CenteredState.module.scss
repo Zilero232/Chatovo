@@ -2,22 +2,22 @@
 
 .root {
   display: flex;
+  min-height: 100%;
   flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100%;
   text-align: center;
 }
 
 .sizeSm {
-  gap: 0.5rem;
   padding: 1.5rem 1rem;
+  gap: 0.5rem;
 }
 
 .sizeMd {
-  gap: 0.75rem;
   padding: 3rem 1.5rem;
+  gap: 0.75rem;
 }
 
 .iconBox {
@@ -31,7 +31,7 @@
 .iconBoxSm {
   width: 2.5rem;
   height: 2.5rem;
-  box-shadow: 0 0 rem(20) rem(-8) oklch(0.7 0.2 270 / 0.5);
+  box-shadow: 0 0 rem(20) rem(-8) oklch(70% 0.2 270deg / 50%);
 }
 
 .iconBoxMd {

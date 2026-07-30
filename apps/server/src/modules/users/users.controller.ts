@@ -3,11 +3,11 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { ZodResponse } from 'nestjs-zod';
 
+import type { UploadedAvatar } from './users.types';
+
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { UpdateProfileDto, UserProfileDto } from './dto/users.dto';
-import { UsersService } from './users.service';
-
-import type { UploadedAvatar } from './users.types';
+import { UsersService } from './services';
 
 @ApiTags('users')
 @Controller('users')
@@ -20,17 +20,20 @@ export class UsersController {
   updateProfile(
     @Body() body: UpdateProfileDto,
     @UploadedFile() avatar: UploadedAvatar | undefined,
-    @CurrentUser() userId: string,
+    @CurrentUser() userId: string
   ) {
-    return this.users.updateProfile(userId, {
-      displayName: body.displayName,
-      profileUrl: body.profileUrl,
-      bannerColor: body.bannerColor,
-      bio: body.bio,
-      removeAvatar: body.removeAvatar,
-      avatar: avatar
-        ? { mimetype: avatar.mimetype, size: avatar.size, buffer: avatar.buffer }
-        : undefined,
+    return this.users.updateProfile({
+      userId,
+      input: {
+        displayName: body.displayName,
+        profileUrl: body.profileUrl,
+        bannerColor: body.bannerColor,
+        bio: body.bio,
+        removeAvatar: body.removeAvatar,
+        avatar: avatar
+          ? { mimetype: avatar.mimetype, size: avatar.size, buffer: avatar.buffer }
+          : undefined
+      }
     });
   }
 

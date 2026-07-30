@@ -3,7 +3,10 @@
 import { useEffect, useRef } from 'react';
 
 import { useAppSettings } from '@/entities/app/settings';
-import { FRIEND_CALL_SOUND_SRC, type FriendCallSoundKind } from '../../config/call-sounds';
+
+import type { FriendCallSoundKind } from '../../config/call-sounds';
+
+import { FRIEND_CALL_SOUND_SRC } from '../../config/call-sounds';
 
 export const useFriendCallRingtone = (active: boolean, kind: FriendCallSoundKind) => {
   const { settings } = useAppSettings();

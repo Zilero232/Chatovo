@@ -2,25 +2,26 @@
 
 import { useFriendshipRelation } from '@/entities/social/friend';
 import { Spinner } from '@/shared/ui';
+
+import type { FriendProfileActionsProps } from './FriendProfileActions.types';
+
 import { FriendProfileActionsBody } from './FriendProfileActionsBody';
 
 import s from './FriendProfileActions.module.scss';
-
-import type { FriendProfileActionsProps } from './FriendProfileActions.types';
 
 export const FriendProfileActions = ({
   userId,
   friendTag,
   displayName,
   avatarUrl = null,
-  verified = false,
+  verified = false
 }: FriendProfileActionsProps) => {
   const { data: relation, isPending: isRelationPending } = useFriendshipRelation(userId);
 
   if (isRelationPending) {
     return (
       <div className={s.root}>
-        <Spinner size="sm" />
+        <Spinner size='sm' />
       </div>
     );
   }

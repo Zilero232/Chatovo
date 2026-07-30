@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 
 import { PushController } from './push.controller';
-import { PushService } from './push.service';
+import { PushService } from './services';
 
 @Module({
   controllers: [PushController],
-  providers: [PushService],
+  providers: [PushService]
 })
 export class PushModule {}

@@ -2,8 +2,8 @@
 
 .root {
   position: relative;
-  overflow: hidden;
   display: none;
+  overflow: hidden;
   flex-direction: column;
   padding: 2.5rem;
   background:
@@ -39,8 +39,8 @@
 .top {
   position: relative;
   display: flex;
-  gap: 0.75rem;
   align-items: center;
+  gap: 0.75rem;
 }
 
 .center {
@@ -48,8 +48,8 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 1.5rem;
   justify-content: center;
+  gap: 1.5rem;
   padding-block: 2rem;
 }
 
@@ -66,12 +66,12 @@
 .tagline {
   max-width: 22rem;
   margin: 0;
+  color: var(--foreground);
   font-size: 1.5rem;
   font-weight: 600;
-  line-height: 1.375;
-  color: var(--foreground);
-  text-wrap: balance;
   letter-spacing: -0.025em;
+  line-height: 1.375;
+  text-wrap: balance;
 }
 
 .features {
@@ -82,23 +82,23 @@
 
 .feature {
   display: flex;
-  gap: 0.875rem;
   align-items: flex-start;
   animation: feature-enter 500ms ease-out both;
+  gap: 0.875rem;
 }
 
 .featureIcon {
   display: flex;
+  width: 2.25rem;
+  height: 2.25rem;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  margin-top: 0.125rem;
   border: 1px solid var(--border-strong);
   border-radius: 0.75rem;
-  color: var(--brand-cyan);
+  margin-top: 0.125rem;
   background: rgb(255 255 255 / 5%);
+  color: var(--brand-cyan);
 
   svg {
     width: 1rem;
@@ -118,13 +118,12 @@
 
 @keyframes feature-enter {
   from {
-    transform: translateX(-1rem);
     opacity: 0;
+    transform: translateX(-1rem);
   }
 
   to {
-    transform: translateX(0);
     opacity: 1;
+    transform: translateX(0);
   }
 }
-

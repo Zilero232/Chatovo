@@ -1,9 +1,11 @@
-import { VOICE_GATE_TICK_MS, VoiceGateDetector, type VoiceGateParams } from './voice-gate-detector';
-
 import type { AudioProcessorOptions, Track, TrackProcessor } from 'livekit-client';
 
-const ANALYSER_FFT_SIZE = 1024;
-const ANALYSER_SMOOTHING = 0.35;
+import type { VoiceGateParams } from './voice-gate-detector';
+
+import { VOICE_GATE_TICK_MS, VoiceGateDetector } from './voice-gate-detector';
+
+const ANALYSER_FFT_SIZE = 2048;
+const ANALYSER_SMOOTHING = 0.8;
 const ATTACK_TIME = 0.008;
 const RELEASE_TIME = 0.12;
 const GATE_OPEN = 1;
@@ -154,8 +156,7 @@ export class VoiceGateProcessor implements TrackProcessor<Track.Kind.Audio, Audi
     resumeContext(this.context);
 
     const level = measureVolume(this.analyser, this.levelBuffer);
-    const bypassGate = document.hidden;
-    const open = bypassGate || this.detector.step(level, this.params);
+    const open = this.detector.step(level, this.params);
     const target = open ? GATE_OPEN : GATE_CLOSED;
     const speed = open ? ATTACK_TIME : RELEASE_TIME;
 

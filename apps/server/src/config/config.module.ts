@@ -1,9 +1,9 @@
 import { Global, Injectable, Module } from '@nestjs/common';
 import { ConfigService, ConfigModule as NestConfigModule } from '@nestjs/config';
 
-import { validateEnv } from './env.schema';
-
 import type { Env } from './env.schema';
+
+import { validateEnv } from './env.schema';
 
 @Injectable()
 export class AppConfigService {
@@ -20,10 +20,10 @@ export class AppConfigService {
     NestConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      validate: validateEnv,
-    }),
+      validate: validateEnv
+    })
   ],
   providers: [AppConfigService],
-  exports: [AppConfigService],
+  exports: [AppConfigService]
 })
 export class AppConfigModule {}

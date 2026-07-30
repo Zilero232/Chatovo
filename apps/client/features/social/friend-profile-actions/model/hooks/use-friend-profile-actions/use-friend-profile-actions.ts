@@ -8,7 +8,7 @@ import {
   useCallFriend,
   useDeclineFriendRequest,
   useRemoveFriendship,
-  useSendFriendRequest,
+  useSendFriendRequest
 } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 
@@ -19,7 +19,7 @@ export const useFriendProfileActions = ({
   friendTag,
   displayName,
   avatarUrl,
-  verified,
+  verified
 }: UseFriendProfileActionsInput) => {
   const t = useTranslations('friends');
 
@@ -40,7 +40,7 @@ export const useFriendProfileActions = ({
   const add = () => {
     sendRequest.mutate(
       { tag: friendTag, relationUserId: userId },
-      { onError: () => toast.error(t('sendFailed')) },
+      { onError: () => toast.error(t('sendFailed')) }
     );
   };
 
@@ -51,14 +51,14 @@ export const useFriendProfileActions = ({
   const accept = (friendshipId: string) => {
     acceptRequest.mutate(
       { friendshipId, userId },
-      { onError: () => toast.error(t('acceptFailed')) },
+      { onError: () => toast.error(t('acceptFailed')) }
     );
   };
 
   const decline = (friendshipId: string) => {
     declineRequest.mutate(
       { friendshipId, userId },
-      { onError: () => toast.error(t('declineFailed')) },
+      { onError: () => toast.error(t('declineFailed')) }
     );
   };
 

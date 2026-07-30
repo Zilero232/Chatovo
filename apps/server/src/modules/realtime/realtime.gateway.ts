@@ -1,10 +1,14 @@
+import type { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import type { OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
+import type { IncomingMessage } from 'node:http';
+import type { WebSocket } from 'ws';
+
 import { Logger } from '@nestjs/common';
 import { WebSocketGateway } from '@nestjs/websockets';
 
-import { auth } from '../auth/auth';
-import { getUserCallSnapshot } from '../friends/call-store';
-import { FriendsService } from '../friends/friends.service';
-import { addLobbyConnection, getSnapshot, removeLobbyConnection } from '../livekit/presence';
+import { FriendshipService, getUserCallSnapshot } from '../friends';
+import { addLobbyConnection, getSnapshot, removeLobbyConnection } from '../livekit';
+import { HEARTBEAT_INTERVAL_MS } from './config';
 import {
   getConnectionByWs,
   hasUserConnection,
@@ -12,28 +16,10 @@ import {
   markConnectionAlive,
   registerConnection,
   sendToConnection,
-  unregisterConnection,
+  unregisterConnection
 } from './connection-store';
 import { handleClientMessage } from './handlers/client-message';
-
-import type { IncomingMessage } from 'node:http';
-import type { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import type { OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
-import type { WebSocket } from 'ws';
-
-const HEARTBEAT_INTERVAL_MS = 30_000;
-
-const authorize = async (token: string | null): Promise<string | null> => {
-  if (!token) {
-    return null;
-  }
-
-  const session = await auth.api.getSession({
-    headers: new Headers({ Authorization: `Bearer ${token}` }),
-  });
-
-  return session?.user.id ?? null;
-};
+import { authorizeToken } from './lib';
 
 @WebSocketGateway({ path: '/realtime' })
 export class RealtimeGateway
@@ -43,7 +29,7 @@ export class RealtimeGateway
 
   private heartbeat: ReturnType<typeof setInterval> | null = null;
 
-  constructor(private readonly friends: FriendsService) {}
+  constructor(private readonly friendship: FriendshipService) {}
 
   onModuleInit() {
     this.heartbeat = setInterval(() => {
@@ -68,7 +54,7 @@ export class RealtimeGateway
 
   async handleConnection(client: WebSocket, request: IncomingMessage) {
     const token = new URL(request.url ?? '/', 'http://localhost').searchParams.get('token');
-    const userId = await authorize(token);
+    const userId = await authorizeToken(token);
 
     if (!userId) {
       client.close(4401, 'Unauthorized');
@@ -92,15 +78,15 @@ export class RealtimeGateway
 
     sendToConnection(connection.id, {
       type: 'presence.snapshot',
-      snapshot: getSnapshot(),
+      snapshot: getSnapshot()
     });
 
     sendToConnection(connection.id, {
       type: 'friends.snapshot',
-      snapshot: getUserCallSnapshot(userId),
+      snapshot: getUserCallSnapshot(userId)
     });
 
-    await this.friends.broadcastFriendPresence(userId, true);
+    await this.friendship.broadcastFriendPresence({ userId, isOnline: true });
   }
 
   async handleDisconnect(client: WebSocket) {
@@ -116,7 +102,7 @@ export class RealtimeGateway
     removeLobbyConnection(userId);
 
     if (!hasUserConnection(userId)) {
-      await this.friends.broadcastFriendPresence(userId, false);
+      await this.friendship.broadcastFriendPresence({ userId, isOnline: false });
     }
   }
 }

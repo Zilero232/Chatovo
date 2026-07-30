@@ -1,8 +1,8 @@
 'use client';
 
-import { useVoiceRoomSounds } from '../../../model/hooks';
-
 import type { RoomSoundsControllerProps } from './RoomSoundsController.types';
+
+import { useVoiceRoomSounds } from '../../../model/hooks';
 
 export const RoomSoundsController = ({ roomId }: RoomSoundsControllerProps) => {
   useVoiceRoomSounds(roomId);

@@ -1,14 +1,15 @@
+import type { Menu } from '@tauri-apps/api/menu';
+
 import { defaultWindowIcon } from '@tauri-apps/api/app';
 import { TrayIcon } from '@tauri-apps/api/tray';
 
 import { toggleMainWindow } from '@/shared/lib';
+
 import { TRAY_ID } from '../config/menu-ids';
 
-import type { Menu } from '@tauri-apps/api/menu';
-
 type SetupTrayArgs = {
-  tooltip: string;
   menu: Menu;
+  tooltip: string;
 };
 
 type SetupTrayResult = {
@@ -36,12 +37,12 @@ export const setupTray = async ({ tooltip, menu }: SetupTrayArgs): Promise<Setup
           await toggleMainWindow();
         } catch {}
       }
-    },
+    }
   });
 
   return {
     dispose: async () => {
       await tray.close();
-    },
+    }
   };
 };

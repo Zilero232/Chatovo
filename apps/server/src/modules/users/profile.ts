@@ -1,15 +1,15 @@
+import type { UserProfile } from '@chatovo/schemas';
+
 import { isString } from 'remeda';
 
-import type { UserProfile } from '@chatovo/schemas';
 import type { Prisma } from '../../../generated';
 
-const resolveString = (value: unknown): string | null => {
-  return isString(value) && value.trim().length > 0 ? value.trim() : null;
-};
+const resolveString = (value: unknown): string | null =>
+  isString(value) && value.trim().length > 0 ? value.trim() : null;
 
 export type UserWithProfile = Prisma.UserGetPayload<{ include: { profile: true } }>;
 
-type DisplayNameSource = Partial<Pick<Prisma.UserGetPayload<true>, 'name' | 'email'>> & {
+type DisplayNameSource = Partial<Pick<Prisma.UserGetPayload<true>, 'email' | 'name'>> & {
   displayName?: string | null;
   userId: string;
 };
@@ -18,10 +18,9 @@ export const resolveDisplayName = ({
   displayName,
   name,
   email,
-  userId,
-}: DisplayNameSource): string => {
-  return resolveString(displayName) ?? resolveString(name) ?? email?.split('@')[0] ?? userId;
-};
+  userId
+}: DisplayNameSource): string =>
+  resolveString(displayName) ?? resolveString(name) ?? email?.split('@')[0] ?? userId;
 
 export const toUserProfile = (user: UserWithProfile): UserProfile => {
   const { id, name, email, image, verified, profile, friendTag } = user;
@@ -34,6 +33,6 @@ export const toUserProfile = (user: UserWithProfile): UserProfile => {
     profileUrl: resolveString(profile?.profileUrl),
     bannerColor: resolveString(profile?.bannerColor),
     bio: resolveString(profile?.bio),
-    verified,
+    verified
   };
 };

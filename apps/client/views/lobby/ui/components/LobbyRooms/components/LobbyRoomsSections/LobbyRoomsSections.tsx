@@ -3,11 +3,22 @@
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 
+import type { LobbyRoomsSectionsProps } from './LobbyRoomsSections.types';
+
 import { LobbyRoomCard } from '../../../LobbyRoomCard';
+import {
+  LOBBY_CARD_ANIMATE,
+  LOBBY_CARD_EXIT,
+  LOBBY_CARD_INITIAL,
+  LOBBY_CARD_REDUCED,
+  LOBBY_CARD_TRANSITION,
+  LOBBY_SECTION_ANIMATE,
+  LOBBY_SECTION_INITIAL,
+  LOBBY_SECTION_REDUCED,
+  LOBBY_SECTION_TRANSITION
+} from './LobbyRoomsSections.motion';
 
 import s from '../../LobbyRooms.module.scss';
-
-import type { LobbyRoomsSectionsProps } from './LobbyRoomsSections.types';
 
 export const LobbyRoomsSections = ({ sections }: LobbyRoomsSectionsProps) => {
   const tSections = useTranslations('room.sections');
@@ -18,15 +29,13 @@ export const LobbyRoomsSections = ({ sections }: LobbyRoomsSectionsProps) => {
       {sections.map((section, sectionIndex) => (
         <motion.section
           key={section.key}
-          className={s.section}
-          initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
           transition={{
-            type: 'spring',
-            stiffness: 420,
-            damping: 34,
-            delay: shouldReduceMotion ? 0 : sectionIndex * 0.09,
+            ...LOBBY_SECTION_TRANSITION,
+            delay: shouldReduceMotion ? 0 : sectionIndex * 0.09
           }}
+          animate={LOBBY_SECTION_ANIMATE}
+          className={s.section}
+          initial={shouldReduceMotion ? LOBBY_SECTION_REDUCED : LOBBY_SECTION_INITIAL}
         >
           <div className={s.sectionHeader}>
             <h4 className={s.sectionLabel}>{tSections(section.key)}</h4>
@@ -35,20 +44,18 @@ export const LobbyRoomsSections = ({ sections }: LobbyRoomsSectionsProps) => {
           </div>
 
           <div className={s.grid}>
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence mode='popLayout'>
               {section.rooms.map((room, roomIndex) => (
                 <motion.div
-                  key={room.id}
                   layout
-                  initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
+                  key={room.id}
                   transition={{
-                    type: 'spring',
-                    stiffness: 420,
-                    damping: 34,
-                    delay: shouldReduceMotion ? 0 : Math.min(roomIndex, 10) * 0.03,
+                    ...LOBBY_CARD_TRANSITION,
+                    delay: shouldReduceMotion ? 0 : Math.min(roomIndex, 10) * 0.03
                   }}
+                  animate={LOBBY_CARD_ANIMATE}
+                  exit={shouldReduceMotion ? LOBBY_CARD_REDUCED : LOBBY_CARD_EXIT}
+                  initial={shouldReduceMotion ? LOBBY_CARD_REDUCED : LOBBY_CARD_INITIAL}
                 >
                   <LobbyRoomCard room={room} />
                 </motion.div>

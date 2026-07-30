@@ -1,20 +1,20 @@
 'use client';
 
 import { LiveKitRoom } from '@livekit/components-react';
-import { setLogLevel } from 'livekit-client';
-
-setLogLevel('error');
-
 import { useBoolean } from '@siberiacancode/reactuse';
+import { setLogLevel } from 'livekit-client';
 
 import {
   DeafenProvider,
   ReactionsOverlay,
   ReactionsProvider,
-  RoomAudio,
+  RoomAudio
 } from '@/features/room/room-control';
 import { appEvents } from '@/shared/lib';
 import { ChatPanel } from '@/widgets/chat/chat-panel';
+
+import type { VoiceRoomProps } from './VoiceRoom.types';
+
 import { LocalSpeakingProvider } from '../model/contexts';
 import { useRoomConnection } from '../model/hooks';
 import {
@@ -22,13 +22,13 @@ import {
   ParticipantsView,
   RoomAmbience,
   RoomControlsBar,
-  RoomHeader,
+  RoomHeader
 } from './components';
 import { RoomControllers } from './controllers';
 
 import s from './VoiceRoom.module.scss';
 
-import type { VoiceRoomProps } from './VoiceRoom.types';
+setLogLevel('error');
 
 export const VoiceRoom = ({
   roomId,
@@ -38,7 +38,7 @@ export const VoiceRoom = ({
   initialChatOpen = false,
   isDm = false,
   onConnectFailure,
-  onLeave,
+  onLeave
 }: VoiceRoomProps) => {
   const [isChatOpen, toggleChat] = useBoolean(initialChatOpen);
 
@@ -47,7 +47,7 @@ export const VoiceRoom = ({
   const { audioCapture, publishDefaults, handleConnected, handleDisconnected } = useRoomConnection({
     roomId,
     onConnectFailure,
-    onLeave,
+    onLeave
   });
 
   return (
@@ -83,7 +83,7 @@ export const VoiceRoom = ({
                   onToggleChat={() => toggleChat()}
                 />
 
-                <ChatPanel roomId={roomId} isOpen={isChatOpen} onClose={() => toggleChat(false)} />
+                <ChatPanel isOpen={isChatOpen} roomId={roomId} onClose={() => toggleChat(false)} />
 
                 <RoomAudio />
                 <RoomControllers roomId={roomId} />

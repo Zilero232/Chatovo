@@ -1,5 +1,7 @@
 'use client';
 
+import type { CreateRoomRequest } from '@chatovo/schemas';
+
 import { createRoomInputSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
@@ -9,7 +11,6 @@ import { toast } from 'sonner';
 import { useErrorMessage } from '@/entities/app/locale';
 import { useCreateRoom, useEnterRoom } from '@/entities/room/room';
 
-import type { CreateRoomRequest } from '@chatovo/schemas';
 import type { UseCreateRoomFormInput } from './use-create-room-form.types';
 
 const DEFAULT_VALUES: CreateRoomRequest = { name: '', isPrivate: false };
@@ -23,7 +24,7 @@ export const useCreateRoomForm = ({ onCreated }: UseCreateRoomFormInput) => {
   const form = useForm<CreateRoomRequest>({
     resolver: zodResolver(createRoomInputSchema),
     mode: 'onChange',
-    defaultValues: DEFAULT_VALUES,
+    defaultValues: DEFAULT_VALUES
   });
 
   const isPrivate = form.watch('isPrivate');
@@ -38,10 +39,10 @@ export const useCreateRoomForm = ({ onCreated }: UseCreateRoomFormInput) => {
         onCreated?.();
         enterMutation.mutate(
           { roomId: room.id, password: values.isPrivate ? values.password : undefined },
-          { onError: (err: Error) => toast.error(errorMessage(err)) },
+          { onError: (err: Error) => toast.error(errorMessage(err)) }
         );
       },
-      onError: (err: Error) => toast.error(errorMessage(err)),
+      onError: (err: Error) => toast.error(errorMessage(err))
     });
   });
 

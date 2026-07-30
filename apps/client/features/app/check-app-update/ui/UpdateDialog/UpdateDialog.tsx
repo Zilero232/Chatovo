@@ -11,14 +11,15 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from '@/shared/ui';
+
+import type { UpdateDialogProps } from './UpdateDialog.types';
+
 import { parseTauriDate } from '../../lib/parse-tauri-date';
 import { UpdateProgress } from './UpdateProgress';
 
 import s from './UpdateDialog.module.scss';
-
-import type { UpdateDialogProps } from './UpdateDialog.types';
 
 export const UpdateDialog = ({
   status,
@@ -27,7 +28,7 @@ export const UpdateDialog = ({
   date,
   progress,
   onInstall,
-  onDismiss,
+  onDismiss
 }: UpdateDialogProps) => {
   const t = useTranslations('update');
   const dateLocale = useDateLocale();
@@ -74,14 +75,14 @@ export const UpdateDialog = ({
           {releaseDate && <span>{t('releasedOn', { date: releaseDate })}</span>}
         </div>
 
-        <UpdateProgress status={status} progress={progress} />
+        <UpdateProgress progress={progress} status={status} />
 
         {!isBusy && (
           <DialogFooter>
-            <Button variant="outline" onClick={onDismiss}>
+            <Button variant='outline' onClick={onDismiss}>
               {t('later')}
             </Button>
-            <Button onClick={onInstall} disabled={status === 'error'}>
+            <Button disabled={status === 'error'} onClick={onInstall}>
               {t('install')}
             </Button>
           </DialogFooter>

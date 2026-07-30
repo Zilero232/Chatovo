@@ -1,8 +1,8 @@
 'use client';
 
 import { DoorClosed } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 import { ROUTES } from '@/shared/constants';
 import { Button, CenteredState } from '@/shared/ui';
@@ -15,9 +15,9 @@ export const RoomNotFound = () => {
 
   return (
     <CenteredState
+      action={<Button onClick={() => router.replace(ROUTES.lobby)}>{t('backToLobby')}</Button>}
       icon={<DoorClosed className={s.icon} />}
       title={t('notFound')}
-      action={<Button onClick={() => router.replace(ROUTES.lobby)}>{t('backToLobby')}</Button>}
     />
   );
 };

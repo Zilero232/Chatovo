@@ -1,12 +1,14 @@
-export { ensureUserFriendTag, issueUniqueFriendTag } from './friend-tag';
-export {
-  assertCanAccessDmRoom,
-  assertCanManageRoom,
-  assertRoomExists,
-  filterExistingRooms,
-  getRoomDmRouting,
-  getRoomName,
-  getUserDisplayName,
-  getUserWithProfileOrThrow,
-} from './guards';
-export { roomSelect, senderSelect } from './selectors';
+export { assertCanAccessDmRoom } from './assert-can-access-dm-room';
+export type { AssertCanAccessDmRoomInput } from './assert-can-access-dm-room';
+export { assertCanManageRoom } from './assert-can-manage-room';
+export type { AssertCanManageRoomInput } from './assert-can-manage-room';
+export { assertRoomExists } from './assert-room-exists';
+export { ensureUserFriendTag } from './ensure-user-friend-tag';
+export type { EnsureUserFriendTagInput } from './ensure-user-friend-tag';
+export { filterExistingRooms } from './filter-existing-rooms';
+export { getRoomDmRouting } from './get-room-dm-routing';
+export { getRoomName } from './get-room-name';
+export { getUserDisplayName } from './get-user-display-name';
+export { getUserWithProfileOrThrow } from './get-user-with-profile';
+export { issueUniqueFriendTag } from './issue-friend-tag';
+export { roomSelect, senderSelect, userWithProfileInclude } from './selectors';

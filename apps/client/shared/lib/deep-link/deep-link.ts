@@ -2,7 +2,7 @@ import { APP_SCHEME } from '@/shared/constants/scheme';
 
 export const buildDeepLinkUrl = (
   path: string,
-  searchParams?: Record<string, string | undefined>,
+  searchParams?: Record<string, string | undefined>
 ): string => {
   const normalizedPath = path.startsWith('/') ? path.slice(1) : path;
   const [host, ...rest] = normalizedPath.split('/');

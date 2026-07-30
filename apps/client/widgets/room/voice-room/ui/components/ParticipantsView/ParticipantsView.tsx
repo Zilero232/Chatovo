@@ -7,17 +7,18 @@ import { useTranslations } from 'next-intl';
 
 import { useRoomParticipants } from '@/entities/room/room';
 import { Text } from '@/shared/ui';
+
+import type { ParticipantsViewProps } from './ParticipantsView.types';
+
 import { InviteParticipantCard } from '../InviteParticipantCard';
 import { ParticipantCard } from '../ParticipantCard';
 
 import s from './ParticipantsView.module.scss';
 
-import type { ParticipantsViewProps } from './ParticipantsView.types';
-
 const ROSTER_EVENTS = [
   RoomEvent.ParticipantConnected,
   RoomEvent.ParticipantDisconnected,
-  RoomEvent.ConnectionStateChanged,
+  RoomEvent.ConnectionStateChanged
 ];
 
 export const ParticipantsView = ({ roomId, isDm = false }: ParticipantsViewProps) => {
@@ -40,10 +41,10 @@ export const ParticipantsView = ({ roomId, isDm = false }: ParticipantsViewProps
         <div className={s.dmStage}>
           {peer ? (
             <div className={s.dmPeer}>
-              <ParticipantCard participant={peer} deafened={deafenedIds.has(peer.identity)} fill />
+              <ParticipantCard fill deafened={deafenedIds.has(peer.identity)} participant={peer} />
             </div>
           ) : (
-            <Text className={s.dmWaiting} tone="muted">
+            <Text className={s.dmWaiting} tone='muted'>
               {t('dmWaiting')}
             </Text>
           )}
@@ -51,9 +52,9 @@ export const ParticipantsView = ({ roomId, isDm = false }: ParticipantsViewProps
           {localParticipant && (
             <div className={s.dmSelf}>
               <ParticipantCard
-                participant={localParticipant}
-                deafened={deafenedIds.has(localParticipant.identity)}
                 fill
+                deafened={deafenedIds.has(localParticipant.identity)}
+                participant={localParticipant}
               />
             </div>
           )}
@@ -68,8 +69,8 @@ export const ParticipantsView = ({ roomId, isDm = false }: ParticipantsViewProps
         {participants.map((participant) => (
           <ParticipantCard
             key={participant.identity}
-            participant={participant}
             deafened={deafenedIds.has(participant.identity)}
+            participant={participant}
           />
         ))}
         {showInviteSlot && <InviteParticipantCard roomId={roomId} />}

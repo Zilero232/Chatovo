@@ -1,5 +1,7 @@
 'use client';
 
+import type { KeyboardEvent } from 'react';
+
 import { useIsMuted, VideoTrack } from '@livekit/components-react';
 import { clsx } from 'clsx';
 import { Expand, Shrink } from 'lucide-react';
@@ -8,10 +10,9 @@ import { createPortal } from 'react-dom';
 
 import { useAppSettings } from '@/entities/app/settings';
 
-import s from './CardVideo.module.scss';
-
-import type { KeyboardEvent } from 'react';
 import type { CardVideoProps } from './CardVideo.types';
+
+import s from './CardVideo.module.scss';
 
 export const CardVideo = ({ trackRef }: CardVideoProps) => {
   const muted = useIsMuted(trackRef);
@@ -24,7 +25,7 @@ export const CardVideo = ({ trackRef }: CardVideoProps) => {
 
   const videoClassName = clsx(s.video, { [s.videoMirrored]: isMirrored });
   const expandedVideoClassName = clsx(s.video, s.videoContain, {
-    [s.videoMirrored]: isMirrored,
+    [s.videoMirrored]: isMirrored
   });
 
   const toggle = () => {
@@ -48,8 +49,7 @@ export const CardVideo = ({ trackRef }: CardVideoProps) => {
 
   return (
     <>
-      {/* biome-ignore lint/a11y/useSemanticElements: <button> cannot wrap a <video>; div + role=button is the valid composite */}
-      <div className={s.pane} role="button" tabIndex={0} onClick={toggle} onKeyDown={handleKeyDown}>
+      <div className={s.pane} role='button' tabIndex={0} onClick={toggle} onKeyDown={handleKeyDown}>
         {!isExpanded && <VideoTrack className={videoClassName} trackRef={trackRef} />}
         <div className={s.fullscreenHint}>
           <Expand className={s.hintIcon} />
@@ -58,10 +58,9 @@ export const CardVideo = ({ trackRef }: CardVideoProps) => {
 
       {isExpanded &&
         createPortal(
-          // biome-ignore lint/a11y/useSemanticElements: same composite pattern, rendered in a portal above the app
           <div
             className={s.overlay}
-            role="button"
+            role='button'
             tabIndex={0}
             onClick={toggle}
             onKeyDown={handleKeyDown}
@@ -71,7 +70,7 @@ export const CardVideo = ({ trackRef }: CardVideoProps) => {
               <Shrink className={s.hintIcon} />
             </div>
           </div>,
-          document.body,
+          document.body
         )}
     </>
   );

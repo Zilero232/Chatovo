@@ -12,10 +12,9 @@ type Labels = {
 export const formatBindingDisplay = (
   recording: boolean,
   binding: ShortcutBinding,
-  labels: Labels,
-): string => {
-  return match({ recording, binding })
+  labels: Labels
+): string =>
+  match({ recording, binding })
     .with({ recording: true }, () => labels.recording)
     .with({ binding: P.nullish }, () => labels.unassigned)
     .otherwise(({ binding: b }) => prettyHotkey(b as string));
-};

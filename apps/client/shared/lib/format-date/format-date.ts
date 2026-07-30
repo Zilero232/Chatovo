@@ -1,9 +1,9 @@
 import { format, isSameDay, isToday, isYesterday } from 'date-fns';
 import { isNumber } from 'remeda';
 
-const toDate = (value: Date | number) => (isNumber(value) ? new Date(value) : value);
+const toDate = (value: number | Date) => (isNumber(value) ? new Date(value) : value);
 
-export const formatMessageTime = (timestamp: Date | number) => {
+export const formatMessageTime = (timestamp: number | Date) => {
   const date = toDate(timestamp);
   if (isToday(date)) {
     return format(date, 'HH:mm');
@@ -14,15 +14,13 @@ export const formatMessageTime = (timestamp: Date | number) => {
   return format(date, 'd MMM, HH:mm');
 };
 
-export const isSameCalendarDay = (a: Date | number, b: Date | number) =>
+export const isSameCalendarDay = (a: number | Date, b: number | Date) =>
   isSameDay(toDate(a), toDate(b));
 
 export type DateDivider =
-  | { kind: 'today' }
-  | { kind: 'yesterday' }
-  | { kind: 'date'; label: string };
+  { kind: 'date'; label: string } | { kind: 'today' } | { kind: 'yesterday' };
 
-export const getDateDivider = (timestamp: Date | number): DateDivider => {
+export const getDateDivider = (timestamp: number | Date): DateDivider => {
   const date = toDate(timestamp);
 
   if (isToday(date)) {

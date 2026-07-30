@@ -1,4 +1,5 @@
 import type { z } from 'zod';
+
 import type { sendFriendRequestInputSchema } from './inputs';
 import type {
   friendCallStatusSchema,
@@ -10,7 +11,7 @@ import type {
   incomingFriendCallResponseSchema,
   incomingFriendCallSchema,
   outgoingFriendCallResponseSchema,
-  outgoingFriendCallSchema,
+  outgoingFriendCallSchema
 } from './outputs';
 
 export type FriendCallStatus = z.infer<typeof friendCallStatusSchema>;

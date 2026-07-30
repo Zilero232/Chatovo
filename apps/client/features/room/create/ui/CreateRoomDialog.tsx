@@ -10,11 +10,12 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from '@/shared/ui';
-import { CreateRoomForm } from './components';
 
 import type { CreateRoomDialogProps } from './CreateRoomDialog.types';
+
+import { CreateRoomForm } from './components';
 
 export const CreateRoomDialog = ({ trigger }: CreateRoomDialogProps) => {
   const t = useTranslations('createRoom');
@@ -22,16 +23,16 @@ export const CreateRoomDialog = ({ trigger }: CreateRoomDialogProps) => {
 
   return (
     <Dialog
-      open={isOpen}
-      onOpenChange={toggleOpen}
       trigger={
         trigger ?? (
-          <Button type="button">
+          <Button type='button'>
             <Plus />
             {t('trigger')}
           </Button>
         )
       }
+      open={isOpen}
+      onOpenChange={toggleOpen}
     >
       <DialogContent>
         <DialogHeader>

@@ -2,11 +2,11 @@
 
 .root {
   display: flex;
-  gap: 0.5rem;
   align-items: center;
-  padding-inline: 0.25rem;
-  font-size: rem(11);
   color: var(--muted-foreground);
+  font-size: rem(11);
+  gap: 0.5rem;
+  padding-inline: 0.25rem;
 }
 
 .nameTrigger {
@@ -21,8 +21,8 @@
 }
 
 .author {
-  font-weight: 500;
   color: color-mix(in oklch, var(--foreground) 80%, transparent);
+  font-weight: 500;
 }
 
 .time {

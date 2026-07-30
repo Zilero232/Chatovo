@@ -1,0 +1,31 @@
+import { basePrisma as prisma } from '../../core';
+
+const normalizeTagSeed = (name: string): string => {
+  const cleaned = name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '')
+    .slice(0, 12);
+
+  return cleaned.length > 0 ? cleaned : 'user';
+};
+
+const randomDiscriminator = (): string => Math.floor(1000 + Math.random() * 9000).toString();
+
+const buildFriendTag = (name: string): string =>
+  `${normalizeTagSeed(name)}#${randomDiscriminator()}`;
+
+export const issueUniqueFriendTag = async (name: string): Promise<string> => {
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const friendTag = buildFriendTag(name);
+    const existing = await prisma.user.findUnique({
+      where: { friendTag },
+      select: { id: true }
+    });
+
+    if (!existing) {
+      return friendTag;
+    }
+  }
+
+  throw new Error('Unable to generate unique friend tag');
+};

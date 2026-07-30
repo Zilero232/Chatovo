@@ -1,9 +1,10 @@
 import type { z } from 'zod';
+
 import type {
   editMessageInputSchema,
   listMessagesQuerySchema,
   messageIdParamSchema,
-  sendMessageInputSchema,
+  sendMessageInputSchema
 } from './inputs';
 import type { chatAttachmentSchema, chatMessageSchema, chatMessagesPageSchema } from './outputs';
 

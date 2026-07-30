@@ -28,15 +28,15 @@ Cargo.toml            # Rust deps (tauri + plugins)
 ```bash
 bun tauri:dev          # run the desktop dev shell
 bun tauri:build        # produce a native binary
-bun tauri:android:init # init Android project (requires SDK + NDK)
-bun tauri:android:dev  # run on Android device/emulator
-bun tauri:android:build # build Play Store AAB
+bun android:init # init Android project (requires SDK + NDK)
+bun android:dev  # run on Android device/emulator
+bun android:build # build Play Store AAB
 ```
 
-Android setup: install Android Studio (SDK + NDK), copy `apps/tauri/.env.example` → `.env`, set `NDK_HOME` to your installed NDK folder, then `bun tauri:android:init`. See [docs/play-store/README.md](../../docs/play-store/README.md).
+Android setup: install Android Studio (SDK + NDK), copy `apps/tauri/.env.example` → `.env`, set `NDK_HOME` to your installed NDK folder, then `bun android:init`. See [docs/play-store/README.md](../../docs/play-store/README.md).
 
 **WebRTC (mic/camera):** `build.rs` calls `tauri_utils::build::update_android_manifest` (same API Tauri plugins use) to inject `RECORD_AUDIO`, `CAMERA`, and `MODIFY_AUDIO_SETTINGS` into `gen/android/.../AndroidManifest.xml` on Android builds. Without these, `getUserMedia` fails on Android — `RustWebChromeClient` can only show the OS prompt when permissions are declared in the manifest.
 
 **FCM (push):** `google-services.json` lives in `android/` (committed). `scripts/setup-android-fcm.mjs` runs before every `android:*` build and copies it into `gen/android/app/` + applies the Google Services Gradle plugin — `gen/` is gitignored and must not be edited by hand.
 
-**Android dev:** `bun dev:server` + `bun tauri:android:dev`. HMR shim in client `layout.tsx` (`getTauriMobileHmrShim`).
+**Android dev:** `bun dev:server` + `bun android:dev`. HMR shim in client `layout.tsx` (`getTauriMobileHmrShim`).

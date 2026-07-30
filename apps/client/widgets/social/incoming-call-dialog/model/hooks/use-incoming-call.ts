@@ -1,14 +1,14 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import {
   useAcceptIncomingFriendCall,
   useDeclineIncomingFriendCall,
   useFriendCallRingtone,
-  useIncomingFriendCall,
+  useIncomingFriendCall
 } from '@/entities/social/friend';
 import { buildRoomHref } from '@/shared/constants';
 
@@ -27,7 +27,7 @@ export const useIncomingCall = () => {
 
   const decline = () => {
     declineCall.mutate(undefined, {
-      onError: () => toast.error(t('declineFailed')),
+      onError: () => toast.error(t('declineFailed'))
     });
   };
 
@@ -40,7 +40,7 @@ export const useIncomingCall = () => {
 
         router.push(buildRoomHref(accepted.roomId, { title: accepted.caller.name }));
       },
-      onError: () => toast.error(t('acceptFailed')),
+      onError: () => toast.error(t('acceptFailed'))
     });
   };
 

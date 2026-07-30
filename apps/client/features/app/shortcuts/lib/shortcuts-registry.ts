@@ -1,10 +1,10 @@
 import { register, unregister, unregisterAll } from '@tauri-apps/plugin-global-shortcut';
 import { difference, entries, filter, groupBy, isNonNullish, map, mapValues, pipe } from 'remeda';
 
+import type { ShortcutActionId } from '@/entities/app/shortcut';
+
 import { conflictsActions } from '../model/stores';
 import { dispatchShortcut } from './dispatch-shortcut';
-
-import type { ShortcutActionId } from '@/entities/app/shortcut';
 
 type ActionToHotkey = Partial<Record<ShortcutActionId, string | null>>;
 
@@ -15,7 +15,7 @@ export const syncShortcuts = async (actionToHotkey: ActionToHotkey) => {
     entries(actionToHotkey),
     filter(([, hotkey]) => isNonNullish(hotkey)),
     groupBy(([, hotkey]) => hotkey as string),
-    mapValues((rows) => map(rows, ([action]) => action)),
+    mapValues((rows) => map(rows, ([action]) => action))
   );
 
   const wantedHotkeys = Object.keys(actionsByHotkey);

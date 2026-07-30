@@ -1,6 +1,6 @@
-import { api } from '../http';
-
 import type { UpdateProfilePayload, UserProfile } from '@chatovo/schemas';
+
+import { api } from '../http';
 
 export const getUserProfile = async (id: string): Promise<UserProfile> => {
   const { data } = await api.get(`/users/${id}/profile`);

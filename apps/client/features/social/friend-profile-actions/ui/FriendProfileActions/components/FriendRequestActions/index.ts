@@ -1,5 +1,5 @@
 export {
   AddFriendAction,
   CancelRequestAction,
-  IncomingRequestActions,
+  IncomingRequestActions
 } from './FriendRequestActions';

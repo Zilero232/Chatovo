@@ -10,9 +10,9 @@ import { z } from 'zod';
 import { useFieldError } from '@/entities/app/locale';
 import { FormField, Input, Row, Stack, SubmitButton, Text } from '@/shared/ui';
 
-import s from './RoomPasswordForm.module.scss';
-
 import type { RoomPasswordFormProps } from './RoomPasswordForm.types';
+
+import s from './RoomPasswordForm.module.scss';
 
 const passwordSchema = z.object({ password: roomPasswordSchema });
 
@@ -22,7 +22,7 @@ export const RoomPasswordForm = ({
   displayName,
   error,
   isSubmitting,
-  onSubmit,
+  onSubmit
 }: RoomPasswordFormProps) => {
   const t = useTranslations('room.password');
   const passwordError = useFieldError('room.password');
@@ -30,10 +30,10 @@ export const RoomPasswordForm = ({
   const {
     formState: { errors },
     handleSubmit,
-    register,
+    register
   } = useForm<PasswordValues>({
     resolver: zodResolver(passwordSchema),
-    defaultValues: { password: '' },
+    defaultValues: { password: '' }
   });
 
   const submit = handleSubmit(({ password }) => onSubmit(password));
@@ -41,28 +41,28 @@ export const RoomPasswordForm = ({
   const fieldError = passwordError(errors.password) ?? error;
 
   return (
-    <Row justify="center" align="center" className={s.root}>
+    <Row align='center' className={s.root} justify='center'>
       <Stack
-        as="form"
-        align="center"
-        gap="4"
+        align='center'
+        as='form'
         className={clsx(s.form, 'glass', 'shadow-glow-violet')}
+        gap='4'
         onSubmit={submit}
       >
-        <Text align="center" className={s.title} size="sm" tone="inherit">
+        <Text align='center' className={s.title} size='sm' tone='inherit'>
           {t('title', { name: displayName })}
         </Text>
 
         <FormField
-          htmlFor="room-password"
-          label={t('label')}
-          error={fieldError}
           className={s.field}
+          error={fieldError}
+          htmlFor='room-password'
+          label={t('label')}
         >
           <Input
             disabled={isSubmitting}
-            id="room-password"
-            type="password"
+            id='room-password'
+            type='password'
             {...register('password')}
           />
         </FormField>

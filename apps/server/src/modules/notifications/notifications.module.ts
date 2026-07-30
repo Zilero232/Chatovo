@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 
-import { PushListener } from './push.listener';
-import { TelegramListener } from './telegram.listener';
+import { PushListener, TelegramListener } from './listeners';
 
 @Module({
-  providers: [PushListener, TelegramListener],
+  providers: [PushListener, TelegramListener]
 })
 export class NotificationsModule {}

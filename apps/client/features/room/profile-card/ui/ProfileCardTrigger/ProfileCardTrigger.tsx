@@ -4,17 +4,18 @@ import { clsx } from 'clsx';
 import { useRef, useState } from 'react';
 
 import { PopoverContent } from '@/shared/ui';
+
+import type { ProfileCardTriggerProps } from './ProfileCardTrigger.types';
+
 import { ProfileCard } from '../ProfileCard';
 
 import s from './ProfileCardTrigger.module.scss';
-
-import type { ProfileCardTriggerProps } from './ProfileCardTrigger.types';
 
 export const ProfileCardTrigger = ({
   identity,
   name,
   className,
-  children,
+  children
 }: ProfileCardTriggerProps) => {
   const triggerRef = useRef<HTMLButtonElement>(null);
 
@@ -26,7 +27,7 @@ export const ProfileCardTrigger = ({
       <button
         ref={triggerRef}
         className={clsx(s.trigger, className)}
-        type="button"
+        type='button'
         onClick={() => {
           setHasOpened(true);
           setIsOpen(true);
@@ -37,7 +38,7 @@ export const ProfileCardTrigger = ({
 
       {hasOpened && (
         <PopoverContent
-          align="start"
+          align='start'
           className={s.content}
           isOpen={isOpen}
           sideOffset={8}

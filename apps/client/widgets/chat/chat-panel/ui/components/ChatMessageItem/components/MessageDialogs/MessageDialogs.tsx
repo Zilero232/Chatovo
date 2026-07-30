@@ -1,9 +1,9 @@
 'use client';
 
+import type { MessageDialogsProps } from './MessageDialogs.types';
+
 import { DeleteMessageDialog } from '../DeleteMessageDialog';
 import { EditMessageDialog } from '../EditMessageDialog';
-
-import type { MessageDialogsProps } from './MessageDialogs.types';
 
 export const MessageDialogs = ({
   body,
@@ -12,21 +12,21 @@ export const MessageDialogs = ({
   onEditingChange,
   onConfirmingDeleteChange,
   onSave,
-  onConfirmDelete,
+  onConfirmDelete
 }: MessageDialogsProps) => (
   <>
     <EditMessageDialog
       key={body}
-      open={isEditing}
       initialValue={body}
+      open={isEditing}
       onOpenChange={onEditingChange}
       onSave={onSave}
     />
 
     <DeleteMessageDialog
       open={isConfirmingDelete}
-      onOpenChange={onConfirmingDeleteChange}
       onConfirm={onConfirmDelete}
+      onOpenChange={onConfirmingDeleteChange}
     />
   </>
 );

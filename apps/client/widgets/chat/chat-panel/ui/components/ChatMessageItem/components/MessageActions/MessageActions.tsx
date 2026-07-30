@@ -5,9 +5,9 @@ import { useTranslations } from 'next-intl';
 
 import { Button } from '@/shared/ui';
 
-import s from './MessageActions.module.scss';
-
 import type { MessageActionsProps } from './MessageActions.types';
+
+import s from './MessageActions.module.scss';
 
 export const MessageActions = ({ canEdit, onEdit, onDelete }: MessageActionsProps) => {
   const t = useTranslations('chat');
@@ -15,11 +15,11 @@ export const MessageActions = ({ canEdit, onEdit, onDelete }: MessageActionsProp
   return (
     <div className={s.root}>
       {canEdit && (
-        <Button variant="ghost" size="icon-xs" aria-label={t('edit')} onClick={onEdit}>
+        <Button aria-label={t('edit')} size='icon-xs' variant='ghost' onClick={onEdit}>
           <Pencil />
         </Button>
       )}
-      <Button variant="ghost" size="icon-xs" aria-label={t('delete')} onClick={onDelete}>
+      <Button aria-label={t('delete')} size='icon-xs' variant='ghost' onClick={onDelete}>
         <Trash2 />
       </Button>
     </div>

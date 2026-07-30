@@ -1,5 +1,7 @@
 'use client';
 
+import type { Ref } from 'react';
+
 import { useAutoScroll } from '@siberiacancode/reactuse';
 import { Paperclip } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -9,6 +11,9 @@ import { match } from 'ts-pattern';
 
 import { useRealtimeSubscribe } from '@/entities/app/realtime';
 import { useCurrentUser } from '@/entities/auth/user';
+
+import type { ChatConversationProps } from './ChatConversation.types';
+
 import { useChatFiles, useChatHistory, useChatSend, useChatSync } from '../../model/hooks';
 import { groupChatLines } from '../../model/lib';
 import {
@@ -16,18 +21,15 @@ import {
   ChatEmpty,
   ChatLoadingSkeleton,
   ChatMessageItem,
-  DateDivider,
+  DateDivider
 } from '../components';
 
 import s from './ChatConversation.module.scss';
 
-import type { Ref } from 'react';
-import type { ChatConversationProps } from './ChatConversation.types';
-
 export const ChatConversation = ({
   roomId,
   currentUserId,
-  enabled = true,
+  enabled = true
 }: ChatConversationProps) => {
   const t = useTranslations('chat');
 
@@ -38,7 +40,7 @@ export const ChatConversation = ({
   const { messages: history, isPending: isHistoryPending } = useChatHistory(roomId);
   const { send, retry, discard } = useChatSend({
     roomId,
-    sender: { identity: currentUserId, name: displayName },
+    sender: { identity: currentUserId, name: displayName }
   });
   const { edit, remove } = useChatSync(roomId);
 
@@ -47,7 +49,7 @@ export const ChatConversation = ({
   const { dropRef, overed, isUploading, openPicker, onPaste } = useChatFiles({
     roomId,
     disabled: !enabled,
-    onSend: (body) => send(body),
+    onSend: (body) => send(body)
   });
 
   const messages = sortBy(history, (line) => line.timestamp);
@@ -72,15 +74,15 @@ export const ChatConversation = ({
                 <Fragment key={line.id}>
                   {showDivider && <DateDivider timestamp={line.timestamp} />}
                   <ChatMessageItem
-                    message={line}
-                    isOwn={isOwn}
-                    isGrouped={isGrouped}
-                    isTail={isTail}
                     canManage={isOwn}
-                    onEdit={edit}
+                    isGrouped={isGrouped}
+                    isOwn={isOwn}
+                    isTail={isTail}
+                    message={line}
                     onDelete={remove}
-                    onRetry={retry}
                     onDiscard={discard}
+                    onEdit={edit}
+                    onRetry={retry}
                   />
                 </Fragment>
               ))}
@@ -90,9 +92,9 @@ export const ChatConversation = ({
 
       <ChatComposer
         isUploading={isUploading}
-        onSend={send}
         onAttach={openPicker}
         onPaste={onPaste}
+        onSend={send}
       />
     </div>
   );

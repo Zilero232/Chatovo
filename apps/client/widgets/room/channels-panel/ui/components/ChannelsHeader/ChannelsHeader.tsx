@@ -6,9 +6,9 @@ import { useCurrentUser } from '@/entities/auth/user';
 import { BrandMark } from '@/shared/ui';
 import { LanguageSwitcher } from '@/widgets/app/language-switcher';
 
-import s from './ChannelsHeader.module.scss';
-
 import type { ChannelsHeaderProps } from './ChannelsHeader.types';
+
+import s from './ChannelsHeader.module.scss';
 
 export const ChannelsHeader = ({ compact = false }: ChannelsHeaderProps = {}) => {
   const { isAdmin } = useCurrentUser();
@@ -20,7 +20,7 @@ export const ChannelsHeader = ({ compact = false }: ChannelsHeaderProps = {}) =>
 
     return (
       <div className={clsx(s.root, 'surface-bar')}>
-        <span aria-hidden className="accent-top-line" />
+        <span aria-hidden className='accent-top-line' />
         <span className={s.adminBadge}>admin</span>
       </div>
     );
@@ -28,7 +28,7 @@ export const ChannelsHeader = ({ compact = false }: ChannelsHeaderProps = {}) =>
 
   return (
     <div className={clsx(s.root, 'surface-bar')}>
-      <span aria-hidden className="accent-top-line" />
+      <span aria-hidden className='accent-top-line' />
       <div className={s.titleGroup}>
         <BrandMark size={24} />
         <span className={s.title}>Chatovo</span>

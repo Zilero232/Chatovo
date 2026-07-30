@@ -12,17 +12,17 @@ export const AudioDevicesSection = () => {
   return (
     <>
       <SettingRow
-        label={t('microphone')}
-        hint={t('microphoneHint')}
-        control={<DeviceSelect kind="audioinput" />}
         stacked
+        control={<DeviceSelect kind='audioinput' />}
+        hint={t('microphoneHint')}
+        label={t('microphone')}
       />
 
       <SettingRow
-        label={t('speakers')}
-        hint={t('speakersHint')}
-        control={<DeviceSelect kind="audiooutput" emptyLabel={tDevices('systemDefault')} />}
         stacked
+        control={<DeviceSelect emptyLabel={tDevices('systemDefault')} kind='audiooutput' />}
+        hint={t('speakersHint')}
+        label={t('speakers')}
       />
     </>
   );

@@ -5,6 +5,7 @@ import { secondsToMilliseconds } from 'date-fns';
 
 import { fetchChatMessages } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
+
 import { chatMessageToChatLine, mergeChatHistory } from '../lib';
 
 export const useChatHistory = (roomId: string) => {
@@ -19,7 +20,7 @@ export const useChatHistory = (roomId: string) => {
       const fetched = page.items.map(chatMessageToChatLine);
 
       return mergeChatHistory(queryClient, roomId, fetched);
-    },
+    }
   });
 
   const messages = data ?? [];

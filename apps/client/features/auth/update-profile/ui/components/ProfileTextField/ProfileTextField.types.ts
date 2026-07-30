@@ -2,14 +2,14 @@ import type { HTMLInputTypeAttribute, ReactNode } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
 export type ProfileTextFieldProps = {
+  autoComplete?: string;
+  error?: ReactNode;
+  hint: ReactNode;
   id: string;
   label: string;
-  hint: ReactNode;
-  error?: ReactNode;
-  registration: UseFormRegisterReturn;
-  autoComplete?: string;
-  placeholder?: string;
-  type?: HTMLInputTypeAttribute;
-  rows?: number;
   multiline?: boolean;
+  placeholder?: string;
+  registration: UseFormRegisterReturn;
+  rows?: number;
+  type?: HTMLInputTypeAttribute;
 };

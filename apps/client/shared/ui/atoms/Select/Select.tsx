@@ -5,9 +5,9 @@ import { clsx } from 'clsx';
 import { Check, ChevronDown } from 'lucide-react';
 import { isNullish } from 'remeda';
 
-import s from './Select.module.scss';
-
 import type { SelectProps } from './Select.types';
+
+import s from './Select.module.scss';
 
 export const Select = <T extends string>({
   value,
@@ -17,7 +17,7 @@ export const Select = <T extends string>({
   className,
   menuClassName,
   'aria-label': ariaLabel,
-  onChange,
+  onChange
 }: SelectProps<T>) => {
   const handleChange = (next: unknown) => {
     if (isNullish(next) || next === '') {
@@ -33,7 +33,7 @@ export const Select = <T extends string>({
         aria-label={ariaLabel}
         className={clsx(s.trigger, className)}
         data-placeholder={isNullish(value) ? '' : undefined}
-        data-slot="select-trigger"
+        data-slot='select-trigger'
       >
         <BaseSelect.Value className={s.value}>
           {(selected: T | null) =>

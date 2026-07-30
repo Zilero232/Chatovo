@@ -1,5 +1,7 @@
 'use client';
 
+import type { RoomControllersProps } from './RoomControllers.types';
+
 import { DeafenSyncController } from '../DeafenSyncController';
 import { LocalSpeakingController } from '../LocalSpeakingController';
 import { MicActivationController } from '../MicActivationController';
@@ -9,8 +11,6 @@ import { RoomRealtimeSubscribe } from '../RoomRealtimeSubscribe';
 import { RoomSoundsController } from '../RoomSoundsController';
 import { RoomTrayController } from '../RoomTrayController';
 import { ShortcutActionsController } from '../ShortcutActionsController';
-
-import type { RoomControllersProps } from './RoomControllers.types';
 
 export const RoomControllers = ({ roomId }: RoomControllersProps) => (
   <>

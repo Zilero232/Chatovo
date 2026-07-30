@@ -2,9 +2,9 @@
 
 import { useTranslations } from 'next-intl';
 
-import s from './MessageBody.module.scss';
-
 import type { MessageBodyProps } from './MessageBody.types';
+
+import s from './MessageBody.module.scss';
 
 export const MessageBody = ({ bubble, isDeleted }: MessageBodyProps) => {
   const t = useTranslations('chat');

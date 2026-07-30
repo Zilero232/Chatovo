@@ -5,17 +5,17 @@
 
 @mixin focus-ring($color: var(--brand-violet)) {
   &:focus-visible {
-    outline: none;
     box-shadow: 0 0 0 #{rem(2)} color-mix(in oklch, #{$color} 50%, transparent);
+    outline: none;
   }
 }
 
 @mixin button-focus-ring($color: var(--brand-violet)) {
   &:focus-visible {
-    outline: none;
     box-shadow:
       0 0 0 #{rem(2)} color-mix(in oklch, #{$color} 50%, transparent),
       0 0 0 #{rem(4)} var(--background);
+    outline: none;
   }
 }
 
@@ -30,9 +30,9 @@
 }
 
 @mixin control-disabled {
-  pointer-events: none;
   cursor: not-allowed;
   opacity: 0.5;
+  pointer-events: none;
 }
 
 @mixin control-invalid {
@@ -46,11 +46,11 @@
   min-width: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  color: var(--foreground);
-  background: var(--input);
   backdrop-filter: blur(rem(12));
+  background: var(--input);
+  box-shadow: inset 0 rem(2) rem(4) oklch(0% 0 0deg / 20%);
+  color: var(--foreground);
   outline: none;
-  box-shadow: inset 0 rem(2) rem(4) oklch(0 0 0 / 20%);
   transition: all 150ms ease;
 
   &::placeholder {
@@ -58,14 +58,14 @@
   }
 
   &:hover:not(:disabled) {
-    border-color: oklch(1 0 0 / 20%);
+    border-color: oklch(100% 0 0deg / 20%);
   }
 }
 
 @mixin field-focus {
   &:focus-visible {
     border-color: color-mix(in oklch, var(--brand-cyan) 60%, transparent);
-    background: oklch(1 0 0 / 8%);
+    background: oklch(100% 0 0deg / 8%);
     box-shadow: 0 0 0 #{rem(2)} color-mix(in oklch, var(--brand-cyan) 25%, transparent);
   }
 }
@@ -81,25 +81,25 @@
 @mixin button-base {
   display: inline-flex;
   flex-shrink: 0;
-  gap: var(--space-2);
   align-items: center;
   justify-content: center;
   border: none;
   border-radius: var(--radius-lg);
   font-size: var(--text-sm);
   font-weight: 500;
-  text-decoration: none;
-  white-space: nowrap;
+  gap: var(--space-2);
   outline: none;
+  text-decoration: none;
   transition: colors 150ms ease-out;
+  white-space: nowrap;
 
   @include interactive-cursor;
   @include button-focus-ring;
 
   &:disabled,
   &[data-disabled] {
-    pointer-events: none;
     opacity: 0.4;
+    pointer-events: none;
   }
 
   &[aria-invalid='true'] {
@@ -107,20 +107,24 @@
   }
 
   svg {
-    pointer-events: none;
-    flex-shrink: 0;
     width: var(--icon-sm);
     height: var(--icon-sm);
+    flex-shrink: 0;
+    pointer-events: none;
   }
 }
 
 @mixin overlay-enter {
   &[data-starting-style] {
-    animation: overlay-fade-in 200ms ease-out, overlay-zoom-in 200ms ease-out;
+    animation:
+      overlay-fade-in 200ms ease-out,
+      overlay-zoom-in 200ms ease-out;
   }
 
   &[data-ending-style] {
-    animation: overlay-fade-out 200ms ease-in, overlay-zoom-out 200ms ease-in;
+    animation:
+      overlay-fade-out 200ms ease-in,
+      overlay-zoom-out 200ms ease-in;
   }
 }
 

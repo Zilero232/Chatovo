@@ -1,4 +1,4 @@
 export type RecentRoomsProps = {
-  onNavigate?: () => void;
   variant?: 'list' | 'strip';
+  onNavigate?: () => void;
 };

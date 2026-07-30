@@ -5,7 +5,7 @@ export const chatAttachmentSchema = z.object({
   url: z.url(),
   name: z.string().min(1).max(255),
   size: z.number().int().nonnegative(),
-  mime: z.string().min(1).max(255),
+  mime: z.string().min(1).max(255)
 });
 
 export const chatMessageSchema = z.object({
@@ -16,10 +16,10 @@ export const chatMessageSchema = z.object({
   body: z.string(),
   createdAt: z.string(),
   editedAt: z.string().nullable(),
-  deletedAt: z.string().nullable(),
+  deletedAt: z.string().nullable()
 });
 
 export const chatMessagesPageSchema = z.object({
   items: z.array(chatMessageSchema),
-  nextCursor: z.string().nullable(),
+  nextCursor: z.string().nullable()
 });

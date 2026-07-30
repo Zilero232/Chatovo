@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useLobbyOnline, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { env } from '@/shared/config';
 import { Tooltip, TooltipContent } from '@/shared/ui';
+
 import { LobbyGreeting, LobbyStat } from './components';
 
 import s from './LobbyHeader.module.scss';
@@ -23,7 +24,7 @@ export const LobbyHeader = () => {
 
   return (
     <div className={clsx(s.root, 'glass')}>
-      <div aria-hidden className="lobby-header-grid" />
+      <div aria-hidden className='lobby-header-grid' />
       <div aria-hidden className={s.accent} />
       <div aria-hidden className={s.wash} />
       <div aria-hidden className={s.washAlt} />
@@ -33,7 +34,7 @@ export const LobbyHeader = () => {
           <LobbyGreeting />
 
           <Tooltip>
-            <button aria-label={t('appVersion')} className={s.versionPill} type="button">
+            <button aria-label={t('appVersion')} className={s.versionPill} type='button'>
               <Sparkles aria-hidden className={s.versionIcon} />
               <span className={s.versionText}>v{env.NEXT_PUBLIC_APP_VERSION}</span>
             </button>
@@ -46,7 +47,7 @@ export const LobbyHeader = () => {
             icon={<Users className={s.statIconMuted} />}
             isLoading={isLoading}
             label={tStats('rooms')}
-            tone="rooms"
+            tone='rooms'
             value={rooms.length}
           />
 
@@ -54,14 +55,14 @@ export const LobbyHeader = () => {
             icon={<Radio className={liveRooms > 0 ? s.statIconLive : s.statIconMuted} />}
             isLoading={isLoading}
             label={tStats('live')}
-            tone="live"
+            tone='live'
             value={liveRooms}
           />
 
           <LobbyStat
             icon={<span className={s.statPulse} />}
             label={tStats('online')}
-            tone="online"
+            tone='online'
             value={lobbyOnline}
           />
         </div>

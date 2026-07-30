@@ -1,15 +1,15 @@
 .root {
-  user-select: none;
   display: flex;
-  gap: 0.5rem;
   align-items: center;
   font-size: 0.875rem;
   font-weight: 500;
+  gap: 0.5rem;
   line-height: 1;
+  user-select: none;
 
   :global([data-disabled='true']) & {
-    pointer-events: none;
     opacity: 0.5;
+    pointer-events: none;
   }
 
   :global(.peer:disabled) ~ & {

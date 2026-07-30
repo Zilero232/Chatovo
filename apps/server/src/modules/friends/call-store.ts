@@ -1,11 +1,12 @@
+import type { FriendCallStreamSnapshot } from '@chatovo/schemas';
+
 import { friendCallStatusSchema } from '@chatovo/schemas';
+
+import type { PendingFriendCall } from './friends.types';
 
 import { DomainEvent } from '../../common/events/domain-events';
 import { emitDomainEvent } from '../../common/events/emit-domain-event';
-import { emitFriendsSnapshot } from '../realtime/emit';
-
-import type { FriendCallStreamSnapshot } from '@chatovo/schemas';
-import type { PendingFriendCall } from './friends.types';
+import { emitFriendsSnapshot } from '../realtime';
 
 const CALL_STATUS = friendCallStatusSchema.enum;
 
@@ -18,6 +19,7 @@ const friendsEpochByUser = new Map<string, number>();
 const isExpired = (call: PendingFriendCall) => Date.now() > call.expiresAt;
 
 const emitUser = (userId: string) => {
+  // eslint-disable-next-line ts/no-use-before-define -- emitUser and getUserCallSnapshot are mutually recursive through pruneExpired; both only run after module init
   emitFriendsSnapshot(userId, getUserCallSnapshot(userId));
 };
 
@@ -67,10 +69,10 @@ export const getUserCallSnapshot = (userId: string): FriendCallStreamSnapshot =>
         ? {
             roomId: outgoingCall.roomId,
             callee: outgoingCall.callee,
-            status: outgoingCall.status,
+            status: outgoingCall.status
           }
         : null,
-    friendsEpoch: friendsEpochByUser.get(userId) ?? 0,
+    friendsEpoch: friendsEpochByUser.get(userId) ?? 0
   };
 };
 
@@ -84,14 +86,14 @@ export const bumpFriendsEpoch = (...userIds: string[]): void => {
 };
 
 export const setPendingCall = (
-  input: Pick<PendingFriendCall, 'roomId' | 'caller' | 'callee' | 'calleeId'>,
+  input: Pick<PendingFriendCall, 'callee' | 'calleeId' | 'caller' | 'roomId'>
 ): void => {
   pruneExpired();
 
   const pending: PendingFriendCall = {
     ...input,
     status: CALL_STATUS.ringing,
-    expiresAt: Date.now() + CALL_TTL_MS,
+    expiresAt: Date.now() + CALL_TTL_MS
   };
 
   byCallee.set(input.calleeId, pending);
@@ -102,7 +104,7 @@ export const setPendingCall = (
   emitDomainEvent(DomainEvent.CallRinging, {
     calleeId: input.calleeId,
     caller: input.caller,
-    roomId: input.roomId,
+    roomId: input.roomId
   });
 };
 

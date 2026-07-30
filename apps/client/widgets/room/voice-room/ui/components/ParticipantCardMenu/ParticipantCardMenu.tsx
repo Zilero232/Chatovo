@@ -9,17 +9,19 @@ import { formatPercent } from '@/shared/lib';
 import {
   ContextMenu,
   ContextMenuContent,
+  ContextMenuGroup,
   ContextMenuItem,
   ContextMenuLabel,
   ContextMenuSeparator,
   ContextMenuTrigger,
-  Slider,
+  Slider
 } from '@/shared/ui';
+
+import type { ParticipantCardMenuProps } from './ParticipantCardMenu.types';
+
 import { useParticipantVolume } from '../../../model/hooks';
 
 import s from './ParticipantCardMenu.module.scss';
-
-import type { ParticipantCardMenuProps } from './ParticipantCardMenu.types';
 
 export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMenuProps) => {
   const t = useTranslations('participant');
@@ -42,7 +44,9 @@ export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMe
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
 
       <ContextMenuContent className={s.content}>
-        <ContextMenuLabel>{displayName}</ContextMenuLabel>
+        <ContextMenuGroup>
+          <ContextMenuLabel>{displayName}</ContextMenuLabel>
+        </ContextMenuGroup>
 
         {isControllable && (
           <>

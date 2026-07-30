@@ -1,6 +1,8 @@
 'use client';
 
-import { type ChangeEmailValues, changeEmailSchema } from '@chatovo/schemas';
+import type { ChangeEmailValues } from '@chatovo/schemas';
+
+import { changeEmailSchema } from '@chatovo/schemas';
 import { useMutation } from '@tanstack/react-query';
 
 import { authClient } from '@/shared/api';
@@ -8,17 +10,16 @@ import { authClient } from '@/shared/api';
 export type { ChangeEmailValues };
 export { changeEmailSchema };
 
-export const useChangeEmail = () => {
-  return useMutation({
+export const useChangeEmail = () =>
+  useMutation({
     mutationFn: async ({ newEmail }: ChangeEmailValues) => {
       const { error } = await authClient.changeEmail({
         newEmail,
-        callbackURL: '/',
+        callbackURL: '/'
       });
 
       if (error) {
         throw new Error(error.message ?? 'Failed to change email');
       }
-    },
+    }
   });
-};

@@ -5,21 +5,21 @@ import { Crown, Headphones, Lock } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { isEmpty } from 'remeda';
 
-import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
+import { useCurrentUser, UserAvatar, UserName } from '@/entities/auth/user';
 import {
   DeafenedBadge,
   MicMutedBadge,
   OwnerCrown,
-  useRoomParticipants,
+  useRoomParticipants
 } from '@/entities/room/room';
 import { ManageRoomMenu } from '@/features/room/manage';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
 import { buildRoomHref } from '@/shared/constants';
 import { AvatarWithBadges } from '@/shared/ui';
 
-import s from './ChannelsRoomItem.module.scss';
-
 import type { ChannelsRoomItemProps } from './ChannelsRoomItem.types';
+
+import s from './ChannelsRoomItem.module.scss';
 
 export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) => {
   const router = useRouter();
@@ -44,9 +44,9 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
         <button
           className={clsx(s.trigger, {
             [s.triggerActive]: isActive,
-            [s.triggerOwner]: isOwner,
+            [s.triggerOwner]: isOwner
           })}
-          type="button"
+          type='button'
           onClick={handleClick}
         >
           <span className={s.triggerLabel}>
@@ -68,18 +68,18 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
               name={p.name}
             >
               <AvatarWithBadges
-                topLeft={p.identity === room.ownerId && <OwnerCrown />}
-                bottomRight={p.micMuted && <MicMutedBadge />}
                 bottomLeft={p.deafened && <DeafenedBadge />}
+                bottomRight={p.micMuted && <MicMutedBadge />}
+                topLeft={p.identity === room.ownerId && <OwnerCrown />}
               >
                 <UserAvatar
-                  name={p.name}
-                  src={p.avatarUrl}
                   className={s.participantAvatar}
                   fallbackClassName={s.participantFallback}
+                  name={p.name}
+                  src={p.avatarUrl}
                 />
               </AvatarWithBadges>
-              <UserName name={p.name} verified={p.verified} className={s.participantName} />
+              <UserName className={s.participantName} name={p.name} verified={p.verified} />
             </ProfileCardTrigger>
           ))}
         </div>

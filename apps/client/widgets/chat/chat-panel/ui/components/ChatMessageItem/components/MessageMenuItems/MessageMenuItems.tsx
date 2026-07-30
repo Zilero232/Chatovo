@@ -18,7 +18,7 @@ export const MessageMenuItems = ({ canEdit, onEdit, onDelete }: MessageMenuItems
           {t('edit')}
         </ContextMenuItem>
       )}
-      <ContextMenuItem variant="destructive" onSelect={onDelete}>
+      <ContextMenuItem variant='destructive' onSelect={onDelete}>
         <Trash2 />
         {t('delete')}
       </ContextMenuItem>

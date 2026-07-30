@@ -4,11 +4,20 @@ import { clsx } from 'clsx';
 import { motion, useReducedMotion } from 'motion/react';
 
 import { Text } from '@/shared/ui';
-import { LANDING_HERO_SPEAKERS, LANDING_WAVE_BARS } from '../../../config';
-
-import s from '../../LandingPage.module.scss';
 
 import type { LandingHeroVisualProps } from './LandingHeroVisual.types';
+
+import { LANDING_HERO_SPEAKERS, LANDING_WAVE_BARS } from '../../../config';
+import {
+  HERO_SPEAKER_PULSE,
+  HERO_SPEAKER_TRANSITION,
+  HERO_VISUAL_ANIMATE,
+  HERO_VISUAL_INITIAL,
+  HERO_VISUAL_REDUCED_INITIAL,
+  HERO_VISUAL_TRANSITION
+} from './LandingHeroVisual.motion';
+
+import s from '../../LandingPage.module.scss';
 
 export const LandingHeroVisual = ({ liveLabel }: LandingHeroVisualProps) => {
   const shouldReduceMotion = useReducedMotion();
@@ -16,23 +25,18 @@ export const LandingHeroVisual = ({ liveLabel }: LandingHeroVisualProps) => {
   return (
     <motion.div
       aria-hidden
+      animate={HERO_VISUAL_ANIMATE}
       className={clsx(s.heroVisual, 'glass')}
-      initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: 16 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ type: 'spring', stiffness: 220, damping: 28, delay: 0.15 }}
+      initial={shouldReduceMotion ? HERO_VISUAL_REDUCED_INITIAL : HERO_VISUAL_INITIAL}
+      transition={HERO_VISUAL_TRANSITION}
     >
       <div className={s.heroSpeakers}>
         {LANDING_HERO_SPEAKERS.map((speaker, index) => (
           <motion.span
             key={speaker.id}
+            animate={shouldReduceMotion || !speaker.active ? undefined : HERO_SPEAKER_PULSE}
             className={clsx(s.heroSpeaker, speaker.active && s.heroSpeakerActive)}
-            animate={shouldReduceMotion || !speaker.active ? undefined : { scale: [1, 1.07, 1] }}
-            transition={{
-              duration: 2.4,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: 'easeInOut',
-              delay: index * 0.35,
-            }}
+            transition={{ ...HERO_SPEAKER_TRANSITION, delay: index * 0.35 }}
           >
             {speaker.initial}
           </motion.span>
@@ -51,7 +55,7 @@ export const LandingHeroVisual = ({ liveLabel }: LandingHeroVisualProps) => {
 
       <div className={s.heroVisualCaption}>
         <span aria-hidden className={s.heroVisualDot} />
-        <Text as="span" size="sm" tone="inherit">
+        <Text as='span' size='sm' tone='inherit'>
           {liveLabel}
         </Text>
       </div>

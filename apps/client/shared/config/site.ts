@@ -8,10 +8,10 @@ export const SITE = {
   lang: 'ru-RU',
   themeColor: {
     light: '#ffffff',
-    dark: '#0a0a0a',
+    dark: '#0a0a0a'
   },
   social: {
-    twitter: '@chatovo',
+    twitter: '@chatovo'
   },
   keywords: [
     'Chatovo',
@@ -29,7 +29,7 @@ export const SITE = {
     'Дискорд аналог',
     'бесплатный голосовой чат',
     'WebRTC',
-    'LiveKit',
+    'LiveKit'
   ],
   en: {
     title: 'Chatovo — Real-time voice & video rooms',
@@ -52,7 +52,7 @@ export const SITE = {
       'LiveKit',
       'real-time communication',
       'voice messenger',
-      'desktop voice chat',
-    ],
-  },
+      'desktop voice chat'
+    ]
+  }
 } as const;

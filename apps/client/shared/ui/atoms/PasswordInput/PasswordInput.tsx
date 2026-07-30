@@ -6,11 +6,11 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useId } from 'react';
 
+import type { PasswordInputProps } from './PasswordInput.types';
+
 import { Input } from '../Input';
 
 import s from './PasswordInput.module.scss';
-
-import type { PasswordInputProps } from './PasswordInput.types';
 
 export const PasswordInput = ({ className, disabled, id, ...props }: PasswordInputProps) => {
   const t = useTranslations('common');
@@ -34,9 +34,9 @@ export const PasswordInput = ({ className, disabled, id, ...props }: PasswordInp
         aria-pressed={isVisible}
         className={s.toggle}
         disabled={disabled}
-        onClick={() => toggleVisible()}
         tabIndex={-1}
-        type="button"
+        type='button'
+        onClick={() => toggleVisible()}
       >
         {isVisible ? (
           <EyeOff aria-hidden className={s.icon} />

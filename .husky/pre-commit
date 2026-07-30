@@ -1,2 +1,7 @@
 bunx lint-staged
 bun run typecheck
+
+if git diff --cached --name-only --diff-filter=ACMR | grep -qE '\.rs$|Cargo\.(toml|lock)$'; then
+  cargo fmt --manifest-path apps/tauri/Cargo.toml --all --check
+  bun run lint:rust
+fi

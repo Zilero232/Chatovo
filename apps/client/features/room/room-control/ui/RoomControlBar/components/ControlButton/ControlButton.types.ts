@@ -1,20 +1,22 @@
 import type { ReactNode } from 'react';
+
 import type { DeviceSettings } from '@/entities/app/settings';
+
 import type { ControlTone } from './control-button-tones';
 
 export type ControlDevice = {
   kind: MediaDeviceKind;
-  slot: keyof DeviceSettings;
   label: string;
+  slot: keyof DeviceSettings;
 };
 
 export type ControlButtonProps = {
-  icon: ReactNode;
-  label: string;
-  tone: ControlTone;
-  pressed?: boolean;
-  disabled?: boolean;
-  isPending?: boolean;
   device?: ControlDevice;
+  disabled?: boolean;
+  icon: ReactNode;
+  isPending?: boolean;
+  label: string;
+  pressed?: boolean;
+  tone: ControlTone;
   onClick: () => void;
 };

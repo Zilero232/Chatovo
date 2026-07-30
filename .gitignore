@@ -17,6 +17,7 @@ node_modules
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
 .DS_Store
 *.suo
@@ -30,11 +31,17 @@ node_modules
 .env
 .env.local
 .env.*.local
+.env.release
 !.env.example
+!.env.release.example
 
 # Tauri updater minisign keys
 *.key
 *.key.pub
+
+# Android signing material written by scripts/release/android.mjs
+*.keystore
+keystore.properties
 
 # Superpowers brainstorming artifacts (companion mockups, session state, specs)
 .superpowers/

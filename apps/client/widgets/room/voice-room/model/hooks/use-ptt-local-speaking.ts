@@ -10,7 +10,7 @@ import { getLocalMicTrack, subscribeToMicTrack } from '../../lib';
 
 export const usePttLocalSpeaking = (
   enabled: boolean,
-  setIsSpeaking: (speaking: boolean) => void,
+  setIsSpeaking: (speaking: boolean) => void
 ) => {
   const { localParticipant, isMicrophoneEnabled } = useLocalParticipant();
 
@@ -63,7 +63,7 @@ export const usePttLocalSpeaking = (
       onUnpublished: () => {
         stop();
         setSpeaking(false);
-      },
+      }
     });
 
     return () => {

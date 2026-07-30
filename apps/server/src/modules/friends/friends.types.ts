@@ -1,10 +1,10 @@
 import type { FriendCallStatus, FriendUser } from '@chatovo/schemas';
 
 export type PendingFriendCall = {
-  roomId: string;
-  caller: FriendUser;
   callee: FriendUser;
   calleeId: string;
-  status: FriendCallStatus;
+  caller: FriendUser;
   expiresAt: number;
+  roomId: string;
+  status: FriendCallStatus;
 };

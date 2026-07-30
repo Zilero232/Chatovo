@@ -489,6 +489,8 @@
     "checkUpdateLabel": "Проверить обновления приложения",
     "github": "GitHub",
     "githubLabel": "Открыть проект на GitHub",
+    "gnomeVpn": "GnomeVPN",
+    "gnomeVpnLabel": "Открыть сайт GnomeVPN",
     "logout": "Выйти",
     "signedOut": "Выход выполнен",
     "showChannels": "Показать каналы",

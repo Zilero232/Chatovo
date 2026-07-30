@@ -1,16 +1,17 @@
 'use client';
 
-import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
+import { useCurrentUser, UserAvatar, UserName } from '@/entities/auth/user';
 import { FriendTag } from '@/entities/social/friend';
 import { FriendProfileActions } from '@/features/social/friend-profile-actions';
 import { Text } from '@/shared/ui';
+
+import type { ProfileCardProps } from './ProfileCard.types';
+
 import { getBannerStyle } from '../../lib/banner-style';
 import { useUserProfile } from '../../model/use-user-profile';
 import { AvatarZoom, ProfileCardSkeleton, ProfileVoiceBlock } from './components';
 
 import s from './ProfileCard.module.scss';
-
-import type { ProfileCardProps } from './ProfileCard.types';
 
 export const ProfileCard = ({ identity, name }: ProfileCardProps) => {
   const { user } = useCurrentUser();
@@ -33,10 +34,10 @@ export const ProfileCard = ({ identity, name }: ProfileCardProps) => {
         <div className={s.avatarWrap}>
           <AvatarZoom name={displayName} src={profile?.avatarUrl ?? null}>
             <UserAvatar
-              className={s.avatar}
               colorize
+              className={s.avatar}
               name={displayName}
-              size="lg"
+              size='lg'
               src={profile?.avatarUrl}
             />
           </AvatarZoom>
@@ -47,14 +48,14 @@ export const ProfileCard = ({ identity, name }: ProfileCardProps) => {
             className={s.name}
             name={displayName}
             profileUrl={profile?.profileUrl}
-            size="md"
+            size='md'
             verified={profile?.verified ?? false}
           />
           {profile?.friendTag && <FriendTag className={s.tag} tag={profile.friendTag} />}
         </div>
 
         {profile?.bio && (
-          <Text className={s.bio} size="sm" tone="muted">
+          <Text className={s.bio} size='sm' tone='muted'>
             {profile.bio}
           </Text>
         )}

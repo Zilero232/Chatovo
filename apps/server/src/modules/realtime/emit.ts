@@ -1,7 +1,7 @@
 import type {
   FriendCallStreamSnapshot,
   RealtimeServerMessage,
-  RoomsParticipantsSnapshot,
+  RoomsParticipantsSnapshot
 } from '@chatovo/schemas';
 
 let broadcastPresenceMessage = (_message: RealtimeServerMessage): void => {};

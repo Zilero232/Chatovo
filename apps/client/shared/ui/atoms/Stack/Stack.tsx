@@ -1,7 +1,8 @@
-import { stackVariants } from './Stack.variants';
-
 import type { ComponentProps, ElementType } from 'react';
+
 import type { StackProps } from './Stack.types';
+
+import { stackVariants } from './Stack.variants';
 
 export const Stack = <T extends ElementType = 'div'>({
   as,

@@ -4,5 +4,5 @@ export {
   type DownloadPlatformConfig,
   EXTENSION_TO_PLATFORM,
   MOBILE_DOWNLOAD_PLATFORMS,
-  pickPreferredApk,
+  pickPreferredApk
 } from './platforms';

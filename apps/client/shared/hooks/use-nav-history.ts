@@ -10,11 +10,11 @@ export const useNavHistory = () => {
 
   const { value, index, history, canUndo, canRedo, set, undo, redo } = useStateHistory(pathname);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: track pathname only; set is a new ref each render
   useEffect(() => {
     if (pathname !== value) {
       set(pathname);
     }
+    // eslint-disable-next-line react/exhaustive-deps -- track pathname only; set is a new ref each render
   }, [pathname, value]);
 
   const goBack = () => {

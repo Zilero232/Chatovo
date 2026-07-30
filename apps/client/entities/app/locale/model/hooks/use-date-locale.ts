@@ -1,15 +1,16 @@
 'use client';
 
+import type { Locale as DateFnsLocale } from 'date-fns';
+
 import { enGB, ru } from 'date-fns/locale';
+
+import type { Locale as AppLocale } from '@/shared/i18n';
 
 import { useLocale } from './use-locale';
 
-import type { Locale as DateFnsLocale } from 'date-fns';
-import type { Locale as AppLocale } from '@/shared/i18n';
-
 const DATE_FNS_LOCALES: Record<AppLocale, DateFnsLocale> = {
   en: enGB,
-  ru,
+  ru
 };
 
 export const useDateLocale = (): DateFnsLocale => {

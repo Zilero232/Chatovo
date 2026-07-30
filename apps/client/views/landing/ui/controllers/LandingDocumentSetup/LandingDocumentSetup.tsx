@@ -2,9 +2,9 @@
 
 import { useEffect } from 'react';
 
-import { LANDING_HTML_LANG } from '../../../config';
-
 import type { LandingDocumentSetupProps } from './LandingDocumentSetup.types';
+
+import { LANDING_HTML_LANG } from '../../../config';
 
 const LANDING_CLASS = 'landing';
 

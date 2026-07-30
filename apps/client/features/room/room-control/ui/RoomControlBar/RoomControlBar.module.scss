@@ -2,11 +2,11 @@
 
 .root {
   display: flex;
-  gap: 0.25rem;
-  align-items: center;
-  justify-content: center;
   width: max-content;
   min-width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
 
   @include bp(sm) {
     gap: 0.5rem;
@@ -14,9 +14,9 @@
 }
 
 .divider {
-  flex-shrink: 0;
   width: 1px;
   height: 2rem;
-  margin-inline: 0.25rem;
+  flex-shrink: 0;
   background: rgb(255 255 255 / 10%);
+  margin-inline: 0.25rem;
 }

@@ -1,8 +1,8 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { isNonNullish } from 'remeda';
 import { toast } from 'sonner';
@@ -12,11 +12,12 @@ import { useErrorMessage } from '@/entities/app/locale';
 import { useRoomById, useRoomToken } from '@/entities/room/room';
 import { env } from '@/shared/config';
 import { ROUTES } from '@/shared/constants';
+
 import { RoomConnecting, RoomLoadingFallback, RoomNotFound, RoomPasswordForm } from './components';
 
 const VoiceRoom = dynamic(
   () => import('@/widgets/room/voice-room').then((m) => ({ default: m.VoiceRoom })),
-  { ssr: false, loading: () => <RoomConnecting /> },
+  { ssr: false, loading: () => <RoomConnecting /> }
 );
 
 export const RoomPage = () => {
@@ -41,21 +42,21 @@ export const RoomPage = () => {
     isError: tokenFailed,
     isFetching: tokenFetching,
     error: tokenError,
-    refetch: refetchToken,
+    refetch: refetchToken
   } = useRoomToken(roomReady ? roomId : null, { isPrivate, password });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: redirect must fire only on roomId change; router is a stable ref
   useEffect(() => {
     if (!roomId) {
       router.replace(ROUTES.lobby);
     }
+    // eslint-disable-next-line react/exhaustive-deps -- redirect must fire only on roomId change; router is a stable ref
   }, [roomId]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: redirect must fire only when a public-room token fetch fails; router is a stable ref
   useEffect(() => {
     if (!isPrivate && tokenFailed) {
       router.replace(ROUTES.lobby);
     }
+    // eslint-disable-next-line react/exhaustive-deps -- redirect must fire only when a public-room token fetch fails; router is a stable ref
   }, [isPrivate, tokenFailed]);
 
   const submitPassword = (value: string) => {

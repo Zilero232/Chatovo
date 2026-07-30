@@ -12,9 +12,9 @@ export const LandingFaqJsonLd = ({ items }: LandingFaqJsonLdProps) => (
         name: question,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: answer,
-        },
-      })),
+          text: answer
+        }
+      }))
     }}
   />
 );

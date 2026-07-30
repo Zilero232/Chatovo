@@ -1,0 +1,32 @@
+@use '@/shared/styles/mixins' as *;
+
+@keyframes vpnPulse {
+  0%,
+  100% {
+    border-color: color-mix(in oklch, var(--brand-cyan) 35%, transparent);
+    box-shadow: 0 0 0 0 oklch(82% 0.16 200deg / 0%);
+  }
+
+  50% {
+    border-color: color-mix(in oklch, var(--brand-cyan) 70%, transparent);
+    box-shadow: 0 0 rem(14) rem(1) oklch(82% 0.16 200deg / 45%);
+  }
+}
+
+.root {
+  position: relative;
+  border: 1px solid color-mix(in oklch, var(--brand-cyan) 35%, transparent);
+  animation: vpnPulse 2.8s ease-in-out infinite;
+  background: color-mix(in oklch, var(--brand-cyan) 10%, transparent);
+  color: var(--brand-cyan);
+
+  &:hover:not(:disabled) {
+    animation-play-state: paused;
+    background: color-mix(in oklch, var(--brand-cyan) 20%, transparent);
+    color: var(--brand-cyan);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}

@@ -1,8 +1,8 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-
 import type { FieldError } from 'react-hook-form';
+
+import { useTranslations } from 'next-intl';
 
 type LooseTranslator = (key: string) => string;
 

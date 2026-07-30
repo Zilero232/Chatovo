@@ -1,4 +1,6 @@
-import { type LocalParticipant, Track } from 'livekit-client';
+import type { LocalParticipant } from 'livekit-client';
+
+import { Track } from 'livekit-client';
 
 export const toggleMicStream = (participant: LocalParticipant, enabled: boolean): boolean => {
   const publication = participant.getTrackPublication(Track.Source.Microphone);

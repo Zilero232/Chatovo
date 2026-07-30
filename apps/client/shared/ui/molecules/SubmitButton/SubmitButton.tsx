@@ -1,6 +1,6 @@
-import { Button, Spinner } from '../../atoms';
-
 import type { SubmitButtonProps } from './SubmitButton.types';
+
+import { Button, Spinner } from '../../atoms';
 
 export const SubmitButton = ({
   isPending = false,
@@ -8,11 +8,9 @@ export const SubmitButton = ({
   type = 'submit',
   children,
   ...props
-}: SubmitButtonProps) => {
-  return (
-    <Button disabled={disabled || isPending} type={type} {...props}>
-      {isPending && <Spinner decorative />}
-      {children}
-    </Button>
-  );
-};
+}: SubmitButtonProps) => (
+  <Button disabled={disabled || isPending} type={type} {...props}>
+    {isPending && <Spinner decorative />}
+    {children}
+  </Button>
+);

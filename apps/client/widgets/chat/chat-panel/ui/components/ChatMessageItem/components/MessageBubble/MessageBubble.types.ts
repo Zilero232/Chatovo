@@ -1,14 +1,15 @@
 import type { ChatAttachment } from '@chatovo/schemas';
+
 import type { ChatLine } from '../../../../../model/types';
 
 export type MessageBubbleProps = {
-  message: ChatLine;
   attachment: ChatAttachment | null;
+  canEdit: boolean;
+  isEdited: boolean;
   isOwn: boolean;
   isTail: boolean;
-  isEdited: boolean;
-  canEdit: boolean;
+  message: ChatLine;
   showActions: boolean;
-  onEdit: () => void;
   onDelete: () => void;
+  onEdit: () => void;
 };

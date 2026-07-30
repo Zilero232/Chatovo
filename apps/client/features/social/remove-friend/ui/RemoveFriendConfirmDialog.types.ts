@@ -1,6 +1,6 @@
 export type RemoveFriendConfirmDialogProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  userId: string;
   friendName: string;
+  open: boolean;
+  userId: string;
+  onOpenChange: (open: boolean) => void;
 };

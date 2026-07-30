@@ -1,12 +1,12 @@
 .forgotLink {
-  cursor: pointer;
   align-self: flex-end;
-  margin-top: -0.5rem;
   padding: 0;
   border: none;
-  font-size: 0.875rem;
-  color: var(--muted-foreground);
+  margin-top: -0.5rem;
   background: none;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  font-size: 0.875rem;
 
   &:hover {
     color: var(--foreground);

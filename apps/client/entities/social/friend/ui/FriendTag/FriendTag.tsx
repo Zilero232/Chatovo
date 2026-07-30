@@ -6,9 +6,9 @@ import { Copy } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
-import s from './FriendTag.module.scss';
-
 import type { FriendTagProps } from './FriendTag.types';
+
+import s from './FriendTag.module.scss';
 
 export const FriendTag = ({ tag, className }: FriendTagProps) => {
   const t = useTranslations('friends');
@@ -29,7 +29,7 @@ export const FriendTag = ({ tag, className }: FriendTagProps) => {
     <button
       aria-label={t('copyTag')}
       className={clsx(s.root, className)}
-      type="button"
+      type='button'
       onClick={handleCopy}
     >
       <span className={s.value}>{tag}</span>

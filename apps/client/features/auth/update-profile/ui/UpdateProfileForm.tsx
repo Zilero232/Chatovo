@@ -5,14 +5,12 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import type { ProfileValues } from '@/entities/auth/user';
+
 import { useErrorMessage } from '@/entities/app/locale';
-import {
-  type ProfileValues,
-  profileSchema,
-  useCurrentUser,
-  useUpdateProfile,
-} from '@/entities/auth/user';
+import { profileSchema, useCurrentUser, useUpdateProfile } from '@/entities/auth/user';
 import { SubmitButton } from '@/shared/ui';
+
 import { useAvatarDraft } from '../model/use-avatar-draft';
 import { AvatarField, ProfileFields } from './components';
 
@@ -32,15 +30,15 @@ export const UpdateProfileForm = () => {
     formState: { errors, isDirty },
     handleSubmit,
     register,
-    reset,
+    reset
   } = useForm<ProfileValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       displayName,
       profileUrl: profileUrl ?? '',
       bannerColor,
-      bio: bio ?? '',
-    },
+      bio: bio ?? ''
+    }
   });
 
   const onSubmit = handleSubmit((values) => {
@@ -52,8 +50,8 @@ export const UpdateProfileForm = () => {
           reset(values);
           avatar.reset();
         },
-        onError: (err: Error) => toast.error(errorMessage(err)),
-      },
+        onError: (err: Error) => toast.error(errorMessage(err))
+      }
     );
   });
 

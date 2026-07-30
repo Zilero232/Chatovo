@@ -5,7 +5,7 @@ import {
   incomingFriendCallResponseSchema,
   outgoingFriendCallResponseSchema,
   roomSchema,
-  sendFriendRequestInputSchema,
+  sendFriendRequestInputSchema
 } from '@chatovo/schemas';
 import { createZodDto } from 'nestjs-zod';
 

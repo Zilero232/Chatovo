@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import { match } from 'ts-pattern';
 
 import { useRealtimeMessage } from '@/entities/app/realtime';
+
 import { applyFriendPresence, applyFriendsSnapshot } from '../../../model/lib';
 
 export const FriendsRealtimeSync = () => {

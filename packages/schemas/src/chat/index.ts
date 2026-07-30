@@ -2,7 +2,7 @@ export {
   editMessageInputSchema,
   listMessagesQuerySchema,
   messageIdParamSchema,
-  sendMessageInputSchema,
+  sendMessageInputSchema
 } from './inputs';
 export { decodeChatAttachment, encodeChatAttachment, isImageMime } from './lib';
 export { chatAttachmentSchema, chatMessageSchema, chatMessagesPageSchema } from './outputs';
@@ -14,5 +14,5 @@ export type {
   EditMessageInput,
   ListMessagesQuery,
   MessageIdParam,
-  SendMessageInput,
+  SendMessageInput
 } from './types';

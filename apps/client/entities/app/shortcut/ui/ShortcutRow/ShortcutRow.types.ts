@@ -1,9 +1,9 @@
 export type ShortcutRowProps = {
-  label: string;
+  clearVisible: boolean;
   display: string;
+  label: string;
   recording: boolean;
   showConflictHint: boolean;
-  clearVisible: boolean;
-  onRecord: () => void;
   onClear: () => void;
+  onRecord: () => void;
 };

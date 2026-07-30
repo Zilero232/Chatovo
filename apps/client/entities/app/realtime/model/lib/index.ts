@@ -1,11 +1,11 @@
 export {
   dispatchRealtimeMessage,
   emptyPresence,
-  parseRealtimeServerMessage,
+  parseRealtimeServerMessage
 } from './dispatch-realtime-message';
 export {
   buildSubscribeMessage,
   flushRoomSubscriptions,
   setSubscriptionSender,
-  syncRoomSubscriptions,
+  syncRoomSubscriptions
 } from './subscription-sync';

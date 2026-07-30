@@ -45,7 +45,7 @@ NEXT_PUBLIC_API_URL=https://api.chatovo.ru
 NEXT_PUBLIC_LIVEKIT_URL=wss://livekit.chatovo.ru
 ```
 
-After `bun tauri:android:init`, configure signing in `apps/tauri/gen/android/` per [Tauri Android signing](https://v2.tauri.app/distribute/sign/android):
+After `bun android:init`, configure signing in `apps/tauri/gen/android/` per [Tauri Android signing](https://v2.tauri.app/distribute/sign/android):
 
 1. `gen/android/keystore.properties` — path to your `.keystore`, alias, passwords
 2. `gen/android/app/build.gradle.kts` — `signingConfigs` + `signingConfig` on `release`
@@ -53,7 +53,7 @@ After `bun tauri:android:init`, configure signing in `apps/tauri/gen/android/` p
 Then:
 
 ```bash
-bun tauri:android:build
+bun android:build
 ```
 
 Re-run the Gradle edits if you run `tauri android init` again (`gen/` is regenerated).
@@ -65,7 +65,7 @@ In Play Console, enable **Google Play App Signing** on first upload. Google mana
 ## 5. Build AAB for Play Store
 
 ```bash
-bun tauri:android:build:aab
+bun android:build:aab
 ```
 
 Upload `app-universal-release.aab` to Internal testing first.

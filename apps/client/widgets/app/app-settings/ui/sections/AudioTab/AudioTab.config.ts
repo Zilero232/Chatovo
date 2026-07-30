@@ -4,5 +4,5 @@ export const AUDIO_FLAGS = [
   'noiseSuppression',
   'echoCancellation',
   'autoGainControl',
-  'voiceIsolation',
+  'voiceIsolation'
 ] satisfies (keyof AudioSettings)[];

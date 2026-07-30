@@ -1,7 +1,7 @@
 export type LandingWaveBar = {
-  id: string;
-  height: string;
   delay: string;
+  height: string;
+  id: string;
 };
 
 export const LANDING_WAVE_BARS: LandingWaveBar[] = [
@@ -16,5 +16,5 @@ export const LANDING_WAVE_BARS: LandingWaveBar[] = [
   { id: 'i', height: '74%', delay: '80ms' },
   { id: 'j', height: '52%', delay: '340ms' },
   { id: 'k', height: '80%', delay: '160ms' },
-  { id: 'l', height: '36%', delay: '240ms' },
+  { id: 'l', height: '36%', delay: '240ms' }
 ];

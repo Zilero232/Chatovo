@@ -9,9 +9,9 @@ import { AppSidebar } from '@/widgets/app/app-sidebar';
 import { LanguageSwitcher } from '@/widgets/app/language-switcher';
 import { ChannelsPanel } from '@/widgets/room/channels-panel';
 
-import s from './MobileNav.module.scss';
-
 import type { MobileNavProps } from './MobileNav.types';
+
+import s from './MobileNav.module.scss';
 
 export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
   const t = useTranslations('appSidebar');
@@ -22,25 +22,25 @@ export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
     <div className={clsx('glass-strong', s.topBar)}>
       <div className={s.topBarInner}>
         <Sheet
-          open={open}
-          onOpenChange={onOpenChange}
           trigger={
             <Button
               aria-label={t('openMenu')}
               className={s.menuButton}
-              size="icon"
-              variant="ghost"
-              type="button"
+              size='icon'
+              type='button'
+              variant='ghost'
             >
               <Menu />
             </Button>
           }
+          open={open}
+          onOpenChange={onOpenChange}
         >
           <SheetContent
             className={s.sheet}
             modalClassName={s.sheetModal}
-            side="left"
             showCloseButton={false}
+            side='left'
           >
             <SheetTitle className={s.sheetTitleSr}>{t('menu')}</SheetTitle>
             <SheetDescription className={s.sheetTitleSr}>{t('menuDescription')}</SheetDescription>
@@ -49,14 +49,14 @@ export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
               <div className={s.sheetActions}>
                 <AppSidebar
                   channelsOpened={false}
-                  orientation="horizontal"
+                  orientation='horizontal'
                   showToggleChannels={false}
                   onToggleChannels={() => undefined}
                 />
               </div>
 
               <div className={s.sheetChannels}>
-                <ChannelsPanel variant="drawer" onNavigate={close} />
+                <ChannelsPanel variant='drawer' onNavigate={close} />
               </div>
             </div>
           </SheetContent>

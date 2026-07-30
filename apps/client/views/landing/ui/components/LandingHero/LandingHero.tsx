@@ -3,18 +3,19 @@ import { getTranslations } from 'next-intl/server';
 
 import { ROUTES } from '@/shared/constants';
 import { Button, Text } from '@/shared/ui';
+
+import type { LandingSectionProps } from '../../LandingPage.types';
+
 import {
   LANDING_ACTIVE_SPEAKERS,
   LANDING_HERO_STAT_COUNTS,
-  LANDING_HERO_STAT_KEYS,
+  LANDING_HERO_STAT_KEYS
 } from '../../../config';
 import { LandingHeroStat } from '../LandingHeroStat';
 import { LandingHeroVisual } from '../LandingHeroVisual';
 import { LandingReveal } from '../LandingReveal';
 
 import s from '../../LandingPage.module.scss';
-
-import type { LandingSectionProps } from '../../LandingPage.types';
 
 export const LandingHero = async ({ locale }: LandingSectionProps) => {
   const t = await getTranslations({ locale, namespace: 'landing.hero' });
@@ -23,31 +24,31 @@ export const LandingHero = async ({ locale }: LandingSectionProps) => {
     <section className={clsx(s.container, s.hero)}>
       <div className={s.heroCopy}>
         <LandingReveal>
-          <Text as="span" className={s.eyebrow} size="xs" weight="medium">
+          <Text as='span' className={s.eyebrow} size='xs' weight='medium'>
             <span aria-hidden className={s.eyebrowDot} />
             {t('eyebrow')}
           </Text>
         </LandingReveal>
 
         <LandingReveal delay={0.06}>
-          <Text as="h1" className={s.heroTitle} weight="bold">
+          <Text as='h1' className={s.heroTitle} weight='bold'>
             {t('title')}{' '}
             <span className={clsx(s.heroTitleAccent, 'gradient-text')}>{t('titleAccent')}</span>
           </Text>
         </LandingReveal>
 
         <LandingReveal delay={0.12}>
-          <Text className={s.heroDescription} size="lg" tone="muted">
+          <Text className={s.heroDescription} size='lg' tone='muted'>
             {t('description')}
           </Text>
         </LandingReveal>
 
         <LandingReveal delay={0.18}>
           <div className={s.heroActions}>
-            <Button href={ROUTES.auth} size="lg">
+            <Button href={ROUTES.auth} size='lg'>
               {t('ctaPrimary')}
             </Button>
-            <Text className={s.heroNote} size="sm" tone="muted">
+            <Text className={s.heroNote} size='sm' tone='muted'>
               {t('ctaNote')}
             </Text>
           </div>

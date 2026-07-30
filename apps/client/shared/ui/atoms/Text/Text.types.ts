@@ -1,4 +1,5 @@
 import type { ComponentProps, ElementType, ReactNode } from 'react';
+
 import type { TextVariantProps } from './Text.variants';
 
 export type TextSize = NonNullable<TextVariantProps['size']>;
@@ -17,4 +18,4 @@ export type TextProps<T extends ElementType = 'p'> = {
   align?: TextAlign;
   truncate?: boolean;
   children?: ReactNode;
-} & Omit<ComponentProps<T>, 'color' | 'children'>;
+} & Omit<ComponentProps<T>, 'children' | 'color'>;

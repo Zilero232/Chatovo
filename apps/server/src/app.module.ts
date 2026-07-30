@@ -1,29 +1,29 @@
-import { extname } from 'node:path';
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { EventEmitter2, EventEmitterModule } from '@nestjs/event-emitter';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
+import { extname } from 'node:path';
 
 import { bindDomainEventEmitter } from './common/events/emit-domain-event';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { AppConfigModule } from './config/config.module';
 import { INLINE_IMAGE_EXTENSIONS } from './config/uploads';
 import { env, PrismaModule } from './core';
-import { AuthModule } from './modules/auth/auth.module';
-import { ChatModule } from './modules/chat/chat.module';
-import { FeedbackModule } from './modules/feedback/feedback.module';
-import { FriendsModule } from './modules/friends/friends.module';
-import { GithubModule } from './modules/github/github.module';
-import { HealthModule } from './modules/health/health.module';
-import { LivekitModule } from './modules/livekit/livekit.module';
-import { NotificationsModule } from './modules/notifications/notifications.module';
-import { PushModule } from './modules/push/push.module';
-import { RealtimeModule } from './modules/realtime/realtime.module';
-import { RoomsModule } from './modules/rooms/rooms.module';
+import { AuthModule } from './modules/auth';
+import { ChatModule } from './modules/chat';
+import { FeedbackModule } from './modules/feedback';
+import { FriendsModule } from './modules/friends';
+import { GithubModule } from './modules/github';
+import { HealthModule } from './modules/health';
+import { LivekitModule } from './modules/livekit';
+import { NotificationsModule } from './modules/notifications';
+import { PushModule } from './modules/push';
+import { RealtimeModule } from './modules/realtime';
+import { RoomsModule } from './modules/rooms';
 import { UPLOADS_DIR } from './modules/uploads';
-import { UsersModule } from './modules/users/users.module';
+import { UsersModule } from './modules/users';
 
 @Module({
   imports: [
@@ -36,11 +36,11 @@ import { UsersModule } from './modules/users/users.module';
           env.NODE_ENV === 'development'
             ? { target: 'pino-pretty', options: { singleLine: true } }
             : undefined,
-        autoLogging: false,
-      },
+        autoLogging: false
+      }
     }),
     ThrottlerModule.forRoot({
-      throttlers: [{ name: 'default', ttl: 60_000, limit: 120 }],
+      throttlers: [{ name: 'default', ttl: 60_000, limit: 120 }]
     }),
     ServeStaticModule.forRoot({
       rootPath: UPLOADS_DIR,
@@ -56,8 +56,8 @@ import { UsersModule } from './modules/users/users.module';
 
           res.setHeader('Content-Disposition', 'attachment');
           res.setHeader('Content-Security-Policy', "default-src 'none'; sandbox");
-        },
-      },
+        }
+      }
     }),
     AuthModule,
     NotificationsModule,
@@ -70,12 +70,12 @@ import { UsersModule } from './modules/users/users.module';
     GithubModule,
     LivekitModule,
     PushModule,
-    RealtimeModule,
+    RealtimeModule
   ],
   providers: [
     { provide: APP_FILTER, useClass: AllExceptionsFilter },
-    { provide: APP_GUARD, useClass: ThrottlerGuard },
-  ],
+    { provide: APP_GUARD, useClass: ThrottlerGuard }
+  ]
 })
 export class AppModule {
   constructor(eventEmitter: EventEmitter2) {

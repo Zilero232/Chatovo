@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
 
-import s from './AvatarWithBadges.module.scss';
-
 import type { AvatarWithBadgesProps } from './AvatarWithBadges.types';
+
+import s from './AvatarWithBadges.module.scss';
 
 export const AvatarWithBadges = ({
   children,
@@ -10,15 +10,13 @@ export const AvatarWithBadges = ({
   topRight,
   bottomLeft,
   bottomRight,
-  className,
-}: AvatarWithBadgesProps) => {
-  return (
-    <div className={clsx(s.root, className)}>
-      {children}
-      {topLeft}
-      {topRight}
-      {bottomLeft}
-      {bottomRight}
-    </div>
-  );
-};
+  className
+}: AvatarWithBadgesProps) => (
+  <div className={clsx(s.root, className)}>
+    {children}
+    {topLeft}
+    {topRight}
+    {bottomLeft}
+    {bottomRight}
+  </div>
+);

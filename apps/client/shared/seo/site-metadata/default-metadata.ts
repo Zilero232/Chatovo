@@ -1,12 +1,12 @@
-import { SITE } from '@/shared/config';
-
 import type { Metadata, Viewport } from 'next';
+
+import { SITE } from '@/shared/config';
 
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
     default: SITE.title,
-    template: `%s · ${SITE.name}`,
+    template: `%s · ${SITE.name}`
   },
   description: SITE.description,
   applicationName: SITE.name,
@@ -21,14 +21,14 @@ export const defaultMetadata: Metadata = {
   icons: {
     icon: [
       { url: '/brand/favicon.svg', type: 'image/svg+xml' },
-      { url: '/brand/app-icon-1024.png', type: 'image/png', sizes: '1024x1024' },
+      { url: '/brand/app-icon-1024.png', type: 'image/png', sizes: '1024x1024' }
     ],
     shortcut: '/brand/favicon.svg',
-    apple: [{ url: '/brand/app-icon-1024.png', sizes: '1024x1024', type: 'image/png' }],
+    apple: [{ url: '/brand/app-icon-1024.png', sizes: '1024x1024', type: 'image/png' }]
   },
   alternates: {
     canonical: '/',
-    languages: { 'en-US': '/', 'x-default': '/' },
+    languages: { 'en-US': '/', 'x-default': '/' }
   },
   openGraph: {
     type: 'website',
@@ -36,14 +36,14 @@ export const defaultMetadata: Metadata = {
     url: SITE.url,
     siteName: SITE.name,
     title: SITE.title,
-    description: SITE.description,
+    description: SITE.description
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE.title,
     description: SITE.description,
     creator: SITE.social.twitter,
-    site: SITE.social.twitter,
+    site: SITE.social.twitter
   },
   robots: {
     index: true,
@@ -55,19 +55,19 @@ export const defaultMetadata: Metadata = {
       noimageindex: false,
       'max-video-preview': -1,
       'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+      'max-snippet': -1
+    }
+  }
 };
 
 export const defaultViewport: Viewport = {
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: SITE.themeColor.light },
-    { media: '(prefers-color-scheme: dark)', color: SITE.themeColor.dark },
+    { media: '(prefers-color-scheme: dark)', color: SITE.themeColor.dark }
   ],
   colorScheme: 'dark light',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  viewportFit: 'cover',
+  viewportFit: 'cover'
 };

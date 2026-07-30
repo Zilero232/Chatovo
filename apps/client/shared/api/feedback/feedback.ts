@@ -1,6 +1,6 @@
-import { api } from '../http';
-
 import type { ReportProblemValues } from '@chatovo/schemas';
+
+import { api } from '../http';
 
 type ReportProblemArgs = ReportProblemValues & {
   screenshot?: File;

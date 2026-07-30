@@ -1,18 +1,18 @@
 'use client';
 
+import type { ReactNode } from 'react';
+
 import { createContextHook } from '@siberiacancode/reactuse';
 import { useEffect, useEffectEvent } from 'react';
 
 import { useFriendChatSession, useFriendChatUnread } from '../hooks';
-
-import type { ReactNode } from 'react';
 
 const useFriendChatState = () => {
   const { session, openingPeer, isOpening, blocksParentDialogClose, open, close } =
     useFriendChatSession();
 
   const { dmUnread, getFriendUnread, clearFriendUnread } = useFriendChatUnread({
-    openRoomId: session?.roomId ?? null,
+    openRoomId: session?.roomId ?? null
   });
 
   const clearPeerUnread = useEffectEvent((friendId: string) => {
@@ -33,7 +33,7 @@ const useFriendChatState = () => {
     getFriendUnread,
     blocksParentDialogClose,
     open,
-    close,
+    close
   };
 };
 

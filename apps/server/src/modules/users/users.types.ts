@@ -1,14 +1,14 @@
 export type UploadedAvatar = {
+  buffer: Buffer;
   mimetype: string;
   size: number;
-  buffer: Buffer;
 };
 
 export type UpdateProfileInput = {
-  displayName: string;
-  profileUrl: string;
+  avatar?: UploadedAvatar;
   bannerColor: string;
   bio: string;
-  avatar?: UploadedAvatar;
+  displayName: string;
+  profileUrl: string;
   removeAvatar?: string;
 };

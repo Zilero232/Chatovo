@@ -10,8 +10,9 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from '@/shared/ui';
+
 import { useIncomingCall } from '../model/hooks';
 
 import s from './IncomingCallDialog.module.scss';
@@ -41,11 +42,11 @@ export const IncomingCallDialog = () => {
             </div>
 
             <div className={s.actions}>
-              <Button disabled={isBusy} size="lg" variant="secondary" onClick={decline}>
+              <Button disabled={isBusy} size='lg' variant='secondary' onClick={decline}>
                 <PhoneOff aria-hidden />
                 {t('decline')}
               </Button>
-              <Button disabled={isBusy} size="lg" onClick={accept}>
+              <Button disabled={isBusy} size='lg' onClick={accept}>
                 <Phone aria-hidden />
                 {t('accept')}
               </Button>

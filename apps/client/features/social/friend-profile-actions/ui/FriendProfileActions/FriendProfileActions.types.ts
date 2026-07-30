@@ -1,7 +1,7 @@
 export type FriendProfileActionsProps = {
-  userId: string;
-  friendTag: string;
-  displayName: string;
   avatarUrl?: string | null;
+  displayName: string;
+  friendTag: string;
+  userId: string;
   verified?: boolean;
 };

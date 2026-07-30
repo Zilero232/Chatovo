@@ -2,6 +2,7 @@
 
 import { SHORTCUT_ACTIONS } from '@/entities/app/shortcut';
 import { isTauriDesktop } from '@/shared/lib';
+
 import { ShortcutActionRow } from '../components/ShortcutActionRow';
 import { WebNotice } from '../components/WebNotice';
 

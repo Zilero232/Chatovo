@@ -1,12 +1,12 @@
 import { isNonNullish } from 'remeda';
 
+import type { AppSplashProps } from './AppSplash.types';
+
 import { Progress } from '../Progress';
 import { Spinner } from '../Spinner';
 import { Text } from '../Text';
 
 import s from './AppSplash.module.scss';
-
-import type { AppSplashProps } from './AppSplash.types';
 
 export const AppSplash = ({ message, progress }: AppSplashProps) => {
   const hasProgress = isNonNullish(progress);
@@ -14,12 +14,12 @@ export const AppSplash = ({ message, progress }: AppSplashProps) => {
   return (
     <div className={s.root}>
       <div className={`glass ${s.iconBox}`}>
-        <Spinner size="lg" />
+        <Spinner size='lg' />
       </div>
 
       <div className={s.content}>
         {message && (
-          <Text align="center" size="sm" tone="muted">
+          <Text align='center' size='sm' tone='muted'>
             {message}
           </Text>
         )}

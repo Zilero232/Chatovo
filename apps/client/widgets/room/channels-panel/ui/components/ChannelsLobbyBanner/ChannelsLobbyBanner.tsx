@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 
 import { CreateRoomDialog } from '@/features/room/create';
 import { Button, Text } from '@/shared/ui';
+
 import { RecentRooms } from '../RecentRooms';
 
 import s from './ChannelsLobbyBanner.module.scss';
@@ -23,17 +24,17 @@ export const ChannelsLobbyBanner = () => {
         </div>
 
         <div className={s.text}>
-          <Text size="sm" weight="semibold">
+          <Text size='sm' weight='semibold'>
             {t('title')}
           </Text>
-          <Text className={s.hint} size="xs" tone="muted">
+          <Text className={s.hint} size='xs' tone='muted'>
             {t('hint')}
           </Text>
         </div>
 
         <CreateRoomDialog
           trigger={
-            <Button className={s.cta} type="button">
+            <Button className={s.cta} type='button'>
               {t('createRoom')}
             </Button>
           }

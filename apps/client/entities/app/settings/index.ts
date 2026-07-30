@@ -3,17 +3,17 @@ export { audioConstraints } from './lib/audio-constraints';
 export {
   getCameraCaptureOptions,
   getPublishDefaults,
-  getScreenCaptureOptions,
+  getScreenCaptureOptions
 } from './lib/video-quality';
 export {
   VOICE_GATE_MANUAL_RANGE,
   VOICE_GATE_TICK_MS,
-  VoiceGateDetector,
+  VoiceGateDetector
 } from './lib/voice-gate/voice-gate-detector';
-export { VoiceGateProcessor } from './lib/voice-gate/voice-gate-processor';
-export { useAppSettings } from './model/hooks';
-
 export type { VoiceGateParams } from './lib/voice-gate/voice-gate-detector';
+export { VoiceGateProcessor } from './lib/voice-gate/voice-gate-processor';
+
+export { useAppSettings } from './model/hooks';
 export type {
   AppSettings,
   AudioSettings,
@@ -28,5 +28,5 @@ export type {
   SystemSettings,
   TraySettings,
   VideoQuality,
-  VideoSettings,
+  VideoSettings
 } from './model/types';

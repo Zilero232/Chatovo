@@ -5,9 +5,9 @@ import { match, P } from 'ts-pattern';
 
 import { Progress, Text } from '@/shared/ui';
 
-import s from './UpdateDialog.module.scss';
-
 import type { UpdateProgressProps } from './UpdateProgress.types';
+
+import s from './UpdateDialog.module.scss';
 
 export const UpdateProgress = ({ status, progress }: UpdateProgressProps) => {
   const t = useTranslations('update');
@@ -25,7 +25,7 @@ export const UpdateProgress = ({ status, progress }: UpdateProgressProps) => {
       </div>
     ))
     .with('error', () => (
-      <Text size="sm" tone="destructive">
+      <Text size='sm' tone='destructive'>
         {t('failed')}
       </Text>
     ))

@@ -9,17 +9,17 @@ import type { DeleteMessageDialogProps } from './DeleteMessageDialog.types';
 export const DeleteMessageDialog = ({
   open,
   onOpenChange,
-  onConfirm,
+  onConfirm
 }: DeleteMessageDialogProps) => {
   const t = useTranslations('chat');
 
   return (
     <ConfirmDialog
-      open={open}
-      title={t('deleteTitle')}
-      description={t('deleteDescription')}
       cancelLabel={t('cancel')}
       confirmLabel={t('delete')}
+      description={t('deleteDescription')}
+      open={open}
+      title={t('deleteTitle')}
       onConfirm={onConfirm}
       onOpenChange={onOpenChange}
     />

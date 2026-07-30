@@ -1,16 +1,19 @@
 'use client';
 
+import type { Room } from 'livekit-client';
+
 import { useRoomContext } from '@livekit/components-react';
-import { LocalVideoTrack, type Room, RoomEvent, Track } from 'livekit-client';
+import { LocalVideoTrack, RoomEvent, Track } from 'livekit-client';
 import { useEffect, useEffectEvent, useRef } from 'react';
 import { keys } from 'remeda';
 
+import type { DeviceSettings } from '@/entities/app/settings';
+
 import {
-  type DeviceSettings,
   getCameraCaptureOptions,
   getPublishDefaults,
   KIND_TO_SLOT,
-  useAppSettings,
+  useAppSettings
 } from '@/entities/app/settings';
 
 const applyDevices = (room: Room, devices: DeviceSettings) => {
@@ -76,7 +79,7 @@ const useApplyAudioFlags = (room: Room) => {
 
     room.options.audioCaptureDefaults = {
       ...room.options.audioCaptureDefaults,
-      ...capture,
+      ...capture
     };
 
     if (room.localParticipant.isMicrophoneEnabled) {
@@ -94,7 +97,7 @@ const usePublishDefaults = (room: Room) => {
   useEffect(() => {
     room.options.publishDefaults = {
       ...room.options.publishDefaults,
-      ...getPublishDefaults(cameraQuality, screenQuality),
+      ...getPublishDefaults(cameraQuality, screenQuality)
     };
   }, [room, cameraQuality, screenQuality]);
 };

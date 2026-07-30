@@ -1,5 +1,5 @@
 export type VoiceRoomChatButtonProps = {
-  roomId: string;
   isOpen: boolean;
+  roomId: string;
   onToggle: () => void;
 };

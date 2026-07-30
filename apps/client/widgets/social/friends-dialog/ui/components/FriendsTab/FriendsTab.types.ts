@@ -3,6 +3,6 @@ export type FriendsTabProps = {
 };
 
 export type RemoveTarget = {
-  userId: string;
   friendName: string;
+  userId: string;
 };

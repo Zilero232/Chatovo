@@ -7,11 +7,12 @@ import { match, P } from 'ts-pattern';
 import { useCurrentUser } from '@/entities/auth/user';
 import { useEnterRoom } from '@/entities/room/room';
 import { Button, Spinner } from '@/shared/ui';
+
+import type { ProfileVoiceBlockProps } from './ProfileVoiceBlock.types';
+
 import { useParticipantRoom } from '../../../../model/use-participant-room';
 
 import s from './ProfileVoiceBlock.module.scss';
-
-import type { ProfileVoiceBlockProps } from './ProfileVoiceBlock.types';
 
 export const ProfileVoiceBlock = ({ identity, isSelf }: ProfileVoiceBlockProps) => {
   const t = useTranslations('profileCard');
@@ -29,7 +30,7 @@ export const ProfileVoiceBlock = ({ identity, isSelf }: ProfileVoiceBlockProps) 
       {match({ isLoading, isSelf, room, inSameRoom })
         .with({ isLoading: true }, () => (
           <span className={s.label}>
-            <Spinner size="xs" />
+            <Spinner size='xs' />
           </span>
         ))
         .with({ isSelf: true }, () => (
@@ -48,10 +49,10 @@ export const ProfileVoiceBlock = ({ identity, isSelf }: ProfileVoiceBlockProps) 
               <Button
                 className={s.button}
                 disabled={isPending}
-                size="sm"
+                size='sm'
                 onClick={() => enterRoom({ roomId: current.roomId })}
               >
-                {isPending && <Spinner decorative size="xs" />}
+                {isPending && <Spinner decorative size='xs' />}
                 {t('join')}
               </Button>
             )}

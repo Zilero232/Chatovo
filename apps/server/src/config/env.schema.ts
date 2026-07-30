@@ -59,7 +59,7 @@ export const envSchema = z.object({
 
   // Comma-separated list of allowed CORS origins (web client domains).
   // Tauri origins are always allowed and don't need to be listed here.
-  CORS_ORIGINS: z.string().default('http://localhost:3000'),
+  CORS_ORIGINS: z.string().default('http://localhost:3000')
 });
 
 export type Env = z.infer<typeof envSchema>;

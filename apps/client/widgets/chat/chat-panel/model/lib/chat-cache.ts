@@ -1,33 +1,32 @@
+import type { ChatMessage, RealtimeServerMessage } from '@chatovo/schemas';
+import type { QueryClient } from '@tanstack/react-query';
+
 import { match } from 'ts-pattern';
 
 import { QUERY_KEYS } from '@/shared/constants';
 import { appEvents } from '@/shared/lib';
+
+import type { ChatLine, ChatLineStatus } from '../types';
+
 import {
   appendChatLine,
   applyChatDeleteToLines,
   applyChatEditToLines,
   applyChatStatusToLines,
   mergeChatLines,
-  removeChatLine,
+  removeChatLine
 } from './merge-chat-lines';
 import { chatMessageToChatLine } from './to-chat-line';
 
-import type { ChatMessage, RealtimeServerMessage } from '@chatovo/schemas';
-import type { QueryClient } from '@tanstack/react-query';
-import type { ChatLine, ChatLineStatus } from '../types';
+const chatKey = (roomId: string) => QUERY_KEYS.chatMessages(roomId);
 
-const chatKey = (roomId: string) => {
-  return QUERY_KEYS.chatMessages(roomId);
-};
-
-export const readChatLines = (queryClient: QueryClient, roomId: string): ChatLine[] | undefined => {
-  return queryClient.getQueryData<ChatLine[]>(chatKey(roomId));
-};
+export const readChatLines = (queryClient: QueryClient, roomId: string): ChatLine[] | undefined =>
+  queryClient.getQueryData<ChatLine[]>(chatKey(roomId));
 
 export const patchChatLines = (
   queryClient: QueryClient,
   roomId: string,
-  updater: (lines: ChatLine[] | undefined) => ChatLine[] | undefined,
+  updater: (lines: ChatLine[] | undefined) => ChatLine[] | undefined
 ): void => {
   queryClient.setQueryData<ChatLine[]>(chatKey(roomId), updater);
 };
@@ -35,7 +34,7 @@ export const patchChatLines = (
 export const appendChatMessage = (
   queryClient: QueryClient,
   roomId: string,
-  line: ChatLine,
+  line: ChatLine
 ): void => {
   patchChatLines(queryClient, roomId, (lines) => appendChatLine(lines, line));
 };
@@ -43,7 +42,7 @@ export const appendChatMessage = (
 export const appendChatDto = (
   queryClient: QueryClient,
   roomId: string,
-  message: ChatMessage,
+  message: ChatMessage
 ): void => {
   appendChatMessage(queryClient, roomId, { ...chatMessageToChatLine(message), status: undefined });
 };
@@ -52,10 +51,10 @@ export const markChatLineStatus = (
   queryClient: QueryClient,
   roomId: string,
   id: string,
-  status: ChatLineStatus,
+  status: ChatLineStatus
 ): void => {
   patchChatLines(queryClient, roomId, (lines) =>
-    lines ? applyChatStatusToLines(lines, id, status) : lines,
+    lines ? applyChatStatusToLines(lines, id, status) : lines
   );
 };
 
@@ -68,10 +67,10 @@ export const editChatMessageInCache = (
   roomId: string,
   id: string,
   body: string,
-  editedAt: number,
+  editedAt: number
 ): void => {
   patchChatLines(queryClient, roomId, (lines) =>
-    lines ? applyChatEditToLines(lines, id, body, editedAt) : lines,
+    lines ? applyChatEditToLines(lines, id, body, editedAt) : lines
   );
 };
 
@@ -79,17 +78,17 @@ export const deleteChatMessageInCache = (
   queryClient: QueryClient,
   roomId: string,
   id: string,
-  deletedAt: number,
+  deletedAt: number
 ): void => {
   patchChatLines(queryClient, roomId, (lines) =>
-    lines ? applyChatDeleteToLines(lines, id, deletedAt) : lines,
+    lines ? applyChatDeleteToLines(lines, id, deletedAt) : lines
   );
 };
 
 export const mergeChatHistory = (
   queryClient: QueryClient,
   roomId: string,
-  fetched: ChatLine[],
+  fetched: ChatLine[]
 ): ChatLine[] => {
   const cached = readChatLines(queryClient, roomId);
 
@@ -102,7 +101,7 @@ export const mergeChatHistory = (
 
 export const applyChatRealtime = (
   queryClient: QueryClient,
-  message: RealtimeServerMessage,
+  message: RealtimeServerMessage
 ): void => {
   match(message)
     .with({ type: 'chat.message' }, ({ roomId, roomKind, message: dto }) => {

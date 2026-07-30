@@ -7,8 +7,8 @@ import { auth } from './auth';
   imports: [
     BetterAuthModule.forRoot({
       auth,
-      isGlobal: true,
-    }),
-  ],
+      isGlobal: true
+    })
+  ]
 })
 export class AuthModule {}

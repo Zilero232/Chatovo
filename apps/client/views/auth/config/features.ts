@@ -1,14 +1,14 @@
-import { AudioWaveform, MonitorSmartphone, Zap } from 'lucide-react';
-
 import type { LucideIcon } from 'lucide-react';
 
+import { AudioWaveform, MonitorSmartphone, Zap } from 'lucide-react';
+
 export type AuthFeature = {
-  key: 'rooms' | 'quality' | 'everywhere';
   Icon: LucideIcon;
+  key: 'everywhere' | 'quality' | 'rooms';
 };
 
 export const AUTH_FEATURES: AuthFeature[] = [
   { key: 'rooms', Icon: Zap },
   { key: 'quality', Icon: AudioWaveform },
-  { key: 'everywhere', Icon: MonitorSmartphone },
+  { key: 'everywhere', Icon: MonitorSmartphone }
 ];

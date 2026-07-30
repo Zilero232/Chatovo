@@ -1,6 +1,6 @@
-import { QUERY_KEYS } from '@/shared/constants';
-
 import type { QueryClient } from '@tanstack/react-query';
+
+import { QUERY_KEYS } from '@/shared/constants';
 
 export const invalidateFriendsQueries = (queryClient: QueryClient, userId?: string) => {
   queryClient.invalidateQueries({ queryKey: QUERY_KEYS.friends() });

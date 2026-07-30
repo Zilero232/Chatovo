@@ -5,33 +5,36 @@ import { clsx } from 'clsx';
 
 import { isTauriDesktop } from '@/shared/lib';
 import { FriendsDialog } from '@/widgets/social/friends-dialog';
+
+import type { AppSidebarProps } from './AppSidebar.types';
+
 import {
   CheckUpdateButton,
   DownloadAppButton,
   GithubButton,
+  GnomeVpnButton,
   LogoutButton,
-  ToggleChannelsButton,
+  ToggleChannelsButton
 } from './components';
 
 import s from './AppSidebar.module.scss';
-
-import type { AppSidebarProps } from './AppSidebar.types';
 
 export const AppSidebar = ({
   channelsOpened,
   onToggleChannels,
   orientation = 'vertical',
-  showToggleChannels = true,
+  showToggleChannels = true
 }: AppSidebarProps) => (
   <div
     className={clsx(s.root, {
       [s.vertical]: orientation === 'vertical',
-      [s.horizontal]: orientation !== 'vertical',
+      [s.horizontal]: orientation !== 'vertical'
     })}
   >
     {showToggleChannels && (
       <ToggleChannelsButton opened={channelsOpened} onToggle={onToggleChannels} />
     )}
+    <GnomeVpnButton />
     <FriendsDialog />
     {!isTauri() && <DownloadAppButton />}
     <div className={s.spacer} />

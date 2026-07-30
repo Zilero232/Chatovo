@@ -13,40 +13,40 @@
 
 .fileCard {
   display: flex;
-  gap: 0.625rem;
-  align-items: center;
   max-width: 100%;
+  align-items: center;
   padding: 0.5rem 0.75rem;
   border-radius: var(--radius-lg);
+  gap: 0.625rem;
   transition: background-color 150ms ease;
 }
 
 .fileCardOwn {
-  background: oklch(1 0 0 / 15%);
+  background: oklch(100% 0 0deg / 15%);
 
   &:hover {
-    background: oklch(1 0 0 / 25%);
+    background: oklch(100% 0 0deg / 25%);
   }
 }
 
 .fileCardOther {
-  background: oklch(1 0 0 / 8%);
+  background: oklch(100% 0 0deg / 8%);
 
   &:hover {
-    background: oklch(1 0 0 / 12%);
+    background: oklch(100% 0 0deg / 12%);
   }
 }
 
 .fileIcon {
-  flex-shrink: 0;
   width: 1.25rem;
   height: 1.25rem;
+  flex-shrink: 0;
 }
 
 .fileMeta {
   display: flex;
-  flex-direction: column;
   min-width: 0;
+  flex-direction: column;
 }
 
 .fileName {
@@ -58,6 +58,6 @@
 }
 
 .fileSize {
+  color: color-mix(in oklch, currentcolor 70%, transparent);
   font-size: 0.75rem;
-  color: color-mix(in oklch, currentColor 70%, transparent);
 }

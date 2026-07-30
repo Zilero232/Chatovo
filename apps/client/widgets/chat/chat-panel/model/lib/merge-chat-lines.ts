@@ -29,28 +29,22 @@ export const appendChatLine = (lines: ChatLine[] | undefined, line: ChatLine): C
 export const applyChatStatusToLines = (
   lines: ChatLine[],
   id: string,
-  status: ChatLineStatus,
-): ChatLine[] => {
-  return lines.map((line) => (line.id === id ? { ...line, status } : line));
-};
+  status: ChatLineStatus
+): ChatLine[] => lines.map((line) => (line.id === id ? { ...line, status } : line));
 
-export const removeChatLine = (lines: ChatLine[], id: string): ChatLine[] => {
-  return lines.filter((line) => line.id !== id);
-};
+export const removeChatLine = (lines: ChatLine[], id: string): ChatLine[] =>
+  lines.filter((line) => line.id !== id);
 
 export const applyChatEditToLines = (
   lines: ChatLine[],
   id: string,
   body: string,
-  editedAt: number,
-): ChatLine[] => {
-  return lines.map((line) => (line.id === id ? { ...line, message: body, editedAt } : line));
-};
+  editedAt: number
+): ChatLine[] =>
+  lines.map((line) => (line.id === id ? { ...line, message: body, editedAt } : line));
 
 export const applyChatDeleteToLines = (
   lines: ChatLine[],
   id: string,
-  deletedAt: number,
-): ChatLine[] => {
-  return lines.map((line) => (line.id === id ? { ...line, message: '', deletedAt } : line));
-};
+  deletedAt: number
+): ChatLine[] => lines.map((line) => (line.id === id ? { ...line, message: '', deletedAt } : line));

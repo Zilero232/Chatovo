@@ -8,10 +8,26 @@ export const DomainEvent = {
   VoiceJoined: 'voice.joined',
   VoiceEmptied: 'voice.emptied',
   CallRinging: 'call.ringing',
-  DmMessageSent: 'dm.message-sent',
+  DmMessageSent: 'dm.message-sent'
 } as const;
 
 export type DomainEventPayloads = {
+  [DomainEvent.CallRinging]: {
+    calleeId: string;
+    caller: FriendUser;
+    roomId: string;
+  };
+  [DomainEvent.DmMessageSent]: {
+    recipientId: string;
+    message: ChatMessage;
+  };
+  [DomainEvent.ProblemReported]: {
+    reporter: string;
+    email: string;
+    description: string;
+    platform?: string;
+    appVersion?: string;
+  };
   [DomainEvent.RoomCreated]: {
     roomName: string;
     ownerName: string;
@@ -26,29 +42,13 @@ export type DomainEventPayloads = {
     name: string;
     email: string;
   };
-  [DomainEvent.ProblemReported]: {
-    reporter: string;
-    email: string;
-    description: string;
-    platform?: string;
-    appVersion?: string;
+  [DomainEvent.VoiceEmptied]: {
+    roomName: string;
   };
   [DomainEvent.VoiceJoined]: {
     roomId: string;
     roomName: string;
     participantName: string;
-  };
-  [DomainEvent.VoiceEmptied]: {
-    roomName: string;
-  };
-  [DomainEvent.CallRinging]: {
-    calleeId: string;
-    caller: FriendUser;
-    roomId: string;
-  };
-  [DomainEvent.DmMessageSent]: {
-    recipientId: string;
-    message: ChatMessage;
   };
 };
 

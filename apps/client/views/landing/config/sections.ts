@@ -6,7 +6,7 @@ export const LANDING_FEATURE_KEYS = [
   'privacy',
   'screen',
   'link',
-  'free',
+  'free'
 ] as const;
 
 export const LANDING_STEP_KEYS = ['create', 'share', 'talk'] as const;

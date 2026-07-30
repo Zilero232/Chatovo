@@ -12,7 +12,7 @@ export const DOWNLOAD_PLATFORMS: DownloadPlatformConfig[] = [
   { id: 'windows', labelKey: 'windows', Icon: AppWindow },
   { id: 'macos', labelKey: 'macos', Icon: Apple },
   { id: 'linux', labelKey: 'linux', Icon: Terminal },
-  { id: 'android', labelKey: 'android', Icon: Smartphone },
+  { id: 'android', labelKey: 'android', Icon: Smartphone }
 ];
 
 export const DESKTOP_DOWNLOAD_PLATFORMS = DOWNLOAD_PLATFORMS.filter((p) => p.id !== 'android');
@@ -26,7 +26,7 @@ export const EXTENSION_TO_PLATFORM: Record<string, DownloadPlatform> = {
   deb: 'linux',
   appimage: 'linux',
   rpm: 'linux',
-  apk: 'android',
+  apk: 'android'
 };
 
 const APK_PREFERENCE = ['universal', 'arm64-v8a', 'aarch64', 'armeabi-v7a'] as const;

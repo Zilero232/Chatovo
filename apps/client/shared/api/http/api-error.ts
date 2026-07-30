@@ -1,6 +1,6 @@
-import { apiErrorSchema } from '@chatovo/schemas';
-
 import type { ApiErrorCode } from '@chatovo/schemas';
+
+import { apiErrorSchema } from '@chatovo/schemas';
 
 export class ApiError extends Error {
   readonly code: ApiErrorCode;

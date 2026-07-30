@@ -1,62 +1,41 @@
-import cleanOrder from 'stylelint-config-clean-order';
+import { stylelint } from '@siberiacancode/stylelint';
 
-const [orderGroups, orderOptions] = cleanOrder.rules['order/properties-order'];
-
-const groupsWithoutEmptyLines = orderGroups.map((group) => ({
-  ...group,
-  emptyLineBefore: 'never',
-}));
-
-/** @type {import('stylelint').Config} */
 export default {
-  extends: ['stylelint-config-standard-scss'],
-  plugins: [
-    'stylelint-order',
-    'stylelint-declaration-block-no-ignored-properties',
-    'stylelint-high-performance-animation',
-  ],
-  ignoreFiles: ['**/node_modules/**', '**/.next/**', '**/dist/**', '**/target/**'],
+  ...stylelint,
+  ignoreFiles: ['**/node_modules/**', '**/.next/**', '**/dist/**', '**/out/**', '**/target/**'],
   rules: {
-    'order/properties-order': [
-      groupsWithoutEmptyLines,
-      {
-        ...orderOptions,
-        emptyLineBeforeUnspecified: 'never',
-        severity: 'warning',
-      },
-    ],
+    ...stylelint.rules,
 
-    'plugin/declaration-block-no-ignored-properties': true,
-    'plugin/no-low-performance-animation-properties': [
-      true,
-      {
-        ignoreProperties: ['background-color', 'color', 'border-color', 'box-shadow', 'filter'],
-        severity: 'warning',
-      },
-    ],
+    // Prettier owns blank lines. Stylelint inserts one before a nested rule,
+    // prettier strips it again, and the two never converge — lint:css and
+    // format:check could not both pass until this yielded.
+    'rule-empty-line-before': null,
 
-    'value-keyword-case': null,
-    'custom-property-pattern': null,
-    'custom-property-empty-line-before': null,
-    'declaration-empty-line-before': null,
-    'scss/dollar-variable-pattern': null,
-    'scss/dollar-variable-empty-line-before': null,
-    'scss/at-mixin-pattern': null,
-    'scss/no-global-function-names': null,
-
-    'hue-degree-notation': null,
-    'lightness-notation': null,
-    'alpha-value-notation': null,
-    'color-function-notation': null,
-
-    'selector-class-pattern': null,
+    // CSS-Modules syntax the shared config does not know about.
     'selector-pseudo-class-no-unknown': [true, { ignorePseudoClasses: ['global', 'local'] }],
     'property-no-unknown': [true, { ignoreProperties: ['composes'] }],
 
-    'property-no-vendor-prefix': [true, { ignoreProperties: ['font-smoothing'] }],
-    'value-no-vendor-prefix': true,
-    'at-rule-no-vendor-prefix': true,
-    'media-feature-name-no-vendor-prefix': true,
-    'selector-no-vendor-prefix': [true, { ignoreSelectors: ['/-webkit-scrollbar/'] }],
+    // Names here are camelCase because they are read as `s.srOnly` from TSX;
+    // the shared config asks for kebab-case.
+    'keyframes-name-pattern': null,
+    'scss/at-mixin-pattern': null,
+    'selector-class-pattern': null
   },
+  overrides: [
+    {
+      // These override cva size variants and Base UI's own inline styles, which
+      // nothing weaker than !important can win against.
+      files: [
+        'apps/client/app/globals.scss',
+        'apps/client/features/auth/update-profile/ui/UpdateProfileForm.module.scss',
+        'apps/client/shared/ui/atoms/ContextMenu/ContextMenu.module.scss',
+        'apps/client/shared/ui/atoms/DropdownMenu/DropdownMenu.module.scss',
+        'apps/client/widgets/room/voice-room/ui/components/RoomInviteButton/RoomInviteButton.module.scss',
+        'apps/client/widgets/room/voice-room/ui/components/VoiceRoomChatButton/VoiceRoomChatButton.module.scss'
+      ],
+      rules: {
+        'declaration-no-important': null
+      }
+    }
+  ]
 };

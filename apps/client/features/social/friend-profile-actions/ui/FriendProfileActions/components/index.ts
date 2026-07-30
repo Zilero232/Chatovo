@@ -2,5 +2,5 @@ export { FriendActions } from './FriendActions';
 export {
   AddFriendAction,
   CancelRequestAction,
-  IncomingRequestActions,
+  IncomingRequestActions
 } from './FriendRequestActions';

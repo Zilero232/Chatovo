@@ -1,11 +1,11 @@
 @use '@/shared/styles/functions' as *;
 
 .trigger {
-  cursor: pointer;
   padding: 0;
   border: none;
   border-radius: 9999px;
   background: transparent;
+  cursor: pointer;
   outline: none;
   transition: transform 150ms ease;
 
@@ -20,9 +20,9 @@
 
 .content {
   display: flex;
+  max-width: 28rem;
   align-items: center;
   justify-content: center;
-  max-width: 28rem;
   padding: 0;
   border: none;
   background: transparent;

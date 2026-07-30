@@ -8,7 +8,7 @@ export const metadata = createPageMetadata({
     'You are in a Chatovo voice and video room. Talk, share, and stay focused — no clutter, no noise.',
   path: ROUTES.room,
   index: false,
-  follow: false,
+  follow: false
 });
 
 const Page = () => <RoomPage />;

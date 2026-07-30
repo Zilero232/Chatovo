@@ -1,8 +1,10 @@
-import { SOUND_SRC, type SoundKey } from '../config';
+import type { SoundKey } from '../config';
+
+import { SOUND_SRC } from '../config';
 
 export type SoundPlayer = {
-  play: (key: SoundKey, volume: number) => void;
   dispose: () => void;
+  play: (key: SoundKey, volume: number) => void;
 };
 
 export const createSoundPlayer = (): SoundPlayer => {
@@ -38,6 +40,6 @@ export const createSoundPlayer = (): SoundPlayer => {
       }
 
       cache.clear();
-    },
+    }
   };
 };

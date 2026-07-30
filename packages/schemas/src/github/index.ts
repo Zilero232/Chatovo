@@ -2,7 +2,7 @@ export {
   appDownloadsSchema,
   gitHubReleaseAssetSchema,
   gitHubReleaseListSchema,
-  gitHubReleaseSchema,
+  gitHubReleaseSchema
 } from './outputs';
 
 export type { AppDownloads, GitHubRelease, GitHubReleaseAsset } from './types';

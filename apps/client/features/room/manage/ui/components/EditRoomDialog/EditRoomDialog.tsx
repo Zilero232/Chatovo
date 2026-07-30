@@ -3,9 +3,10 @@
 import { useTranslations } from 'next-intl';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/shared/ui';
-import { EditRoomForm } from './EditRoomForm';
 
 import type { EditRoomDialogProps } from './EditRoomDialog.types';
+
+import { EditRoomForm } from './EditRoomForm';
 
 export const EditRoomDialog = ({ room, open, onOpenChange }: EditRoomDialogProps) => {
   const t = useTranslations('manageRoom.edit');

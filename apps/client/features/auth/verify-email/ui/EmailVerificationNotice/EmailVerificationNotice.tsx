@@ -30,26 +30,26 @@ export const EmailVerificationNotice = () => {
       },
       onError: (err: Error) => {
         toast.error(errorMessage(err));
-      },
+      }
     });
   };
 
   return (
-    <div className={s.root} role="status">
+    <div className={s.root} role='status'>
       <div className={s.header}>
         <MailWarning className={s.icon} />
         <div className={s.copy}>
-          <Text size="sm" weight="medium">
+          <Text size='sm' weight='medium'>
             {t('emailNotVerifiedTitle')}
           </Text>
-          <Text className={s.description} size="xs" tone="muted">
+          <Text className={s.description} size='xs' tone='muted'>
             {t('emailNotVerifiedDescription', { email: user.email })}
           </Text>
         </div>
       </div>
 
       <div className={s.actions}>
-        <Button disabled={isPending} size="sm" type="button" variant="secondary" onClick={send}>
+        <Button disabled={isPending} size='sm' type='button' variant='secondary' onClick={send}>
           {isPending && <Loader2 className={s.spinner} />}
           {sent ? t('emailVerificationResend') : t('emailVerificationSend')}
         </Button>

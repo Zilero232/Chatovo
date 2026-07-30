@@ -4,14 +4,14 @@ import type { ComponentProps, ReactNode } from 'react';
 export type TooltipSide = ComponentProps<typeof Tooltip.Positioner>['side'];
 
 export type TooltipProviderProps = {
+  children?: ReactNode;
   delay?: number;
   delayDuration?: number;
-  children?: ReactNode;
 };
 
 export type TooltipProps = Omit<
   ComponentProps<typeof Tooltip.Root>,
-  'children' | 'open' | 'delay'
+  'children' | 'delay' | 'open'
 > & {
   delay?: number;
   delayDuration?: number;
@@ -22,8 +22,8 @@ export type TooltipProps = Omit<
 };
 
 export type TooltipContentProps = {
+  children?: ReactNode;
+  className?: string;
   side?: TooltipSide;
   sideOffset?: number;
-  className?: string;
-  children?: ReactNode;
 };

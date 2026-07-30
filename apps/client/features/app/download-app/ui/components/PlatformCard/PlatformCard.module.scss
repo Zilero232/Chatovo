@@ -2,19 +2,19 @@
 
 .root {
   display: flex;
+  min-height: 7.5rem;
   flex-direction: column;
-  gap: 0.625rem;
   align-items: center;
   justify-content: center;
-  min-height: 7.5rem;
   padding: 1rem;
   border: 1px solid rgb(255 255 255 / 10%);
   border-radius: 0.75rem;
+  backdrop-filter: blur(rem(12));
+  background: rgb(255 255 255 / 5%);
   color: inherit;
+  gap: 0.625rem;
   text-align: center;
   text-decoration: none;
-  background: rgb(255 255 255 / 5%);
-  backdrop-filter: blur(rem(12));
   transition: all 150ms ease;
 }
 
@@ -34,7 +34,7 @@
   width: 2.5rem;
   height: 2.5rem;
   color: var(--brand-cyan);
-  filter: drop-shadow(0 0 rem(10) oklch(0.82 0.16 200 / 0.5));
+  filter: drop-shadow(0 0 rem(10) oklch(82% 0.16 200deg / 50%));
 }
 
 .name {
@@ -43,12 +43,12 @@
 }
 
 .size {
-  font-size: 0.75rem;
   color: var(--muted-foreground);
+  font-size: 0.75rem;
 }
 
 .unavailableLabel {
+  color: var(--muted-foreground);
   font-size: 0.75rem;
   font-style: italic;
-  color: var(--muted-foreground);
 }

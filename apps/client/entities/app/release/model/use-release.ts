@@ -3,12 +3,13 @@ import { useQuery } from '@tanstack/react-query';
 import { getAppDownloads } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 import { detectAssetPlatform } from '@/shared/lib';
-import { EXTENSION_TO_PLATFORM, pickPreferredApk } from '../config';
 
 import type { DownloadPlatform, Release, ReleaseAsset } from './types';
 
-export const useRelease = (enabled = true) => {
-  return useQuery({
+import { EXTENSION_TO_PLATFORM, pickPreferredApk } from '../config';
+
+export const useRelease = (enabled = true) =>
+  useQuery({
     queryKey: QUERY_KEYS.release(),
     enabled,
     retry: 1,
@@ -23,7 +24,7 @@ export const useRelease = (enabled = true) => {
           platform: 'android',
           name: preferredApk.name,
           sizeBytes: preferredApk.size,
-          downloadUrl: preferredApk.browser_download_url,
+          downloadUrl: preferredApk.browser_download_url
         };
       }
 
@@ -38,7 +39,7 @@ export const useRelease = (enabled = true) => {
           platform,
           name: asset.name,
           sizeBytes: asset.size,
-          downloadUrl: asset.browser_download_url,
+          downloadUrl: asset.browser_download_url
         };
       }
 
@@ -46,8 +47,7 @@ export const useRelease = (enabled = true) => {
         assets,
         htmlUrl: data.html_url,
         publishedAt: data.published_at,
-        version: data.version,
+        version: data.version
       };
-    },
+    }
   });
-};

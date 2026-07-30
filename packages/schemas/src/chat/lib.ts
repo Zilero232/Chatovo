@@ -1,10 +1,9 @@
-import { chatAttachmentSchema } from './outputs';
-
 import type { ChatAttachment } from './types';
 
-export const encodeChatAttachment = (attachment: ChatAttachment): string => {
-  return JSON.stringify(attachment);
-};
+import { chatAttachmentSchema } from './outputs';
+
+export const encodeChatAttachment = (attachment: ChatAttachment): string =>
+  JSON.stringify(attachment);
 
 export const decodeChatAttachment = (message: string): ChatAttachment | null => {
   try {
@@ -17,6 +16,4 @@ export const decodeChatAttachment = (message: string): ChatAttachment | null => 
   }
 };
 
-export const isImageMime = (mime: string): boolean => {
-  return mime.startsWith('image/');
-};
+export const isImageMime = (mime: string): boolean => mime.startsWith('image/');

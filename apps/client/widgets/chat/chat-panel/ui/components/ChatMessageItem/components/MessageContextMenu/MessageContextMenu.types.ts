@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
 export type MessageContextMenuProps = {
+  canEdit: boolean;
   children: ReactNode;
   enabled: boolean;
-  canEdit: boolean;
-  onEdit: () => void;
   onDelete: () => void;
+  onEdit: () => void;
 };

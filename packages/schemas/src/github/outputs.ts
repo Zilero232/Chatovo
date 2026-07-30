@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const gitHubReleaseAssetSchema = z.object({
   browser_download_url: z.url(),
   name: z.string(),
-  size: z.number().int().nonnegative(),
+  size: z.number().int().nonnegative()
 });
 
 export const gitHubReleaseSchema = z.object({
@@ -11,7 +11,7 @@ export const gitHubReleaseSchema = z.object({
   html_url: z.url(),
   name: z.string().nullable(),
   published_at: z.string(),
-  tag_name: z.string(),
+  tag_name: z.string()
 });
 
 export const gitHubReleaseListSchema = z.array(gitHubReleaseSchema);
@@ -21,5 +21,5 @@ export const appDownloadsSchema = z.object({
   html_url: z.url(),
   published_at: z.string(),
   desktop_assets: z.array(gitHubReleaseAssetSchema),
-  mobile_assets: z.array(gitHubReleaseAssetSchema),
+  mobile_assets: z.array(gitHubReleaseAssetSchema)
 });

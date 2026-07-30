@@ -5,11 +5,12 @@ import { useTranslations } from 'next-intl';
 
 import { formatPercent } from '@/shared/lib';
 import { Button } from '@/shared/ui';
+
+import type { MicTestProps } from './MicTest.types';
+
 import { useMicTest } from '../../../model/hooks';
 
 import s from '../../AppSettingsButton.module.scss';
-
-import type { MicTestProps } from './MicTest.types';
 
 export const MicTest = ({ deviceId, audio }: MicTestProps) => {
   const t = useTranslations('settings.audio');
@@ -29,8 +30,8 @@ export const MicTest = ({ deviceId, audio }: MicTestProps) => {
         aria-label={isLoopback ? t('stopTestMic') : t('testMic')}
         aria-pressed={isLoopback}
         disabled={error}
-        size="icon"
-        type="button"
+        size='icon'
+        type='button'
         variant={isLoopback ? 'secondary' : 'ghost'}
         onClick={toggleLoopback}
       >

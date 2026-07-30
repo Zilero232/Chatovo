@@ -1,15 +1,15 @@
 .root {
   display: flex;
-  flex-direction: column;
   height: 100%;
+  flex-direction: column;
 }
 
 .desktop {
-  flex-shrink: 0;
   width: 16rem;
   height: 100%;
-  border-right: 1px solid oklch(1 0 0 / 10%);
-  box-shadow: inset -1px 0 0 oklch(1 0 0 / 4%);
+  flex-shrink: 0;
+  border-right: 1px solid oklch(100% 0 0deg / 10%);
+  box-shadow: inset -1px 0 0 oklch(100% 0 0deg / 4%);
 }
 
 .drawer {

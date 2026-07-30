@@ -1,10 +1,10 @@
 'use client';
 
+import type { Participant } from 'livekit-client';
+
 import { useIsSpeaking } from '@livekit/components-react';
 
 import { useLocalSpeaking } from '../contexts';
-
-import type { Participant } from 'livekit-client';
 
 export const useParticipantIsSpeaking = (participant: Participant) => {
   const livekitSpeaking = useIsSpeaking(participant);

@@ -14,21 +14,19 @@ export const ProfileTextField = ({
   placeholder,
   type,
   rows,
-  multiline,
-}: ProfileTextFieldProps) => {
-  return (
-    <FormField htmlFor={id} label={label} hint={error ? undefined : hint} error={error}>
-      {multiline ? (
-        <Textarea id={id} placeholder={placeholder} rows={rows} {...registration} />
-      ) : (
-        <Input
-          autoComplete={autoComplete}
-          id={id}
-          placeholder={placeholder}
-          type={type}
-          {...registration}
-        />
-      )}
-    </FormField>
-  );
-};
+  multiline
+}: ProfileTextFieldProps) => (
+  <FormField error={error} hint={error ? undefined : hint} htmlFor={id} label={label}>
+    {multiline ? (
+      <Textarea id={id} placeholder={placeholder} rows={rows} {...registration} />
+    ) : (
+      <Input
+        autoComplete={autoComplete}
+        id={id}
+        placeholder={placeholder}
+        type={type}
+        {...registration}
+      />
+    )}
+  </FormField>
+);

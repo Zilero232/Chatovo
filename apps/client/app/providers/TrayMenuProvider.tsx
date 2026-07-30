@@ -1,9 +1,9 @@
 'use client';
 
+import type { ReactNode } from 'react';
+
 import { trayMenuContext, useCloseOnWindowEvent, useTraySetup } from '@/features/app/system-tray';
 import { isTauriDesktop } from '@/shared/lib';
-
-import type { ReactNode } from 'react';
 
 const TrayBridge = ({ children }: { children: ReactNode }) => {
   const tray = useTraySetup();

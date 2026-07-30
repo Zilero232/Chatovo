@@ -2,11 +2,11 @@
 
 .root {
   display: inline-flex;
-  gap: 0.25rem;
   align-items: center;
-  padding-inline: 0.25rem;
-  font-size: rem(11);
   color: var(--muted-foreground);
+  font-size: rem(11);
+  gap: 0.25rem;
+  padding-inline: 0.25rem;
 
   &[data-failed] {
     color: var(--destructive);
@@ -14,20 +14,20 @@
 }
 
 .icon {
-  flex-shrink: 0;
   width: rem(12);
   height: rem(12);
+  flex-shrink: 0;
 }
 
 .action {
   padding: 0;
   border: none;
   border-radius: var(--radius-sm);
+  background: none;
+  color: var(--destructive);
   font-size: rem(11);
   font-weight: 500;
-  color: var(--destructive);
   text-decoration: underline;
-  background: none;
 
   @include interactive-cursor;
   @include focus-ring(var(--destructive));

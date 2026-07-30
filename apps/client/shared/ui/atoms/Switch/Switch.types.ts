@@ -3,7 +3,7 @@ import type { ComponentProps, ReactNode } from 'react';
 
 export type SwitchProps = Omit<
   ComponentProps<typeof Switch.Root>,
-  'className' | 'children' | 'onCheckedChange'
+  'children' | 'className' | 'onCheckedChange'
 > & {
   className?: string;
   children?: ReactNode;

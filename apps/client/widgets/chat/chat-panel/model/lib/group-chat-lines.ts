@@ -3,10 +3,10 @@ import { isSameCalendarDay } from '@/shared/lib';
 import type { ChatLine } from '../types';
 
 export type GroupedChatLine = {
-  line: ChatLine;
-  isOwn: boolean;
   isGrouped: boolean;
+  isOwn: boolean;
   isTail: boolean;
+  line: ChatLine;
   showDivider: boolean;
 };
 
@@ -28,6 +28,6 @@ export const groupChatLines = (lines: ChatLine[], ownIdentity: string): GroupedC
       isOwn: line.from?.identity === ownIdentity,
       isGrouped: continuesSeries(prev, line),
       isTail: !continuesSeries(line, next),
-      showDivider: !sameDay(prev, line),
+      showDivider: !sameDay(prev, line)
     };
   });

@@ -14,8 +14,8 @@ export const hasOpenNestedOverlay = () => {
       '[data-slot="popover-content"]',
       '[data-slot="context-menu-content"]',
       '[data-slot="select-content"]',
-      '[role="menu"]',
-    ].join(','),
+      '[role="menu"]'
+    ].join(',')
   );
 
   return [...overlays].some(isVisible);
@@ -42,6 +42,5 @@ export const isNestedOverlayTarget = (target: EventTarget | null) => {
   );
 };
 
-export const shouldKeepDialogOpen = (target: EventTarget | null) => {
-  return hasOpenNestedOverlay() || hasNestedDialogOpen() || isNestedOverlayTarget(target);
-};
+export const shouldKeepDialogOpen = (target: EventTarget | null) =>
+  hasOpenNestedOverlay() || hasNestedDialogOpen() || isNestedOverlayTarget(target);

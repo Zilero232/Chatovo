@@ -11,7 +11,7 @@ export const realtimeChatMessageEventSchema = z.object({
   type: z.literal('chat.message'),
   roomId: roomSchema.shape.id,
   roomKind: realtimeRoomKindSchema,
-  message: chatMessageSchema,
+  message: chatMessageSchema
 });
 
 export const realtimeChatEditEventSchema = z.object({
@@ -20,7 +20,7 @@ export const realtimeChatEditEventSchema = z.object({
   roomKind: realtimeRoomKindSchema,
   id: z.uuid(),
   body: z.string(),
-  editedAt: z.string(),
+  editedAt: z.string()
 });
 
 export const realtimeChatDeleteEventSchema = z.object({
@@ -28,30 +28,30 @@ export const realtimeChatDeleteEventSchema = z.object({
   roomId: roomSchema.shape.id,
   roomKind: realtimeRoomKindSchema,
   id: z.uuid(),
-  deletedAt: z.string(),
+  deletedAt: z.string()
 });
 
 export const realtimeRoomReactionEventSchema = z.object({
   type: z.literal('room.reaction'),
   roomId: roomSchema.shape.id,
   emoji: z.string(),
-  senderId: z.string(),
+  senderId: z.string()
 });
 
 export const realtimePresenceSnapshotEventSchema = z.object({
   type: z.literal('presence.snapshot'),
-  snapshot: roomsParticipantsSnapshotSchema,
+  snapshot: roomsParticipantsSnapshotSchema
 });
 
 export const realtimeFriendsSnapshotEventSchema = z.object({
   type: z.literal('friends.snapshot'),
-  snapshot: friendCallStreamSnapshotSchema,
+  snapshot: friendCallStreamSnapshotSchema
 });
 
 export const realtimeFriendPresenceEventSchema = z.object({
   type: z.literal('friend.presence'),
   userId: z.string(),
-  isOnline: z.boolean(),
+  isOnline: z.boolean()
 });
 
 export const realtimeServerMessageSchema = z.discriminatedUnion('type', [
@@ -61,5 +61,5 @@ export const realtimeServerMessageSchema = z.discriminatedUnion('type', [
   realtimeRoomReactionEventSchema,
   realtimePresenceSnapshotEventSchema,
   realtimeFriendsSnapshotEventSchema,
-  realtimeFriendPresenceEventSchema,
+  realtimeFriendPresenceEventSchema
 ]);

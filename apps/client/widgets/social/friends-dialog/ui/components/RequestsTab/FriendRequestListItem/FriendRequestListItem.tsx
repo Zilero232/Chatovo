@@ -1,48 +1,57 @@
 'use client';
 
 import { Check, X } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useFormatter, useNow, useTranslations } from 'next-intl';
 
 import { UserAvatar, UserName } from '@/entities/auth/user';
-import { FriendTag } from '@/entities/social/friend';
 import { Button } from '@/shared/ui';
 
-import s from './FriendRequestListItem.module.scss';
-
 import type { FriendRequestListItemProps } from './FriendRequestListItem.types';
+
+import s from './FriendRequestListItem.module.scss';
 
 export const FriendRequestListItem = ({
   entry,
   isAccepting,
   isDeclining,
   onAccept,
-  onDecline,
+  onDecline
 }: FriendRequestListItemProps) => {
   const t = useTranslations('friends');
+  const format = useFormatter();
+  const now = useNow({ updateInterval: 60_000 });
+
   const { user } = entry;
   const busy = isAccepting || isDeclining;
 
   return (
     <div className={s.root}>
-      <UserAvatar name={user.name} size="sm" src={user.avatarUrl} />
+      <UserAvatar className={s.avatar} name={user.name} size='sm' src={user.avatarUrl} />
       <div className={s.info}>
         <UserName className={s.name} name={user.name} verified={user.verified} />
-        {user.friendTag && <FriendTag className={s.tag} tag={user.friendTag} />}
+        <span className={s.meta}>{format.relativeTime(new Date(entry.requestedAt), now)}</span>
       </div>
       <div className={s.actions}>
-        <Button className={s.action} disabled={busy} size="sm" onClick={onAccept}>
+        <Button
+          aria-label={t('accept')}
+          className={s.accept}
+          disabled={busy}
+          size='icon-sm'
+          title={t('accept')}
+          onClick={onAccept}
+        >
           <Check aria-hidden />
-          {t('accept')}
         </Button>
         <Button
-          className={s.action}
+          aria-label={t('decline')}
+          className={s.decline}
           disabled={busy}
-          size="sm"
-          variant="secondary"
+          size='icon-sm'
+          title={t('decline')}
+          variant='secondary'
           onClick={onDecline}
         >
           <X aria-hidden />
-          {t('decline')}
         </Button>
       </div>
     </div>

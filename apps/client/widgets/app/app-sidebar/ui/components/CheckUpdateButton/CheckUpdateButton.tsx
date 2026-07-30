@@ -23,10 +23,10 @@ export const CheckUpdateButton = () => {
 
   return (
     <IconButtonWithTooltip
+      disabled={checking}
       icon={<RefreshCw className={checking ? s.spinning : undefined} />}
       label={t('checkUpdateLabel')}
       tooltip={t('checkUpdate')}
-      disabled={checking}
       onClick={handleClick}
     />
   );

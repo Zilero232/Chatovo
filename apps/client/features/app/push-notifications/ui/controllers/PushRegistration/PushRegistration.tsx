@@ -2,6 +2,7 @@
 
 import { useCurrentUser } from '@/entities/auth/user';
 import { isTauriMobile } from '@/shared/lib';
+
 import { usePushRegistration } from '../../../model/hooks';
 
 export const PushRegistration = () => {

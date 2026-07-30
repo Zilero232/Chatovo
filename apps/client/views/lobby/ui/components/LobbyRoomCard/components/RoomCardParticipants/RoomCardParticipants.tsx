@@ -6,9 +6,9 @@ import { UserAvatar } from '@/entities/auth/user';
 import { OwnerCrown } from '@/entities/room/room';
 import { AvatarWithBadges, Badge } from '@/shared/ui';
 
-import s from '../../LobbyRoomCard.module.scss';
-
 import type { RoomCardParticipantsProps } from './RoomCardParticipants.types';
+
+import s from '../../LobbyRoomCard.module.scss';
 
 const MAX_AVATARS = 4;
 
@@ -27,15 +27,15 @@ export const RoomCardParticipants = ({ ownerId, participants }: RoomCardParticip
             topLeft={participant.identity === ownerId && <OwnerCrown />}
           >
             <UserAvatar
-              name={participant.name}
-              src={participant.avatarUrl}
               className={s.avatar}
               fallbackClassName={s.avatarFallback}
+              name={participant.name}
+              src={participant.avatarUrl}
             />
           </AvatarWithBadges>
         ))}
         {overflow > 0 && (
-          <Badge size="sm" tone="muted">
+          <Badge size='sm' tone='muted'>
             +{overflow}
           </Badge>
         )}

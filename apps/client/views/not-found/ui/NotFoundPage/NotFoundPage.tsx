@@ -2,8 +2,8 @@
 
 import { clsx } from 'clsx';
 import { ArrowLeft, Compass } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 import { ROUTES } from '@/shared/constants';
 import { Button, Text } from '@/shared/ui';
@@ -17,8 +17,8 @@ export const NotFoundPage = () => {
 
   return (
     <main className={s.root}>
-      <span aria-hidden className={s.orb} data-tone="violet" />
-      <span aria-hidden className={s.orb} data-tone="cyan" />
+      <span aria-hidden className={s.orb} data-tone='violet' />
+      <span aria-hidden className={s.orb} data-tone='cyan' />
 
       <div className={clsx(s.badge, 'glass')}>
         <Compass aria-hidden className={s.logo} />
@@ -27,7 +27,7 @@ export const NotFoundPage = () => {
       <p className={clsx(s.code, 'gradient-text')}>404</p>
 
       <h1 className={s.title}>{t('title')}</h1>
-      <Text className={s.description} tone="muted">
+      <Text className={s.description} tone='muted'>
         {t('description')}
       </Text>
 
@@ -37,7 +37,7 @@ export const NotFoundPage = () => {
           {t('toLobby')}
         </Button>
 
-        <Button variant="outline" onClick={() => router.back()}>
+        <Button variant='outline' onClick={() => router.back()}>
           <ArrowLeft />
           {t('back')}
         </Button>

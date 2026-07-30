@@ -1,17 +1,17 @@
 'use client';
 
 import { Clock, Lock } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { filter, indexBy, isEmpty, isNonNullish, map } from 'remeda';
 
 import { useRecentRooms, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { buildRoomHref } from '@/shared/constants';
 import { Skeleton } from '@/shared/ui';
 
-import s from './RecentRooms.module.scss';
-
 import type { RecentRoomsProps } from './RecentRooms.types';
+
+import s from './RecentRooms.module.scss';
 
 export const RecentRooms = ({ onNavigate, variant = 'list' }: RecentRoomsProps = {}) => {
   const t = useTranslations('lobby.recent');
@@ -24,7 +24,7 @@ export const RecentRooms = ({ onNavigate, variant = 'list' }: RecentRoomsProps =
   const roomsById = indexBy(rooms, (room) => room.id);
   const entries = filter(
     map(recent, (entry) => roomsById[entry.id]),
-    isNonNullish,
+    isNonNullish
   );
 
   const isStrip = variant === 'strip';
@@ -71,7 +71,7 @@ export const RecentRooms = ({ onNavigate, variant = 'list' }: RecentRoomsProps =
               key={room.id}
               className={isStrip ? s.stripItem : s.item}
               data-live={live}
-              type="button"
+              type='button'
               onClick={() => navigate(room.id)}
             >
               <span className={live ? s.dotLive : s.dot} />

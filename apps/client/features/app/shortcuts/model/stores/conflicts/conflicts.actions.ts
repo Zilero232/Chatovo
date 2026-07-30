@@ -49,5 +49,5 @@ const keep = (hotkeys: Iterable<string>) => {
 export const conflictsActions = {
   add,
   remove,
-  keep,
+  keep
 };

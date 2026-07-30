@@ -12,6 +12,6 @@ export const useCancelOutgoingFriendCall = () => {
     mutationFn: cancelOutgoingFriendCall,
     onSuccess: () => {
       queryClient.setQueryData(QUERY_KEYS.friendCallOutgoing(), { call: null });
-    },
+    }
   });
 };

@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import {
   DESKTOP_DOWNLOAD_PLATFORMS,
   MOBILE_DOWNLOAD_PLATFORMS,
-  useRelease,
+  useRelease
 } from '@/entities/app/release';
 import { EXTERNAL_LINKS } from '@/shared/constants';
 import {
@@ -15,13 +15,14 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  Text,
+  Text
 } from '@/shared/ui';
+
+import type { DownloadAppDialogProps } from './DownloadAppDialog.types';
+
 import { PlatformCard } from './components';
 
 import s from './DownloadAppDialog.module.scss';
-
-import type { DownloadAppDialogProps } from './DownloadAppDialog.types';
 
 export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps) => {
   const t = useTranslations('downloadApp');
@@ -43,8 +44,8 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
             <a
               className={s.fallbackLink}
               href={EXTERNAL_LINKS.appReleases}
-              rel="noopener noreferrer"
-              target="_blank"
+              rel='noopener noreferrer'
+              target='_blank'
             >
               {t('openReleases')}
             </a>
@@ -54,32 +55,32 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
         {release && (
           <>
             <div className={s.section}>
-              <Text className={s.sectionTitle} size="xs" tone="muted" weight="medium">
+              <Text className={s.sectionTitle} size='xs' tone='muted' weight='medium'>
                 {t('sections.desktop')}
               </Text>
               <div className={s.desktopGrid}>
                 {DESKTOP_DOWNLOAD_PLATFORMS.map(({ id, labelKey, Icon }) => (
                   <PlatformCard
                     key={id}
-                    label={t(`platforms.${labelKey}`)}
-                    Icon={Icon}
                     asset={release.assets[id]}
+                    Icon={Icon}
+                    label={t(`platforms.${labelKey}`)}
                   />
                 ))}
               </div>
             </div>
 
             <div className={s.section}>
-              <Text className={s.sectionTitle} size="xs" tone="muted" weight="medium">
+              <Text className={s.sectionTitle} size='xs' tone='muted' weight='medium'>
                 {t('sections.mobile')}
               </Text>
               <div className={s.mobileGrid}>
                 {MOBILE_DOWNLOAD_PLATFORMS.map(({ id, labelKey, Icon }) => (
                   <PlatformCard
                     key={id}
-                    label={t(`platforms.${labelKey}`)}
-                    Icon={Icon}
                     asset={release.assets[id]}
+                    Icon={Icon}
+                    label={t(`platforms.${labelKey}`)}
                   />
                 ))}
               </div>
@@ -90,8 +91,8 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
               <a
                 className={s.metaLink}
                 href={release.htmlUrl}
-                rel="noopener noreferrer"
-                target="_blank"
+                rel='noopener noreferrer'
+                target='_blank'
               >
                 {t('releaseNotes')} <ExternalLink className={s.metaLinkIcon} />
               </a>

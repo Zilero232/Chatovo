@@ -34,8 +34,8 @@ services:
       - server
     ports:
       # 80 is required for the Let's Encrypt HTTP challenge; 443 serves HTTPS.
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     volumes:
       # Persists issued TLS certificates across restarts.
       - caddy_data:/data
@@ -46,7 +46,7 @@ services:
     # container, which runs with network_mode: host (so it's reachable from
     # this bridge-networked container only via the host gateway).
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
 
   postgres:
     # Self-hosted Postgres — replaces Supabase's managed database. Data persists
@@ -66,13 +66,13 @@ services:
     # POSTGRES_PASSWORD and restrict port 5432 with a firewall (allow only
     # trusted IPs) — a weak password on an open 5432 is brute-forced fast.
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
       - chatovo
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      test: [CMD-SHELL, 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
       interval: 30s
       timeout: 5s
       retries: 5
@@ -89,11 +89,11 @@ services:
         condition: service_healthy
     env_file:
       # Sits next to this compose file on the VPS. Create it once from the
-      # apps/server/.env.example template in the repo, with production values.
+      # .env.example template in the repo, with production values.
       - ./.env
     expose:
       # Reachable only inside the compose network — not published to the host.
-      - "4000"
+      - '4000'
     volumes:
       # Uploaded files (avatars, chat attachments) persist here and are served
       # by the server under /uploads. UPLOADS_DIR in .env must point here.
@@ -101,7 +101,12 @@ services:
     networks:
       - chatovo
     healthcheck:
-      test: ["CMD", "bun", "-e", "fetch('http://localhost:4000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      test:
+        - CMD
+        - bun
+        - -e
+        - "fetch('http://localhost:4000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+
       interval: 30s
       timeout: 5s
       retries: 3

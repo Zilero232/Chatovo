@@ -8,56 +8,59 @@ import {
   Post,
   Query,
   UploadedFile,
-  UseInterceptors,
+  UseInterceptors
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
-import { ChatService } from './chat.service';
 import {
   EditMessageDto,
   ListMessagesQueryDto,
   SendMessageDto,
-  UploadAttachmentDto,
+  UploadAttachmentDto
 } from './dto/chat.dto';
+import { ChatAttachmentService, ChatMessageService } from './services';
 
 @ApiTags('chat')
 @Controller('chat')
 export class ChatController {
-  constructor(private readonly chat: ChatService) {}
+  constructor(
+    private readonly attachments: ChatAttachmentService,
+    private readonly messages: ChatMessageService
+  ) {}
 
   @Post('attachments')
   @UseInterceptors(FileInterceptor('file'))
   uploadAttachment(
     @Body() body: UploadAttachmentDto,
     @UploadedFile() file: Express.Multer.File,
-    @CurrentUser() userId: string,
+    @CurrentUser() userId: string
   ) {
-    return this.chat.uploadAttachment(body.roomId, file, userId);
+    return this.attachments.uploadAttachment({ roomId: body.roomId, file, userId });
   }
 
   @Post('messages')
   sendMessage(@Body() body: SendMessageDto, @CurrentUser() userId: string) {
-    return this.chat.sendMessage(body, userId);
+    return this.messages.sendMessage({ input: body, senderId: userId });
   }
 
   @Get('messages')
   listMessages(@Query() query: ListMessagesQueryDto, @CurrentUser() userId: string) {
-    return this.chat.listMessages(query, userId);
+    return this.messages.listMessages({ query, userId });
   }
 
   @Patch('messages/:id')
   editMessage(
-    @Param('id') id: string,
+    @Param('id') messageId: string,
     @Body() body: EditMessageDto,
-    @CurrentUser() userId: string,
+    @CurrentUser() userId: string
   ) {
-    return this.chat.editMessage(id, body, userId);
+    return this.messages.editMessage({ messageId, input: body, senderId: userId });
   }
 
   @Delete('messages/:id')
-  deleteMessage(@Param('id') id: string, @CurrentUser() userId: string) {
-    return this.chat.deleteMessage(id, userId);
+  deleteMessage(@Param('id') messageId: string, @CurrentUser() userId: string) {
+    return this.messages.deleteMessage({ messageId, senderId: userId });
   }
 }

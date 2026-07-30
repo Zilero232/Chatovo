@@ -4,6 +4,7 @@ import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { BrandMark, Text } from '@/shared/ui';
+
 import { AUTH_FEATURES } from '../../../config';
 import { AuthRoomPreview } from '../AuthRoomPreview';
 import { AuthStats } from '../AuthStats';
@@ -38,10 +39,10 @@ export const AuthBrandPanel = () => {
                 <Icon />
               </span>
               <div className={s.featureBody}>
-                <Text size="sm" weight="semibold">
+                <Text size='sm' weight='semibold'>
                   {t(`features.${key}.title`)}
                 </Text>
-                <Text className={s.featureDesc} size="xs" tone="muted">
+                <Text className={s.featureDesc} size='xs' tone='muted'>
                   {t(`features.${key}.desc`)}
                 </Text>
               </div>

@@ -6,11 +6,6 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 import { shouldKeepDialogOpen } from '@/shared/lib/nested-overlay';
-import { OverlayCloseButton } from '../../molecules/OverlayCloseButton';
-import { Button } from '../Button';
-import { DialogOverlayContext, useDialogOverlay } from './dialog-overlay-context';
-
-import s from './Dialog.module.scss';
 
 import type {
   DialogCloseProps,
@@ -19,8 +14,14 @@ import type {
   DialogFooterProps,
   DialogHeaderProps,
   DialogProps,
-  DialogTitleProps,
+  DialogTitleProps
 } from './Dialog.types';
+
+import { OverlayCloseButton } from '../../molecules/OverlayCloseButton';
+import { Button } from '../Button';
+import { DialogOverlayContext, useDialogOverlay } from './dialog-overlay-context';
+
+import s from './Dialog.module.scss';
 
 export const Dialog = ({
   open,
@@ -60,7 +61,7 @@ export const Dialog = ({
         <BaseDialog.Portal>
           <BaseDialog.Backdrop
             className={clsx(s.overlay, overlayClassName, className)}
-            data-slot="dialog"
+            data-slot='dialog'
           />
           {children}
         </BaseDialog.Portal>
@@ -87,10 +88,10 @@ export const DialogContent = ({
   }, [overlayClassName, overlayContext]);
 
   return (
-    <BaseDialog.Popup className={s.modal} data-slot="dialog-portal" {...props}>
+    <BaseDialog.Popup className={s.modal} data-slot='dialog-portal' {...props}>
       <div
         className={clsx('glass-overlay', 'max-h-dvh-safe', s.content, className)}
-        data-slot="dialog-content"
+        data-slot='dialog-content'
       >
         {children}
         {showCloseButton && (
@@ -101,17 +102,15 @@ export const DialogContent = ({
   );
 };
 
-export const DialogClose = ({ className, children, ...props }: DialogCloseProps) => {
-  return (
-    <BaseDialog.Close data-slot="dialog-close" render={<Button className={className} {...props} />}>
-      {children}
-    </BaseDialog.Close>
-  );
-};
+export const DialogClose = ({ className, children, ...props }: DialogCloseProps) => (
+  <BaseDialog.Close data-slot='dialog-close' render={<Button className={className} {...props} />}>
+    {children}
+  </BaseDialog.Close>
+);
 
-export const DialogHeader = ({ className, ...props }: DialogHeaderProps) => {
-  return <div className={clsx(s.header, className)} data-slot="dialog-header" {...props} />;
-};
+export const DialogHeader = ({ className, ...props }: DialogHeaderProps) => (
+  <div className={clsx(s.header, className)} data-slot='dialog-header' {...props} />
+);
 
 export const DialogFooter = ({
   className,
@@ -122,31 +121,27 @@ export const DialogFooter = ({
   const t = useTranslations('common');
 
   return (
-    <div className={clsx(s.footer, className)} data-slot="dialog-footer" {...props}>
+    <div className={clsx(s.footer, className)} data-slot='dialog-footer' {...props}>
       {children}
       {showCloseButton && (
-        <BaseDialog.Close render={<Button variant="outline" />}>{t('close')}</BaseDialog.Close>
+        <BaseDialog.Close render={<Button variant='outline' />}>{t('close')}</BaseDialog.Close>
       )}
     </div>
   );
 };
 
-export const DialogTitle = ({ className, children, ...props }: DialogTitleProps) => {
-  return (
-    <BaseDialog.Title className={clsx(s.title, className)} data-slot="dialog-title" {...props}>
-      {children}
-    </BaseDialog.Title>
-  );
-};
+export const DialogTitle = ({ className, children, ...props }: DialogTitleProps) => (
+  <BaseDialog.Title className={clsx(s.title, className)} data-slot='dialog-title' {...props}>
+    {children}
+  </BaseDialog.Title>
+);
 
-export const DialogDescription = ({ className, children, ...props }: DialogDescriptionProps) => {
-  return (
-    <BaseDialog.Description
-      className={clsx(s.description, className)}
-      data-slot="dialog-description"
-      {...props}
-    >
-      {children}
-    </BaseDialog.Description>
-  );
-};
+export const DialogDescription = ({ className, children, ...props }: DialogDescriptionProps) => (
+  <BaseDialog.Description
+    className={clsx(s.description, className)}
+    data-slot='dialog-description'
+    {...props}
+  >
+    {children}
+  </BaseDialog.Description>
+);

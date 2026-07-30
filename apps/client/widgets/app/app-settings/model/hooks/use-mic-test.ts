@@ -2,20 +2,20 @@
 
 import { useRef, useState } from 'react';
 
-import { useMicAnalyser } from './use-mic-analyser';
-
 import type { AudioSettings } from '@/entities/app/settings';
 
+import { useMicAnalyser } from './use-mic-analyser';
+
 type UseMicTest = {
-  level: number;
-  isLoopback: boolean;
-  toggleLoopback: () => void;
   error: boolean;
+  isLoopback: boolean;
+  level: number;
+  toggleLoopback: () => void;
 };
 
 type MicTestArgs = {
-  deviceId: string;
   audio: AudioSettings;
+  deviceId: string;
 };
 
 export const useMicTest = ({ deviceId, audio }: MicTestArgs): UseMicTest => {
@@ -40,7 +40,7 @@ export const useMicTest = ({ deviceId, audio }: MicTestArgs): UseMicTest => {
         sink.play().catch(() => {});
       }
     },
-    onError: () => setError(true),
+    onError: () => setError(true)
   });
 
   const toggleLoopback = () => {

@@ -2,7 +2,6 @@
 @use '@/shared/styles/breakpoints' as *;
 
 .root {
-  pointer-events: none;
   position: absolute;
   z-index: 10;
   right: 0.5rem;
@@ -10,6 +9,7 @@
   overflow: hidden;
   width: 4rem;
   height: 100%;
+  pointer-events: none;
 
   @include bp(sm) {
     right: 0.75rem;
@@ -22,8 +22,8 @@
   position: absolute;
   right: 0.25rem;
   bottom: 0;
+  filter: drop-shadow(0 rem(2) rem(10) oklch(0% 0 0deg / 60%));
   font-size: 1.5rem;
-  filter: drop-shadow(0 rem(2) rem(10) oklch(0 0 0 / 60%));
 
   @include bp(sm) {
     right: 0.5rem;

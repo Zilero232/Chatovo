@@ -1,7 +1,8 @@
-import { rowVariants } from './Row.variants';
-
 import type { ComponentProps, ElementType } from 'react';
+
 import type { RowProps } from './Row.types';
+
+import { rowVariants } from './Row.variants';
 
 export const Row = <T extends ElementType = 'div'>({
   as,

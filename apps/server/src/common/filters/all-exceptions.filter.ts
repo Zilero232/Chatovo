@@ -1,20 +1,20 @@
-import { Catch, HttpException, HttpStatus, Logger } from '@nestjs/common';
-
-import { isCodedResponse } from '../exceptions';
-
 import type { ApiErrorCode } from '@chatovo/schemas';
 import type { ArgumentsHost, ExceptionFilter } from '@nestjs/common';
 import type { Response } from 'express';
 
+import { Catch, HttpException, HttpStatus, Logger } from '@nestjs/common';
+
+import { isCodedResponse } from '../exceptions';
+
 type ErrorBody = {
-  error: string;
   code: ApiErrorCode;
+  error: string;
 };
 
 const STATUS_CODE: Partial<Record<HttpStatus, ApiErrorCode>> = {
   [HttpStatus.BAD_REQUEST]: 'VALIDATION_FAILED',
   [HttpStatus.UNAUTHORIZED]: 'UNAUTHORIZED',
-  [HttpStatus.FORBIDDEN]: 'FORBIDDEN',
+  [HttpStatus.FORBIDDEN]: 'FORBIDDEN'
 };
 
 const extractMessage = (exception: HttpException): string => {
@@ -42,7 +42,7 @@ const toBody = (exception: HttpException): ErrorBody => {
 
   return {
     error: extractMessage(exception),
-    code: STATUS_CODE[exception.getStatus() as HttpStatus] ?? 'INTERNAL_ERROR',
+    code: STATUS_CODE[exception.getStatus() as HttpStatus] ?? 'INTERNAL_ERROR'
   };
 };
 

@@ -1,32 +1,32 @@
 .root {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
   padding: 1rem;
-  border: 1px solid color-mix(in oklch, oklch(0.75 0.18 85) 25%, transparent);
+  border: 1px solid color-mix(in oklch, oklch(75% 0.18 85deg) 25%, transparent);
   border-radius: 0.75rem;
-  background: color-mix(in oklch, oklch(0.75 0.18 85) 10%, transparent);
+  background: color-mix(in oklch, oklch(75% 0.18 85deg) 10%, transparent);
+  gap: 0.75rem;
 }
 
 .header {
   display: flex;
-  gap: 0.75rem;
   align-items: flex-start;
+  gap: 0.75rem;
 }
 
 .icon {
-  flex-shrink: 0;
   width: 1rem;
   height: 1rem;
+  flex-shrink: 0;
   margin-top: 0.125rem;
-  color: oklch(0.8 0.16 85);
+  color: oklch(80% 0.16 85deg);
 }
 
 .copy {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   gap: 0.25rem;
-  min-width: 0;
 }
 
 .description {
@@ -36,13 +36,13 @@
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .sent {
-  font-size: 0.75rem;
   color: var(--muted-foreground);
+  font-size: 0.75rem;
 }
 
 .spinner {

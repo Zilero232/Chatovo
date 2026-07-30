@@ -1,9 +1,10 @@
-import { basePrisma as prisma } from '../../core';
-import { hasUserConnection } from '../realtime/connection-store';
-import { sendPushToTokens } from './firebase-client';
-
 import type { ChatMessage, FriendUser } from '@chatovo/schemas';
-import type { SendPushToUserInput } from './types';
+
+import type { SendPushToUserInput } from './push.types';
+
+import { basePrisma as prisma } from '../../core';
+import { hasUserConnection } from '../realtime';
+import { sendPushToTokens } from './firebase-client';
 
 const PREVIEW_MAX = 120;
 
@@ -28,7 +29,7 @@ const sendToUser = async ({
   notification,
   data,
   channelId,
-  force,
+  force
 }: SendPushToUserInput): Promise<void> => {
   if (!force && hasUserConnection(userId)) {
     return;
@@ -36,7 +37,7 @@ const sendToUser = async ({
 
   const devices = await prisma.pushDevice.findMany({
     where: { userId },
-    select: { token: true },
+    select: { token: true }
   });
 
   if (devices.length === 0) {
@@ -68,9 +69,9 @@ export const sendDmMessagePush = async (input: {
       type: 'dm_message',
       roomId: message.roomId,
       senderId: message.senderId,
-      messageId: message.id,
+      messageId: message.id
     },
-    channelId: 'messages',
+    channelId: 'messages'
   });
 };
 
@@ -87,9 +88,9 @@ export const sendIncomingCallPush = async (input: {
     data: {
       type: 'incoming_call',
       roomId,
-      callerId: caller.id,
+      callerId: caller.id
     },
     channelId: 'calls',
-    force: true,
+    force: true
   });
 };

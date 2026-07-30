@@ -1,7 +1,7 @@
 export type LandingHeroSpeaker = {
+  active: boolean;
   id: string;
   initial: string;
-  active: boolean;
 };
 
 export const LANDING_HERO_SPEAKERS: LandingHeroSpeaker[] = [
@@ -9,9 +9,9 @@ export const LANDING_HERO_SPEAKERS: LandingHeroSpeaker[] = [
   { id: 'm', initial: 'M', active: true },
   { id: 'k', initial: 'K', active: false },
   { id: 'd', initial: 'D', active: true },
-  { id: 's', initial: 'S', active: false },
+  { id: 's', initial: 'S', active: false }
 ];
 
 export const LANDING_ACTIVE_SPEAKERS = LANDING_HERO_SPEAKERS.filter(
-  (speaker) => speaker.active,
+  (speaker) => speaker.active
 ).length;

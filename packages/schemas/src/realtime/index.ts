@@ -2,7 +2,7 @@ export {
   realtimeClientMessageSchema,
   realtimePresencePatchSchema,
   realtimeRoomReactionSchema,
-  realtimeSubscribeSchema,
+  realtimeSubscribeSchema
 } from './client';
 export {
   realtimeChatDeleteEventSchema,
@@ -11,7 +11,7 @@ export {
   realtimeFriendsSnapshotEventSchema,
   realtimePresenceSnapshotEventSchema,
   realtimeRoomReactionEventSchema,
-  realtimeServerMessageSchema,
+  realtimeServerMessageSchema
 } from './server';
 
 export type { RealtimeClientMessage, RealtimeServerMessage } from './types';

@@ -2,15 +2,15 @@
 
 import { friendCallStatusSchema } from '@chatovo/schemas';
 import { useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { useEffect, useEffectEvent, useRef } from 'react';
 import { toast } from 'sonner';
 
 import {
   useCancelOutgoingFriendCall,
   useFriendCallRingtone,
-  useOutgoingFriendCall,
+  useOutgoingFriendCall
 } from '@/entities/social/friend';
 import { ackOutgoingFriendCall } from '@/shared/api';
 import { buildRoomHref, QUERY_KEYS } from '@/shared/constants';
@@ -63,7 +63,7 @@ export const useOutgoingCall = () => {
 
   const cancel = () => {
     cancelCall.mutate(undefined, {
-      onError: () => toast.error(t('cancelFailed')),
+      onError: () => toast.error(t('cancelFailed'))
     });
   };
 

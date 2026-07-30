@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { UserAvatar, UserName, useCurrentUser } from '@/entities/auth/user';
+import { useCurrentUser, UserAvatar, UserName } from '@/entities/auth/user';
 import { ReportProblemButton } from '@/features/app/report-problem';
 import { AppSettingsButton } from '@/widgets/app/app-settings';
 
@@ -15,13 +15,13 @@ export const ChannelsFooter = () => {
   return (
     <div className={s.root}>
       <UserAvatar
-        name={displayName}
-        src={avatarUrl}
         className={s.avatar}
         fallbackClassName={s.fallback}
+        name={displayName}
+        src={avatarUrl}
       />
       <div className={s.info}>
-        <UserName name={displayName} verified={verified} className={s.name} />
+        <UserName className={s.name} name={displayName} verified={verified} />
         <span className={s.status}>
           <span className={s.dot}>
             <span className={s.dotPing} />

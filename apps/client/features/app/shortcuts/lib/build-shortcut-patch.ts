@@ -3,7 +3,7 @@ import type { ShortcutActionId, ShortcutSettings } from '@/entities/app/shortcut
 export const buildShortcutPatch = (
   actionId: ShortcutActionId,
   hotkey: string,
-  current: ShortcutSettings,
+  current: ShortcutSettings
 ): Partial<ShortcutSettings> => {
   const patch: Partial<ShortcutSettings> = { [actionId]: hotkey };
 

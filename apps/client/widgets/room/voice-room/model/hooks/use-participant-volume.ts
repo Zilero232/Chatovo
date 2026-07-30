@@ -1,7 +1,9 @@
 'use client';
 
+import type { Participant } from 'livekit-client';
+
 import { useDebounceCallback, useLocalStorage } from '@siberiacancode/reactuse';
-import { type Participant, RemoteParticipant } from 'livekit-client';
+import { RemoteParticipant } from 'livekit-client';
 import { useEffect, useRef, useState } from 'react';
 import { clamp, defaultTo, omit } from 'remeda';
 
@@ -23,11 +25,11 @@ const readVolumes = (): VolumeMap => {
 };
 
 type ParticipantVolume = {
-  volume: number;
-  isMuted: boolean;
   isControllable: boolean;
-  toggleMute: () => void;
+  isMuted: boolean;
+  volume: number;
   setVolume: (next: number) => void;
+  toggleMute: () => void;
 };
 
 const clampVolume = (value: number) => clamp(value, { min: 0, max: MAX_VOLUME });
@@ -38,7 +40,7 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
 
   const { value, set: setVolumes } = useLocalStorage<VolumeMap>(
     STORAGE_KEYS.participantVolumes,
-    {},
+    {}
   );
 
   const volumes = defaultTo(value, {} as VolumeMap);
@@ -53,7 +55,7 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
     setVolumes(
       next === DEFAULT_VOLUME
         ? omit(stored, [targetIdentity])
-        : { ...stored, [targetIdentity]: next },
+        : { ...stored, [targetIdentity]: next }
     );
   }, PERSIST_DELAY_MS);
 
@@ -98,6 +100,6 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
     isControllable,
     isMuted: volume === 0,
     setVolume,
-    toggleMute,
+    toggleMute
   };
 };

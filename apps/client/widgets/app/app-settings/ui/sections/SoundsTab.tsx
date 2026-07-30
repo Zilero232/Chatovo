@@ -2,14 +2,15 @@
 
 import { useTranslations } from 'next-intl';
 
+import type { SoundCategory } from '@/entities/app/settings';
+
 import { useAppSettings } from '@/entities/app/settings';
 import { formatPercent } from '@/shared/lib';
 import { Slider, Switch } from '@/shared/ui';
+
 import { SettingRow } from '../components/SettingRow';
 
 import s from '../AppSettingsButton.module.scss';
-
-import type { SoundCategory } from '@/entities/app/settings';
 
 const SOUND_CATEGORIES: SoundCategory[] = [
   'join',
@@ -18,7 +19,7 @@ const SOUND_CATEGORIES: SoundCategory[] = [
   'reconnect',
   'message',
   'reaction',
-  'call',
+  'call'
 ];
 
 export const SoundsTab = () => {
@@ -30,8 +31,7 @@ export const SoundsTab = () => {
   return (
     <div className={s.tabPanel}>
       <SettingRow
-        label={t('volumeLabel')}
-        hint={t('volumeHint')}
+        stacked
         control={
           <div className={s.sliderRow}>
             <Slider
@@ -45,20 +45,21 @@ export const SoundsTab = () => {
             <span className={s.sliderValue}>{formatPercent(sounds.volume)}</span>
           </div>
         }
-        stacked
+        hint={t('volumeHint')}
+        label={t('volumeLabel')}
       />
 
       {SOUND_CATEGORIES.map((category) => (
         <SettingRow
           key={category}
-          label={t(category)}
-          hint={t(`${category}Hint`)}
           control={
             <Switch
               checked={sounds.enabled[category]}
               onCheckedChange={() => toggleSound(category)}
             />
           }
+          hint={t(`${category}Hint`)}
+          label={t(category)}
         />
       ))}
     </div>

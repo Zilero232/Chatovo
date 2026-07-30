@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 
 import { FeedbackController } from './feedback.controller';
-import { FeedbackService } from './feedback.service';
+import { FeedbackService } from './services';
 
 @Module({
   controllers: [FeedbackController],
-  providers: [FeedbackService],
+  providers: [FeedbackService]
 })
 export class FeedbackModule {}

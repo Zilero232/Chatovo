@@ -1,17 +1,17 @@
 'use client';
 
+import type { MouseEvent } from 'react';
+
 import { isImageMime } from '@chatovo/schemas';
 import { isTauri } from '@tauri-apps/api/core';
 import { openUrl } from '@tauri-apps/plugin-opener';
 import { clsx } from 'clsx';
 import { FileIcon } from 'lucide-react';
+import prettyBytes from 'pretty-bytes';
 
-import { formatBytes } from '@/shared/lib/format-bytes';
+import type { MessageAttachmentProps } from './MessageAttachment.types';
 
 import s from './MessageAttachment.module.scss';
-
-import type { MouseEvent } from 'react';
-import type { MessageAttachmentProps } from './MessageAttachment.types';
 
 export const MessageAttachment = ({ attachment, isOwn }: MessageAttachmentProps) => {
   const { url, name, size, mime } = attachment;
@@ -27,8 +27,7 @@ export const MessageAttachment = ({ attachment, isOwn }: MessageAttachmentProps)
 
   if (isImageMime(mime)) {
     return (
-      <a href={url} rel="noopener noreferrer" target="_blank" onClick={handleOpen}>
-        {/* biome-ignore lint/performance/noImgElement: chat attachments are arbitrary remote uploads of unknown dimensions; next/image optimization needs a known host and fixed sizes */}
+      <a href={url} rel='noopener noreferrer' target='_blank' onClick={handleOpen}>
         <img alt={name} className={s.image} src={url} />
       </a>
     );
@@ -39,14 +38,14 @@ export const MessageAttachment = ({ attachment, isOwn }: MessageAttachmentProps)
       className={clsx(s.fileCard, { [s.fileCardOwn]: isOwn, [s.fileCardOther]: !isOwn })}
       download={name}
       href={url}
-      rel="noopener noreferrer"
-      target="_blank"
+      rel='noopener noreferrer'
+      target='_blank'
       onClick={handleOpen}
     >
       <FileIcon className={s.fileIcon} />
       <span className={s.fileMeta}>
         <span className={s.fileName}>{name}</span>
-        <span className={s.fileSize}>{formatBytes(size)}</span>
+        <span className={s.fileSize}>{prettyBytes(size)}</span>
       </span>
     </a>
   );

@@ -1,0 +1,35 @@
+{
+  "rust-analyzer.linkedProjects": ["apps/tauri/Cargo.toml"],
+  "rust-analyzer.cargo.targetDir": true,
+  "rust-analyzer.check.overrideCommand": [
+    "cargo",
+    "check",
+    "--manifest-path",
+    "apps/tauri/Cargo.toml",
+    "--workspace",
+    "--message-format=json-diagnostic-rendered-ansi"
+  ],
+  "biome.enabled": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
+  },
+  "eslint.useFlatConfig": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "jsonc",
+    "yaml"
+  ],
+  "stylelint.validate": ["css", "scss"],
+  "css.validate": false,
+  "scss.validate": false,
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

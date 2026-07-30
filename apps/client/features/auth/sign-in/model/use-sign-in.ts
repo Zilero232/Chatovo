@@ -1,4 +1,6 @@
-import { type SignInValues, signInSchema } from '@chatovo/schemas';
+import type { SignInValues } from '@chatovo/schemas';
+
+import { signInSchema } from '@chatovo/schemas';
 import { useMutation } from '@tanstack/react-query';
 
 import { authClient } from '@/shared/api';
@@ -6,8 +8,8 @@ import { authClient } from '@/shared/api';
 export type { SignInValues };
 export { signInSchema };
 
-export const useSignIn = () => {
-  return useMutation({
+export const useSignIn = () =>
+  useMutation({
     mutationFn: async (values: SignInValues) => {
       const { data, error } = await authClient.signIn.email(values);
 
@@ -16,6 +18,5 @@ export const useSignIn = () => {
       }
 
       return data;
-    },
+    }
   });
-};

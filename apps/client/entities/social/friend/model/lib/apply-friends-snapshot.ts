@@ -1,15 +1,16 @@
+import type { FriendCallStreamSnapshot } from '@chatovo/schemas';
+import type { QueryClient } from '@tanstack/react-query';
+
 import { friendCallStreamSnapshotSchema } from '@chatovo/schemas';
 
 import { QUERY_KEYS } from '@/shared/constants';
-import { invalidateFriendsQueries } from './invalidate-friends-queries';
 
-import type { FriendCallStreamSnapshot } from '@chatovo/schemas';
-import type { QueryClient } from '@tanstack/react-query';
+import { invalidateFriendsQueries } from './invalidate-friends-queries';
 
 export const applyFriendsSnapshot = (
   queryClient: QueryClient,
   snapshot: FriendCallStreamSnapshot,
-  friendsEpochRef: { current: number | undefined },
+  friendsEpochRef: { current: number | undefined }
 ): void => {
   const parsed = friendCallStreamSnapshotSchema.safeParse(snapshot);
 

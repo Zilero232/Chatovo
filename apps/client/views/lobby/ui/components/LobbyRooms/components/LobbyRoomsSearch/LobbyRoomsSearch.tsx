@@ -5,9 +5,9 @@ import { Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRef } from 'react';
 
-import s from '../../LobbyRooms.module.scss';
-
 import type { LobbyRoomsSearchProps } from './LobbyRoomsSearch.types';
+
+import s from '../../LobbyRooms.module.scss';
 
 export const LobbyRoomsSearch = ({ query, onQueryChange }: LobbyRoomsSearchProps) => {
   const t = useTranslations('lobby');

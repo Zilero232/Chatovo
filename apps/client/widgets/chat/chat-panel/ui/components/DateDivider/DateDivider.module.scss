@@ -10,8 +10,8 @@
 .label {
   padding: 0.125rem 0.75rem;
   border-radius: 9999px;
+  background: oklch(100% 0 0deg / 8%);
+  color: var(--muted-foreground);
   font-size: rem(11);
   font-weight: 500;
-  color: var(--muted-foreground);
-  background: oklch(1 0 0 / 8%);
 }

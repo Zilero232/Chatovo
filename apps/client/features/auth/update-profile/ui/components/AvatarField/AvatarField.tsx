@@ -7,9 +7,9 @@ import { toast } from 'sonner';
 
 import { UserAvatar } from '@/entities/auth/user';
 
-import s from '../../UpdateProfileForm.module.scss';
-
 import type { AvatarFieldProps } from './AvatarField.types';
+
+import s from '../../UpdateProfileForm.module.scss';
 
 export const AvatarField = ({ name, src, onPick, onRemove }: AvatarFieldProps) => {
   const t = useTranslations('settings.profile');
@@ -30,7 +30,7 @@ export const AvatarField = ({ name, src, onPick, onRemove }: AvatarFieldProps) =
 
       onPick(file);
     },
-    { accept: 'image/*', multiple: false, reset: true },
+    { accept: 'image/*', multiple: false, reset: true }
   );
 
   return (
@@ -38,10 +38,10 @@ export const AvatarField = ({ name, src, onPick, onRemove }: AvatarFieldProps) =
       <button
         aria-label={t('avatarLabel')}
         className={s.avatarButton}
-        type="button"
+        type='button'
         onClick={() => open()}
       >
-        <UserAvatar className={s.avatar} colorize name={name} size="lg" src={src} />
+        <UserAvatar colorize className={s.avatar} name={name} size='lg' src={src} />
 
         <span className={s.avatarOverlay}>
           <Camera className={s.avatarOverlayIcon} />
@@ -52,7 +52,7 @@ export const AvatarField = ({ name, src, onPick, onRemove }: AvatarFieldProps) =
         <span className={s.label}>{t('avatarLabel')}</span>
         <span className={s.hint}>{t('avatarHint')}</span>
         {src && (
-          <button className={s.avatarRemove} type="button" onClick={onRemove}>
+          <button className={s.avatarRemove} type='button' onClick={onRemove}>
             {t('avatarRemove')}
           </button>
         )}

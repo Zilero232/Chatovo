@@ -2,12 +2,11 @@
 
 import { useEffect, useEffectEvent } from 'react';
 
-// biome-ignore lint/suspicious/noExplicitAny: emitters expose variant per-event signatures
 type AnyFn = (...args: any[]) => any;
 
 type Emitter = {
-  on: AnyFn;
   off: AnyFn;
+  on: AnyFn;
 };
 
 export const useEmitterEvent = <L extends AnyFn>(emitter: Emitter, event: string, handler: L) => {

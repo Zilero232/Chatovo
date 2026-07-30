@@ -8,17 +8,17 @@ import { readParticipantMeta } from '@/entities/room/room';
 import type { ChatLine } from '../types';
 
 type UseChatMessageItemArgs = {
-  message: ChatLine;
-  isOwn: boolean;
-  isGrouped: boolean;
   canManage: boolean;
+  isGrouped: boolean;
+  isOwn: boolean;
+  message: ChatLine;
 };
 
 export const useChatMessageItem = ({
   message,
   isOwn,
   isGrouped,
-  canManage,
+  canManage
 }: UseChatMessageItemArgs) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
@@ -49,6 +49,6 @@ export const useChatMessageItem = ({
     canEdit,
     showHeader: !isGrouped,
     showActions: canManage && isOwn && !isDeleted && !isEditing && !isUnsent,
-    startEdit: () => setIsEditing(true),
+    startEdit: () => setIsEditing(true)
   };
 };

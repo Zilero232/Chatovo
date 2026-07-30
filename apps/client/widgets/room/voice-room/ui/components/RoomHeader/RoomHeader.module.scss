@@ -3,29 +3,29 @@
 .root {
   position: relative;
   display: flex;
-  flex-shrink: 0;
-  gap: 0.5rem;
-  align-items: center;
   height: 3.5rem;
+  flex-shrink: 0;
+  align-items: center;
+  border-bottom: 1px solid oklch(100% 0 0deg / 8%);
+  gap: 0.5rem;
   padding-inline: 1rem;
-  border-bottom: 1px solid oklch(1 0 0 / 8%);
 }
 
 .icon {
   display: flex;
+  width: 2rem;
+  height: 2rem;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
   border-radius: var(--radius-xl);
-  color: var(--foreground);
   background: linear-gradient(
     to bottom right,
     color-mix(in oklch, var(--brand-violet) 35%, transparent),
     color-mix(in oklch, var(--brand-cyan) 35%, transparent)
   );
-  box-shadow: 0 0 rem(16) rem(-6) oklch(0.7 0.22 295 / 70%);
+  box-shadow: 0 0 rem(16) rem(-6) oklch(70% 0.22 295deg / 70%);
+  color: var(--foreground);
 }
 
 .iconGlyph {
@@ -35,17 +35,17 @@
 
 .info {
   display: flex;
+  min-width: 0;
   flex: 1;
   flex-direction: column;
-  min-width: 0;
   line-height: 1.25;
 }
 
 .titleRow {
   display: flex;
-  gap: 0.25rem;
-  align-items: center;
   min-width: 0;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .title {

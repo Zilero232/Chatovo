@@ -1,5 +1,7 @@
 'use client';
 
+import type { UpdateRoomRequest } from '@chatovo/schemas';
+
 import { updateRoomInputSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
@@ -10,10 +12,9 @@ import { useErrorMessage } from '@/entities/app/locale';
 import { useUpdateRoom } from '@/entities/room/room';
 import { FormField, Input, Label, Row, Stack, SubmitButton, Switch } from '@/shared/ui';
 
-import s from './EditRoomForm.module.scss';
-
-import type { UpdateRoomRequest } from '@chatovo/schemas';
 import type { EditRoomFormProps } from './EditRoomDialog.types';
+
+import s from './EditRoomForm.module.scss';
 
 export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
   const t = useTranslations('manageRoom.edit');
@@ -26,11 +27,11 @@ export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
     formState: { errors, isDirty },
     handleSubmit,
     register,
-    watch,
+    watch
   } = useForm<UpdateRoomRequest>({
     resolver: zodResolver(updateRoomInputSchema),
     mode: 'onChange',
-    defaultValues: { name: room.name, isPrivate: room.isPrivate },
+    defaultValues: { name: room.name, isPrivate: room.isPrivate }
   });
 
   const isPrivate = watch('isPrivate');
@@ -44,45 +45,45 @@ export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
           toast.success(t('saved'), { description: `"${updated.name}"` });
           onUpdated?.();
         },
-        onError: (err: Error) => toast.error(errorMessage(err)),
-      },
+        onError: (err: Error) => toast.error(errorMessage(err))
+      }
     );
   });
 
   return (
-    <Stack as="form" gap="3" onSubmit={onSubmit}>
-      <FormField htmlFor="edit-room-name" label={t('nameLabel')} error={errors.name?.message}>
-        <Input autoComplete="off" id="edit-room-name" {...register('name')} />
+    <Stack as='form' gap='3' onSubmit={onSubmit}>
+      <FormField error={errors.name?.message} htmlFor='edit-room-name' label={t('nameLabel')}>
+        <Input autoComplete='off' id='edit-room-name' {...register('name')} />
       </FormField>
 
       {isPrivate && (
         <FormField
-          htmlFor="edit-room-password"
-          label={t('passwordLabel')}
-          hint={t('passwordHint')}
           error={errors.password?.message}
+          hint={t('passwordHint')}
+          htmlFor='edit-room-password'
+          label={t('passwordLabel')}
         >
           <Input
-            autoComplete="new-password"
-            id="edit-room-password"
-            type="password"
+            autoComplete='new-password'
+            id='edit-room-password'
+            type='password'
             {...register('password')}
           />
         </FormField>
       )}
 
-      <Row align="center" gap="2">
+      <Row align='center' gap='2'>
         <Controller
-          control={control}
-          name="isPrivate"
           render={({ field }) => (
-            <Switch checked={field.value} id="edit-room-private" onCheckedChange={field.onChange} />
+            <Switch checked={field.value} id='edit-room-private' onCheckedChange={field.onChange} />
           )}
+          control={control}
+          name='isPrivate'
         />
-        <Label htmlFor="edit-room-private">{t('privateLabel')}</Label>
+        <Label htmlFor='edit-room-private'>{t('privateLabel')}</Label>
       </Row>
 
-      <Row justify="end" gap="2" className={s.actions}>
+      <Row className={s.actions} gap='2' justify='end'>
         <SubmitButton disabled={!isDirty} isPending={isPending}>
           {t('submit')}
         </SubmitButton>

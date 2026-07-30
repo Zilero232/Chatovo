@@ -1,5 +1,7 @@
 'use client';
 
+import type { PushPlatform } from '@chatovo/schemas';
+
 import { type as osType } from '@tauri-apps/plugin-os';
 import { useEffect, useRef } from 'react';
 import {
@@ -8,17 +10,15 @@ import {
   getToken,
   onTokenRefresh,
   register,
-  requestPermissions,
+  requestPermissions
 } from 'tauri-plugin-fcm';
 
 import { registerPushDevice, unregisterPushDevice } from '@/shared/api';
 import { isTauriMobile } from '@/shared/lib';
 
-import type { PushPlatform } from '@chatovo/schemas';
-
 const CHANNELS = [
   { id: 'messages', name: 'Messages', importance: 4 },
-  { id: 'calls', name: 'Calls', importance: 5 },
+  { id: 'calls', name: 'Calls', importance: 5 }
 ] as const;
 
 const resolvePlatform = (): PushPlatform | null => {

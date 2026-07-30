@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 
 import { useRealtime, useRealtimeMessage } from '@/entities/app/realtime';
 import { QUERY_KEYS } from '@/shared/constants';
+
 import { applyChatRealtime } from '../../../model/lib';
 
 export const ChatRealtimeSync = () => {

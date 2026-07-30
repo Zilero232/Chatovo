@@ -1,8 +1,9 @@
 import type { z } from 'zod';
+
 import type {
   feedbackPlatformSchema,
   reportProblemFormSchema,
-  reportProblemSchema,
+  reportProblemSchema
 } from './inputs';
 
 export type FeedbackPlatform = z.infer<typeof feedbackPlatformSchema>;

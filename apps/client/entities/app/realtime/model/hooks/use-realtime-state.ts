@@ -1,20 +1,21 @@
 'use client';
 
+import type { RealtimeClientMessage, RoomsParticipantsSnapshot } from '@chatovo/schemas';
+
 import { WebSocket } from 'partysocket';
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
 
 import { useCurrentUser } from '@/entities/auth/user';
 import { buildRealtimeUrl } from '@/shared/api';
+
 import {
   buildSubscribeMessage,
   dispatchRealtimeMessage,
   emptyPresence,
   parseRealtimeServerMessage,
   setSubscriptionSender,
-  syncRoomSubscriptions,
+  syncRoomSubscriptions
 } from '../lib';
-
-import type { RealtimeClientMessage, RoomsParticipantsSnapshot } from '@chatovo/schemas';
 
 export const useRealtimeState = () => {
   const { isAuthenticated } = useCurrentUser();
@@ -31,7 +32,7 @@ export const useRealtimeState = () => {
     }
 
     dispatchRealtimeMessage(message, {
-      setPresence,
+      setPresence
     });
   });
 
@@ -69,7 +70,7 @@ export const useRealtimeState = () => {
     const ws = new WebSocket(() => buildRealtimeUrl(), [], {
       connectionTimeout: 10_000,
       maxRetries: Infinity,
-      debug: process.env.NODE_ENV === 'development',
+      debug: process.env.NODE_ENV === 'development'
     });
 
     wsRef.current = ws;

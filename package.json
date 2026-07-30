@@ -1,20 +1,32 @@
 {
   "name": "chatovo",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "packageManager": "bun@1.3.1",
+  "engines": {
+    "bun": ">=1.3.0"
+  },
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "catalog": {
+      "@types/react": "^19.2.17",
+      "@types/react-dom": "^19.2.3",
+      "better-auth": "^1.6.25",
+      "date-fns": "^4.4.0",
+      "react": "^19.2.8",
+      "react-dom": "^19.2.8",
+      "remeda": "^2.39.0",
+      "ts-pattern": "^5.9.0",
+      "typescript": "~6.0.3",
+      "zod": "^4.4.3"
+    }
+  },
   "scripts": {
     "prepare": "husky",
-    "lint": "biome check .",
-    "lint:fix": "biome check --write .",
-    "lint:css": "stylelint \"apps/client/**/*.scss\"",
-    "lint:css:fix": "stylelint \"apps/client/**/*.scss\" --fix",
-    "format": "biome format --write .",
-    "typecheck": "bun --filter @chatovo/schemas typecheck && bun --filter @chatovo/server typecheck && bun --filter @chatovo/client typecheck",
     "dev": "bun --filter '@chatovo/server' --filter '@chatovo/client' --parallel dev",
     "dev:client": "bun --filter @chatovo/client dev",
     "dev:server": "bun --filter @chatovo/server dev",
@@ -25,26 +37,53 @@
     "tauri:icon": "bun --filter @chatovo/tauri icon",
     "tauri:dev": "bun --filter '@chatovo/server' --filter '@chatovo/tauri' --parallel dev",
     "tauri:build": "bun --filter @chatovo/client build && bun --filter @chatovo/tauri build",
-    "tauri:android:init": "bun --filter @chatovo/tauri android:init",
-    "tauri:android:dev": "bun --filter @chatovo/tauri android:dev",
-    "tauri:android:build": "bun --filter @chatovo/client build && bun --filter @chatovo/tauri android:build:aab"
+    "android:init": "bun --filter @chatovo/tauri android:init",
+    "android:dev": "bun --filter @chatovo/tauri android:dev",
+    "android:build": "bun --filter @chatovo/client build && bun --filter @chatovo/tauri android:build:aab",
+    "typecheck": "bun --filter @chatovo/schemas typecheck && bun --filter @chatovo/server typecheck && bun --filter @chatovo/client typecheck",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:css": "stylelint \"apps/client/**/*.scss\"",
+    "lint:css:fix": "stylelint \"apps/client/**/*.scss\" --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:rust": "cargo clippy --manifest-path apps/tauri/Cargo.toml --all-targets -- -D warnings",
+    "format:rust": "cargo fmt --manifest-path apps/tauri/Cargo.toml --all",
+    "verify": "bun run typecheck && bun run lint && bun run format:check && bun run lint:css",
+    "fix": "bun run lint:fix && bun run format && bun run lint:css:fix",
+    "deploy:web": "bun --env-file .env --env-file .env.release scripts/deploy/web.mjs",
+    "release": "bun --env-file .env --env-file apps/tauri/.env --env-file .env.release scripts/release/index.mjs",
+    "release:desktop": "bun --env-file .env --env-file apps/tauri/.env --env-file .env.release scripts/release/index.mjs --desktop",
+    "release:android": "bun --env-file .env --env-file apps/tauri/.env --env-file .env.release scripts/release/index.mjs --android"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.3",
+    "@siberiacancode/eslint": "^2.18.0",
+    "@siberiacancode/prettier": "^1.8.0",
+    "@siberiacancode/stylelint": "^1.2.0",
+    "@siberiacancode/tsconfig": "^1.2.0",
     "babel-plugin-react-compiler": "^1.0.0",
+    "eslint": "^10.8.0",
+    "fkill-cli": "^9.0.0",
     "husky": "^9.1.7",
-    "lint-staged": "^17.0.8",
-    "playwright": "^1.61.1",
-    "playwright-core": "^1.61.1",
-    "stylelint": "17.14.0",
-    "stylelint-config-clean-order": "10.0.0",
+    "kill-port": "^2.0.1",
+    "lint-staged": "^17.2.0",
+    "node-ssh": "^13.2.1",
+    "prettier": "^3.9.6",
+    "stylelint": "17.14.1",
+    "stylelint-config-idiomatic-order": "^10.0.0",
     "stylelint-config-standard-scss": "17.0.0",
-    "stylelint-declaration-block-no-ignored-properties": "3.0.0",
-    "stylelint-high-performance-animation": "2.0.0",
-    "stylelint-order": "8.1.1"
+    "stylelint-order": "8.1.1",
+    "typescript": "~6.0.3"
   },
   "lint-staged": {
-    "*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true",
-    "apps/client/**/*.scss": "stylelint --fix"
+    "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": "prettier --write",
+    "apps/client/**/*.scss": [
+      "stylelint --fix",
+      "prettier --write"
+    ]
   }
 }

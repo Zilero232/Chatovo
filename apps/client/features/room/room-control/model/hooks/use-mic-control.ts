@@ -4,6 +4,7 @@ import { useLocalParticipant } from '@livekit/components-react';
 
 import { useAppSettings } from '@/entities/app/settings';
 import { armPttStream, isTauriDesktop, prettyHotkey } from '@/shared/lib';
+
 import { resolveMicVisual } from '../../lib/mic-visual';
 import { useDeafen } from './use-deafen';
 import { useParticipantAction } from './use-participant-action';
@@ -43,6 +44,6 @@ export const useMicControl = () => {
     ...visual,
     pttKey: isPtt && isTauriDesktop() && pttBinding ? prettyHotkey(pttBinding) : undefined,
     isPending,
-    toggle: run,
+    toggle: run
   };
 };

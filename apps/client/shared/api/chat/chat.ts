@@ -1,6 +1,6 @@
-import { api } from '../http';
-
 import type { ChatAttachment, ChatMessage, ChatMessagesPage } from '@chatovo/schemas';
+
+import { api } from '../http';
 
 export const editChatMessage = async (id: string, body: string): Promise<ChatMessage> => {
   const { data } = await api.patch(`/chat/messages/${id}`, { body });
@@ -27,7 +27,7 @@ export const uploadChatAttachment = async (roomId: string, file: File): Promise<
 export const sendChatMessage = async (
   id: string,
   roomId: string,
-  body: string,
+  body: string
 ): Promise<ChatMessage> => {
   const { data } = await api.post('/chat/messages', { id, roomId, body });
 
@@ -37,10 +37,10 @@ export const sendChatMessage = async (
 export const fetchChatMessages = async (
   roomId: string,
   cursor?: string,
-  limit = 50,
+  limit = 50
 ): Promise<ChatMessagesPage> => {
   const { data } = await api.get('/chat/messages', {
-    params: { roomId, limit, ...(cursor ? { cursor } : {}) },
+    params: { roomId, limit, ...(cursor ? { cursor } : {}) }
   });
 
   return data;

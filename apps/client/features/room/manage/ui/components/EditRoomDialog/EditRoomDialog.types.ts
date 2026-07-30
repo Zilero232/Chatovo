@@ -1,8 +1,8 @@
 import type { Room } from '@chatovo/schemas';
 
 export type EditRoomDialogProps = {
-  room: Room;
   open: boolean;
+  room: Room;
   onOpenChange: (open: boolean) => void;
 };
 

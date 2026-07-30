@@ -6,25 +6,25 @@ import {
   InfoIcon,
   Loader2Icon,
   OctagonXIcon,
-  TriangleAlertIcon,
+  TriangleAlertIcon
 } from 'lucide-react';
 import { Toaster as Sonner } from 'sonner';
 
-import s from './Sonner.module.scss';
-
 import type { ToasterProps } from './Sonner.types';
+
+import s from './Sonner.module.scss';
 
 const MOBILE_TOAST_BREAKPOINT = '(max-width: 767px)';
 
 const DESKTOP_TOAST_OFFSET = {
   top: 'var(--toast-offset-top)',
-  right: 'var(--toast-offset-right)',
+  right: 'var(--toast-offset-right)'
 } as const;
 
 const MOBILE_TOAST_OFFSET = {
   top: 'var(--toast-offset-top)',
   left: 'var(--toast-offset-left)',
-  right: 'var(--toast-offset-right)',
+  right: 'var(--toast-offset-right)'
 } as const;
 
 const Toaster = ({ ...props }: ToasterProps) => {
@@ -37,7 +37,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         info: <InfoIcon className={s.iconSize} />,
         warning: <TriangleAlertIcon className={s.iconSize} />,
         error: <OctagonXIcon className={s.iconSize} />,
-        loading: <Loader2Icon className={`${s.iconSize} ${s.spin}`} />,
+        loading: <Loader2Icon className={`${s.iconSize} ${s.spin}`} />
       }}
       toastOptions={{
         classNames: {
@@ -49,14 +49,14 @@ const Toaster = ({ ...props }: ToasterProps) => {
           error: s.error,
           warning: s.warning,
           info: s.info,
-          loading: s.loading,
-        },
+          loading: s.loading
+        }
       }}
       className={`${s.toaster} group`}
       mobileOffset={MOBILE_TOAST_OFFSET}
       offset={isMobile ? MOBILE_TOAST_OFFSET : DESKTOP_TOAST_OFFSET}
-      position="top-right"
-      theme="dark"
+      position='top-right'
+      theme='dark'
       {...props}
     />
   );

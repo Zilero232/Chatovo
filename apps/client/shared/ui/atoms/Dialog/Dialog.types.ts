@@ -1,5 +1,6 @@
 import type { Dialog } from '@base-ui-components/react/dialog';
 import type { ComponentProps, ReactNode } from 'react';
+
 import type { ButtonProps } from '../Button';
 
 export type DialogProps = Omit<ComponentProps<typeof Dialog.Root>, 'children' | 'onOpenChange'> & {

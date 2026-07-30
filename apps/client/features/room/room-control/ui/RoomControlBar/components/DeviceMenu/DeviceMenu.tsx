@@ -16,14 +16,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/shared/ui';
+
+import type { DeviceMenuProps } from './DeviceMenu.types';
+
 import { deviceErrorKey } from './lib/device-error-key';
 import { deviceIcon } from './lib/device-icon';
 
 import s from './DeviceMenu.module.scss';
-
-import type { DeviceMenuProps } from './DeviceMenu.types';
 
 export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
   const t = useTranslations('settings.devices');
@@ -34,7 +35,7 @@ export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
     requestPermissions: true,
     onError: (error) => {
       toast.error(t(deviceErrorKey(error), { device: label }));
-    },
+    }
   });
 
   const selectedId = settings.devices[slot];
@@ -43,7 +44,7 @@ export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
   const [fallbackId] = availableIds;
 
   const resolvedId = [selectedId, activeDeviceId, fallbackId].find((deviceId) =>
-    availableIds.includes(deviceId),
+    availableIds.includes(deviceId)
   );
 
   useEffect(() => {
@@ -64,6 +65,7 @@ export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
     }
   };
 
+  /* eslint-disable react/static-components -- deviceIcon is a lookup returning a module-level lucide icon, not a component built per render */
   const Icon = deviceIcon(kind);
 
   return (
@@ -72,7 +74,7 @@ export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
         <ChevronUp className={s.triggerIcon} />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="center" className={s.menu} side="top">
+      <DropdownMenuContent align='center' className={s.menu} side='top'>
         <DropdownMenuGroup>
           <DropdownMenuLabel className={s.header}>
             <Icon className={s.headerIcon} />
@@ -105,4 +107,5 @@ export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
+  /* eslint-enable react/static-components */
 };

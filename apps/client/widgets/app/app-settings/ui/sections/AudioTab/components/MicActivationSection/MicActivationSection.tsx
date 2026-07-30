@@ -3,19 +3,21 @@
 import { useTranslations } from 'next-intl';
 import { useId } from 'react';
 
+import type { MicActivationMode } from '@/entities/app/settings';
+
 import { RadioGroup, RadioGroupItem } from '@/shared/ui';
+
+import type { MicActivationSectionProps } from './MicActivationSection.types';
+
 import { SettingRow } from '../../../../components/SettingRow';
 
 import s from '../../../../AppSettingsButton.module.scss';
-
-import type { MicActivationMode } from '@/entities/app/settings';
-import type { MicActivationSectionProps } from './MicActivationSection.types';
 
 export const MicActivationSection = ({
   activationMode,
   pttBindingMissing,
   onActivationModeChange,
-  onJumpToShortcuts,
+  onJumpToShortcuts
 }: MicActivationSectionProps) => {
   const t = useTranslations('settings.audio');
 
@@ -25,8 +27,6 @@ export const MicActivationSection = ({
   return (
     <>
       <SettingRow
-        label={t('activation')}
-        hint={t('activationHint')}
         control={
           <RadioGroup
             className={s.radioGroup}
@@ -34,25 +34,27 @@ export const MicActivationSection = ({
             onValueChange={(value) => onActivationModeChange(value as MicActivationMode)}
           >
             <label className={s.radioLabel} htmlFor={voiceId}>
-              <RadioGroupItem id={voiceId} value="voiceActivity" />
+              <RadioGroupItem id={voiceId} value='voiceActivity' />
               {t('activationVoice')}
             </label>
             <label className={s.radioLabel} htmlFor={pttId}>
-              <RadioGroupItem id={pttId} value="pushToTalk" />
+              <RadioGroupItem id={pttId} value='pushToTalk' />
               {t('activationPtt')}
             </label>
           </RadioGroup>
         }
+        hint={t('activationHint')}
+        label={t('activation')}
       />
 
       {pttBindingMissing && (
         <span className={s.rowHintTight}>
           {t.rich('activationPttNoBinding', {
             link: (chunks) => (
-              <button className={s.linkButton} type="button" onClick={onJumpToShortcuts}>
+              <button className={s.linkButton} type='button' onClick={onJumpToShortcuts}>
                 {chunks}
               </button>
-            ),
+            )
           })}
         </span>
       )}
