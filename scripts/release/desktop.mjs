@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
@@ -34,7 +34,7 @@ export const releaseDesktop = async () => {
   log.step('build tauri desktop bundle');
   await $`bun --filter @chatovo/tauri build`.env({
     ...process.env,
-    TAURI_SIGNING_PRIVATE_KEY: signingKey,
+    TAURI_SIGNING_PRIVATE_KEY: readFileSync(signingKey, 'utf8'),
     TAURI_SIGNING_PRIVATE_KEY_PASSWORD: process.env.TAURI_SIGNING_PRIVATE_KEY_PASSWORD ?? ''
   });
 
