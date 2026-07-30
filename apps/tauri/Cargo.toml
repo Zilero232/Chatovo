@@ -1,6 +1,6 @@
 [package]
 name = "chatovo"
-version = "1.2.6"
+version = "1.2.7"
 description = "Chatovo desktop client"
 authors = ["Chatovo"]
 edition = "2021"

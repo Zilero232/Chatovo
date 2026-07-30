@@ -1,7 +1,7 @@
 {
   "name": "@chatovo/server",
   "type": "module",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "private": true,
   "main": "src/main.ts",
   "scripts": {
