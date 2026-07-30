@@ -2,11 +2,13 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { requireEnv } from '../lib/env.mjs';
+import { collectFiles } from '../lib/files.mjs';
 import { $, reporter, requireGh, workspace } from '../lib/shell.mjs';
 import { releaseTag } from '../lib/version.mjs';
-import { syncTauriVersion } from './sync-version.mjs';
 
 const log = reporter('release:android');
+
+const ANDROID_ASSET_EXTENSIONS = ['.apk', '.aab'];
 
 const tauri = join(workspace, 'apps', 'tauri');
 
@@ -39,11 +41,6 @@ export const releaseAndroid = async () => {
   const gh = await requireGh(log);
   const tag = releaseTag();
 
-  syncTauriVersion();
-
-  log.step('build client');
-  await $`bun --filter @chatovo/client build`.env({ ...process.env, NODE_ENV: 'production' });
-
   log.step('init android project');
   await $`bun --filter @chatovo/tauri android:init`.nothrow();
 
@@ -60,11 +57,7 @@ export const releaseAndroid = async () => {
   });
 
   const outputs = join(tauri, 'gen', 'android', 'app', 'build', 'outputs');
-  const assets = await $`find ${outputs} -type f \\( -name '*.apk' -o -name '*.aab' \\)`
-    .nothrow()
-    .text();
-
-  const files = assets.split('\n').filter((line) => line.trim().length > 0);
+  const files = collectFiles(outputs, ANDROID_ASSET_EXTENSIONS);
 
   if (files.length === 0) {
     log.fail(`no android artifacts found under ${outputs}`);

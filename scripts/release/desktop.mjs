@@ -3,11 +3,13 @@ import { homedir } from 'node:os';
 import { join } from 'node:path';
 
 import { requireEnv } from '../lib/env.mjs';
+import { collectFiles } from '../lib/files.mjs';
 import { $, reporter, requireGh, workspace } from '../lib/shell.mjs';
-import { releaseTag } from '../lib/version.mjs';
-import { syncTauriVersion } from './sync-version.mjs';
+import { releaseTag, releaseVersion } from '../lib/version.mjs';
 
 const log = reporter('release:desktop');
+
+const DESKTOP_ASSET_EXTENSIONS = ['.exe', '.msi', '.sig'];
 
 const signingKey = join(homedir(), '.tauri', 'chatovo.key');
 
@@ -26,10 +28,7 @@ export const releaseDesktop = async () => {
   const gh = await requireGh(log);
   const tag = releaseTag();
 
-  syncTauriVersion();
-
-  log.step('build client');
-  await $`bun --filter @chatovo/client build`.env({ ...process.env, NODE_ENV: 'production' });
+  const version = releaseVersion();
 
   log.step('build tauri desktop bundle');
   await $`bun --filter @chatovo/tauri build`.env({
@@ -40,12 +39,9 @@ export const releaseDesktop = async () => {
   });
 
   const bundle = join(workspace, 'apps', 'tauri', 'target', 'release', 'bundle');
-  const assets =
-    await $`find ${bundle} -type f \\( -name '*.exe' -o -name '*.msi' -o -name '*.sig' \\)`
-      .nothrow()
-      .text();
-
-  const files = assets.split('\n').filter((line) => line.trim().length > 0);
+  const files = collectFiles(bundle, DESKTOP_ASSET_EXTENSIONS).filter((path) =>
+    path.includes(version)
+  );
 
   if (files.length === 0) {
     log.fail(`no desktop artifacts found under ${bundle}`);

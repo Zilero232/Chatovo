@@ -40,9 +40,11 @@ export const LobbyRoomCard = ({ room }: LobbyRoomCardProps) => {
 
       <button className={s.enter} type='button' onClick={() => router.push(buildRoomHref(room.id))}>
         <div className={s.header}>
-          <span className={s.name}>
-            {room.name}
-            {room.isPrivate && <Lock className={s.privateIcon} />}
+          <span className={s.nameRow}>
+            <span className={s.name} title={room.name}>
+              {room.name}
+            </span>
+            {room.isPrivate && <Lock aria-hidden className={s.privateIcon} />}
           </span>
 
           <div className={s.headerBadges}>
