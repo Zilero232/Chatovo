@@ -42,7 +42,7 @@ export const releaseAndroid = async () => {
   syncTauriVersion();
 
   log.step('build client');
-  await $`bun --filter @chatovo/client build`;
+  await $`bun --filter @chatovo/client build`.env({ ...process.env, NODE_ENV: 'production' });
 
   log.step('init android project');
   await $`bun --filter @chatovo/tauri android:init`.nothrow();
@@ -50,8 +50,14 @@ export const releaseAndroid = async () => {
   materializeKeystore(creds);
 
   log.step('build android apk + aab');
-  await $`bun --filter @chatovo/tauri android:build`;
-  await $`bun --filter @chatovo/tauri android:build:aab`;
+  await $`bun --filter @chatovo/tauri android:build`.env({
+    ...process.env,
+    NODE_ENV: 'production'
+  });
+  await $`bun --filter @chatovo/tauri android:build:aab`.env({
+    ...process.env,
+    NODE_ENV: 'production'
+  });
 
   const outputs = join(tauri, 'gen', 'android', 'app', 'build', 'outputs');
   const assets = await $`find ${outputs} -type f \\( -name '*.apk' -o -name '*.aab' \\)`

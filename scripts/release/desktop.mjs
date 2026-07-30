@@ -29,11 +29,12 @@ export const releaseDesktop = async () => {
   syncTauriVersion();
 
   log.step('build client');
-  await $`bun --filter @chatovo/client build`;
+  await $`bun --filter @chatovo/client build`.env({ ...process.env, NODE_ENV: 'production' });
 
   log.step('build tauri desktop bundle');
   await $`bun --filter @chatovo/tauri build`.env({
     ...process.env,
+    NODE_ENV: 'production',
     TAURI_SIGNING_PRIVATE_KEY: readFileSync(signingKey, 'utf8'),
     TAURI_SIGNING_PRIVATE_KEY_PASSWORD: process.env.TAURI_SIGNING_PRIVATE_KEY_PASSWORD ?? ''
   });
