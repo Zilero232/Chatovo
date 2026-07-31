@@ -6,8 +6,8 @@ import { RoomControlBar } from '@/features/room/room-control';
 
 import type { RoomControlsBarProps } from './RoomControlsBar.types';
 
-import { RoomInviteButton } from '../RoomInviteButton';
-import { VoiceRoomChatButton } from '../VoiceRoomChatButton';
+import { RoomInviteButton } from '../RoomInviteButton/RoomInviteButton';
+import { VoiceRoomChatButton } from '../VoiceRoomChatButton/VoiceRoomChatButton';
 
 import s from '../../VoiceRoom.module.scss';
 

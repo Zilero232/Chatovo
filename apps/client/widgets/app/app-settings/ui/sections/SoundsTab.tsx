@@ -8,7 +8,7 @@ import { useAppSettings } from '@/entities/app/settings';
 import { formatPercent } from '@/shared/lib';
 import { Slider, Switch } from '@/shared/ui';
 
-import { SettingRow } from '../components/SettingRow';
+import { SettingRow } from '../components/SettingRow/SettingRow';
 
 import s from '../AppSettingsButton.module.scss';
 

@@ -10,8 +10,8 @@ import { isTauriDesktop } from '@/shared/lib';
 
 import type { AudioTabProps } from './AudioTab.types';
 
-import { MicTest } from '../../components/MicTest';
-import { SettingRow } from '../../components/SettingRow';
+import { MicTest } from '../../components/MicTest/MicTest';
+import { SettingRow } from '../../components/SettingRow/SettingRow';
 import {
   AudioDevicesSection,
   AudioProcessingSection,

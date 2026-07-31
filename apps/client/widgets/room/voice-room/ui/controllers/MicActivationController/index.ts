@@ -1,1 +1,0 @@
-export { MicActivationController } from './MicActivationController';

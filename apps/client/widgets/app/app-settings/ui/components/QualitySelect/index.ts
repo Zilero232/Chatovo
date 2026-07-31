@@ -1,1 +1,0 @@
-export { QualitySelect } from './QualitySelect';

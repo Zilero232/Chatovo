@@ -11,7 +11,7 @@ import {
   LANDING_HERO_STAT_COUNTS,
   LANDING_HERO_STAT_KEYS
 } from '../../../config';
-import { LandingHeroStat } from '../LandingHeroStat';
+import { LandingHeroStat } from '../LandingHeroStat/LandingHeroStat';
 import { LandingHeroVisual } from '../LandingHeroVisual';
 import { LandingReveal } from '../LandingReveal';
 

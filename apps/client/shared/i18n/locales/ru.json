@@ -700,7 +700,6 @@
     "loadFailed": "Не удалось загрузить последний релиз.",
     "openReleases": "Открыть релизы на GitHub",
     "version": "Версия {version}",
-    "releaseNotes": "Список изменений",
     "notAvailable": "Пока недоступно",
     "sections": {
       "desktop": "Desktop",

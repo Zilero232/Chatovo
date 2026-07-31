@@ -14,7 +14,7 @@ import { Spinner, Text } from '@/shared/ui';
 
 import type { FriendsTabProps, RemoveTarget } from './FriendsTab.types';
 
-import { FriendListItem } from '../FriendListItem';
+import { FriendListItem } from '../FriendListItem/FriendListItem';
 import {
   FRIEND_ITEM_ANIMATE,
   FRIEND_ITEM_EXIT,

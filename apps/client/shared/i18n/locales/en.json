@@ -747,7 +747,6 @@
     "loadFailed": "Couldn't load the latest release.",
     "openReleases": "Open releases on GitHub",
     "version": "Version {version}",
-    "releaseNotes": "Release notes",
     "notAvailable": "Not available yet",
     "sections": {
       "desktop": "Desktop",

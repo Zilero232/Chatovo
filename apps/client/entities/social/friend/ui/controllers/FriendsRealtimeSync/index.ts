@@ -1,1 +1,0 @@
-export { FriendsRealtimeSync } from './FriendsRealtimeSync';

@@ -1,1 +1,0 @@
-export { LandingControllers } from './LandingControllers';

@@ -1,1 +1,0 @@
-export { ChannelsFooter } from './ChannelsFooter';

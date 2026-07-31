@@ -10,8 +10,8 @@ import { ProfileCardTrigger } from '@/features/room/profile-card';
 import type { ParticipantCardProps } from './ParticipantCard.types';
 
 import { useParticipantMedia } from '../../../model/hooks';
-import { CardVideo } from '../CardVideo';
-import { ParticipantCardMenu } from '../ParticipantCardMenu';
+import { CardVideo } from '../CardVideo/CardVideo';
+import { ParticipantCardMenu } from '../ParticipantCardMenu/ParticipantCardMenu';
 import { getCardTint } from './lib';
 import {
   PARTICIPANT_CARD_ANIMATE,

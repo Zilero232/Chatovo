@@ -1,1 +1,0 @@
-export { RoomDeviceController } from './RoomDeviceController';

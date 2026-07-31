@@ -7,8 +7,8 @@ import { useFieldError } from '@/entities/app/locale';
 
 import type { ProfileFieldsProps } from './ProfileFields.types';
 
-import { BannerColorField } from '../BannerColorField';
-import { ProfileTextField } from '../ProfileTextField';
+import { BannerColorField } from '../BannerColorField/BannerColorField';
+import { ProfileTextField } from '../ProfileTextField/ProfileTextField';
 
 export const ProfileFields = ({ control, errors, register }: ProfileFieldsProps) => {
   const t = useTranslations('settings.profile');

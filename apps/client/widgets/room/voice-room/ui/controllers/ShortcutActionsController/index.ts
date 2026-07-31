@@ -1,1 +1,0 @@
-export { ShortcutActionsController } from './ShortcutActionsController';

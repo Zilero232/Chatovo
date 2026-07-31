@@ -1,6 +1,6 @@
-export { ChatComposer } from './ChatComposer';
-export { ChatEmpty } from './ChatEmpty';
-export { ChatHeader } from './ChatHeader';
-export { ChatLoadingSkeleton } from './ChatLoadingSkeleton';
-export { ChatMessageItem } from './ChatMessageItem';
-export { DateDivider } from './DateDivider';
+export { ChatComposer } from './ChatComposer/ChatComposer';
+export { ChatEmpty } from './ChatEmpty/ChatEmpty';
+export { ChatHeader } from './ChatHeader/ChatHeader';
+export { ChatLoadingSkeleton } from './ChatLoadingSkeleton/ChatLoadingSkeleton';
+export { ChatMessageItem } from './ChatMessageItem/ChatMessageItem';
+export { DateDivider } from './DateDivider/DateDivider';

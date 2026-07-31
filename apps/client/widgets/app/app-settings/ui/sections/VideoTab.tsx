@@ -7,9 +7,9 @@ import type { ScreenQuality, VideoQuality } from '@/entities/app/settings';
 import { useAppSettings } from '@/entities/app/settings';
 import { Switch } from '@/shared/ui';
 
-import { DeviceSelect } from '../components/DeviceSelect';
-import { QualitySelect } from '../components/QualitySelect';
-import { SettingRow } from '../components/SettingRow';
+import { DeviceSelect } from '../components/DeviceSelect/DeviceSelect';
+import { QualitySelect } from '../components/QualitySelect/QualitySelect';
+import { SettingRow } from '../components/SettingRow/SettingRow';
 
 import s from '../AppSettingsButton.module.scss';
 

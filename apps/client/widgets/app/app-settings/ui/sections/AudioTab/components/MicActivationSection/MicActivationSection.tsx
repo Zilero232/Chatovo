@@ -9,7 +9,7 @@ import { RadioGroup, RadioGroupItem } from '@/shared/ui';
 
 import type { MicActivationSectionProps } from './MicActivationSection.types';
 
-import { SettingRow } from '../../../../components/SettingRow';
+import { SettingRow } from '../../../../components/SettingRow/SettingRow';
 
 import s from '../../../../AppSettingsButton.module.scss';
 

@@ -1,2 +1,2 @@
-export { LandingControllers } from './LandingControllers';
-export { LandingDocumentSetup } from './LandingDocumentSetup';
+export { LandingControllers } from './LandingControllers/LandingControllers';
+export { LandingDocumentSetup } from './LandingDocumentSetup/LandingDocumentSetup';

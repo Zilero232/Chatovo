@@ -6,8 +6,8 @@ import { useTranslations } from 'next-intl';
 import { BrandMark, Text } from '@/shared/ui';
 
 import { AUTH_FEATURES } from '../../../config';
-import { AuthRoomPreview } from '../AuthRoomPreview';
-import { AuthStats } from '../AuthStats';
+import { AuthRoomPreview } from '../AuthRoomPreview/AuthRoomPreview';
+import { AuthStats } from '../AuthStats/AuthStats';
 
 import s from './AuthBrandPanel.module.scss';
 

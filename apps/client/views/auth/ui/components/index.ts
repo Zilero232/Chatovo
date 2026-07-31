@@ -1,4 +1,4 @@
-export { AuthBrandPanel } from './AuthBrandPanel';
-export { AuthLegalFooter } from './AuthLegalFooter';
-export { AuthRoomPreview } from './AuthRoomPreview';
-export { AuthStats } from './AuthStats';
+export { AuthBrandPanel } from './AuthBrandPanel/AuthBrandPanel';
+export { AuthLegalFooter } from './AuthLegalFooter/AuthLegalFooter';
+export { AuthRoomPreview } from './AuthRoomPreview/AuthRoomPreview';
+export { AuthStats } from './AuthStats/AuthStats';

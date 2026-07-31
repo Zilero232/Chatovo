@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 
 import type { LobbyRoomsSectionsProps } from './LobbyRoomsSections.types';
 
-import { LobbyRoomCard } from '../../../LobbyRoomCard';
+import { LobbyRoomCard } from '../../../LobbyRoomCard/LobbyRoomCard';
 import {
   LOBBY_CARD_ANIMATE,
   LOBBY_CARD_EXIT,

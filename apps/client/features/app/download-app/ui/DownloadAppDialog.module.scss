@@ -70,26 +70,18 @@
 .meta {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding-top: 1rem;
-  border-top: 1px solid rgb(255 255 255 / 10%);
+  border-top: 1px solid oklch(100% 0 0deg / 8%);
+}
+
+.version {
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  background: oklch(100% 0 0deg / 5%);
   color: var(--muted-foreground);
   font-size: 0.75rem;
-}
-
-.metaLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-
-  &:hover {
-    color: var(--foreground);
-  }
-}
-
-.metaLinkIcon {
-  width: 0.75rem;
-  height: 0.75rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .spinner {

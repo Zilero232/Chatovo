@@ -1,7 +1,7 @@
 import type { LandingControllersProps } from './LandingControllers.types';
 
-import { LandingDocumentSetup } from '../LandingDocumentSetup';
-import { LandingLocaleRedirect } from '../LandingLocaleRedirect';
+import { LandingDocumentSetup } from '../LandingDocumentSetup/LandingDocumentSetup';
+import { LandingLocaleRedirect } from '../LandingLocaleRedirect/LandingLocaleRedirect';
 
 export const LandingControllers = ({ locale }: LandingControllersProps) => (
   <>

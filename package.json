@@ -49,12 +49,13 @@
     "format:check": "prettier --check .",
     "lint:rust": "cargo clippy --manifest-path apps/tauri/Cargo.toml --all-targets -- -D warnings",
     "format:rust": "cargo fmt --manifest-path apps/tauri/Cargo.toml --all",
-    "verify": "bun run typecheck && bun run lint && bun run format:check && bun run lint:css",
+    "verify": "bun run typecheck && bun run lint && bun run format:check && bun run lint:css && bun run check:locales",
     "fix": "bun run lint:fix && bun run format && bun run lint:css:fix",
     "deploy:web": "bun --env-file .env --env-file .env.release scripts/deploy/web.mjs",
     "release": "bun --env-file .env --env-file apps/tauri/.env --env-file .env.release scripts/release/index.mjs",
     "release:desktop": "bun --env-file .env --env-file apps/tauri/.env --env-file .env.release scripts/release/index.mjs --desktop",
-    "release:android": "bun --env-file .env --env-file apps/tauri/.env --env-file .env.release scripts/release/index.mjs --android"
+    "release:android": "bun --env-file .env --env-file apps/tauri/.env --env-file .env.release scripts/release/index.mjs --android",
+    "check:locales": "bun scripts/check-locales.mjs"
   },
   "devDependencies": {
     "@siberiacancode/eslint": "^2.18.0",

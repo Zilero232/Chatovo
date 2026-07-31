@@ -1,1 +1,0 @@
-export { ChannelsHeader } from './ChannelsHeader';

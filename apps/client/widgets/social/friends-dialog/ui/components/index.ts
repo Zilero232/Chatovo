@@ -1,6 +1,6 @@
-export { AddFriendForm } from './AddFriendForm';
-export { FriendListItem } from './FriendListItem';
-export { FriendsDialogTrigger } from './FriendsDialogTrigger';
-export { FriendsTab } from './FriendsTab';
-export { OwnFriendTag } from './OwnFriendTag';
-export { RequestsTab } from './RequestsTab';
+export { AddFriendForm } from './AddFriendForm/AddFriendForm';
+export { FriendListItem } from './FriendListItem/FriendListItem';
+export { FriendsDialogTrigger } from './FriendsDialogTrigger/FriendsDialogTrigger';
+export { FriendsTab } from './FriendsTab/FriendsTab';
+export { OwnFriendTag } from './OwnFriendTag/OwnFriendTag';
+export { RequestsTab } from './RequestsTab/RequestsTab';

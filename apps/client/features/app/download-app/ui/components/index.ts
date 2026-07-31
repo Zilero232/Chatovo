@@ -1,1 +1,1 @@
-export { PlatformCard } from './PlatformCard';
+export { PlatformCard } from './PlatformCard/PlatformCard';

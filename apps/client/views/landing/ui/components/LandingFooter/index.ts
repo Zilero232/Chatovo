@@ -1,1 +1,0 @@
-export { LandingFooter } from './LandingFooter';

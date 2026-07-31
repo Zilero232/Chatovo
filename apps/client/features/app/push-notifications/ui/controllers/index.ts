@@ -1,1 +1,1 @@
-export { PushRegistration } from './PushRegistration';
+export { PushRegistration } from './PushRegistration/PushRegistration';

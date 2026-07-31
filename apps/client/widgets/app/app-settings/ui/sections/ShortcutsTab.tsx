@@ -3,7 +3,7 @@
 import { SHORTCUT_ACTIONS } from '@/entities/app/shortcut';
 import { isTauriDesktop } from '@/shared/lib';
 
-import { ShortcutActionRow } from '../components/ShortcutActionRow';
+import { ShortcutActionRow } from '../components/ShortcutActionRow/ShortcutActionRow';
 import { WebNotice } from '../components/WebNotice';
 
 import s from '../AppSettingsButton.module.scss';

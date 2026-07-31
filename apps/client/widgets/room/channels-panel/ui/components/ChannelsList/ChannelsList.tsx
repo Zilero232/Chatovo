@@ -14,7 +14,7 @@ import { CenteredState, ScrollArea, Skeleton } from '@/shared/ui';
 
 import type { ChannelsListProps } from './ChannelsList.types';
 
-import { ChannelsRoomItem } from '../ChannelsRoomItem';
+import { ChannelsRoomItem } from '../ChannelsRoomItem/ChannelsRoomItem';
 
 import s from './ChannelsList.module.scss';
 

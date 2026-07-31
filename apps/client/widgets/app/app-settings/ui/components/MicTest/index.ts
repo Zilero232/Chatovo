@@ -1,1 +1,0 @@
-export { MicTest } from './MicTest';

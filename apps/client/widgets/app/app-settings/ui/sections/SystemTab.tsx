@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useAppSettings } from '@/entities/app/settings';
 import { Switch } from '@/shared/ui';
 
-import { SettingRow } from '../components/SettingRow';
+import { SettingRow } from '../components/SettingRow/SettingRow';
 
 import s from '../AppSettingsButton.module.scss';
 

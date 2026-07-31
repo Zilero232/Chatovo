@@ -6,7 +6,7 @@ import { Switch } from '@/shared/ui';
 
 import type { AudioProcessingSectionProps } from './AudioProcessingSection.types';
 
-import { SettingRow } from '../../../../components/SettingRow';
+import { SettingRow } from '../../../../components/SettingRow/SettingRow';
 import { AUDIO_FLAGS } from '../../AudioTab.config';
 
 export const AudioProcessingSection = ({ audio, onFlagChange }: AudioProcessingSectionProps) => {

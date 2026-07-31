@@ -10,8 +10,8 @@ import { Text } from '@/shared/ui';
 
 import type { ParticipantsViewProps } from './ParticipantsView.types';
 
-import { InviteParticipantCard } from '../InviteParticipantCard';
-import { ParticipantCard } from '../ParticipantCard';
+import { InviteParticipantCard } from '../InviteParticipantCard/InviteParticipantCard';
+import { ParticipantCard } from '../ParticipantCard/ParticipantCard';
 
 import s from './ParticipantsView.module.scss';
 

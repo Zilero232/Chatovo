@@ -1,1 +1,0 @@
-export { AddFriendForm } from './AddFriendForm';

@@ -1,2 +1,2 @@
-export { DeleteRoomDialog } from './DeleteRoomDialog';
-export { EditRoomDialog } from './EditRoomDialog';
+export { DeleteRoomDialog } from './DeleteRoomDialog/DeleteRoomDialog';
+export { EditRoomDialog } from './EditRoomDialog/EditRoomDialog';

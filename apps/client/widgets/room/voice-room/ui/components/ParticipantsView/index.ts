@@ -1,1 +1,0 @@
-export { ParticipantsView } from './ParticipantsView';

@@ -1,1 +1,0 @@
-export { LobbyRoomCard } from './LobbyRoomCard';

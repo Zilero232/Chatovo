@@ -5,8 +5,8 @@ import { AudioLines } from 'lucide-react';
 
 import type { RoomHeaderProps } from './RoomHeader.types';
 
-import { ConnectionIndicator } from '../ConnectionIndicator';
-import { RoomInviteButton } from '../RoomInviteButton';
+import { ConnectionIndicator } from '../ConnectionIndicator/ConnectionIndicator';
+import { RoomInviteButton } from '../RoomInviteButton/RoomInviteButton';
 
 import s from './RoomHeader.module.scss';
 

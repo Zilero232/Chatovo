@@ -30,6 +30,7 @@ A **widget importing a feature is correct** (it composes them) — only Feature�
 - **`shared/ui`**: import from the single root barrel `@/shared/ui`, not per-primitive. Each primitive lives in its own PascalCase folder (see [../../docs/style.md](../../docs/style.md) §2.1).
 - **SCSS shared imports**: `@use '@/shared/styles/mixins' as *` — без относительных `../../../` (`sassOptions.loadPaths` + `turbopack.resolveAlias` в `next.config.ts`).
 - **`model/` barrels** live in subfolders (`model/hooks/index.ts`), never a slice-level `model/index.ts`.
+- **No per-component barrels.** A slice's root `index.ts` is its public API and stays. Inside `ui/components/` and `ui/controllers/`, the aggregating `components/index.ts` points straight at the file (`export { X } from './X/X'`) — don't add an `X/index.ts` that only re-exports its neighbour.
 - **Settings state** (`useAppSettings`, settings types) lives in `entities/app/settings` — NOT the `widgets/app/app-settings` widget (which is UI-only).
 - **Shared Zod schemas** come from `@chatovo/schemas` ([../../packages/schemas](../../packages/schemas)); auth/profile/room schemas live there, not inline.
 - **i18n**: `useTranslations` in client components, `getTranslations` from `next-intl/server` in server components (see `views/landing`). Keys in locale JSON under `shared/i18n/locales/`. Don't edit generated `messages.d.ts`.

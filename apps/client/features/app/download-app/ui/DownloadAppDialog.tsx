@@ -1,6 +1,6 @@
 'use client';
 
-import { ExternalLink, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import {
@@ -87,15 +87,7 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
             </div>
 
             <div className={s.meta}>
-              <span>{t('version', { version: release.version })}</span>
-              <a
-                className={s.metaLink}
-                href={release.htmlUrl}
-                rel='noopener noreferrer'
-                target='_blank'
-              >
-                {t('releaseNotes')} <ExternalLink className={s.metaLinkIcon} />
-              </a>
+              <span className={s.version}>{t('version', { version: release.version })}</span>
             </div>
           </>
         )}

@@ -10,7 +10,7 @@ import { groupRooms, RoomsListError, useRooms, useRoomsPresence } from '@/entiti
 import { Button, CenteredState } from '@/shared/ui';
 import { RecentRooms } from '@/widgets/room/channels-panel';
 
-import { LobbyEmpty } from '../LobbyEmpty';
+import { LobbyEmpty } from '../LobbyEmpty/LobbyEmpty';
 import { LobbyRoomsSearch, LobbyRoomsSections, LobbyRoomsSkeleton } from './components';
 
 import s from './LobbyRooms.module.scss';

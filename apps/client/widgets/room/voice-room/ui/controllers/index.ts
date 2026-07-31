@@ -1,1 +1,1 @@
-export { RoomControllers } from './RoomControllers';
+export { RoomControllers } from './RoomControllers/RoomControllers';

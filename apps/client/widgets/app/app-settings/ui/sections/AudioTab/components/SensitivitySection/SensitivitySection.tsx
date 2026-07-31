@@ -6,8 +6,8 @@ import { Switch } from '@/shared/ui';
 
 import type { SensitivitySectionProps } from './SensitivitySection.types';
 
-import { SensitivityControl } from '../../../../components/SensitivityControl';
-import { SettingRow } from '../../../../components/SettingRow';
+import { SensitivityControl } from '../../../../components/SensitivityControl/SensitivityControl';
+import { SettingRow } from '../../../../components/SettingRow/SettingRow';
 
 export const SensitivitySection = ({
   audio,

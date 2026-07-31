@@ -2,8 +2,8 @@
 
 import { useTranslations } from 'next-intl';
 
-import { DeviceSelect } from '../../../../components/DeviceSelect';
-import { SettingRow } from '../../../../components/SettingRow';
+import { DeviceSelect } from '../../../../components/DeviceSelect/DeviceSelect';
+import { SettingRow } from '../../../../components/SettingRow/SettingRow';
 
 export const AudioDevicesSection = () => {
   const t = useTranslations('settings.audio');

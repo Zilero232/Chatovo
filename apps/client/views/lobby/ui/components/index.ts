@@ -1,4 +1,4 @@
-export { LobbyEmpty } from './LobbyEmpty';
-export { LobbyHeader } from './LobbyHeader';
-export { LobbyRoomCard } from './LobbyRoomCard';
-export { LobbyRooms } from './LobbyRooms';
+export { LobbyEmpty } from './LobbyEmpty/LobbyEmpty';
+export { LobbyHeader } from './LobbyHeader/LobbyHeader';
+export { LobbyRoomCard } from './LobbyRoomCard/LobbyRoomCard';
+export { LobbyRooms } from './LobbyRooms/LobbyRooms';

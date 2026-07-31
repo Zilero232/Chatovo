@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { CreateRoomDialog } from '@/features/room/create';
 import { Button, Text } from '@/shared/ui';
 
-import { RecentRooms } from '../RecentRooms';
+import { RecentRooms } from '../RecentRooms/RecentRooms';
 
 import s from './ChannelsLobbyBanner.module.scss';
 

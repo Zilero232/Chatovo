@@ -6,7 +6,9 @@ import { isNullish } from 'remeda';
 import { toast } from 'sonner';
 
 import { useAppSettings } from '@/entities/app/settings';
-import { appEvents, armPttStream, isTauriDesktop, toggleMicStream } from '@/shared/lib';
+import { appEvents, isTauriDesktop, toggleMicStream } from '@/shared/lib';
+
+import { toggleMicrophone } from '../../lib';
 
 export const useShortcutActions = () => {
   const { localParticipant } = useLocalParticipant();
@@ -21,20 +23,11 @@ export const useShortcutActions = () => {
       return;
     }
 
-    try {
-      const next = !localParticipant.isMicrophoneEnabled;
-      await localParticipant.setMicrophoneEnabled(next);
-
-      if (next) {
-        appEvents.emit.micActivated();
-
-        if (mode === 'pushToTalk') {
-          armPttStream(localParticipant);
-        }
-      }
-    } catch (err) {
-      console.error('shortcut mute.toggle failed', err);
-    }
+    await toggleMicrophone({
+      localParticipant,
+      isPtt: mode === 'pushToTalk',
+      source: 'shortcut'
+    });
   });
 
   appEvents.on.pttKey((payload) => {

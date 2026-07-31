@@ -104,7 +104,8 @@ bun lint:css               # stylelint (SCSS)
 bun lint:css:fix           # stylelint --fix — сортирует свойства, чинит порядок
 bun format                 # prettier --write
 bun format:check           # prettier --check
-bun verify                 # typecheck + lint + format:check + lint:css — прогони перед коммитом
+bun check:locales          # en/ru: одинаковый набор ключей + рассинхрон юрдоков
+bun verify                 # typecheck + lint + format:check + lint:css + check:locales — прогони перед коммитом
 bun fix                    # lint:fix + format + lint:css:fix
 bun build                  # server + client production build
 

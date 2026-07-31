@@ -1,1 +1,0 @@
-export { LandingHeroStat } from './LandingHeroStat';

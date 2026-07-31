@@ -1,1 +1,0 @@
-export { ParticipantCard } from './ParticipantCard';
