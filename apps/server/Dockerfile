@@ -21,6 +21,7 @@ FROM base AS deps
 COPY package.json bun.lock ./
 COPY apps/server/package.json ./apps/server/package.json
 COPY packages/schemas/package.json ./packages/schemas/package.json
+COPY packages/tsconfig ./packages/tsconfig
 # Bun's --frozen-lockfile validates the on-disk workspace topology against the
 # lockfile, so every workspace member in bun.lock must have its manifest
 # present — even those not used by this image.
