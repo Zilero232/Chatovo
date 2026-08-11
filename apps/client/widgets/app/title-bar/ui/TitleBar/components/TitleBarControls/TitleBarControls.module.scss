@@ -14,7 +14,7 @@
   background: transparent;
   color: var(--muted-foreground);
   cursor: pointer;
-  transition: colors 150ms ease-out;
+  transition: colors var(--duration-fast) var(--timing-function-out);
 
   &:hover {
     background: var(--accent);
@@ -37,7 +37,7 @@
   background: transparent;
   color: var(--muted-foreground);
   cursor: pointer;
-  transition: colors 150ms ease-out;
+  transition: colors var(--duration-fast) var(--timing-function-out);
 
   &:hover {
     background: var(--destructive);

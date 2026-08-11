@@ -1,7 +1,7 @@
 'use client';
 
 import { useBoolean } from '@siberiacancode/reactuse';
-import { Plus } from 'lucide-react';
+import { Plus, Radio } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import {
@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogHint,
   DialogTitle
 } from '@/shared/ui';
 
@@ -35,12 +36,15 @@ export const CreateRoomDialog = ({ trigger }: CreateRoomDialogProps) => {
       onOpenChange={toggleOpen}
     >
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader icon={<Radio />} tone='violet'>
           <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>{t('description')}</DialogDescription>
         </DialogHeader>
 
-        <CreateRoomForm onCreated={() => toggleOpen(false)} />
+        <CreateRoomForm
+          hint={<DialogHint>{t('hint')}</DialogHint>}
+          onCreated={() => toggleOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   );

@@ -1,4 +1,4 @@
-import type { Room } from '@chatovo/schemas';
+import type { Room } from '@chatovo/schemas/rooms';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { filter } from 'remeda';

@@ -3,11 +3,11 @@
 import type { MouseEvent } from 'react';
 
 import { isTauri } from '@tauri-apps/api/core';
-import { openUrl } from '@tauri-apps/plugin-opener';
 import { clsx } from 'clsx';
 import { BadgeCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import { openExternal } from '@/shared/lib';
 import { Tooltip, TooltipContent } from '@/shared/ui';
 
 import type { UserNameProps } from './UserName.types';
@@ -46,7 +46,7 @@ export const UserName = ({
 
     event.preventDefault();
 
-    openUrl(profileUrl);
+    openExternal(profileUrl);
   };
 
   return (

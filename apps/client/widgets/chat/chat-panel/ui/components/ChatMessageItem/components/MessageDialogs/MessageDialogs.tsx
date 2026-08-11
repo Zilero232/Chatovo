@@ -1,32 +1,35 @@
 'use client';
 
-import type { MessageDialogsProps } from './MessageDialogs.types';
-
+import { useChatMessage } from '../../../../../model/contexts';
 import { DeleteMessageDialog } from '../DeleteMessageDialog';
 import { EditMessageDialog } from '../EditMessageDialog';
 
-export const MessageDialogs = ({
-  body,
-  isEditing,
-  isConfirmingDelete,
-  onEditingChange,
-  onConfirmingDeleteChange,
-  onSave,
-  onConfirmDelete
-}: MessageDialogsProps) => (
-  <>
-    <EditMessageDialog
-      key={body}
-      initialValue={body}
-      open={isEditing}
-      onOpenChange={onEditingChange}
-      onSave={onSave}
-    />
+export const MessageDialogs = () => {
+  const {
+    message,
+    isEditing,
+    setIsEditing,
+    isConfirmingDelete,
+    setIsConfirmingDelete,
+    saveEdit,
+    confirmDelete
+  } = useChatMessage();
 
-    <DeleteMessageDialog
-      open={isConfirmingDelete}
-      onConfirm={onConfirmDelete}
-      onOpenChange={onConfirmingDeleteChange}
-    />
-  </>
-);
+  return (
+    <>
+      <EditMessageDialog
+        key={message.message}
+        initialValue={message.message}
+        open={isEditing}
+        onOpenChange={setIsEditing}
+        onSave={saveEdit}
+      />
+
+      <DeleteMessageDialog
+        open={isConfirmingDelete}
+        onConfirm={confirmDelete}
+        onOpenChange={setIsConfirmingDelete}
+      />
+    </>
+  );
+};

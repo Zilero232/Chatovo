@@ -19,7 +19,9 @@ import {
 
 import type { ParticipantCardMenuProps } from './ParticipantCardMenu.types';
 
+import { useSessionStats } from '../../../model/contexts';
 import { useParticipantVolume } from '../../../model/hooks';
+import { ParticipantStatsBars } from '../ParticipantStatsBars/ParticipantStatsBars';
 
 import s from './ParticipantCardMenu.module.scss';
 
@@ -29,9 +31,11 @@ export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMe
   const { isMuted, volume, isControllable, setVolume, toggleMute } =
     useParticipantVolume(participant);
 
+  const { read } = useSessionStats();
   const { copy } = useCopy();
 
   const displayName = participant.name || participant.identity;
+  const stats = read(participant.identity);
 
   const handleCopyName = async () => {
     await copy(displayName);
@@ -47,6 +51,17 @@ export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMe
         <ContextMenuGroup>
           <ContextMenuLabel>{displayName}</ContextMenuLabel>
         </ContextMenuGroup>
+
+        {stats && (
+          <>
+            <ContextMenuSeparator />
+
+            <ContextMenuGroup>
+              <ContextMenuLabel>{t('sessionStats')}</ContextMenuLabel>
+              <ParticipantStatsBars stats={stats} />
+            </ContextMenuGroup>
+          </>
+        )}
 
         {isControllable && (
           <>

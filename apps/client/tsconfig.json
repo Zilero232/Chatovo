@@ -1,29 +1,9 @@
 {
+  "extends": "@chatovo/tsconfig/nextjs.json",
   "compilerOptions": {
-    "incremental": true,
-    "target": "ES2022",
-    "jsx": "react-jsx",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
     "paths": {
       "@/*": ["./*"]
-    },
-    "resolveJsonModule": true,
-    "allowJs": false,
-    "strict": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "skipLibCheck": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    }
   },
   "include": [
     "next-env.d.ts",

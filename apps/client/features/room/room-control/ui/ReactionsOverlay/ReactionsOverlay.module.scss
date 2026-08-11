@@ -3,7 +3,7 @@
 
 .root {
   position: absolute;
-  z-index: 10;
+  z-index: var(--z-raised);
   right: 0.5rem;
   bottom: calc(0.75rem + var(--safe-area-bottom));
   overflow: hidden;

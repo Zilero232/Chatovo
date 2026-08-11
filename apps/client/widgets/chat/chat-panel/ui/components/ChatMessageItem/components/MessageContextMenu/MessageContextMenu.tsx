@@ -4,18 +4,15 @@ import { ContextMenu, ContextMenuContent, ContextMenuTrigger } from '@/shared/ui
 
 import type { MessageContextMenuProps } from './MessageContextMenu.types';
 
+import { useChatMessage } from '../../../../../model/contexts';
 import { MessageMenuItems } from '../MessageMenuItems';
 
 import s from './MessageContextMenu.module.scss';
 
-export const MessageContextMenu = ({
-  children,
-  enabled,
-  canEdit,
-  onEdit,
-  onDelete
-}: MessageContextMenuProps) => {
-  if (!enabled) {
+export const MessageContextMenu = ({ children }: MessageContextMenuProps) => {
+  const { showActions } = useChatMessage();
+
+  if (!showActions) {
     return children;
   }
 
@@ -24,7 +21,7 @@ export const MessageContextMenu = ({
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
 
       <ContextMenuContent className={s.content}>
-        <MessageMenuItems canEdit={canEdit} onDelete={onDelete} onEdit={onEdit} />
+        <MessageMenuItems />
       </ContextMenuContent>
     </ContextMenu>
   );

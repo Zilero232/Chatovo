@@ -9,9 +9,3 @@ export type AvatarProps = ComponentProps<'span'> & {
 export type AvatarImageProps = ComponentProps<'img'>;
 
 export type AvatarFallbackProps = ComponentProps<'span'>;
-
-export type AvatarBadgeProps = ComponentProps<'span'>;
-
-export type AvatarGroupProps = ComponentProps<'div'>;
-
-export type AvatarGroupCountProps = ComponentProps<'div'>;

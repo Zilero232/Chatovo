@@ -1,7 +1,7 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 
 import { useLiteMotion } from '@/shared/hooks';
 import { Spinner, Tooltip, TooltipContent } from '@/shared/ui';
@@ -18,7 +18,6 @@ import {
   CONTROL_ICON_ANIMATE,
   CONTROL_ICON_EXIT,
   CONTROL_ICON_INITIAL,
-  CONTROL_ICON_REDUCED,
   CONTROL_ICON_TRANSITION
 } from './ControlButton.motion';
 
@@ -34,7 +33,6 @@ export const ControlButton = ({
   device,
   onClick
 }: ControlButtonProps) => {
-  const shouldReduceMotion = useReducedMotion();
   const { resolveTransition } = useLiteMotion();
 
   const animatedIcon = (
@@ -43,8 +41,8 @@ export const ControlButton = ({
         key={isPending ? 'pending' : String(pressed)}
         animate={CONTROL_ICON_ANIMATE}
         className={s.iconSlot}
-        exit={shouldReduceMotion ? CONTROL_ICON_REDUCED : CONTROL_ICON_EXIT}
-        initial={shouldReduceMotion ? CONTROL_ICON_REDUCED : CONTROL_ICON_INITIAL}
+        exit={CONTROL_ICON_EXIT}
+        initial={CONTROL_ICON_INITIAL}
         transition={resolveTransition(CONTROL_ICON_TRANSITION)}
       >
         {isPending ? <Spinner decorative /> : icon}

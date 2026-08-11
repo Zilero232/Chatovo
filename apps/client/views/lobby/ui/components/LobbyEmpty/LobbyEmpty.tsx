@@ -25,6 +25,7 @@ export const LobbyEmpty = () => {
       }
       description={t('text')}
       icon={<AudioLines className={s.icon} />}
+      pattern='waves'
       title={t('title')}
     />
   );

@@ -3,17 +3,17 @@
 import type { ReactNode } from 'react';
 
 import { clsx } from 'clsx';
-import { Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { isEmpty as isEmptyList } from 'remeda';
 import { match } from 'ts-pattern';
 
 import { groupRooms, RoomsListError, useRooms, useRoomsPresence } from '@/entities/room/room';
-import { CenteredState, ScrollArea, Skeleton } from '@/shared/ui';
+import { CenteredState, ScrollArea, SearchField, Skeleton } from '@/shared/ui';
 
 import type { ChannelsListProps } from './ChannelsList.types';
 
+import { ChannelsCreateCta } from '../ChannelsCreateCta/ChannelsCreateCta';
 import { ChannelsRoomItem } from '../ChannelsRoomItem/ChannelsRoomItem';
 
 import s from './ChannelsList.module.scss';
@@ -32,7 +32,7 @@ const ChannelsListSkeleton = () => (
   </div>
 );
 
-export const ChannelsList = ({ onNavigate }: ChannelsListProps = {}) => {
+export const ChannelsList = ({ footer, onNavigate }: ChannelsListProps = {}) => {
   const t = useTranslations('channels');
   const tSections = useTranslations('room.sections');
 
@@ -46,15 +46,8 @@ export const ChannelsList = ({ onNavigate }: ChannelsListProps = {}) => {
   return (
     <>
       <div className={s.search}>
-        <label className={s.searchField}>
-          <Search className={s.searchIcon} />
-          <input
-            className={s.searchInput}
-            placeholder={t('searchPlaceholder')}
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-        </label>
+        <SearchField placeholder={t('searchPlaceholder')} value={query} onValueChange={setQuery} />
+        <ChannelsCreateCta />
       </div>
 
       <ScrollArea className={s.scroll}>
@@ -69,7 +62,7 @@ export const ChannelsList = ({ onNavigate }: ChannelsListProps = {}) => {
             .with({ isEmpty: true }, () => (
               <CenteredState
                 className={s.emptyState}
-                description={t('banner.hint')}
+                description={t('emptyHint')}
                 size='sm'
                 title={t('noRoomsYet')}
               />
@@ -95,6 +88,8 @@ export const ChannelsList = ({ onNavigate }: ChannelsListProps = {}) => {
               ))
             )}
         </div>
+
+        {footer}
       </ScrollArea>
     </>
   );

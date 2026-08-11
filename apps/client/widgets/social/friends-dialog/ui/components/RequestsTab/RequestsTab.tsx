@@ -2,7 +2,7 @@
 
 import type { FriendRequestEntry } from '@chatovo/schemas';
 
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { match, P } from 'ts-pattern';
@@ -12,17 +12,16 @@ import {
   useDeclineFriendRequest,
   useIncomingFriendRequests
 } from '@/entities/social/friend';
+import {
+  LIST_ITEM_ANIMATE,
+  LIST_ITEM_EXIT,
+  LIST_ITEM_INITIAL,
+  LIST_ITEM_TRANSITION
+} from '@/shared/config';
 import { useLiteMotion } from '@/shared/hooks';
-import { Spinner, Text } from '@/shared/ui';
+import { CenteredState, Spinner } from '@/shared/ui';
 
 import { FriendRequestListItem } from './FriendRequestListItem';
-import {
-  REQUEST_ITEM_ANIMATE,
-  REQUEST_ITEM_EXIT,
-  REQUEST_ITEM_INITIAL,
-  REQUEST_ITEM_REDUCED,
-  REQUEST_ITEM_TRANSITION
-} from './RequestsTab.motion';
 
 import s from '../../FriendsDialog.module.scss';
 
@@ -32,7 +31,6 @@ const hasRequests = (
 
 export const RequestsTab = () => {
   const t = useTranslations('friends');
-  const shouldReduceMotion = useReducedMotion();
   const { layout, resolveTransition } = useLiteMotion();
 
   const { data: requests, isPending } = useIncomingFriendRequests();
@@ -47,11 +45,11 @@ export const RequestsTab = () => {
           {items.map((entry) => (
             <motion.div
               key={entry.friendshipId}
-              animate={REQUEST_ITEM_ANIMATE}
-              exit={shouldReduceMotion ? REQUEST_ITEM_REDUCED : REQUEST_ITEM_EXIT}
-              initial={shouldReduceMotion ? REQUEST_ITEM_REDUCED : REQUEST_ITEM_INITIAL}
+              animate={LIST_ITEM_ANIMATE}
+              exit={LIST_ITEM_EXIT}
+              initial={LIST_ITEM_INITIAL}
               layout={layout}
-              transition={resolveTransition(REQUEST_ITEM_TRANSITION)}
+              transition={resolveTransition(LIST_ITEM_TRANSITION)}
             >
               <FriendRequestListItem
                 entry={entry}
@@ -76,8 +74,12 @@ export const RequestsTab = () => {
       </div>
     ))
     .otherwise(() => (
-      <Text className={s.empty} size='sm' tone='muted'>
-        {t('emptyRequests')}
-      </Text>
+      <CenteredState
+        className={s.empty}
+        description={t('emptyRequestsHint')}
+        pattern='dots'
+        size='sm'
+        title={t('emptyRequestsTitle')}
+      />
     ));
 };

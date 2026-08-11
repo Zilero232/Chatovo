@@ -1,4 +1,4 @@
-import type { Dialog } from '@base-ui-components/react/dialog';
+import type { Dialog } from '@base-ui/react/dialog';
 import type { ComponentProps, ReactNode } from 'react';
 
 export type SheetSide = 'bottom' | 'left' | 'right' | 'top';

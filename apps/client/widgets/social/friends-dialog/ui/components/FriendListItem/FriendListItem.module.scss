@@ -5,9 +5,9 @@
   min-width: 0;
   align-items: center;
   border-radius: var(--radius-xl);
-  transition: background-color 150ms ease-out;
+  transition: background-color var(--duration-fast) var(--timing-function-out);
 
-  &:hover {
+  @include hover {
     background: oklch(100% 0 0deg / 6%);
   }
 
@@ -29,7 +29,7 @@
   gap: 0.75rem;
   outline: none;
   text-align: left;
-  transition: background-color 150ms ease-out;
+  transition: background-color var(--duration-fast) var(--timing-function-out);
 
   &:active {
     background: oklch(100% 0 0deg / 4%);
@@ -54,12 +54,11 @@
 }
 
 .name {
-  overflow: hidden;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.25;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+  @include text-ellipsis;
 }
 
 .status {
@@ -109,8 +108,8 @@
   flex-shrink: 0;
   color: color-mix(in oklch, var(--muted-foreground) 50%, transparent);
   transition:
-    transform 150ms ease-out,
-    color 150ms ease-out;
+    transform var(--duration-fast) var(--timing-function-out),
+    color var(--duration-fast) var(--timing-function-out);
 
   .root:hover & {
     color: color-mix(in oklch, var(--muted-foreground) 80%, transparent);
@@ -128,7 +127,7 @@
 
   @include bp(sm) {
     opacity: 0;
-    transition: opacity 150ms ease-out;
+    transition: opacity var(--duration-fast) var(--timing-function-out);
 
     .root:hover &,
     .root:focus-within & {

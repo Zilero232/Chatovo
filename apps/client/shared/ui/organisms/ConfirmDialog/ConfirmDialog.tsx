@@ -1,5 +1,7 @@
 'use client';
 
+import { AlertTriangle } from 'lucide-react';
+
 import type { ConfirmDialogProps } from './ConfirmDialog.types';
 
 import {
@@ -9,6 +11,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogHint,
   DialogTitle,
   Spinner
 } from '../../atoms';
@@ -22,17 +25,25 @@ export const ConfirmDialog = ({
   cancelLabel,
   confirmLabel,
   confirmVariant = 'destructive',
+  icon,
+  tone,
+  hint,
   isPending = false,
   onConfirm
 }: ConfirmDialogProps) => (
   <Dialog open={open} onOpenChange={onOpenChange}>
     <DialogContent>
-      <DialogHeader>
+      <DialogHeader
+        icon={icon ?? <AlertTriangle />}
+        tone={tone ?? (confirmVariant === 'destructive' ? 'destructive' : 'violet')}
+      >
         <DialogTitle>{title}</DialogTitle>
         {description && <DialogDescription>{description}</DialogDescription>}
       </DialogHeader>
 
       {children}
+
+      {hint && <DialogHint>{hint}</DialogHint>}
 
       <DialogFooter>
         <Button

@@ -7,10 +7,10 @@ import type { LobbyStatProps } from './LobbyStat.types';
 
 import s from '../../LobbyHeader.module.scss';
 
-export const LobbyStat = ({ icon, isLoading, label, tone, value }: LobbyStatProps) => (
+export const LobbyStat = ({ icon, isActive, isLoading, label, tone, value }: LobbyStatProps) => (
   <div className={clsx(s.stat, 'surface-card')} data-tone={tone}>
     <span aria-hidden className={s.statGlow} data-tone={tone} />
-    <span className={s.statIconWrap} data-tone={tone}>
+    <span className={s.statIconWrap} data-active={isActive} data-tone={tone}>
       {icon}
     </span>
     <span className={s.statTextWrap}>

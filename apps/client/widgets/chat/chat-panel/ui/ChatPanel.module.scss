@@ -2,11 +2,11 @@
 
 .scrim {
   position: fixed;
-  z-index: 30;
+  z-index: var(--z-sticky);
   backdrop-filter: blur(rem(4));
   background: oklch(0% 0 0deg / 45%);
   inset: 0;
-  transition: opacity 300ms;
+  transition: opacity var(--duration-slow);
 
   @include bp(md) {
     display: none;
@@ -18,7 +18,11 @@
   }
 
   &[data-open='true'] {
-    animation: overlay-fade-in 300ms ease-out;
+    animation: overlay-fade-in var(--duration-slow) var(--timing-function-out);
+  }
+
+  @include tauri-mobile {
+    backdrop-filter: none;
   }
 }
 
@@ -33,7 +37,7 @@
   border-left: 1px solid oklch(100% 0 0deg / 10%);
   box-shadow: rem(-28) 0 rem(56) rem(-28) oklch(0% 0 0deg / 85%);
   inset: 0;
-  transition: transform 300ms ease-out;
+  transition: transform var(--duration-slow) var(--timing-function-out);
 
   &[data-open='false'] {
     pointer-events: none;

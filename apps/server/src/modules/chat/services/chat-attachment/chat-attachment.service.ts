@@ -7,7 +7,7 @@ import type { UploadAttachmentInput } from './chat-attachment.service.types';
 
 import { AppBadRequestException } from '../../../../common/exceptions';
 import { ATTACHMENT_MAX_BYTES } from '../../../../config/uploads';
-import { assertCanAccessDmRoom, assertRoomExists } from '../../../../lib';
+import { assertCanAccessRoom } from '../../../../lib';
 import { saveUpload } from '../../../uploads';
 
 @Injectable()
@@ -23,8 +23,7 @@ export class ChatAttachmentService {
       throw new AppBadRequestException('FILE_TOO_LARGE', 'File too large');
     }
 
-    await assertRoomExists(roomId);
-    await assertCanAccessDmRoom({ roomId, userId });
+    await assertCanAccessRoom({ roomId, userId });
 
     const ext = extension(type) || 'bin';
     const key = `chat-attachments/${roomId}/${crypto.randomUUID()}.${ext}`;

@@ -1,23 +1,15 @@
 'use client';
 
-import { ContextMenu as BaseContextMenu } from '@base-ui-components/react/context-menu';
+import { ContextMenu as BaseContextMenu } from '@base-ui/react/context-menu';
 import { clsx } from 'clsx';
-import { CheckIcon, ChevronRightIcon, CircleIcon } from 'lucide-react';
 
 import type {
-  ContextMenuCheckboxItemProps,
   ContextMenuContentProps,
   ContextMenuGroupProps,
   ContextMenuItemProps,
   ContextMenuLabelProps,
   ContextMenuProps,
-  ContextMenuRadioGroupProps,
-  ContextMenuRadioItemProps,
   ContextMenuSeparatorProps,
-  ContextMenuShortcutProps,
-  ContextMenuSubContentProps,
-  ContextMenuSubProps,
-  ContextMenuSubTriggerProps,
   ContextMenuTriggerProps
 } from './ContextMenu.types';
 
@@ -64,46 +56,6 @@ export const ContextMenuItem = ({
   />
 );
 
-export const ContextMenuCheckboxItem = ({
-  className,
-  children,
-  ...props
-}: ContextMenuCheckboxItemProps) => (
-  <BaseContextMenu.CheckboxItem
-    className={clsx(s.checkboxItem, className)}
-    data-slot='context-menu-checkbox-item'
-    {...props}
-  >
-    <BaseContextMenu.CheckboxItemIndicator className={s.itemIndicator}>
-      <CheckIcon />
-    </BaseContextMenu.CheckboxItemIndicator>
-    {children}
-  </BaseContextMenu.CheckboxItem>
-);
-
-export const ContextMenuRadioGroup = ({ children, ...props }: ContextMenuRadioGroupProps) => (
-  <BaseContextMenu.RadioGroup data-slot='context-menu-radio-group' {...props}>
-    {children}
-  </BaseContextMenu.RadioGroup>
-);
-
-export const ContextMenuRadioItem = ({
-  className,
-  children,
-  ...props
-}: ContextMenuRadioItemProps) => (
-  <BaseContextMenu.RadioItem
-    className={clsx(s.radioItem, className)}
-    data-slot='context-menu-radio-item'
-    {...props}
-  >
-    <BaseContextMenu.RadioItemIndicator className={s.itemIndicator}>
-      <CircleIcon className={s.radioDot} />
-    </BaseContextMenu.RadioItemIndicator>
-    {children}
-  </BaseContextMenu.RadioItem>
-);
-
 export const ContextMenuGroup = ({ className, children, ...props }: ContextMenuGroupProps) => (
   <BaseContextMenu.Group className={className} data-slot='context-menu-group' {...props}>
     {children}
@@ -125,42 +77,4 @@ export const ContextMenuSeparator = ({ className, ...props }: ContextMenuSeparat
     data-slot='context-menu-separator'
     {...props}
   />
-);
-
-export const ContextMenuShortcut = ({ className, ...props }: ContextMenuShortcutProps) => (
-  <span className={clsx(s.shortcut, className)} data-slot='context-menu-shortcut' {...props} />
-);
-
-export const ContextMenuSub = ({ children, ...props }: ContextMenuSubProps) => (
-  <BaseContextMenu.SubmenuRoot {...props}>{children}</BaseContextMenu.SubmenuRoot>
-);
-
-export const ContextMenuSubTrigger = ({
-  className,
-  inset,
-  children,
-  ...props
-}: ContextMenuSubTriggerProps) => (
-  <BaseContextMenu.SubmenuTrigger
-    className={clsx(s.subTrigger, className)}
-    data-inset={inset}
-    data-slot='context-menu-sub-trigger'
-    {...props}
-  >
-    {children}
-    <ChevronRightIcon className={s.subTriggerChevron} />
-  </BaseContextMenu.SubmenuTrigger>
-);
-
-export const ContextMenuSubContent = ({ className, children }: ContextMenuSubContentProps) => (
-  <BaseContextMenu.Portal>
-    <BaseContextMenu.Positioner className={s.positioner}>
-      <BaseContextMenu.Popup
-        className={clsx(s.subPopup, className)}
-        data-slot='context-menu-sub-content'
-      >
-        {children}
-      </BaseContextMenu.Popup>
-    </BaseContextMenu.Positioner>
-  </BaseContextMenu.Portal>
 );

@@ -21,5 +21,3 @@ export const LOBBY_CARD_ANIMATE: Target = { opacity: 1, y: 0, scale: 1 };
 export const LOBBY_CARD_INITIAL: Target = { opacity: 0, y: 12, scale: 0.98 };
 
 export const LOBBY_CARD_EXIT: Target = { opacity: 0, scale: 0.96 };
-
-export const LOBBY_CARD_REDUCED: Target = { opacity: 0 };

@@ -1,5 +1,5 @@
-import type { Radio } from '@base-ui-components/react/radio';
-import type { RadioGroup } from '@base-ui-components/react/radio-group';
+import type { Radio } from '@base-ui/react/radio';
+import type { RadioGroup } from '@base-ui/react/radio-group';
 import type { ComponentProps } from 'react';
 
 export type RadioGroupProps = Omit<

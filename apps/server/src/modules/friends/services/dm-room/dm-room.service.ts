@@ -7,7 +7,7 @@ import type { GetOrCreateDmRoomInput } from './dm-room.service.types';
 import { RoomKind } from '../../../../../generated';
 import { AppBadRequestException } from '../../../../common/exceptions';
 import { PrismaService } from '../../../../core';
-import { roomSelect } from '../../../../lib';
+import { roomSelect } from '../../../../lib/selectors';
 import { FriendshipService } from '../friendship';
 
 @Injectable()

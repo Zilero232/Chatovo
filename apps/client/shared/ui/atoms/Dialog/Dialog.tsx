@@ -1,18 +1,17 @@
 'use client';
 
-import { Dialog as BaseDialog } from '@base-ui-components/react/dialog';
+import { Dialog as BaseDialog } from '@base-ui/react/dialog';
 import { clsx } from 'clsx';
+import { Lightbulb } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
-import { shouldKeepDialogOpen } from '@/shared/lib/nested-overlay';
-
 import type {
-  DialogCloseProps,
   DialogContentProps,
   DialogDescriptionProps,
   DialogFooterProps,
   DialogHeaderProps,
+  DialogHintProps,
   DialogProps,
   DialogTitleProps
 } from './Dialog.types';
@@ -35,25 +34,13 @@ export const Dialog = ({
 }: DialogProps) => {
   const [overlayClassName, setOverlayClassName] = useState<string>();
 
-  const handleOpenChange = (next: boolean, eventDetails: BaseDialog.Root.ChangeEventDetails) => {
-    const isOutsidePress = eventDetails.reason === 'outside-press';
-
-    if (!next && isOutsidePress && shouldKeepDialogOpen(eventDetails.event?.target ?? null)) {
-      eventDetails.cancel();
-
-      return;
-    }
-
-    onOpenChange?.(next);
-  };
-
   return (
     <DialogOverlayContext.Provider value={{ setOverlayClassName }}>
       <BaseDialog.Root
         defaultOpen={defaultOpen}
         disablePointerDismissal={disablePointerDismissal}
         open={open}
-        onOpenChange={handleOpenChange}
+        onOpenChange={onOpenChange}
         {...props}
       >
         {trigger ? <BaseDialog.Trigger render={trigger as never} /> : null}
@@ -102,14 +89,34 @@ export const DialogContent = ({
   );
 };
 
-export const DialogClose = ({ className, children, ...props }: DialogCloseProps) => (
-  <BaseDialog.Close data-slot='dialog-close' render={<Button className={className} {...props} />}>
-    {children}
-  </BaseDialog.Close>
+export const DialogHeader = ({
+  className,
+  icon,
+  tone = 'violet',
+  children,
+  ...props
+}: DialogHeaderProps) => (
+  <div
+    className={clsx(s.header, icon && s.headerWithIcon, className)}
+    data-slot='dialog-header'
+    {...props}
+  >
+    {icon && (
+      <span aria-hidden className={s.headerIcon} data-tone={tone}>
+        {icon}
+      </span>
+    )}
+    <div className={s.headerText}>{children}</div>
+  </div>
 );
 
-export const DialogHeader = ({ className, ...props }: DialogHeaderProps) => (
-  <div className={clsx(s.header, className)} data-slot='dialog-header' {...props} />
+export const DialogHint = ({ className, icon, children, ...props }: DialogHintProps) => (
+  <div className={clsx(s.hint, className)} data-slot='dialog-hint' {...props}>
+    <span aria-hidden className={s.hintIcon}>
+      {icon ?? <Lightbulb />}
+    </span>
+    <span className={s.hintText}>{children}</span>
+  </div>
 );
 
 export const DialogFooter = ({

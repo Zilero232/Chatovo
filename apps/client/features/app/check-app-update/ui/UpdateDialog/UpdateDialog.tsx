@@ -1,6 +1,7 @@
 'use client';
 
 import { format } from 'date-fns';
+import { ArrowUpCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { useDateLocale } from '@/entities/app/locale';
@@ -59,7 +60,7 @@ export const UpdateDialog = ({
       }}
     >
       <DialogContent showCloseButton={!isBusy}>
-        <DialogHeader>
+        <DialogHeader icon={<ArrowUpCircle />} tone='violet'>
           <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>{t('description', { version: version ?? '' })}</DialogDescription>
         </DialogHeader>

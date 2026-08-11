@@ -10,6 +10,14 @@ export const UPLOADS_DIR = isAbsolute(env.UPLOADS_DIR)
   ? env.UPLOADS_DIR
   : resolve(SERVER_ROOT, env.UPLOADS_DIR);
 
+export const toArrayBuffer = (buffer: Buffer): ArrayBuffer => {
+  const result = new ArrayBuffer(buffer.byteLength);
+
+  new Uint8Array(result).set(buffer);
+
+  return result;
+};
+
 export const saveUpload = async (key: string, body: ArrayBuffer): Promise<string> => {
   const target = join(UPLOADS_DIR, key);
 

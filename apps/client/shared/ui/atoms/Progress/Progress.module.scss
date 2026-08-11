@@ -13,5 +13,5 @@
 .indicator {
   height: 100%;
   background: var(--brand-violet);
-  transition: width 300ms ease-out;
+  transition: width var(--duration-slow) var(--timing-function-out);
 }

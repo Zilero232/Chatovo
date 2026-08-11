@@ -1,11 +1,10 @@
 'use client';
 
-import { Menu } from '@base-ui-components/react/menu';
+import { Menu } from '@base-ui/react/menu';
 import { clsx } from 'clsx';
-import { CheckIcon, ChevronRightIcon, CircleIcon } from 'lucide-react';
+import { CircleIcon } from 'lucide-react';
 
 import type {
-  DropdownMenuCheckboxItemProps,
   DropdownMenuContentProps,
   DropdownMenuGroupProps,
   DropdownMenuItemProps,
@@ -13,11 +12,6 @@ import type {
   DropdownMenuProps,
   DropdownMenuRadioGroupProps,
   DropdownMenuRadioItemProps,
-  DropdownMenuSeparatorProps,
-  DropdownMenuShortcutProps,
-  DropdownMenuSubContentProps,
-  DropdownMenuSubProps,
-  DropdownMenuSubTriggerProps,
   DropdownMenuTriggerProps
 } from './DropdownMenu.types';
 
@@ -86,23 +80,6 @@ export const DropdownMenuItem = ({
   />
 );
 
-export const DropdownMenuCheckboxItem = ({
-  className,
-  children,
-  ...props
-}: DropdownMenuCheckboxItemProps) => (
-  <Menu.CheckboxItem
-    className={clsx(s.checkboxItem, className)}
-    data-slot='dropdown-menu-checkbox-item'
-    {...props}
-  >
-    <Menu.CheckboxItemIndicator className={s.itemIndicator}>
-      <CheckIcon />
-    </Menu.CheckboxItemIndicator>
-    {children}
-  </Menu.CheckboxItem>
-);
-
 export const DropdownMenuRadioGroup = ({ children, ...props }: DropdownMenuRadioGroupProps) => (
   <Menu.RadioGroup data-slot='dropdown-menu-radio-group' {...props}>
     {children}
@@ -139,50 +116,4 @@ export const DropdownMenuLabel = ({ className, inset, ...props }: DropdownMenuLa
     data-slot='dropdown-menu-label'
     {...props}
   />
-);
-
-export const DropdownMenuSeparator = ({ className, ...props }: DropdownMenuSeparatorProps) => (
-  <Menu.Separator
-    className={clsx(s.separator, className)}
-    data-slot='dropdown-menu-separator'
-    {...props}
-  />
-);
-
-export const DropdownMenuShortcut = ({ className, ...props }: DropdownMenuShortcutProps) => (
-  <span className={clsx(s.shortcut, className)} data-slot='dropdown-menu-shortcut' {...props} />
-);
-
-export const DropdownMenuSub = ({ children, ...props }: DropdownMenuSubProps) => (
-  <Menu.SubmenuRoot {...props}>{children}</Menu.SubmenuRoot>
-);
-
-export const DropdownMenuSubTrigger = ({
-  className,
-  inset,
-  children,
-  ...props
-}: DropdownMenuSubTriggerProps) => (
-  <Menu.SubmenuTrigger
-    className={clsx(s.subTrigger, className)}
-    data-inset={inset}
-    data-slot='dropdown-menu-sub-trigger'
-    {...props}
-  >
-    {children}
-    <ChevronRightIcon className={s.subTriggerChevron} />
-  </Menu.SubmenuTrigger>
-);
-
-export const DropdownMenuSubContent = ({ className, children }: DropdownMenuSubContentProps) => (
-  <Menu.Portal>
-    <Menu.Positioner className={s.positioner}>
-      <Menu.Popup
-        className={clsx('glass-overlay', s.subPopup, className)}
-        data-slot='dropdown-menu-sub-content'
-      >
-        {children}
-      </Menu.Popup>
-    </Menu.Positioner>
-  </Menu.Portal>
 );

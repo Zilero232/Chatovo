@@ -1,3 +1,23 @@
 .root {
   border-radius: var(--radius-md);
 }
+
+.shapeBlock {
+  border-radius: var(--radius-md);
+}
+
+.shapeCircle {
+  flex-shrink: 0;
+  border-radius: 9999px;
+  aspect-ratio: 1;
+}
+
+.shapeText {
+  height: 0.75rem;
+  border-radius: var(--radius-sm);
+}
+
+.shapeTitle {
+  height: 1rem;
+  border-radius: var(--radius-sm);
+}

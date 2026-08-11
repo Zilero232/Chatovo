@@ -1,4 +1,5 @@
 @use '@/shared/styles/tokens';
+@use '@/shared/styles/keyframes';
 @use '@/shared/styles/breakpoints' as *;
 @use '@/shared/styles/mixins' as *;
 
@@ -36,6 +37,16 @@ dd {
   margin: 0;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  overflow-wrap: break-word;
+}
+
 svg,
 video,
 canvas,
@@ -67,6 +78,11 @@ a {
   text-decoration: none;
 }
 
+html {
+  -webkit-tap-highlight-color: transparent;
+  text-size-adjust: 100%;
+}
+
 html,
 body {
   overflow: hidden;
@@ -81,6 +97,7 @@ html.landing body {
   overflow: clip auto;
   height: auto;
   min-height: 100%;
+  scrollbar-gutter: stable;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -271,12 +288,12 @@ body {
 
 .glass-hover {
   transition:
-    background-color 200ms ease,
-    border-color 200ms ease,
-    box-shadow 200ms ease,
-    transform 200ms ease;
+    background-color var(--duration-default) var(--timing-function-standard),
+    border-color var(--duration-default) var(--timing-function-standard),
+    box-shadow var(--duration-default) var(--timing-function-standard),
+    transform var(--duration-default) var(--timing-function-standard);
 
-  &:hover {
+  @include hover {
     border-color: var(--border-strong);
     background-color: var(--surface-2);
   }
@@ -375,6 +392,53 @@ body {
   background-color: oklch(100% 0 0deg / 3%);
 }
 
+.pointer-glow {
+  position: relative;
+  isolation: isolate;
+
+  --px: 50%;
+  --py: 50%;
+  --glow-opacity: 0;
+  --glow-size: #{rem(280)};
+  --glow-color: oklch(70% 0.2 270deg / 22%);
+
+  &:before {
+    position: absolute;
+    z-index: var(--z-below);
+    border-radius: inherit;
+    background: radial-gradient(
+      var(--glow-size) circle at var(--px) var(--py),
+      var(--glow-color),
+      transparent 70%
+    );
+    content: '';
+    inset: 0;
+    opacity: var(--glow-opacity);
+    pointer-events: none;
+    transition: opacity var(--duration-slow) var(--timing-function-out);
+  }
+
+  @include coarse-pointer {
+    &:before {
+      content: none;
+    }
+  }
+
+  @include reduced-motion {
+    &:before {
+      transition: none;
+    }
+  }
+}
+
+.pointer-glow-cyan {
+  --glow-color: oklch(82% 0.16 200deg / 20%);
+}
+
+.pointer-glow-fuchsia {
+  --glow-color: oklch(74% 0.25 330deg / 20%);
+}
+
 .shimmer {
   animation: shimmer-slide 1.9s ease-in-out infinite;
   background: linear-gradient(
@@ -398,7 +462,7 @@ body {
 
   &:after {
     position: absolute;
-    z-index: 1;
+    z-index: var(--z-base);
     background: linear-gradient(
       to bottom,
       oklch(16% 0.012 280deg / 35%) 0%,
@@ -414,7 +478,7 @@ body {
   position: absolute;
   inset: -25%;
   pointer-events: none;
-  transition: translate 300ms ease-out;
+  transition: translate var(--duration-slow) var(--timing-function-out);
   translate: calc(var(--px) * rem(70)) calc(var(--py) * rem(70));
 
   &:before,
@@ -458,7 +522,7 @@ body {
   right: 12%;
   width: 26rem;
   height: 26rem;
-  transition: translate 250ms ease-out;
+  transition: translate var(--duration-default) var(--timing-function-out);
   translate: calc(var(--px) * rem(130)) calc(var(--py) * rem(130));
 }
 
@@ -470,7 +534,7 @@ body {
   animation-direction: reverse;
   animation-duration: 30s;
   background: radial-gradient(circle, oklch(88% 0.2 140deg / 28%), transparent 70%);
-  transition: translate 250ms ease-out;
+  transition: translate var(--duration-default) var(--timing-function-out);
   translate: calc(var(--px) * rem(-110)) calc(var(--py) * rem(-110));
 }
 
@@ -483,142 +547,13 @@ body {
   inset: 0;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000, transparent 78%);
   pointer-events: none;
-  transition: translate 400ms ease-out;
+  transition: translate var(--duration-slower) var(--timing-function-out);
   translate: calc(var(--px) * rem(-34)) calc(var(--py) * rem(-34));
   will-change: translate;
 }
 
 .animate-reaction-float {
   animation: reaction-float 6s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-}
-
-@keyframes aurora-drift {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  33% {
-    transform: translate3d(6%, -8%, 0) scale(1.12);
-  }
-
-  66% {
-    transform: translate3d(-7%, 5%, 0) scale(0.94);
-  }
-
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-}
-
-@keyframes shimmer-slide {
-  0% {
-    background-position: 120% 0;
-  }
-
-  100% {
-    background-position: -120% 0;
-  }
-}
-
-@keyframes reaction-float {
-  0% {
-    opacity: 0;
-    transform: translateY(0) scale(0.4) rotate(-8deg);
-  }
-
-  12% {
-    opacity: 1;
-    transform: translateY(rem(-16)) scale(1.15) rotate(4deg);
-  }
-
-  30% {
-    transform: translateY(rem(-70)) scale(1) rotate(-3deg);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(rem(-280)) scale(0.85) rotate(2deg);
-  }
-}
-
-@keyframes overlay-fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes overlay-fade-out {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes overlay-zoom-in {
-  from {
-    transform: scale(0.95);
-  }
-
-  to {
-    transform: scale(1);
-  }
-}
-
-@keyframes overlay-zoom-out {
-  from {
-    transform: scale(1);
-  }
-
-  to {
-    transform: scale(0.95);
-  }
-}
-
-@keyframes slide-in-from-top {
-  from {
-    transform: translateY(-0.5rem);
-  }
-
-  to {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slide-in-from-bottom {
-  from {
-    transform: translateY(0.5rem);
-  }
-
-  to {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slide-in-from-left {
-  from {
-    transform: translateX(-0.5rem);
-  }
-
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-in-from-right {
-  from {
-    transform: translateX(0.5rem);
-  }
-
-  to {
-    transform: translateX(0);
-  }
 }
 
 @include reduced-motion {
@@ -632,7 +567,8 @@ body {
   .auth-aurora:before,
   .auth-aurora:after,
   .auth-orb,
-  .lobby-ambience-orb {
+  .lobby-ambience-orb,
+  .animate-reaction-float {
     animation: none;
   }
 
@@ -650,27 +586,6 @@ body {
   .surface-card,
   .surface-bar {
     backdrop-filter: none;
-  }
-
-  .surface-bar {
-    background-color: oklch(19% 0.014 280deg);
-  }
-
-  .auth-grid {
-    transition: none;
-    translate: none;
-    will-change: auto;
-  }
-
-  .glass-hover {
-    transition:
-      background-color 200ms ease,
-      border-color 200ms ease;
-  }
-
-  .shimmer {
-    animation: none;
-    background: oklch(100% 0 0deg / 8%);
   }
 
   .glass {
@@ -691,6 +606,27 @@ body {
 
   .surface-card {
     background-color: oklch(21% 0.016 280deg);
+  }
+
+  .surface-bar {
+    background-color: oklch(19% 0.014 280deg);
+  }
+
+  .glass-hover {
+    transition:
+      background-color var(--duration-default) var(--timing-function-standard),
+      border-color var(--duration-default) var(--timing-function-standard);
+  }
+
+  .auth-grid {
+    transition: none;
+    translate: none;
+    will-change: auto;
+  }
+
+  .shimmer {
+    animation: none;
+    background: oklch(100% 0 0deg / 8%);
   }
 
   .lobby-ambience-orb,

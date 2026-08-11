@@ -1,5 +1,6 @@
 'use client';
 
+import NumberFlow from '@number-flow/react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 
@@ -20,7 +21,7 @@ import {
 
 import s from '../../LobbyRooms.module.scss';
 
-export const LobbyRoomsSections = ({ sections }: LobbyRoomsSectionsProps) => {
+export const LobbyRoomsSections = ({ sections, view }: LobbyRoomsSectionsProps) => {
   const tSections = useTranslations('room.sections');
   const { isLite, layout, resolveTransition } = useLiteMotion();
 
@@ -39,11 +40,11 @@ export const LobbyRoomsSections = ({ sections }: LobbyRoomsSectionsProps) => {
         >
           <div className={s.sectionHeader}>
             <h4 className={s.sectionLabel}>{tSections(section.key)}</h4>
-            <span className={s.sectionCount}>{section.rooms.length}</span>
+            <NumberFlow className={s.sectionCount} value={section.rooms.length} />
             <span aria-hidden className={s.sectionRule} />
           </div>
 
-          <div className={s.grid}>
+          <div className={s.grid} data-view={view}>
             <AnimatePresence mode='popLayout'>
               {section.rooms.map((room, roomIndex) => (
                 <motion.div
@@ -57,7 +58,7 @@ export const LobbyRoomsSections = ({ sections }: LobbyRoomsSectionsProps) => {
                   initial={LOBBY_CARD_INITIAL}
                   layout={layout}
                 >
-                  <LobbyRoomCard room={room} />
+                  <LobbyRoomCard room={room} variant={view} />
                 </motion.div>
               ))}
             </AnimatePresence>

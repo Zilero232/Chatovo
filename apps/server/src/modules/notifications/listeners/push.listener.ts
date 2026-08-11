@@ -4,18 +4,15 @@ import { OnEvent } from '@nestjs/event-emitter';
 import type { CallRingingEvent, DmMessageSentEvent } from '../../../common/events/domain-events';
 
 import { DomainEvent } from '../../../common/events/domain-events';
+import { runNotification } from '../../../common/notifications';
 import { sendDmMessagePush, sendIncomingCallPush } from '../../push';
 
 @Injectable()
 export class PushListener {
   private readonly logger = new Logger(PushListener.name);
 
-  private async run(label: string, task: Promise<unknown>) {
-    try {
-      await task;
-    } catch (error) {
-      this.logger.warn(`Push notification "${label}" failed: ${String(error)}`);
-    }
+  private run(label: string, task: Promise<unknown>) {
+    return runNotification({ logger: this.logger, channel: 'Push', label, task });
   }
 
   @OnEvent(DomainEvent.CallRinging)

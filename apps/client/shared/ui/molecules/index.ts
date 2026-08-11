@@ -11,5 +11,7 @@ export * from './IconButtonWithTooltip';
 export type * from './IconButtonWithTooltip/IconButtonWithTooltip.types';
 export * from './OverlayCloseButton';
 export type * from './OverlayCloseButton/OverlayCloseButton.types';
+export * from './SearchField';
+export type * from './SearchField/SearchField.types';
 export * from './SubmitButton';
 export type * from './SubmitButton/SubmitButton.types';

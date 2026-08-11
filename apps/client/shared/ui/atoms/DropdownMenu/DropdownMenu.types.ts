@@ -1,4 +1,4 @@
-import type { Menu } from '@base-ui-components/react/menu';
+import type { Menu } from '@base-ui/react/menu';
 import type { ComponentProps } from 'react';
 
 import type { ButtonProps } from '../Button';
@@ -13,10 +13,6 @@ export type DropdownMenuItemProps = Omit<ComponentProps<typeof Menu.Item>, 'onSe
   onSelect?: () => void;
 };
 
-export type DropdownMenuSubTriggerProps = ComponentProps<typeof Menu.SubmenuTrigger> & {
-  inset?: boolean;
-};
-
 export type DropdownMenuLabelProps = ComponentProps<typeof Menu.GroupLabel> & {
   inset?: boolean;
 };
@@ -28,21 +24,8 @@ export type DropdownMenuContentProps = Omit<ComponentProps<typeof Menu.Popup>, '
   className?: string;
 };
 
-export type DropdownMenuSubContentProps = {
-  children?: ComponentProps<typeof Menu.Popup>['children'];
-  className?: string;
-};
-
 export type DropdownMenuRadioGroupProps = ComponentProps<typeof Menu.RadioGroup>;
 
 export type DropdownMenuRadioItemProps = ComponentProps<typeof Menu.RadioItem>;
 
-export type DropdownMenuCheckboxItemProps = ComponentProps<typeof Menu.CheckboxItem>;
-
 export type DropdownMenuGroupProps = ComponentProps<typeof Menu.Group>;
-
-export type DropdownMenuSeparatorProps = ComponentProps<typeof Menu.Separator>;
-
-export type DropdownMenuShortcutProps = ComponentProps<'span'>;
-
-export type DropdownMenuSubProps = ComponentProps<typeof Menu.SubmenuRoot>;

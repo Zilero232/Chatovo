@@ -30,8 +30,8 @@
   border: 1px solid oklch(100% 0 0deg / 10%);
   border-radius: 9999px;
   animation:
-    overlay-fade-in 200ms ease-out,
-    overlay-zoom-in 200ms ease-out;
+    overlay-fade-in var(--duration-default) var(--timing-function-out),
+    overlay-zoom-in var(--duration-default) var(--timing-function-out);
   animation-fill-mode: both;
   background: var(--brand-violet);
   box-shadow: 0 0 rem(10) rem(-2) oklch(70% 0.22 295deg / 80%);

@@ -1,0 +1,28 @@
+@use '@/shared/styles/functions' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.5rem 0.5rem;
+  gap: 0.5rem;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.sectionLabel {
+  padding: 0.25rem 0.5rem;
+  color: color-mix(in oklch, var(--muted-foreground) 80%, transparent);
+  font-size: rem(10);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.skeletonItem {
+  height: 1.75rem;
+  border-radius: var(--radius-md);
+}

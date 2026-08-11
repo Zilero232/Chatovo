@@ -1,12 +1,12 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { Compass, RotateCw, TriangleAlert } from 'lucide-react';
+import { Compass, RotateCw } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { ROUTES } from '@/shared/constants';
-import { Button, Text } from '@/shared/ui';
+import { Button, ErrorGlyph, Text } from '@/shared/ui';
 
 import type { ErrorPageProps } from './ErrorPage.types';
 
@@ -23,7 +23,7 @@ export const ErrorPage = ({ reset }: ErrorPageProps) => {
       <span aria-hidden className={s.orb} data-tone='cyan' />
 
       <div className={clsx(s.badge, 'glass')}>
-        <TriangleAlert aria-hidden className={s.logo} />
+        <ErrorGlyph className={s.logo} variant='broken-wave' />
       </div>
 
       <h1 className={s.title}>{t('title')}</h1>

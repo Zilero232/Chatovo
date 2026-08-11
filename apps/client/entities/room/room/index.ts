@@ -1,4 +1,11 @@
-export { filterAndOrderRooms, groupRooms, type RoomSection } from './lib/group-rooms';
+export {
+  countRoomsByFilter,
+  filterAndOrderRooms,
+  groupRooms,
+  type RoomSection,
+  type RoomsFilter,
+  type RoomsFilterCounts
+} from './lib/group-rooms';
 export { readParticipantMeta } from './lib/participant-meta';
 export {
   prefetchRooms,

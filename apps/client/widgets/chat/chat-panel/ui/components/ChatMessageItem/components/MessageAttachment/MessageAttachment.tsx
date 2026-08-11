@@ -4,16 +4,20 @@ import type { MouseEvent } from 'react';
 
 import { isImageMime } from '@chatovo/schemas';
 import { isTauri } from '@tauri-apps/api/core';
-import { openUrl } from '@tauri-apps/plugin-opener';
 import { clsx } from 'clsx';
 import { FileIcon } from 'lucide-react';
 import prettyBytes from 'pretty-bytes';
 
+import { openExternal } from '@/shared/lib';
+
 import type { MessageAttachmentProps } from './MessageAttachment.types';
+
+import { useChatMessage } from '../../../../../model/contexts';
 
 import s from './MessageAttachment.module.scss';
 
-export const MessageAttachment = ({ attachment, isOwn }: MessageAttachmentProps) => {
+export const MessageAttachment = ({ attachment }: MessageAttachmentProps) => {
+  const { isOwn } = useChatMessage();
   const { url, name, size, mime } = attachment;
 
   const handleOpen = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -22,7 +26,7 @@ export const MessageAttachment = ({ attachment, isOwn }: MessageAttachmentProps)
     }
 
     event.preventDefault();
-    openUrl(url);
+    openExternal(url);
   };
 
   if (isImageMime(mime)) {

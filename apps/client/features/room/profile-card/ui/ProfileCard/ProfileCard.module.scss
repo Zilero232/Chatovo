@@ -8,6 +8,8 @@
 }
 
 .banner {
+  position: relative;
+  overflow: hidden;
   width: 100%;
   height: 5rem;
   flex-shrink: 0;
@@ -29,6 +31,7 @@
 
 .avatarWrap {
   display: flex;
+  padding-top: 0.25rem;
   margin-top: -2rem;
 }
 
@@ -54,10 +57,8 @@
 }
 
 .bio {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
+  @include line-clamp(4);
+
   overflow-wrap: anywhere;
   white-space: pre-wrap;
 }

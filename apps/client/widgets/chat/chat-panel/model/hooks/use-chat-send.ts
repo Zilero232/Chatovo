@@ -40,19 +40,17 @@ export const useChatSend = ({ roomId, sender }: UseChatSendParams) => {
     }
   });
 
-  const send = async (body: string) => {
+  const send = async (body: string, id?: string) => {
+    if (id) {
+      markChatLineStatus(queryClient, roomId, id, 'sending');
+    }
+
     try {
-      await mutateAsync({ id: crypto.randomUUID(), body });
+      await mutateAsync({ id: id ?? crypto.randomUUID(), body });
     } catch {}
   };
 
-  const retry = async (id: string, body: string) => {
-    markChatLineStatus(queryClient, roomId, id, 'sending');
-
-    try {
-      await mutateAsync({ id, body });
-    } catch {}
-  };
+  const retry = (id: string, body: string) => send(body, id);
 
   const discard = (id: string) => {
     dropChatLine(queryClient, roomId, id);

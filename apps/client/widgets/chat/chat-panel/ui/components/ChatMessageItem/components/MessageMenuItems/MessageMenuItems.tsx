@@ -5,20 +5,21 @@ import { useTranslations } from 'next-intl';
 
 import { ContextMenuItem } from '@/shared/ui';
 
-import type { MessageMenuItemsProps } from './MessageMenuItems.types';
+import { useChatMessage } from '../../../../../model/contexts';
 
-export const MessageMenuItems = ({ canEdit, onEdit, onDelete }: MessageMenuItemsProps) => {
+export const MessageMenuItems = () => {
   const t = useTranslations('chat');
+  const { canEdit, startEdit, requestDelete } = useChatMessage();
 
   return (
     <>
       {canEdit && (
-        <ContextMenuItem onSelect={onEdit}>
+        <ContextMenuItem onSelect={startEdit}>
           <Pencil />
           {t('edit')}
         </ContextMenuItem>
       )}
-      <ContextMenuItem variant='destructive' onSelect={onDelete}>
+      <ContextMenuItem variant='destructive' onSelect={requestDelete}>
         <Trash2 />
         {t('delete')}
       </ContextMenuItem>

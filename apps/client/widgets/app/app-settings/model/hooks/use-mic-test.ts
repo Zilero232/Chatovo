@@ -27,6 +27,15 @@ export const useMicTest = ({ deviceId, audio }: MicTestArgs): UseMicTest => {
     sinkRef.current = new Audio();
   }
 
+  const stopSink = () => {
+    const sink = sinkRef.current;
+
+    if (sink) {
+      sink.pause();
+      sink.srcObject = null;
+    }
+  };
+
   const level = useMicAnalyser({
     deviceId,
     audio,
@@ -40,22 +49,15 @@ export const useMicTest = ({ deviceId, audio }: MicTestArgs): UseMicTest => {
         sink.play().catch(() => {});
       }
     },
-    onError: () => setError(true)
+    onError: () => setError(true),
+    onStop: () => {
+      stopSink();
+      setIsLoopback(false);
+    }
   });
 
   const toggleLoopback = () => {
-    setIsLoopback((on) => {
-      const next = !on;
-
-      if (!next) {
-        const sink = sinkRef.current;
-        if (sink) {
-          sink.srcObject = null;
-        }
-      }
-
-      return next;
-    });
+    setIsLoopback((on) => !on);
   };
 
   return { level, isLoopback, toggleLoopback, error };

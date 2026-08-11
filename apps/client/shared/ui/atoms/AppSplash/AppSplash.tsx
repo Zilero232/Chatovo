@@ -2,8 +2,8 @@ import { isNonNullish } from 'remeda';
 
 import type { AppSplashProps } from './AppSplash.types';
 
+import { WaveMark } from '../../icons/WaveMark';
 import { Progress } from '../Progress';
-import { Spinner } from '../Spinner';
 import { Text } from '../Text';
 
 import s from './AppSplash.module.scss';
@@ -12,9 +12,9 @@ export const AppSplash = ({ message, progress }: AppSplashProps) => {
   const hasProgress = isNonNullish(progress);
 
   return (
-    <div className={s.root}>
+    <div aria-live='polite' className={s.root} role='status'>
       <div className={`glass ${s.iconBox}`}>
-        <Spinner size='lg' />
+        <WaveMark animated size={32} />
       </div>
 
       <div className={s.content}>

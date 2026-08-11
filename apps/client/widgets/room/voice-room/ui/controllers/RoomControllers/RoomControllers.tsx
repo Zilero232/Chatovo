@@ -10,6 +10,7 @@ import { RoomDeviceController } from '../RoomDeviceController/RoomDeviceControll
 import { RoomRealtimeSubscribe } from '../RoomRealtimeSubscribe/RoomRealtimeSubscribe';
 import { RoomSoundsController } from '../RoomSoundsController/RoomSoundsController';
 import { RoomTrayController } from '../RoomTrayController/RoomTrayController';
+import { SessionStatsController } from '../SessionStatsController/SessionStatsController';
 import { ShortcutActionsController } from '../ShortcutActionsController/ShortcutActionsController';
 
 export const RoomControllers = ({ roomId }: RoomControllersProps) => (
@@ -20,8 +21,9 @@ export const RoomControllers = ({ roomId }: RoomControllersProps) => (
     <ShortcutActionsController />
     <MicActivationController />
     <LocalSpeakingController />
+    <SessionStatsController />
     <MicStateController roomId={roomId} />
     <RoomSoundsController roomId={roomId} />
-    <DeafenSyncController />
+    <DeafenSyncController />{' '}
   </>
 );

@@ -4,7 +4,7 @@ import { useMediaDeviceSelect } from '@livekit/components-react';
 import { clsx } from 'clsx';
 import { Check, ChevronUp } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useEffect } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 import { isEmpty } from 'remeda';
 import { toast } from 'sonner';
 
@@ -47,13 +47,17 @@ export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
     availableIds.includes(deviceId)
   );
 
+  const persistDevice = useEffectEvent((deviceId: string) => {
+    setGroup('devices', { [slot]: deviceId });
+  });
+
   useEffect(() => {
     if (!resolvedId || resolvedId === selectedId) {
       return;
     }
 
-    setGroup('devices', { [slot]: resolvedId });
-  }, [resolvedId, selectedId, slot, setGroup]);
+    persistDevice(resolvedId);
+  }, [resolvedId, selectedId]);
 
   const selectDevice = async (deviceId: string) => {
     setGroup('devices', { [slot]: deviceId });

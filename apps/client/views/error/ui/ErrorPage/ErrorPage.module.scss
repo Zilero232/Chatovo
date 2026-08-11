@@ -45,7 +45,7 @@
 
 .badge {
   position: relative;
-  z-index: 1;
+  z-index: var(--z-base);
   display: flex;
   width: rem(88);
   height: rem(88);
@@ -57,13 +57,13 @@
 }
 
 .logo {
-  width: rem(48);
-  height: rem(48);
+  width: rem(56);
+  height: rem(56);
 }
 
 .title {
   position: relative;
-  z-index: 1;
+  z-index: var(--z-base);
   margin: 0;
   color: var(--foreground);
   font-size: clamp(rem(20), 4vw, rem(28));
@@ -72,7 +72,7 @@
 
 .description {
   position: relative;
-  z-index: 1;
+  z-index: var(--z-base);
   max-width: rem(440);
   margin: 0;
   font-size: rem(15);
@@ -81,7 +81,7 @@
 
 .actions {
   position: relative;
-  z-index: 1;
+  z-index: var(--z-base);
   display: flex;
   flex-wrap: wrap;
   align-items: center;

@@ -7,8 +7,10 @@ Web client — **Next.js 16 / React 19**, App Router. Also the UI loaded by the 
 Architecture is **Feature-Sliced Design** with two local tweaks (`pages` → `views`, slices grouped by business domain). Read these before structural changes:
 
 - **[../../docs/fsd.md](../../docs/fsd.md)** — layers, import direction, public-API rules
-- **[../../docs/style.md](../../docs/style.md)** — naming, segments, import order
+- **[../../docs/style.md](../../docs/style.md)** — naming, segments, import order (FULL version: examples + reasoning)
 - **[../../CLAUDE.md](../../CLAUDE.md)** — repo-wide guidance, reuse-first rules
+
+Компактная выжимка кодстайла — [../../.claude/rules/code-style-client.md](../../.claude/rules/code-style-client.md) (+ общий [code-style.md](../../.claude/rules/code-style.md)); она подгружается автоматически при редактировании файлов `apps/client`. Полная версия — `docs/style.md`; правило меняется в обоих местах.
 
 ## Layer map
 
@@ -38,13 +40,15 @@ A **widget importing a feature is correct** (it composes them) — only Feature�
 
 ## Base UI gotchas
 
-UI-примитивы в `shared/ui` построены на **`@base-ui-components/react`** (миграция с react-aria-components завершена; `react-aria` / `react-aria-components` больше не в зависимостях). Импорт — всегда из подпути: `import { Menu } from '@base-ui-components/react/menu'`, не из корня пакета.
+UI-примитивы в `shared/ui` построены на **`@base-ui/react`** (миграция с react-aria-components завершена; `react-aria` / `react-aria-components` больше не в зависимостях). Импорт — всегда из подпути: `import { Menu } from '@base-ui/react/menu'`, не из корня пакета.
+
+- **Имя пакета**: в v1.0.0 пакет переехал из орг-скоупа `@base-ui-components/react` в **`@base-ui/react`** (единственный breaking change релиза, CHANGELOG v1.0.0). Старое имя больше не ставится и не резолвится — если встретил его в коде или доке, это устаревший след.
 
 - **State attributes**: Base UI ставит `data-popup-open` (открытый оверлей — и на триггере, и на popup), `data-highlighted` (активный пункт меню), `data-checked`, `data-disabled`, `data-placeholder`. Селекторы из RAC (`data-selected`, `data-hovered`, `data-pressed`) и из Radix (`data-state='open'`) молча не срабатывают. Стиль «меню открыто» — `&[data-popup-open]`, hover-пункт меню — `&[data-highlighted]`.
 - **`render`, а не `asChild` / `Pressable`**: чтобы триггер отрендерился твоим компонентом, передавай элемент в `render`: `<Menu.Trigger render={<Button {...props} />} />` (см. `DropdownMenu`, `Dialog`). Никаких оберток-`Pressable` — их в кодовой базе больше нет.
 - **`onClick` работает**: `shared/ui` `Button` — обычный нативный `<button>` (или `<a>` при `href`), моста `onPress`/`ButtonContext` больше нет. Нативный элемент можно спокойно класть в `render` любого триггера.
 - **Анимация оверлеев**: два рабочих подхода. (1) **CSS** — Base UI сам держит узел в DOM на время выхода и ставит `data-starting-style` / `data-ending-style`; enter/exit пиши как `&[data-starting-style] { animation: … }` (см. `Dialog.module.scss`). (2) **motion** — как в `Sheet`: `<Dialog.Portal keepMounted>` + `AnimatePresence` вокруг содержимого, а `motion.div` подставляется через проп `render` у `Dialog.Backdrop` / `Dialog.Popup`, чтобы focus-trap и a11y остались за библиотекой. Ключевое: при motion выходом управляет `AnimatePresence`, поэтому портал обязан быть `keepMounted`, а `data-starting-style` / `data-ending-style` в стилях не используются — иначе анимации подерутся за момент размонтирования.
-- **Закрытие по outside-press с вложенным оверлеем**: `onOpenChange` во втором аргументе получает `eventDetails` с `reason` (`'outside-press'`, `'escape-key'`, …) и методом `cancel()`. Клик по вложенному меню/попоуверу иначе закрывает родительский Dialog — гаси через `shouldKeepDialogOpen(eventDetails.event?.target)` из [shared/lib/nested-overlay.ts](shared/lib/nested-overlay.ts) + `eventDetails.cancel()` (см. `Sheet`). Хелпер ищет вложенные оверлеи по `data-slot`, поэтому **не снимай `data-slot` с popup-компонентов** — это его контракт.
+- **Закрытие по outside-press с вложенным оверлеем**: `onOpenChange` во втором аргументе получает `eventDetails` с `reason` (`'outside-press'`, `'escape-key'`, `'trigger-press'`, `'close-press'`, `'focus-out'`, …), методом `cancel()` и флагом `isCanceled` (полный список причин — `internals/reason-parts.d.ts` в пакете). Сейчас **ни один компонент в `shared/ui` этим не пользуется**: хелпер `shouldKeepDialogOpen` и `shared/lib/nested-overlay.ts` удалены, `Sheet`/`Dialog` прокидывают `onOpenChange` как `(open: boolean) => void`. Если вложенный оверлей снова начнёт закрывать родительский Dialog — гаси точечно через `eventDetails.reason === 'outside-press'` + `eventDetails.cancel()`, второй аргумент для этого никуда не делся.
 - **Select**: `onValueChange` отдаёт `unknown`; `BaseSelect.Value` принимает children-функцию `(selected) => …` для рендера выбранного. `data-placeholder` на триггере проставляется вручную (см. `Select.tsx`), автоматически его нет.
 - **Нативные `<button>` без своих стилей**: глобальный reset в `globals.scss` убирает UA-фон; `cursor: pointer` тоже задаётся глобально по ролям.
 

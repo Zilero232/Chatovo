@@ -2,8 +2,8 @@
   display: flex;
   align-items: flex-end;
   animation:
-    overlay-fade-in 200ms ease-out,
-    slide-in-from-bottom 200ms ease-out;
+    overlay-fade-in var(--duration-default) var(--timing-function-out),
+    slide-in-from-bottom var(--duration-default) var(--timing-function-out);
   gap: 0.5rem;
 
   &[data-own='true'] {

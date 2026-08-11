@@ -5,21 +5,22 @@ import { useTranslations } from 'next-intl';
 
 import { Button } from '@/shared/ui';
 
-import type { MessageActionsProps } from './MessageActions.types';
+import { useChatMessage } from '../../../../../model/contexts';
 
 import s from './MessageActions.module.scss';
 
-export const MessageActions = ({ canEdit, onEdit, onDelete }: MessageActionsProps) => {
+export const MessageActions = () => {
   const t = useTranslations('chat');
+  const { canEdit, startEdit, requestDelete } = useChatMessage();
 
   return (
     <div className={s.root}>
       {canEdit && (
-        <Button aria-label={t('edit')} size='icon-xs' variant='ghost' onClick={onEdit}>
+        <Button aria-label={t('edit')} size='icon-xs' variant='ghost' onClick={startEdit}>
           <Pencil />
         </Button>
       )}
-      <Button aria-label={t('delete')} size='icon-xs' variant='ghost' onClick={onDelete}>
+      <Button aria-label={t('delete')} size='icon-xs' variant='ghost' onClick={requestDelete}>
         <Trash2 />
       </Button>
     </div>

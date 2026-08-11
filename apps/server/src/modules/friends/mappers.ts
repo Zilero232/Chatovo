@@ -1,9 +1,11 @@
 import type { FriendshipRelation, FriendUser } from '@chatovo/schemas';
 
+import { match } from 'ts-pattern';
+
 import type { UserWithProfile } from '../users';
 
 import { FriendshipStatus } from '../../../generated';
-import { userWithProfileInclude } from '../../lib';
+import { userWithProfileInclude } from '../../lib/selectors';
 import { hasUserConnection } from '../realtime';
 import { toUserProfile } from '../users';
 
@@ -37,16 +39,20 @@ export const otherUser = (
 ): UserWithProfile => (row.requesterId === userId ? row.addressee : row.requester);
 
 export const toRelation = (
-  row: { id: string; status: string; requesterId: string },
+  row: { id: string; status: FriendshipStatus; requesterId: string },
   userId: string
-): FriendshipRelation => {
-  if (row.status === FriendshipStatus.accepted) {
-    return { status: 'friends', friendshipId: row.id };
-  }
-
-  if (row.requesterId === userId) {
-    return { status: 'outgoing_pending', friendshipId: row.id };
-  }
-
-  return { status: 'incoming_pending', friendshipId: row.id };
-};
+): FriendshipRelation =>
+  match(row)
+    .with({ status: FriendshipStatus.accepted }, ({ id }) => ({
+      status: 'friends' as const,
+      friendshipId: id
+    }))
+    .with({ status: FriendshipStatus.pending, requesterId: userId }, ({ id }) => ({
+      status: 'outgoing_pending' as const,
+      friendshipId: id
+    }))
+    .with({ status: FriendshipStatus.pending }, ({ id }) => ({
+      status: 'incoming_pending' as const,
+      friendshipId: id
+    }))
+    .exhaustive();

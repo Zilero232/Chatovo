@@ -51,13 +51,13 @@
   box-shadow: inset 0 rem(2) rem(4) oklch(0% 0 0deg / 20%);
   color: var(--foreground);
   outline: none;
-  transition: all 150ms ease;
+  transition: all var(--duration-fast) var(--timing-function-standard);
 
   @include tauri-mobile {
     backdrop-filter: none;
     transition:
-      border-color 150ms ease,
-      box-shadow 150ms ease;
+      border-color var(--duration-fast) var(--timing-function-standard),
+      box-shadow var(--duration-fast) var(--timing-function-standard);
   }
 
   &::placeholder {
@@ -97,7 +97,7 @@
   gap: var(--space-2);
   outline: none;
   text-decoration: none;
-  transition: colors 150ms ease-out;
+  transition: colors var(--duration-fast) var(--timing-function-out);
   white-space: nowrap;
 
   @include interactive-cursor;
@@ -124,32 +124,32 @@
 @mixin overlay-enter {
   &[data-starting-style] {
     animation:
-      overlay-fade-in 200ms ease-out,
-      overlay-zoom-in 200ms ease-out;
+      overlay-fade-in var(--duration-default) var(--timing-function-out),
+      overlay-zoom-in var(--duration-default) var(--timing-function-out);
   }
 
   &[data-ending-style] {
     animation:
-      overlay-fade-out 200ms ease-in,
-      overlay-zoom-out 200ms ease-in;
+      overlay-fade-out var(--duration-default) var(--timing-function-in),
+      overlay-zoom-out var(--duration-default) var(--timing-function-in);
   }
 }
 
 @mixin slide-from-side {
   &[data-side='bottom'][data-starting-style] {
-    animation: slide-in-from-top 200ms ease-out;
+    animation: slide-in-from-top var(--duration-default) var(--timing-function-out);
   }
 
   &[data-side='top'][data-starting-style] {
-    animation: slide-in-from-bottom 200ms ease-out;
+    animation: slide-in-from-bottom var(--duration-default) var(--timing-function-out);
   }
 
   &[data-side='left'][data-starting-style] {
-    animation: slide-in-from-right 200ms ease-out;
+    animation: slide-in-from-right var(--duration-default) var(--timing-function-out);
   }
 
   &[data-side='right'][data-starting-style] {
-    animation: slide-in-from-left 200ms ease-out;
+    animation: slide-in-from-left var(--duration-default) var(--timing-function-out);
   }
 }
 
@@ -157,6 +157,40 @@
   @media (hover: none), (pointer: coarse) {
     @content;
   }
+}
+
+@mixin hover {
+  @media (any-hover: hover) and (any-pointer: fine) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin hover-press {
+  @include hover {
+    @content;
+  }
+
+  @include coarse-pointer {
+    &:active {
+      @content;
+    }
+  }
+}
+
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin line-clamp($lines: 2) {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+  line-clamp: $lines;
 }
 
 @mixin reduced-motion {

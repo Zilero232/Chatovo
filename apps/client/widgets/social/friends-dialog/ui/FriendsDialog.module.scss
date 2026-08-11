@@ -48,12 +48,17 @@
 }
 
 .empty {
+  min-height: auto;
   padding: 2.5rem 1rem;
   border: 1px dashed oklch(100% 0 0deg / 12%);
   border-radius: var(--radius-2xl);
   backdrop-filter: blur(rem(4));
   background: oklch(100% 0 0deg / 3%);
   text-align: center;
+
+  @include tauri-mobile {
+    backdrop-filter: none;
+  }
 }
 
 .action {

@@ -38,7 +38,7 @@
   display: grid;
   width: 100%;
   height: 100%;
-  animation: overlay-fade-in 300ms ease-out;
+  animation: overlay-fade-in var(--duration-slow) var(--timing-function-out);
   gap: 0.125rem;
   grid-auto-columns: minmax(0, 1fr);
   grid-auto-flow: column;
@@ -57,7 +57,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  animation: overlay-fade-in 300ms ease-out;
+  animation: overlay-fade-in var(--duration-slow) var(--timing-function-out);
   background: linear-gradient(
     to bottom right,
     oklch(21% 0.006 286deg),
@@ -74,15 +74,15 @@
 
 .avatarHalo {
   position: absolute;
-  width: 38cqmin;
-  height: 38cqmin;
+  width: 34cqmin;
+  height: 34cqmin;
   border-radius: 9999px;
   background: color-mix(in oklch, var(--brand-cyan) 0%, transparent);
-  filter: blur(12cqmin);
+  filter: blur(6cqmin);
   pointer-events: none;
   transition:
-    background-color 75ms ease,
-    opacity 75ms ease;
+    background-color var(--duration-instant) var(--timing-function-standard),
+    opacity var(--duration-instant) var(--timing-function-standard);
 
   @include tauri-mobile {
     filter: none;
@@ -112,9 +112,9 @@
   border-radius: 9999px;
   box-shadow: 0 0 0 rem(2) oklch(100% 0 0deg / 10%);
   transition:
-    box-shadow 75ms ease,
-    outline-color 75ms ease,
-    outline-width 75ms ease;
+    box-shadow var(--duration-instant) var(--timing-function-standard),
+    outline-color var(--duration-instant) var(--timing-function-standard),
+    outline-width var(--duration-instant) var(--timing-function-standard);
 }
 
 .avatarSpeaking {
@@ -190,10 +190,9 @@
 }
 
 .name {
-  overflow: hidden;
   font-weight: 500;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+  @include text-ellipsis;
 }
 
 .nameTrigger {

@@ -15,29 +15,37 @@ const send = (connection: RealtimeConnection, message: RealtimeServerMessage): v
   } catch {}
 };
 
-const linkRoom = (connectionId: string, roomId: string) => {
-  let roomConnections = byRoom.get(roomId);
+const addToSet = (map: Map<string, Set<string>>, key: string, value: string) => {
+  let bucket = map.get(key);
 
-  if (!roomConnections) {
-    roomConnections = new Set();
-    byRoom.set(roomId, roomConnections);
+  if (!bucket) {
+    bucket = new Set();
+    map.set(key, bucket);
   }
 
-  roomConnections.add(connectionId);
+  bucket.add(value);
 };
 
-const unlinkRoom = (connectionId: string, roomId: string) => {
-  const roomConnections = byRoom.get(roomId);
+const removeFromSet = (map: Map<string, Set<string>>, key: string, value: string) => {
+  const bucket = map.get(key);
 
-  if (!roomConnections) {
+  if (!bucket) {
     return;
   }
 
-  roomConnections.delete(connectionId);
+  bucket.delete(value);
 
-  if (roomConnections.size === 0) {
-    byRoom.delete(roomId);
+  if (bucket.size === 0) {
+    map.delete(key);
   }
+};
+
+const linkRoom = (connectionId: string, roomId: string) => {
+  addToSet(byRoom, roomId, connectionId);
+};
+
+const unlinkRoom = (connectionId: string, roomId: string) => {
+  removeFromSet(byRoom, roomId, connectionId);
 };
 
 export const getConnectionByWs = (ws: WebSocket): RealtimeConnection | null => {
@@ -56,14 +64,7 @@ export const registerConnection = (userId: string, ws: WebSocket): RealtimeConne
 
   connections.set(id, connection);
 
-  let userConnections = byUser.get(userId);
-
-  if (!userConnections) {
-    userConnections = new Set();
-    byUser.set(userId, userConnections);
-  }
-
-  userConnections.add(id);
+  addToSet(byUser, userId, id);
 
   return connection;
 };
@@ -80,12 +81,7 @@ export const unregisterConnection = (connectionId: string): RealtimeConnection |
 
   connections.delete(connectionId);
 
-  const userConnections = byUser.get(connection.userId);
-  userConnections?.delete(connectionId);
-
-  if (userConnections?.size === 0) {
-    byUser.delete(connection.userId);
-  }
+  removeFromSet(byUser, connection.userId, connectionId);
 
   for (const roomId of connection.rooms) {
     unlinkRoom(connectionId, roomId);

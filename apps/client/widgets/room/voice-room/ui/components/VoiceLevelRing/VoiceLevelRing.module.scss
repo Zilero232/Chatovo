@@ -1,0 +1,45 @@
+@use '@/shared/styles/mixins' as *;
+
+.root {
+  --level: clamp(0, var(--voice-level, 0), 1);
+
+  position: absolute;
+  width: 42cqmin;
+  height: 42cqmin;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) var(--timing-function-out);
+
+  &[data-speaking='true'] {
+    opacity: 1;
+  }
+}
+
+.inner,
+.outer {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: none;
+}
+
+.inner {
+  opacity: calc(0.45 + var(--level) * 0.55);
+  scale: calc(1 + var(--level) * 0.12);
+  stroke-width: calc(1.5 + var(--level) * 3.5);
+}
+
+.outer {
+  opacity: calc(var(--level) * 0.5);
+  scale: calc(1 + var(--level) * 0.2);
+  stroke-width: calc(0.75 + var(--level) * 1.75);
+}
+
+@include tauri-mobile {
+  .outer {
+    display: none;
+  }
+
+  .inner {
+    scale: calc(1 + var(--level) * 0.08);
+  }
+}

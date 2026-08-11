@@ -13,13 +13,13 @@ type TrayMenuLabels = {
 };
 
 export const buildTrayMenu = async (labels: TrayMenuLabels) => {
-  const header = await MenuItem.new({
+  const headerItem = MenuItem.new({
     id: TRAY_MENU_ID.header,
     text: labels.header,
     enabled: false
   });
 
-  const mute = await CheckMenuItem.new({
+  const muteItem = CheckMenuItem.new({
     id: TRAY_MENU_ID.mute,
     text: labels.mute,
     checked: false,
@@ -29,7 +29,7 @@ export const buildTrayMenu = async (labels: TrayMenuLabels) => {
     }
   });
 
-  const checkUpdates = await MenuItem.new({
+  const checkUpdatesItem = MenuItem.new({
     id: TRAY_MENU_ID.checkUpdates,
     text: labels.checkUpdates,
     action: async () => {
@@ -41,7 +41,7 @@ export const buildTrayMenu = async (labels: TrayMenuLabels) => {
     }
   });
 
-  const quit = await MenuItem.new({
+  const quitItem = MenuItem.new({
     id: TRAY_MENU_ID.quit,
     text: labels.quit,
     action: async () => {
@@ -53,18 +53,21 @@ export const buildTrayMenu = async (labels: TrayMenuLabels) => {
 
   const separator = () => PredefinedMenuItem.new({ item: 'Separator' });
 
+  const [header, mute, checkUpdates, quit, firstDivider, secondDivider, thirdDivider] =
+    await Promise.all([
+      headerItem,
+      muteItem,
+      checkUpdatesItem,
+      quitItem,
+      separator(),
+      separator(),
+      separator()
+    ]);
+
   const items = { header, mute, checkUpdates, quit } as const;
 
   const menu = await Menu.new({
-    items: [
-      header,
-      await separator(),
-      mute,
-      await separator(),
-      checkUpdates,
-      await separator(),
-      quit
-    ]
+    items: [header, firstDivider, mute, secondDivider, checkUpdates, thirdDivider, quit]
   });
 
   return { menu, items };

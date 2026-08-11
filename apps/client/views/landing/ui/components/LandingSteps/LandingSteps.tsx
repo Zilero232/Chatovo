@@ -6,6 +6,7 @@ import { Text } from '@/shared/ui';
 import type { LandingSectionProps } from '../../LandingPage.types';
 
 import { LANDING_STEP_KEYS } from '../../../config';
+import { LandingFlowDiagram } from '../LandingFlowDiagram/LandingFlowDiagram';
 import { LandingReveal } from '../LandingReveal/LandingReveal';
 
 import s from '../../LandingPage.module.scss';
@@ -39,6 +40,10 @@ export const LandingSteps = async ({ locale }: LandingSectionProps) => {
           </LandingReveal>
         ))}
       </ol>
+
+      <LandingReveal delay={0.24}>
+        <LandingFlowDiagram locale={locale} />
+      </LandingReveal>
     </section>
   );
 };

@@ -6,7 +6,7 @@ import { useAutoScroll } from '@siberiacancode/reactuse';
 import { Paperclip } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Fragment } from 'react';
-import { isEmpty, sortBy } from 'remeda';
+import { isEmpty } from 'remeda';
 import { match } from 'ts-pattern';
 
 import { useRealtimeSubscribe } from '@/entities/app/realtime';
@@ -37,7 +37,7 @@ export const ChatConversation = ({
 
   const { displayName } = useCurrentUser();
 
-  const { messages: history, isPending: isHistoryPending } = useChatHistory(roomId);
+  const { messages, isPending: isHistoryPending } = useChatHistory(roomId);
   const { send, retry, discard } = useChatSend({
     roomId,
     sender: { identity: currentUserId, name: displayName }
@@ -52,7 +52,6 @@ export const ChatConversation = ({
     onSend: (body) => send(body)
   });
 
-  const messages = sortBy(history, (line) => line.timestamp);
   const grouped = groupChatLines(messages, currentUserId);
 
   return (

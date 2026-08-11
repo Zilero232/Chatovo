@@ -1,11 +1,8 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ZodResponse } from 'nestjs-zod';
-import { isNullish } from 'remeda';
 
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
-import { AppNotFoundException } from '../../common/exceptions';
-import { assertCanAccessDmRoom } from '../../lib';
 import { CreateRoomDto, RoomDto, UpdateRoomDto } from './dto/rooms.dto';
 import { RoomsService } from './services';
 
@@ -22,15 +19,8 @@ export class RoomsController {
 
   @Get(':id')
   @ZodResponse({ type: RoomDto })
-  async getRoom(@Param('id') id: string, @CurrentUser() userId: string) {
-    await assertCanAccessDmRoom({ roomId: id, userId });
-    const room = await this.rooms.getRoom(id);
-
-    if (isNullish(room)) {
-      throw new AppNotFoundException('ROOM_NOT_FOUND', 'Room not found');
-    }
-
-    return room;
+  getRoom(@Param('id') roomId: string, @CurrentUser() userId: string) {
+    return this.rooms.getRoom({ roomId, userId });
   }
 
   @Post()

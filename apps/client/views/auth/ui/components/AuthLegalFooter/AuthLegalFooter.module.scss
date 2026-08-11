@@ -8,7 +8,7 @@
 .link {
   color: oklch(65% 0.01 280deg);
   text-underline-offset: rem(4);
-  transition: color 150ms ease;
+  transition: color var(--duration-fast) var(--timing-function-standard);
 
   &:hover {
     color: oklch(85% 0.01 280deg);

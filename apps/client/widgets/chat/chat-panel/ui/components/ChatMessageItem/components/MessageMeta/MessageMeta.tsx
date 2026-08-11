@@ -5,22 +5,26 @@ import { ProfileCardTrigger } from '@/features/room/profile-card';
 import { formatMessageTime } from '@/shared/lib/format-date';
 import { FriendProfileActionsPanel } from '@/widgets/social/friend-profile-actions-panel';
 
-import type { MessageMetaProps } from './MessageMeta.types';
+import { useChatMessage } from '../../../../../model/contexts';
 
 import s from './MessageMeta.module.scss';
 
-export const MessageMeta = ({ author, identity, timestamp, verified, isOwn }: MessageMetaProps) => (
-  <div className={s.root}>
-    {!isOwn && (
-      <ProfileCardTrigger
-        className={s.nameTrigger}
-        identity={identity}
-        name={author}
-        renderFriendActions={(state) => <FriendProfileActionsPanel {...state} />}
-      >
-        <UserName className={s.author} name={author} verified={verified} />
-      </ProfileCardTrigger>
-    )}
-    <span className={s.time}>{formatMessageTime(timestamp)}</span>
-  </div>
-);
+export const MessageMeta = () => {
+  const { author, identity, verified, isOwn, message } = useChatMessage();
+
+  return (
+    <div className={s.root}>
+      {!isOwn && (
+        <ProfileCardTrigger
+          className={s.nameTrigger}
+          identity={identity}
+          name={author}
+          renderFriendActions={(state) => <FriendProfileActionsPanel {...state} />}
+        >
+          <UserName className={s.author} name={author} verified={verified} />
+        </ProfileCardTrigger>
+      )}
+      <span className={s.time}>{formatMessageTime(message.timestamp)}</span>
+    </div>
+  );
+};

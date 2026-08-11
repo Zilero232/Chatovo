@@ -4,6 +4,7 @@ export { LandingDownloadButton } from './LandingDownloadButton/LandingDownloadBu
 export { LandingFaq } from './LandingFaq/LandingFaq';
 export { LandingFeatures } from './LandingFeatures/LandingFeatures';
 export { LandingFinalCta } from './LandingFinalCta/LandingFinalCta';
+export { LandingFlowDiagram } from './LandingFlowDiagram/LandingFlowDiagram';
 export { LandingFooter } from './LandingFooter/LandingFooter';
 export { LandingHeader } from './LandingHeader/LandingHeader';
 export { LandingHero } from './LandingHero/LandingHero';

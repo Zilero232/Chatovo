@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@siberiacancode/tsconfig/tsconfig.bundler.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "allowJs": false,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  }
+}

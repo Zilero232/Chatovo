@@ -1,16 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { isNonNullish } from 'remeda';
+import { isNonNullish, isNullish } from 'remeda';
 
 import type { Prisma } from '../../../../generated';
 import type { RoomCreatedEvent, RoomDeletedEvent } from '../../../common/events/domain-events';
-import type { CreateRoomInput, DeleteRoomInput, UpdateRoomInput } from './rooms.service.types';
+import type {
+  CreateRoomInput,
+  DeleteRoomInput,
+  GetRoomInput,
+  UpdateRoomInput
+} from './rooms.service.types';
 
 import { RoomKind } from '../../../../generated';
 import { DomainEvent } from '../../../common/events/domain-events';
-import { AppConflictException } from '../../../common/exceptions';
+import { AppConflictException, AppNotFoundException } from '../../../common/exceptions';
 import { PrismaService } from '../../../core';
-import { assertCanManageRoom, getUserDisplayName, roomSelect } from '../../../lib';
+import {
+  assertCanAccessRoom,
+  assertCanManageRoom,
+  getUserDisplayName,
+  roomSelect
+} from '../../../lib';
+import { revokeRoomGrants } from '../../livekit';
 
 @Injectable()
 export class RoomsService {
@@ -27,8 +38,16 @@ export class RoomsService {
     });
   }
 
-  getRoom(id: string) {
-    return this.prisma.room.findUnique({ where: { id }, select: roomSelect });
+  async getRoom({ roomId, userId }: GetRoomInput) {
+    await assertCanAccessRoom({ roomId, userId });
+
+    const room = await this.prisma.room.findUnique({ where: { id: roomId }, select: roomSelect });
+
+    if (isNullish(room)) {
+      throw new AppNotFoundException('ROOM_NOT_FOUND', 'Room not found');
+    }
+
+    return room;
   }
 
   private async assertRoomNameAvailable(name: string) {
@@ -90,6 +109,10 @@ export class RoomsService {
       if (willBePrivate) {
         data.password = input.password;
       }
+    }
+
+    if ('password' in data || 'isPrivate' in data) {
+      revokeRoomGrants(roomId);
     }
 
     return this.prisma.room.update({ where: { id: roomId }, data, select: roomSelect });

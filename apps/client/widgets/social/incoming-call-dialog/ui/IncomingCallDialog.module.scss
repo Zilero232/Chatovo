@@ -7,6 +7,10 @@
   background: color-mix(in oklch, var(--shell-surface) 95%, transparent);
   box-shadow: 0 rem(24) rem(64) rem(-24) oklch(70% 0.22 295deg / 55%);
   gap: 1.5rem;
+
+  @include tauri-mobile {
+    backdrop-filter: none;
+  }
 }
 
 .header {

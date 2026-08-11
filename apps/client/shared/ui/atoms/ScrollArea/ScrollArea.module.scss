@@ -13,8 +13,8 @@
   border-radius: inherit;
   outline: none;
   transition:
-    color 150ms ease,
-    box-shadow 150ms ease;
+    color var(--duration-fast) var(--timing-function-standard),
+    box-shadow var(--duration-fast) var(--timing-function-standard);
 
   &:focus-visible {
     box-shadow: 0 0 0 rem(3) color-mix(in oklch, var(--ring) 50%, transparent);
@@ -23,37 +23,5 @@
 
   > div {
     min-width: 0;
-  }
-}
-
-.scrollbar {
-  display: flex;
-  padding: 1px;
-  touch-action: none;
-  transition: colors 150ms ease;
-  user-select: none;
-
-  &[data-orientation='vertical'] {
-    width: 0.625rem;
-    height: 100%;
-    border-left: 1px solid transparent;
-  }
-
-  &[data-orientation='horizontal'] {
-    height: 0.625rem;
-    flex-direction: column;
-    border-top: 1px solid transparent;
-  }
-}
-
-.thumb {
-  position: relative;
-  flex: 1;
-  border-radius: 9999px;
-  background: oklch(100% 0 0deg / 15%);
-  transition: background-color 150ms ease;
-
-  &:hover {
-    background: oklch(100% 0 0deg / 25%);
   }
 }

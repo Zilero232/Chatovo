@@ -7,7 +7,7 @@
   background: transparent;
   cursor: pointer;
   outline: none;
-  transition: transform 150ms ease;
+  transition: transform var(--duration-fast) var(--timing-function-standard);
 
   &:hover {
     transform: scale(1.05);

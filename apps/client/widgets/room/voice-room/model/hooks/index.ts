@@ -2,6 +2,7 @@ export { useConnectionRtt } from './use-connection-rtt';
 export { useCopyInviteLink } from './use-copy-invite-link';
 export { useDeviceSync } from './use-device-sync';
 export { useMicActivationMode } from './use-mic-activation-mode';
+export { useParticipantAudioLevel } from './use-participant-audio-level';
 export { useParticipantIsSpeaking } from './use-participant-is-speaking';
 export { useParticipantMedia } from './use-participant-media';
 export { useParticipantVolume } from './use-participant-volume';

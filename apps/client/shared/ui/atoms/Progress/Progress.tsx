@@ -1,6 +1,6 @@
 'use client';
 
-import { Progress as BaseProgress } from '@base-ui-components/react/progress';
+import { Progress as BaseProgress } from '@base-ui/react/progress';
 import { clsx } from 'clsx';
 
 import type { ProgressProps } from './Progress.types';

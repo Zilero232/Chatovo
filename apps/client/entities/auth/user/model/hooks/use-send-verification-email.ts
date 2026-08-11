@@ -2,20 +2,19 @@
 
 import { useMutation } from '@tanstack/react-query';
 
-import { authClient } from '@/shared/api';
+import { authClient, unwrapAuth } from '@/shared/api';
 
 export const useSendVerificationEmail = () =>
   useMutation({
-    mutationFn: async (email: string) => {
+    mutationFn: (email: string) => {
       const callbackURL = typeof window === 'undefined' ? '/' : `${window.location.origin}/`;
 
-      const { error } = await authClient.sendVerificationEmail({
-        email,
-        callbackURL
-      });
-
-      if (error) {
-        throw new Error(error.message ?? 'Failed to send verification email');
-      }
+      return unwrapAuth(
+        authClient.sendVerificationEmail({
+          email,
+          callbackURL
+        }),
+        'Failed to send verification email'
+      );
     }
   });

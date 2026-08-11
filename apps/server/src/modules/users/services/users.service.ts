@@ -13,7 +13,7 @@ import { AppBadRequestException } from '../../../common/exceptions';
 import { AVATAR_MAX_BYTES } from '../../../config/uploads';
 import { PrismaService } from '../../../core';
 import { ensureUserFriendTag, getUserWithProfileOrThrow } from '../../../lib';
-import { saveUpload } from '../../uploads';
+import { saveUpload, toArrayBuffer } from '../../uploads';
 import { toUserProfile } from '../profile';
 
 @Injectable()
@@ -23,11 +23,8 @@ export class UsersService {
   private async uploadAvatar({ userId, file }: UploadAvatarInput): Promise<string> {
     const ext = extension(file.mimetype) || 'png';
     const key = `avatars/${userId}/avatar.${ext}`;
-    const buffer = new ArrayBuffer(file.buffer.byteLength);
 
-    new Uint8Array(buffer).set(file.buffer);
-
-    const url = await saveUpload(key, buffer);
+    const url = await saveUpload(key, toArrayBuffer(file.buffer));
 
     return `${url}?v=${Date.now()}`;
   }
@@ -90,13 +87,6 @@ export class UsersService {
       update: profileData
     });
 
-    const user = await getUserWithProfileOrThrow(userId);
-    const friendTag = await ensureUserFriendTag({
-      userId: user.id,
-      name: user.name,
-      currentFriendTag: user.friendTag
-    });
-
-    return toUserProfile({ ...user, friendTag });
+    return this.getUserProfile(userId);
   }
 }

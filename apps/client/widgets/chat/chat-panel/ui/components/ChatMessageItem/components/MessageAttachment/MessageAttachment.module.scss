@@ -1,10 +1,11 @@
+@use '@/shared/styles/mixins' as *;
 .image {
   display: block;
   max-width: 100%;
   max-height: 18rem;
   border-radius: var(--radius-lg);
   object-fit: cover;
-  transition: opacity 150ms ease;
+  transition: opacity var(--duration-fast) var(--timing-function-standard);
 
   &:hover {
     opacity: 0.9;
@@ -20,7 +21,7 @@
   color: inherit;
   gap: 0.625rem;
   text-decoration: none;
-  transition: background-color 150ms ease;
+  transition: background-color var(--duration-fast) var(--timing-function-standard);
 }
 
 .fileCardOwn {
@@ -52,11 +53,10 @@
 }
 
 .fileName {
-  overflow: hidden;
   font-size: 0.875rem;
   font-weight: 500;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+  @include text-ellipsis;
 }
 
 .fileSize {

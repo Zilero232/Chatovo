@@ -3,8 +3,7 @@
 import { isImageMime } from '@chatovo/schemas';
 import dynamic from 'next/dynamic';
 
-import type { MessageBubbleProps } from './MessageBubble.types';
-
+import { useChatMessage } from '../../../../../model/contexts';
 import { MessageAttachment } from '../MessageAttachment';
 import { MessageContextMenu } from '../MessageContextMenu';
 import { bubbleVariants } from './MessageBubble.variants';
@@ -14,21 +13,13 @@ const MessageContent = dynamic(
   { ssr: false }
 );
 
-export const MessageBubble = ({
-  message,
-  attachment,
-  isOwn,
-  isTail,
-  isEdited,
-  canEdit,
-  showActions,
-  onEdit,
-  onDelete
-}: MessageBubbleProps) => {
+export const MessageBubble = () => {
+  const { attachment, isOwn, isTail } = useChatMessage();
+
   const isBareImage = attachment ? isImageMime(attachment.mime) : false;
 
   return (
-    <MessageContextMenu canEdit={canEdit} enabled={showActions} onDelete={onDelete} onEdit={onEdit}>
+    <MessageContextMenu>
       <div
         className={bubbleVariants({
           owner: isOwn ? 'own' : 'other',
@@ -36,11 +27,7 @@ export const MessageBubble = ({
           tail: isTail
         })}
       >
-        {attachment ? (
-          <MessageAttachment attachment={attachment} isOwn={isOwn} />
-        ) : (
-          <MessageContent isEdited={isEdited} isOwn={isOwn} message={message.message} />
-        )}
+        {attachment ? <MessageAttachment attachment={attachment} /> : <MessageContent />}
       </div>
     </MessageContextMenu>
   );

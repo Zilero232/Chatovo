@@ -1,11 +1,10 @@
 'use client';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { WifiOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { QUERY_KEYS } from '@/shared/constants';
-import { Button, CenteredState } from '@/shared/ui';
+import { Button, CenteredState, ErrorGlyph } from '@/shared/ui';
 
 import s from './RoomsListError.module.scss';
 
@@ -25,7 +24,7 @@ export const RoomsListError = () => {
         </Button>
       }
       description={t('description')}
-      icon={<WifiOff className={s.icon} />}
+      icon={<ErrorGlyph className={s.icon} variant='lost-signal' />}
       size='sm'
       title={t('title')}
     />

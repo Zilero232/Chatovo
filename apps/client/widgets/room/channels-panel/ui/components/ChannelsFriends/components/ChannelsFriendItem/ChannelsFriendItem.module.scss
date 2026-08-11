@@ -1,0 +1,87 @@
+@use '@/shared/styles/mixins' as *;
+@use '@/shared/styles/functions' as *;
+
+.root {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-md);
+  gap: 0.5rem;
+  text-align: left;
+  transition: background-color var(--duration-fast) var(--timing-function-standard);
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.rootJoinable:hover {
+  background: oklch(100% 0 0deg / 6%);
+}
+
+.avatarSlot {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.avatarFallback {
+  font-size: rem(10);
+}
+
+.presenceDot {
+  position: absolute;
+  right: rem(-1);
+  bottom: rem(-1);
+  width: 0.5rem;
+  height: 0.5rem;
+  border: rem(2) solid var(--shell-surface);
+  border-radius: 9999px;
+  background: color-mix(in oklch, var(--muted-foreground) 45%, transparent);
+}
+
+.presenceDotOnline {
+  background: oklch(78% 0.19 145deg);
+}
+
+.presenceDotInRoom {
+  background: var(--brand-cyan);
+  box-shadow: 0 0 rem(6) oklch(82% 0.16 200deg / 70%);
+}
+
+.info {
+  display: flex;
+  overflow: hidden;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.name {
+  color: color-mix(in oklch, var(--sidebar-foreground) 80%, transparent);
+  font-size: 0.8125rem;
+  font-weight: 500;
+
+  @include text-ellipsis;
+
+  .rootJoinable:hover & {
+    color: var(--sidebar-foreground);
+  }
+}
+
+.status {
+  color: var(--muted-foreground);
+  font-size: rem(10);
+
+  @include text-ellipsis;
+}
+
+.statusInRoom {
+  color: var(--brand-cyan);
+}

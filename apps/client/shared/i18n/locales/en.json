@@ -23,6 +23,7 @@
     "ROOM_NAME_INVALID": "Invalid room name.",
     "ROOM_PASSWORD_REQUIRED": "This room requires a password.",
     "ROOM_PASSWORD_INVALID": "Wrong password.",
+    "ROOM_ACCESS_DENIED": "Join the room with its password to access the chat.",
     "USER_NOT_FOUND": "User not found.",
     "DISPLAY_NAME_INVALID": "Name must be at least 2 characters.",
     "MESSAGE_NOT_FOUND": "Message not found.",
@@ -36,6 +37,7 @@
     "FRIEND_SELF": "You can't add yourself as a friend.",
     "DM_SELF": "You can't start a chat with yourself.",
     "DM_NOT_FRIENDS": "Direct messages are only available between friends.",
+    "CALL_ALREADY_RINGING": "This user is already receiving a call.",
     "FILE_EMPTY": "The file is empty.",
     "FILE_TOO_LARGE": "The file is too large.",
     "FILE_NOT_IMAGE": "An image is required.",
@@ -330,7 +332,17 @@
     },
     "roomsHeading": "Rooms",
     "searchPlaceholder": "Search rooms...",
+    "filters": {
+      "all": "All",
+      "live": "Live",
+      "mine": "Mine"
+    },
+    "view": {
+      "grid": "Grid view",
+      "list": "List view"
+    },
     "nothingFound": "No rooms match \"{query}\"",
+    "nothingFoundHint": "Try a shorter query, or create a room with that name yourself.",
     "nothingFoundTitle": "Nothing found",
     "clearSearch": "Clear search",
     "roomsError": {
@@ -340,7 +352,7 @@
     },
     "empty": {
       "title": "No rooms yet",
-      "text": "Create the first voice room and invite people to join."
+      "text": "Rooms show up here the moment someone creates one. Start the first one and share the link — whoever opens it lands straight in the call."
     },
     "card": {
       "live": "Live",
@@ -363,13 +375,13 @@
     "connecting": "Connecting to \"{name}\"...",
     "reconnecting": "Reconnecting to \"{name}\"...",
     "notFound": "Room not found",
+    "notFoundHint": "This room was closed or the link is out of date. Rooms disappear once the last person leaves.",
     "backToLobby": "Back to lobby",
     "joinFailed": "Failed to join room",
     "invite": {
       "copyLink": "Copy invite link",
       "tooltip": "Copy a link to invite others",
-      "linkCopied": "Invite link copied",
-      "soloSlot": "Invite someone"
+      "linkCopied": "Invite link copied"
     },
     "connection": {
       "measuring": "Measuring connection…",
@@ -438,7 +450,7 @@
     "yesterday": "Yesterday",
     "empty": {
       "title": "It's quiet here",
-      "description": "Be the first to send a message in this room."
+      "description": "Messages sent in this room appear here and stay for everyone who joins later. Drop a link, a file or just say hi."
     }
   },
   "user": {
@@ -450,7 +462,10 @@
     "volume": "Volume",
     "volumeFor": "Volume for {name}",
     "copyName": "Copy name",
-    "nameCopied": "Name copied"
+    "nameCopied": "Name copied",
+    "sessionStats": "Session",
+    "inRoomFor": "In room",
+    "spokeFor": "Spoke"
   },
   "profileCard": {
     "inVoice": "In voice channel",
@@ -464,15 +479,18 @@
     "searchPlaceholder": "Search rooms...",
     "noRoomsYet": "No rooms yet",
     "nothingFound": "Nothing found",
+    "nothingFoundHint": "No room matches that name. Clear the search to see all of them again.",
     "online": "online",
-    "banner": {
-      "title": "You're in the lobby",
-      "hint": "Pick a room from the page, or start a new one.",
-      "createRoom": "Create a room",
-      "rooms": "{count, plural, one {room} other {rooms}}",
-      "online": "online",
-      "join": "Join",
-      "tip": "Private rooms need a password to join."
+    "createRoom": "Create a room",
+    "emptyHint": "Pick a room from the page, or start a new one.",
+    "showParticipants": "Show participants",
+    "hideParticipants": "Hide participants",
+    "friends": {
+      "heading": "Friends",
+      "online": "Online — {count}",
+      "offline": "Offline — {count}",
+      "statusOnline": "Online",
+      "statusOffline": "Offline"
     }
   },
   "friends": {
@@ -484,7 +502,11 @@
     "friendsTab": "Friends",
     "requestsTab": "Requests",
     "emptyFriends": "No friends yet. Add people from their profile card in a voice room.",
+    "emptyFriendsTitle": "No friends yet",
+    "emptyFriendsHint": "Click someone's avatar in a voice room and send them a request. Once they accept, you can message or call them straight from here.",
     "emptyRequests": "No pending requests.",
+    "emptyRequestsTitle": "No pending requests",
+    "emptyRequestsHint": "When someone adds you by your tag, their request lands here waiting for your answer.",
     "addFriend": "Add friend",
     "cancelRequest": "Cancel request",
     "accept": "Accept",
@@ -499,7 +521,8 @@
       "description": "{name} will be removed from your friends list. This can't be undone.",
       "confirm": "Remove",
       "cancel": "Cancel",
-      "failed": "Failed to remove friend"
+      "failed": "Failed to remove friend",
+      "consequences": "Your chat history stays, but you will not see each other online or be able to call until you are friends again."
     },
     "tagPlaceholder": "friendTag (example: alex#4821)",
     "sendByTag": "Send",
@@ -708,14 +731,19 @@
   "createRoom": {
     "trigger": "Create room",
     "title": "Create a room",
-    "description": "Creates a new voice room and takes you in.",
+    "description": "Set a name, pick who can join, and we drop you straight into the call.",
     "nameLabel": "New room name",
     "namePlaceholder": "team standup",
     "passwordLabel": "Password",
     "passwordPlaceholder": "Min 4 chars",
     "privateLabel": "Private (password required to join)",
     "submit": "Create room",
-    "created": "Room created"
+    "created": "Room created",
+    "nameCounter": "{count}/{max}",
+    "passwordHint": "At least 4 characters. Share it only with people you want inside.",
+    "privateExplainer": "Hidden from the lobby. Only people with the password can join.",
+    "publicExplainer": "Anyone can find this room in the lobby and walk right in.",
+    "hint": "You can rename the room or change its password later from the room menu."
   },
   "manageRoom": {
     "menu": {
@@ -725,20 +753,26 @@
     },
     "edit": {
       "title": "Edit room",
-      "description": "Change name, password, or privacy.",
+      "description": "Rename the room, or switch it between public and private.",
       "nameLabel": "Name",
       "passwordLabel": "New password",
       "passwordHint": "Leave empty to keep the current password.",
       "privateLabel": "Private (password required to join)",
       "submit": "Save changes",
-      "saved": "Room updated"
+      "saved": "Room updated",
+      "nameCounter": "{count}/{max}",
+      "privateExplainer": "Hidden from the lobby. Only people with the password can join.",
+      "publicExplainer": "Anyone can find this room in the lobby and walk right in.",
+      "hint": "Changing the password does not kick anyone out — it only affects new joins."
     },
     "delete": {
       "title": "Delete \"{name}\"?",
       "description": "Anyone currently inside will be disconnected. This cannot be undone.",
       "cancel": "Cancel",
       "confirm": "Delete",
-      "deleted": "Room deleted"
+      "deleted": "Room deleted",
+      "consequences": "The room, its chat history, and every channel inside it are gone for good.",
+      "hint": "Everyone currently in the call will be disconnected right away."
     }
   },
   "downloadApp": {
@@ -757,7 +791,8 @@
       "macos": "macOS",
       "linux": "Linux",
       "android": "Android"
-    }
+    },
+    "hint": "The desktop app adds global push-to-talk and keeps running in the tray."
   },
   "update": {
     "title": "Update available",
@@ -790,7 +825,7 @@
   },
   "feedback": {
     "title": "Report a problem",
-    "description": "Describe what went wrong. Optionally attach a screenshot.",
+    "description": "Tell us what broke. A screenshot helps us find it much faster.",
     "descriptionLabel": "Problem description",
     "descriptionPlaceholder": "What happened and what you were doing…",
     "screenshotLabel": "Screenshot",
@@ -800,7 +835,8 @@
     "validation": {
       "feedbackMin": "At least 10 characters",
       "feedbackMax": "At most 2000 characters"
-    }
+    },
+    "hint": "Include what you were doing right before it happened — that is usually the missing piece."
   },
   "landing": {
     "nav": {
@@ -873,6 +909,12 @@
     "steps": {
       "heading": "How it works",
       "subheading": "Three steps from an empty screen to a live conversation.",
+      "diagram": {
+        "caption": "Your audio goes to the LiveKit server, which forwards it to everyone else in the room.",
+        "client": "You",
+        "peers": "Others",
+        "sfu": "LiveKit SFU"
+      },
       "items": {
         "create": {
           "title": "Create a room",

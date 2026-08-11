@@ -5,6 +5,9 @@ import { useInterval } from '@siberiacancode/reactuse';
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
 
 const POLL_INTERVAL_MS = 2_000;
+type ConnectionRtt = {
+  rtt: number | null;
+};
 
 const readRtt = async (publisher: { getStats: () => Promise<RTCStatsReport> }) => {
   const stats = await publisher.getStats();
@@ -22,7 +25,7 @@ const readRtt = async (publisher: { getStats: () => Promise<RTCStatsReport> }) =
   return null;
 };
 
-export const useConnectionRtt = (): number | null => {
+export const useConnectionRtt = (): ConnectionRtt => {
   const [rtt, setRtt] = useState<number | null>(null);
 
   const room = useRoomContext();
@@ -70,5 +73,5 @@ export const useConnectionRtt = (): number | null => {
     void sample();
   }, POLL_INTERVAL_MS);
 
-  return rtt;
+  return { rtt };
 };

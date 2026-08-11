@@ -7,7 +7,7 @@
   background: var(--scrim);
   inset: 0;
 
-  @media (pointer: coarse) {
+  @include tauri-mobile {
     backdrop-filter: none;
     background: var(--scrim-strong);
   }
@@ -28,7 +28,7 @@
   gap: 1rem;
   outline: none;
 
-  @media (pointer: coarse) {
+  @include tauri-mobile {
     backdrop-filter: none;
     background-color: var(--background);
   }
@@ -111,7 +111,7 @@
 
 .close {
   position: absolute;
-  z-index: 10;
+  z-index: var(--z-raised);
   top: 1rem;
   right: 1rem;
   display: inline-flex;
@@ -127,9 +127,9 @@
   color: color-mix(in oklch, var(--foreground) 70%, transparent);
   cursor: pointer;
   transition:
-    border-color 150ms ease,
-    color 150ms ease,
-    background-color 150ms ease;
+    border-color var(--duration-fast) var(--timing-function-standard),
+    color var(--duration-fast) var(--timing-function-standard),
+    background-color var(--duration-fast) var(--timing-function-standard);
 
   &:hover {
     border-color: oklch(100% 0 0deg / 20%);
@@ -151,5 +151,9 @@
     width: 1rem;
     height: 1rem;
     pointer-events: none;
+  }
+
+  @include tauri-mobile {
+    backdrop-filter: none;
   }
 }

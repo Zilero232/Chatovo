@@ -11,6 +11,7 @@ export const apiErrorCodeSchema = z.enum([
   'ROOM_NAME_INVALID',
   'ROOM_PASSWORD_REQUIRED',
   'ROOM_PASSWORD_INVALID',
+  'ROOM_ACCESS_DENIED',
 
   'USER_NOT_FOUND',
   'DISPLAY_NAME_INVALID',
@@ -28,6 +29,8 @@ export const apiErrorCodeSchema = z.enum([
 
   'DM_SELF',
   'DM_NOT_FRIENDS',
+
+  'CALL_ALREADY_RINGING',
 
   'FILE_EMPTY',
   'FILE_TOO_LARGE',

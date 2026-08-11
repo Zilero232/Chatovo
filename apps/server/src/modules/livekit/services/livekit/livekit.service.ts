@@ -17,6 +17,7 @@ import { TOKEN_TTL_SECONDS } from '../../../../config/livekit';
 import { PrismaService } from '../../../../core';
 import { toUserProfile } from '../../../users';
 import { assertRoomAccess } from '../../lib';
+import { grantRoomAccess } from '../../room-grant-store';
 
 @Injectable()
 export class LivekitService {
@@ -39,6 +40,8 @@ export class LivekitService {
     }
 
     assertRoomAccess({ room, password });
+
+    grantRoomAccess(room.id, userId);
 
     const user = await this.prisma.user.findUnique({
       where: { id: userId },

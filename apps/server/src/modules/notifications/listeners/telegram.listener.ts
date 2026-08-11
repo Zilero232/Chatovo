@@ -11,6 +11,7 @@ import type {
 } from '../../../common/events/domain-events';
 
 import { DomainEvent } from '../../../common/events/domain-events';
+import { runNotification } from '../../../common/notifications';
 import {
   notifyProblemReport,
   notifyRoomCreated,
@@ -24,12 +25,8 @@ import {
 export class TelegramListener {
   private readonly logger = new Logger(TelegramListener.name);
 
-  private async run(label: string, task: Promise<unknown>) {
-    try {
-      await task;
-    } catch (error) {
-      this.logger.warn(`Telegram notification "${label}" failed: ${String(error)}`);
-    }
+  private run(label: string, task: Promise<unknown>) {
+    return runNotification({ logger: this.logger, channel: 'Telegram', label, task });
   }
 
   @OnEvent(DomainEvent.RoomCreated)

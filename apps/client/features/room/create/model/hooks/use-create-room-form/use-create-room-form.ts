@@ -46,5 +46,5 @@ export const useCreateRoomForm = ({ onCreated }: UseCreateRoomFormInput) => {
     });
   });
 
-  return { form, isPrivate, isPending, canSubmit: Boolean(name?.trim()), onSubmit };
+  return { form, isPrivate, name, isPending, canSubmit: Boolean(name?.trim()), onSubmit };
 };

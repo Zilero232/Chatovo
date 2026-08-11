@@ -1,6 +1,6 @@
 'use client';
 
-import { Loader2 } from 'lucide-react';
+import { Download, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import {
@@ -14,6 +14,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogHint,
   DialogTitle,
   Text
 } from '@/shared/ui';
@@ -31,7 +32,7 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className={s.content}>
-        <DialogHeader>
+        <DialogHeader icon={<Download />} tone='cyan'>
           <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription className={s.description}>{t('description')}</DialogDescription>
         </DialogHeader>
@@ -89,6 +90,8 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
             <div className={s.meta}>
               <span className={s.version}>{t('version', { version: release.version })}</span>
             </div>
+
+            <DialogHint>{t('hint')}</DialogHint>
           </>
         )}
       </DialogContent>

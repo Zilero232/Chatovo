@@ -1,3 +1,4 @@
+@use '@/shared/styles/mixins' as *;
 @use '@/shared/styles/functions' as *;
 @use '@/shared/styles/breakpoints' as *;
 
@@ -26,7 +27,7 @@
 
 .header {
   position: fixed;
-  z-index: 30;
+  z-index: var(--z-sticky);
   top: 0;
   right: 0;
   left: 0;
@@ -45,6 +46,10 @@
 
   @supports not (backdrop-filter: blur(1px)) {
     background-color: var(--background);
+  }
+
+  @include tauri-mobile {
+    backdrop-filter: none;
   }
 }
 
@@ -79,8 +84,8 @@
   font-weight: 500;
   text-decoration: none;
   transition:
-    color 180ms ease,
-    background-color 180ms ease;
+    color var(--duration-default) var(--timing-function-standard),
+    background-color var(--duration-default) var(--timing-function-standard);
 
   &:after {
     position: absolute;
@@ -120,9 +125,9 @@
   padding-inline: rem(9);
   text-decoration: none;
   transition:
-    color 180ms ease,
-    border-color 180ms ease,
-    background-color 180ms ease;
+    color var(--duration-default) var(--timing-function-standard),
+    border-color var(--duration-default) var(--timing-function-standard),
+    background-color var(--duration-default) var(--timing-function-standard);
 
   &:hover {
     border-color: var(--border-strong);
@@ -137,7 +142,7 @@
   color: inherit;
   gap: var(--space-2);
   text-decoration: none;
-  transition: opacity 180ms ease;
+  transition: opacity var(--duration-default) var(--timing-function-standard);
 
   &:hover {
     opacity: 0.82;
@@ -165,7 +170,7 @@
 
 .hero {
   position: relative;
-  z-index: 1;
+  z-index: var(--z-base);
   display: grid;
   align-items: center;
   gap: var(--space-8);
@@ -199,6 +204,10 @@
   gap: var(--space-2);
   letter-spacing: 0.04em;
   text-transform: uppercase;
+
+  @include tauri-mobile {
+    backdrop-filter: none;
+  }
 }
 
 .eyebrowDot {
@@ -391,7 +400,7 @@
 
 .section {
   position: relative;
-  z-index: 1;
+  z-index: var(--z-base);
   padding-block: rem(56);
   scroll-margin-top: rem(80);
 
@@ -618,7 +627,7 @@
 
 .footer {
   position: relative;
-  z-index: 1;
+  z-index: var(--z-base);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -758,6 +767,41 @@
     opacity: 1;
     transform: translateY(#{rem(10)});
   }
+}
+
+.flowDiagram {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  margin-top: var(--space-8);
+  gap: var(--space-3);
+}
+
+.flowDiagramSvg {
+  width: 100%;
+  height: auto;
+  max-height: rem(240);
+}
+
+.flowDiagramNode {
+  fill: oklch(100% 0 0deg / 4%);
+  opacity: 0.8;
+}
+
+.flowDiagramHub {
+  fill: oklch(100% 0 0deg / 7%);
+}
+
+.flowDiagramLabel {
+  fill: var(--foreground);
+  font-size: rem(13);
+  font-weight: 500;
+}
+
+.flowDiagramCaption {
+  color: var(--muted-foreground);
+  font-size: rem(13);
+  text-align: center;
 }
 
 @media (prefers-reduced-motion: reduce) {

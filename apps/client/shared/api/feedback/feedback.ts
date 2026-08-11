@@ -1,6 +1,6 @@
 import type { ReportProblemValues } from '@chatovo/schemas';
 
-import { api } from '../http';
+import { api, UPLOAD_TIMEOUT_MS } from '../http';
 
 type ReportProblemArgs = ReportProblemValues & {
   screenshot?: File;
@@ -22,5 +22,5 @@ export const reportProblem = async ({
     fd.append('screenshot', screenshot);
   }
 
-  await api.post('/feedback', fd);
+  await api.post('/feedback', fd, { timeout: UPLOAD_TIMEOUT_MS });
 };

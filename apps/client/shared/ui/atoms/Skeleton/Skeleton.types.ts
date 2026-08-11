@@ -1,3 +1,10 @@
 import type { ComponentProps } from 'react';
 
-export type SkeletonProps = ComponentProps<'div'>;
+import type { SkeletonVariantProps } from './Skeleton.variants';
+
+export type SkeletonShape = NonNullable<SkeletonVariantProps['shape']>;
+
+export type SkeletonProps = {
+  width?: string;
+} & ComponentProps<'div'> &
+  SkeletonVariantProps;

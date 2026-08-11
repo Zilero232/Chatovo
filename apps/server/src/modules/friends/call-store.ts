@@ -11,12 +11,19 @@ import { emitFriendsSnapshot } from '../realtime';
 const CALL_STATUS = friendCallStatusSchema.enum;
 
 const CALL_TTL_MS = 60_000;
+const ACCEPTED_ACK_TTL_MS = 10_000;
 
 const byCallee = new Map<string, PendingFriendCall>();
 const byCaller = new Map<string, PendingFriendCall>();
 const friendsEpochByUser = new Map<string, number>();
 
 const isExpired = (call: PendingFriendCall) => Date.now() > call.expiresAt;
+
+const isActive = (call: PendingFriendCall | undefined): call is PendingFriendCall =>
+  !!call && !isExpired(call);
+
+const isActiveRinging = (call: PendingFriendCall | undefined): call is PendingFriendCall =>
+  isActive(call) && call.status === CALL_STATUS.ringing;
 
 const emitUser = (userId: string) => {
   // eslint-disable-next-line ts/no-use-before-define -- emitUser and getUserCallSnapshot are mutually recursive through pruneExpired; both only run after module init
@@ -60,18 +67,16 @@ export const getUserCallSnapshot = (userId: string): FriendCallStreamSnapshot =>
   const outgoingCall = byCaller.get(userId);
 
   return {
-    incoming:
-      incomingCall && !isExpired(incomingCall) && incomingCall.status === CALL_STATUS.ringing
-        ? { roomId: incomingCall.roomId, caller: incomingCall.caller }
-        : null,
-    outgoing:
-      outgoingCall && !isExpired(outgoingCall)
-        ? {
-            roomId: outgoingCall.roomId,
-            callee: outgoingCall.callee,
-            status: outgoingCall.status
-          }
-        : null,
+    incoming: isActiveRinging(incomingCall)
+      ? { roomId: incomingCall.roomId, caller: incomingCall.caller }
+      : null,
+    outgoing: isActive(outgoingCall)
+      ? {
+          roomId: outgoingCall.roomId,
+          callee: outgoingCall.callee,
+          status: outgoingCall.status
+        }
+      : null,
     friendsEpoch: friendsEpochByUser.get(userId) ?? 0
   };
 };
@@ -113,7 +118,7 @@ export const getPendingCallForCallee = (calleeId: string): PendingFriendCall | n
 
   const call = byCallee.get(calleeId);
 
-  if (!call || isExpired(call) || call.status !== 'ringing') {
+  if (!isActiveRinging(call)) {
     return null;
   }
 
@@ -125,7 +130,7 @@ export const getPendingCallForCaller = (callerId: string): PendingFriendCall | n
 
   const call = byCaller.get(callerId);
 
-  if (!call || isExpired(call)) {
+  if (!isActive(call)) {
     byCaller.delete(callerId);
 
     return null;
@@ -139,11 +144,12 @@ export const markCallAccepted = (calleeId: string): PendingFriendCall | null => 
 
   const call = byCallee.get(calleeId);
 
-  if (!call || isExpired(call) || call.status !== 'ringing') {
+  if (!isActiveRinging(call)) {
     return null;
   }
 
   call.status = CALL_STATUS.accepted;
+  call.expiresAt = Date.now() + ACCEPTED_ACK_TTL_MS;
   byCallee.delete(calleeId);
 
   emitUsers([calleeId, call.caller.id]);
@@ -156,7 +162,7 @@ export const markCallDeclined = (calleeId: string): void => {
 
   const call = byCallee.get(calleeId);
 
-  if (!call || isExpired(call)) {
+  if (!isActive(call)) {
     byCallee.delete(calleeId);
 
     return;
@@ -166,6 +172,14 @@ export const markCallDeclined = (calleeId: string): void => {
   byCallee.delete(calleeId);
 
   emitUsers([calleeId, call.caller.id]);
+};
+
+export const clearFriendsEpoch = (userId: string): void => {
+  if (byCallee.has(userId) || byCaller.has(userId)) {
+    return;
+  }
+
+  friendsEpochByUser.delete(userId);
 };
 
 export const clearPendingCallForCaller = (callerId: string): void => {

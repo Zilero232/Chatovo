@@ -1,4 +1,4 @@
-import type { ChatMessage, RealtimeServerMessage } from '@chatovo/schemas';
+import type { RealtimeServerMessage } from '@chatovo/schemas';
 
 export type UploadedAttachment = {
   buffer: Buffer;
@@ -12,7 +12,8 @@ export type ChatRealtimeEvent = Extract<
   { type: 'chat.delete' } | { type: 'chat.edit' } | { type: 'chat.message' }
 >;
 
-export type ChatRealtimeEventInput =
-  | { type: 'chat.delete'; id: string; deletedAt: string }
-  | { type: 'chat.edit'; id: string; body: string; editedAt: string }
-  | { type: 'chat.message'; message: ChatMessage };
+export type ChatRealtimeEventInput = ChatRealtimeEvent extends infer Event
+  ? Event extends ChatRealtimeEvent
+    ? Omit<Event, 'roomId' | 'roomKind'>
+    : never
+  : never;

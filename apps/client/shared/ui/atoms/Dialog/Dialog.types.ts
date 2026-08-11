@@ -1,7 +1,5 @@
-import type { Dialog } from '@base-ui-components/react/dialog';
+import type { Dialog } from '@base-ui/react/dialog';
 import type { ComponentProps, ReactNode } from 'react';
-
-import type { ButtonProps } from '../Button';
 
 export type DialogProps = Omit<ComponentProps<typeof Dialog.Root>, 'children' | 'onOpenChange'> & {
   className?: string;
@@ -17,7 +15,16 @@ export type DialogContentProps = Omit<ComponentProps<typeof Dialog.Popup>, 'clas
   children?: ReactNode;
 };
 
-export type DialogHeaderProps = ComponentProps<'div'>;
+export type DialogHeaderTone = 'cyan' | 'destructive' | 'fuchsia' | 'violet';
+
+export type DialogHeaderProps = ComponentProps<'div'> & {
+  icon?: ReactNode;
+  tone?: DialogHeaderTone;
+};
+
+export type DialogHintProps = ComponentProps<'div'> & {
+  icon?: ReactNode;
+};
 
 export type DialogFooterProps = ComponentProps<'div'> & {
   showCloseButton?: boolean;
@@ -26,8 +33,6 @@ export type DialogFooterProps = ComponentProps<'div'> & {
 export type DialogTitleProps = ComponentProps<typeof Dialog.Title>;
 
 export type DialogDescriptionProps = ComponentProps<typeof Dialog.Description>;
-
-export type DialogCloseProps = ButtonProps;
 
 export type DialogOverlayContextValue = {
   setOverlayClassName: (className?: string) => void;

@@ -1,4 +1,4 @@
-import type { Tooltip } from '@base-ui-components/react/tooltip';
+import type { Tooltip } from '@base-ui/react/tooltip';
 import type { ComponentProps, ReactNode } from 'react';
 
 export type TooltipSide = ComponentProps<typeof Tooltip.Positioner>['side'];

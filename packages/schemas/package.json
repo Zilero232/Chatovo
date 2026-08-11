@@ -1,12 +1,24 @@
 {
   "name": "@chatovo/schemas",
-  "type": "module",
   "version": "0.0.0",
   "private": true,
-  "main": "src/index.ts",
+  "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./auth": "./src/auth/index.ts",
+    "./chat": "./src/chat/index.ts",
+    "./errors": "./src/errors/index.ts",
+    "./feedback": "./src/feedback/index.ts",
+    "./friends": "./src/friends/index.ts",
+    "./github": "./src/github/index.ts",
+    "./json": "./src/json.ts",
+    "./livekit": "./src/livekit/index.ts",
+    "./push": "./src/push/index.ts",
+    "./realtime": "./src/realtime/index.ts",
+    "./rooms": "./src/rooms/index.ts",
+    "./users": "./src/users/index.ts"
   },
+  "main": "src/index.ts",
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
@@ -14,6 +26,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@chatovo/tsconfig": "workspace:*",
     "typescript": "catalog:"
   }
 }

@@ -19,9 +19,9 @@
 
 .available {
   transition:
-    border-color 180ms ease-out,
-    background-color 180ms ease-out,
-    transform 180ms ease-out;
+    border-color var(--duration-default) var(--timing-function-out),
+    background-color var(--duration-default) var(--timing-function-out),
+    transform var(--duration-default) var(--timing-function-out);
 
   @include interactive-cursor;
 
@@ -67,7 +67,7 @@
   justify-content: center;
   border-radius: var(--radius-lg);
   background: color-mix(in oklch, var(--brand-cyan) 12%, transparent);
-  transition: background-color 180ms ease-out;
+  transition: background-color var(--duration-default) var(--timing-function-out);
 
   .available:hover & {
     background: color-mix(in oklch, var(--brand-cyan) 20%, transparent);
@@ -112,8 +112,8 @@
   opacity: 0;
   transform: translateY(#{rem(-3)});
   transition:
-    opacity 180ms ease-out,
-    transform 180ms ease-out;
+    opacity var(--duration-default) var(--timing-function-out),
+    transform var(--duration-default) var(--timing-function-out);
 
   .available:hover &,
   .available:focus-visible & {
@@ -123,7 +123,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     transform: none;
-    transition: opacity 180ms ease-out;
+    transition: opacity var(--duration-default) var(--timing-function-out);
   }
 }
 

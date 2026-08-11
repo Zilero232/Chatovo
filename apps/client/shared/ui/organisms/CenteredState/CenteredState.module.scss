@@ -1,13 +1,19 @@
 @use '@/shared/styles/mixins' as *;
 
 .root {
+  position: relative;
   display: flex;
   min-height: 100%;
   flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  isolation: isolate;
   text-align: center;
+}
+
+.pattern {
+  z-index: var(--z-below);
 }
 
 .sizeSm {

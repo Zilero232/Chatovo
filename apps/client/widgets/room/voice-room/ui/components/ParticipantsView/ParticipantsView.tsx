@@ -10,8 +10,8 @@ import { Text } from '@/shared/ui';
 
 import type { ParticipantsViewProps } from './ParticipantsView.types';
 
-import { InviteParticipantCard } from '../InviteParticipantCard/InviteParticipantCard';
 import { ParticipantCard } from '../ParticipantCard/ParticipantCard';
+import { EmptyRoomScene } from './EmptyRoomScene';
 
 import s from './ParticipantsView.module.scss';
 
@@ -21,16 +21,13 @@ const ROSTER_EVENTS = [
   RoomEvent.ConnectionStateChanged
 ];
 
-export const ParticipantsView = ({ roomId, isDm = false }: ParticipantsViewProps) => {
+export const ParticipantsView = ({ isDm = false }: ParticipantsViewProps) => {
   const t = useTranslations('room');
   const room = useRoomContext();
   const participants = useParticipants({ updateOnlyOn: ROSTER_EVENTS });
 
   const presence = useRoomParticipants(room.name);
   const deafenedIds = new Set(presence.filter((p) => p.deafened).map((p) => p.identity));
-
-  const isSolo = participants.length === 1;
-  const showInviteSlot = isSolo && !isDm;
 
   if (isDm) {
     const localParticipant = participants.find((p) => p.isLocal);
@@ -65,6 +62,8 @@ export const ParticipantsView = ({ roomId, isDm = false }: ParticipantsViewProps
 
   return (
     <div className={s.root}>
+      {participants.length <= 1 && <EmptyRoomScene />}
+
       <div className={s.grid}>
         {participants.map((participant) => (
           <ParticipantCard
@@ -73,7 +72,6 @@ export const ParticipantsView = ({ roomId, isDm = false }: ParticipantsViewProps
             participant={participant}
           />
         ))}
-        {showInviteSlot && <InviteParticipantCard roomId={roomId} />}
       </div>
     </div>
   );

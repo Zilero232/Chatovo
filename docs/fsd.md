@@ -236,4 +236,4 @@ Feature
 - Полная спецификация: [feature-sliced.design](https://feature-sliced.design)
 - Линтер FSD-правил: [Steiger](https://github.com/feature-sliced/steiger)
 - Cross-entity паттерн `@x` — секция 2 выше
-- Кодстайл Chatovo поверх FSD (структура слайса, naming, размер компонента): [`docs/style.md`](./style.md)
+- Кодстайл Chatovo поверх FSD (структура слайса, naming, размер компонента): [`docs/style.md`](./style.md) — полная версия; компактные автозагружаемые выжимки — [`.claude/rules/`](../.claude/rules/)

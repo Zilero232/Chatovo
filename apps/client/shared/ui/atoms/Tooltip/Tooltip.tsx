@@ -2,7 +2,7 @@
 
 import type { ReactElement } from 'react';
 
-import { Tooltip as BaseTooltip } from '@base-ui-components/react/tooltip';
+import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip';
 import { useMediaQuery } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { Children, isValidElement } from 'react';

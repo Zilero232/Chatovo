@@ -10,6 +10,7 @@ import { isNullish } from 'remeda';
 
 import type { RingFriendCallInput } from './friend-call.service.types';
 
+import { AppConflictException } from '../../../../common/exceptions';
 import { getUserWithProfileOrThrow } from '../../../../lib';
 import {
   clearPendingCallForCaller,
@@ -27,6 +28,12 @@ export class FriendCallService {
   constructor(private readonly dmRoom: DmRoomService) {}
 
   async ringFriendCall({ userId, otherUserId }: RingFriendCallInput): Promise<Room> {
+    const ringing = getPendingCallForCallee(otherUserId);
+
+    if (!isNullish(ringing) && ringing.caller.id !== userId) {
+      throw new AppConflictException('CALL_ALREADY_RINGING', 'User is already being called');
+    }
+
     const room = await this.dmRoom.getOrCreateDmRoom({ userId, otherUserId });
     const [caller, callee] = await Promise.all([
       getUserWithProfileOrThrow(userId),

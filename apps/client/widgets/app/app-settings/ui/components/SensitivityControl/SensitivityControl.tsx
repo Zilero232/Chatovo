@@ -1,6 +1,6 @@
 'use client';
 
-import { Slider as BaseSlider } from '@base-ui-components/react/slider';
+import { Slider as BaseSlider } from '@base-ui/react/slider';
 import { useTranslations } from 'next-intl';
 import { useRef } from 'react';
 

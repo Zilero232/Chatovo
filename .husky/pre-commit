@@ -1,7 +1,28 @@
 bunx lint-staged
-bun run typecheck
 
-if git diff --cached --name-only --diff-filter=ACMR | grep -qE '\.rs$|Cargo\.(toml|lock)$'; then
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+
+staged_has() {
+  printf '%s\n' "$staged" | grep -qE "$1"
+}
+
+# bun --filter не умеет git-диапазоны (аналога pnpm --filter=[HEAD^1] нет),
+# поэтому изменённые воркспейсы вычисляем сами и фильтруем по пути.
+typecheck_targets=''
+
+# Корневые конфиги и @chatovo/schemas влияют на все воркспейсы сразу.
+if staged_has '^(package\.json|bun\.lock|tsconfig.*\.json)$' || staged_has '^packages/schemas/'; then
+  typecheck_targets='./packages/schemas ./apps/server ./apps/client'
+else
+  staged_has '^apps/server/' && typecheck_targets="$typecheck_targets ./apps/server"
+  staged_has '^apps/client/' && typecheck_targets="$typecheck_targets ./apps/client"
+fi
+
+for target in $typecheck_targets; do
+  bun --filter "$target" typecheck || exit 1
+done
+
+if staged_has '\.rs$|Cargo\.(toml|lock)$'; then
   cargo fmt --manifest-path apps/tauri/Cargo.toml --all --check
   bun run lint:rust
 fi

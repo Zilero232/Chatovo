@@ -1,6 +1,6 @@
 .root {
   position: absolute;
-  z-index: 10;
+  z-index: var(--z-raised);
   right: -0.25rem;
   bottom: -0.25rem;
   display: flex;

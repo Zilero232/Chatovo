@@ -19,7 +19,7 @@ import type {
   SendFriendRequestInput
 } from './friendship.service.types';
 
-import { FriendshipStatus } from '../../../../../generated';
+import { FriendshipStatus, Prisma } from '../../../../../generated';
 import {
   AppBadRequestException,
   AppConflictException,
@@ -27,7 +27,8 @@ import {
   AppNotFoundException
 } from '../../../../common/exceptions';
 import { PrismaService } from '../../../../core';
-import { getUserWithProfileOrThrow, userWithProfileInclude } from '../../../../lib';
+import { getUserWithProfileOrThrow } from '../../../../lib';
+import { userWithProfileInclude } from '../../../../lib/selectors';
 import { emitUserEvent } from '../../../realtime';
 import { bumpFriendsEpoch } from '../../call-store';
 import {
@@ -155,12 +156,7 @@ export class FriendshipService {
 
       return toRelation(row, requesterId);
     } catch (error) {
-      if (
-        typeof error === 'object' &&
-        error !== null &&
-        'code' in error &&
-        error.code === 'P2002'
-      ) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
         throw new AppConflictException('FRIEND_REQUEST_EXISTS', 'Friend request already exists');
       }
 

@@ -45,7 +45,7 @@
   background: var(--brand-violet);
   box-shadow: 0 0 rem(14) rem(-2) oklch(70% 0.22 295deg / 70%);
   outline: none;
-  transition: all 150ms ease;
+  transition: all var(--duration-fast) var(--timing-function-standard);
 
   &:hover {
     transform: scale(1.1);

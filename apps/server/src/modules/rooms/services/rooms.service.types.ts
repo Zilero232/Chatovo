@@ -15,3 +15,8 @@ export type DeleteRoomInput = {
   roomId: string;
   userId: string;
 };
+
+export type GetRoomInput = {
+  roomId: string;
+  userId: string;
+};

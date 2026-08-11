@@ -1,3 +1,4 @@
+@use '@/shared/styles/mixins' as *;
 @use '@/shared/styles/functions' as *;
 
 .root {
@@ -21,13 +22,17 @@
   overflow-y: auto;
   resize: none;
   transition:
-    border-color 150ms ease,
-    background-color 150ms ease;
+    border-color var(--duration-fast) var(--timing-function-standard),
+    background-color var(--duration-fast) var(--timing-function-standard);
 
   &:focus-visible {
     border-color: color-mix(in oklch, var(--brand-cyan) 60%, transparent);
     background: oklch(100% 0 0deg / 8%);
     box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--brand-cyan) 25%, transparent);
+  }
+
+  @include tauri-mobile {
+    backdrop-filter: none;
   }
 }
 

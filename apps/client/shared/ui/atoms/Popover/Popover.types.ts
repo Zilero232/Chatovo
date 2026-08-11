@@ -1,4 +1,4 @@
-import type { Popover } from '@base-ui-components/react/popover';
+import type { Popover } from '@base-ui/react/popover';
 import type { ComponentProps, ReactNode, RefObject } from 'react';
 
 import type { ButtonProps } from '../Button';

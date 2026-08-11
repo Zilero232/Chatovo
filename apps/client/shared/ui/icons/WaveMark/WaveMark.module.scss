@@ -1,0 +1,69 @@
+@use '@/shared/styles/mixins' as *;
+
+.root {
+  filter: drop-shadow(0 0 rem(8) oklch(70% 0.22 295deg / 45%));
+}
+
+.animated {
+  .bar0,
+  .bar1,
+  .bar2,
+  .bar3,
+  .bar4 {
+    animation: pulse 1.1s var(--timing-function-in-out) infinite;
+    transform-origin: center;
+  }
+
+  .bar0 {
+    animation-delay: 0ms;
+  }
+
+  .bar1 {
+    animation-delay: 120ms;
+  }
+
+  .bar2 {
+    animation-delay: 240ms;
+  }
+
+  .bar3 {
+    animation-delay: 360ms;
+  }
+
+  .bar4 {
+    animation-delay: 480ms;
+  }
+
+  @include tauri-mobile {
+    .bar0,
+    .bar1,
+    .bar2,
+    .bar3,
+    .bar4 {
+      animation: none;
+    }
+  }
+
+  @include reduced-motion {
+    .bar0,
+    .bar1,
+    .bar2,
+    .bar3,
+    .bar4 {
+      animation: none;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    scale: 1 0.55;
+  }
+
+  50% {
+    opacity: 1;
+    scale: 1 1;
+  }
+}

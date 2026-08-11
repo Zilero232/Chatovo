@@ -8,8 +8,6 @@ export const BOX_INITIAL: Target = { opacity: 0, scale: 0.9, y: 8 };
 
 export const BOX_EXIT: Target = { opacity: 0, scale: 0.95 };
 
-export const BOX_REDUCED: Target = { opacity: 0 };
-
 export const BOX_TRANSITION: Transition = {
   type: 'spring',
   stiffness: 380,

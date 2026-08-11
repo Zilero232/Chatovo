@@ -13,7 +13,7 @@ import type {
 
 import { AppForbiddenException, AppNotFoundException } from '../../../../common/exceptions';
 import { PrismaService } from '../../../../core';
-import { assertCanAccessDmRoom, assertRoomExists, senderSelect } from '../../../../lib';
+import { assertCanAccessRoom, senderSelect } from '../../../../lib';
 import { emitChatEvent } from '../../emit-chat-event';
 import { toChatMessage } from '../../mappers';
 
@@ -24,8 +24,7 @@ export class ChatMessageService {
   async sendMessage({ input, senderId }: SendChatMessageInput): Promise<ChatMessage> {
     const { id, roomId, body } = input;
 
-    await assertRoomExists(roomId);
-    await assertCanAccessDmRoom({ roomId, userId: senderId });
+    await assertCanAccessRoom({ roomId, userId: senderId });
 
     const existing = await this.prisma.message.findUnique({
       where: { id },
@@ -55,8 +54,7 @@ export class ChatMessageService {
   async listMessages({ query, userId }: ListChatMessagesInput): Promise<ChatMessagesPage> {
     const { roomId, cursor, limit } = query;
 
-    await assertRoomExists(roomId);
-    await assertCanAccessDmRoom({ roomId, userId });
+    await assertCanAccessRoom({ roomId, userId });
 
     const rows = await this.prisma.message.findMany({
       where: { roomId },
@@ -90,7 +88,7 @@ export class ChatMessageService {
       throw new AppForbiddenException('MESSAGE_NOT_OWNED', 'Not your message');
     }
 
-    await assertCanAccessDmRoom({ roomId: message.roomId, userId: senderId });
+    await assertCanAccessRoom({ roomId: message.roomId, userId: senderId });
 
     return message;
   }

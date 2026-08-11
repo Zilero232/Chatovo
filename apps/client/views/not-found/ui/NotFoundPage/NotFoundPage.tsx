@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { ROUTES } from '@/shared/constants';
-import { Button, Text } from '@/shared/ui';
+import { Button, ErrorGlyph, Text } from '@/shared/ui';
 
 import s from './NotFoundPage.module.scss';
 
@@ -21,7 +21,7 @@ export const NotFoundPage = () => {
       <span aria-hidden className={s.orb} data-tone='cyan' />
 
       <div className={clsx(s.badge, 'glass')}>
-        <Compass aria-hidden className={s.logo} />
+        <ErrorGlyph className={s.logo} variant='severed-ring' />
       </div>
 
       <p className={clsx(s.code, 'gradient-text')}>404</p>

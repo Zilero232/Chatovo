@@ -1,17 +1,17 @@
 {
   "name": "@chatovo/client",
-  "type": "module",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
+    "build": "next build",
     "predev": "fkill :3000 --force --silent",
     "dev": "next dev -p 3000",
-    "build": "next build",
     "start": "next start -p 3000",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@base-ui-components/react": "^1.0.0-rc.0",
+    "@base-ui/react": "^1.7.0",
     "@chatovo/schemas": "workspace:*",
     "@dicebear/collection": "9.4.3",
     "@dicebear/core": "9.4.3",
@@ -56,6 +56,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@chatovo/tsconfig": "workspace:*",
     "@tanstack/react-query-devtools": "^5.101.4",
     "@types/node": "^26.2.0",
     "@types/react": "catalog:",

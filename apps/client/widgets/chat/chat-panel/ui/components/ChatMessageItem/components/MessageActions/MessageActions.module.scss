@@ -6,7 +6,7 @@
   align-self: center;
   gap: 0.125rem;
   opacity: 0;
-  transition: opacity 150ms ease;
+  transition: opacity var(--duration-fast) var(--timing-function-standard);
 
   :global([data-message-root]:hover) &,
   :global([data-message-root]:focus-within) & {

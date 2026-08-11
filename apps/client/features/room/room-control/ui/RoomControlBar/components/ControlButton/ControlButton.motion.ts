@@ -6,8 +6,6 @@ export const CONTROL_ICON_INITIAL: Target = { opacity: 0, scale: 0.4, rotate: -2
 
 export const CONTROL_ICON_EXIT: Target = { opacity: 0, scale: 0.4, rotate: 20 };
 
-export const CONTROL_ICON_REDUCED: Target = { opacity: 0 };
-
 export const CONTROL_ICON_TRANSITION: Transition = {
   type: 'spring',
   stiffness: 500,

@@ -1,5 +1,5 @@
 .iconEnter {
-  animation: icon-enter 200ms ease-out both;
+  animation: icon-enter var(--duration-default) var(--timing-function-out) both;
 }
 
 @keyframes icon-enter {

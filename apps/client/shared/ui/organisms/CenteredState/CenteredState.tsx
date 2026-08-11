@@ -3,7 +3,7 @@ import { useId } from 'react';
 
 import type { CenteredStateProps } from './CenteredState.types';
 
-import { Text } from '../../atoms';
+import { EmptyStatePattern, Text } from '../../atoms';
 import {
   centeredStateIconBoxVariants,
   centeredStateTitleVariants,
@@ -17,6 +17,7 @@ export const CenteredState = ({
   title,
   description,
   action,
+  pattern,
   size = 'md',
   className
 }: CenteredStateProps) => {
@@ -29,6 +30,7 @@ export const CenteredState = ({
       aria-labelledby={titleId}
       className={centeredStateVariants({ size, className })}
     >
+      {pattern && <EmptyStatePattern className={s.pattern} variant={pattern} />}
       {icon && (
         <div aria-hidden className={clsx('glass', centeredStateIconBoxVariants({ size }))}>
           {icon}

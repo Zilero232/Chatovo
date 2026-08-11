@@ -2,7 +2,7 @@
 
 import type { FriendEntry, FriendUser } from '@chatovo/schemas';
 
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { match, P } from 'ts-pattern';
@@ -10,19 +10,18 @@ import { match, P } from 'ts-pattern';
 import { useFriends } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
+import {
+  LIST_ITEM_ANIMATE,
+  LIST_ITEM_EXIT,
+  LIST_ITEM_INITIAL,
+  LIST_ITEM_TRANSITION
+} from '@/shared/config';
 import { useLiteMotion } from '@/shared/hooks';
-import { Spinner, Text } from '@/shared/ui';
+import { CenteredState, Spinner } from '@/shared/ui';
 
 import type { FriendsTabProps, RemoveTarget } from './FriendsTab.types';
 
 import { FriendListItem } from '../FriendListItem/FriendListItem';
-import {
-  FRIEND_ITEM_ANIMATE,
-  FRIEND_ITEM_EXIT,
-  FRIEND_ITEM_INITIAL,
-  FRIEND_ITEM_REDUCED,
-  FRIEND_ITEM_TRANSITION
-} from './FriendsTab.motion';
 
 import s from '../../FriendsDialog.module.scss';
 
@@ -34,7 +33,6 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
 
   const [removeTarget, setRemoveTarget] = useState<RemoveTarget | null>(null);
 
-  const shouldReduceMotion = useReducedMotion();
   const { layout, resolveTransition } = useLiteMotion();
 
   const { data: friends, isPending } = useFriends(enabled);
@@ -54,11 +52,11 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
               {items.map((entry) => (
                 <motion.div
                   key={entry.friendshipId}
-                  animate={FRIEND_ITEM_ANIMATE}
-                  exit={shouldReduceMotion ? FRIEND_ITEM_REDUCED : FRIEND_ITEM_EXIT}
-                  initial={shouldReduceMotion ? FRIEND_ITEM_REDUCED : FRIEND_ITEM_INITIAL}
+                  animate={LIST_ITEM_ANIMATE}
+                  exit={LIST_ITEM_EXIT}
+                  initial={LIST_ITEM_INITIAL}
                   layout={layout}
-                  transition={resolveTransition(FRIEND_ITEM_TRANSITION)}
+                  transition={resolveTransition(LIST_ITEM_TRANSITION)}
                 >
                   <FriendListItem
                     dmUnread={getFriendUnread(entry.user.id)}
@@ -72,9 +70,13 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
           </div>
         ))
         .otherwise(() => (
-          <Text className={s.empty} size='sm' tone='muted'>
-            {t('emptyFriends')}
-          </Text>
+          <CenteredState
+            className={s.empty}
+            description={t('emptyFriendsHint')}
+            pattern='dots'
+            size='sm'
+            title={t('emptyFriendsTitle')}
+          />
         ))}
 
       {removeTarget && (

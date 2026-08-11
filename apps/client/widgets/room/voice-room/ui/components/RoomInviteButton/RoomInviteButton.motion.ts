@@ -6,8 +6,6 @@ export const INVITE_ICON_INITIAL: Target = { opacity: 0, scale: 0.3, rotate: -30
 
 export const INVITE_ICON_EXIT: Target = { opacity: 0, scale: 0.3 };
 
-export const INVITE_ICON_REDUCED: Target = { opacity: 0 };
-
 export const INVITE_ICON_TRANSITION: Transition = {
   type: 'spring',
   stiffness: 520,

@@ -5,15 +5,15 @@
 
   transition:
     transform 120ms cubic-bezier(0.2, 0, 0, 1),
-    background-color 150ms ease,
-    box-shadow 150ms ease,
-    color 150ms ease;
+    background-color var(--duration-fast) var(--timing-function-standard),
+    box-shadow var(--duration-fast) var(--timing-function-standard),
+    color var(--duration-fast) var(--timing-function-standard);
 
   @include tauri-mobile {
     transition:
       transform 120ms cubic-bezier(0.2, 0, 0, 1),
-      background-color 150ms ease,
-      color 150ms ease;
+      background-color var(--duration-fast) var(--timing-function-standard),
+      color var(--duration-fast) var(--timing-function-standard);
   }
 
   &:active:not(:disabled) {
@@ -39,8 +39,10 @@
     0 0 0 1px oklch(0% 0 0deg / 30%);
   color: var(--background);
 
-  &:hover:not(:disabled) {
-    background: color-mix(in oklch, var(--foreground) 95%, transparent);
+  @include hover {
+    &:not(:disabled) {
+      background: color-mix(in oklch, var(--foreground) 95%, transparent);
+    }
   }
 }
 
@@ -52,8 +54,10 @@
     0 rem(2) rem(4) rem(-1) oklch(0% 0 0deg / 35%);
   color: #fff;
 
-  &:hover:not(:disabled) {
-    background: oklch(66% 0.22 22deg);
+  @include hover {
+    &:not(:disabled) {
+      background: oklch(66% 0.22 22deg);
+    }
   }
 }
 
@@ -63,9 +67,11 @@
   box-shadow: 0 rem(1) rem(2) oklch(0% 0 0deg / 25%);
   color: var(--foreground);
 
-  &:hover:not(:disabled) {
-    border-color: oklch(100% 0 0deg / 25%);
-    background: oklch(100% 0 0deg / 8%);
+  @include hover {
+    &:not(:disabled) {
+      border-color: oklch(100% 0 0deg / 25%);
+      background: oklch(100% 0 0deg / 8%);
+    }
   }
 }
 
@@ -75,8 +81,10 @@
   box-shadow: 0 rem(1) rem(2) oklch(0% 0 0deg / 25%);
   color: var(--foreground);
 
-  &:hover:not(:disabled) {
-    background: oklch(100% 0 0deg / 10%);
+  @include hover {
+    &:not(:disabled) {
+      background: oklch(100% 0 0deg / 10%);
+    }
   }
 }
 
@@ -84,9 +92,11 @@
   background: transparent;
   color: color-mix(in oklch, var(--foreground) 80%, transparent);
 
-  &:hover:not(:disabled) {
-    background: oklch(100% 0 0deg / 8%);
-    color: var(--foreground);
+  @include hover {
+    &:not(:disabled) {
+      background: oklch(100% 0 0deg / 8%);
+      color: var(--foreground);
+    }
   }
 }
 
@@ -95,8 +105,10 @@
   color: var(--brand-cyan);
   text-underline-offset: rem(4);
 
-  &:hover:not(:disabled) {
-    text-decoration: underline;
+  @include hover {
+    &:not(:disabled) {
+      text-decoration: underline;
+    }
   }
 }
 

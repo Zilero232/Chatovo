@@ -1,7 +1,6 @@
 'use client';
 
-import type { MessageColumnProps } from './MessageColumn.types';
-
+import { useChatMessage } from '../../../../../model/contexts';
 import { MessageActions } from '../MessageActions';
 import { MessageBody } from '../MessageBody';
 import { MessageBubble } from '../MessageBubble';
@@ -10,58 +9,20 @@ import { MessageStatus } from '../MessageStatus';
 
 import s from '../../ChatMessageItem.module.scss';
 
-export const MessageColumn = ({
-  message,
-  attachment,
-  author,
-  identity,
-  verified,
-  isOwn,
-  isTail,
-  isDeleted,
-  isEdited,
-  canEdit,
-  showHeader,
-  showActions,
-  onEdit,
-  onDelete,
-  onRetry,
-  onDiscard
-}: MessageColumnProps) => (
-  <div className={s.column} data-own={isOwn}>
-    {showHeader && (
-      <MessageMeta
-        author={author}
-        identity={identity}
-        isOwn={isOwn}
-        timestamp={message.timestamp}
-        verified={verified}
-      />
-    )}
+export const MessageColumn = () => {
+  const { message, isOwn, isDeleted, showHeader, showActions } = useChatMessage();
 
-    <div className={s.bodyRow} data-own={isOwn}>
-      <MessageBody
-        bubble={
-          <MessageBubble
-            attachment={attachment}
-            canEdit={canEdit}
-            isEdited={isEdited}
-            isOwn={isOwn}
-            isTail={isTail}
-            message={message}
-            showActions={showActions}
-            onDelete={onDelete}
-            onEdit={onEdit}
-          />
-        }
-        isDeleted={isDeleted}
-      />
+  return (
+    <div className={s.column} data-own={isOwn}>
+      {showHeader && <MessageMeta />}
 
-      {showActions && <MessageActions canEdit={canEdit} onDelete={onDelete} onEdit={onEdit} />}
+      <div className={s.bodyRow} data-own={isOwn}>
+        <MessageBody bubble={<MessageBubble />} isDeleted={isDeleted} />
+
+        {showActions && <MessageActions />}
+      </div>
+
+      {message.status && <MessageStatus status={message.status} />}
     </div>
-
-    {message.status && (
-      <MessageStatus status={message.status} onDiscard={onDiscard} onRetry={onRetry} />
-    )}
-  </div>
-);
+  );
+};

@@ -16,8 +16,8 @@
   width: 0.25rem;
   border-radius: 1px;
   transition:
-    background-color 150ms ease,
-    box-shadow 150ms ease;
+    background-color var(--duration-fast) var(--timing-function-standard),
+    box-shadow var(--duration-fast) var(--timing-function-standard);
 }
 
 .barInactive {

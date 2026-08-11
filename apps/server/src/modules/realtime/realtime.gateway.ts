@@ -6,7 +6,7 @@ import type { WebSocket } from 'ws';
 import { Logger } from '@nestjs/common';
 import { WebSocketGateway } from '@nestjs/websockets';
 
-import { FriendshipService, getUserCallSnapshot } from '../friends';
+import { clearFriendsEpoch, FriendshipService, getUserCallSnapshot } from '../friends';
 import { addLobbyConnection, getSnapshot, removeLobbyConnection } from '../livekit';
 import { HEARTBEAT_INTERVAL_MS } from './config';
 import {
@@ -102,6 +102,8 @@ export class RealtimeGateway
     removeLobbyConnection(userId);
 
     if (!hasUserConnection(userId)) {
+      clearFriendsEpoch(userId);
+
       await this.friendship.broadcastFriendPresence({ userId, isOnline: false });
     }
   }

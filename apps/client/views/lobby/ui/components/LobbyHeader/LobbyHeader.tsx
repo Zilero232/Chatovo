@@ -53,6 +53,7 @@ export const LobbyHeader = () => {
 
           <LobbyStat
             icon={<Radio className={liveRooms > 0 ? s.statIconLive : s.statIconMuted} />}
+            isActive={liveRooms > 0}
             isLoading={isLoading}
             label={tStats('live')}
             tone='live'

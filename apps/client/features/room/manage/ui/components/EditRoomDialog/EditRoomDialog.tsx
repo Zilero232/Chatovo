@@ -1,8 +1,16 @@
 'use client';
 
+import { Settings2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/shared/ui';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogHint,
+  DialogTitle
+} from '@/shared/ui';
 
 import type { EditRoomDialogProps } from './EditRoomDialog.types';
 
@@ -14,12 +22,14 @@ export const EditRoomDialog = ({ room, open, onOpenChange }: EditRoomDialogProps
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader icon={<Settings2 />} tone='cyan'>
           <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>{t('description')}</DialogDescription>
         </DialogHeader>
 
         <EditRoomForm room={room} onUpdated={() => onOpenChange(false)} />
+
+        <DialogHint>{t('hint')}</DialogHint>
       </DialogContent>
     </Dialog>
   );

@@ -15,6 +15,7 @@ export const ChatEmpty = () => {
       className={s.root}
       description={t('description')}
       icon={<MessageSquare className={s.icon} />}
+      pattern='waveform'
       size='sm'
       title={t('title')}
     />

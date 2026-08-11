@@ -1,4 +1,4 @@
-import type { Slider } from '@base-ui-components/react/slider';
+import type { Slider } from '@base-ui/react/slider';
 import type { ComponentProps } from 'react';
 
 export type SliderProps = Omit<

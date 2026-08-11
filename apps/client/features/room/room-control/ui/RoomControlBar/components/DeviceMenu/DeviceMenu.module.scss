@@ -15,7 +15,7 @@
   color: var(--muted-foreground);
   cursor: pointer;
   outline: none;
-  transition: colors 150ms ease;
+  transition: colors var(--duration-fast) var(--timing-function-standard);
 
   @include bp(sm) {
     height: 0.875rem;
@@ -49,7 +49,7 @@
 .triggerIcon {
   width: 0.625rem;
   height: 0.625rem;
-  transition: transform 150ms ease;
+  transition: transform var(--duration-fast) var(--timing-function-standard);
 }
 
 .menu {
@@ -72,13 +72,13 @@
 }
 
 .headerLabel {
-  overflow: hidden;
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.05em;
-  text-overflow: ellipsis;
+
+  @include text-ellipsis;
+
   text-transform: uppercase;
-  white-space: nowrap;
 }
 
 .list {
@@ -138,12 +138,11 @@
 }
 
 .itemLabel {
-  overflow: hidden;
   min-width: 0;
   flex: 1;
   font-size: 0.875rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+  @include text-ellipsis;
 }
 
 .itemCheck {

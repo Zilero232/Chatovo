@@ -36,8 +36,10 @@ app.useGlobalPipes(new ZodValidationPipe());
 
 app.enableShutdownHooks();
 
-SwaggerModule.setup('docs', app, () =>
-  cleanupOpenApiDoc(SwaggerModule.createDocument(app, buildOpenApiConfig()))
-);
+if (env.NODE_ENV !== 'production') {
+  SwaggerModule.setup('docs', app, () =>
+    cleanupOpenApiDoc(SwaggerModule.createDocument(app, buildOpenApiConfig()))
+  );
+}
 
 await app.listen(env.PORT);

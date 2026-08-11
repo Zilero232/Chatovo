@@ -16,9 +16,17 @@ type MicAnalyserArgs = {
   deviceId: string;
   onError?: () => void;
   onReady?: (stream: MediaStream) => void;
+  onStop?: () => void;
 };
 
-export const useMicAnalyser = ({ deviceId, audio, active, onReady, onError }: MicAnalyserArgs) => {
+export const useMicAnalyser = ({
+  deviceId,
+  audio,
+  active,
+  onReady,
+  onError,
+  onStop
+}: MicAnalyserArgs) => {
   const [level, setLevel] = useState(0);
 
   const calcVolumeRef = useRef<(() => number) | null>(null);
@@ -27,6 +35,7 @@ export const useMicAnalyser = ({ deviceId, audio, active, onReady, onError }: Mi
 
   const handleReady = useEffectEvent((stream: MediaStream) => onReady?.(stream));
   const handleError = useEffectEvent(() => onError?.());
+  const handleStop = useEffectEvent(() => onStop?.());
 
   useEffect(() => {
     if (!active) {
@@ -34,6 +43,7 @@ export const useMicAnalyser = ({ deviceId, audio, active, onReady, onError }: Mi
     }
 
     let track: LocalAudioTrack | undefined;
+    let mediaStream: MediaStream | undefined;
     let cleanup: (() => Promise<void>) | undefined;
     let cancelled = false;
 
@@ -53,6 +63,7 @@ export const useMicAnalyser = ({ deviceId, audio, active, onReady, onError }: Mi
           return;
         }
 
+        mediaStream = stream;
         track = new LocalAudioTrack(stream.getAudioTracks()[0]);
 
         handleReady(stream);
@@ -76,6 +87,11 @@ export const useMicAnalyser = ({ deviceId, audio, active, onReady, onError }: Mi
       cleanup?.();
       track?.stop();
 
+      for (const mediaTrack of mediaStream?.getTracks() ?? []) {
+        mediaTrack.stop();
+      }
+
+      handleStop();
       setLevel(0);
     };
   }, [deviceId, noiseSuppression, echoCancellation, autoGainControl, voiceIsolation, active]);

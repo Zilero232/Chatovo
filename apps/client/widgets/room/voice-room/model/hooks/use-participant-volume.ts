@@ -5,24 +5,30 @@ import type { Participant } from 'livekit-client';
 import { useDebounceCallback, useLocalStorage } from '@siberiacancode/reactuse';
 import { RemoteParticipant } from 'livekit-client';
 import { useEffect, useRef, useState } from 'react';
-import { clamp, defaultTo, omit } from 'remeda';
+import { clamp, defaultTo, omit, pick, takeLast } from 'remeda';
 
 import { STORAGE_KEYS } from '@/shared/constants';
+import { readStoredJson } from '@/shared/lib';
 
 const MAX_VOLUME = 1;
 const DEFAULT_VOLUME = 1;
 
 const PERSIST_DELAY_MS = 300;
+const MAX_STORED_VOLUMES = 100;
 
 type VolumeMap = Record<string, number>;
 
-const readVolumes = (): VolumeMap => {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEYS.participantVolumes) ?? '{}');
-  } catch {
-    return {};
+const capVolumes = (volumes: VolumeMap): VolumeMap => {
+  const identities = Object.keys(volumes);
+
+  if (identities.length <= MAX_STORED_VOLUMES) {
+    return volumes;
   }
+
+  return pick(volumes, takeLast(identities, MAX_STORED_VOLUMES));
 };
+
+const readVolumes = (): VolumeMap => readStoredJson<VolumeMap>(STORAGE_KEYS.participantVolumes, {});
 
 type ParticipantVolume = {
   isControllable: boolean;
@@ -55,7 +61,7 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
     setVolumes(
       next === DEFAULT_VOLUME
         ? omit(stored, [targetIdentity])
-        : { ...stored, [targetIdentity]: next }
+        : capVolumes({ ...omit(stored, [targetIdentity]), [targetIdentity]: next })
     );
   }, PERSIST_DELAY_MS);
 

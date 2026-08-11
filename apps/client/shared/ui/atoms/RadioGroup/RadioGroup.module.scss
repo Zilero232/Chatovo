@@ -16,7 +16,7 @@
   color: var(--primary);
   cursor: pointer;
   outline: none;
-  transition: colors 150ms ease;
+  transition: colors var(--duration-fast) var(--timing-function-standard);
 
   @include focus-ring(var(--ring));
 

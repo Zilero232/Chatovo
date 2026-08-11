@@ -1,6 +1,6 @@
 'use client';
 
-import { Popover as BasePopover } from '@base-ui-components/react/popover';
+import { Popover as BasePopover } from '@base-ui/react/popover';
 import { clsx } from 'clsx';
 import { isNullish } from 'remeda';
 

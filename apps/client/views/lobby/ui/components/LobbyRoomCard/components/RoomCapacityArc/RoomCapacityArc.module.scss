@@ -1,0 +1,39 @@
+@use '@/shared/styles/mixins' as *;
+
+.root {
+  position: relative;
+  display: inline-flex;
+  width: rem(36);
+  height: rem(36);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  rotate: -90deg;
+}
+
+.track {
+  stroke: oklch(100% 0 0deg / 12%);
+  stroke-width: 3;
+}
+
+.progress {
+  stroke-linecap: round;
+  stroke-width: 3;
+  transition: stroke-dasharray var(--duration-slow) var(--timing-function-emphasized);
+
+  @include tauri-mobile {
+    transition: none;
+  }
+}
+
+.count {
+  color: var(--foreground);
+  font-size: rem(11);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}

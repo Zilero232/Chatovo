@@ -36,7 +36,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   gap: 0.375rem;
-  transition: color 150ms ease;
+  transition: color var(--duration-fast) var(--timing-function-standard);
 
   &:hover {
     color: color-mix(in oklch, var(--brand-cyan) 80%, transparent);
@@ -120,7 +120,7 @@
 .footerLink {
   color: var(--muted-foreground);
   text-underline-offset: rem(4);
-  transition: color 150ms ease;
+  transition: color var(--duration-fast) var(--timing-function-standard);
 
   &:hover {
     color: var(--brand-cyan);

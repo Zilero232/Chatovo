@@ -55,6 +55,10 @@
   color: var(--muted-foreground);
   font-size: 0.875rem;
   text-align: center;
+
+  @include tauri-mobile {
+    backdrop-filter: none;
+  }
 }
 
 .fallbackLink {

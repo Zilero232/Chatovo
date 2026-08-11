@@ -28,7 +28,7 @@
   align-items: center;
   justify-content: center;
   padding: var(--safe-area-top) var(--safe-area-right) var(--safe-area-bottom) var(--safe-area-left);
-  animation: overlay-fade-in 150ms ease-out;
+  animation: overlay-fade-in var(--duration-fast) var(--timing-function-out);
   background: #000;
   cursor: zoom-out;
   inset: 0;
@@ -66,10 +66,14 @@
   background: rgb(0 0 0 / 55%);
   color: #fff;
   opacity: 0;
-  transition: opacity 150ms ease;
+  transition: opacity var(--duration-fast) var(--timing-function-standard);
 
   @include coarse-pointer {
     padding: 0.5rem;
+  }
+
+  @include tauri-mobile {
+    backdrop-filter: none;
   }
 }
 

@@ -1,12 +1,8 @@
 {
   "name": "chatovo",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "private": true,
   "type": "module",
-  "packageManager": "bun@1.3.1",
-  "engines": {
-    "bun": ">=1.3.0"
-  },
   "workspaces": {
     "packages": [
       "apps/*",
@@ -26,31 +22,45 @@
     }
   },
   "scripts": {
-    "prepare": "husky",
+    "android:build": "bun --filter @chatovo/tauri android:build",
+    "android:dev": "bun --filter @chatovo/tauri android:dev",
+    "android:init": "bun --filter @chatovo/tauri android:init",
+    "build": "bun --filter @chatovo/client build",
     "dev": "bun --filter '@chatovo/server' --filter '@chatovo/client' --parallel dev",
     "dev:client": "bun --filter @chatovo/client dev",
-    "dev:server": "bun --filter @chatovo/server dev",
-    "dev:livekit": "docker compose -f docker-compose.dev.yml up",
     "dev:full": "docker compose -f docker-compose.dev.yml up -d && bun dev",
-    "build": "bun --filter @chatovo/client build",
-    "tauri": "bun --filter @chatovo/tauri tauri",
-    "tauri:icon": "bun --filter @chatovo/tauri icon",
-    "tauri:dev": "bun --filter '@chatovo/server' --filter '@chatovo/tauri' --parallel dev",
-    "tauri:build": "bun --filter @chatovo/tauri build",
-    "android:init": "bun --filter @chatovo/tauri android:init",
-    "android:dev": "bun --filter @chatovo/tauri android:dev",
-    "android:build": "bun --filter @chatovo/tauri android:build",
-    "typecheck": "bun --filter @chatovo/schemas typecheck && bun --filter @chatovo/server typecheck && bun --filter @chatovo/client typecheck",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "lint:css": "stylelint \"apps/client/**/*.scss\"",
-    "lint:css:fix": "stylelint \"apps/client/**/*.scss\" --fix",
+    "dev:livekit": "docker compose -f docker-compose.dev.yml up",
+    "dev:server": "bun --filter @chatovo/server dev",
+    "fix": "bun run lint:fix && bun run format && bun run lint:css:fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint:rust": "cargo clippy --manifest-path apps/tauri/Cargo.toml --all-targets -- -D warnings",
     "format:rust": "cargo fmt --manifest-path apps/tauri/Cargo.toml --all",
-    "verify": "bun run typecheck && bun run lint && bun run format:check && bun run lint:css",
-    "fix": "bun run lint:fix && bun run format && bun run lint:css:fix"
+    "lint": "eslint .",
+    "lint:css": "stylelint \"apps/client/**/*.scss\"",
+    "lint:css:fix": "stylelint \"apps/client/**/*.scss\" --fix",
+    "lint:fix": "eslint . --fix",
+    "lint:rust": "cargo clippy --manifest-path apps/tauri/Cargo.toml --all-targets -- -D warnings",
+    "prepare": "husky",
+    "tauri": "bun --filter @chatovo/tauri tauri",
+    "tauri:build": "bun --filter @chatovo/tauri build",
+    "tauri:dev": "bun --filter '@chatovo/server' --filter '@chatovo/tauri' --parallel dev",
+    "tauri:icon": "bun --filter @chatovo/tauri icon",
+    "typecheck": "bun --filter @chatovo/schemas typecheck && bun --filter @chatovo/server typecheck && bun --filter @chatovo/client typecheck",
+    "verify": "bun run typecheck && bun run lint && bun run format:check && bun run lint:css"
+  },
+  "lint-staged": {
+    "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "**/package.json": [
+      "sort-package-json"
+    ],
+    "*.{json,md,yml,yaml}": "prettier --write",
+    "apps/client/**/*.scss": [
+      "stylelint --fix",
+      "prettier --write"
+    ]
   },
   "devDependencies": {
     "@siberiacancode/eslint": "^2.18.1",
@@ -63,21 +73,15 @@
     "husky": "^9.1.7",
     "lint-staged": "^17.3.0",
     "prettier": "^3.9.6",
+    "sort-package-json": "^4.0.0",
     "stylelint": "17.14.1",
     "stylelint-config-idiomatic-order": "^10.0.0",
     "stylelint-config-standard-scss": "17.0.0",
     "stylelint-order": "8.1.1",
     "typescript": "~6.0.3"
   },
-  "lint-staged": {
-    "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md,yml,yaml}": "prettier --write",
-    "apps/client/**/*.scss": [
-      "stylelint --fix",
-      "prettier --write"
-    ]
+  "packageManager": "bun@1.3.14",
+  "engines": {
+    "bun": ">=1.3.0"
   }
 }

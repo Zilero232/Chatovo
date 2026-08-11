@@ -3,7 +3,15 @@
 $base-font-size: 16 !default;
 
 @function rem($px, $base: $base-font-size) {
-  @return math.div($px, $base) * 1rem;
+  @if math.is-unitless($px) {
+    @return math.div($px, $base) * 1rem;
+  }
+
+  @if math.compatible($px, 1px) {
+    @return math.div(math.div($px, 1px), $base) * 1rem;
+  }
+
+  @error "rem(): expected a unitless or px value, got `#{$px}`.";
 }
 
 @function px($value) {

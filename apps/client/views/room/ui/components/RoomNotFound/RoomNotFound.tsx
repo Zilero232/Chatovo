@@ -16,7 +16,9 @@ export const RoomNotFound = () => {
   return (
     <CenteredState
       action={<Button onClick={() => router.replace(ROUTES.lobby)}>{t('backToLobby')}</Button>}
+      description={t('notFoundHint')}
       icon={<DoorClosed className={s.icon} />}
+      pattern='waves'
       title={t('notFound')}
     />
   );

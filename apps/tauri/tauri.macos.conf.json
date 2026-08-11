@@ -18,5 +18,11 @@
         "dragDropEnabled": false
       }
     ]
+  },
+  "bundle": {
+    "macOS": {
+      "signingIdentity": "-",
+      "minimumSystemVersion": "10.15"
+    }
   }
 }

@@ -1,4 +1,7 @@
+import type { ComponentProps } from 'react';
+
 export type ParticipantsViewProps = {
   isDm?: boolean;
-  roomId: string;
 };
+
+export type EmptyRoomSceneProps = ComponentProps<'svg'>;

@@ -17,7 +17,7 @@ export const useEnterRoom = () => {
     mutationFn: async ({ roomId, password }: EnterRoomInput) => {
       const response = await fetchLiveKitToken({ roomId, password });
 
-      queryClient.setQueryData(QUERY_KEYS.livekitToken(roomId), response);
+      queryClient.setQueryData(QUERY_KEYS.livekitToken(roomId, password), response);
 
       router.push(buildRoomHref(roomId));
     }

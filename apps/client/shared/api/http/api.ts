@@ -5,8 +5,12 @@ import { env } from '@/shared/config';
 import { getAuthToken } from '../auth';
 import { toApiError } from './api-error';
 
+export const REQUEST_TIMEOUT_MS = 20_000;
+export const UPLOAD_TIMEOUT_MS = 120_000;
+
 export const api = axios.create({
-  baseURL: env.NEXT_PUBLIC_API_URL
+  baseURL: env.NEXT_PUBLIC_API_URL,
+  timeout: REQUEST_TIMEOUT_MS
 });
 
 api.interceptors.request.use((config) => {

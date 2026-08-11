@@ -11,9 +11,9 @@
   color: var(--muted-foreground);
   cursor: pointer;
   transition:
-    color 150ms ease,
-    background-color 150ms ease,
-    border-color 150ms ease;
+    color var(--duration-fast) var(--timing-function-standard),
+    background-color var(--duration-fast) var(--timing-function-standard),
+    border-color var(--duration-fast) var(--timing-function-standard);
 
   &:hover {
     border-color: color-mix(in oklch, var(--brand-violet) 40%, transparent);

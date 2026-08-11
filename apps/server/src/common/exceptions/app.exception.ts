@@ -1,4 +1,4 @@
-import type { ApiErrorCode } from '@chatovo/schemas';
+import type { ApiErrorCode } from '@chatovo/schemas/errors';
 
 import {
   BadRequestException,

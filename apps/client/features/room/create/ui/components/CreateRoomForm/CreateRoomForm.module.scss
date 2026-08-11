@@ -1,0 +1,21 @@
+.labelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.privacyCard {
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: oklch(100% 0 0deg / 3%);
+}
+
+.privacyLabel {
+  font-size: var(--text-sm);
+}
+
+.passwordReveal {
+  overflow: hidden;
+}

@@ -12,7 +12,7 @@
   border-radius: 9999px;
   cursor: pointer;
   outline: none;
-  transition: all 150ms ease;
+  transition: all var(--duration-fast) var(--timing-function-standard);
 
   @include bp(sm) {
     width: 2.75rem;
@@ -108,7 +108,7 @@
   flex-shrink: 0;
   border: 1px solid rgb(255 255 255 / 10%);
   border-radius: 9999px;
-  transition: all 150ms ease;
+  transition: all var(--duration-fast) var(--timing-function-standard);
 
   @include bp(sm) {
     width: 2.75rem;
@@ -150,7 +150,7 @@
   background: transparent;
   cursor: pointer;
   outline: none;
-  transition: colors 150ms ease;
+  transition: colors var(--duration-fast) var(--timing-function-standard);
 
   @include bp(sm) {
     align-items: center;

@@ -1,4 +1,4 @@
-export { authClient, clearToken, getAuthToken } from './auth';
+export { authClient, clearToken, getAuthToken, unwrapAuth } from './auth';
 export {
   deleteChatMessage,
   editChatMessage,

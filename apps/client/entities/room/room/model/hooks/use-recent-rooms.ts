@@ -4,6 +4,7 @@ import { useLocalStorage } from '@siberiacancode/reactuse';
 import { isArray } from 'remeda';
 
 import { STORAGE_KEYS } from '@/shared/constants';
+import { readStoredJson } from '@/shared/lib';
 
 const MAX_RECENT = 6;
 
@@ -18,23 +19,9 @@ export const useRecentRooms = () => {
   const recent = value ?? [];
 
   const readRecent = (): RecentEntry[] => {
-    if (typeof window === 'undefined') {
-      return recent;
-    }
+    const stored = readStoredJson<unknown>(STORAGE_KEYS.recentRooms, null);
 
-    const raw = window.localStorage.getItem(STORAGE_KEYS.recentRooms);
-
-    if (!raw) {
-      return recent;
-    }
-
-    try {
-      const parsed: unknown = JSON.parse(raw);
-
-      return isArray(parsed) ? (parsed as RecentEntry[]) : recent;
-    } catch {
-      return recent;
-    }
+    return isArray(stored) ? (stored as RecentEntry[]) : recent;
   };
 
   const push = (id: string) => {

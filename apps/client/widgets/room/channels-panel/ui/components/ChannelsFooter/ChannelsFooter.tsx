@@ -32,6 +32,7 @@ export const ChannelsFooter = () => {
       </div>
 
       <div className={s.actions}>
+        {' '}
         <ReportProblemButton />
         <AppSettingsButton />
       </div>

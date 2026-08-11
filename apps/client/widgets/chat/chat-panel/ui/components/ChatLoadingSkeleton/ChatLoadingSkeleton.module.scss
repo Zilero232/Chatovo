@@ -7,34 +7,33 @@
 
 .row {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 0.5rem;
+}
+
+.rowGrouped {
+  margin-top: -0.625rem;
 }
 
 .avatar {
   width: 2rem;
   height: 2rem;
+}
+
+.avatarSpacer {
+  width: 2rem;
   flex-shrink: 0;
-  border-radius: 9999px;
 }
 
 .body {
   display: flex;
   min-width: 0;
+  max-width: 22rem;
   flex: 1;
   flex-direction: column;
   gap: 0.375rem;
 }
 
-.lineShort {
-  width: 4rem;
-  height: 0.75rem;
-  border-radius: var(--radius-md);
-}
-
-.lineLong {
-  max-width: 12rem;
-  height: 0.75rem;
-  flex: 1;
-  border-radius: var(--radius-md);
+.name {
+  margin-bottom: 0.125rem;
 }

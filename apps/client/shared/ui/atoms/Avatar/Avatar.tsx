@@ -2,14 +2,7 @@
 
 import { clsx } from 'clsx';
 
-import type {
-  AvatarBadgeProps,
-  AvatarFallbackProps,
-  AvatarGroupCountProps,
-  AvatarGroupProps,
-  AvatarImageProps,
-  AvatarProps
-} from './Avatar.types';
+import type { AvatarFallbackProps, AvatarImageProps, AvatarProps } from './Avatar.types';
 
 import s from './Avatar.module.scss';
 
@@ -25,16 +18,4 @@ const AvatarFallback = ({ className, ...props }: AvatarFallbackProps) => (
   <span className={clsx(s.fallback, className)} data-slot='avatar-fallback' {...props} />
 );
 
-const AvatarBadge = ({ className, ...props }: AvatarBadgeProps) => (
-  <span className={clsx(s.badge, className)} data-slot='avatar-badge' {...props} />
-);
-
-const AvatarGroup = ({ className, ...props }: AvatarGroupProps) => (
-  <div className={clsx(s.group, className)} data-slot='avatar-group' {...props} />
-);
-
-const AvatarGroupCount = ({ className, ...props }: AvatarGroupCountProps) => (
-  <div className={clsx(s.groupCount, className)} data-slot='avatar-group-count' {...props} />
-);
-
-export { Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage };
+export { Avatar, AvatarFallback, AvatarImage };

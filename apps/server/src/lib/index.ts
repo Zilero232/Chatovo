@@ -1,11 +1,12 @@
-export { assertCanAccessDmRoom } from './assert-can-access-dm-room';
-export type { AssertCanAccessDmRoomInput } from './assert-can-access-dm-room';
+export { assertCanAccessRoom } from './assert-can-access-room';
+export type { AssertCanAccessRoomInput } from './assert-can-access-room';
 export { assertCanManageRoom } from './assert-can-manage-room';
 export type { AssertCanManageRoomInput } from './assert-can-manage-room';
 export { assertRoomExists } from './assert-room-exists';
 export { ensureUserFriendTag } from './ensure-user-friend-tag';
 export type { EnsureUserFriendTagInput } from './ensure-user-friend-tag';
-export { filterExistingRooms } from './filter-existing-rooms';
+export { filterAccessibleRooms } from './filter-accessible-rooms';
+export type { FilterAccessibleRoomsInput } from './filter-accessible-rooms';
 export { getRoomDmRouting } from './get-room-dm-routing';
 export { getRoomName } from './get-room-name';
 export { getUserDisplayName } from './get-user-display-name';

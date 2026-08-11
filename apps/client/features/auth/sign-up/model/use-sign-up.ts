@@ -3,20 +3,13 @@ import type { SignUpValues } from '@chatovo/schemas';
 import { signUpSchema } from '@chatovo/schemas';
 import { useMutation } from '@tanstack/react-query';
 
-import { authClient } from '@/shared/api';
+import { authClient, unwrapAuth } from '@/shared/api';
 
 export type { SignUpValues };
 export { signUpSchema };
 
 export const useSignUp = () =>
   useMutation({
-    mutationFn: async ({ email, password, name }: SignUpValues) => {
-      const { data, error } = await authClient.signUp.email({ email, password, name });
-
-      if (error) {
-        throw new Error(error.message ?? 'Sign up failed');
-      }
-
-      return data;
-    }
+    mutationFn: ({ email, password, name }: SignUpValues) =>
+      unwrapAuth(authClient.signUp.email({ email, password, name }), 'Sign up failed')
   });

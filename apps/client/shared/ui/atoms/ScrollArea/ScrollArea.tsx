@@ -2,7 +2,7 @@
 
 import { clsx } from 'clsx';
 
-import type { ScrollAreaProps, ScrollBarProps } from './ScrollArea.types';
+import type { ScrollAreaProps } from './ScrollArea.types';
 
 import s from './ScrollArea.module.scss';
 
@@ -14,13 +14,4 @@ const ScrollArea = ({ className, children, ...props }: ScrollAreaProps) => (
   </div>
 );
 
-const ScrollBar = ({ className, orientation = 'vertical', ...props }: ScrollBarProps) => (
-  <div
-    className={clsx(s.scrollbar, className)}
-    data-orientation={orientation}
-    data-slot='scroll-area-scrollbar'
-    {...props}
-  />
-);
-
-export { ScrollArea, ScrollBar };
+export { ScrollArea };

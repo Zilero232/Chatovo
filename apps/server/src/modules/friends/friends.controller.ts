@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { ZodResponse } from 'nestjs-zod';
 
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
@@ -46,6 +47,7 @@ export class FriendsController {
   }
 
   @Get('lookup/:tag')
+  @Throttle({ default: { ttl: 60_000, limit: 10 } })
   @ZodResponse({ type: FriendUserDto })
   findByTag(@Param('tag') tag: string) {
     return this.friendship.findUserByTag(tag);
@@ -75,6 +77,7 @@ export class FriendsController {
   }
 
   @Post(':userId/call')
+  @Throttle({ default: { ttl: 60_000, limit: 10 } })
   @ZodResponse({ type: RoomDto })
   ringCall(@Param('userId') otherUserId: string, @CurrentUser() userId: string) {
     return this.calls.ringFriendCall({ userId, otherUserId });

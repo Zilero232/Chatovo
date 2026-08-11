@@ -30,6 +30,4 @@ export const SHEET_TRANSITION: Transition = {
   mass: 0.9
 };
 
-export const SHEET_REDUCED_TRANSITION: Transition = { duration: 0.15, ease: 'easeOut' };
-
 export const OVERLAY_TRANSITION: Transition = { duration: 0.2, ease: 'easeOut' };

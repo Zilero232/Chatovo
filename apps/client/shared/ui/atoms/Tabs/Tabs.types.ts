@@ -1,4 +1,4 @@
-import type { Tabs } from '@base-ui-components/react/tabs';
+import type { Tabs } from '@base-ui/react/tabs';
 import type { ComponentProps } from 'react';
 
 export type TabsProps = Omit<ComponentProps<typeof Tabs.Root>, 'className'> & {

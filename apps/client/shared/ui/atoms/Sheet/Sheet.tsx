@@ -1,12 +1,11 @@
 'use client';
 
-import { Dialog } from '@base-ui-components/react/dialog';
+import { Dialog } from '@base-ui/react/dialog';
 import { clsx } from 'clsx';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 
 import { useLiteMotion } from '@/shared/hooks';
-import { shouldKeepDialogOpen } from '@/shared/lib/nested-overlay';
 
 import type {
   SheetContentProps,
@@ -15,13 +14,7 @@ import type {
   SheetTitleProps
 } from './Sheet.types';
 
-import {
-  OVERLAY_TRANSITION,
-  SHEET_REDUCED_TRANSITION,
-  SHEET_TRANSITION,
-  sheetVariants,
-  sideClass
-} from './Sheet.motion';
+import { OVERLAY_TRANSITION, SHEET_TRANSITION, sheetVariants, sideClass } from './Sheet.motion';
 
 import s from './Sheet.module.scss';
 
@@ -37,15 +30,7 @@ export const Sheet = ({
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen ?? false);
   const isOpen = open ?? uncontrolledOpen;
 
-  const handleOpenChange = (next: boolean, eventDetails: Dialog.Root.ChangeEventDetails) => {
-    const isOutsidePress = eventDetails.reason === 'outside-press';
-
-    if (!next && isOutsidePress && shouldKeepDialogOpen(eventDetails.event?.target ?? null)) {
-      eventDetails.cancel();
-
-      return;
-    }
-
+  const handleOpenChange = (next: boolean) => {
     setUncontrolledOpen(next);
     onOpenChange?.(next);
   };
@@ -87,7 +72,6 @@ export const SheetContent = ({
   showCloseButton = true,
   ...props
 }: SheetContentProps) => {
-  const shouldReduceMotion = useReducedMotion();
   const { resolveTransition } = useLiteMotion();
 
   return (
@@ -95,12 +79,10 @@ export const SheetContent = ({
       key='sheet-popup'
       render={
         <motion.div
-          transition={
-            shouldReduceMotion ? SHEET_REDUCED_TRANSITION : resolveTransition(SHEET_TRANSITION)
-          }
-          animate={shouldReduceMotion ? { opacity: 1 } : 'visible'}
-          exit={shouldReduceMotion ? { opacity: 0 } : 'hidden'}
-          initial={shouldReduceMotion ? { opacity: 0 } : 'hidden'}
+          animate='visible'
+          exit='hidden'
+          initial='hidden'
+          transition={resolveTransition(SHEET_TRANSITION)}
           variants={sheetVariants(side)}
         />
       }

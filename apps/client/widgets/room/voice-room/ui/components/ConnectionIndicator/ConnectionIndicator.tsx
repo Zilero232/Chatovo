@@ -54,7 +54,7 @@ export const ConnectionIndicator = () => {
   const { localParticipant } = useLocalParticipant();
   const { quality } = useConnectionQualityIndicator({ participant: localParticipant });
   const connectionState = useConnectionState();
-  const rtt = useConnectionRtt();
+  const { rtt } = useConnectionRtt();
 
   if (connectionState !== ConnectionState.Connected) {
     return null;

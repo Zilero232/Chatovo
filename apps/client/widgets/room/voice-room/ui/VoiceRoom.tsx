@@ -15,7 +15,7 @@ import { ChatPanel } from '@/widgets/chat/chat-panel';
 
 import type { VoiceRoomProps } from './VoiceRoom.types';
 
-import { LocalSpeakingProvider } from '../model/contexts';
+import { LocalSpeakingProvider, SessionStatsProvider } from '../model/contexts';
 import { useRoomConnection } from '../model/hooks';
 import {
   ConnectingOverlay,
@@ -65,30 +65,36 @@ export const VoiceRoom = ({
           onDisconnected={handleDisconnected}
         >
           <LocalSpeakingProvider>
-            <DeafenProvider>
-              <ReactionsProvider roomId={roomId}>
-                <RoomHeader isDm={isDm} name={roomName} roomId={roomId} />
+            <SessionStatsProvider>
+              <DeafenProvider>
+                <ReactionsProvider roomId={roomId}>
+                  <RoomHeader isDm={isDm} name={roomName} roomId={roomId} />
 
-                <div className={s.body}>
-                  <RoomAmbience />
-                  <ParticipantsView isDm={isDm} roomId={roomId} />
-                  <ReactionsOverlay />
-                  <ConnectingOverlay roomName={roomName} />
-                </div>
+                  <div className={s.body}>
+                    <RoomAmbience />
+                    <ParticipantsView isDm={isDm} />
+                    <ReactionsOverlay />
+                    <ConnectingOverlay roomName={roomName} />
+                  </div>
 
-                <RoomControlsBar
-                  isChatOpen={isChatOpen}
-                  isDm={isDm}
-                  roomId={roomId}
-                  onToggleChat={() => toggleChat()}
-                />
+                  <RoomControlsBar
+                    isChatOpen={isChatOpen}
+                    isDm={isDm}
+                    roomId={roomId}
+                    onToggleChat={() => toggleChat()}
+                  />
 
-                <ChatPanel isOpen={isChatOpen} roomId={roomId} onClose={() => toggleChat(false)} />
+                  <ChatPanel
+                    isOpen={isChatOpen}
+                    roomId={roomId}
+                    onClose={() => toggleChat(false)}
+                  />
 
-                <RoomAudio />
-                <RoomControllers roomId={roomId} />
-              </ReactionsProvider>
-            </DeafenProvider>
+                  <RoomAudio />
+                  <RoomControllers roomId={roomId} />
+                </ReactionsProvider>
+              </DeafenProvider>
+            </SessionStatsProvider>
           </LocalSpeakingProvider>
         </LiveKitRoom>
       </div>

@@ -1,3 +1,4 @@
+@use '@/shared/styles/mixins' as *;
 @use '@/shared/styles/functions' as *;
 
 .root {
@@ -93,7 +94,5 @@
 }
 
 .truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  @include text-ellipsis;
 }

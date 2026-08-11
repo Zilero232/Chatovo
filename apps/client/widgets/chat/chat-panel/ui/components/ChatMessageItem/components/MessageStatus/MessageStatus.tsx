@@ -6,10 +6,13 @@ import { match } from 'ts-pattern';
 
 import type { MessageStatusProps } from './MessageStatus.types';
 
+import { useChatMessage } from '../../../../../model/contexts';
+
 import s from './MessageStatus.module.scss';
 
-export const MessageStatus = ({ status, onRetry, onDiscard }: MessageStatusProps) => {
+export const MessageStatus = ({ status }: MessageStatusProps) => {
   const t = useTranslations('chat');
+  const { retry, discard } = useChatMessage();
 
   return match(status)
     .with('sending', () => (
@@ -23,11 +26,11 @@ export const MessageStatus = ({ status, onRetry, onDiscard }: MessageStatusProps
         <CircleAlert className={s.icon} />
         {t('sendFailed')}
 
-        <button className={s.action} type='button' onClick={onRetry}>
+        <button className={s.action} type='button' onClick={retry}>
           {t('retry')}
         </button>
 
-        <button className={s.action} type='button' onClick={onDiscard}>
+        <button className={s.action} type='button' onClick={discard}>
           {t('discard')}
         </button>
       </span>

@@ -8,14 +8,14 @@ import Markdown from 'react-markdown';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
-import type { MessageContentProps } from './MessageContent.types';
-
+import { useChatMessage } from '../../../../../model/contexts';
 import { normalizeMessage } from '../../../../../model/lib';
 
 import s from './MessageContent.module.scss';
 
-export const MessageContent = ({ message, isOwn, isEdited }: MessageContentProps) => {
+export const MessageContent = () => {
   const t = useTranslations('chat');
+  const { message, isOwn, isEdited } = useChatMessage();
 
   const components: Components = {
     a: ({ href, children }) => (
@@ -35,7 +35,7 @@ export const MessageContent = ({ message, isOwn, isEdited }: MessageContentProps
   return (
     <div className={s.root}>
       <Markdown components={components} remarkPlugins={[remarkGfm, remarkBreaks]}>
-        {normalizeMessage(message)}
+        {normalizeMessage(message.message)}
       </Markdown>
       {isEdited && <span className={s.edited}>{t('edited')}</span>}
     </div>

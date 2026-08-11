@@ -1,6 +1,6 @@
 import type { UpdateProfilePayload, UserProfile } from '@chatovo/schemas';
 
-import { api } from '../http';
+import { api, UPLOAD_TIMEOUT_MS } from '../http';
 
 export const getUserProfile = async (id: string): Promise<UserProfile> => {
   const { data } = await api.get(`/users/${id}/profile`);
@@ -24,7 +24,7 @@ export const updateUserProfile = async (payload: UpdateProfilePayload): Promise<
     fd.append('removeAvatar', 'true');
   }
 
-  const { data } = await api.post('/users/profile', fd);
+  const { data } = await api.post('/users/profile', fd, { timeout: UPLOAD_TIMEOUT_MS });
 
   return data;
 };

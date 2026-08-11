@@ -28,6 +28,10 @@
     backdrop-filter: blur(rem(16)) saturate(140%);
     background-color: var(--shell-surface);
     box-shadow: var(--shadow-elevated);
+
+    @include tauri-mobile {
+      backdrop-filter: none;
+    }
   }
 }
 

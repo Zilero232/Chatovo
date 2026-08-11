@@ -1,3 +1,4 @@
+@use '@/shared/styles/mixins' as *;
 .root {
   display: inline-flex;
   min-width: 0;
@@ -7,17 +8,17 @@
 }
 
 .link {
-  overflow: hidden;
   padding-bottom: 1px;
   background-image: linear-gradient(currentcolor, currentcolor);
   background-position: 0 100%;
   background-repeat: no-repeat;
   background-size: 0% 1px;
-  text-overflow: ellipsis;
+
+  @include text-ellipsis;
+
   transition:
-    background-size 200ms ease-out,
-    color 200ms ease-out;
-  white-space: nowrap;
+    background-size var(--duration-default) var(--timing-function-out),
+    color var(--duration-default) var(--timing-function-out);
 
   &:hover {
     background-size: 100% 1px;
@@ -26,9 +27,7 @@
 }
 
 .text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  @include text-ellipsis;
 }
 
 .checkWrap {

@@ -97,6 +97,19 @@
   --bp-lg: #{px(1024)};
   --bp-xl: #{px(1280)};
   --bp-2xl: #{px(1536)};
+  --duration-instant: 75ms;
+  --duration-fast: 150ms;
+  --duration-default: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+  --timing-function-standard: ease;
+  --timing-function-out: ease-out;
+  --timing-function-in: ease-in;
+  --timing-function-in-out: ease-in-out;
+  --timing-function-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
+  --z-below: -1;
+  --z-base: 1;
+  --z-raised: 10;
   --z-sticky: 30;
   --z-overlay: 50;
   --z-modal-backdrop: 60;
@@ -118,4 +131,14 @@
   --toast-offset-left: max(var(--toast-gap), var(--safe-area-left));
   --page-inset: var(--space-4);
   --page-bottom: calc(var(--safe-area-bottom) + var(--space-5));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 0ms;
+    --duration-fast: 0ms;
+    --duration-default: 0ms;
+    --duration-slow: 0ms;
+    --duration-slower: 0ms;
+  }
 }

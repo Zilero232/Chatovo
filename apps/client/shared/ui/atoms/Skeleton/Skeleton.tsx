@@ -2,8 +2,13 @@ import { clsx } from 'clsx';
 
 import type { SkeletonProps } from './Skeleton.types';
 
-import s from './Skeleton.module.scss';
+import { skeletonVariants } from './Skeleton.variants';
 
-export const Skeleton = ({ className, ...props }: SkeletonProps) => (
-  <div className={clsx('shimmer', s.root, className)} data-slot='skeleton' {...props} />
+export const Skeleton = ({ className, shape, width, style, ...props }: SkeletonProps) => (
+  <div
+    className={clsx('shimmer', skeletonVariants({ shape }), className)}
+    data-slot='skeleton'
+    style={width ? { ...style, width } : style}
+    {...props}
+  />
 );

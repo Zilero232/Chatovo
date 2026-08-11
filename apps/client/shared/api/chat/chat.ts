@@ -1,6 +1,6 @@
 import type { ChatAttachment, ChatMessage, ChatMessagesPage } from '@chatovo/schemas';
 
-import { api } from '../http';
+import { api, UPLOAD_TIMEOUT_MS } from '../http';
 
 export const editChatMessage = async (id: string, body: string): Promise<ChatMessage> => {
   const { data } = await api.patch(`/chat/messages/${id}`, { body });
@@ -19,7 +19,7 @@ export const uploadChatAttachment = async (roomId: string, file: File): Promise<
   fd.append('roomId', roomId);
   fd.append('file', file);
 
-  const { data } = await api.post('/chat/attachments', fd);
+  const { data } = await api.post('/chat/attachments', fd, { timeout: UPLOAD_TIMEOUT_MS });
 
   return data;
 };

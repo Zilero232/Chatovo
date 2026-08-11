@@ -16,7 +16,11 @@ const getServerSnapshot = () => false;
 
 export const toLiteTransition = (transition: Transition): Transition =>
   'type' in transition && transition.type === 'spring'
-    ? { ...LITE_TWEEN, delay: transition.delay }
+    ? {
+        ...LITE_TWEEN,
+        duration: transition.visualDuration ?? transition.duration ?? LITE_TWEEN.duration,
+        delay: transition.delay
+      }
     : transition;
 
 export const useLiteMotion = () => {
@@ -25,5 +29,5 @@ export const useLiteMotion = () => {
   const resolveTransition = (transition: Transition): Transition =>
     isLite ? toLiteTransition(transition) : transition;
 
-  return { isLite, layout: !isLite, resolveTransition };
+  return { isLite, layout: isLite ? false : ('position' as const), resolveTransition };
 };

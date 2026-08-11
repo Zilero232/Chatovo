@@ -2,11 +2,12 @@ import type { GitHubRelease } from '@chatovo/schemas';
 
 import { gitHubReleaseListSchema } from '@chatovo/schemas';
 
-import { headers, REPO } from '../../config';
+import { headers, REPO, REQUEST_TIMEOUT_MS } from '../../config';
 
 export const fetchGitHubReleases = async (): Promise<GitHubRelease[]> => {
   const res = await fetch(`https://api.github.com/repos/${REPO}/releases?per_page=50`, {
-    headers
+    headers,
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
   });
 
   if (!res.ok) {

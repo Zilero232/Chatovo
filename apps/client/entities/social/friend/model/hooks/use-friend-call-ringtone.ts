@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useEffectEvent, useRef } from 'react';
 
 import { useAppSettings } from '@/entities/app/settings';
 
@@ -14,6 +14,8 @@ export const useFriendCallRingtone = (active: boolean, kind: FriendCallSoundKind
 
   const { enabled: soundsEnabled, volume } = settings.sounds;
 
+  const readVolume = useEffectEvent(() => volume);
+
   useEffect(() => {
     if (!active || !soundsEnabled.call) {
       return;
@@ -21,7 +23,7 @@ export const useFriendCallRingtone = (active: boolean, kind: FriendCallSoundKind
 
     const audio = new Audio(FRIEND_CALL_SOUND_SRC[kind]);
     audio.loop = true;
-    audio.volume = volume;
+    audio.volume = readVolume();
     audioRef.current = audio;
 
     audio.play().catch(() => {});
@@ -32,5 +34,11 @@ export const useFriendCallRingtone = (active: boolean, kind: FriendCallSoundKind
       audio.src = '';
       audioRef.current = null;
     };
-  }, [active, kind, soundsEnabled.call, volume]);
+  }, [active, kind, soundsEnabled.call]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+  }, [volume]);
 };

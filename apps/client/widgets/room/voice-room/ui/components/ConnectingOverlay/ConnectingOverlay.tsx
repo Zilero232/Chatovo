@@ -3,12 +3,12 @@
 import { useConnectionState } from '@livekit/components-react';
 import { clsx } from 'clsx';
 import { ConnectionState } from 'livekit-client';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { match } from 'ts-pattern';
 
 import { useLiteMotion } from '@/shared/hooks';
-import { Spinner, Text } from '@/shared/ui';
+import { Text } from '@/shared/ui';
 
 import type { ConnectingOverlayProps } from './ConnectingOverlay.types';
 
@@ -16,17 +16,16 @@ import {
   BOX_ANIMATE,
   BOX_EXIT,
   BOX_INITIAL,
-  BOX_REDUCED,
   BOX_TRANSITION,
   OVERLAY_TRANSITION
 } from './ConnectingOverlay.motion';
+import { ConnectingWaves } from './ConnectingWaves';
 
 import s from './ConnectingOverlay.module.scss';
 
 export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
   const t = useTranslations('room');
   const state = useConnectionState();
-  const shouldReduceMotion = useReducedMotion();
   const { resolveTransition } = useLiteMotion();
 
   const text = match(state)
@@ -50,11 +49,11 @@ export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
           <motion.div
             animate={BOX_ANIMATE}
             className={clsx(s.box, 'glass shadow-glow-violet')}
-            exit={shouldReduceMotion ? BOX_REDUCED : BOX_EXIT}
-            initial={shouldReduceMotion ? BOX_REDUCED : BOX_INITIAL}
+            exit={BOX_EXIT}
+            initial={BOX_INITIAL}
             transition={resolveTransition(BOX_TRANSITION)}
           >
-            <Spinner size='lg' />
+            <ConnectingWaves />
             <Text className={s.text} size='sm' tone='inherit'>
               {text}
             </Text>

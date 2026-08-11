@@ -2,11 +2,11 @@
 
 import { useCurrentUser, UserAvatar, UserName } from '@/entities/auth/user';
 import { FriendTag } from '@/entities/social/friend';
+import { getBannerStyle } from '@/shared/lib';
 import { Text } from '@/shared/ui';
 
 import type { ProfileCardProps } from './ProfileCard.types';
 
-import { getBannerStyle } from '../../lib/banner-style';
 import { useUserProfile } from '../../model/use-user-profile';
 import { AvatarZoom, ProfileCardSkeleton, ProfileVoiceBlock } from './components';
 

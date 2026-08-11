@@ -20,14 +20,19 @@ apps/
 ├── server/          # NestJS API — modules/ (module+controller+services/+dto+lib/), lib/, core/, common/ (CLAUDE.md)
 └── tauri/           # Rust shell (src/), capabilities/, tauri.conf.json (CLAUDE.md)
 packages/schemas/    # Zod schemas (@chatovo/schemas), imported by client and server; grouped by domain
-scripts/            # check-locales.mjs (release/deploy живут в .github/workflows/)
 .github/            # CI: workflows/release.yml, workflows/deploy.yml, actions/setup/
+.claude/rules/       # Компактные кодстайл-правила с paths-фронтматтером (автозагрузка при редактировании)
+├── code-style.md        # весь репо: **/*.{ts,tsx,js,jsx}
+├── code-style-client.md # apps/client/**
+└── code-style-server.md # apps/server/**
 docs/
 ├── fsd.md           # Frontend (apps/client) architecture — read before structural changes
-├── style.md         # Code style, import order, naming
+├── style.md         # Code style, import order, naming — FULL версия (примеры + обоснования)
 └── play-store/      # Android release: listing, data safety, signing
 infra/               # Caddy + LiveKit configs
 ```
+
+**Кодстайл в двух версиях.** [docs/style.md](docs/style.md) — полная: примеры, анти-паттерны, обоснования; читается по запросу и агентом-ревьюером целиком. `.claude/rules/*.md` — компактные выжимки, подгружаются автоматически при редактировании подходящих файлов (`paths:`-фронтматтер). Правило меняется — правь оба места.
 
 **Env**: один общий `.env` в корне на клиент и сервер (`.env.example` — шаблон). Клиент читает из него `NEXT_PUBLIC_*` через `loadRootEnv()` в [apps/client/next.config.ts](apps/client/next.config.ts). Отдельные `.env` есть только у `apps/tauri/` (машинные пути Android SDK/JDK). Креды для релиза и деплоя живут только в GitHub Secrets — локальных env-файлов под них нет, список нужных секретов описан в шапке каждого workflow. Всё, кроме `*.example`, в `.gitignore`.
 
@@ -37,8 +42,8 @@ Each app folder has its own `CLAUDE.md` (see [Per-app guidance](#per-app-guidanc
 
 Each app has its own `CLAUDE.md` (auto-loaded when working in its folder) with the detailed map and local conventions:
 
-- **[apps/client/CLAUDE.md](apps/client/CLAUDE.md)** — Feature-Sliced Design layers, public-API/barrel rules, naming, i18n, `shared/ui` layout. Full FSD spec in [docs/fsd.md](docs/fsd.md), code style in [docs/style.md](docs/style.md).
-- **[apps/server/CLAUDE.md](apps/server/CLAUDE.md)** — module convention (routes / handlers / service / `lib`), error handling, LiveKit/Prisma specifics.
+- **[apps/client/CLAUDE.md](apps/client/CLAUDE.md)** — Feature-Sliced Design layers, public-API/barrel rules, naming, i18n, `shared/ui` layout. Full FSD spec in [docs/fsd.md](docs/fsd.md), code style in [docs/style.md](docs/style.md) (compressed: [.claude/rules/code-style-client.md](.claude/rules/code-style-client.md)).
+- **[apps/server/CLAUDE.md](apps/server/CLAUDE.md)** — module convention (routes / handlers / service / `lib`), error handling, LiveKit/Prisma specifics (compressed style: [.claude/rules/code-style-server.md](.claude/rules/code-style-server.md)).
 - **[apps/tauri/CLAUDE.md](apps/tauri/CLAUDE.md)** — Rust shell, plugins, `isTauri()` gating.
 
 The rules below apply repo-wide (every app and `packages/`).
@@ -137,7 +142,7 @@ bun --filter @chatovo/client typecheck
 ## Working with the user
 
 - **Language**: respond in Russian. Code, identifiers, commit messages, and quoted error strings stay in their original language (usually English).
-- **No code comments**: don't add `//` or block/JSDoc comments. Code is self-documenting via clear naming. Add a comment only when the user explicitly asks for one. Leave pre-existing comments in files you didn't author unless told to clean them.
+- **No code comments in application code**: no `//`, block or JSDoc comments in `views/`, `widgets/`, `features/`, `entities/` (client) or `modules/` (server). Code is self-documenting via clear naming; if a block needs a comment, extract it into a named function. **Narrow exception** — the public surface of reusable modules (`shared/ui`, `shared/lib`, `shared/hooks`, server `src/lib/`, `packages/schemas`): an **exported** primitive may carry a 1–2 line JSDoc when the signature doesn't explain the purpose (non-obvious units, side effect, edge-case behaviour). Internal helpers are never documented. Details and examples — [docs/style.md](docs/style.md) §18. Add other comments only when the user explicitly asks. Leave pre-existing comments in files you didn't author unless told to clean them.
 - **No git operations on your own**: never `git commit` / `branch` / `push` unless the user explicitly asks in that message. Stage (`git add`) at most. A task instruction like "go do X" is NOT a commit request.
 - **Measure before swapping for perf**: if a performance symptom persists across two implementation swaps, the cause is almost certainly not the library — stop swapping. First do ONE of: repeat the action (fast 2nd time = first-mount/dev-compile, not the lib), test a prod build (`bun run build && bun run start`), or read a DevTools Performance profile. Only swap a library once a profile implicates its code.
 
