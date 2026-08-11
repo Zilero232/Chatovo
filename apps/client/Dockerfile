@@ -49,7 +49,10 @@ COPY apps/client ./apps/client
 RUN cd apps/server && DIRECT_URL="postgresql://placeholder" bunx prisma generate
 
 # Produce the static export -> apps/client/out
-RUN bun --filter @chatovo/client build
+# Bun 1.3.x segfaults on process exit AFTER a successful build (SIGILL, code 132);
+# the artifact is already written, so validate the output dir instead of trusting
+# Bun's exit code. A real build failure produces no `out` and still fails the image.
+RUN bun --filter @chatovo/client build; test -d apps/client/out
 
 # ---- Runtime stage: Caddy serving the static files ----
 FROM caddy:2-alpine AS runner
