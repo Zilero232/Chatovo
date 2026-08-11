@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { MotionConfig } from 'motion/react';
 
 import { queryClient } from '@/shared/api';
 import { isTauriDesktop } from '@/shared/lib';
@@ -22,15 +23,17 @@ export const AppProviders = ({ children }: { children: ReactNode }) => (
       <QueryFocusManager />
       <TauriMobileInsets />
       <TauriDesktopDocumentClass />
-      <TooltipProvider>
-        <div style={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
-          {isTauriDesktop() && <TitleBar />}
+      <MotionConfig reducedMotion='user'>
+        <TooltipProvider>
+          <div style={{ display: 'flex', height: '100%', flexDirection: 'column' }}>
+            {isTauriDesktop() && <TitleBar />}
 
-          <div style={{ minHeight: 0, flex: 1 }}>
-            <AuthProvider>{children}</AuthProvider>
+            <div style={{ minHeight: 0, flex: 1 }}>
+              <AuthProvider>{children}</AuthProvider>
+            </div>
           </div>
-        </div>
-      </TooltipProvider>
+        </TooltipProvider>
+      </MotionConfig>
 
       <Toaster />
 

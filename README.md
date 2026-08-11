@@ -137,7 +137,7 @@ Frontend follows **[Feature-Sliced Design](docs/fsd.md)** — the `pages/` layer
 | **Native**  | Tauri 2 · Rust · deep-link · updater · global-shortcut                              |
 | **Server**  | NestJS on Bun · Prisma · better-auth · React Email                                  |
 | **Shared**  | `@chatovo/schemas` — Zod types for client & server                                  |
-| **Tooling** | Biome · Stylelint · TypeScript · React Compiler · Bun workspaces                    |
+| **Tooling** | ESLint · Prettier · Stylelint · TypeScript · React Compiler · Bun workspaces        |
 
 <br/>
 
@@ -178,9 +178,11 @@ bun install
 
 ### 3 · Environment
 
+One `.env` at the repo root serves both the client and the server; the client
+reads its `NEXT_PUBLIC_*` out of it via `loadRootEnv()` in `next.config.ts`.
+
 ```bash
-cp apps/server/.env.example apps/server/.env
-cp apps/client/.env.example apps/client/.env
+cp .env.example .env
 ```
 
 | Variable                      | Purpose                                            |
@@ -223,31 +225,44 @@ bun tauri:dev                 # desktop dev
 bun tauri:build               # desktop release
 bun android:init        # first-time Android setup
 bun android:dev         # Android on device / emulator
-bun android:build       # AAB / APK
+bun android:build       # APK + AAB
 bun tauri:icon                # icons from apps/client/app/icon.svg
 ```
 
-> Version is defined in root **`package.json`**. CI syncs it into Tauri before each release.
+> Version lives in root **`package.json`** and must be bumped in every workspace
+> manifest, `apps/tauri/tauri.conf.json` and `apps/tauri/Cargo.toml` to match —
+> the `release` workflow refuses to build when they disagree with each other or
+> with the pushed tag.
 
 ### Quality checks
 
 ```bash
-bun typecheck
-bun lint:fix       # Biome — TS/JS
-bun lint:css:fix   # Stylelint — SCSS
-bun build
+bun verify         # typecheck + lint + format:check + lint:css — run before committing
+bun fix            # lint:fix + format + lint:css:fix
+bun lint:rust      # clippy on apps/tauri
 ```
 
 <br/>
 
 ## Deployment
 
-| Target            | Trigger                                            |
-| :---------------- | :------------------------------------------------- |
-| **Web + API**     | Push to `master` → CI deploys Docker images (GHCR) |
-| **Desktop + APK** | Bump root `package.json` version → GitHub Release  |
+Both run in GitHub Actions; there are no local release scripts.
 
-On the VPS:
+| Workflow      | Trigger                         | Result                                                                   |
+| :------------ | :------------------------------ | :----------------------------------------------------------------------- |
+| `deploy.yml`  | Actions → deploy → Run workflow | Builds the web + server images, pushes to GHCR, restarts the VPS stack   |
+| `release.yml` | Push a `v*` tag                 | Windows, macOS (arm64 + x64), Linux and Android bundles → GitHub Release |
+
+Cutting a release — bump the version in every manifest (root, the three apps,
+`packages/schemas`, `apps/tauri/tauri.conf.json`, `apps/tauri/Cargo.toml`), then:
+
+```bash
+git tag v1.2.8 && git push --tags
+```
+
+The `checks` job refuses to build if any of them disagree with the tag.
+
+Deploying by hand on the VPS instead:
 
 ```bash
 docker compose pull && docker compose up -d

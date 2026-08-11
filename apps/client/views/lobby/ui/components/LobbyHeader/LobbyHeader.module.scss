@@ -38,6 +38,10 @@
   background: color-mix(in oklch, var(--brand-violet) 20%, transparent);
   filter: blur(rem(48));
   pointer-events: none;
+
+  @include tauri-mobile {
+    display: none;
+  }
 }
 
 .washAlt {
@@ -50,6 +54,10 @@
   background: color-mix(in oklch, var(--brand-cyan) 16%, transparent);
   filter: blur(rem(48));
   pointer-events: none;
+
+  @include tauri-mobile {
+    display: none;
+  }
 }
 
 .inner {

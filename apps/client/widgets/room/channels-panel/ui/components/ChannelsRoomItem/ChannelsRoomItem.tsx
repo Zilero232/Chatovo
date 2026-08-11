@@ -16,6 +16,7 @@ import { ManageRoomMenu } from '@/features/room/manage';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
 import { buildRoomHref } from '@/shared/constants';
 import { AvatarWithBadges } from '@/shared/ui';
+import { FriendProfileActionsPanel } from '@/widgets/social/friend-profile-actions-panel';
 
 import type { ChannelsRoomItemProps } from './ChannelsRoomItem.types';
 
@@ -66,6 +67,7 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
               className={s.participant}
               identity={p.identity}
               name={p.name}
+              renderFriendActions={(state) => <FriendProfileActionsPanel {...state} />}
             >
               <AvatarWithBadges
                 bottomLeft={p.deafened && <DeafenedBadge />}

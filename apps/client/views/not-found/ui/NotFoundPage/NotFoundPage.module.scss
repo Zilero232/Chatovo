@@ -24,6 +24,10 @@
   opacity: 0.5;
   pointer-events: none;
 
+  @include tauri-mobile {
+    display: none;
+  }
+
   &[data-tone='violet'] {
     top: 12%;
     left: 8%;

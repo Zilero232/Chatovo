@@ -8,8 +8,6 @@ export const LANDING_REVEAL_TRANSITION: Transition = {
 
 export const LANDING_REVEAL_INITIAL: Target = { opacity: 0, y: 24 };
 
-export const LANDING_REVEAL_REDUCED_INITIAL: Target = { opacity: 0 };
-
 export const LANDING_REVEAL_IN_VIEW: Target = { opacity: 1, y: 0 };
 
 export const LANDING_REVEAL_VIEWPORT = {

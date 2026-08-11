@@ -8,7 +8,7 @@ import { basePrisma as prisma } from '../../core';
 export const assertCanManageRoom = async ({ roomId, userId }: AssertCanManageRoomInput) => {
   const room = await prisma.room.findUnique({
     where: { id: roomId },
-    select: { ownerId: true, isPrivate: true, password: true, name: true }
+    select: { ownerId: true, isPrivate: true, name: true }
   });
 
   if (isNullish(room)) {

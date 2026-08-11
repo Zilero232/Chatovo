@@ -6,6 +6,7 @@ import { encodeChatAttachment } from '@chatovo/schemas';
 import { useDropZone, useFileDialog } from '@siberiacancode/reactuse';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
+import { useRef } from 'react';
 import { toast } from 'sonner';
 
 import { uploadChatAttachment } from '@/shared/api';
@@ -56,9 +57,13 @@ export const useChatFiles = ({ roomId, disabled, onSend }: UseChatFilesParams) =
     }
   });
 
+  const sendFilesRef = useRef(sendFiles);
+
+  sendFilesRef.current = sendFiles;
+
   const { ref, overed } = useDropZone<HTMLElement>((files) => {
     if (files) {
-      sendFiles(files);
+      sendFilesRef.current(files);
     }
   });
 

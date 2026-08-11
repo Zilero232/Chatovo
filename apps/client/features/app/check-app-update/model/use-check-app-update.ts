@@ -90,7 +90,15 @@ export const useCheckAppUpdate = () => {
 
         hasCheckedOnceRef.current = true;
 
-        if (!result.ok || !result.value) {
+        if (!result.ok) {
+          if (isManual) {
+            toast.error(t('checkTimedOut'), { id: 'app-update-check' });
+          }
+
+          return setStatus('unavailable');
+        }
+
+        if (!result.value) {
           if (isManual) {
             toast.success(t('upToDate'), { id: 'app-update-check' });
           }

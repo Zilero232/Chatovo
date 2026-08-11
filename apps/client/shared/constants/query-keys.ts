@@ -8,7 +8,8 @@ export const QUERY_KEYS = {
   friends: () => ['friends'] as const,
   friendshipRelation: (userId: string) => ['friendship-relation', userId] as const,
   release: () => ['release'] as const,
-  livekitToken: (roomName: string | null) => ['livekit-token', roomName] as const,
+  livekitToken: (roomName: string | null, password?: string) =>
+    ['livekit-token', roomName, password ?? null] as const,
   room: (id: string | null) => ['room', id] as const,
   rooms: () => ['rooms'] as const,
   userProfile: (id: string) => ['user-profile', id] as const

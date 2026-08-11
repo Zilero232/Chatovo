@@ -1,4 +1,4 @@
-@use '@/shared/styles/functions' as *;
+@use '@/shared/styles/mixins' as *;
 
 .bubble {
   max-width: 100%;
@@ -39,6 +39,11 @@
   border: 1px solid oklch(100% 0 0deg / 8%);
   backdrop-filter: blur(rem(12));
   background: oklch(100% 0 0deg / 6%);
+
+  @include tauri-mobile {
+    backdrop-filter: none;
+    background: oklch(28% 0.02 280deg);
+  }
 }
 
 .ownTail {

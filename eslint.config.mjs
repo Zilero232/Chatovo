@@ -79,5 +79,16 @@ export default eslint(
     rules: {
       'no-console': 'off'
     }
+  },
+
+  // `next dev` appends its own `# This is NOT the Next.js you know` block to
+  // apps/client/CLAUDE.md on every run and re-adds it when removed, so the
+  // second H1 is not ours to fix.
+  {
+    name: 'chatovo/agent-docs',
+    files: ['**/CLAUDE.md'],
+    rules: {
+      'markdown/no-multiple-h1': 'off'
+    }
   }
 );

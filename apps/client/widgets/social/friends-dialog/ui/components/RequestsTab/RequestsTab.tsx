@@ -12,6 +12,7 @@ import {
   useDeclineFriendRequest,
   useIncomingFriendRequests
 } from '@/entities/social/friend';
+import { useLiteMotion } from '@/shared/hooks';
 import { Spinner, Text } from '@/shared/ui';
 
 import { FriendRequestListItem } from './FriendRequestListItem';
@@ -32,6 +33,7 @@ const hasRequests = (
 export const RequestsTab = () => {
   const t = useTranslations('friends');
   const shouldReduceMotion = useReducedMotion();
+  const { layout, resolveTransition } = useLiteMotion();
 
   const { data: requests, isPending } = useIncomingFriendRequests();
   const acceptRequest = useAcceptFriendRequest();
@@ -44,12 +46,12 @@ export const RequestsTab = () => {
         <AnimatePresence initial={false} mode='popLayout'>
           {items.map((entry) => (
             <motion.div
-              layout
               key={entry.friendshipId}
               animate={REQUEST_ITEM_ANIMATE}
               exit={shouldReduceMotion ? REQUEST_ITEM_REDUCED : REQUEST_ITEM_EXIT}
               initial={shouldReduceMotion ? REQUEST_ITEM_REDUCED : REQUEST_ITEM_INITIAL}
-              transition={REQUEST_ITEM_TRANSITION}
+              layout={layout}
+              transition={resolveTransition(REQUEST_ITEM_TRANSITION)}
             >
               <FriendRequestListItem
                 entry={entry}

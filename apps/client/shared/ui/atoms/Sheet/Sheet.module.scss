@@ -2,7 +2,7 @@
 
 .overlay {
   position: fixed;
-  z-index: 50;
+  z-index: var(--z-modal-backdrop);
   backdrop-filter: blur(var(--scrim-blur)) saturate(0.7);
   background: var(--scrim);
   inset: 0;
@@ -15,7 +15,7 @@
 
 .modal {
   position: fixed;
-  z-index: 50;
+  z-index: var(--z-modal);
   display: flex;
 }
 

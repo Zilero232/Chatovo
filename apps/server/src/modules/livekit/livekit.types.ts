@@ -1,7 +1,6 @@
 import type { RoomParticipant } from '@chatovo/schemas';
 
 export type IssueTokenInput = {
-  email: string | null;
   isAdmin: boolean;
   password?: string;
   roomId: string;

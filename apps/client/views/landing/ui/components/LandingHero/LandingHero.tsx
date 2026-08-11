@@ -12,8 +12,8 @@ import {
   LANDING_HERO_STAT_KEYS
 } from '../../../config';
 import { LandingHeroStat } from '../LandingHeroStat/LandingHeroStat';
-import { LandingHeroVisual } from '../LandingHeroVisual';
-import { LandingReveal } from '../LandingReveal';
+import { LandingHeroVisual } from '../LandingHeroVisual/LandingHeroVisual';
+import { LandingReveal } from '../LandingReveal/LandingReveal';
 
 import s from '../../LandingPage.module.scss';
 

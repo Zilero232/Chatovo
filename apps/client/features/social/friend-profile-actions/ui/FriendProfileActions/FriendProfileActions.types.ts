@@ -1,7 +1,10 @@
+import type { ReactNode } from 'react';
+
+import type { FriendProfileRemoveConfirmState } from './FriendProfileActionsBody.types';
+
 export type FriendProfileActionsProps = {
-  avatarUrl?: string | null;
-  displayName: string;
   friendTag: string;
+  renderRemoveConfirm: (state: FriendProfileRemoveConfirmState) => ReactNode;
   userId: string;
-  verified?: boolean;
+  onOpenChat: () => void;
 };

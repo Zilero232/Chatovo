@@ -26,7 +26,7 @@ export class LivekitService {
   ) {}
 
   async issueRoomToken(input: IssueTokenInput): Promise<TokenResponse> {
-    const { roomId, password, userId, email, isAdmin } = input;
+    const { roomId, password, userId, isAdmin } = input;
 
     const room = await this.prisma.room.findUnique({ where: { id: roomId } });
 
@@ -52,7 +52,6 @@ export class LivekitService {
     const { name, verified, profileUrl, avatarUrl, bannerColor } = toUserProfile(user);
 
     const participantMetadata: ParticipantMetadata = {
-      email,
       verified,
       profileUrl,
       avatarUrl,

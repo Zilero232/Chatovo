@@ -6,7 +6,7 @@ import { Text } from '@/shared/ui';
 import type { LandingSectionProps } from '../../LandingPage.types';
 
 import { LANDING_FAQ_COUNT } from '../../../config';
-import { LandingReveal } from '../LandingReveal';
+import { LandingReveal } from '../LandingReveal/LandingReveal';
 import { LandingFaqJsonLd } from './components';
 
 import s from '../../LandingPage.module.scss';

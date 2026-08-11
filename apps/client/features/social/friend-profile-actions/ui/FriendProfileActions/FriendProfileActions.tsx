@@ -12,9 +12,8 @@ import s from './FriendProfileActions.module.scss';
 export const FriendProfileActions = ({
   userId,
   friendTag,
-  displayName,
-  avatarUrl = null,
-  verified = false
+  onOpenChat,
+  renderRemoveConfirm
 }: FriendProfileActionsProps) => {
   const { data: relation, isPending: isRelationPending } = useFriendshipRelation(userId);
 
@@ -29,12 +28,11 @@ export const FriendProfileActions = ({
   return (
     <div className={s.root}>
       <FriendProfileActionsBody
-        avatarUrl={avatarUrl}
-        displayName={displayName}
         friendTag={friendTag}
+        renderRemoveConfirm={renderRemoveConfirm}
         state={relation ?? { status: 'none' }}
         userId={userId}
-        verified={verified}
+        onOpenChat={onOpenChat}
       />
     </div>
   );

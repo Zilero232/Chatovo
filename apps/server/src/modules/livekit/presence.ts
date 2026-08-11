@@ -37,9 +37,10 @@ const isRoomNotFound = (error: unknown): boolean => {
 export const parseParticipantMeta = (
   metadata: string | undefined
 ): Pick<RoomParticipant, 'avatarUrl' | 'bannerColor' | 'profileUrl' | 'verified'> => {
-  const { verified, profileUrl, avatarUrl, bannerColor } = participantMetadataSchema.parse(
-    safeJsonParse(metadata)
-  );
+  const parsed = participantMetadataSchema.safeParse(safeJsonParse(metadata));
+  const { verified, profileUrl, avatarUrl, bannerColor } = parsed.success
+    ? parsed.data
+    : participantMetadataSchema.parse({});
 
   return { verified, profileUrl, avatarUrl, bannerColor };
 };

@@ -48,6 +48,7 @@ export const useVoiceRoomSounds = (roomId: string) => {
   };
 
   const hasLeftRef = useRef(false);
+  const hasJoinedRef = useRef(false);
 
   const playOwnLeaveOnce = () => {
     if (hasLeftRef.current) {
@@ -56,6 +57,15 @@ export const useVoiceRoomSounds = (roomId: string) => {
 
     hasLeftRef.current = true;
     playLeaveSound();
+  };
+
+  const playOwnJoinOnce = () => {
+    if (hasJoinedRef.current) {
+      return;
+    }
+
+    hasJoinedRef.current = true;
+    play('join');
   };
 
   appEvents.on.pttHold(() => play('ptt'));
@@ -76,11 +86,15 @@ export const useVoiceRoomSounds = (roomId: string) => {
     hasLeftRef.current = false;
 
     if (room.state === 'connected') {
-      play('join');
+      playOwnJoinOnce();
     }
   });
 
-  const playRoomLeave = useEffectEvent(() => playOwnLeaveOnce());
+  const playRoomLeave = useEffectEvent(() => {
+    hasJoinedRef.current = false;
+
+    playOwnLeaveOnce();
+  });
 
   useEffect(() => {
     if (prevDeafened !== undefined && prevDeafened !== isDeafened) {
@@ -94,10 +108,14 @@ export const useVoiceRoomSounds = (roomId: string) => {
     return () => playRoomLeave();
   }, [room]);
 
-  useEmitterEvent(room, RoomEvent.Connected, () => play('join'));
+  useEmitterEvent(room, RoomEvent.Connected, () => playOwnJoinOnce());
   useEmitterEvent(room, RoomEvent.Reconnecting, () => play('reconnect'));
   useEmitterEvent(room, RoomEvent.SignalReconnecting, () => play('reconnect'));
-  useEmitterEvent(room, RoomEvent.Disconnected, () => playOwnLeaveOnce());
+  useEmitterEvent(room, RoomEvent.Disconnected, () => {
+    hasJoinedRef.current = false;
+
+    playOwnLeaveOnce();
+  });
   useEmitterEvent(room, RoomEvent.ParticipantConnected, () => play('join'));
   useEmitterEvent(room, RoomEvent.ParticipantDisconnected, () => playLeaveSound());
 

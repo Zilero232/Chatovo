@@ -10,6 +10,7 @@ import { match, P } from 'ts-pattern';
 import { useFriends } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
+import { useLiteMotion } from '@/shared/hooks';
 import { Spinner, Text } from '@/shared/ui';
 
 import type { FriendsTabProps, RemoveTarget } from './FriendsTab.types';
@@ -34,6 +35,7 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
   const [removeTarget, setRemoveTarget] = useState<RemoveTarget | null>(null);
 
   const shouldReduceMotion = useReducedMotion();
+  const { layout, resolveTransition } = useLiteMotion();
 
   const { data: friends, isPending } = useFriends(enabled);
   const { open: openFriendChat, getFriendUnread } = useFriendChat();
@@ -51,12 +53,12 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
             <AnimatePresence initial={false} mode='popLayout'>
               {items.map((entry) => (
                 <motion.div
-                  layout
                   key={entry.friendshipId}
                   animate={FRIEND_ITEM_ANIMATE}
                   exit={shouldReduceMotion ? FRIEND_ITEM_REDUCED : FRIEND_ITEM_EXIT}
                   initial={shouldReduceMotion ? FRIEND_ITEM_REDUCED : FRIEND_ITEM_INITIAL}
-                  transition={FRIEND_ITEM_TRANSITION}
+                  layout={layout}
+                  transition={resolveTransition(FRIEND_ITEM_TRANSITION)}
                 >
                   <FriendListItem
                     dmUnread={getFriendUnread(entry.user.id)}

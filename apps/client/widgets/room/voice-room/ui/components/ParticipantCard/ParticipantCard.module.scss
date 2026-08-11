@@ -1,4 +1,4 @@
-@use '@/shared/styles/functions' as *;
+@use '@/shared/styles/mixins' as *;
 
 .root {
   position: relative;
@@ -83,6 +83,11 @@
   transition:
     background-color 75ms ease,
     opacity 75ms ease;
+
+  @include tauri-mobile {
+    filter: none;
+    opacity: 0.55;
+  }
 }
 
 .avatarHaloSpeaking {
@@ -92,6 +97,10 @@
 .avatarHaloLocalSpeaking {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   background: color-mix(in oklch, var(--brand-cyan) 40%, transparent);
+
+  @include tauri-mobile {
+    animation: none;
+  }
 }
 
 .avatar {
@@ -146,6 +155,11 @@
   font-size: rem(10);
   font-weight: 500;
   gap: 0.25rem;
+
+  @include tauri-mobile {
+    backdrop-filter: none;
+    background: rgb(0 0 0 / 80%);
+  }
 }
 
 .badgeIcon {

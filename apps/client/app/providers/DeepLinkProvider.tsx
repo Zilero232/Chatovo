@@ -29,20 +29,33 @@ export const DeepLinkProvider = ({ children }: { children: ReactNode }) => {
     }
 
     let unlisten: (() => void) | undefined;
+    let cancelled = false;
 
     void (async () => {
       const current = await getCurrent();
+
+      if (cancelled) {
+        return;
+      }
 
       if (current?.length) {
         navigateDeepLinks(current, (path) => router.replace(path));
       }
 
-      unlisten = await onOpenUrl((urls) => {
+      const stop = await onOpenUrl((urls) => {
         navigateDeepLinks(urls, (path) => router.replace(path));
       });
+
+      if (cancelled) {
+        stop();
+        return;
+      }
+
+      unlisten = stop;
     })();
 
     return () => {
+      cancelled = true;
       unlisten?.();
     };
   }, [router]);

@@ -7,7 +7,7 @@ import type { LandingSectionProps } from '../../LandingPage.types';
 
 import { LANDING_DESKTOP_ICONS, LANDING_DESKTOP_KEYS } from '../../../config';
 import { LandingDownloadButton } from '../LandingDownloadButton/LandingDownloadButton';
-import { LandingReveal } from '../LandingReveal';
+import { LandingReveal } from '../LandingReveal/LandingReveal';
 
 import s from '../../LandingPage.module.scss';
 

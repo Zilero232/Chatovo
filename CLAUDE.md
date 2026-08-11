@@ -20,7 +20,8 @@ apps/
 ├── server/          # NestJS API — modules/ (module+controller+services/+dto+lib/), lib/, core/, common/ (CLAUDE.md)
 └── tauri/           # Rust shell (src/), capabilities/, tauri.conf.json (CLAUDE.md)
 packages/schemas/    # Zod schemas (@chatovo/schemas), imported by client and server; grouped by domain
-scripts/            # Локальные release/deploy скрипты (CI нет) — lib/, deploy/, release/
+scripts/            # check-locales.mjs (release/deploy живут в .github/workflows/)
+.github/            # CI: workflows/release.yml, workflows/deploy.yml, actions/setup/
 docs/
 ├── fsd.md           # Frontend (apps/client) architecture — read before structural changes
 ├── style.md         # Code style, import order, naming
@@ -28,7 +29,7 @@ docs/
 infra/               # Caddy + LiveKit configs
 ```
 
-**Env**: один общий `.env` в корне на клиент и сервер (`.env.example` — шаблон). Клиент читает из него `NEXT_PUBLIC_*` через `loadRootEnv()` в [apps/client/next.config.ts](apps/client/next.config.ts). Отдельные `.env` есть только у `apps/tauri/` (машинные пути Android SDK/JDK). Креды для релиза и деплоя — в `.env.release` (`.env.release.example`). Всё, кроме `*.example`, в `.gitignore`.
+**Env**: один общий `.env` в корне на клиент и сервер (`.env.example` — шаблон). Клиент читает из него `NEXT_PUBLIC_*` через `loadRootEnv()` в [apps/client/next.config.ts](apps/client/next.config.ts). Отдельные `.env` есть только у `apps/tauri/` (машинные пути Android SDK/JDK). Креды для релиза и деплоя живут только в GitHub Secrets — локальных env-файлов под них нет, список нужных секретов описан в шапке каждого workflow. Всё, кроме `*.example`, в `.gitignore`.
 
 Each app folder has its own `CLAUDE.md` (see [Per-app guidance](#per-app-guidance)).
 
@@ -104,20 +105,21 @@ bun lint:css               # stylelint (SCSS)
 bun lint:css:fix           # stylelint --fix — сортирует свойства, чинит порядок
 bun format                 # prettier --write
 bun format:check           # prettier --check
-bun check:locales          # en/ru: одинаковый набор ключей + рассинхрон юрдоков
-bun verify                 # typecheck + lint + format:check + lint:css + check:locales — прогони перед коммитом
+bun verify                 # typecheck + lint + format:check + lint:css — прогони перед коммитом
 bun fix                    # lint:fix + format + lint:css:fix
-bun build                  # server + client production build
+bun lint:rust              # clippy на apps/tauri (в verify не входит — нужен cargo)
+bun build                  # client production build (у сервера сборки нет — Bun гоняет TS напрямую)
 
-# Release / deploy (локально, CI нет — креды в .env.release)
-bun deploy:web             # собрать образы, запушить в ghcr, перезапустить стек на VPS
-bun release                # desktop + android → GitHub Release vX.Y.Z
-bun release:desktop        # только desktop
-bun release:android        # только android
+# Release / deploy — только через GitHub Actions, локальных скриптов больше нет.
+#   release: git tag vX.Y.Z && git push --tags  (или Actions → release → Run workflow)
+#            checks → draft → desktop (win/mac aarch64+x86_64/linux) + android → publish
+#   deploy:  Actions → deploy → Run workflow (ghcr + ssh на VPS, вручную)
+# Секреты — Settings → Secrets and variables → Actions (список в шапке workflow).
 
 # Tauri (desktop)
 bun tauri:dev              # run Tauri dev shell
 bun tauri:build            # produce native binary
+bun android:build          # APK + AAB (нужны SDK/NDK, см. apps/tauri/.env)
 
 # Server / Prisma (run from apps/server/)
 bun db:push                # push schema without migration (USE THIS — see note)

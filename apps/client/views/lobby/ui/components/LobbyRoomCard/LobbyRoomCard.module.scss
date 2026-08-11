@@ -11,6 +11,10 @@
   border-radius: 1rem;
   transition: all 300ms ease;
 
+  @include tauri-mobile {
+    transition: border-color 300ms ease;
+  }
+
   &:hover {
     box-shadow: 0 rem(16) rem(40) rem(-20) oklch(70% 0.2 270deg / 55%);
     transform: translateY(rem(-2));
@@ -35,6 +39,10 @@
   filter: blur(rem(32));
   pointer-events: none;
   transition: opacity 150ms ease;
+
+  @include tauri-mobile {
+    display: none;
+  }
 
   .root:hover & {
     opacity: 1;
@@ -156,6 +164,10 @@
   border-radius: 9999px;
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   background: var(--primary);
+
+  @include tauri-mobile {
+    animation: none;
+  }
 }
 
 .body {

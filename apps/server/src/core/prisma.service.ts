@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaPg } from '@prisma/adapter-pg';
 
 import { PrismaClient } from '../../generated';
+import { basePrisma } from './base-prisma';
 import { env } from './index';
 
 @Injectable()
@@ -20,6 +21,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
   }
 
   async onModuleDestroy() {
-    await this.$disconnect();
+    await Promise.all([this.$disconnect(), basePrisma.$disconnect()]);
   }
 }

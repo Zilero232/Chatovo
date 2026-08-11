@@ -30,8 +30,13 @@ bun tauri:dev          # run the desktop dev shell
 bun tauri:build        # produce a native binary
 bun android:init # init Android project (requires SDK + NDK)
 bun android:dev  # run on Android device/emulator
-bun android:build # build Play Store AAB
+bun android:build # build the APK + the Play Store AAB
 ```
+
+Releases are built by `.github/workflows/release.yml` on a `v*` tag — desktop
+via `tauri-action` (Windows, macOS arm64 + x64, Linux), Android signed by
+`scripts/android-signing.mjs` from the `ANDROID_KEY_*` secrets. The local
+commands above are for development.
 
 Android setup: install Android Studio (SDK + NDK), copy `apps/tauri/.env.example` → `.env`, set `NDK_HOME` to your installed NDK folder, then `bun android:init`. See [docs/play-store/README.md](../../docs/play-store/README.md).
 

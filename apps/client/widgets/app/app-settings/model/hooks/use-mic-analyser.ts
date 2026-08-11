@@ -80,11 +80,25 @@ export const useMicAnalyser = ({ deviceId, audio, active, onReady, onError }: Mi
     };
   }, [deviceId, noiseSuppression, echoCancellation, autoGainControl, voiceIsolation, active]);
 
-  useInterval(() => {
-    if (calcVolumeRef.current) {
-      setLevel(calcVolumeRef.current());
+  const { pause, resume } = useInterval(
+    () => {
+      if (calcVolumeRef.current) {
+        setLevel(calcVolumeRef.current());
+      }
+    },
+    LEVEL_INTERVAL_MS,
+    { immediately: false }
+  );
+
+  useEffect(() => {
+    if (!active) {
+      return;
     }
-  }, LEVEL_INTERVAL_MS);
+
+    resume();
+
+    return () => pause();
+  }, [active]);
 
   return level;
 };

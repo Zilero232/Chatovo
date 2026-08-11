@@ -71,5 +71,7 @@ livekit.chatovo.localhost {
 		respond 204
 	}
 
-	reverse_proxy livekit:7880
+	reverse_proxy livekit:7880 {
+		header_down -Access-Control-Allow-Origin
+	}
 }

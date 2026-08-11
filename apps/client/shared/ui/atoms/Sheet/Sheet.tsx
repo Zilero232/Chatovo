@@ -5,6 +5,7 @@ import { clsx } from 'clsx';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useState } from 'react';
 
+import { useLiteMotion } from '@/shared/hooks';
 import { shouldKeepDialogOpen } from '@/shared/lib/nested-overlay';
 
 import type {
@@ -87,16 +88,19 @@ export const SheetContent = ({
   ...props
 }: SheetContentProps) => {
   const shouldReduceMotion = useReducedMotion();
+  const { resolveTransition } = useLiteMotion();
 
   return (
     <Dialog.Popup
       key='sheet-popup'
       render={
         <motion.div
+          transition={
+            shouldReduceMotion ? SHEET_REDUCED_TRANSITION : resolveTransition(SHEET_TRANSITION)
+          }
           animate={shouldReduceMotion ? { opacity: 1 } : 'visible'}
           exit={shouldReduceMotion ? { opacity: 0 } : 'hidden'}
           initial={shouldReduceMotion ? { opacity: 0 } : 'hidden'}
-          transition={shouldReduceMotion ? SHEET_REDUCED_TRANSITION : SHEET_TRANSITION}
           variants={sheetVariants(side)}
         />
       }

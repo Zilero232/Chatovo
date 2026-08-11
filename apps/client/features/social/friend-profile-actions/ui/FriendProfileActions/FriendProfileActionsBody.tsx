@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { match } from 'ts-pattern';
 
-import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
-
 import type { FriendProfileActionsBodyProps } from './FriendProfileActionsBody.types';
 
 import { useFriendProfileActions } from '../../model/hooks';
@@ -19,18 +17,14 @@ export const FriendProfileActionsBody = ({
   state,
   userId,
   friendTag,
-  displayName,
-  avatarUrl,
-  verified
+  onOpenChat,
+  renderRemoveConfirm
 }: FriendProfileActionsBodyProps) => {
   const [removeOpen, setRemoveOpen] = useState(false);
 
-  const { isBusy, add, cancelRequest, accept, decline, call, openChat } = useFriendProfileActions({
+  const { isBusy, add, cancelRequest, accept, decline, call } = useFriendProfileActions({
     userId,
-    friendTag,
-    displayName,
-    avatarUrl,
-    verified
+    friendTag
   });
 
   return (
@@ -51,18 +45,13 @@ export const FriendProfileActionsBody = ({
           <FriendActions
             isBusy={isBusy}
             onCall={call}
-            onOpenChat={openChat}
+            onOpenChat={onOpenChat}
             onRemove={() => setRemoveOpen(true)}
           />
         ))
         .exhaustive()}
 
-      <RemoveFriendConfirmDialog
-        friendName={displayName}
-        open={removeOpen}
-        userId={userId}
-        onOpenChange={setRemoveOpen}
-      />
+      {renderRemoveConfirm({ open: removeOpen, onOpenChange: setRemoveOpen })}
     </>
   );
 };

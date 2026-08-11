@@ -1,2 +1,2 @@
-export { ShortcutClearButton } from './ShortcutClearButton';
-export { ShortcutComboButton } from './ShortcutComboButton';
+export { ShortcutClearButton } from './ShortcutClearButton/ShortcutClearButton';
+export { ShortcutComboButton } from './ShortcutComboButton/ShortcutComboButton';

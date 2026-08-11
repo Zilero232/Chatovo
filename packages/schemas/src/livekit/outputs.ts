@@ -16,9 +16,7 @@ const participantProfileSchema = z.object({
 
 // Shape of the JSON string carried in LiveKit participant.metadata. The only
 // channel for per-user data like the verified mark.
-export const participantMetadataSchema = participantProfileSchema.extend({
-  email: z.string().nullable().default(null)
-});
+export const participantMetadataSchema = participantProfileSchema;
 
 export const roomParticipantSchema = participantProfileSchema.extend({
   identity: z.string(),

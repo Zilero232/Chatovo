@@ -17,13 +17,35 @@ export const useAppSettings = (): UseAppSettings => {
 
   const settings: AppSettings = mergeDeep(DEFAULT_APP_SETTINGS, value ?? {});
 
+  const readSettings = (): AppSettings => {
+    if (typeof window === 'undefined') {
+      return settings;
+    }
+
+    const raw = window.localStorage.getItem(STORAGE_KEYS.appSettings);
+
+    if (!raw) {
+      return settings;
+    }
+
+    try {
+      return mergeDeep(DEFAULT_APP_SETTINGS, (JSON.parse(raw) as AppSettings) ?? {});
+    } catch {
+      return settings;
+    }
+  };
+
   const setGroup: UseAppSettings['setGroup'] = (group, patch) => {
-    set({ ...settings, [group]: { ...settings[group], ...patch } });
+    const current = readSettings();
+
+    set({ ...current, [group]: { ...current[group], ...patch } });
   };
 
   const toggleSound: UseAppSettings['toggleSound'] = (category) => {
+    const current = readSettings();
+
     setGroup('sounds', {
-      enabled: { ...settings.sounds.enabled, [category]: !settings.sounds.enabled[category] }
+      enabled: { ...current.sounds.enabled, [category]: !current.sounds.enabled[category] }
     });
   };
 

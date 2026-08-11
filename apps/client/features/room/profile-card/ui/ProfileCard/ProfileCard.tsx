@@ -2,7 +2,6 @@
 
 import { useCurrentUser, UserAvatar, UserName } from '@/entities/auth/user';
 import { FriendTag } from '@/entities/social/friend';
-import { FriendProfileActions } from '@/features/social/friend-profile-actions';
 import { Text } from '@/shared/ui';
 
 import type { ProfileCardProps } from './ProfileCard.types';
@@ -13,7 +12,7 @@ import { AvatarZoom, ProfileCardSkeleton, ProfileVoiceBlock } from './components
 
 import s from './ProfileCard.module.scss';
 
-export const ProfileCard = ({ identity, name }: ProfileCardProps) => {
+export const ProfileCard = ({ identity, name, renderFriendActions }: ProfileCardProps) => {
   const { user } = useCurrentUser();
 
   const { data: profile, isLoading } = useUserProfile(identity);
@@ -62,15 +61,15 @@ export const ProfileCard = ({ identity, name }: ProfileCardProps) => {
 
         <ProfileVoiceBlock identity={identity} isSelf={isSelf} />
 
-        {!isSelf && profile?.friendTag && (
-          <FriendProfileActions
-            avatarUrl={profile?.avatarUrl ?? null}
-            displayName={displayName}
-            friendTag={profile.friendTag}
-            userId={identity}
-            verified={profile?.verified ?? false}
-          />
-        )}
+        {!isSelf &&
+          profile?.friendTag &&
+          renderFriendActions?.({
+            userId: identity,
+            friendTag: profile.friendTag,
+            displayName,
+            avatarUrl: profile.avatarUrl ?? null,
+            verified: profile.verified ?? false
+          })}
       </div>
     </div>
   );

@@ -82,11 +82,13 @@
 
 .linkOther {
   color: var(--brand-cyan);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, var(--brand-cyan) 50%, transparent);
   text-underline-offset: rem(2);
   word-break: break-all;
 
   &:hover {
-    text-decoration: underline;
+    text-decoration-color: var(--brand-cyan);
   }
 }
 

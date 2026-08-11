@@ -4,8 +4,6 @@ export const HERO_VISUAL_ANIMATE: Target = { opacity: 1, scale: 1, y: 0 };
 
 export const HERO_VISUAL_INITIAL: Target = { opacity: 0, scale: 0.96, y: 16 };
 
-export const HERO_VISUAL_REDUCED_INITIAL: Target = { opacity: 0 };
-
 export const HERO_VISUAL_TRANSITION: Transition = {
   type: 'spring',
   stiffness: 220,

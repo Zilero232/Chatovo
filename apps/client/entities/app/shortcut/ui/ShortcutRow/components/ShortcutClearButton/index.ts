@@ -1,1 +1,0 @@
-export { ShortcutClearButton } from './ShortcutClearButton';

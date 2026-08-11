@@ -97,6 +97,12 @@
   --bp-lg: #{px(1024)};
   --bp-xl: #{px(1280)};
   --bp-2xl: #{px(1536)};
+  --z-sticky: 30;
+  --z-overlay: 50;
+  --z-modal-backdrop: 60;
+  --z-modal: 61;
+  --z-popup: 70;
+  --z-toast: 80;
   --safe-area-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
   --safe-area-right: env(safe-area-inset-right, 0px);
   --safe-area-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));

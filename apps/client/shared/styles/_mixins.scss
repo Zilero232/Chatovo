@@ -53,6 +53,13 @@
   outline: none;
   transition: all 150ms ease;
 
+  @include tauri-mobile {
+    backdrop-filter: none;
+    transition:
+      border-color 150ms ease,
+      box-shadow 150ms ease;
+  }
+
   &::placeholder {
     color: var(--muted-foreground);
   }
@@ -154,6 +161,12 @@
 
 @mixin reduced-motion {
   @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+@mixin tauri-mobile {
+  :global(.tauri-mobile) & {
     @content;
   }
 }

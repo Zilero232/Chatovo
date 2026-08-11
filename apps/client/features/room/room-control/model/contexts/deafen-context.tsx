@@ -9,8 +9,10 @@ const useDeafenState = () => {
   const [isDeafened, setIsDeafened] = useState(false);
 
   const micBeforeDeafen = useRef(false);
+  const deafenQueue = useRef<Promise<void>>(Promise.resolve());
+  const deafenedRef = useRef(false);
 
-  return { isDeafened, setIsDeafened, micBeforeDeafen };
+  return { isDeafened, setIsDeafened, micBeforeDeafen, deafenQueue, deafenedRef };
 };
 
 const { Provider, use } = createContextHook(useDeafenState);

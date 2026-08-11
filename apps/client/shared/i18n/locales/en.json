@@ -770,7 +770,8 @@
     "installing": "Installing…",
     "failed": "Update failed. Try again later.",
     "upToDate": "You're on the latest version",
-    "checkFailed": "Couldn't check for updates"
+    "checkFailed": "Couldn't check for updates",
+    "checkTimedOut": "Update check timed out. Try again later."
   },
   "splash": {
     "signingIn": "Signing you in…"

@@ -11,7 +11,7 @@ type Options = {
 
 export const useRoomToken = (roomId: string | null, { isPrivate, password }: Options) =>
   useQuery({
-    queryKey: QUERY_KEYS.livekitToken(roomId),
+    queryKey: QUERY_KEYS.livekitToken(roomId, password),
     queryFn: () => fetchLiveKitToken({ roomId: roomId as string, password }),
     select: ({ token }) => token,
     enabled: isNonNullish(roomId) && (!isPrivate || isNonNullish(password)),

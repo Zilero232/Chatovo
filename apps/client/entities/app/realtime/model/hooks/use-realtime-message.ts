@@ -11,5 +11,5 @@ export const useRealtimeMessage = (handler: (message: RealtimeServerMessage) => 
     handler(message);
   });
 
-  useEffect(() => subscribeRealtimeMessage(onMessage), []);
+  useEffect(() => subscribeRealtimeMessage((message) => onMessage(message)), []);
 };

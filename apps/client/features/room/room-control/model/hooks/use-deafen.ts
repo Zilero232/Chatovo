@@ -17,12 +17,15 @@ export const useDeafen = () => {
   const { settings } = useAppSettings();
   const { send } = useRealtime();
 
-  const { isDeafened, setIsDeafened, micBeforeDeafen } = useDeafenContext();
+  const { isDeafened, setIsDeafened, micBeforeDeafen, deafenQueue, deafenedRef } =
+    useDeafenContext();
 
   const isPtt = settings.audio.activationMode === 'pushToTalk';
 
-  const enableDeafen = async (p: LocalParticipant) => {
-    micBeforeDeafen.current = p.isMicrophoneEnabled;
+  const enableDeafen = async (p: LocalParticipant, wasDeafened: boolean) => {
+    if (!wasDeafened) {
+      micBeforeDeafen.current = p.isMicrophoneEnabled;
+    }
 
     await p.setMicrophoneEnabled(false);
   };
@@ -40,6 +43,7 @@ export const useDeafen = () => {
   };
 
   const publishDeafened = (value: boolean) => {
+    deafenedRef.current = value;
     setIsDeafened(value);
     send({
       op: 'presence.patch',
@@ -48,25 +52,33 @@ export const useDeafen = () => {
     });
   };
 
-  const setDeafened = async (next: boolean) => {
+  const setDeafened = (next: boolean) => {
     if (isNullish(localParticipant)) {
-      return;
+      return deafenQueue.current;
     }
+
+    const wasDeafened = deafenedRef.current;
 
     publishDeafened(next);
 
-    try {
-      await (next ? enableDeafen(localParticipant) : disableDeafen(localParticipant));
-    } catch (err) {
-      console.error('deafen toggle failed', err);
+    deafenQueue.current = deafenQueue.current.then(async () => {
+      try {
+        await (next
+          ? enableDeafen(localParticipant, wasDeafened)
+          : disableDeafen(localParticipant));
+      } catch (err) {
+        console.error('deafen toggle failed', err);
 
-      publishDeafened(!next);
-    }
+        publishDeafened(wasDeafened);
+      }
+    });
+
+    return deafenQueue.current;
   };
 
   return {
     isDeafened,
-    toggle: () => setDeafened(!isDeafened),
+    toggle: () => setDeafened(!deafenedRef.current),
     undeafen: () => setDeafened(false)
   };
 };

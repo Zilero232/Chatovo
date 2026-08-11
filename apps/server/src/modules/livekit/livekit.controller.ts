@@ -25,7 +25,6 @@ export class LivekitController {
       roomId: body.roomId,
       password: body.password,
       userId: session.user.id,
-      email: session.user.email ?? null,
       isAdmin: session.user.role === 'admin'
     });
   }

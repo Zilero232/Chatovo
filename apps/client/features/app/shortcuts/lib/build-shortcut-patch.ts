@@ -12,7 +12,6 @@ export const buildShortcutPatch = (
 
     if (otherId !== actionId && current[otherId] === hotkey) {
       patch[otherId] = null;
-      break;
     }
   }
 

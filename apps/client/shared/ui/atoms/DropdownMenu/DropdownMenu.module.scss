@@ -1,7 +1,7 @@
 @use '@/shared/styles/mixins' as *;
 
 .positioner {
-  z-index: 60;
+  z-index: var(--z-popup);
 }
 
 .popup {

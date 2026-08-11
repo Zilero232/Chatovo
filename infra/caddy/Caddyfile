@@ -57,7 +57,13 @@ livekit.chatovo.ru {
 		respond 204
 	}
 
-	reverse_proxy host.docker.internal:7880
+	reverse_proxy host.docker.internal:7880 {
+		# LiveKit emits its own `Access-Control-Allow-Origin: *`. Left in place
+		# it arrives alongside the single value set above, and the browser
+		# rejects a response carrying the header twice — the user is dropped
+		# from the room with "could not establish signal connection".
+		header_down -Access-Control-Allow-Origin
+	}
 }
 
 api.chatovo.ru {

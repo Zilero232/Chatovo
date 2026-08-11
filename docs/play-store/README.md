@@ -29,7 +29,7 @@ bun android:init
 # Dev on device/emulator
 bun android:dev
 
-# Release bundle for Play Store
+# Release bundle for Play Store (APK + AAB)
 bun android:build
 # Output: apps/tauri/gen/android/app/build/outputs/bundle/universalRelease/app-universal-release.aab
 ```
@@ -38,10 +38,13 @@ bun android:build
 
 | Workflow | Trigger | Contents |
 |----------|---------|----------|
-| `deploy-web.yml` | push to `master` | Web client + API deploy to VPS (no GitHub Release) |
-| `release-app.yml` | `package.json` bump | Unified `vX.Y.Z` — desktop installers + Android APK |
+| `release.yml` | push a `v*` tag | `vX.Y.Z` — desktop installers (Windows, macOS arm64 + x64, Linux) and the signed Android APK + AAB |
+| `deploy.yml` | manual run | Web client + API images to GHCR, then the VPS stack (no GitHub Release) |
 
-Play Store signed AAB is separate — see `signing.md`.
+The release workflow signs the Android artifacts itself from the
+`ANDROID_KEY_*` secrets, so the AAB attached to the release is the one to
+upload — a local build is only needed when testing the signing setup. See
+`signing.md`.
 
 ## Environment
 

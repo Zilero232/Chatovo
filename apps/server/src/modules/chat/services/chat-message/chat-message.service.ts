@@ -1,6 +1,7 @@
 import type { ChatMessage, ChatMessagesPage } from '@chatovo/schemas';
 
 import { Injectable } from '@nestjs/common';
+import { isNonNullish } from 'remeda';
 
 import type {
   DeleteChatMessageInput,
@@ -26,10 +27,21 @@ export class ChatMessageService {
     await assertRoomExists(roomId);
     await assertCanAccessDmRoom({ roomId, userId: senderId });
 
-    const message = await this.prisma.message.upsert({
+    const existing = await this.prisma.message.findUnique({
       where: { id },
-      create: { id, roomId, senderId, body },
-      update: {},
+      include: { sender: senderSelect }
+    });
+
+    if (isNonNullish(existing)) {
+      if (existing.senderId !== senderId || existing.roomId !== roomId) {
+        throw new AppForbiddenException('MESSAGE_NOT_OWNED', 'Message id already used');
+      }
+
+      return toChatMessage(existing);
+    }
+
+    const message = await this.prisma.message.create({
+      data: { id, roomId, senderId, body },
       include: { sender: senderSelect }
     });
 
@@ -56,10 +68,11 @@ export class ChatMessageService {
 
     const hasMore = rows.length > limit;
     const page = hasMore ? rows.slice(0, limit) : rows;
+    const oldest = page.at(-1)?.id ?? null;
 
     return {
-      items: page.reverse().map(toChatMessage),
-      nextCursor: hasMore ? (page[0]?.id ?? null) : null
+      items: page.slice().reverse().map(toChatMessage),
+      nextCursor: hasMore ? oldest : null
     };
   }
 

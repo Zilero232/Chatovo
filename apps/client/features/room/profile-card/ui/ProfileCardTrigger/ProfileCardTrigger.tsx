@@ -15,7 +15,8 @@ export const ProfileCardTrigger = ({
   identity,
   name,
   className,
-  children
+  children,
+  renderFriendActions
 }: ProfileCardTriggerProps) => {
   const triggerRef = useRef<HTMLButtonElement>(null);
 
@@ -45,7 +46,7 @@ export const ProfileCardTrigger = ({
           triggerRef={triggerRef}
           onOpenChange={setIsOpen}
         >
-          <ProfileCard identity={identity} name={name} />
+          <ProfileCard identity={identity} name={name} renderFriendActions={renderFriendActions} />
         </PopoverContent>
       )}
     </>

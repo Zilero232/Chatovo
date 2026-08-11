@@ -10,8 +10,6 @@ export const LOBBY_SECTION_ANIMATE: Target = { opacity: 1, y: 0 };
 
 export const LOBBY_SECTION_INITIAL: Target = { opacity: 0, y: 8 };
 
-export const LOBBY_SECTION_REDUCED: Target = { opacity: 0 };
-
 export const LOBBY_CARD_TRANSITION: Transition = {
   type: 'spring',
   stiffness: 420,

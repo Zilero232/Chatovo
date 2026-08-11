@@ -6,6 +6,8 @@ import { motion, useReducedMotion } from 'motion/react';
 
 import { UserAvatar, UserName } from '@/entities/auth/user';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
+import { useLiteMotion } from '@/shared/hooks';
+import { FriendProfileActionsPanel } from '@/widgets/social/friend-profile-actions-panel';
 
 import type { ParticipantCardProps } from './ParticipantCard.types';
 
@@ -24,6 +26,7 @@ import s from './ParticipantCard.module.scss';
 
 export const ParticipantCard = ({ participant, deafened, fill = false }: ParticipantCardProps) => {
   const shouldReduceMotion = useReducedMotion();
+  const { layout, resolveTransition } = useLiteMotion();
 
   const {
     cameraTrack,
@@ -43,14 +46,14 @@ export const ParticipantCard = ({ participant, deafened, fill = false }: Partici
   return (
     <ParticipantCardMenu participant={participant}>
       <motion.div
-        layout
         animate={PARTICIPANT_CARD_ANIMATE}
         className={clsx(s.root, { [s.rootFill]: fill })}
         data-local={isLocal}
         data-speaking={isSpeaking}
         exit={shouldReduceMotion ? PARTICIPANT_CARD_REDUCED_HIDDEN : PARTICIPANT_CARD_HIDDEN}
         initial={shouldReduceMotion ? PARTICIPANT_CARD_REDUCED_HIDDEN : PARTICIPANT_CARD_HIDDEN}
-        transition={PARTICIPANT_CARD_TRANSITION}
+        layout={layout}
+        transition={resolveTransition(PARTICIPANT_CARD_TRANSITION)}
       >
         <div className={s.stage}>
           {hasVideo ? (
@@ -95,6 +98,7 @@ export const ParticipantCard = ({ participant, deafened, fill = false }: Partici
             className={s.nameTrigger}
             identity={participant.identity}
             name={displayName}
+            renderFriendActions={(state) => <FriendProfileActionsPanel {...state} />}
           >
             <UserName className={s.name} name={displayName} verified={verified} />
           </ProfileCardTrigger>

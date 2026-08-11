@@ -45,7 +45,10 @@ export const Select = <T extends string>({
 
       <BaseSelect.Portal>
         <BaseSelect.Positioner alignItemWithTrigger={false} className={s.positioner} sideOffset={4}>
-          <BaseSelect.Popup className={clsx('glass-overlay', s.popup, menuClassName)}>
+          <BaseSelect.Popup
+            className={clsx('glass-overlay', s.popup, menuClassName)}
+            data-slot='select-content'
+          >
             <BaseSelect.List className={s.list}>
               {options.map((option) => (
                 <BaseSelect.Item

@@ -64,8 +64,8 @@ In Play Console, enable **Google Play App Signing** on first upload. Google mana
 
 ## 5. Build AAB for Play Store
 
-```bash
-bun android:build:aab
-```
+`bun android:build` produces the APK and the AAB in one run. Upload
+`app-universal-release.aab` to Internal testing first.
 
-Upload `app-universal-release.aab` to Internal testing first.
+The `release` workflow builds and signs both on CI whenever a `v*` tag is
+pushed, so a local build is only needed when testing the signing setup itself.

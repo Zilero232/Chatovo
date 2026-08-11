@@ -31,15 +31,13 @@ node_modules
 .env
 .env.local
 .env.*.local
-.env.release
 !.env.example
-!.env.release.example
 
 # Tauri updater minisign keys
 *.key
 *.key.pub
 
-# Android signing material written by scripts/release/android.mjs
+# Android signing material written by apps/tauri/scripts/android-signing.mjs
 *.keystore
 keystore.properties
 

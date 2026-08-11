@@ -7,6 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { match } from 'ts-pattern';
 
+import { useLiteMotion } from '@/shared/hooks';
 import { Spinner, Text } from '@/shared/ui';
 
 import type { ConnectingOverlayProps } from './ConnectingOverlay.types';
@@ -26,6 +27,7 @@ export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
   const t = useTranslations('room');
   const state = useConnectionState();
   const shouldReduceMotion = useReducedMotion();
+  const { resolveTransition } = useLiteMotion();
 
   const text = match(state)
     .with(ConnectionState.Connected, ConnectionState.Disconnected, () => null)
@@ -50,7 +52,7 @@ export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
             className={clsx(s.box, 'glass shadow-glow-violet')}
             exit={shouldReduceMotion ? BOX_REDUCED : BOX_EXIT}
             initial={shouldReduceMotion ? BOX_REDUCED : BOX_INITIAL}
-            transition={BOX_TRANSITION}
+            transition={resolveTransition(BOX_TRANSITION)}
           >
             <Spinner size='lg' />
             <Text className={s.text} size='sm' tone='inherit'>

@@ -1,0 +1,364 @@
+name: release
+
+# Tauri cannot meaningfully cross-compile, and macOS cannot be built off a Mac
+# at all, so each platform builds on its own runner. tauri-action creates the
+# draft on the first job to reach it, reuses it afterwards, and merges every
+# platform's entry into one latest.json — which is why nothing here hand-rolls
+# an updater manifest, and why the updater now covers macOS and Linux instead
+# of windows-x86_64 alone.
+#
+# Repository secrets — Settings → Secrets and variables → Actions:
+#   NEXT_PUBLIC_API_URL              baked into every bundle, e.g. https://api.chatovo.ru
+#   NEXT_PUBLIC_LIVEKIT_URL          likewise, e.g. wss://livekit.chatovo.ru
+#   TAURI_SIGNING_PRIVATE_KEY        contents of ~/.tauri/chatovo.key
+#                                    (bun --filter @chatovo/tauri signer:generate)
+#   ANDROID_KEY_ALIAS                keystore alias
+#   ANDROID_KEY_PASSWORD             keystore + key password
+#   ANDROID_KEY_BASE64               the keystore itself, base64
+#
+# The keystore is generated once, by hand, and never regenerated — a new key
+# cannot update an APK that is already installed:
+#   keytool -genkey -v -keystore chatovo-release.keystore -alias chatovo \
+#     -keyalg RSA -keysize 2048 -validity 10000
+#   base64 -i chatovo-release.keystore
+#
+# GITHUB_TOKEN is provided by Actions; nothing to add for it.
+#
+# Actions are pinned to a commit SHA, not a tag: a tag can be moved, and these
+# jobs hold the signing keys. Bumping them is a manual edit — the comment next
+# to each SHA says which release it is.
+
+# The tag triggers this directly. The gate is the `checks` job below rather than
+# a separate chained workflow: `workflow_run` cannot filter on a tag, so it
+# would fire for every branch and pull request and build the frontend twice for
+# one release.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+# Every `bun install` here — including the one tauri-action runs itself — fires
+# the server postinstall, and prisma.config.ts resolves DIRECT_URL through
+# env(). `generate` never connects, so a placeholder satisfies it.
+env:
+  DATABASE_URL: postgresql://placeholder
+  DIRECT_URL: postgresql://placeholder
+
+# Granted per job instead: only the ones that touch the release need write.
+permissions: {}
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # The gate, and the only automated run of the checks in this repo: nothing
+  # below it runs unless it passes, so a tag on a commit that does not typecheck
+  # never produces signed artefacts. Ordinary commits are checked by `bun run
+  # verify` locally — there is no workflow watching master.
+  checks:
+    # The root `permissions: {}` leaves GITHUB_TOKEN with no scopes at all, so
+    # the clone needs this back even on a public repository.
+    permissions:
+      contents: read
+
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      # `draft` and `publish` read the version from the root package.json while
+      # tauri-action reads tauri.conf.json — if the two ever disagree the draft
+      # is created under one tag and the bundles are uploaded to another. The
+      # tag itself must match too, or the release lands on a tag nobody pushed.
+      - name: Check the version is in sync
+        env:
+          REF_NAME: ${{ github.ref_name }}
+          REF_TYPE: ${{ github.ref_type }}
+        run: |
+          set -euo pipefail
+          root=$(node -p "require('./package.json').version")
+          mismatched=()
+
+          for manifest in apps/client/package.json apps/server/package.json \
+            apps/tauri/package.json packages/schemas/package.json \
+            apps/tauri/tauri.conf.json; do
+            version=$(node -p "require('./$manifest').version")
+            [ "$version" = "$root" ] || mismatched+=("$manifest: $version")
+          done
+
+          cargo_version=$(sed -n 's/^version = "\(.*\)"/\1/p' apps/tauri/Cargo.toml | head -1)
+          [ "$cargo_version" = "$root" ] || mismatched+=("apps/tauri/Cargo.toml: $cargo_version")
+
+          if [ "$REF_TYPE" = tag ] && [ "$REF_NAME" != "v$root" ]; then
+            mismatched+=("tag: $REF_NAME")
+          fi
+
+          if [ ${#mismatched[@]} -gt 0 ]; then
+            echo "root package.json is $root, but:" >&2
+            printf '  %s\n' "${mismatched[@]}" >&2
+            exit 1
+          fi
+
+          echo "every manifest is on $root"
+
+      - uses: ./.github/actions/setup
+        with:
+          cache-key: verify
+
+      # tauri links against webkit2gtk; without these clippy cannot build its
+      # dependencies and the Rust half of the checks never runs.
+      - name: Install Linux build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libsoup-3.0-dev
+
+      # tauri.conf.json points frontendDist at ../client/out, and the build
+      # script validates it, so clippy cannot touch the crate until the icons
+      # and the exported frontend exist.
+      - run: bun run tauri:icon
+
+      # `next build` bakes NEXT_PUBLIC_* into the bundle. Nothing built here
+      # ships, so placeholders are enough — and they keep the checks runnable
+      # on a fork with no secrets.
+      - env:
+          NODE_ENV: production
+          NEXT_PUBLIC_API_URL: https://api.invalid
+          NEXT_PUBLIC_LIVEKIT_URL: wss://livekit.invalid
+        run: bun --filter @chatovo/client build
+
+      - run: bun run verify
+      - run: bun run lint:rust
+
+  # The draft exists before either build so desktop and android can upload into
+  # it at the same time instead of android queueing behind the matrix.
+  draft:
+    needs: checks
+
+    permissions:
+      contents: write
+
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Create the draft release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMITISH: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          tag="v$(node -p "require('./package.json').version")"
+
+          gh release view "$tag" >/dev/null 2>&1 && exit 0
+
+          gh release create "$tag" --draft --target "$COMMITISH" \
+            --title "Chatovo $tag" --notes ""
+
+  desktop:
+    needs: draft
+
+    permissions:
+      contents: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2025
+            label: windows
+            args: ''
+          # Apple silicon and Intel ship as separate bundles: a universal
+          # binary would need both targets in one build, and the updater keys
+          # its platforms on the arch anyway.
+          - os: macos-15
+            label: macos-aarch64
+            args: --target aarch64-apple-darwin
+          - os: macos-15
+            label: macos-x86_64
+            args: --target x86_64-apple-darwin
+          - os: ubuntu-24.04
+            label: linux
+            args: ''
+
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup
+        with:
+          cache-key: ${{ matrix.label }}
+          # rust-toolchain.toml only names the windows target; the mac runners
+          # need theirs added explicitly, and x86_64 is a cross-build there.
+          rust-targets: ${{ matrix.label == 'macos-aarch64' && 'aarch64-apple-darwin' || matrix.label == 'macos-x86_64' && 'x86_64-apple-darwin' || '' }}
+
+      - name: Install Linux build dependencies
+        if: matrix.label == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libsoup-3.0-dev
+
+      # tauri-action runs beforeBuildCommand itself, which builds the client;
+      # the icons are the one input it does not generate.
+      - run: bun run tauri:icon
+
+      - uses: tauri-apps/tauri-action@1deb371b0cd8bd54025b384f1cd735e725c4060f # v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_ENV: production
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_LIVEKIT_URL: ${{ secrets.NEXT_PUBLIC_LIVEKIT_URL }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ''
+        with:
+          projectPath: apps/tauri
+          tagName: v__VERSION__
+          releaseName: Chatovo v__VERSION__
+          # Stays a draft until Android has uploaded too; `publish` flips it.
+          releaseDraft: true
+          args: ${{ matrix.args }}
+
+  android:
+    needs: draft
+
+    permissions:
+      contents: write
+
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      # No `cache: gradle` here: it hashes **/*.gradle* to build its key, and
+      # the gradle project does not exist yet — `tauri android init` generates
+      # gen/android later in this job, and gen/ is gitignored. With nothing to
+      # hash the action fails outright. The cache below does the same job keyed
+      # on something that is actually in the checkout.
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Cache gradle
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ hashFiles('apps/tauri/Cargo.toml', 'apps/tauri/scripts/setup-android-fcm.mjs') }}
+          restore-keys: gradle-
+
+      # build-tools is not part of the default package set, and without it
+      # there is no apksigner to verify the signed apk with.
+      - uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4
+        with:
+          packages: platform-tools build-tools;34.0.0
+
+      # setup-android ships the SDK but not the NDK, and without it cargo
+      # cannot cross-compile to the android targets.
+      - uses: nttld/setup-ndk@ed92fe6cadad69be94a966a7ee3271275e62f779 # v1
+        id: ndk
+        with:
+          ndk-version: r27c
+
+      - uses: ./.github/actions/setup
+        with:
+          cache-key: android
+          rust-targets: aarch64-linux-android x86_64-linux-android
+
+      # `tauri android init` regenerates gen/android, so the FCM overlay and
+      # the signing config are applied after it, never before.
+      - name: Prepare the android project
+        working-directory: apps/tauri
+        env:
+          NDK_HOME: ${{ steps.ndk.outputs.ndk-path }}
+        run: |
+          bunx tauri android init
+          bun run icon
+          node ./scripts/setup-android-fcm.mjs
+
+      - name: Wire release signing
+        env:
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_KEY_BASE64: ${{ secrets.ANDROID_KEY_BASE64 }}
+        run: node apps/tauri/scripts/android-signing.mjs
+
+      - name: Build apk and aab
+        working-directory: apps/tauri
+        env:
+          NDK_HOME: ${{ steps.ndk.outputs.ndk-path }}
+          NODE_ENV: production
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_LIVEKIT_URL: ${{ secrets.NEXT_PUBLIC_LIVEKIT_URL }}
+        run: |
+          bunx tauri android build --apk --target aarch64 --target x86_64
+          bunx tauri android build --aab --target aarch64 --target x86_64
+
+      # The universal build is the one that ships; gradle also leaves per-ABI
+      # artifacts next to it.
+      - name: Collect and verify
+        id: artifacts
+        run: |
+          set -euo pipefail
+          version=$(node -p "require('./package.json').version")
+          gen=apps/tauri/gen/android
+          apk=$(find "$gen" -path '*/outputs/*' -name '*universal*release*.apk' | head -1)
+          aab=$(find "$gen" -path '*/outputs/*' -name '*release*.aab' | head -1)
+
+          if [ -z "$apk" ] || [ -z "$aab" ]; then
+            echo "apk or aab missing under $gen" >&2
+            exit 1
+          fi
+
+          apksigner=$(find "$ANDROID_HOME/build-tools" -name apksigner | sort | tail -1)
+          "$apksigner" verify --verbose "$apk"
+
+          mkdir -p target/android-release
+          cp "$apk" "target/android-release/Chatovo_${version}_android.apk"
+          cp "$aab" "target/android-release/Chatovo_${version}_android.aab"
+          echo "tag=v${version}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload to the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.artifacts.outputs.tag }}
+        run: gh release upload "$TAG" target/android-release/* --clobber
+
+  publish:
+    needs: [desktop, android]
+    # The desktop bundles should still ship if the Android build failed.
+    if: always() && needs.desktop.result == 'success'
+
+    permissions:
+      contents: write
+
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          tag="v$(node -p "require('./package.json').version")"
+          gh release edit "$tag" --draft=false --latest

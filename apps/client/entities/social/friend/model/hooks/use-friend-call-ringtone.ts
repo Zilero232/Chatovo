@@ -15,30 +15,22 @@ export const useFriendCallRingtone = (active: boolean, kind: FriendCallSoundKind
   const { enabled: soundsEnabled, volume } = settings.sounds;
 
   useEffect(() => {
+    if (!active || !soundsEnabled.call) {
+      return;
+    }
+
     const audio = new Audio(FRIEND_CALL_SOUND_SRC[kind]);
     audio.loop = true;
+    audio.volume = volume;
     audioRef.current = audio;
+
+    audio.play().catch(() => {});
 
     return () => {
       audio.pause();
+      audio.currentTime = 0;
       audio.src = '';
       audioRef.current = null;
     };
-  }, [kind]);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) {
-      return;
-    }
-
-    if (!active || !soundsEnabled.call) {
-      audio.pause();
-      audio.currentTime = 0;
-      return;
-    }
-
-    audio.volume = volume;
-    audio.play().catch(() => {});
-  }, [active, soundsEnabled.call, volume]);
+  }, [active, kind, soundsEnabled.call, volume]);
 };

@@ -54,6 +54,10 @@
 }
 
 .bio {
-  overflow-wrap: break-word;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow-wrap: anywhere;
   white-space: pre-wrap;
 }

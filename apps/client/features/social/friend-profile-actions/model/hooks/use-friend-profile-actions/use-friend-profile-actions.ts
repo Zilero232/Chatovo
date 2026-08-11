@@ -10,17 +10,10 @@ import {
   useRemoveFriendship,
   useSendFriendRequest
 } from '@/entities/social/friend';
-import { useFriendChat } from '@/features/social/friend-chat';
 
 import type { UseFriendProfileActionsInput } from './use-friend-profile-actions.types';
 
-export const useFriendProfileActions = ({
-  userId,
-  friendTag,
-  displayName,
-  avatarUrl,
-  verified
-}: UseFriendProfileActionsInput) => {
+export const useFriendProfileActions = ({ userId, friendTag }: UseFriendProfileActionsInput) => {
   const t = useTranslations('friends');
 
   const sendRequest = useSendFriendRequest();
@@ -28,7 +21,6 @@ export const useFriendProfileActions = ({
   const declineRequest = useDeclineFriendRequest();
   const removeFriendship = useRemoveFriendship();
   const callFriend = useCallFriend();
-  const { open: openFriendChat } = useFriendChat();
 
   const isBusy =
     sendRequest.isPending ||
@@ -66,9 +58,5 @@ export const useFriendProfileActions = ({
     callFriend.mutate({ userId }, { onError: () => toast.error(t('callFailed')) });
   };
 
-  const openChat = () => {
-    openFriendChat({ id: userId, name: displayName, avatarUrl, verified });
-  };
-
-  return { isBusy, add, cancelRequest, accept, decline, call, openChat };
+  return { isBusy, add, cancelRequest, accept, decline, call };
 };

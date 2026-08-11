@@ -34,6 +34,10 @@ export const handleClientMessage = async (
       patchParticipant(roomId, connection.userId, { micMuted, deafened });
     })
     .with({ op: 'room.reaction' }, ({ roomId, emoji }) => {
+      if (!connection.rooms.has(roomId)) {
+        return;
+      }
+
       emitRoomEvent(roomId, {
         type: 'room.reaction',
         roomId,

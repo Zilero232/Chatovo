@@ -62,6 +62,11 @@ button {
   text-align: inherit;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 html,
 body {
   overflow: hidden;
@@ -634,5 +639,64 @@ body {
   .shimmer {
     animation: none;
     background: oklch(100% 0 0deg / 8%);
+  }
+}
+
+.tauri-mobile {
+  .glass,
+  .glass-strong,
+  .glass-overlay,
+  .shell-panel,
+  .surface-card,
+  .surface-bar {
+    backdrop-filter: none;
+  }
+
+  .surface-bar {
+    background-color: oklch(19% 0.014 280deg);
+  }
+
+  .auth-grid {
+    transition: none;
+    translate: none;
+    will-change: auto;
+  }
+
+  .glass-hover {
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease;
+  }
+
+  .shimmer {
+    animation: none;
+    background: oklch(100% 0 0deg / 8%);
+  }
+
+  .glass {
+    background-color: oklch(22% 0.018 280deg);
+  }
+
+  .glass-strong {
+    background-color: oklch(26% 0.022 280deg);
+  }
+
+  .glass-overlay {
+    background-color: oklch(18% 0.014 280deg);
+  }
+
+  .shell-panel {
+    background-color: oklch(16% 0.013 280deg);
+  }
+
+  .surface-card {
+    background-color: oklch(21% 0.016 280deg);
+  }
+
+  .lobby-ambience-orb,
+  .auth-orb,
+  .auth-aurora:before,
+  .auth-aurora:after {
+    display: none;
   }
 }

@@ -6,7 +6,7 @@ import { Text } from '@/shared/ui';
 import type { LandingSectionProps } from '../../LandingPage.types';
 
 import { LANDING_FEATURE_ICONS, LANDING_FEATURE_KEYS } from '../../../config';
-import { LandingReveal } from '../LandingReveal';
+import { LandingReveal } from '../LandingReveal/LandingReveal';
 
 import s from '../../LandingPage.module.scss';
 

@@ -1,5 +1,7 @@
 import type { RoomParticipant, RoomsParticipantsSnapshot } from '@chatovo/schemas';
 
+import { isDefined, pickBy } from 'remeda';
+
 import type { ParticipantPatch } from './livekit.types';
 
 import { emitPresenceSnapshot } from '../realtime';
@@ -79,7 +81,7 @@ export const patchParticipant = (roomId: string, identity: string, patch: Partic
     return;
   }
 
-  const next = { ...current, ...patch };
+  const next = { ...current, ...pickBy(patch, isDefined) };
 
   if (next.micMuted === current.micMuted && next.deafened === current.deafened) {
     return;
