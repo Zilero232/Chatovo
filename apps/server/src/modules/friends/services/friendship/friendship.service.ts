@@ -19,7 +19,7 @@ import type {
   SendFriendRequestInput
 } from './friendship.service.types';
 
-import { FriendshipStatus, Prisma } from '../../../../../generated';
+import { FriendshipStatus } from '../../../../../generated';
 import {
   AppBadRequestException,
   AppConflictException,
@@ -155,7 +155,12 @@ export class FriendshipService {
 
       return toRelation(row, requesterId);
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'code' in error &&
+        error.code === 'P2002'
+      ) {
         throw new AppConflictException('FRIEND_REQUEST_EXISTS', 'Friend request already exists');
       }
 
