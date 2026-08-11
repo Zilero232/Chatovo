@@ -24,7 +24,7 @@
     },
     "apps/client": {
       "name": "@chatovo/client",
-      "version": "1.2.7",
+      "version": "0.0.0",
       "dependencies": {
         "@base-ui-components/react": "^1.0.0-rc.0",
         "@chatovo/schemas": "workspace:*",
@@ -81,7 +81,7 @@
     },
     "apps/server": {
       "name": "@chatovo/server",
-      "version": "1.2.7",
+      "version": "0.0.0",
       "dependencies": {
         "@chatovo/schemas": "workspace:*",
         "@grammyjs/parse-mode": "^2.3.0",
@@ -141,14 +141,14 @@
     },
     "apps/tauri": {
       "name": "@chatovo/tauri",
-      "version": "1.2.7",
+      "version": "0.0.0",
       "devDependencies": {
         "@tauri-apps/cli": "^2.11.4",
       },
     },
     "packages/schemas": {
       "name": "@chatovo/schemas",
-      "version": "1.2.7",
+      "version": "0.0.0",
       "dependencies": {
         "zod": "catalog:",
       },

@@ -1,7 +1,7 @@
 {
   "name": "@chatovo/client",
   "type": "module",
-  "version": "1.2.7",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "predev": "fkill :3000 --force --silent",

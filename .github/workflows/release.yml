@@ -70,40 +70,25 @@ jobs:
         with:
           persist-credentials: false
 
-      # `draft` and `publish` read the version from the root package.json while
-      # tauri-action reads tauri.conf.json — if the two ever disagree the draft
-      # is created under one tag and the bundles are uploaded to another. The
-      # tag itself must match too, or the release lands on a tag nobody pushed.
-      - name: Check the version is in sync
+      # The root package.json is the single source of truth for the version:
+      # `draft`/`publish` read it, and tauri.conf.json points its `version` at
+      # ../../package.json so tauri-action resolves the same value. The per-app
+      # manifests stay at 0.0.0 and are never bumped. Only the pushed tag has to
+      # match the root version, or the release lands on a tag nobody pushed.
+      - name: Check the tag matches the version
         env:
           REF_NAME: ${{ github.ref_name }}
           REF_TYPE: ${{ github.ref_type }}
         run: |
           set -euo pipefail
           root=$(node -p "require('./package.json').version")
-          mismatched=()
-
-          for manifest in apps/client/package.json apps/server/package.json \
-            apps/tauri/package.json packages/schemas/package.json \
-            apps/tauri/tauri.conf.json; do
-            version=$(node -p "require('./$manifest').version")
-            [ "$version" = "$root" ] || mismatched+=("$manifest: $version")
-          done
-
-          cargo_version=$(sed -n 's/^version = "\(.*\)"/\1/p' apps/tauri/Cargo.toml | head -1)
-          [ "$cargo_version" = "$root" ] || mismatched+=("apps/tauri/Cargo.toml: $cargo_version")
 
           if [ "$REF_TYPE" = tag ] && [ "$REF_NAME" != "v$root" ]; then
-            mismatched+=("tag: $REF_NAME")
-          fi
-
-          if [ ${#mismatched[@]} -gt 0 ]; then
-            echo "root package.json is $root, but:" >&2
-            printf '  %s\n' "${mismatched[@]}" >&2
+            echo "tag $REF_NAME does not match root package.json version $root" >&2
             exit 1
           fi
 
-          echo "every manifest is on $root"
+          echo "releasing v$root"
 
       - uses: ./.github/actions/setup
         with:

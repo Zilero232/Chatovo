@@ -8,11 +8,10 @@ name: deploy
 # Repository secrets — Settings → Secrets and variables → Actions:
 #   NEXT_PUBLIC_API_URL       baked into the web image at build time
 #   NEXT_PUBLIC_LIVEKIT_URL   likewise
-#   DEPLOY_SSH_HOST           production VPS
-#   DEPLOY_SSH_USER
-#   DEPLOY_SSH_KEY            private key — preferred
-#   DEPLOY_SSH_PASSWORD       only used when no key is set
-#   DEPLOY_SSH_PORT           optional, defaults to 22
+#   SSH_HOST                  production VPS
+#   SSH_USER
+#   SSH_PRIVATE_KEY           private key used for scp + ssh
+#   SSH_PORT                  optional, defaults to 22
 #   DEPLOY_PATH               where docker-compose.yml lives, e.g. /opt/chatovo
 #
 # Actions are pinned to a commit SHA, not a tag: a moved tag would run unknown
@@ -109,11 +108,10 @@ jobs:
       - name: Copy docker-compose.yml
         uses: appleboy/scp-action@ff85246acaad7bdce478db94a363cd2bf7c90345 # v1
         with:
-          host: ${{ secrets.DEPLOY_SSH_HOST }}
-          username: ${{ secrets.DEPLOY_SSH_USER }}
-          port: ${{ secrets.DEPLOY_SSH_PORT || 22 }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
-          password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: docker-compose.yml
           target: ${{ secrets.DEPLOY_PATH }}
 
@@ -128,11 +126,10 @@ jobs:
         env:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         with:
-          host: ${{ secrets.DEPLOY_SSH_HOST }}
-          username: ${{ secrets.DEPLOY_SSH_USER }}
-          port: ${{ secrets.DEPLOY_SSH_PORT || 22 }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
-          password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: DEPLOY_PATH
           script: |
             set -euo pipefail
