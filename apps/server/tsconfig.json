@@ -1,6 +1,8 @@
 {
   "extends": "@chatovo/tsconfig/node.json",
   "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "types": ["bun", "multer"]
