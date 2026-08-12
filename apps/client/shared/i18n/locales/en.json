@@ -491,6 +491,15 @@
       "offline": "Offline — {count}",
       "statusOnline": "Online",
       "statusOffline": "Offline"
+    },
+    "activity": {
+      "heading": "Friend activity",
+      "inRooms": "In rooms now",
+      "available": "{count, plural, one {# free to talk} other {# free to talk}}",
+      "join": "Join",
+      "others": "{count, plural, one {+# more person} other {+# more people}}",
+      "emptyTitle": "It's quiet right now",
+      "emptyHint": "None of your friends are around. Start a room and be the first one in."
     }
   },
   "friends": {

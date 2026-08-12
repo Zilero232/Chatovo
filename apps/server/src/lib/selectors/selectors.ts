@@ -9,7 +9,7 @@ export const roomSelect = {
 } satisfies Prisma.RoomSelect;
 
 export const senderSelect = {
-  select: { email: true, name: true, profile: { select: { displayName: true } } }
+  select: { name: true, profile: { select: { displayName: true } } }
 } as const;
 
 export const userWithProfileInclude = { profile: true } satisfies Prisma.UserInclude;

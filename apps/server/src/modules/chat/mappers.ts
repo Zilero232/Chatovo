@@ -21,7 +21,6 @@ export const toChatMessage = (row: MessageWithSender): ChatMessage => {
         ? resolveDisplayName({
             displayName: sender.profile?.displayName,
             name: sender.name,
-            email: sender.email,
             userId: senderId
           })
         : 'Deleted user',
