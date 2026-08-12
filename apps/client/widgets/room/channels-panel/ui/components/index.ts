@@ -1,3 +1,4 @@
+export { ChannelsActivity } from './ChannelsActivity/ChannelsActivity';
 export { ChannelsCreateCta } from './ChannelsCreateCta/ChannelsCreateCta';
 export { ChannelsFooter } from './ChannelsFooter/ChannelsFooter';
 export { ChannelsFriends } from './ChannelsFriends/ChannelsFriends';

@@ -1,12 +1,15 @@
 .root {
+  position: fixed;
+  z-index: var(--z-splash);
   display: flex;
-  height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding-top: var(--safe-area-top);
   padding-bottom: var(--safe-area-bottom);
+  background: var(--background);
   gap: 1.5rem;
+  inset: 0;
   padding-inline: 1.5rem;
 }
 

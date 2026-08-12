@@ -491,6 +491,15 @@
       "offline": "Не в сети — {count}",
       "statusOnline": "В сети",
       "statusOffline": "Не в сети"
+    },
+    "activity": {
+      "heading": "Активность друзей",
+      "inRooms": "Сейчас в комнатах",
+      "available": "{count, plural, one {# свободен} few {# свободны} many {# свободны} other {# свободны}}",
+      "join": "Зайти",
+      "others": "{count, plural, one {+# участник} few {+# участника} many {+# участников} other {+# участников}}",
+      "emptyTitle": "Пока тихо",
+      "emptyHint": "Никого из друзей нет рядом. Создайте комнату и зайдите первым."
     }
   },
   "friends": {

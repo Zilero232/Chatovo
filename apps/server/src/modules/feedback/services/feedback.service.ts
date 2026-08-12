@@ -29,7 +29,6 @@ export class FeedbackService {
     const reporter = resolveDisplayName({
       displayName: user.profile?.displayName,
       name: user.name,
-      email: user.email,
       userId
     });
 

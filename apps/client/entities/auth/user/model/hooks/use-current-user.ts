@@ -5,7 +5,7 @@ import { isNonNullish } from 'remeda';
 
 import { authClient, getAuthToken, getUserProfile } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
-import { firstNonEmpty } from '@/shared/lib';
+import { firstNonEmpty, stripEmailDomain } from '@/shared/lib';
 
 import type { UserRole } from '../types';
 
@@ -27,7 +27,7 @@ export const useCurrentUser = () => {
 
   const role: UserRole = user?.role === USER_ROLE.admin ? USER_ROLE.admin : USER_ROLE.user;
 
-  const displayName = firstNonEmpty(profile?.name, user?.name, user?.email?.split('@')[0]) ?? 'you';
+  const displayName = stripEmailDomain(firstNonEmpty(profile?.name, user?.name)) ?? 'you';
   const initial = displayName.charAt(0).toUpperCase();
 
   return {

@@ -1,0 +1,44 @@
+@use '@/shared/styles/functions' as *;
+
+.root {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-block: 0.75rem 0;
+}
+
+.headingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 0.5rem;
+  gap: 0.5rem;
+}
+
+.heading {
+  padding: 0 1rem;
+  color: color-mix(in oklch, var(--muted-foreground) 80%, transparent);
+  font-size: rem(10);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.scroll {
+  min-height: 0;
+  flex: 1;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.5rem 0.75rem;
+  gap: 0.875rem;
+}
+
+.skeletonCard {
+  height: 4rem;
+  border-radius: var(--radius-lg);
+}
