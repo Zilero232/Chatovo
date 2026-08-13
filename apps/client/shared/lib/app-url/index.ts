@@ -1,1 +1,1 @@
-export { buildPublicAppUrl, getPublicAppOrigin } from './app-url';
+export { buildPublicAppUrl } from './app-url';

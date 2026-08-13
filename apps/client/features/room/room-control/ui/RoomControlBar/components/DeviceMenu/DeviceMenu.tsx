@@ -34,7 +34,7 @@ export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
     kind,
     requestPermissions: true,
     onError: (error) => {
-      toast.error(t(deviceErrorKey(error), { device: label }));
+      toast.error(t(deviceErrorKey(error), { device: label }), { id: `device-${kind}` });
     }
   });
 
@@ -65,7 +65,7 @@ export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
     try {
       await setActiveMediaDevice(deviceId);
     } catch (error) {
-      toast.error(t(deviceErrorKey(error as Error), { device: label }));
+      toast.error(t(deviceErrorKey(error as Error), { device: label }), { id: `device-${kind}` });
     }
   };
 

@@ -18,7 +18,8 @@ export const FilePicker = ({
   file,
   id,
   placeholder,
-  onSelect
+  onSelect,
+  'aria-describedby': describedBy
 }: FilePickerProps) => {
   const t = useTranslations('common');
 
@@ -52,7 +53,13 @@ export const FilePicker = ({
           </Button>
         </div>
       ) : (
-        <button className={s.trigger} id={id} type='button' onClick={() => open()}>
+        <button
+          aria-describedby={describedBy}
+          className={s.trigger}
+          id={id}
+          type='button'
+          onClick={() => open()}
+        >
           <Paperclip aria-hidden className={s.triggerIcon} />
           <span>{placeholder ?? t('chooseFile')}</span>
         </button>

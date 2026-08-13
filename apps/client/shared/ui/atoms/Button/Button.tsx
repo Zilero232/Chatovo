@@ -10,7 +10,6 @@ const Button = ({
   className,
   variant = 'default',
   size = 'default',
-  isDisabled,
   disabled,
   onClick,
   href,
@@ -47,7 +46,7 @@ const Button = ({
       data-size={size}
       data-slot='button'
       data-variant={variant}
-      disabled={isDisabled ?? disabled}
+      disabled={disabled}
       type={type}
       onClick={onClick}
       {...props}

@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { HealthCheck, HealthCheckService, PrismaHealthIndicator } from '@nestjs/terminus';
-import { Public } from '@thallesp/nestjs-better-auth';
+import { AllowAnonymous } from '@thallesp/nestjs-better-auth';
 
 import { PrismaService } from '../../core';
 
@@ -13,7 +13,7 @@ export class HealthController {
   ) {}
 
   @Get()
-  @Public()
+  @AllowAnonymous()
   @HealthCheck()
   check() {
     return this.health.check([() => this.db.pingCheck('database', this.prisma)]);

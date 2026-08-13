@@ -2,7 +2,7 @@ import type { LucideIcon } from 'lucide-react';
 
 import { AudioWaveform, MonitorSmartphone, Zap } from 'lucide-react';
 
-export type AuthFeature = {
+type AuthFeature = {
   Icon: LucideIcon;
   key: 'everywhere' | 'quality' | 'rooms';
 };

@@ -67,7 +67,7 @@ Fire-and-forget `.then()` без `.catch()` запрещён.
 ## 8. Локальные отличия от клиентского стиля
 
 - `import type` не enforce-ится (`ts/consistent-type-imports` выключен для `apps/server/**`) — Nest резолвит зависимости по метаданным декораторов.
-- Декораторы (`@Injectable`, `@Controller`, `@Public`, `@Session`) — не «комментарии», правило «без комментариев» их не касается.
+- Декораторы (`@Injectable`, `@Controller`, `@AllowAnonymous`, `@Session`) — не «комментарии», правило «без комментариев» их не касается.
 - `process.env` в фиче-коде запрещён — только `AppConfigService.get('KEY')`.
 
 ## 9. Комментарии

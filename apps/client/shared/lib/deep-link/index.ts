@@ -1,1 +1,1 @@
-export { buildDeepLinkUrl, parseDeepLinkToAppPath } from './deep-link';
+export { parseDeepLinkToAppPath } from './deep-link';

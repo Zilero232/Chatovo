@@ -23,7 +23,7 @@ export const AvatarField = ({ name, src, onPick, onRemove }: AvatarFieldProps) =
       }
 
       if (!file.type.startsWith('image/')) {
-        toast.error(t('avatarInvalidType'));
+        toast.error(t('avatarInvalidType'), { id: 'avatar-invalid-type' });
 
         return;
       }
@@ -44,7 +44,7 @@ export const AvatarField = ({ name, src, onPick, onRemove }: AvatarFieldProps) =
         <UserAvatar colorize className={s.avatar} name={name} size='lg' src={src} />
 
         <span className={s.avatarOverlay}>
-          <Camera className={s.avatarOverlayIcon} />
+          <Camera aria-hidden className={s.avatarOverlayIcon} />
         </span>
       </button>
 

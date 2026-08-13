@@ -16,7 +16,6 @@ import {
   LIST_ITEM_INITIAL,
   LIST_ITEM_TRANSITION
 } from '@/shared/config';
-import { useLiteMotion } from '@/shared/hooks';
 import { CenteredState, Spinner } from '@/shared/ui';
 
 import type { FriendsTabProps, RemoveTarget } from './FriendsTab.types';
@@ -32,8 +31,6 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
   const t = useTranslations('friends');
 
   const [removeTarget, setRemoveTarget] = useState<RemoveTarget | null>(null);
-
-  const { layout, resolveTransition } = useLiteMotion();
 
   const { data: friends, isPending } = useFriends(enabled);
   const { open: openFriendChat, getFriendUnread } = useFriendChat();
@@ -55,8 +52,8 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
                   animate={LIST_ITEM_ANIMATE}
                   exit={LIST_ITEM_EXIT}
                   initial={LIST_ITEM_INITIAL}
-                  layout={layout}
-                  transition={resolveTransition(LIST_ITEM_TRANSITION)}
+                  layout='position'
+                  transition={LIST_ITEM_TRANSITION}
                 >
                   <FriendListItem
                     dmUnread={getFriendUnread(entry.user.id)}

@@ -61,7 +61,7 @@ Bigger modules keep the same shape with extra segments: `mappers.ts`, `listeners
 ## Auth (better-auth)
 
 - The better-auth instance lives in [modules/auth/auth.ts](src/modules/auth/auth.ts) as a module-level singleton (built from validated env; used by the CLI, the WS gateway, and `AuthModule.forRoot({ auth })`). It uses `basePrisma` (the raw client), not `PrismaService`.
-- `@thallesp/nestjs-better-auth` registers a **global `AuthGuard`** — every route is protected by default (fail-closed). Open a route with **`@Public()`**; make auth optional with `@OptionalAuth()`. Read the session with the **`@Session()`** param decorator (`UserSession`). This replaces the old `authMiddleware` + `.use('/x/*', ...)` prefix wiring; there is no per-prefix middleware anymore.
+- `@thallesp/nestjs-better-auth` registers a **global `AuthGuard`** — every route is protected by default (fail-closed). Open a route with **`@AllowAnonymous()`**; make auth optional with `@OptionalAuth()`. Read the session with the **`@Session()`** param decorator (`UserSession`). This replaces the old `authMiddleware` + `.use('/x/*', ...)` prefix wiring; there is no per-prefix middleware anymore.
 - Body parser is disabled at bootstrap (`NestFactory.create(AppModule, { bodyParser: false })`) so better-auth reads the raw body; `express.json()` is re-applied for the rest of the API.
 
 ## Realtime

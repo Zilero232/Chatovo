@@ -50,6 +50,12 @@
     color: var(--foreground);
   }
 
+  &:focus-visible {
+    background: var(--accent);
+    color: var(--foreground);
+    outline: none;
+  }
+
   &:disabled {
     opacity: 0.3;
     pointer-events: none;

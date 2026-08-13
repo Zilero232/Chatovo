@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useId } from 'react';
+import { cloneElement, useId } from 'react';
 
 import type { FormFieldProps } from './FormField.types';
 
@@ -11,12 +11,19 @@ export const FormField = ({ htmlFor, label, children, hint, error, className }: 
   const hintId = useId();
   const errorId = useId();
 
+  const describedBy = [hint && hintId, error && errorId].filter(Boolean).join(' ');
+
+  const control = cloneElement(children, {
+    'aria-describedby': describedBy || undefined,
+    'aria-invalid': Boolean(error)
+  });
+
   return (
     <div className={clsx(s.root, className)}>
       <Label className={s.label} htmlFor={htmlFor}>
         {label}
       </Label>
-      {children}
+      {control}
       {hint && (
         <Text id={hintId} size='xs' tone='muted'>
           {hint}

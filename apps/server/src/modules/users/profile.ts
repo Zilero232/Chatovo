@@ -1,5 +1,6 @@
 import type { UserProfile } from '@chatovo/schemas';
 
+import { userRoleSchema } from '@chatovo/schemas';
 import { isNullish, isString } from 'remeda';
 
 import type { Prisma } from '../../../generated';
@@ -15,6 +16,8 @@ const stripEmail = (value: string | null): string | null => {
   return resolveString(value.split('@')[0]);
 };
 
+const USER_ROLE = userRoleSchema.enum;
+
 export type UserWithProfile = Prisma.UserGetPayload<{ include: { profile: true } }>;
 
 type DisplayNameSource = Partial<Pick<Prisma.UserGetPayload<true>, 'name'>> & {
@@ -26,7 +29,7 @@ export const resolveDisplayName = ({ displayName, name, userId }: DisplayNameSou
   stripEmail(resolveString(displayName)) ?? stripEmail(resolveString(name)) ?? userId;
 
 export const toUserProfile = (user: UserWithProfile): UserProfile => {
-  const { id, name, image, verified, profile, friendTag } = user;
+  const { id, name, image, verified, role, profile, friendTag } = user;
 
   return {
     id,
@@ -36,6 +39,7 @@ export const toUserProfile = (user: UserWithProfile): UserProfile => {
     profileUrl: resolveString(profile?.profileUrl),
     bannerColor: resolveString(profile?.bannerColor),
     bio: resolveString(profile?.bio),
-    verified
+    verified,
+    developer: role === USER_ROLE.admin
   };
 };

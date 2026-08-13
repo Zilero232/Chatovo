@@ -40,7 +40,7 @@ export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMe
   const handleCopyName = async () => {
     await copy(displayName);
 
-    toast.success(t('nameCopied'));
+    toast.success(t('nameCopied'), { id: 'participant-name-copied' });
   };
 
   return (

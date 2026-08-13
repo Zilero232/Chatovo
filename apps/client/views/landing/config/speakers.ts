@@ -1,4 +1,4 @@
-export type LandingHeroSpeaker = {
+type LandingHeroSpeaker = {
   active: boolean;
   id: string;
   initial: string;

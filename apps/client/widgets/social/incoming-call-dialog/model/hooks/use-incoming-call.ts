@@ -27,7 +27,7 @@ export const useIncomingCall = () => {
 
   const decline = () => {
     declineCall.mutate(undefined, {
-      onError: () => toast.error(t('declineFailed'))
+      onError: () => toast.error(t('declineFailed'), { id: 'incoming-call-decline' })
     });
   };
 
@@ -40,7 +40,7 @@ export const useIncomingCall = () => {
 
         router.push(buildRoomHref(accepted.roomId, { title: accepted.caller.name }));
       },
-      onError: () => toast.error(t('acceptFailed'))
+      onError: () => toast.error(t('acceptFailed'), { id: 'incoming-call-accept' })
     });
   };
 

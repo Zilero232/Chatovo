@@ -2,9 +2,11 @@
 
 import { useRealtimeSubscribe } from '@/entities/app/realtime';
 
-import type { RoomRealtimeSubscribeProps } from './RoomRealtimeSubscribe.types';
+import { useCurrentRoomId } from '../../../model/hooks';
 
-export const RoomRealtimeSubscribe = ({ roomId }: RoomRealtimeSubscribeProps) => {
+export const RoomRealtimeSubscribe = () => {
+  const roomId = useCurrentRoomId();
+
   useRealtimeSubscribe([roomId]);
 
   return null;

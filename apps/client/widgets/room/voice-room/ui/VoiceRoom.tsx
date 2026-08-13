@@ -68,7 +68,7 @@ export const VoiceRoom = ({
             <SessionStatsProvider>
               <DeafenProvider>
                 <ReactionsProvider roomId={roomId}>
-                  <RoomHeader isDm={isDm} name={roomName} roomId={roomId} />
+                  <RoomHeader isDm={isDm} name={roomName} />
 
                   <div className={s.body}>
                     <RoomAmbience />
@@ -80,7 +80,6 @@ export const VoiceRoom = ({
                   <RoomControlsBar
                     isChatOpen={isChatOpen}
                     isDm={isDm}
-                    roomId={roomId}
                     onToggleChat={() => toggleChat()}
                   />
 
@@ -91,7 +90,7 @@ export const VoiceRoom = ({
                   />
 
                   <RoomAudio />
-                  <RoomControllers roomId={roomId} />
+                  <RoomControllers />
                 </ReactionsProvider>
               </DeafenProvider>
             </SessionStatsProvider>

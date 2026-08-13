@@ -128,3 +128,9 @@
     transform: translateX(0);
   }
 }
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}

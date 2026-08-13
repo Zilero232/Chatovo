@@ -8,11 +8,7 @@ export {
   LANDING_NAV_KEYS,
   LANDING_STEP_KEYS
 } from './sections';
-export type { LandingDesktopKey, LandingFeatureKey, LandingStepKey } from './sections';
+export type { LandingDesktopKey, LandingFeatureKey } from './sections';
 export { LANDING_ACTIVE_SPEAKERS, LANDING_HERO_SPEAKERS } from './speakers';
-
-export type { LandingHeroSpeaker } from './speakers';
 export { LANDING_HERO_STAT_COUNTS, LANDING_HERO_STAT_KEYS } from './stats';
-export type { LandingHeroStatKey } from './stats';
 export { LANDING_WAVE_BARS } from './wave';
-export type { LandingWaveBar } from './wave';

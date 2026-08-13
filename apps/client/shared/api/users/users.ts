@@ -8,6 +8,12 @@ export const getUserProfile = async (id: string): Promise<UserProfile> => {
   return data;
 };
 
+export const listDevelopers = async (): Promise<UserProfile[]> => {
+  const { data } = await api.get('/users/developers');
+
+  return data;
+};
+
 export const updateUserProfile = async (payload: UpdateProfilePayload): Promise<UserProfile> => {
   const fd = new FormData();
 

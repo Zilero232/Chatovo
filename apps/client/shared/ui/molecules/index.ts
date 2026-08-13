@@ -1,5 +1,7 @@
 export * from './AvatarWithBadges';
 export type * from './AvatarWithBadges/AvatarWithBadges.types';
+export * from './Banner';
+export type * from './Banner/Banner.types';
 export * from './BrandMark';
 export type * from './BrandMark/BrandMark.types';
 export * from './FilePicker';

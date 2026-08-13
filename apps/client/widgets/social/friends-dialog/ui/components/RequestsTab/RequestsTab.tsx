@@ -18,7 +18,6 @@ import {
   LIST_ITEM_INITIAL,
   LIST_ITEM_TRANSITION
 } from '@/shared/config';
-import { useLiteMotion } from '@/shared/hooks';
 import { CenteredState, Spinner } from '@/shared/ui';
 
 import { FriendRequestListItem } from './FriendRequestListItem';
@@ -31,7 +30,6 @@ const hasRequests = (
 
 export const RequestsTab = () => {
   const t = useTranslations('friends');
-  const { layout, resolveTransition } = useLiteMotion();
 
   const { data: requests, isPending } = useIncomingFriendRequests();
   const acceptRequest = useAcceptFriendRequest();
@@ -48,8 +46,8 @@ export const RequestsTab = () => {
               animate={LIST_ITEM_ANIMATE}
               exit={LIST_ITEM_EXIT}
               initial={LIST_ITEM_INITIAL}
-              layout={layout}
-              transition={resolveTransition(LIST_ITEM_TRANSITION)}
+              layout='position'
+              transition={LIST_ITEM_TRANSITION}
             >
               <FriendRequestListItem
                 entry={entry}
@@ -58,13 +56,23 @@ export const RequestsTab = () => {
                 onAccept={() => {
                   acceptRequest.mutate(
                     { friendshipId: entry.friendshipId, userId: entry.user.id },
-                    { onError: () => toast.error(t('acceptFailed')) }
+                    {
+                      onError: () =>
+                        toast.error(t('acceptFailed'), {
+                          id: `friend-request-accept-${entry.user.id}`
+                        })
+                    }
                   );
                 }}
                 onDecline={() => {
                   declineRequest.mutate(
                     { friendshipId: entry.friendshipId, userId: entry.user.id },
-                    { onError: () => toast.error(t('declineFailed')) }
+                    {
+                      onError: () =>
+                        toast.error(t('declineFailed'), {
+                          id: `friend-request-decline-${entry.user.id}`
+                        })
+                    }
                   );
                 }}
               />

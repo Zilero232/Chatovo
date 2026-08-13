@@ -5,6 +5,7 @@ export {
   useChangePassword
 } from './use-change-password';
 export { useCurrentUser } from './use-current-user';
+export { useDevelopers } from './use-developers';
 export { useSendVerificationEmail } from './use-send-verification-email';
 export {
   profileSchema,

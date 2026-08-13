@@ -2,14 +2,19 @@
 
 import { useEffect, useEffectEvent } from 'react';
 
-type AnyFn = (...args: any[]) => any;
+type EventListener = (...args: never[]) => unknown;
 
 type Emitter = {
-  off: AnyFn;
-  on: AnyFn;
+  off: (event: any, listener: any) => unknown;
+
+  on: (event: any, listener: any) => unknown;
 };
 
-export const useEmitterEvent = <L extends AnyFn>(emitter: Emitter, event: string, handler: L) => {
+export const useEmitterEvent = <L extends EventListener>(
+  emitter: Emitter,
+  event: string,
+  handler: L
+) => {
   const onEvent = useEffectEvent(handler);
 
   useEffect(() => {

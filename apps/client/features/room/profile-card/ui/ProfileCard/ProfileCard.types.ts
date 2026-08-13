@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 
 export type ProfileCardFriendState = {
   avatarUrl: string | null;
+  developer: boolean;
   displayName: string;
   friendTag: string;
   userId: string;

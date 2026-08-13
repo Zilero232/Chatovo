@@ -18,7 +18,6 @@ import {
 import { ManageRoomMenu } from '@/features/room/manage';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
 import { buildRoomHref } from '@/shared/constants';
-import { useLiteMotion } from '@/shared/hooks';
 import { AvatarWithBadges, Badge } from '@/shared/ui';
 import { FriendProfileActionsPanel } from '@/widgets/social/friend-profile-actions-panel';
 
@@ -41,7 +40,6 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
   const params = useSearchParams();
 
   const { user } = useCurrentUser();
-  const { resolveTransition } = useLiteMotion();
 
   const activeRoomId = params.get('id');
   const isActive = activeRoomId === room.id;
@@ -74,10 +72,15 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
         >
           <span className={s.triggerLabel}>
             {room.name}
-            {room.isPrivate && <Lock className={s.privateIcon} />}
-            {isOwner && <Crown className={s.ownerIcon} />}
+            {room.isPrivate && (
+              <>
+                <Lock aria-hidden className={s.privateIcon} />
+                <span className='sr-only'>{t('privateRoom')}</span>
+              </>
+            )}
+            {isOwner && <Crown aria-hidden className={s.ownerIcon} />}
           </span>
-          {isActive && <Headphones className={s.joinedIcon} />}
+          {isActive && <Headphones aria-hidden className={s.joinedIcon} />}
         </button>
         <ManageRoomMenu className={s.manageSlot} room={room} />
       </div>
@@ -122,7 +125,7 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
             className={s.participantsWrap}
             exit={PARTICIPANTS_EXIT}
             initial={PARTICIPANTS_INITIAL}
-            transition={resolveTransition(PARTICIPANTS_TRANSITION)}
+            transition={PARTICIPANTS_TRANSITION}
           >
             <div className={s.participants}>
               {participants.map((p) => (
@@ -145,7 +148,12 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
                       src={p.avatarUrl}
                     />
                   </AvatarWithBadges>
-                  <UserName className={s.participantName} name={p.name} verified={p.verified} />
+                  <UserName
+                    className={s.participantName}
+                    developer={p.developer}
+                    name={p.name}
+                    verified={p.verified}
+                  />
                 </ProfileCardTrigger>
               ))}
             </div>
@@ -157,6 +165,7 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
                 type='button'
                 onClick={() => toggleExpanded(false)}
               >
+                <ChevronDown aria-hidden className={s.collapseIcon} />
                 {t('hideParticipants')}
               </button>
             )}

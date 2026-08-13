@@ -1,6 +1,1 @@
-export {
-  type ActivityFriend,
-  type ActivityRoomGroup,
-  buildFriendActivity,
-  type FriendActivity
-} from './build-friend-activity';
+export { type ActivityRoomGroup, buildFriendActivity } from './build-friend-activity';

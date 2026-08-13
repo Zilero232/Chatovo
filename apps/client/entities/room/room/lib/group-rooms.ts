@@ -29,11 +29,7 @@ const matchesFilter = (
     .with('mine', () => room.ownerId === currentUserId)
     .exhaustive();
 
-export const filterAndOrderRooms = (
-  rooms: Room[],
-  presence: RoomsPresenceMap,
-  query: string
-): Room[] => {
+const filterAndOrderRooms = (rooms: Room[], presence: RoomsPresenceMap, query: string): Room[] => {
   const normalized = query.trim().toLowerCase();
 
   const matched = normalized

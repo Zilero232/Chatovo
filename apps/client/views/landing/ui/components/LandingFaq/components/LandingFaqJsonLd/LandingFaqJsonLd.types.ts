@@ -1,4 +1,4 @@
-export type LandingFaqJsonLdItem = {
+type LandingFaqJsonLdItem = {
   answer: string;
   question: string;
 };

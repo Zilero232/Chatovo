@@ -24,6 +24,7 @@ import {
 
 import {
   AddFriendForm,
+  DevelopersTab,
   FriendsDialogTrigger,
   FriendsTab,
   OwnFriendTag,
@@ -81,6 +82,7 @@ export const FriendsDialog = () => {
                 {t('requestsTab')}
                 {incomingCount > 0 && <span className={s.badge}>{incomingCount}</span>}
               </TabsTrigger>
+              <TabsTrigger value='developers'>{t('developersTab')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value='friends'>
@@ -89,6 +91,10 @@ export const FriendsDialog = () => {
 
             <TabsContent value='requests'>
               <RequestsTab />
+            </TabsContent>
+
+            <TabsContent value='developers'>
+              <DevelopersTab enabled={open} />
             </TabsContent>
           </Tabs>
         </DialogContent>

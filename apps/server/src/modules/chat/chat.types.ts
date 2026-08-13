@@ -12,8 +12,6 @@ export type ChatRealtimeEvent = Extract<
   { type: 'chat.delete' } | { type: 'chat.edit' } | { type: 'chat.message' }
 >;
 
-export type ChatRealtimeEventInput = ChatRealtimeEvent extends infer Event
-  ? Event extends ChatRealtimeEvent
-    ? Omit<Event, 'roomId' | 'roomKind'>
-    : never
-  : never;
+type WithoutRoomRouting<T> = T extends unknown ? Omit<T, 'roomId' | 'roomKind'> : never;
+
+export type ChatRealtimeEventInput = WithoutRoomRouting<ChatRealtimeEvent>;

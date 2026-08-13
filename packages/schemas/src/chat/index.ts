@@ -5,6 +5,7 @@ export {
   sendMessageInputSchema
 } from './inputs';
 export { decodeChatAttachment, encodeChatAttachment, isImageMime } from './lib';
+export { ATTACHMENT_MAX_BYTES } from './limits';
 export { chatAttachmentSchema, chatMessageSchema, chatMessagesPageSchema } from './outputs';
 
 export type {

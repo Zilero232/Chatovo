@@ -24,6 +24,7 @@ export const ParticipantCard = ({ participant, deafened, fill = false }: Partici
     isSpeaking,
     micMuted,
     verified,
+    developer,
     avatarUrl,
     bannerColor,
     displayName,
@@ -33,7 +34,7 @@ export const ParticipantCard = ({ participant, deafened, fill = false }: Partici
     hasVideo
   } = useParticipantMedia(participant);
 
-  const audioStageRef = useParticipantAudioLevel<HTMLDivElement>(participant);
+  const setAudioStage = useParticipantAudioLevel<HTMLDivElement>(participant);
 
   return (
     <ParticipantCardMenu participant={participant}>
@@ -49,7 +50,7 @@ export const ParticipantCard = ({ participant, deafened, fill = false }: Partici
               {hasScreen && screenTrack && <CardVideo trackRef={screenTrack} />}
             </div>
           ) : (
-            <div ref={audioStageRef} className={s.audioStage}>
+            <div ref={setAudioStage} className={s.audioStage}>
               <span aria-hidden className={s.tint} style={getCardTint(bannerColor)} />
               <span
                 aria-hidden
@@ -88,7 +89,12 @@ export const ParticipantCard = ({ participant, deafened, fill = false }: Partici
             name={displayName}
             renderFriendActions={(state) => <FriendProfileActionsPanel {...state} />}
           >
-            <UserName className={s.name} name={displayName} verified={verified} />
+            <UserName
+              className={s.name}
+              developer={developer}
+              name={displayName}
+              verified={verified}
+            />
           </ProfileCardTrigger>
         </div>
       </div>

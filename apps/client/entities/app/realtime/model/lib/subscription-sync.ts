@@ -5,7 +5,7 @@ type SubscriptionSender = () => void;
 let sender: SubscriptionSender | null = null;
 let pendingSync = false;
 
-export const flushRoomSubscriptions = (): void => {
+const flushRoomSubscriptions = (): void => {
   if (!sender) {
     pendingSync = true;
     return;

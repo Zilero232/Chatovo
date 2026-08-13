@@ -1,12 +1,7 @@
-import type { AudioSettings } from '../model/types';
-
-type AudioCaptureFlags = Pick<
-  AudioSettings,
-  'autoGainControl' | 'echoCancellation' | 'noiseSuppression' | 'voiceIsolation'
->;
+import type { AudioProcessingSettings } from '../model/types';
 
 export const audioConstraints = (
-  flags: AudioCaptureFlags,
+  flags: AudioProcessingSettings,
   deviceId: string
 ): MediaTrackConstraints => ({
   noiseSuppression: flags.noiseSuppression,

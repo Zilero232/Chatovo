@@ -52,10 +52,11 @@ export class LivekitService {
       throw new AppInternalException('INTERNAL_ERROR', 'User lookup failed');
     }
 
-    const { name, verified, profileUrl, avatarUrl, bannerColor } = toUserProfile(user);
+    const { name, verified, developer, profileUrl, avatarUrl, bannerColor } = toUserProfile(user);
 
     const participantMetadata: ParticipantMetadata = {
       verified,
+      developer,
       profileUrl,
       avatarUrl,
       bannerColor

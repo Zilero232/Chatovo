@@ -8,5 +8,8 @@ export const userProfileSchema = z.object({
   profileUrl: z.string().nullable().default(null),
   bannerColor: z.string().nullable().default(null),
   bio: z.string().nullable().default(null),
-  verified: z.boolean().default(false)
+  verified: z.boolean().default(false),
+  developer: z.boolean().default(false)
 });
+
+export const developerListSchema = z.array(userProfileSchema);

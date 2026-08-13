@@ -35,10 +35,10 @@ export const ResetPasswordForm = ({ token, onSuccess }: ResetPasswordFormProps) 
   const onSubmit = handleSubmit((values) => {
     mutate(values, {
       onSuccess: () => {
-        toast.success(t('passwordReset'));
+        toast.success(t('passwordReset'), { id: 'reset-password' });
         onSuccess();
       },
-      onError: (err: Error) => toast.error(errorMessage(err))
+      onError: (err: Error) => toast.error(errorMessage(err), { id: 'reset-password' })
     });
   });
 

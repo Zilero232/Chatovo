@@ -86,6 +86,7 @@ The rules below apply repo-wide (every app and `packages/`).
   - `useBoolean` from `@siberiacancode/reactuse` returns a **new toggle function every render** — using it as a setter inside `useEffect` deps triggers `useExhaustiveDeps` warnings and re-runs the effect on each render. Use plain `useState(false)` when the setter is passed into effects, callbacks, or refs. `useBoolean` is fine for inline `<button onClick={() => toggle()}>`.
   - `useEventListener` from reactuse types `event` as `keyof WindowEventMap` — custom event names need a cast or module augmentation. For one-off custom events, plain `addEventListener` + cleanup is shorter.
   - `Intl.NumberFormat` with `style: 'unit', unit: 'byte', notation: 'compact'` produces inconsistent output (`1.5kB` vs `1.5K B`) across `unitDisplay` values. Hand-rolled byte formatter is fine.
+  - `useAudio` from reactuse has no `loop` option and returns only controls (`play`/`pause`/`stop`/`setVolume`), never the `HTMLAudioElement`. Looping sound (call ringtone) needs a manual `new Audio()` — see `entities/social/friend/model/hooks/use-friend-call-ringtone.ts`. One-shot sounds should still use `useAudio`.
   - Browser back/forward availability (`shared/hooks/use-nav-history`) uses the native **Navigation API** (`window.navigation.canGoBack/canGoForward` + `currententrychange`) via `useSyncExternalStore` — reactuse has no equivalent. Chromium-only (fine: title-bar nav is Tauri/WebView2-only); gate with `'navigation' in window`, falls back to disabled buttons elsewhere.
 
 **Process when adding a feature:**

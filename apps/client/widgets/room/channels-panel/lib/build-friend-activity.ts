@@ -2,7 +2,7 @@ import type { FriendEntry, Room, RoomsParticipantsSnapshot } from '@chatovo/sche
 
 import { entries, indexBy, isNullish, sortBy } from 'remeda';
 
-export type ActivityFriend = {
+type ActivityFriend = {
   friendshipId: string;
   isLive: boolean;
   user: FriendEntry['user'];
@@ -15,7 +15,7 @@ export type ActivityRoomGroup = {
   totalInRoom: number;
 };
 
-export type FriendActivity = {
+type FriendActivity = {
   inRooms: ActivityRoomGroup[];
   online: FriendEntry[];
 };

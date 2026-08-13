@@ -1,14 +1,12 @@
+import type { updateProfileBodySchema } from '@chatovo/schemas';
+import type { z } from 'zod';
+
 export type UploadedAvatar = {
   buffer: Buffer;
   mimetype: string;
   size: number;
 };
 
-export type UpdateProfileInput = {
+export type UpdateProfileServiceInput = z.infer<typeof updateProfileBodySchema> & {
   avatar?: UploadedAvatar;
-  bannerColor: string;
-  bio: string;
-  displayName: string;
-  profileUrl: string;
-  removeAvatar?: string;
 };

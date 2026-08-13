@@ -28,7 +28,12 @@ export const FriendRequestListItem = ({
     <div className={s.root}>
       <UserAvatar className={s.avatar} name={user.name} size='sm' src={user.avatarUrl} />
       <div className={s.info}>
-        <UserName className={s.name} name={user.name} verified={user.verified} />
+        <UserName
+          className={s.name}
+          developer={user.developer}
+          name={user.name}
+          verified={user.verified}
+        />
         <span className={s.meta}>{format.relativeTime(new Date(entry.requestedAt), now)}</span>
       </div>
       <div className={s.actions}>

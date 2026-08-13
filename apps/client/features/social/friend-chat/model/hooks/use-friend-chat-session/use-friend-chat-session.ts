@@ -28,9 +28,9 @@ export const useFriendChatSession = () => {
       setSession({ roomId: room.id, peer });
       setOpeningPeer(null);
     },
-    onError: () => {
+    onError: (_error, peer) => {
       setOpeningPeer(null);
-      toast.error(t('openDmFailed'));
+      toast.error(t('openDmFailed'), { id: `friend-open-dm-${peer.id}` });
     }
   });
 

@@ -24,9 +24,9 @@ export const useChatSync = (roomId: string) => {
     onMutate: ({ id, body }) => {
       editChatMessageInCache(queryClient, roomId, id, body, Date.now());
     },
-    onError: async () => {
+    onError: async (_error, { id }) => {
       await queryClient.invalidateQueries({ queryKey });
-      toast.error(t('editFailed'));
+      toast.error(t('editFailed'), { id: `chat-message-edit-${id}` });
     }
   });
 
@@ -35,9 +35,9 @@ export const useChatSync = (roomId: string) => {
     onMutate: (id) => {
       deleteChatMessageInCache(queryClient, roomId, id, Date.now());
     },
-    onError: async () => {
+    onError: async (_error, id) => {
       await queryClient.invalidateQueries({ queryKey });
-      toast.error(t('deleteFailed'));
+      toast.error(t('deleteFailed'), { id: `chat-message-delete-${id}` });
     }
   });
 

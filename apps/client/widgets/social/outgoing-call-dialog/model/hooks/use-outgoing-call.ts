@@ -56,14 +56,16 @@ export const useOutgoingCall = () => {
     }
 
     if (call.status === CALL_STATUS.declined) {
-      toast.error(t('declined', { name: call.callee.name }));
+      toast.error(t('declined', { name: call.callee.name }), {
+        id: `outgoing-call-declined-${call.roomId}`
+      });
       clearOutgoing();
     }
   }, [call, router, t]);
 
   const cancel = () => {
     cancelCall.mutate(undefined, {
-      onError: () => toast.error(t('cancelFailed'))
+      onError: () => toast.error(t('cancelFailed'), { id: 'outgoing-call-cancel' })
     });
   };
 

@@ -83,7 +83,7 @@ export const useShortcutRecording = ({ actionId, allBindings, onPatch }: Options
       }
 
       if (!hasModifier(hotkey)) {
-        toast.error(t('errors.needsModifier'));
+        toast.error(t('errors.needsModifier'), { id: `shortcut-record-${actionId}` });
 
         return cancel();
       }
@@ -91,7 +91,7 @@ export const useShortcutRecording = ({ actionId, allBindings, onPatch }: Options
       const free = isOwnedByUs(hotkey, allBindings) || (await probeOsAvailability(hotkey));
 
       if (!free) {
-        toast.error(t('errors.systemTaken'));
+        toast.error(t('errors.systemTaken'), { id: `shortcut-record-${actionId}` });
 
         return cancel();
       }

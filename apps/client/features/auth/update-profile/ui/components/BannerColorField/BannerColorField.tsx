@@ -43,7 +43,7 @@ export const BannerColorField = ({ value, onChange }: BannerColorFieldProps) => 
             style={{ backgroundColor: isCustom ? current : undefined }}
             variant='ghost'
           >
-            <Palette className={s.bannerCustomIcon} />
+            <Palette aria-hidden className={s.bannerCustomIcon} />
           </PopoverTrigger>
           <PopoverContent className={s.bannerPickerPopover}>
             <HexColorPicker color={current} onChange={onChange} />

@@ -311,11 +311,14 @@
 .linkButton {
   padding: 0;
   border: none;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: inherit;
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: rem(2);
+
+  @include focus-ring;
 
   &:hover {
     color: var(--foreground);
@@ -353,11 +356,14 @@
 .webNoticeLink {
   padding: 0;
   border: none;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--brand-cyan);
   cursor: pointer;
   font-weight: 500;
   text-underline-offset: rem(2);
+
+  @include button-focus-ring(var(--brand-cyan));
 
   &:hover {
     text-decoration: underline;

@@ -18,6 +18,8 @@
     background: color-mix(in oklch, var(--brand-cyan) 11%, transparent);
     box-shadow: 0 rem(8) rem(22) rem(-14) oklch(82% 0.16 200deg / 60%);
   }
+
+  @include button-focus-ring(var(--brand-cyan));
 }
 
 .head {

@@ -18,7 +18,7 @@ export const AvatarZoom = ({ src, name, children }: AvatarZoomProps) => {
   return (
     <Dialog
       trigger={
-        <Button className={s.trigger} type='button'>
+        <Button aria-label={t('zoomAvatar')} className={s.trigger} type='button'>
           {children}
         </Button>
       }

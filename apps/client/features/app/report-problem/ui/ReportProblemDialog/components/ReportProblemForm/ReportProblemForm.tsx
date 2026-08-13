@@ -43,12 +43,12 @@ export const ReportProblemForm = ({ onSent }: ReportProblemFormProps) => {
       { ...values, screenshot },
       {
         onSuccess: () => {
-          toast.success(t('sent'));
+          toast.success(t('sent'), { id: 'report-problem' });
           reset(DEFAULT_VALUES);
           setScreenshot(undefined);
           onSent();
         },
-        onError: (err: Error) => toast.error(errorMessage(err))
+        onError: (err: Error) => toast.error(errorMessage(err), { id: 'report-problem' })
       }
     );
   });

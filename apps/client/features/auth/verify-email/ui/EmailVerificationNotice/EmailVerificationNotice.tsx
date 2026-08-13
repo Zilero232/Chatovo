@@ -26,10 +26,10 @@ export const EmailVerificationNotice = () => {
     mutate(user.email, {
       onSuccess: () => {
         setSent(true);
-        toast.success(t('emailVerificationSent'));
+        toast.success(t('emailVerificationSent'), { id: 'send-verification-email' });
       },
       onError: (err: Error) => {
-        toast.error(errorMessage(err));
+        toast.error(errorMessage(err), { id: 'send-verification-email' });
       }
     });
   };

@@ -1,5 +1,6 @@
 import type { UserProfile } from '@chatovo/schemas';
 
+import { AVATAR_MAX_BYTES, userRoleSchema } from '@chatovo/schemas';
 import { Injectable } from '@nestjs/common';
 import { extension } from 'mime-types';
 
@@ -10,11 +11,12 @@ import type {
 } from './users.service.types';
 
 import { AppBadRequestException } from '../../../common/exceptions';
-import { AVATAR_MAX_BYTES } from '../../../config/uploads';
 import { PrismaService } from '../../../core';
 import { ensureUserFriendTag, getUserWithProfileOrThrow } from '../../../lib';
 import { saveUpload, toArrayBuffer } from '../../uploads';
 import { toUserProfile } from '../profile';
+
+const USER_ROLE = userRoleSchema.enum;
 
 @Injectable()
 export class UsersService {
@@ -53,6 +55,16 @@ export class UsersService {
     return undefined;
   }
 
+  async listDevelopers(): Promise<UserProfile[]> {
+    const users = await this.prisma.user.findMany({
+      where: { role: USER_ROLE.admin },
+      include: { profile: true },
+      orderBy: { createdAt: 'asc' }
+    });
+
+    return users.map(toUserProfile);
+  }
+
   async getUserProfile(id: string): Promise<UserProfile> {
     const user = await getUserWithProfileOrThrow(id);
     const friendTag = await ensureUserFriendTag({
@@ -66,10 +78,6 @@ export class UsersService {
 
   async updateProfile({ userId, input }: UpdateUserProfileInput): Promise<UserProfile> {
     const { displayName, profileUrl, bannerColor, bio, avatar, removeAvatar } = input;
-
-    if (displayName.trim().length < 2) {
-      throw new AppBadRequestException('DISPLAY_NAME_INVALID', 'Invalid name');
-    }
 
     const avatarUrl = await this.resolveAvatarUrl({ userId, avatar, removeAvatar });
 

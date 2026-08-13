@@ -35,6 +35,10 @@
   box-shadow:
     0 0 0 rem(4) color-mix(in oklch, var(--brand-violet) 20%, transparent),
     0 0 rem(40) rem(-8) oklch(70% 0.22 295deg / 75%);
+
+  @include reduced-motion {
+    animation: none;
+  }
 }
 
 @keyframes call-pulse {

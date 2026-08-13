@@ -1,5 +1,6 @@
 import type Mail from 'nodemailer/lib/mailer';
 
+import { ATTACHMENT_MAX_BYTES } from '@chatovo/schemas';
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
@@ -9,7 +10,6 @@ import type { ReportProblemInput } from './feedback.service.types';
 import { DomainEvent } from '../../../common/events/domain-events';
 import { AppBadRequestException } from '../../../common/exceptions';
 import { AppConfigService } from '../../../config/config.module';
-import { ATTACHMENT_MAX_BYTES } from '../../../config/uploads';
 import { getUserWithProfileOrThrow } from '../../../lib';
 import { BugReport, sendEmail } from '../../email';
 import { resolveDisplayName } from '../../users';

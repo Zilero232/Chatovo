@@ -19,9 +19,9 @@ export const FriendTag = ({ tag, className }: FriendTagProps) => {
     try {
       await copy(tag);
 
-      toast.success(t('tagCopied'));
+      toast.success(t('tagCopied'), { id: 'friend-tag-copy' });
     } catch {
-      toast.error(t('tagCopyFailed'));
+      toast.error(t('tagCopyFailed'), { id: 'friend-tag-copy' });
     }
   };
 

@@ -2,7 +2,7 @@
 
 import type { ClipboardEvent } from 'react';
 
-import { encodeChatAttachment } from '@chatovo/schemas';
+import { ATTACHMENT_MAX_BYTES, encodeChatAttachment } from '@chatovo/schemas';
 import { useDropZone, useFileDialog } from '@siberiacancode/reactuse';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -10,8 +10,6 @@ import { useRef } from 'react';
 import { toast } from 'sonner';
 
 import { uploadChatAttachment } from '@/shared/api';
-
-const ATTACHMENT_MAX_BYTES = 25 * 1024 * 1024;
 
 type UseChatFilesParams = {
   disabled: boolean;
@@ -31,7 +29,7 @@ export const useChatFiles = ({ roomId, disabled, onSend }: UseChatFilesParams) =
       }
     },
     onError: () => {
-      toast.error(t('uploadFailed'));
+      toast.error(t('uploadFailed'), { id: `chat-upload-${roomId}` });
     }
   });
 
@@ -43,7 +41,7 @@ export const useChatFiles = ({ roomId, disabled, onSend }: UseChatFilesParams) =
     const tooLarge = files.find((file) => file.size > ATTACHMENT_MAX_BYTES);
 
     if (tooLarge) {
-      toast.error(t('fileTooLarge'));
+      toast.error(t('fileTooLarge'), { id: `chat-file-too-large-${roomId}` });
 
       return;
     }

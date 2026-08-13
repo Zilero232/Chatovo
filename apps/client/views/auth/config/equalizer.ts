@@ -1,4 +1,4 @@
-export type AuthEqBar = {
+type AuthEqBar = {
   delay: string;
   height: string;
   id: string;

@@ -198,6 +198,10 @@
   @include tauri-mobile {
     animation: none;
   }
+
+  @include reduced-motion {
+    animation: none;
+  }
 }
 
 .body {

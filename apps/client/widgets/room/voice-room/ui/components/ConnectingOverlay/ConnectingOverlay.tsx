@@ -7,7 +7,6 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { match } from 'ts-pattern';
 
-import { useLiteMotion } from '@/shared/hooks';
 import { Text } from '@/shared/ui';
 
 import type { ConnectingOverlayProps } from './ConnectingOverlay.types';
@@ -26,7 +25,6 @@ import s from './ConnectingOverlay.module.scss';
 export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
   const t = useTranslations('room');
   const state = useConnectionState();
-  const { resolveTransition } = useLiteMotion();
 
   const text = match(state)
     .with(ConnectionState.Connected, ConnectionState.Disconnected, () => null)
@@ -51,7 +49,7 @@ export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
             className={clsx(s.box, 'glass shadow-glow-violet')}
             exit={BOX_EXIT}
             initial={BOX_INITIAL}
-            transition={resolveTransition(BOX_TRANSITION)}
+            transition={BOX_TRANSITION}
           >
             <ConnectingWaves />
             <Text className={s.text} size='sm' tone='inherit'>

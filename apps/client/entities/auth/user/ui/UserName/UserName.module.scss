@@ -24,10 +24,25 @@
     background-size: 100% 1px;
     color: var(--primary);
   }
+
+  &:focus-visible {
+    border-radius: var(--radius-sm);
+    background-size: 100% 1px;
+    box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--brand-violet) 50%, transparent);
+    color: var(--primary);
+    outline: none;
+  }
 }
 
 .text {
   @include text-ellipsis;
+}
+
+.developerName.developerName {
+  background-clip: text;
+  background-image: linear-gradient(100deg, var(--brand-cyan) 10%, oklch(78% 0.19 320deg) 90%);
+  color: transparent;
+  font-weight: 650;
 }
 
 .checkWrap {

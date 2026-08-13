@@ -1,4 +1,4 @@
-import type { RoomParticipant } from '@chatovo/schemas';
+import type { ParticipantMetadata, RoomParticipant } from '@chatovo/schemas';
 import type { TrackInfo } from 'livekit-server-sdk';
 
 import { participantMetadataSchema, safeJsonParse } from '@chatovo/schemas';
@@ -34,15 +34,10 @@ const isRoomNotFound = (error: unknown): boolean => {
   return status === 404 || code === 'not_found';
 };
 
-export const parseParticipantMeta = (
-  metadata: string | undefined
-): Pick<RoomParticipant, 'avatarUrl' | 'bannerColor' | 'profileUrl' | 'verified'> => {
+export const parseParticipantMeta = (metadata: string | undefined): ParticipantMetadata => {
   const parsed = participantMetadataSchema.safeParse(safeJsonParse(metadata));
-  const { verified, profileUrl, avatarUrl, bannerColor } = parsed.success
-    ? parsed.data
-    : participantMetadataSchema.parse({});
 
-  return { verified, profileUrl, avatarUrl, bannerColor };
+  return parsed.success ? parsed.data : participantMetadataSchema.parse({});
 };
 
 export const isMicMuted = (tracks: TrackInfo[] | undefined): boolean => {

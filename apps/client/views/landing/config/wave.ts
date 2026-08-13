@@ -1,4 +1,4 @@
-export type LandingWaveBar = {
+type LandingWaveBar = {
   delay: string;
   height: string;
   id: string;

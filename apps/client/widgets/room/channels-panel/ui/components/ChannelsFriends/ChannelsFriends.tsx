@@ -15,7 +15,6 @@ import {
   LIST_ITEM_INITIAL,
   LIST_ITEM_TRANSITION
 } from '@/shared/config';
-import { useLiteMotion } from '@/shared/hooks';
 import { Skeleton } from '@/shared/ui';
 
 import type { ChannelsFriendsProps } from './ChannelsFriends.types';
@@ -31,8 +30,6 @@ const hasFriends = (friends: FriendEntry[] | undefined): friends is FriendEntry[
 
 export const ChannelsFriends = ({ onNavigate }: ChannelsFriendsProps = {}) => {
   const t = useTranslations('channels.friends');
-
-  const { layout, resolveTransition } = useLiteMotion();
 
   const { data: friends, isPending } = useFriends();
   const { rooms } = useRooms();
@@ -81,8 +78,8 @@ export const ChannelsFriends = ({ onNavigate }: ChannelsFriendsProps = {}) => {
               animate={LIST_ITEM_ANIMATE}
               exit={LIST_ITEM_EXIT}
               initial={LIST_ITEM_INITIAL}
-              layout={layout}
-              transition={resolveTransition(LIST_ITEM_TRANSITION)}
+              layout='position'
+              transition={LIST_ITEM_TRANSITION}
             >
               <ChannelsFriendItem
                 room={roomByUserId.get(entry.user.id)}

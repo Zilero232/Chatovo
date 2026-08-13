@@ -1,12 +1,17 @@
+@use '@/shared/styles/mixins' as *;
+
 .forgotLink {
   align-self: flex-end;
   padding: 0;
   border: none;
+  border-radius: var(--radius-sm);
   margin-top: -0.5rem;
   background: none;
   color: var(--muted-foreground);
   cursor: pointer;
   font-size: 0.875rem;
+
+  @include focus-ring;
 
   &:hover {
     color: var(--foreground);

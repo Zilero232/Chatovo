@@ -40,6 +40,7 @@ export const useCurrentUser = () => {
     isAdmin: role === USER_ROLE.admin,
     avatarUrl: firstNonEmpty(profile?.avatarUrl, user?.image),
     verified: profile?.verified ?? user?.verified ?? false,
+    developer: profile?.developer ?? false,
     friendTag: firstNonEmpty(profile?.friendTag),
     emailVerified: user?.emailVerified ?? false,
     profileUrl: firstNonEmpty(profile?.profileUrl),

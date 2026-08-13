@@ -6,8 +6,7 @@ export const invalidateFriendsQueries = (queryClient: QueryClient, userId?: stri
   queryClient.invalidateQueries({ queryKey: QUERY_KEYS.friends() });
   queryClient.invalidateQueries({ queryKey: QUERY_KEYS.friendRequestsIncoming() });
   queryClient.invalidateQueries({ queryKey: ['friend-by-tag'] });
-
-  if (userId) {
-    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.friendshipRelation(userId) });
-  }
+  queryClient.invalidateQueries({
+    queryKey: userId ? QUERY_KEYS.friendshipRelation(userId) : QUERY_KEYS.friendshipRelations()
+  });
 };

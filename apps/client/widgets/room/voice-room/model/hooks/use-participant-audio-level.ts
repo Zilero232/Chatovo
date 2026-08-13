@@ -4,7 +4,7 @@ import type { Participant } from 'livekit-client';
 
 import { useParticipantTracks } from '@livekit/components-react';
 import { createAudioAnalyser, LocalAudioTrack, RemoteAudioTrack, Track } from 'livekit-client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { clamp } from 'remeda';
 
 import { isTauriMobile } from '@/shared/lib';
@@ -34,15 +34,13 @@ const readLevel = (analyser: AnalyserNode, bins: Uint8Array<ArrayBuffer>): numbe
 };
 
 export const useParticipantAudioLevel = <T extends HTMLElement>(participant: Participant) => {
-  const ref = useRef<T>(null);
-
   const [micTrack] = useParticipantTracks([Track.Source.Microphone], participant.identity);
+
+  const [node, setNode] = useState<T | null>(null);
 
   const track = micTrack?.publication.track;
 
   useEffect(() => {
-    const node = ref.current;
-
     if (
       !node ||
       !(track instanceof LocalAudioTrack || track instanceof RemoteAudioTrack) ||
@@ -86,7 +84,7 @@ export const useParticipantAudioLevel = <T extends HTMLElement>(participant: Par
 
       void cleanup();
     };
-  }, [track]);
+  }, [track, node]);
 
-  return ref;
+  return setNode;
 };

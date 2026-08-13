@@ -36,10 +36,10 @@ export const ChangeEmailForm = () => {
   const onSubmit = handleSubmit((values) => {
     mutate(values, {
       onSuccess: () => {
-        toast.success(t('emailChangeRequested'));
+        toast.success(t('emailChangeRequested'), { id: 'change-email' });
         reset();
       },
-      onError: (err: Error) => toast.error(errorMessage(err))
+      onError: (err: Error) => toast.error(errorMessage(err), { id: 'change-email' })
     });
   });
 

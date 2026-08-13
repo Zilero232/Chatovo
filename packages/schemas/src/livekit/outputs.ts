@@ -9,6 +9,7 @@ export const tokenResponseSchema = z.object({
 // schema so both responses extend the same source.
 const participantProfileSchema = z.object({
   verified: z.boolean().default(false),
+  developer: z.boolean().default(false),
   profileUrl: z.string().nullable().default(null),
   avatarUrl: z.string().nullable().default(null),
   bannerColor: z.string().nullable().default(null)
