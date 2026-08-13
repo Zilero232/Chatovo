@@ -53,10 +53,10 @@ export const UserName = ({
   };
 
   return (
-    <span className={s.root}>
+    <span className={clsx(s.root, className)}>
       {profileUrl ? (
         <a
-          className={clsx(s.link, developer && s.developerName, className)}
+          className={clsx(s.link, developer && s.developerName)}
           href={profileUrl}
           rel='noreferrer noopener'
           target='_blank'
@@ -65,7 +65,7 @@ export const UserName = ({
           {name}
         </a>
       ) : (
-        <span className={clsx(s.text, developer && s.developerName, className)}>{name}</span>
+        <span className={clsx(s.text, developer && s.developerName)}>{name}</span>
       )}
       {check}
       {developer && <DeveloperBadge size={size} />}

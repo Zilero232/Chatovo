@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { match, P } from 'ts-pattern';
 
-import { useDevelopers } from '@/entities/auth/user';
+import { useCurrentUser, useDevelopers } from '@/entities/auth/user';
 import { useFriends } from '@/entities/social/friend';
 import {
   LIST_ITEM_ANIMATE,
@@ -28,10 +28,13 @@ const hasDevelopers = (developers: UserProfile[] | undefined): developers is Use
 export const DevelopersTab = ({ enabled }: DevelopersTabProps) => {
   const t = useTranslations('friends');
 
-  const { data: developers, isPending } = useDevelopers(enabled);
+  const { user } = useCurrentUser();
+
+  const { data: allDevelopers, isPending } = useDevelopers(enabled);
   const { data: friends } = useFriends(enabled);
 
   const friendIds = new Set((friends ?? []).map((entry) => entry.user.id));
+  const developers = allDevelopers?.filter((developer) => developer.id !== user?.id);
 
   return match({ isPending, developers })
     .with({ isPending: true }, () => <Spinner className={s.spinner} />)
