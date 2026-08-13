@@ -5,12 +5,11 @@ import { Check, Link2 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 
-import { useLiteMotion } from '@/shared/hooks';
 import { Button, Tooltip, TooltipContent } from '@/shared/ui';
 
 import type { RoomInviteButtonProps } from './RoomInviteButton.types';
 
-import { useCopyInviteLink } from '../../../model/hooks';
+import { useCopyInviteLink, useCurrentRoomId } from '../../../model/hooks';
 import {
   INVITE_ICON_ANIMATE,
   INVITE_ICON_EXIT,
@@ -20,10 +19,10 @@ import {
 
 import s from './RoomInviteButton.module.scss';
 
-export const RoomInviteButton = ({ roomId, size = 'lg' }: RoomInviteButtonProps) => {
+export const RoomInviteButton = ({ size = 'lg' }: RoomInviteButtonProps) => {
   const t = useTranslations('room.invite');
+  const roomId = useCurrentRoomId();
   const { copied, copyInviteLink } = useCopyInviteLink(roomId);
-  const { resolveTransition } = useLiteMotion();
 
   return (
     <Tooltip>
@@ -46,7 +45,7 @@ export const RoomInviteButton = ({ roomId, size = 'lg' }: RoomInviteButtonProps)
             className={s.iconSlot}
             exit={INVITE_ICON_EXIT}
             initial={INVITE_ICON_INITIAL}
-            transition={resolveTransition(INVITE_ICON_TRANSITION)}
+            transition={INVITE_ICON_TRANSITION}
           >
             {copied ? <Check /> : <Link2 />}
           </motion.span>

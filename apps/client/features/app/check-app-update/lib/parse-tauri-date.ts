@@ -1,4 +1,4 @@
-import { isValid, parse } from 'date-fns';
+import { isValid, parse, parseISO } from 'date-fns';
 
 const TAURI_DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss.SSS xxxxx';
 
@@ -7,7 +7,13 @@ export const parseTauriDate = (raw: string | null | undefined) => {
     return null;
   }
 
-  const date = parse(raw, TAURI_DATE_FORMAT, new Date());
+  const tauriDate = parse(raw, TAURI_DATE_FORMAT, new Date());
 
-  return isValid(date) ? date : null;
+  if (isValid(tauriDate)) {
+    return tauriDate;
+  }
+
+  const isoDate = parseISO(raw);
+
+  return isValid(isoDate) ? isoDate : null;
 };

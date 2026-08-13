@@ -74,9 +74,14 @@ export const RecentRooms = ({ onNavigate, variant = 'list' }: RecentRoomsProps =
               type='button'
               onClick={() => navigate(room.id)}
             >
-              <span className={live ? s.dotLive : s.dot} />
+              <span aria-hidden className={live ? s.dotLive : s.dot} />
               <span className={isStrip ? s.stripName : s.name}>{room.name}</span>
-              {room.isPrivate && <Lock className={s.lockIcon} />}
+              {room.isPrivate && (
+                <>
+                  <Lock aria-hidden className={s.lockIcon} />
+                  <span className='sr-only'>{t('privateRoom')}</span>
+                </>
+              )}
             </button>
           );
         })}

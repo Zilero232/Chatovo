@@ -46,11 +46,11 @@ export const UpdateProfileForm = () => {
       { ...values, avatar: avatar.value },
       {
         onSuccess: () => {
-          toast.success(t('saved'));
+          toast.success(t('saved'), { id: 'update-profile' });
           reset(values);
           avatar.reset();
         },
-        onError: (err: Error) => toast.error(errorMessage(err))
+        onError: (err: Error) => toast.error(errorMessage(err), { id: 'update-profile' })
       }
     );
   });

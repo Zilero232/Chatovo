@@ -17,6 +17,4 @@ export const LANDING_FAQ_COUNT = 5;
 
 export type LandingFeatureKey = (typeof LANDING_FEATURE_KEYS)[number];
 
-export type LandingStepKey = (typeof LANDING_STEP_KEYS)[number];
-
 export type LandingDesktopKey = (typeof LANDING_DESKTOP_KEYS)[number];

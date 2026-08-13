@@ -2,15 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { secondsToMilliseconds } from 'date-fns';
 import { isEmpty } from 'remeda';
 
-import { listRooms, queryClient } from '@/shared/api';
+import { listRooms } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
-
-export const prefetchRooms = () =>
-  queryClient.prefetchQuery({
-    queryKey: QUERY_KEYS.rooms(),
-    queryFn: listRooms,
-    staleTime: secondsToMilliseconds(30)
-  });
 
 export const useRooms = () => {
   const { data, isLoading, isError } = useQuery({

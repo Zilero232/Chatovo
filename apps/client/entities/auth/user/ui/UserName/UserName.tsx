@@ -12,6 +12,8 @@ import { Tooltip, TooltipContent } from '@/shared/ui';
 
 import type { UserNameProps } from './UserName.types';
 
+import { DeveloperBadge } from '../DeveloperBadge';
+
 import s from './UserName.module.scss';
 
 const checkSizeClass = {
@@ -20,11 +22,12 @@ const checkSizeClass = {
 } as const;
 
 export const UserName = ({
+  className,
+  developer = false,
   name,
-  verified = false,
   profileUrl = null,
   size = 'sm',
-  className
+  verified = false
 }: UserNameProps) => {
   const t = useTranslations('user');
 
@@ -53,7 +56,7 @@ export const UserName = ({
     <span className={s.root}>
       {profileUrl ? (
         <a
-          className={clsx(s.link, className)}
+          className={clsx(s.link, developer && s.developerName, className)}
           href={profileUrl}
           rel='noreferrer noopener'
           target='_blank'
@@ -62,9 +65,10 @@ export const UserName = ({
           {name}
         </a>
       ) : (
-        <span className={clsx(s.text, className)}>{name}</span>
+        <span className={clsx(s.text, developer && s.developerName, className)}>{name}</span>
       )}
       {check}
+      {developer && <DeveloperBadge size={size} />}
     </span>
   );
 };

@@ -2,7 +2,7 @@ import type { SoundKey } from '../config';
 
 import { SOUND_SRC } from '../config';
 
-export type SoundPlayer = {
+type SoundPlayer = {
   dispose: () => void;
   play: (key: SoundKey, volume: number) => void;
 };

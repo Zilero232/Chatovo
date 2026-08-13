@@ -10,7 +10,7 @@ import s from './ChannelsFooter.module.scss';
 
 export const ChannelsFooter = () => {
   const t = useTranslations('channels');
-  const { avatarUrl, displayName, verified } = useCurrentUser();
+  const { avatarUrl, developer, displayName, verified } = useCurrentUser();
 
   return (
     <div className={s.root}>
@@ -21,7 +21,7 @@ export const ChannelsFooter = () => {
         src={avatarUrl}
       />
       <div className={s.info}>
-        <UserName className={s.name} name={displayName} verified={verified} />
+        <UserName className={s.name} developer={developer} name={displayName} verified={verified} />
         <span className={s.status}>
           <span className={s.dot}>
             <span className={s.dotPing} />

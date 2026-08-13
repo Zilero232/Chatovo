@@ -9,5 +9,6 @@ export const useFriends = (enabled = true) =>
   useQuery({
     queryKey: QUERY_KEYS.friends(),
     queryFn: listFriends,
-    enabled
+    enabled,
+    staleTime: Number.POSITIVE_INFINITY
   });

@@ -1,10 +1,10 @@
 'use client';
 
+import { ROOM_NAME_MAX_LENGTH } from '@chatovo/schemas';
 import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { Controller } from 'react-hook-form';
 
-import { useLiteMotion } from '@/shared/hooks';
 import {
   FormField,
   Input,
@@ -23,11 +23,8 @@ import { useCreateRoomForm } from '../../../model/hooks';
 
 import s from './CreateRoomForm.module.scss';
 
-const NAME_MAX_LENGTH = 64;
-
 export const CreateRoomForm = ({ hint, onCreated }: CreateRoomFormProps) => {
   const t = useTranslations('createRoom');
-  const { resolveTransition } = useLiteMotion();
 
   const { form, isPrivate, name, isPending, canSubmit, onSubmit } = useCreateRoomForm({
     onCreated
@@ -45,7 +42,7 @@ export const CreateRoomForm = ({ hint, onCreated }: CreateRoomFormProps) => {
           <span className={s.labelRow}>
             {t('nameLabel')}
             <Text size='xs' tone='muted'>
-              {t('nameCounter', { count: name?.length ?? 0, max: NAME_MAX_LENGTH })}
+              {t('nameCounter', { count: name?.length ?? 0, max: ROOM_NAME_MAX_LENGTH })}
             </Text>
           </span>
         }
@@ -55,7 +52,7 @@ export const CreateRoomForm = ({ hint, onCreated }: CreateRoomFormProps) => {
         <Input
           autoComplete='off'
           id='create-room-name'
-          maxLength={NAME_MAX_LENGTH}
+          maxLength={ROOM_NAME_MAX_LENGTH}
           placeholder={t('namePlaceholder')}
           {...register('name')}
         />
@@ -91,7 +88,7 @@ export const CreateRoomForm = ({ hint, onCreated }: CreateRoomFormProps) => {
             className={s.passwordReveal}
             exit={{ height: 0, opacity: 0 }}
             initial={{ height: 0, opacity: 0 }}
-            transition={resolveTransition({ type: 'spring', bounce: 0, duration: 0.32 })}
+            transition={{ type: 'spring', bounce: 0, duration: 0.32 }}
           >
             <FormField
               error={errors.password?.message}

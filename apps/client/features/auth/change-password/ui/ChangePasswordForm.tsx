@@ -33,10 +33,10 @@ export const ChangePasswordForm = () => {
   const onSubmit = handleSubmit((values) => {
     mutate(values, {
       onSuccess: () => {
-        toast.success(t('passwordChanged'));
+        toast.success(t('passwordChanged'), { id: 'change-password' });
         reset();
       },
-      onError: (err: Error) => toast.error(errorMessage(err))
+      onError: (err: Error) => toast.error(errorMessage(err), { id: 'change-password' })
     });
   });
 

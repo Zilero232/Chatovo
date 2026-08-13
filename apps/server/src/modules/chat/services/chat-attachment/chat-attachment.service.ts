@@ -1,12 +1,12 @@
 import type { ChatAttachment } from '@chatovo/schemas';
 
+import { ATTACHMENT_MAX_BYTES } from '@chatovo/schemas';
 import { Injectable } from '@nestjs/common';
 import { extension } from 'mime-types';
 
 import type { UploadAttachmentInput } from './chat-attachment.service.types';
 
 import { AppBadRequestException } from '../../../../common/exceptions';
-import { ATTACHMENT_MAX_BYTES } from '../../../../config/uploads';
 import { assertCanAccessRoom } from '../../../../lib';
 import { saveUpload } from '../../../uploads';
 

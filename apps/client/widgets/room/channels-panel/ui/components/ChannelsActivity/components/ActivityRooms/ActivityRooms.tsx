@@ -10,7 +10,6 @@ import {
   LIST_ITEM_INITIAL,
   LIST_ITEM_TRANSITION
 } from '@/shared/config';
-import { useLiteMotion } from '@/shared/hooks';
 
 import type { ActivityRoomsProps } from './ActivityRooms.types';
 
@@ -20,8 +19,6 @@ import s from './ActivityRooms.module.scss';
 
 export const ActivityRooms = ({ groups, onNavigate }: ActivityRoomsProps) => {
   const t = useTranslations('channels.activity');
-
-  const { layout, resolveTransition } = useLiteMotion();
 
   return (
     <div className={s.root}>
@@ -38,8 +35,8 @@ export const ActivityRooms = ({ groups, onNavigate }: ActivityRoomsProps) => {
               animate={LIST_ITEM_ANIMATE}
               exit={LIST_ITEM_EXIT}
               initial={LIST_ITEM_INITIAL}
-              layout={layout}
-              transition={resolveTransition(LIST_ITEM_TRANSITION)}
+              layout='position'
+              transition={LIST_ITEM_TRANSITION}
             >
               <ActivityRoomCard group={group} onNavigate={onNavigate} />
             </motion.div>

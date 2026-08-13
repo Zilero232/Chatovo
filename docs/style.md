@@ -1090,7 +1090,7 @@ export const formatBytes = (bytes: number): string => {
 
 ## 19. Server — см. apps/server/CLAUDE.md
 
-Этот гайд покрывает `apps/client/`. Конвенции API (NestJS-модули, `createZodDto` из `nestjs-zod`, глобальный `AuthGuard` + `@Public()`, WebSocket-gateway, доменные события) описаны в [`apps/server/CLAUDE.md`](../apps/server/CLAUDE.md) — единственный источник правды по серверу.
+Этот гайд покрывает `apps/client/`. Конвенции API (NestJS-модули, `createZodDto` из `nestjs-zod`, глобальный `AuthGuard` + `@AllowAnonymous()`, WebSocket-gateway, доменные события) описаны в [`apps/server/CLAUDE.md`](../apps/server/CLAUDE.md) — единственный источник правды по серверу.
 
 ---
 

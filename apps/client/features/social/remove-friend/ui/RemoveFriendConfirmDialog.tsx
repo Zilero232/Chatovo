@@ -22,7 +22,7 @@ export const RemoveFriendConfirmDialog = ({
   const handleConfirm = () => {
     removeFriendship.mutate(userId, {
       onSuccess: () => onOpenChange(false),
-      onError: () => toast.error(t('failed'))
+      onError: () => toast.error(t('failed'), { id: `friend-remove-${userId}` })
     });
   };
 

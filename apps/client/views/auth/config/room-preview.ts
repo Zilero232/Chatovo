@@ -1,4 +1,4 @@
-export type AuthRoomSpeaker = {
+type AuthRoomSpeaker = {
   id: string;
   initial: string;
   isSpeaking: boolean;
@@ -12,5 +12,3 @@ export const AUTH_ROOM_SPEAKERS: AuthRoomSpeaker[] = [
 ];
 
 export const AUTH_STAT_KEYS = ['setup', 'free', 'limit'] as const;
-
-export type AuthStatKey = (typeof AUTH_STAT_KEYS)[number];

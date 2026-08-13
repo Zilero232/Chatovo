@@ -12,33 +12,6 @@ import {
 
 @Injectable()
 export class GithubService {
-  async getLatestRelease() {
-    try {
-      const releases = await fetchGitHubReleases();
-      const unified = findLatestUnifiedRelease(releases);
-
-      if (unified) {
-        const { desktop_assets } = splitReleaseAssets(unified.assets);
-
-        return { ...unified, assets: desktop_assets };
-      }
-
-      const desktop = findLatestByTagPrefix({ releases, prefixes: [...DESKTOP_TAG_PREFIXES] });
-
-      if (!desktop) {
-        throw new BadGatewayException('No release found');
-      }
-
-      return desktop;
-    } catch (error) {
-      if (error instanceof HttpException) {
-        throw error;
-      }
-
-      throw new BadGatewayException('Failed to fetch latest release');
-    }
-  }
-
   async getAppDownloads() {
     try {
       const releases = await fetchGitHubReleases();

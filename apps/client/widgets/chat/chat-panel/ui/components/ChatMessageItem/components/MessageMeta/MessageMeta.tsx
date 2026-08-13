@@ -10,7 +10,7 @@ import { useChatMessage } from '../../../../../model/contexts';
 import s from './MessageMeta.module.scss';
 
 export const MessageMeta = () => {
-  const { author, identity, verified, isOwn, message } = useChatMessage();
+  const { author, identity, verified, developer, isOwn, message } = useChatMessage();
 
   return (
     <div className={s.root}>
@@ -21,7 +21,7 @@ export const MessageMeta = () => {
           name={author}
           renderFriendActions={(state) => <FriendProfileActionsPanel {...state} />}
         >
-          <UserName className={s.author} name={author} verified={verified} />
+          <UserName className={s.author} developer={developer} name={author} verified={verified} />
         </ProfileCardTrigger>
       )}
       <span className={s.time}>{formatMessageTime(message.timestamp)}</span>

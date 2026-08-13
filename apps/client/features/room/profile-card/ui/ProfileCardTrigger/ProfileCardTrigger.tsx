@@ -27,6 +27,8 @@ export const ProfileCardTrigger = ({
     <>
       <button
         ref={triggerRef}
+        aria-expanded={isOpen}
+        aria-haspopup='dialog'
         className={clsx(s.trigger, className)}
         type='button'
         onClick={() => {

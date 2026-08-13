@@ -14,7 +14,6 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogHint,
   DialogTitle,
   Text
 } from '@/shared/ui';
@@ -90,8 +89,6 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
             <div className={s.meta}>
               <span className={s.version}>{t('version', { version: release.version })}</span>
             </div>
-
-            <DialogHint>{t('hint')}</DialogHint>
           </>
         )}
       </DialogContent>

@@ -11,6 +11,8 @@
   text-align: left;
   transition: background-color var(--duration-fast) var(--timing-function-standard);
 
+  @include focus-ring;
+
   &:disabled {
     cursor: default;
   }

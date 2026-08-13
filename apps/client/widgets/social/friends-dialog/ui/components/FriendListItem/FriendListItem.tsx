@@ -25,7 +25,12 @@ export const FriendListItem = ({ user, dmUnread = 0, onOpen, onRemove }: FriendL
       <button className={s.main} type='button' onClick={() => onOpen(user)}>
         <UserAvatar className={s.avatar} name={user.name} size='sm' src={user.avatarUrl} />
         <div className={s.info}>
-          <UserName className={s.name} name={user.name} verified={user.verified} />
+          <UserName
+            className={s.name}
+            developer={user.developer}
+            name={user.name}
+            verified={user.verified}
+          />
           <span className={clsx(s.status, { [s.statusOnline]: user.isOnline })}>
             <span className={s.dot} />
             {t(user.isOnline ? 'online' : 'offline')}

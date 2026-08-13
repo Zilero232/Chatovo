@@ -4,7 +4,7 @@ export const userRoleSchema = z.enum(['admin', 'user']);
 
 const emailSchema = z.email('validation.emailInvalid').trim().toLowerCase();
 const passwordSchema = z.string().min(8, 'validation.passwordMin');
-const displayNameSchema = z
+export const displayNameSchema = z
   .string()
   .trim()
   .min(2, 'validation.nameMin')

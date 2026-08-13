@@ -38,8 +38,8 @@ export const SignUpForm = () => {
 
   const onSubmit = handleSubmit((values) => {
     mutate(values, {
-      onSuccess: () => toast.success(t('signedIn')),
-      onError: (err: Error) => toast.error(errorMessage(err))
+      onSuccess: () => toast.success(t('signedIn'), { id: 'sign-up' }),
+      onError: (err: Error) => toast.error(errorMessage(err), { id: 'sign-up' })
     });
   });
 

@@ -3,7 +3,7 @@ import type { Request } from 'express';
 
 import { Body, Controller, Headers, Post, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Public } from '@thallesp/nestjs-better-auth';
+import { AllowAnonymous } from '@thallesp/nestjs-better-auth';
 import { ZodResponse } from 'nestjs-zod';
 
 import { CurrentSession } from '../../common/decorators/current-user.decorator';
@@ -30,7 +30,7 @@ export class LivekitController {
   }
 
   @Post('webhook')
-  @Public()
+  @AllowAnonymous()
   async handleWebhook(@Req() req: Request, @Headers('authorization') authHeader?: string) {
     const body = Buffer.isBuffer(req.body) ? req.body.toString('utf8') : JSON.stringify(req.body);
 

@@ -12,11 +12,11 @@ import s from './tabs.module.scss';
 export type SettingsTabId =
   'audio' | 'profile' | 'security' | 'shortcuts' | 'sounds' | 'system' | 'video';
 
-export type SettingsTabControls = {
+type SettingsTabControls = {
   jumpTo: (id: SettingsTabId) => void;
 };
 
-export type SettingsTabConfig = {
+type SettingsTabConfig = {
   icon: ReactNode;
   id: SettingsTabId;
   tauriDesktopOnly?: boolean;

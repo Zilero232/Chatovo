@@ -29,7 +29,10 @@ export const FriendChatDialog = () => {
       return;
     }
 
-    callFriend.mutate({ userId: peer.id }, { onError: () => toast.error(tFriends('callFailed')) });
+    callFriend.mutate(
+      { userId: peer.id },
+      { onError: () => toast.error(tFriends('callFailed'), { id: `friend-call-${peer.id}` }) }
+    );
   };
 
   return (
@@ -47,7 +50,7 @@ export const FriendChatDialog = () => {
             <div className={s.headerMain}>
               <UserAvatar name={peer.name} size='sm' src={peer.avatarUrl} />
               <DialogTitle className={s.name}>
-                <UserName name={peer.name} verified={peer.verified} />
+                <UserName developer={peer.developer} name={peer.name} verified={peer.verified} />
               </DialogTitle>
             </div>
             <div className={s.headerActions}>

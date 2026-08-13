@@ -1,4 +1,4 @@
-import type { UpdateProfileInput, UploadedAvatar } from '../users.types';
+import type { UpdateProfileServiceInput, UploadedAvatar } from '../users.types';
 
 export type UploadAvatarInput = {
   userId: string;
@@ -13,5 +13,5 @@ export type ResolveAvatarUrlInput = {
 
 export type UpdateUserProfileInput = {
   userId: string;
-  input: UpdateProfileInput;
+  input: UpdateProfileServiceInput;
 };

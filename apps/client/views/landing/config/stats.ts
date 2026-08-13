@@ -1,4 +1,4 @@
-export type LandingHeroStatKey = 'install' | 'limit' | 'setup';
+type LandingHeroStatKey = 'install' | 'limit' | 'setup';
 
 export const LANDING_HERO_STAT_KEYS = ['setup', 'install', 'limit'] as const;
 

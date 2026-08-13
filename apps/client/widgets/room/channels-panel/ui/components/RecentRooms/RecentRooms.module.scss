@@ -77,6 +77,8 @@
     background: oklch(100% 0 0deg / 6%);
     color: var(--sidebar-foreground);
   }
+
+  @include focus-ring;
 }
 
 .stripItem {
@@ -99,6 +101,8 @@
     box-shadow: 0 rem(8) rem(24) rem(-12) oklch(70% 0.2 270deg / 50%);
     translate: 0 -1px;
   }
+
+  @include button-focus-ring;
 
   &[data-live='true'] {
     border-color: color-mix(in oklch, var(--brand-cyan) 30%, transparent);

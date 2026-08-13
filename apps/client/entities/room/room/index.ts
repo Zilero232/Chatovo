@@ -1,6 +1,5 @@
 export {
   countRoomsByFilter,
-  filterAndOrderRooms,
   groupRooms,
   type RoomSection,
   type RoomsFilter,
@@ -8,7 +7,6 @@ export {
 } from './lib/group-rooms';
 export { readParticipantMeta } from './lib/participant-meta';
 export {
-  prefetchRooms,
   useCreateRoom,
   useDeleteRoom,
   useEnterRoom,

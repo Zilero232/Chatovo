@@ -5,6 +5,7 @@ import type { Participant } from 'livekit-client';
 import { useParticipants } from '@livekit/components-react';
 import { useEffect, useEffectEvent } from 'react';
 
+import { ROSTER_EVENTS } from '../../../config';
 import { useSessionStats } from '../../../model/contexts';
 import { useParticipantIsSpeaking } from '../../../model/hooks';
 
@@ -26,7 +27,7 @@ const ParticipantStatsTracker = ({ participant }: { participant: Participant }) 
 };
 
 export const SessionStatsController = () => {
-  const participants = useParticipants();
+  const participants = useParticipants({ updateOnlyOn: ROSTER_EVENTS });
 
   return (
     <>

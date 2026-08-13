@@ -24,13 +24,16 @@ export const DeleteRoomDialog = ({ room, open, onOpenChange }: DeleteRoomDialogP
   const onConfirm = () => {
     deleteMutation.mutate(room.id, {
       onSuccess: () => {
-        toast.success(t('deleted'), { description: `"${room.name}"` });
+        toast.success(t('deleted'), {
+          id: `room-delete-${room.id}`,
+          description: `"${room.name}"`
+        });
         onOpenChange(false);
         if (params.get('id') === room.id) {
           router.replace(ROUTES.lobby);
         }
       },
-      onError: (err: Error) => toast.error(errorMessage(err))
+      onError: (err: Error) => toast.error(errorMessage(err), { id: `room-delete-${room.id}` })
     });
   };
 

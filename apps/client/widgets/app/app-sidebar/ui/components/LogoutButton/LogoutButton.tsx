@@ -18,12 +18,12 @@ export const LogoutButton = () => {
     clearToken();
 
     if (error) {
-      toast.error(errorMessage(error));
+      toast.error(errorMessage(error), { id: 'sign-out' });
 
       return;
     }
 
-    toast.success(t('signedOut'));
+    toast.success(t('signedOut'), { id: 'sign-out' });
   };
 
   return <IconButtonWithTooltip icon={<LogOut />} label={t('logout')} onClick={handleLogout} />;

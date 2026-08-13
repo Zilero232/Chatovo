@@ -2,7 +2,7 @@
 
 import type { UpdateRoomRequest } from '@chatovo/schemas';
 
-import { updateRoomInputSchema } from '@chatovo/schemas';
+import { ROOM_NAME_MAX_LENGTH, updateRoomInputSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
@@ -11,7 +11,6 @@ import { toast } from 'sonner';
 
 import { useErrorMessage } from '@/entities/app/locale';
 import { useUpdateRoom } from '@/entities/room/room';
-import { useLiteMotion } from '@/shared/hooks';
 import {
   FormField,
   Input,
@@ -28,12 +27,9 @@ import type { EditRoomFormProps } from './EditRoomDialog.types';
 
 import s from './EditRoomForm.module.scss';
 
-const NAME_MAX_LENGTH = 64;
-
 export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
   const t = useTranslations('manageRoom.edit');
   const errorMessage = useErrorMessage();
-  const { resolveTransition } = useLiteMotion();
 
   const updateMutation = useUpdateRoom();
 
@@ -58,10 +54,13 @@ export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
       { id: room.id, input: values },
       {
         onSuccess: (updated) => {
-          toast.success(t('saved'), { description: `"${updated.name}"` });
+          toast.success(t('saved'), {
+            id: `room-update-${room.id}`,
+            description: `"${updated.name}"`
+          });
           onUpdated?.();
         },
-        onError: (err: Error) => toast.error(errorMessage(err))
+        onError: (err: Error) => toast.error(errorMessage(err), { id: `room-update-${room.id}` })
       }
     );
   });
@@ -73,7 +72,7 @@ export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
           <span className={s.labelRow}>
             {t('nameLabel')}
             <Text size='xs' tone='muted'>
-              {t('nameCounter', { count: name?.length ?? 0, max: NAME_MAX_LENGTH })}
+              {t('nameCounter', { count: name?.length ?? 0, max: ROOM_NAME_MAX_LENGTH })}
             </Text>
           </span>
         }
@@ -83,7 +82,7 @@ export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
         <Input
           autoComplete='off'
           id='edit-room-name'
-          maxLength={NAME_MAX_LENGTH}
+          maxLength={ROOM_NAME_MAX_LENGTH}
           {...register('name')}
         />
       </FormField>
@@ -116,7 +115,7 @@ export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
             className={s.passwordReveal}
             exit={{ height: 0, opacity: 0 }}
             initial={{ height: 0, opacity: 0 }}
-            transition={resolveTransition({ type: 'spring', bounce: 0, duration: 0.32 })}
+            transition={{ type: 'spring', bounce: 0, duration: 0.32 }}
           >
             <FormField
               error={errors.password?.message}

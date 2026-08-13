@@ -13,11 +13,12 @@ export const FriendProfileActionsPanel = ({
   friendTag,
   displayName,
   avatarUrl,
-  verified
+  verified,
+  developer
 }: FriendProfileActionsPanelProps) => {
   const { open: openFriendChat } = useFriendChat();
 
-  const peer: FriendChatPeer = { id: userId, name: displayName, avatarUrl, verified };
+  const peer: FriendChatPeer = { id: userId, name: displayName, avatarUrl, verified, developer };
 
   return (
     <FriendProfileActions

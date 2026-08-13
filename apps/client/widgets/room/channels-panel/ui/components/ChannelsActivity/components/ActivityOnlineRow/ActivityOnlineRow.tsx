@@ -18,6 +18,11 @@ export const ActivityOnlineRow = ({ user }: ActivityOnlineRowProps) => (
       <span aria-hidden className={s.dot} />
     </span>
 
-    <UserName className={s.name} name={user.name} verified={user.verified} />
+    <UserName
+      className={s.name}
+      developer={user.developer}
+      name={user.name}
+      verified={user.verified}
+    />
   </div>
 );

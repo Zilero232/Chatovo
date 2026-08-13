@@ -173,6 +173,8 @@
     background: color-mix(in oklch, var(--brand-cyan) 12%, transparent);
   }
 
+  @include button-focus-ring(var(--brand-cyan));
+
   @container lobby-header (min-width: 34rem) {
     align-self: auto;
   }

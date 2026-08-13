@@ -1,4 +1,4 @@
-@use '@/shared/styles/breakpoints' as *;
+@use '@/shared/styles/mixins' as *;
 
 .root {
   position: relative;
@@ -71,9 +71,12 @@
 }
 
 .toggleButton {
+  border-radius: var(--radius-sm);
   color: var(--brand-cyan);
   font-weight: 600;
   transition: color var(--duration-fast) var(--timing-function-standard);
+
+  @include focus-ring(var(--brand-cyan));
 
   &:hover {
     color: color-mix(in oklch, var(--brand-cyan) 80%, transparent);

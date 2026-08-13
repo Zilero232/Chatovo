@@ -2,7 +2,6 @@
 
 import { useParticipants, useRoomContext } from '@livekit/components-react';
 import { clsx } from 'clsx';
-import { RoomEvent } from 'livekit-client';
 import { useTranslations } from 'next-intl';
 
 import { useRoomParticipants } from '@/entities/room/room';
@@ -10,16 +9,11 @@ import { Text } from '@/shared/ui';
 
 import type { ParticipantsViewProps } from './ParticipantsView.types';
 
+import { ROSTER_EVENTS } from '../../../config';
 import { ParticipantCard } from '../ParticipantCard/ParticipantCard';
 import { EmptyRoomScene } from './EmptyRoomScene';
 
 import s from './ParticipantsView.module.scss';
-
-const ROSTER_EVENTS = [
-  RoomEvent.ParticipantConnected,
-  RoomEvent.ParticipantDisconnected,
-  RoomEvent.ConnectionStateChanged
-];
 
 export const ParticipantsView = ({ isDm = false }: ParticipantsViewProps) => {
   const t = useTranslations('room');

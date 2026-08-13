@@ -6,7 +6,7 @@ import { ZodResponse } from 'nestjs-zod';
 import type { UploadedAvatar } from './users.types';
 
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
-import { UpdateProfileDto, UserProfileDto } from './dto/users.dto';
+import { DeveloperListDto, UpdateProfileDto, UserProfileDto } from './dto/users.dto';
 import { UsersService } from './services';
 
 @ApiTags('users')
@@ -35,6 +35,12 @@ export class UsersController {
           : undefined
       }
     });
+  }
+
+  @Get('developers')
+  @ZodResponse({ type: DeveloperListDto })
+  listDevelopers() {
+    return this.users.listDevelopers();
   }
 
   @Get(':id/profile')

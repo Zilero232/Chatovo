@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { AriaAttributes, ReactNode } from 'react';
 
 export type SelectOption<T extends string> = {
   icon?: ReactNode;
@@ -7,8 +7,7 @@ export type SelectOption<T extends string> = {
   value: T;
 };
 
-export type SelectProps<T extends string> = {
-  'aria-label'?: string;
+export type SelectProps<T extends string> = Pick<AriaAttributes, 'aria-label'> & {
   className?: string;
   isDisabled?: boolean;
   menuClassName?: string;

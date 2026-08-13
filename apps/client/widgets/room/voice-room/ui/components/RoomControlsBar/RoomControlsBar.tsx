@@ -11,12 +11,7 @@ import { VoiceRoomChatButton } from '../VoiceRoomChatButton/VoiceRoomChatButton'
 
 import s from '../../VoiceRoom.module.scss';
 
-export const RoomControlsBar = ({
-  roomId,
-  isDm,
-  isChatOpen,
-  onToggleChat
-}: RoomControlsBarProps) => (
+export const RoomControlsBar = ({ isDm, isChatOpen, onToggleChat }: RoomControlsBarProps) => (
   <div className={clsx(s.controls, 'surface-bar')}>
     <span aria-hidden className='accent-top-line' />
     <div className={s.controlBarWrap}>
@@ -26,10 +21,10 @@ export const RoomControlsBar = ({
     <div className={s.sideActions}>
       {!isDm && (
         <div className={s.desktopInvite}>
-          <RoomInviteButton roomId={roomId} />
+          <RoomInviteButton />
         </div>
       )}
-      <VoiceRoomChatButton isOpen={isChatOpen} roomId={roomId} onToggle={onToggleChat} />
+      <VoiceRoomChatButton isOpen={isChatOpen} onToggle={onToggleChat} />
     </div>
   </div>
 );

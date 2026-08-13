@@ -44,7 +44,7 @@ export const OutgoingCallDialog = () => {
 
             <Button
               className={s.cancel}
-              isDisabled={isBusy}
+              disabled={isBusy}
               size='lg'
               variant='secondary'
               onClick={cancel}

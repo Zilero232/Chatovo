@@ -34,8 +34,8 @@ export const ForgotPasswordForm = ({ onBack }: ForgotPasswordFormProps) => {
 
   const onSubmit = handleSubmit((values) => {
     mutate(values, {
-      onSuccess: () => toast.success(t('resetEmailSent')),
-      onError: (err: Error) => toast.error(errorMessage(err))
+      onSuccess: () => toast.success(t('resetEmailSent'), { id: 'forgot-password' }),
+      onError: (err: Error) => toast.error(errorMessage(err), { id: 'forgot-password' })
     });
   });
 

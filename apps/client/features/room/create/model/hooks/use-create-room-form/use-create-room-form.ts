@@ -34,15 +34,17 @@ export const useCreateRoomForm = ({ onCreated }: UseCreateRoomFormInput) => {
   const onSubmit = form.handleSubmit((values) => {
     createMutation.mutate(values, {
       onSuccess: (room) => {
-        toast.success(t('created'), { description: `"${room.name}"` });
+        toast.success(t('created'), { id: 'room-create', description: `"${room.name}"` });
         form.reset(DEFAULT_VALUES);
         onCreated?.();
         enterMutation.mutate(
           { roomId: room.id, password: values.isPrivate ? values.password : undefined },
-          { onError: (err: Error) => toast.error(errorMessage(err)) }
+          {
+            onError: (err: Error) => toast.error(errorMessage(err), { id: `room-enter-${room.id}` })
+          }
         );
       },
-      onError: (err: Error) => toast.error(errorMessage(err))
+      onError: (err: Error) => toast.error(errorMessage(err), { id: 'room-create' })
     });
   });
 

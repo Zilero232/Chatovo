@@ -90,7 +90,7 @@ export const RoomPage = () => {
         serverUrl={env.NEXT_PUBLIC_LIVEKIT_URL}
         token={token}
         onConnectFailure={() => {
-          toast.error(t('joinFailed'));
+          toast.error(t('joinFailed'), { id: `room-join-${roomId}` });
 
           setPassword(undefined);
           router.replace(ROUTES.lobby);

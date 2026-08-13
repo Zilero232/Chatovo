@@ -1,5 +1,6 @@
 export { useConnectionRtt } from './use-connection-rtt';
 export { useCopyInviteLink } from './use-copy-invite-link';
+export { useCurrentRoomId } from './use-current-room-id';
 export { useDeviceSync } from './use-device-sync';
 export { useMicActivationMode } from './use-mic-activation-mode';
 export { useParticipantAudioLevel } from './use-participant-audio-level';

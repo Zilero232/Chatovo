@@ -10,7 +10,7 @@ import { RoomInviteButton } from '../RoomInviteButton/RoomInviteButton';
 
 import s from './RoomHeader.module.scss';
 
-export const RoomHeader = ({ name, roomId, isDm = false }: RoomHeaderProps) => (
+export const RoomHeader = ({ name, isDm = false }: RoomHeaderProps) => (
   <div className={clsx(s.root, 'surface-bar')}>
     <span aria-hidden className='accent-top-line' />
     <span aria-hidden className={s.icon}>
@@ -22,7 +22,7 @@ export const RoomHeader = ({ name, roomId, isDm = false }: RoomHeaderProps) => (
         <span className={s.title}>{name}</span>
         {!isDm && (
           <div className={s.mobileInvite}>
-            <RoomInviteButton roomId={roomId} size='sm' />
+            <RoomInviteButton size='sm' />
           </div>
         )}
       </div>

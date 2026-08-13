@@ -26,7 +26,7 @@ export const useChatMessageItem = ({
   const author = message.from?.name || message.from?.identity || 'Guest';
   const identity = message.from?.identity ?? author;
 
-  const { verified } = readParticipantMeta(message.from?.metadata);
+  const { verified, developer } = readParticipantMeta(message.from?.metadata);
 
   const isDeleted = Boolean(message.deletedAt);
   const attachment = !isDeleted ? decodeChatAttachment(message.message) : null;
@@ -43,6 +43,7 @@ export const useChatMessageItem = ({
     author,
     identity,
     verified,
+    developer,
     isDeleted,
     attachment,
     isEdited,

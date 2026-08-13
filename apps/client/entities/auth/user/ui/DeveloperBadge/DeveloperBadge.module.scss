@@ -1,0 +1,43 @@
+@use '@/shared/styles/mixins' as *;
+
+.root {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  border-radius: 0.3125rem;
+  background: linear-gradient(100deg, oklch(72% 0.19 200deg), oklch(66% 0.24 300deg));
+  box-shadow:
+    0 0 rem(12) oklch(70% 0.22 280deg / 45%),
+    inset 0 1px 0 oklch(100% 0 0deg / 25%);
+  color: oklch(99% 0 0deg);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-shadow: 0 1px 1px oklch(20% 0.05 280deg / 45%);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sm {
+  padding: 0.1875rem 0.3125rem;
+  font-size: rem(9);
+  gap: 0.1875rem;
+}
+
+.md {
+  padding: 0.25rem 0.4375rem;
+  font-size: rem(10);
+  gap: 0.25rem;
+}
+
+.icon {
+  width: 0.6875rem;
+  height: 0.6875rem;
+  opacity: 0.9;
+
+  .md & {
+    width: 0.8125rem;
+    height: 0.8125rem;
+  }
+}

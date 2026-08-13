@@ -24,9 +24,5 @@ export type {
   ShortcutBinding,
   ShortcutSettings,
   SoundCategory,
-  SoundSettings,
-  SystemSettings,
-  TraySettings,
-  VideoQuality,
-  VideoSettings
+  VideoQuality
 } from './model/types';

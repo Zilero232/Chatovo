@@ -1,4 +1,6 @@
-export type FilePickerProps = {
+import type { AriaAttributes } from 'react';
+
+export type FilePickerProps = Pick<AriaAttributes, 'aria-describedby'> & {
   accept?: string;
   className?: string;
   file?: File;

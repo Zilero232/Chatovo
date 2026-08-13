@@ -5,8 +5,6 @@ import { clsx } from 'clsx';
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 
-import { useLiteMotion } from '@/shared/hooks';
-
 import type {
   SheetContentProps,
   SheetDescriptionProps,
@@ -71,36 +69,32 @@ export const SheetContent = ({
   side = 'right',
   showCloseButton = true,
   ...props
-}: SheetContentProps) => {
-  const { resolveTransition } = useLiteMotion();
-
-  return (
-    <Dialog.Popup
-      key='sheet-popup'
-      render={
-        <motion.div
-          animate='visible'
-          exit='hidden'
-          initial='hidden'
-          transition={resolveTransition(SHEET_TRANSITION)}
-          variants={sheetVariants(side)}
-        />
-      }
-      className={clsx(s.modal, sideClass[side], modalClassName)}
-      data-slot='sheet-portal'
-      {...props}
-    >
-      <div className={clsx('glass-overlay', s.content, className)} data-slot='sheet-content'>
-        {children}
-        {showCloseButton && (
-          <Dialog.Close className={s.close} data-slot='sheet-close'>
-            <span aria-hidden>×</span>
-          </Dialog.Close>
-        )}
-      </div>
-    </Dialog.Popup>
-  );
-};
+}: SheetContentProps) => (
+  <Dialog.Popup
+    key='sheet-popup'
+    render={
+      <motion.div
+        animate='visible'
+        exit='hidden'
+        initial='hidden'
+        transition={SHEET_TRANSITION}
+        variants={sheetVariants(side)}
+      />
+    }
+    className={clsx(s.modal, sideClass[side], modalClassName)}
+    data-slot='sheet-portal'
+    {...props}
+  >
+    <div className={clsx('glass-overlay', s.content, className)} data-slot='sheet-content'>
+      {children}
+      {showCloseButton && (
+        <Dialog.Close className={s.close} data-slot='sheet-close'>
+          <span aria-hidden>×</span>
+        </Dialog.Close>
+      )}
+    </div>
+  </Dialog.Popup>
+);
 
 export const SheetTitle = ({ className, children, ...props }: SheetTitleProps) => (
   <Dialog.Title className={clsx(s.title, className)} data-slot='sheet-title' {...props}>

@@ -10,6 +10,5 @@ export type ButtonProps = Omit<ComponentProps<'button'>, 'onClick'> &
   Pick<ComponentProps<'a'>, 'download' | 'href' | 'rel' | 'target'> & {
     variant?: ButtonVariant;
     size?: ButtonSize;
-    isDisabled?: boolean;
     onClick?: (event: MouseEvent<HTMLElement>) => void;
   };

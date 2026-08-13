@@ -2,6 +2,7 @@
 
 import { clsx } from 'clsx';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { useNavHistory } from '@/shared/hooks';
 
@@ -11,6 +12,8 @@ import { TitleBarControls } from './components';
 import s from './TitleBar.module.scss';
 
 export const TitleBar = () => {
+  const t = useTranslations('window');
+
   const platform = useWindowPlatform();
   const { canGoBack, canGoForward, goBack, goForward } = useNavHistory();
   const { isMaximized, minimize, toggleMaximize, close } = useWindowControls();
@@ -25,16 +28,23 @@ export const TitleBar = () => {
     <div className={clsx(s.root, { [s.rootMacos]: isMacos })}>
       {!isMacos && (
         <div className={s.navButtons}>
-          <button className={s.navButton} disabled={!canGoBack} type='button' onClick={goBack}>
-            <ChevronLeft className={s.navIcon} />
+          <button
+            aria-label={t('back')}
+            className={s.navButton}
+            disabled={!canGoBack}
+            type='button'
+            onClick={goBack}
+          >
+            <ChevronLeft aria-hidden className={s.navIcon} />
           </button>
           <button
+            aria-label={t('forward')}
             className={s.navButton}
             disabled={!canGoForward}
             type='button'
             onClick={goForward}
           >
-            <ChevronRight className={s.navIcon} />
+            <ChevronRight aria-hidden className={s.navIcon} />
           </button>
         </div>
       )}

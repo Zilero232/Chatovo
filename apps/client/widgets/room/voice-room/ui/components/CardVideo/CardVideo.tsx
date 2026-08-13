@@ -1,10 +1,10 @@
 'use client';
 
-import type { KeyboardEvent } from 'react';
-
 import { useIsMuted, VideoTrack } from '@livekit/components-react';
+import { target, useEventListener } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { Expand, Shrink } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -15,6 +15,8 @@ import type { CardVideoProps } from './CardVideo.types';
 import s from './CardVideo.module.scss';
 
 export const CardVideo = ({ trackRef }: CardVideoProps) => {
+  const t = useTranslations('room');
+
   const muted = useIsMuted(trackRef);
 
   const { settings } = useAppSettings();
@@ -28,19 +30,14 @@ export const CardVideo = ({ trackRef }: CardVideoProps) => {
     [s.videoMirrored]: isMirrored
   });
 
-  const toggle = () => {
-    setIsExpanded((prev) => !prev);
-  };
-
-  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      toggle();
-    }
-
+  useEventListener(target(window), 'keydown', (event) => {
     if (event.key === 'Escape') {
       setIsExpanded(false);
     }
+  });
+
+  const toggle = () => {
+    setIsExpanded((prev) => !prev);
   };
 
   if (muted) {
@@ -49,27 +46,33 @@ export const CardVideo = ({ trackRef }: CardVideoProps) => {
 
   return (
     <>
-      <div className={s.pane} role='button' tabIndex={0} onClick={toggle} onKeyDown={handleKeyDown}>
+      <button
+        aria-expanded={isExpanded}
+        aria-label={t('expandVideo')}
+        className={s.pane}
+        type='button'
+        onClick={toggle}
+      >
         {!isExpanded && <VideoTrack className={videoClassName} trackRef={trackRef} />}
-        <div className={s.fullscreenHint}>
-          <Expand className={s.hintIcon} />
-        </div>
-      </div>
+        <span className={s.fullscreenHint}>
+          <Expand aria-hidden className={s.hintIcon} />
+        </span>
+      </button>
 
       {isExpanded &&
         createPortal(
-          <div
+          <button
+            aria-expanded
+            aria-label={t('collapseVideo')}
             className={s.overlay}
-            role='button'
-            tabIndex={0}
+            type='button'
             onClick={toggle}
-            onKeyDown={handleKeyDown}
           >
             <VideoTrack className={expandedVideoClassName} trackRef={trackRef} />
-            <div className={s.fullscreenHint}>
-              <Shrink className={s.hintIcon} />
-            </div>
-          </div>,
+            <span className={s.fullscreenHint}>
+              <Shrink aria-hidden className={s.hintIcon} />
+            </span>
+          </button>,
           document.body
         )}
     </>

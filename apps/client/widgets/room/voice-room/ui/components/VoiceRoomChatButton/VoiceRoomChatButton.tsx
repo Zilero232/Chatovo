@@ -10,10 +10,13 @@ import { useChatUnread } from '@/widgets/chat/chat-panel';
 
 import type { VoiceRoomChatButtonProps } from './VoiceRoomChatButton.types';
 
+import { useCurrentRoomId } from '../../../model/hooks';
+
 import s from './VoiceRoomChatButton.module.scss';
 
-export const VoiceRoomChatButton = ({ roomId, isOpen, onToggle }: VoiceRoomChatButtonProps) => {
+export const VoiceRoomChatButton = ({ isOpen, onToggle }: VoiceRoomChatButtonProps) => {
   const t = useTranslations('chat');
+  const roomId = useCurrentRoomId();
   const unread = useChatUnread(roomId, isOpen);
 
   return (

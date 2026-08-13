@@ -3,7 +3,6 @@
 import { clsx } from 'clsx';
 import { AnimatePresence, motion } from 'motion/react';
 
-import { useLiteMotion } from '@/shared/hooks';
 import { Spinner, Tooltip, TooltipContent } from '@/shared/ui';
 
 import type { ControlButtonProps } from './ControlButton.types';
@@ -33,8 +32,6 @@ export const ControlButton = ({
   device,
   onClick
 }: ControlButtonProps) => {
-  const { resolveTransition } = useLiteMotion();
-
   const animatedIcon = (
     <AnimatePresence initial={false} mode='popLayout'>
       <motion.span
@@ -43,7 +40,7 @@ export const ControlButton = ({
         className={s.iconSlot}
         exit={CONTROL_ICON_EXIT}
         initial={CONTROL_ICON_INITIAL}
-        transition={resolveTransition(CONTROL_ICON_TRANSITION)}
+        transition={CONTROL_ICON_TRANSITION}
       >
         {isPending ? <Spinner decorative /> : icon}
       </motion.span>

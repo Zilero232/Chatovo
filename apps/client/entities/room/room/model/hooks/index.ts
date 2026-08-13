@@ -5,6 +5,6 @@ export { useRecentRooms } from './use-recent-rooms';
 export { useRoomById } from './use-room-by-id';
 export { useRoomParticipants } from './use-room-participants';
 export { useRoomToken } from './use-room-token';
-export { prefetchRooms, useRooms } from './use-rooms';
+export { useRooms } from './use-rooms';
 export { useLobbyOnline, useRoomsPresence } from './use-rooms-presence';
 export { useUpdateRoom } from './use-update-room';

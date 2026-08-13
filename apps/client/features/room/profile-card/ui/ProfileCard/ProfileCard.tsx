@@ -45,6 +45,7 @@ export const ProfileCard = ({ identity, name, renderFriendActions }: ProfileCard
         <div className={s.identity}>
           <UserName
             className={s.name}
+            developer={profile?.developer ?? false}
             name={displayName}
             profileUrl={profile?.profileUrl}
             size='md'
@@ -68,7 +69,8 @@ export const ProfileCard = ({ identity, name, renderFriendActions }: ProfileCard
             friendTag: profile.friendTag,
             displayName,
             avatarUrl: profile.avatarUrl ?? null,
-            verified: profile.verified ?? false
+            verified: profile.verified ?? false,
+            developer: profile.developer ?? false
           })}
       </div>
     </div>

@@ -25,6 +25,7 @@ export const toFriendUser = (user: UserWithProfile): FriendUser => {
     friendTag: profile.friendTag,
     avatarUrl: profile.avatarUrl,
     verified: profile.verified,
+    developer: profile.developer,
     isOnline: hasUserConnection(profile.id)
   };
 };

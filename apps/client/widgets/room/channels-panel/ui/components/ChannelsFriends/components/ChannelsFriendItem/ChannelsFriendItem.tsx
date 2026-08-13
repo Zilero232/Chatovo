@@ -51,7 +51,12 @@ export const ChannelsFriendItem = ({ room, user, onNavigate }: ChannelsFriendIte
       </span>
 
       <span className={s.info}>
-        <UserName className={s.name} name={user.name} verified={user.verified} />
+        <UserName
+          className={s.name}
+          developer={user.developer}
+          name={user.name}
+          verified={user.verified}
+        />
         <span className={clsx(s.status, { [s.statusInRoom]: isInRoom })}>
           {isInRoom ? room.name : t(user.isOnline ? 'statusOnline' : 'statusOffline')}
         </span>
