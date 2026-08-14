@@ -6,11 +6,11 @@ import { match, P } from 'ts-pattern';
 
 import { useCurrentUser } from '@/entities/auth/user';
 import { useEnterRoom } from '@/entities/room/room';
-import { Button, Spinner } from '@/shared/ui';
+import { Button, Spinner } from '@/ui-kit';
 
 import type { ProfileVoiceBlockProps } from './ProfileVoiceBlock.types';
 
-import { useParticipantRoom } from '../../../../model/use-participant-room';
+import { useParticipantRoom } from '../../../../model/hooks';
 
 import s from './ProfileVoiceBlock.module.scss';
 

@@ -9,7 +9,7 @@ import { isEmpty as isEmptyList } from 'remeda';
 import { match } from 'ts-pattern';
 
 import { groupRooms, RoomsListError, useRooms, useRoomsPresence } from '@/entities/room/room';
-import { CenteredState, ScrollArea, SearchField, Skeleton } from '@/shared/ui';
+import { CenteredState, ScrollArea, SearchField, Skeleton } from '@/ui-kit';
 
 import type { ChannelsListProps } from './ChannelsList.types';
 

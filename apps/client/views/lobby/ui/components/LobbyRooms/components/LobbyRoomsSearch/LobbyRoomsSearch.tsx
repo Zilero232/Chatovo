@@ -7,7 +7,7 @@ import { useRef } from 'react';
 
 import type { RoomsFilter } from '@/entities/room/room';
 
-import { SearchField } from '@/shared/ui';
+import { SearchField } from '@/ui-kit';
 
 import type { LobbyRoomsView } from '../../LobbyRooms.types';
 import type { LobbyRoomsSearchProps } from './LobbyRoomsSearch.types';

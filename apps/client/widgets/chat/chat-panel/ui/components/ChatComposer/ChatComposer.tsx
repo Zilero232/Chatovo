@@ -5,7 +5,7 @@ import { clsx } from 'clsx';
 import { Paperclip, SendHorizontal } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Button, Spinner } from '@/shared/ui';
+import { Button, Spinner } from '@/ui-kit';
 
 import type { ChatComposerProps } from './ChatComposer.types';
 

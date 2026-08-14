@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { TriangleAlert } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Button, Tooltip, TooltipContent, TooltipProvider } from '@/shared/ui';
+import { Button, Tooltip, TooltipContent, TooltipProvider } from '@/ui-kit';
 
 import type { ShortcutComboButtonProps } from './ShortcutComboButton.types';
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import s from '../../LobbyRoomCard.module.scss';
@@ -16,7 +17,10 @@ export const RoomCardEmptySlots = () => {
           <span key={slot} className={s.emptySlot} />
         ))}
       </div>
-      <span className={s.emptyJoin}>{t('joinFirst')}</span>
+      <span className={s.emptyJoin}>
+        {t('joinFirst')}
+        <ArrowRight aria-hidden className={s.emptyJoinIcon} />
+      </span>
     </div>
   );
 };

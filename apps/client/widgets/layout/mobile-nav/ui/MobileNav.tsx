@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { Menu } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { BrandMark, Button, Sheet, SheetContent, SheetDescription, SheetTitle } from '@/shared/ui';
+import { BrandMark, Button, Sheet, SheetContent, SheetDescription, SheetTitle } from '@/ui-kit';
 import { AppSidebar } from '@/widgets/app/app-sidebar';
 import { LanguageSwitcher } from '@/widgets/app/language-switcher';
 import { ChannelsPanel } from '@/widgets/room/channels-panel';

@@ -3,7 +3,7 @@
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
-import { BrandMark, Text } from '@/shared/ui';
+import { BrandMark, Text } from '@/ui-kit';
 
 import { AUTH_FEATURES } from '../../../config';
 import { AuthRoomPreview } from '../AuthRoomPreview/AuthRoomPreview';

@@ -1,6 +1,6 @@
 'use client';
 
-import { Select } from '@/shared/ui';
+import { Select } from '@/ui-kit';
 
 import type { QualitySelectProps } from './QualitySelect.types';
 

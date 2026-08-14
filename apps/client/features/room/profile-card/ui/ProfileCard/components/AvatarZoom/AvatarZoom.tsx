@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { Button, Dialog, DialogContent, DialogDescription, DialogTitle } from '@/shared/ui';
+import { Button, Dialog, DialogContent, DialogDescription, DialogTitle } from '@/ui-kit';
 
 import type { AvatarZoomProps } from './AvatarZoom.types';
 
@@ -23,7 +23,12 @@ export const AvatarZoom = ({ src, name, children }: AvatarZoomProps) => {
         </Button>
       }
     >
-      <DialogContent className={s.content} showCloseButton={false}>
+      <DialogContent
+        className={s.content}
+        overlayClassName={s.overlay}
+        popupClassName={s.modal}
+        showCloseButton={false}
+      >
         <DialogTitle className='sr-only'>{t('avatarAlt', { name })}</DialogTitle>
         <DialogDescription className='sr-only'>{t('avatarZoomDescription')}</DialogDescription>
         <img alt={t('avatarAlt', { name })} className={s.image} src={src} />

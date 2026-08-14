@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 
 import { UserAvatar } from '@/entities/auth/user';
 import { OwnerCrown } from '@/entities/room/room';
-import { AvatarWithBadges, Badge } from '@/shared/ui';
+import { AvatarWithBadges, Badge } from '@/ui-kit';
 
 import type { RoomCardParticipantsProps } from './RoomCardParticipants.types';
 

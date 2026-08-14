@@ -3,7 +3,7 @@
 import { clsx } from 'clsx';
 
 import { MobileUpdateBanner } from '@/features/app/check-app-update';
-import { ScrollArea } from '@/shared/ui';
+import { ScrollArea } from '@/ui-kit';
 
 import { LobbyHeader, LobbyRooms } from './components';
 

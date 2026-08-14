@@ -3,7 +3,7 @@
 import { clsx } from 'clsx';
 import { motion } from 'motion/react';
 
-import { Text } from '@/shared/ui';
+import { Text } from '@/ui-kit';
 
 import type { LandingHeroVisualProps } from './LandingHeroVisual.types';
 

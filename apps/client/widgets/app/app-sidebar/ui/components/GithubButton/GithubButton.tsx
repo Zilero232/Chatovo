@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { EXTERNAL_LINKS } from '@/shared/constants';
-import { Button, GithubIcon, Tooltip, TooltipContent } from '@/shared/ui';
+import { Button, GithubIcon, Tooltip, TooltipContent } from '@/ui-kit';
 
 export const GithubButton = () => {
   const t = useTranslations('appSidebar');

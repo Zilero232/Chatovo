@@ -1,6 +1,6 @@
 'use client';
 
-import { ContextMenu, ContextMenuContent, ContextMenuTrigger } from '@/shared/ui';
+import { ContextMenu, ContextMenuContent, ContextMenuTrigger } from '@/ui-kit';
 
 import type { MessageContextMenuProps } from './MessageContextMenu.types';
 

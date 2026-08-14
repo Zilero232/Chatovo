@@ -5,9 +5,9 @@ import type { ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { match } from 'ts-pattern';
 
-import { AppSplash } from '@/shared/ui';
+import { AppSplash } from '@/ui-kit';
 
-import { useCheckAppUpdate } from '../model/use-check-app-update';
+import { useCheckAppUpdate } from '../model/hooks';
 import { UpdateDialog } from './UpdateDialog';
 
 export const UpdateBootstrap = ({ children }: { children: ReactNode }) => {

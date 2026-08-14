@@ -1,4 +1,4 @@
-@use '@/shared/styles/mixins' as *;
+@use '@/ui-kit/styles/mixins' as *;
 
 .content {
   display: flex;
@@ -49,11 +49,8 @@
   box-shadow: inset 0 1px 0 oklch(100% 0 0deg / 6%);
   gap: 0.25rem;
   overflow-x: auto;
-  scrollbar-width: none;
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  @include hide-scrollbar;
 
   @include bp(sm) {
     width: 12rem;

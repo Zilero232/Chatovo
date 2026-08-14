@@ -5,7 +5,7 @@ import { Info } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { DownloadAppDialog } from '@/features/app/download-app';
-import { Text } from '@/shared/ui';
+import { Text } from '@/ui-kit';
 
 import s from '../AppSettingsButton.module.scss';
 

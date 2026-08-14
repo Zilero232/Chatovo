@@ -42,7 +42,7 @@ Each app folder has its own `CLAUDE.md` (see [Per-app guidance](#per-app-guidanc
 
 Each app has its own `CLAUDE.md` (auto-loaded when working in its folder) with the detailed map and local conventions:
 
-- **[apps/client/CLAUDE.md](apps/client/CLAUDE.md)** — Feature-Sliced Design layers, public-API/barrel rules, naming, i18n, `shared/ui` layout. Full FSD spec in [docs/fsd.md](docs/fsd.md), code style in [docs/style.md](docs/style.md) (compressed: [.claude/rules/code-style-client.md](.claude/rules/code-style-client.md)).
+- **[apps/client/CLAUDE.md](apps/client/CLAUDE.md)** — Feature-Sliced Design layers, public-API/barrel rules, naming, i18n, `ui-kit` layout. Full FSD spec in [docs/fsd.md](docs/fsd.md), code style in [docs/style.md](docs/style.md) (compressed: [.claude/rules/code-style-client.md](.claude/rules/code-style-client.md)).
 - **[apps/server/CLAUDE.md](apps/server/CLAUDE.md)** — module convention (routes / handlers / service / `lib`), error handling, LiveKit/Prisma specifics (compressed style: [.claude/rules/code-style-server.md](.claude/rules/code-style-server.md)).
 - **[apps/tauri/CLAUDE.md](apps/tauri/CLAUDE.md)** — Rust shell, plugins, `isTauri()` gating.
 
@@ -62,7 +62,7 @@ The rules below apply repo-wide (every app and `packages/`).
 6. Date / time → **`date-fns`** (already in deps). No `Date` arithmetic by hand.
 7. Class composition → **`clsx`** напрямую. Не оборачивать в `cn()`.
 8. Validation schemas → **Zod 4** via `@chatovo/schemas`. Schema is source of truth, infer types with `z.infer`.
-9. UI primitives (dialog, dropdown, tooltip, popover, tabs, switch, etc.) → **`@base-ui-components/react`** в `shared/ui/` (импорт из подпути: `@base-ui-components/react/menu`). Стили — **SCSS modules** (`*.module.scss`). Не реализуй focus trap / aria с нуля. Грабли Base UI — в [apps/client/CLAUDE.md](apps/client/CLAUDE.md).
+9. UI primitives (dialog, dropdown, tooltip, popover, tabs, switch, etc.) → **`@base-ui/react`** в `ui-kit/` (импорт из подпути: `@base-ui/react/menu`). Стили — **SCSS modules** (`*.module.scss`). Не реализуй focus trap / aria с нуля. Грабли Base UI — в [apps/client/CLAUDE.md](apps/client/CLAUDE.md).
 10. Icons → **`lucide-react`**. No custom SVG inline unless brand-specific.
 11. Toasts → **`sonner`** (`toast.success` / `toast.error`). No custom notification system.
 12. LiveKit room state, participants, tracks, chat → **`@livekit/components-react`** hooks (`useChat`, `useParticipants`, `useTracks`, `useConnectionState`). No raw `Room` event listeners unless the hook genuinely doesn't cover it.
@@ -75,7 +75,7 @@ The rules below apply repo-wide (every app and `packages/`).
 19. Cross-app pub/sub events → typed **`appBus`** in `shared/lib/app-bus` (built on reactuse `createEventEmitter`). For app-wide events (mute/deafen toggle, PTT, recheck-update) use the bus instead of `window` `CustomEvent` — types are enforced in `AppBusEvents`.
 20. Calling a fresh callback/prop from inside `useEffect` without making the effect re-run → **`useEffectEvent`** (React 19.2+). Do NOT hand-roll the `const cbRef = useRef(cb); cbRef.current = cb;` pattern to read a "latest" callback — `useEffectEvent` is the idiomatic replacement (the effect omits the event from its deps). The ref-latest pattern is only acceptable for non-callback mutable values that genuinely can't use an Effect Event.
 21. Анимации появления/исчезновения, layout-переходы, stagger → **`motion`** (`motion.div`, `AnimatePresence`, `useReducedMotion`). В CSS остаются только hover/focus-транзишны, бесконечные лупы (спиннер, пульс) и декоративный фон. Не пиши `@keyframes` для enter/exit — они не реагируют на стейт и конфликтуют с motion.
-22. Выбор файла → **`useFileDialog`** (reactuse) + `FilePicker` из `shared/ui`. Нативный `<input type="file">` не стилизуется и выбивается из дизайна.
+22. Выбор файла → **`useFileDialog`** (reactuse) + `FilePicker` из `ui-kit`. Нативный `<input type="file">` не стилизуется и выбивается из дизайна.
 
 **When to roll your own:**
 
@@ -143,7 +143,7 @@ bun --filter @chatovo/client typecheck
 ## Working with the user
 
 - **Language**: respond in Russian. Code, identifiers, commit messages, and quoted error strings stay in their original language (usually English).
-- **No code comments in application code**: no `//`, block or JSDoc comments in `views/`, `widgets/`, `features/`, `entities/` (client) or `modules/` (server). Code is self-documenting via clear naming; if a block needs a comment, extract it into a named function. **Narrow exception** — the public surface of reusable modules (`shared/ui`, `shared/lib`, `shared/hooks`, server `src/lib/`, `packages/schemas`): an **exported** primitive may carry a 1–2 line JSDoc when the signature doesn't explain the purpose (non-obvious units, side effect, edge-case behaviour). Internal helpers are never documented. Details and examples — [docs/style.md](docs/style.md) §18. Add other comments only when the user explicitly asks. Leave pre-existing comments in files you didn't author unless told to clean them.
+- **No code comments in application code**: no `//`, block or JSDoc comments in `views/`, `widgets/`, `features/`, `entities/` (client) or `modules/` (server). Code is self-documenting via clear naming; if a block needs a comment, extract it into a named function. **Narrow exception** — the public surface of reusable modules (`ui-kit`, `shared/lib`, `shared/hooks`, server `src/lib/`, `packages/schemas`): an **exported** primitive may carry a 1–2 line JSDoc when the signature doesn't explain the purpose (non-obvious units, side effect, edge-case behaviour). Internal helpers are never documented. Details and examples — [docs/style.md](docs/style.md) §18. Add other comments only when the user explicitly asks. Leave pre-existing comments in files you didn't author unless told to clean them.
 - **No git operations on your own**: never `git commit` / `branch` / `push` unless the user explicitly asks in that message. Stage (`git add`) at most. A task instruction like "go do X" is NOT a commit request.
 - **Measure before swapping for perf**: if a performance symptom persists across two implementation swaps, the cause is almost certainly not the library — stop swapping. First do ONE of: repeat the action (fast 2nd time = first-mount/dev-compile, not the lib), test a prod build (`bun run build && bun run start`), or read a DevTools Performance profile. Only swap a library once a profile implicates its code.
 

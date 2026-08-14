@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { getTranslations } from 'next-intl/server';
 
 import { ROUTES } from '@/shared/constants';
-import { Button, Text } from '@/shared/ui';
+import { Button, Text } from '@/ui-kit';
 
 import type { LandingSectionProps } from '../../LandingPage.types';
 

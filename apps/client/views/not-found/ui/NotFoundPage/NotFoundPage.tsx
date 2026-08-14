@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { ROUTES } from '@/shared/constants';
-import { Button, ErrorGlyph, Text } from '@/shared/ui';
+import { Button, ErrorGlyph, Text } from '@/ui-kit';
 
 import s from './NotFoundPage.module.scss';
 

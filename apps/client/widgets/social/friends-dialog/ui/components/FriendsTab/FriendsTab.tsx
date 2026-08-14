@@ -16,7 +16,7 @@ import {
   LIST_ITEM_INITIAL,
   LIST_ITEM_TRANSITION
 } from '@/shared/config';
-import { CenteredState, Spinner } from '@/shared/ui';
+import { CenteredState, Spinner } from '@/ui-kit';
 
 import type { FriendsTabProps, RemoveTarget } from './FriendsTab.types';
 

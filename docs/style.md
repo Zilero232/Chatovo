@@ -79,48 +79,51 @@ import { ChannelsHeader } from './components/ChannelsHeader';
 
 - `.types.ts` — создаётся только если есть Props или локальные union-типы.
 - `.module.scss` — стили компонента (импорт `import s from './Foo.module.scss'`). Обязательно на всех слоях.
-- `shared/ui/` — атомарный слой (atoms/molecules/organisms/icons). **Не плоские `button.tsx`** — каждый примитив в PascalCase-папке (§2.1). Снаружи — `@/shared/ui`.
+- `ui-kit/` — дизайн-система (primitives/components/icons/styles). **Не плоские `button.tsx`** — каждый примитив в PascalCase-папке (§2.1). Снаружи — `@/ui-kit`.
 
-### 2.1. Структура `shared/ui`
+### 2.1. Структура `ui-kit`
 
-Каждый примитив — отдельная папка в PascalCase.
+`ui-kit/` — отдельный слой рядом с `shared/`: его импортируют все слои, сам он не импортирует ничего, кроме себя. Каждый компонент — отдельная папка в PascalCase.
 
 ```
-shared/ui/
-  index.ts                    ← re-export atoms + molecules + organisms + icons
-  atoms/
-    index.ts                  ← re-export всех atoms
+ui-kit/
+  index.ts                    ← re-export primitives + components + icons
+  primitives/                 ← базовые, не зависят от других компонентов
+    index.ts                  ← re-export всех primitives
     Button/
       Button.tsx
       Button.module.scss
       Button.types.ts         ← опционально
-      index.ts                ← export * from './Button'; export type * from './Button.types';
+      index.ts                ← export { Button } from './Button';
+                              ← export type { ButtonProps } from './Button.types';
     Dialog/
       Dialog.tsx
       Dialog.module.scss
       Dialog.types.ts
       index.ts
-  molecules/
+  components/                 ← составные, собраны из primitives
     FormField/
       FormField.tsx
       FormField.module.scss
       index.ts
-  organisms/
     ConfirmDialog/
       ...
   icons/
     LogoMark/
       LogoMark.tsx
       index.ts
+  styles/                     ← _tokens, _mixins, _functions, _breakpoints, _keyframes
 ```
 
 **Правила:**
 
 - Имена папок и файлов компонентов — **PascalCase** (`Button/`, `Button.tsx`).
-- Стили — **`*.module.scss`**; импорт shared-утилит: `@use '@/shared/styles/mixins' as *` (alias `@/` через `loadPaths` + `turbopack.resolveAlias` в `next.config.ts`, без `../../../`).
-- Headless + a11y — **`@base-ui-components/react`** (Dialog → `Dialog`, Menu → `Menu`, Select → `Select`, …); импорт из подпути пакета.
+- **`primitives/` vs `components/`**: примитив не импортирует другие компоненты ui-kit (кроме своих частей); собранный из двух и более примитивов — в `components/`.
+- **Per-component `index.ts` обязателен** — явные именованные реэкспорты компонента и его типов, без `export *`. Агрегирующие barrel (`primitives/index.ts`, `ui-kit/index.ts`) реэкспортят папки.
+- Стили — **`*.module.scss`**; импорт shared-утилит: `@use '@/ui-kit/styles/mixins' as *` (alias `@/` через `loadPaths` + `turbopack.resolveAlias` в `next.config.ts`, без `../../../`).
+- Headless + a11y — **`@base-ui/react`** (Dialog → `Dialog`, Menu → `Menu`, Select → `Select`, …); импорт из подпути пакета.
 - Типы React — **именованные** (`ComponentProps`, `ReactNode`, …), не `import type * as React`.
-- Внутри `shared/ui` — относительные импорты между слоями (`../../atoms/Button`). Снаружи — только `@/shared/ui`.
+- Внутри `ui-kit` — относительные импорты между сегментами (`../../primitives/Button`). Снаружи — только `@/ui-kit`.
 
 ### Slice barrel
 
@@ -166,7 +169,7 @@ export type VoiceRoomProps = {
 **`VoiceRoom.module.scss`:**
 
 ```scss
-@use '@/shared/styles/mixins' as *;
+@use '@/ui-kit/styles/mixins' as *;
 
 .root {
   display: flex;
@@ -183,7 +186,7 @@ export type VoiceRoomProps = {
 }
 ```
 
-Варианты с условиями — `cva` из `class-variance-authority` поверх module-классов (см. `shared/ui/atoms/Text/Text.variants.ts`).
+Варианты с условиями — `cva` из `class-variance-authority` поверх module-классов (см. `ui-kit/primitives/Text/Text.variants.ts`).
 
 **`VoiceRoom.tsx`:**
 
@@ -234,12 +237,12 @@ export type * from './use-friend-chat-unread.types';
 
 | Слой | Формат |
 |---|---|
-| `shared/ui/**` | `*.module.scss` + CSS-переменные из `globals.scss` |
+| `ui-kit/**` | `*.module.scss` + CSS-переменные из `globals.scss` |
 | widgets / features / views | `*.module.scss` |
 
 | Случай | Куда |
 |---|---|
-| Стили компонента в `shared/ui` | `<Name>.module.scss` |
+| Стили компонента в `ui-kit` | `<Name>.module.scss` |
 | Стили подкомпонента слайса | `<Name>.module.scss` |
 | Склейка module-классов и опционального `className` prop | `clsx(...)` |
 | Условные классы | maps в TSX (`variantClass[variant]`) или SCSS-модификаторы |
@@ -258,10 +261,10 @@ export type * from './use-friend-chat-unread.types';
 2. Логика → `model/` (хук).
 3. Утилиты → `lib/` слайса.
 
-**Barrel родственных примитивов — тоже не исключение.** `shared/ui` компоненты вида `Dialog`/`Sheet`/`DropdownMenu` экспортируют 8–15 мелких частей (`Dialog`, `DialogContent`, `DialogHeader`, …). Держать их одним файлом нельзя: каждая часть — в `components/<Name>/`, а `<Name>.tsx` остаётся тонким реэкспортом.
+**Barrel родственных примитивов — тоже не исключение.** `ui-kit` компоненты вида `Dialog`/`Sheet`/`DropdownMenu` экспортируют 8–15 мелких частей (`Dialog`, `DialogContent`, `DialogHeader`, …). Держать их одним файлом нельзя: каждая часть — в `components/<Name>/`, а `<Name>.tsx` остаётся тонким реэкспортом.
 
 ```
-shared/ui/atoms/Dialog/
+ui-kit/primitives/Dialog/
   Dialog.tsx                  ← только `export { ... } from './components'`
   Dialog.types.ts
   Dialog.module.scss
@@ -276,7 +279,7 @@ shared/ui/atoms/Dialog/
 
 Группируй по смыслу, а не «файл на экспорт»: близкие части (`Header`/`Footer`/`Title`/`Description`) живут вместе.
 
-**Контекст, который шарят части, — отдельным модулем** рядом с `<Name>.tsx` (`dialog-overlay-context.ts`), не внутри компонента: иначе `components/*` импортируют родителя, а родитель — их. Общий для нескольких примитивов контекст — в `shared/ui/lib/` (`menu-radio-group-context.ts`).
+**Контекст, который шарят части, — отдельным модулем** рядом с `<Name>.tsx` (`dialog-overlay-context.ts`), не внутри компонента: иначе `components/*` импортируют родителя, а родитель — их. Общий для нескольких примитивов контекст — в `ui-kit/lib/` (`menu-radio-group-context.ts`).
 
 ---
 
@@ -348,14 +351,14 @@ Deep import мимо barrel запрещён:
 ```ts
 // ✗ ЗАПРЕЩЕНО
 import { ChannelsList } from '@/widgets/room/channels-panel/ui/components/ChannelsList';
-import { Button } from '@/shared/ui/atoms/Button';
+import { Button } from '@/ui-kit/primitives/Button';
 
 // ✓ ОК
 import { ChannelsPanel } from '@/widgets/room/channels-panel';
-import { Button } from '@/shared/ui';
+import { Button } from '@/ui-kit';
 ```
 
-`shared/ui` — единый корневой barrel `@/shared/ui` (атомарный слой под капотом). Внутри слайса — относительные ОК.
+`ui-kit` — единый корневой barrel `@/ui-kit` (атомарный слой под капотом). Внутри слайса — относительные ОК.
 
 ESLint не проверяет FSD-границы — ловим на review.
 
@@ -505,7 +508,7 @@ const readRole = (user: User | null): UserRole =>
   match(state).with('idle', () => null)
   ```
 
-- **Примитивы в `shared/ui/`** — своя конвенция (PascalCase-папки, SCSS modules, Base UI). См. §2.1.
+- **Примитивы в `ui-kit/`** — своя конвенция (PascalCase-папки, SCSS modules, Base UI). См. §2.1.
 
 **Правило для review:** если стрелка справа от `=` (объявление функции) — block body. Если стрелка внутри `(...)` или `{...}` (аргумент) — на усмотрение, обычно expression.
 
@@ -822,8 +825,8 @@ export const createRoom = async (input: CreateRoomRequest): Promise<Room> => {
 
 - Токены темы — CSS variables в `app/globals.scss` (`:root` + `.dark`).
 - Тёмная тема — `<html className="dark">` хардкодом (несовместимо с `next-themes` + Tauri).
-- Токены темы, отступы, размеры — `shared/styles/_tokens.scss` (`--space-*`, `--icon-*`, `--control-*`, цвета, радиусы). Подключается в `app/globals.scss`.
-- Компонентные стили — `*.module.scss`; общие миксины — `@use '@/shared/styles/mixins' as *` (`loadPaths` + `turbopack.resolveAlias` в `next.config.ts`).
+- Токены темы, отступы, размеры — `ui-kit/styles/_tokens.scss` (`--space-*`, `--icon-*`, `--control-*`, цвета, радиусы). Подключается в `app/globals.scss`.
+- Компонентные стили — `*.module.scss`; общие миксины — `@use '@/ui-kit/styles/mixins' as *` (`loadPaths` + `turbopack.resolveAlias` в `next.config.ts`).
 - `clsx` — склейка module-классов и `className` prop.
 
 ---
@@ -1066,7 +1069,7 @@ const ChannelsList = () => {
 
 **Прикладной код — без комментариев.** В `views/`, `widgets/`, `features/`, `entities/` (клиент) и `modules/` (сервер) `//`, блочные комментарии и JSDoc не пишем: код самодокументируется именами. Нужен комментарий, чтобы объяснить блок — значит блок стоит вынести в функцию с говорящим именем.
 
-**Узкое исключение — публичная поверхность переиспользуемых модулей:** `shared/ui`, `shared/lib`, `shared/hooks` (клиент), `src/lib/` (сервер), `packages/schemas`. У **экспортируемого** примитива допустим короткий JSDoc — одна-две строки — **если сигнатура не объясняет назначение**: неочевидные единицы измерения, побочный эффект, граничное поведение, нетривиальный контракт возврата.
+**Узкое исключение — публичная поверхность переиспользуемых модулей:** `ui-kit`, `shared/lib`, `shared/hooks` (клиент), `src/lib/` (сервер), `packages/schemas`. У **экспортируемого** примитива допустим короткий JSDoc — одна-две строки — **если сигнатура не объясняет назначение**: неочевидные единицы измерения, побочный эффект, граничное поведение, нетривиальный контракт возврата.
 
 ```ts
 // ✓ ОК — экспорт из shared/lib, контракт из сигнатуры не читается

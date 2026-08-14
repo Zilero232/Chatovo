@@ -18,6 +18,8 @@
     "views/**/*.tsx",
     "shared/**/*.ts",
     "shared/**/*.tsx",
+    "ui-kit/**/*.ts",
+    "ui-kit/**/*.tsx",
     "widgets/**/*.ts",
     "widgets/**/*.tsx",
     ".next/types/**/*.ts",

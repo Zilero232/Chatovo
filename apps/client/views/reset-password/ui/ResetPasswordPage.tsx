@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 
 import { ResetPasswordForm } from '@/features/auth/reset-password';
 import { DEEP_LINKS, ROUTES } from '@/shared/constants';
-import { AuthBackground, Button, LogoMark, Text } from '@/shared/ui';
+import { AuthBackground, Button, LogoMark, Text } from '@/ui-kit';
 
 import s from './ResetPasswordPage.module.scss';
 

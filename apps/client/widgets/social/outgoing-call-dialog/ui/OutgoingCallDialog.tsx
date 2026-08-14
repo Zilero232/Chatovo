@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   Spinner
-} from '@/shared/ui';
+} from '@/ui-kit';
 
 import { useOutgoingCall } from '../model/hooks';
 

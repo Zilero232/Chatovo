@@ -2,7 +2,7 @@
 
 import { clsx } from 'clsx';
 
-import { BrandMark } from '@/shared/ui';
+import { BrandMark } from '@/ui-kit';
 import { LanguageSwitcher } from '@/widgets/app/language-switcher';
 
 import type { ChannelsHeaderProps } from './ChannelsHeader.types';

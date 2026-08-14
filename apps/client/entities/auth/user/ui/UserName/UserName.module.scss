@@ -1,4 +1,4 @@
-@use '@/shared/styles/mixins' as *;
+@use '@/ui-kit/styles/mixins' as *;
 .root {
   display: inline-flex;
   min-width: 0;
@@ -46,6 +46,9 @@
 
 .developerName.developerName {
   background-image: linear-gradient(100deg, var(--brand-cyan) 10%, oklch(78% 0.19 320deg) 90%);
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   color: var(--brand-cyan);
   font-weight: 650;
 
@@ -53,6 +56,16 @@
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 100%;
+    color: var(--brand-cyan);
+
+    @supports (background-clip: text) or (-webkit-background-clip: text) {
+      color: transparent;
+    }
   }
 }
 

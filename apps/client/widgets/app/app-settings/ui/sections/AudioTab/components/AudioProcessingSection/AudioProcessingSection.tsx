@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { Switch } from '@/shared/ui';
+import { Switch } from '@/ui-kit';
 
 import type { AudioProcessingSectionProps } from './AudioProcessingSection.types';
 

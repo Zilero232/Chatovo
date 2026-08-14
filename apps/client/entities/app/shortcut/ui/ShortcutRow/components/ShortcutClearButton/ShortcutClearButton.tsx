@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Button } from '@/shared/ui';
+import { Button } from '@/ui-kit';
 
 import type { ShortcutClearButtonProps } from './ShortcutClearButton.types';
 

@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 
 import { UserAvatar, UserName } from '@/entities/auth/user';
 import { FriendTag, useSendFriendRequest } from '@/entities/social/friend';
-import { Button } from '@/shared/ui';
+import { Button } from '@/ui-kit';
 
 import type { DeveloperListItemProps } from './DeveloperListItem.types';
 

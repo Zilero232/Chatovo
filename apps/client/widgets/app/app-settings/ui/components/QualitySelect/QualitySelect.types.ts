@@ -1,4 +1,4 @@
-import type { SelectOption } from '@/shared/ui';
+import type { SelectOption } from '@/ui-kit';
 
 export type QualitySelectProps<T extends string> = {
   options: SelectOption<T>[];

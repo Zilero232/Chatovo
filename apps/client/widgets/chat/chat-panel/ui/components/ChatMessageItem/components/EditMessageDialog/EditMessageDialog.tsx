@@ -4,7 +4,7 @@ import { useKeyboard, useMount, useTextareaAutosize } from '@siberiacancode/reac
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
-import { ConfirmDialog, Text } from '@/shared/ui';
+import { ConfirmDialog, Text } from '@/ui-kit';
 
 import type { EditMessageDialogProps } from './EditMessageDialog.types';
 

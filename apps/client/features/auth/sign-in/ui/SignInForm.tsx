@@ -6,12 +6,12 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { useErrorMessage, useFieldError } from '@/entities/app/locale';
-import { FormField, Input, PasswordInput, Stack, SubmitButton } from '@/shared/ui';
+import { FormField, Input, PasswordInput, Stack, SubmitButton } from '@/ui-kit';
 
-import type { SignInValues } from '../model/use-sign-in';
+import type { SignInValues } from '../model/hooks';
 import type { SignInFormProps } from './SignInForm.types';
 
-import { signInSchema, useSignIn } from '../model/use-sign-in';
+import { signInSchema, useSignIn } from '../model/hooks';
 
 import s from './SignInForm.module.scss';
 

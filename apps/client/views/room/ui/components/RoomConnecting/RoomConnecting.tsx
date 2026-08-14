@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { CenteredState, Spinner } from '@/shared/ui';
+import { CenteredState, Spinner } from '@/ui-kit';
 
 export const RoomConnecting = () => {
   const t = useTranslations('room');

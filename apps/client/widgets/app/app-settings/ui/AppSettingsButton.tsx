@@ -21,7 +21,7 @@ import {
   TabsTrigger,
   Tooltip,
   TooltipContent
-} from '@/shared/ui';
+} from '@/ui-kit';
 
 import type { SettingsTabId } from '../config';
 

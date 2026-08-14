@@ -18,7 +18,7 @@ import {
   useRoomsPresence
 } from '@/entities/room/room';
 import { STORAGE_KEYS } from '@/shared/constants';
-import { Button, CenteredState } from '@/shared/ui';
+import { Button, CenteredState } from '@/ui-kit';
 import { RecentRooms } from '@/widgets/room/channels-panel';
 
 import type { LobbyRoomsView } from './LobbyRooms.types';

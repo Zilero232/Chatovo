@@ -11,7 +11,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle
-} from '@/shared/ui';
+} from '@/ui-kit';
 
 import { useIncomingCall } from '../model/hooks';
 

@@ -6,7 +6,7 @@ import type { SoundCategory } from '@/entities/app/settings';
 
 import { useAppSettings } from '@/entities/app/settings';
 import { formatPercent } from '@/shared/lib';
-import { Slider, Switch } from '@/shared/ui';
+import { Slider, Switch } from '@/ui-kit';
 
 import { SettingRow } from '../components/SettingRow/SettingRow';
 

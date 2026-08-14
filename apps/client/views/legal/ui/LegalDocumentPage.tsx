@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import { LEGAL } from '@/shared/config';
 import { EXTERNAL_LINKS, ROUTES } from '@/shared/constants';
-import { Text } from '@/shared/ui';
+import { Text } from '@/ui-kit';
 
 import type { LegalDocumentPageProps } from './LegalDocumentPage.types';
 

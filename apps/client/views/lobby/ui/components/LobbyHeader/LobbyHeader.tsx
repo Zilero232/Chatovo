@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 
 import { useLobbyOnline, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { env } from '@/shared/config';
-import { Tooltip, TooltipContent } from '@/shared/ui';
+import { Tooltip, TooltipContent } from '@/ui-kit';
 
 import { LobbyGreeting, LobbyStat } from './components';
 

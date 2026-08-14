@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import { Keyboard, Mic, Settings2, ShieldCheck, User, Video, Volume2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
-import { Spinner } from '@/shared/ui';
+import { Spinner } from '@/ui-kit';
 
 import s from './tabs.module.scss';
 

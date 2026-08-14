@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 import { LEGAL } from '@/shared/config';
-import { Text } from '@/shared/ui';
+import { Text } from '@/ui-kit';
 
 import s from './AuthLegalFooter.module.scss';
 

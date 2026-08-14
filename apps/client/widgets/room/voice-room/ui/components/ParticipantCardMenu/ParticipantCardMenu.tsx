@@ -15,7 +15,7 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
   Slider
-} from '@/shared/ui';
+} from '@/ui-kit';
 
 import type { ParticipantCardMenuProps } from './ParticipantCardMenu.types';
 

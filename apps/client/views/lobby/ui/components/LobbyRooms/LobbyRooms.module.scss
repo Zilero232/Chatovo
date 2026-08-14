@@ -1,4 +1,4 @@
-@use '@/shared/styles/mixins' as *;
+@use '@/ui-kit/styles/mixins' as *;
 
 .root {
   display: flex;
@@ -52,7 +52,8 @@
   background: rgb(255 255 255 / 4%);
   gap: 0.125rem;
   overflow-x: auto;
-  scrollbar-width: none;
+
+  @include hide-scrollbar;
 }
 
 .filter {

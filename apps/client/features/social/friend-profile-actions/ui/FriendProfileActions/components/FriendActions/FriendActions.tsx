@@ -3,7 +3,7 @@
 import { MessageSquare, Phone, UserMinus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Button } from '@/shared/ui';
+import { Button } from '@/ui-kit';
 
 import type { FriendActionsProps } from './FriendActions.types';
 

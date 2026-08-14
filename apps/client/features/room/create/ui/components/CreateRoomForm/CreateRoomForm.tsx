@@ -15,7 +15,7 @@ import {
   SubmitButton,
   Switch,
   Text
-} from '@/shared/ui';
+} from '@/ui-kit';
 
 import type { CreateRoomFormProps } from './CreateRoomForm.types';
 
@@ -59,7 +59,7 @@ export const CreateRoomForm = ({ hint, onCreated }: CreateRoomFormProps) => {
       </FormField>
 
       <Stack className={s.privacyCard} gap='1'>
-        <Row align='center' gap='3' justify='between'>
+        <Row align='start' gap='3' justify='between'>
           <Label className={s.privacyLabel} htmlFor='create-room-private'>
             {t('privateLabel')}
           </Label>
@@ -67,6 +67,7 @@ export const CreateRoomForm = ({ hint, onCreated }: CreateRoomFormProps) => {
             render={({ field }) => (
               <Switch
                 checked={field.value}
+                className={s.privacySwitch}
                 id='create-room-private'
                 onCheckedChange={field.onChange}
               />

@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { DownloadAppDialog } from '@/features/app/download-app';
 import { queryClient } from '@/shared/api';
 import { messages } from '@/shared/i18n';
-import { Button } from '@/shared/ui';
+import { Button } from '@/ui-kit';
 
 import type { LandingDownloadButtonProps } from './LandingDownloadButton.types';
 

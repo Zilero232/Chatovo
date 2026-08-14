@@ -8,7 +8,7 @@ import { BadgeCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { openExternal } from '@/shared/lib';
-import { Tooltip, TooltipContent } from '@/shared/ui';
+import { Tooltip, TooltipContent } from '@/ui-kit';
 
 import type { UserNameProps } from './UserName.types';
 

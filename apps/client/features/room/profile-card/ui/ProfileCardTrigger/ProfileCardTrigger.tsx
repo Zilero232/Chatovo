@@ -3,7 +3,7 @@
 import { clsx } from 'clsx';
 import { useRef, useState } from 'react';
 
-import { PopoverContent } from '@/shared/ui';
+import { PopoverContent } from '@/ui-kit';
 
 import type { ProfileCardTriggerProps } from './ProfileCardTrigger.types';
 

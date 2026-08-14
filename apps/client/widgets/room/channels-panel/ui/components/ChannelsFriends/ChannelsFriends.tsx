@@ -15,7 +15,7 @@ import {
   LIST_ITEM_INITIAL,
   LIST_ITEM_TRANSITION
 } from '@/shared/config';
-import { Skeleton } from '@/shared/ui';
+import { Skeleton } from '@/ui-kit';
 
 import type { ChannelsFriendsProps } from './ChannelsFriends.types';
 

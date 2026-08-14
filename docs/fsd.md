@@ -44,16 +44,19 @@ apps/client/            # (канон: src/)
 ├── entities/           # Слой Entities
 │   └── <domain>/       # app | auth | room | social
 │       └── <entity-name>/
-└── shared/             # Слой Shared (без слайсов — только сегменты)
-    ├── api/
-    ├── config/
-    ├── constants/
-    ├── hooks/
-    ├── i18n/
-    ├── lib/
-    ├── seo/
-    ├── styles/
-    └── ui/
+├── shared/             # Слой Shared (без слайсов — только сегменты)
+│   ├── api/
+│   ├── config/
+│   ├── constants/
+│   ├── hooks/
+│   ├── i18n/
+│   ├── lib/
+│   └── seo/
+└── ui-kit/             # Дизайн-система (без слайсов — только сегменты)
+    ├── primitives/     # базовые: Button, Input, Dialog, …
+    ├── components/     # составные: FormField, ConfirmDialog, …
+    ├── icons/
+    └── styles/         # _tokens, _mixins, _functions, _breakpoints, _keyframes
 ```
 
 > **Доменная группировка слайсов.** В Chatovo слайсы внутри `features/`, `entities/`, `widgets/` сгруппированы по бизнес-домену (`auth`, `room`, `app`, `layout`). Это надстройка поверх FSD-канона (`<layer>/<slice>/`). Импорты: `@/features/auth/sign-in`, `@/entities/room/room`, `@/widgets/layout/authed-shell`. Группа `app` — кросс-доменная инфраструктура приложения (release, locale, tray, shortcuts, update). Группа `layout` — корневой shell.
@@ -137,7 +140,7 @@ export { DeafenProvider } from './model/contexts';
 - **Группа домена — не публичный API** — `@/features/auth` не существует, импортируется конкретный слайс. Доменная папка только организует файлы.
 - **`model/` — barrel в подпапках, не на уровне `model/`.** `model/hooks/index.ts`, `model/contexts/index.ts`, `model/stores/index.ts` — каждая подпапка свой barrel. Slice-level `model/index.ts` НЕ создаём. Slice `index.ts` и внутренние импорты идут через подпапку: `./model/hooks`, `../model/contexts`. Подробнее — [`docs/style.md`](./style.md) §11.
 - **Без циклических импортов** — не импортируй из собственного `index.ts` внутри слайса. Внутри — относительные пути.
-- **`shared/ui` — атомарный слой.** Сегменты `atoms/`, `molecules/`, `organisms/`, `icons/`. **Каждый компонент — своя PascalCase-папка** (`atoms/Button/`, `molecules/FormField/`, …) с файлами `Component.tsx`, `Component.module.scss`, опционально `Component.types.ts`, barrel `index.ts`. Сегментные barrel (`atoms/index.ts`, …) и корневой `shared/ui/index.ts` реэкспортят всё. Снаружи — только `@/shared/ui`, не `@/shared/ui/atoms/Button`. Headless-примитивы — **`@base-ui-components/react`**; стили — **SCSS modules**, токены — `app/globals.scss`. Подробнее — [`docs/style.md`](./style.md) §2.1.
+- **`ui-kit/` — дизайн-система, отдельный слой рядом с `shared/`.** Сегменты `primitives/` (базовые), `components/` (составные), `icons/`, `styles/`. **Каждый компонент — своя PascalCase-папка** (`primitives/Button/`, `components/FormField/`, …) с файлами `Component.tsx`, `Component.module.scss`, опционально `Component.types.ts` и обязательным barrel `index.ts`. Сегментные barrel (`primitives/index.ts`, …) и корневой `ui-kit/index.ts` реэкспортят всё. Снаружи — только `@/ui-kit`, не `@/ui-kit/primitives/Button`. Headless-примитивы — **`@base-ui/react`**; стили — **SCSS modules**, токены — `app/globals.scss` + `ui-kit/styles/_tokens.scss`. Подробнее — [`docs/style.md`](./style.md) §2.1.
 
 ---
 

@@ -3,7 +3,7 @@
 import { Pencil, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Button } from '@/shared/ui';
+import { Button } from '@/ui-kit';
 
 import { useChatMessage } from '../../../../../model/contexts';
 

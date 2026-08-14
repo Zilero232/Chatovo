@@ -9,9 +9,9 @@ import type { ProfileValues } from '@/entities/auth/user';
 
 import { useErrorMessage } from '@/entities/app/locale';
 import { profileSchema, useCurrentUser, useUpdateProfile } from '@/entities/auth/user';
-import { SubmitButton } from '@/shared/ui';
+import { SubmitButton } from '@/ui-kit';
 
-import { useAvatarDraft } from '../model/use-avatar-draft';
+import { useAvatarDraft } from '../model/hooks';
 import { AvatarField, ProfileFields } from './components';
 
 import s from './UpdateProfileForm.module.scss';

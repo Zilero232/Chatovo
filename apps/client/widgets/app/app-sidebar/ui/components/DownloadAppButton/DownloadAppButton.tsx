@@ -5,7 +5,7 @@ import { Download } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { DownloadAppDialog } from '@/features/app/download-app';
-import { Button, Tooltip, TooltipContent } from '@/shared/ui';
+import { Button, Tooltip, TooltipContent } from '@/ui-kit';
 
 export const DownloadAppButton = () => {
   const t = useTranslations('appSidebar');

@@ -3,7 +3,7 @@
 import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Button, Tooltip, TooltipContent } from '@/shared/ui';
+import { Button, Tooltip, TooltipContent } from '@/ui-kit';
 
 import type { ToggleChannelsButtonProps } from './ToggleChannelsButton.types';
 

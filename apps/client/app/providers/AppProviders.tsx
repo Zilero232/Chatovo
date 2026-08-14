@@ -8,7 +8,7 @@ import { MotionConfig } from 'motion/react';
 
 import { queryClient } from '@/shared/api';
 import { isTauriDesktop } from '@/shared/lib';
-import { Toaster, TooltipProvider } from '@/shared/ui';
+import { Toaster, TooltipProvider } from '@/ui-kit';
 import { TitleBar } from '@/widgets/app/title-bar';
 
 import { AuthProvider } from './AuthProvider';

@@ -10,11 +10,11 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { useErrorMessage, useFieldError } from '@/entities/app/locale';
-import { FilePicker, FormField, Stack, SubmitButton, Textarea } from '@/shared/ui';
+import { FilePicker, FormField, Stack, SubmitButton, Textarea } from '@/ui-kit';
 
 import type { ReportProblemFormProps } from './ReportProblemForm.types';
 
-import { useReportProblem } from '../../../../model/use-report-problem';
+import { useReportProblem } from '../../../../model/hooks';
 
 import s from '../../ReportProblemDialog.module.scss';
 

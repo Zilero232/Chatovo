@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { ROUTES } from '@/shared/constants';
-import { Button, CenteredState } from '@/shared/ui';
+import { Button, CenteredState } from '@/ui-kit';
 
 import s from './RoomNotFound.module.scss';
 

@@ -18,7 +18,7 @@ import {
 import { ManageRoomMenu } from '@/features/room/manage';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
 import { buildRoomHref } from '@/shared/constants';
-import { AvatarWithBadges, Badge } from '@/shared/ui';
+import { AvatarWithBadges, Badge } from '@/ui-kit';
 import { FriendProfileActionsPanel } from '@/widgets/social/friend-profile-actions-panel';
 
 import type { ChannelsRoomItemProps } from './ChannelsRoomItem.types';

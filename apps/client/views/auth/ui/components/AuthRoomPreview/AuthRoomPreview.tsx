@@ -3,7 +3,7 @@
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
-import { Text } from '@/shared/ui';
+import { Text } from '@/ui-kit';
 
 import { AUTH_EQ_BARS, AUTH_ROOM_SPEAKERS } from '../../../config';
 

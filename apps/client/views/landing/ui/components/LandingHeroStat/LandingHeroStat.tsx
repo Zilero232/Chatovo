@@ -4,7 +4,7 @@ import NumberFlow from '@number-flow/react';
 import { useInView } from 'motion/react';
 import { useRef } from 'react';
 
-import { Text } from '@/shared/ui';
+import { Text } from '@/ui-kit';
 
 import type { LandingHeroStatProps } from './LandingHeroStat.types';
 

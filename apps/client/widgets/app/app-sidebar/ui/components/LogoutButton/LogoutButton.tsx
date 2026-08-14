@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 
 import { useErrorMessage } from '@/entities/app/locale';
 import { authClient, clearToken } from '@/shared/api';
-import { IconButtonWithTooltip } from '@/shared/ui';
+import { IconButtonWithTooltip } from '@/ui-kit';
 
 export const LogoutButton = () => {
   const t = useTranslations('appSidebar');

@@ -5,7 +5,7 @@ import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { useRoomParticipants } from '@/entities/room/room';
-import { Text } from '@/shared/ui';
+import { Text } from '@/ui-kit';
 
 import type { ParticipantsViewProps } from './ParticipantsView.types';
 

@@ -9,7 +9,7 @@ import { match } from 'ts-pattern';
 
 import { useCurrentUser } from '@/entities/auth/user';
 import { isPublicRoute, ROUTES } from '@/shared/constants';
-import { AppSplash } from '@/shared/ui';
+import { AppSplash } from '@/ui-kit';
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const t = useTranslations('splash');

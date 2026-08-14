@@ -9,7 +9,7 @@ import type { ChangeEmailValues } from '@/entities/auth/user';
 
 import { useErrorMessage, useFieldError } from '@/entities/app/locale';
 import { changeEmailSchema, useChangeEmail, useCurrentUser } from '@/entities/auth/user';
-import { FormField, Input, SubmitButton } from '@/shared/ui';
+import { FormField, Input, SubmitButton } from '@/ui-kit';
 
 import s from './ChangeEmailForm.module.scss';
 

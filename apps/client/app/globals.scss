@@ -1,7 +1,7 @@
-@use '@/shared/styles/tokens';
-@use '@/shared/styles/keyframes';
-@use '@/shared/styles/breakpoints' as *;
-@use '@/shared/styles/mixins' as *;
+@use '@/ui-kit/styles/tokens';
+@use '@/ui-kit/styles/keyframes';
+@use '@/ui-kit/styles/breakpoints' as *;
+@use '@/ui-kit/styles/mixins' as *;
 
 .dark {
   color-scheme: dark;
@@ -156,23 +156,11 @@ body {
 }
 
 .sr-only {
-  position: absolute;
-  overflow: hidden;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  border: 0;
-  margin: -1px;
-  clip-path: inset(50%);
-  white-space: nowrap;
+  @include visually-hidden;
 }
 
 .scrollbar-none {
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  @include hide-scrollbar;
 }
 
 .pt-safe {

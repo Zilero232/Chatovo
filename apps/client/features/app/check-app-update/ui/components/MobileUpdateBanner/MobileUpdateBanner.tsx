@@ -6,9 +6,9 @@ import { useTranslations } from 'next-intl';
 
 import { SITE } from '@/shared/config';
 import { openExternal } from '@/shared/lib';
-import { Banner, Button } from '@/shared/ui';
+import { Banner, Button } from '@/ui-kit';
 
-import { useMobileUpdate } from '../../../model/use-mobile-update';
+import { useMobileUpdate } from '../../../model/hooks';
 import {
   MOBILE_UPDATE_BANNER_ANIMATE,
   MOBILE_UPDATE_BANNER_EXIT,

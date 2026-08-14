@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
+import { config as loadEnv } from 'dotenv';
 import createNextIntlPlugin from 'next-intl/plugin';
-import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -9,44 +9,51 @@ import rootPackage from '../../package.json' with { type: 'json' };
 
 const clientRoot = path.dirname(fileURLToPath(import.meta.url));
 
-const loadRootEnv = () => {
-  const rootEnv = path.resolve(clientRoot, '..', '..', '.env');
+// The single `.env` lives at the monorepo root, while Next only looks next to the app.
+// dotenv never overrides already-set variables, so CI and shell environment win.
+loadEnv({ path: path.resolve(clientRoot, '..', '..', '.env'), quiet: true });
 
-  if (!existsSync(rootEnv)) {
-    return;
-  }
-
-  for (const line of readFileSync(rootEnv, 'utf8').split('\n')) {
-    const match = /^(NEXT_PUBLIC_[A-Z0-9_]*)=(.*)$/.exec(line.trim());
-
-    if (match && process.env[match[1]] === undefined) {
-      process.env[match[1]] = match[2];
-    }
-  }
-};
-
-loadRootEnv();
-
-const withNextIntl = createNextIntlPlugin('./shared/i18n/request.ts');
-
-const nextConfig: NextConfig = {
-  env: {
-    NEXT_PUBLIC_APP_VERSION: rootPackage.version
-  },
+const nextConfig = {
+  // Static export: served by Caddy on the web and bundled into the Tauri shell.
+  // No SSR, no middleware, no runtime image optimizer.
   output: 'export',
-  reactCompiler: true,
   images: {
     unoptimized: true
   },
+
+  // Statically typed `<Link href>` and `router.push` — route types land in `.next/types`.
+  typedRoutes: true,
+
+  // React Compiler memoizes automatically; manual useMemo/useCallback stay only
+  // where a semantically stable ref is required.
+  reactCompiler: true,
+
+  // Strict mode is off: the double effect mount tears down the LiveKit room connection.
   reactStrictMode: false,
-  sassOptions: {
-    loadPaths: [clientRoot]
+
+  env: {
+    NEXT_PUBLIC_APP_VERSION: rootPackage.version
   },
+
+  // `implementation: 'sass-embedded'` — native Dart binary, the fastest compiler.
+  // `loadPaths` enables absolute `@use '@/ui-kit/styles/...'` instead of `../../../` chains.
+  // `quietDeps` silences deprecations coming from node_modules.
+  sassOptions: {
+    implementation: 'sass-embedded',
+    loadPaths: [clientRoot],
+    quietDeps: true
+  },
+
+  // `@` alias for Turbopack; the TS side lives in tsconfig `paths`.
   turbopack: {
     resolveAlias: {
       '@': clientRoot
     }
   }
-};
+} satisfies NextConfig;
+
+const withNextIntl = createNextIntlPlugin({
+  requestConfig: './shared/i18n/request.ts'
+});
 
 export default withNextIntl(nextConfig);
