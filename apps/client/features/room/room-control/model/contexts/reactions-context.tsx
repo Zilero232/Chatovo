@@ -23,33 +23,33 @@ const useReactionsState = (roomId: string) => {
   const userId = user?.id ?? null;
 
   const [reactions, setReactions] = useState<FloatingReaction[]>([]);
-  const nextId = useRef(0);
-  const timeouts = useRef(new Set<ReturnType<typeof setTimeout>>());
+  const nextIdRef = useRef(0);
+  const timeoutsRef = useRef(new Set<ReturnType<typeof setTimeout>>());
 
   useEffect(
     () => () => {
-      for (const timeout of timeouts.current) {
+      for (const timeout of timeoutsRef.current) {
         clearTimeout(timeout);
       }
 
-      timeouts.current.clear();
+      timeoutsRef.current.clear();
     },
     []
   );
 
   const addReaction = (emoji: string) => {
-    const id = nextId.current++;
+    const id = nextIdRef.current++;
 
     appEvents.emit.reaction();
 
     setReactions((prev) => [...prev, { id, emoji, offset: (id % 4) * 6 }]);
 
     const timeout = setTimeout(() => {
-      timeouts.current.delete(timeout);
+      timeoutsRef.current.delete(timeout);
       setReactions((prev) => prev.filter((reaction) => reaction.id !== id));
     }, REACTION_LIFETIME);
 
-    timeouts.current.add(timeout);
+    timeoutsRef.current.add(timeout);
   };
 
   useRealtimeMessage((message) => {

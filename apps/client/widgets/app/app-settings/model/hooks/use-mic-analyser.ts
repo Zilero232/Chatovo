@@ -114,6 +114,7 @@ export const useMicAnalyser = ({
     resume();
 
     return () => pause();
+    // eslint-disable-next-line react/exhaustive-deps -- only `active` should restart the interval; pause/resume get a new identity every render
   }, [active]);
 
   return level;

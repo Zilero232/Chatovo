@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import { useRemoveFriendship } from '@/entities/social/friend';
-import { ConfirmDialog, Text } from '@/shared/ui';
+import { ConfirmDialog, Text } from '@/ui-kit';
 
 import type { RemoveFriendConfirmDialogProps } from './RemoveFriendConfirmDialog.types';
 

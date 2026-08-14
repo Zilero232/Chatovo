@@ -1,4 +1,5 @@
-@use '@/shared/styles/breakpoints' as *;
+@use '@/ui-kit/styles/breakpoints' as *;
+@use '@/ui-kit/styles/mixins' as *;
 
 .root {
   height: 100%;
@@ -75,11 +76,8 @@
   justify-content: flex-start;
   mask-image: linear-gradient(to right, #000 85%, transparent);
   overflow-x: auto;
-  scrollbar-width: none;
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  @include hide-scrollbar;
 
   @include bp(sm) {
     justify-content: center;

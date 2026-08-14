@@ -1011,5 +1011,52 @@
       "privacy": "Privacy",
       "terms": "Terms"
     }
+  },
+  "easterEggs": {
+    "achievements": {
+      "konami": {
+        "title": "The Da Vinci Code",
+        "description": "You still remember the Konami code. Respect."
+      },
+      "nightOwl": {
+        "title": "Night owl",
+        "description": "Joining a voice chat past 3 AM is a diagnosis."
+      },
+      "quietOne": {
+        "title": "The quiet one",
+        "description": "An hour in the room, not a sound. We heard everything. Or rather — nothing."
+      },
+      "soloConcert": {
+        "title": "Solo concert",
+        "description": "Half an hour alone in a room. Great acoustics, modest crowd."
+      },
+      "muteMaster": {
+        "title": "Mute master",
+        "description": "25 mic toggles. Make up your mind already."
+      },
+      "snake": {
+        "title": "Found the snake",
+        "description": "Who clicks a logo seven times, anyway?"
+      }
+    },
+    "console": {
+      "hint": "Found a bug or want to help?"
+    },
+    "snake": {
+      "title": "Snake",
+      "score": "Score: {score}",
+      "best": "Best: {best}",
+      "gameOver": "Game over",
+      "restart": "One more",
+      "hint": "Use arrow keys or WASD",
+      "hintTouch": "Swipe on the board"
+    },
+    "aprilFools": {
+      "toast": "Happy April Fools!"
+    },
+    "ambience": {
+      "started": "Quiet in here — starting the music",
+      "description": "You're alone in the room"
+    }
   }
 }

@@ -30,6 +30,7 @@
     "@tauri-apps/plugin-updater": "^2.10.1",
     "axios": "^1.19.0",
     "better-auth": "catalog:",
+    "canvas-confetti": "^1.9.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "catalog:",
@@ -59,11 +60,13 @@
   "devDependencies": {
     "@chatovo/tsconfig": "workspace:*",
     "@tanstack/react-query-devtools": "^5.101.4",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^26.2.0",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@types/semver": "^7.8.0",
-    "sass": "^1.102.0",
+    "dotenv": "^17.4.2",
+    "sass-embedded": "^1.102.0",
     "typescript": "catalog:"
   }
 }

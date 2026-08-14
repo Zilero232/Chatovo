@@ -1,11 +1,11 @@
-@use '@/shared/styles/mixins' as *;
+@use '@/ui-kit/styles/mixins' as *;
 
 .root {
   position: relative;
   display: flex;
   overflow: hidden;
   height: 100%;
-  min-height: rem(148);
+  min-height: rem(112);
   flex-direction: column;
   border-color: rgb(255 255 255 / 10%);
   border-radius: 1rem;
@@ -112,7 +112,7 @@
   min-height: 0;
   flex: 1;
   flex-direction: column;
-  padding: 1rem;
+  padding: 0.875rem 1rem;
   padding-right: 2.75rem;
   border: none;
   border-radius: 1rem;
@@ -211,6 +211,10 @@
   margin-top: auto;
   gap: 0.5rem;
 
+  .root[data-live='false'][data-variant='grid'] & {
+    margin-right: -1.75rem;
+  }
+
   .root[data-variant='list'] & {
     min-height: 0;
     flex-shrink: 0;
@@ -301,7 +305,6 @@
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: space-between;
   gap: 0.5rem;
 
   .root[data-variant='list'] & {
@@ -312,6 +315,9 @@
 
 .emptyAvatars {
   display: flex;
+  overflow: hidden;
+  min-width: 0;
+  flex-shrink: 1;
   align-items: center;
 
   > * + * {
@@ -320,32 +326,62 @@
 }
 
 .emptySlot {
-  width: 2rem;
-  height: 2rem;
-  border: 1px dashed rgb(255 255 255 / 14%);
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  border: 1px solid rgb(255 255 255 / 8%);
   border-radius: 9999px;
-  background: linear-gradient(to bottom right, rgb(255 255 255 / 6%), rgb(255 255 255 / 2%));
-  transition: all var(--duration-fast) var(--timing-function-standard);
+  background: rgb(255 255 255 / 4%);
+  transition:
+    border-color var(--duration-fast) var(--timing-function-standard),
+    background-color var(--duration-fast) var(--timing-function-standard);
+
+  &:nth-child(2) {
+    opacity: 0.65;
+  }
+
+  &:nth-child(3) {
+    opacity: 0.4;
+  }
 
   .root:hover & {
-    border-color: color-mix(in oklch, var(--brand-violet) 30%, transparent);
-    background: color-mix(in oklch, var(--brand-violet) 8%, transparent);
+    border-color: color-mix(in oklch, var(--brand-violet) 22%, transparent);
+    background: color-mix(in oklch, var(--brand-violet) 7%, transparent);
   }
 }
 
 .emptyJoin {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
   padding: 0.25rem 0.625rem;
-  border: 1px solid rgb(255 255 255 / 10%);
+  border: 1px solid color-mix(in oklch, var(--brand-cyan) 22%, transparent);
   border-radius: 9999px;
-  background: rgb(255 255 255 / 5%);
-  color: var(--muted-foreground);
+  margin-left: auto;
+  background: color-mix(in oklch, var(--brand-cyan) 8%, transparent);
+  color: var(--brand-cyan);
   font-size: rem(11);
-  transition: colors var(--duration-fast) var(--timing-function-standard);
+  font-weight: 550;
+  gap: 0.25rem;
+  transition:
+    border-color var(--duration-fast) var(--timing-function-standard),
+    background-color var(--duration-fast) var(--timing-function-standard);
+  white-space: nowrap;
 
   .root:hover & {
-    border-color: color-mix(in oklch, var(--brand-cyan) 25%, transparent);
-    background: color-mix(in oklch, var(--brand-cyan) 10%, transparent);
-    color: var(--brand-cyan);
+    border-color: color-mix(in oklch, var(--brand-cyan) 45%, transparent);
+    background: color-mix(in oklch, var(--brand-cyan) 16%, transparent);
+  }
+}
+
+.emptyJoinIcon {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex-shrink: 0;
+  transition: transform var(--duration-fast) var(--timing-function-standard);
+
+  .root:hover & {
+    transform: translateX(rem(2));
   }
 }
 

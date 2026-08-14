@@ -1,4 +1,4 @@
-import { Skeleton } from '@/shared/ui';
+import { Skeleton } from '@/ui-kit';
 
 import s from '../../LobbyRooms.module.scss';
 

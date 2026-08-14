@@ -17,7 +17,7 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger
-} from '@/shared/ui';
+} from '@/ui-kit';
 
 import type { DeviceMenuProps } from './DeviceMenu.types';
 

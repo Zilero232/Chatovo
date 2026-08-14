@@ -6,12 +6,7 @@ import { useTranslations } from 'next-intl';
 
 import { UserAvatar, UserName } from '@/entities/auth/user';
 import { formatBadgeCount } from '@/shared/lib';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/shared/ui';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/ui-kit';
 
 import type { FriendListItemProps } from './FriendListItem.types';
 

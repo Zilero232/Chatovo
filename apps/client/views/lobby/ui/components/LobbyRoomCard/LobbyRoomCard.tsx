@@ -10,7 +10,7 @@ import { OwnerBadge, useRoomParticipants } from '@/entities/room/room';
 import { ManageRoomMenu } from '@/features/room/manage';
 import { buildRoomHref } from '@/shared/constants';
 import { usePointerGlow } from '@/shared/hooks';
-import { Badge } from '@/shared/ui';
+import { Badge } from '@/ui-kit';
 
 import type { LobbyRoomCardProps } from './LobbyRoomCard.types';
 

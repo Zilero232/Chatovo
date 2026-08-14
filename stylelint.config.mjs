@@ -28,8 +28,6 @@ export default {
       files: [
         'apps/client/app/globals.scss',
         'apps/client/features/auth/update-profile/ui/UpdateProfileForm.module.scss',
-        'apps/client/shared/ui/atoms/ContextMenu/ContextMenu.module.scss',
-        'apps/client/shared/ui/atoms/DropdownMenu/DropdownMenu.module.scss',
         'apps/client/widgets/room/voice-room/ui/components/RoomInviteButton/RoomInviteButton.module.scss',
         'apps/client/widgets/room/voice-room/ui/components/VoiceRoomChatButton/VoiceRoomChatButton.module.scss'
       ],

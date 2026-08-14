@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { ConfirmDialog } from '@/shared/ui';
+import { ConfirmDialog } from '@/ui-kit';
 
 import type { DeleteMessageDialogProps } from './DeleteMessageDialog.types';
 

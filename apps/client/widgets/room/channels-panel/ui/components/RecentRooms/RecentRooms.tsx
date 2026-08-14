@@ -7,7 +7,7 @@ import { filter, indexBy, isEmpty, isNonNullish, map } from 'remeda';
 
 import { useRecentRooms, useRooms, useRoomsPresence } from '@/entities/room/room';
 import { buildRoomHref } from '@/shared/constants';
-import { Skeleton } from '@/shared/ui';
+import { Skeleton } from '@/ui-kit';
 
 import type { RecentRoomsProps } from './RecentRooms.types';
 

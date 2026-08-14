@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 
-import type { Avatar } from '@/shared/ui';
+import type { Avatar } from '@/ui-kit';
 
 export type UserAvatarProps = {
   className?: string;

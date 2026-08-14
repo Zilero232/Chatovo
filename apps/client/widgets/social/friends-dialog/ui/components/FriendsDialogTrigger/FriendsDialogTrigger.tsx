@@ -4,7 +4,7 @@ import { Users } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { formatBadgeCount } from '@/shared/lib';
-import { IconButtonWithTooltip } from '@/shared/ui';
+import { IconButtonWithTooltip } from '@/ui-kit';
 
 import type { FriendsDialogTriggerProps } from './FriendsDialogTrigger.types';
 

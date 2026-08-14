@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { useCurrentUser, UserAvatar, UserName } from '@/entities/auth/user';
 import { useCallFriend } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
-import { Button, Dialog, DialogContent, DialogTitle, Spinner } from '@/shared/ui';
+import { Button, Dialog, DialogContent, DialogTitle, Spinner } from '@/ui-kit';
 import { ChatConversation } from '@/widgets/chat/chat-panel';
 
 import s from './FriendChatDialog.module.scss';

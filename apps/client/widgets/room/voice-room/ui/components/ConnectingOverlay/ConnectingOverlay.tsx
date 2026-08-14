@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { match } from 'ts-pattern';
 
-import { Text } from '@/shared/ui';
+import { Text } from '@/ui-kit';
 
 import type { ConnectingOverlayProps } from './ConnectingOverlay.types';
 

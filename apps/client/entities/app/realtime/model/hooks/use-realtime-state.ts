@@ -61,7 +61,9 @@ export const useRealtimeState = () => {
     if (!isAuthenticated) {
       wsRef.current?.close();
       wsRef.current = null;
+      // eslint-disable-next-line react/set-state-in-effect -- resets state that mirrors the socket we just tore down
       setIsConnected(false);
+      // eslint-disable-next-line react/set-state-in-effect -- see above
       setPresence(emptyPresence());
 
       return;

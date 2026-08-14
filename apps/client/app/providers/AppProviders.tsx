@@ -8,10 +8,11 @@ import { MotionConfig } from 'motion/react';
 
 import { queryClient } from '@/shared/api';
 import { isTauriDesktop } from '@/shared/lib';
-import { Toaster, TooltipProvider } from '@/shared/ui';
+import { Toaster, TooltipProvider } from '@/ui-kit';
 import { TitleBar } from '@/widgets/app/title-bar';
 
 import { AuthProvider } from './AuthProvider';
+import { EasterEggsProvider } from './EasterEggsProvider';
 import { I18nProvider } from './I18nProvider';
 import { QueryFocusManager } from './QueryFocusManager';
 import { TauriDesktopDocumentClass } from './TauriDesktopDocumentClass';
@@ -36,6 +37,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => (
       </MotionConfig>
 
       <Toaster />
+      <EasterEggsProvider />
 
       {process.env.NODE_ENV === 'development' && (
         <ReactQueryDevtools buttonPosition='bottom-right' />

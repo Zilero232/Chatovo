@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
   Text
-} from '@/shared/ui';
+} from '@/ui-kit';
 
 import type { DownloadAppDialogProps } from './DownloadAppDialog.types';
 

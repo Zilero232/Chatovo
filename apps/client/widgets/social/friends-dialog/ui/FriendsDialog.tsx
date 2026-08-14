@@ -20,7 +20,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger
-} from '@/shared/ui';
+} from '@/ui-kit';
 
 import {
   AddFriendForm,

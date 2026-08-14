@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { useAppSettings } from '@/entities/app/settings';
-import { Switch } from '@/shared/ui';
+import { Switch } from '@/ui-kit';
 
 import { SettingRow } from '../components/SettingRow/SettingRow';
 

@@ -5,7 +5,7 @@ import { MessageSquare } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { formatBadgeCount } from '@/shared/lib';
-import { Button } from '@/shared/ui';
+import { Button } from '@/ui-kit';
 import { useChatUnread } from '@/widgets/chat/chat-panel';
 
 import type { VoiceRoomChatButtonProps } from './VoiceRoomChatButton.types';

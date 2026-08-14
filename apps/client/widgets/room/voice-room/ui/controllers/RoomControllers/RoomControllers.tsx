@@ -5,6 +5,7 @@ import { LocalSpeakingController } from '../LocalSpeakingController/LocalSpeakin
 import { MicActivationController } from '../MicActivationController/MicActivationController';
 import { MicStateController } from '../MicStateController/MicStateController';
 import { RoomDeviceController } from '../RoomDeviceController/RoomDeviceController';
+import { RoomEasterEggsController } from '../RoomEasterEggsController/RoomEasterEggsController';
 import { RoomRealtimeSubscribe } from '../RoomRealtimeSubscribe/RoomRealtimeSubscribe';
 import { RoomSoundsController } from '../RoomSoundsController/RoomSoundsController';
 import { RoomTrayController } from '../RoomTrayController/RoomTrayController';
@@ -23,5 +24,6 @@ export const RoomControllers = () => (
     <MicStateController />
     <RoomSoundsController />
     <DeafenSyncController />
+    <RoomEasterEggsController />
   </>
 );

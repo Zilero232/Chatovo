@@ -8,7 +8,7 @@ import { match } from 'ts-pattern';
 import { ForgotPasswordForm } from '@/features/auth/forgot-password';
 import { SignInForm } from '@/features/auth/sign-in';
 import { SignUpForm } from '@/features/auth/sign-up';
-import { AuthBackground, BrandMark, Text } from '@/shared/ui';
+import { AuthBackground, BrandMark, Text } from '@/ui-kit';
 
 import type { AuthMode } from './AuthPage.types';
 

@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { getTranslations } from 'next-intl/server';
 
-import { Text } from '@/shared/ui';
+import { Text } from '@/ui-kit';
 
 import type { LandingSectionProps } from '../../LandingPage.types';
 

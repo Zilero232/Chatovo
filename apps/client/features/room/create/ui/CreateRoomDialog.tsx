@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogHint,
   DialogTitle
-} from '@/shared/ui';
+} from '@/ui-kit';
 
 import type { CreateRoomDialogProps } from './CreateRoomDialog.types';
 

@@ -5,7 +5,7 @@ import { clsx } from 'clsx';
 import { SmilePlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui';
+import { Popover, PopoverContent, PopoverTrigger } from '@/ui-kit';
 
 import { QUICK_REACTIONS } from '../../../../config/reactions';
 import { useReactions } from '../../../../model/contexts';

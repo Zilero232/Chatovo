@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
 import { QUERY_KEYS } from '@/shared/constants';
-import { Button, CenteredState, ErrorGlyph } from '@/shared/ui';
+import { Button, CenteredState, ErrorGlyph } from '@/ui-kit';
 
 import s from './RoomsListError.module.scss';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useFriendshipRelation } from '@/entities/social/friend';
-import { Spinner } from '@/shared/ui';
+import { Spinner } from '@/ui-kit';
 
 import type { FriendProfileActionsProps } from './FriendProfileActions.types';
 

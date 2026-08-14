@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import type { ScreenQuality, VideoQuality } from '@/entities/app/settings';
 
 import { useAppSettings } from '@/entities/app/settings';
-import { Switch } from '@/shared/ui';
+import { Switch } from '@/ui-kit';
 
 import { DeviceSelect } from '../components/DeviceSelect/DeviceSelect';
 import { QualitySelect } from '../components/QualitySelect/QualitySelect';

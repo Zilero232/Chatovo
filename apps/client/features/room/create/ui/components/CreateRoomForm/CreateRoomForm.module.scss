@@ -13,7 +13,13 @@
 }
 
 .privacyLabel {
+  min-width: 0;
   font-size: var(--text-sm);
+  line-height: 1.35;
+}
+
+.privacySwitch {
+  flex-shrink: 0;
 }
 
 .passwordReveal {

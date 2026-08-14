@@ -5,7 +5,7 @@ import { Palette } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { HexColorPicker } from 'react-colorful';
 
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui';
+import { Popover, PopoverContent, PopoverTrigger } from '@/ui-kit';
 
 import type { BannerColorFieldProps } from './BannerColorField.types';
 

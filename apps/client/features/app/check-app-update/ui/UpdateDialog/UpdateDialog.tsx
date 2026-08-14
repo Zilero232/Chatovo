@@ -13,7 +13,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from '@/shared/ui';
+} from '@/ui-kit';
 
 import type { UpdateDialogProps } from './UpdateDialog.types';
 

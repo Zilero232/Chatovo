@@ -12,7 +12,7 @@ import { appEvents } from '@/shared/lib';
 
 import type { UseFriendChatUnreadInput } from './use-friend-chat-unread.types';
 
-const MESSAGE_SOUND_SRC = '/audios/notification.mp3';
+const MESSAGE_SOUND_SRC = '/audios/ui/notification.mp3';
 
 export const useFriendChatUnread = ({ openRoomId }: UseFriendChatUnreadInput) => {
   const { user } = useCurrentUser();

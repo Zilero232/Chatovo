@@ -3,7 +3,7 @@
 import { Check, UserPlus, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Button } from '@/shared/ui';
+import { Button } from '@/ui-kit';
 
 import type {
   AddFriendActionProps,

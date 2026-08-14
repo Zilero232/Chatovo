@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { Text } from '@/shared/ui';
+import { Text } from '@/ui-kit';
 
 import { AUTH_STAT_KEYS } from '../../../config';
 

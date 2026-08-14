@@ -9,7 +9,7 @@ import type { Locale } from '@/shared/i18n';
 
 import { useLocale } from '@/entities/app/locale';
 import { LOCALES } from '@/shared/i18n';
-import { FlagGbIcon, FlagRuIcon, Tooltip, TooltipContent } from '@/shared/ui';
+import { FlagGbIcon, FlagRuIcon, Tooltip, TooltipContent } from '@/ui-kit';
 
 import s from './LanguageSwitcher.module.scss';
 

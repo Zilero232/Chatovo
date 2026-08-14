@@ -6,12 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { useCurrentUser } from '@/entities/auth/user';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/shared/ui';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/ui-kit';
 
 import type { ManageRoomMenuProps } from './ManageRoomMenu.types';
 

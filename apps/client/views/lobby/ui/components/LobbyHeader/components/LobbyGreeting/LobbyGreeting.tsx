@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { useCurrentUser, UserAvatar } from '@/entities/auth/user';
-import { Text } from '@/shared/ui';
+import { Text } from '@/ui-kit';
 
 import s from '../../LobbyHeader.module.scss';
 

@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { Code2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Tooltip, TooltipContent } from '@/shared/ui';
+import { Tooltip, TooltipContent } from '@/ui-kit';
 
 import type { DeveloperBadgeProps } from './DeveloperBadge.types';
 

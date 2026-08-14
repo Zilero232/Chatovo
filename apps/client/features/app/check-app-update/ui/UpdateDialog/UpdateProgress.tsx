@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { match, P } from 'ts-pattern';
 
-import { Progress, Text } from '@/shared/ui';
+import { Progress, Text } from '@/ui-kit';
 
 import type { UpdateProgressProps } from './UpdateProgress.types';
 

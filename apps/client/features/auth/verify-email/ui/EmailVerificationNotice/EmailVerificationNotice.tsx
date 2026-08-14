@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 
 import { useErrorMessage } from '@/entities/app/locale';
 import { useCurrentUser, useSendVerificationEmail } from '@/entities/auth/user';
-import { Button, Text } from '@/shared/ui';
+import { Button, Text } from '@/ui-kit';
 
 import s from './EmailVerificationNotice.module.scss';
 

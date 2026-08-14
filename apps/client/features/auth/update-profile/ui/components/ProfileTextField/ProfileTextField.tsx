@@ -1,6 +1,6 @@
 'use client';
 
-import { FormField, Input, Textarea } from '@/shared/ui';
+import { FormField, Input, Textarea } from '@/ui-kit';
 
 import type { ProfileTextFieldProps } from './ProfileTextField.types';
 

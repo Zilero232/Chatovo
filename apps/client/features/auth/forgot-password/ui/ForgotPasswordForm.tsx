@@ -6,12 +6,12 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { useErrorMessage, useFieldError } from '@/entities/app/locale';
-import { FormField, Input, Stack, SubmitButton } from '@/shared/ui';
+import { FormField, Input, Stack, SubmitButton } from '@/ui-kit';
 
-import type { ForgotPasswordValues } from '../model/use-forgot-password';
+import type { ForgotPasswordValues } from '../model/hooks';
 import type { ForgotPasswordFormProps } from './ForgotPasswordForm.types';
 
-import { forgotPasswordSchema, useForgotPassword } from '../model/use-forgot-password';
+import { forgotPasswordSchema, useForgotPassword } from '../model/hooks';
 
 import s from './ForgotPasswordForm.module.scss';
 

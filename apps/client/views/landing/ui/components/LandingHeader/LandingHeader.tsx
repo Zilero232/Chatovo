@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { SITE } from '@/shared/config';
 import { ROUTES } from '@/shared/constants';
-import { BrandMark, Button, Text } from '@/shared/ui';
+import { BrandMark, Button, Text } from '@/ui-kit';
 
 import type { LandingSectionProps } from '../../LandingPage.types';
 

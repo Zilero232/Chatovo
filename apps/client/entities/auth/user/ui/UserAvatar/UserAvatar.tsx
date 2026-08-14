@@ -1,7 +1,7 @@
 'use client';
 
 import { getAvatarColor, getDefaultAvatar, getInitials } from '@/shared/lib';
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui';
+import { Avatar, AvatarFallback, AvatarImage } from '@/ui-kit';
 
 import type { UserAvatarProps } from './UserAvatar.types';
 

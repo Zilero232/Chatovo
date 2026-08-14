@@ -3,7 +3,7 @@
 import { Crown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Badge } from '@/shared/ui';
+import { Badge } from '@/ui-kit';
 
 import type { OwnerBadgeProps } from './OwnerBadge.types';
 

@@ -18,7 +18,7 @@ paths:
 
 Родитель импортирует через barrel `./components`, не `./components/ChannelsHeader`.
 
-`shared/ui` — атомарный слой (`atoms/` `molecules/` `organisms/` `icons/`), каждый примитив в PascalCase-папке. Снаружи — только `@/shared/ui`, внутри — относительные.
+`ui-kit` — дизайн-система (`primitives/` `components/` `icons/` `styles/`), каждый компонент в PascalCase-папке со своим `index.ts`. Снаружи — только `@/ui-kit`, внутри — относительные.
 
 ## 2. Naming
 
@@ -121,7 +121,7 @@ HTTP — только общий axios-инстанс из `shared/api/http` (о
 
 ## 10. Стили
 
-Только SCSS modules (`*.module.scss`), CSS-in-JS запрещён. Токены — CSS-переменные в `app/globals.scss` + `shared/styles/_tokens.scss`. Общие миксины — `@use '@/shared/styles/mixins' as *`, без `../../../`. Склейка классов — `clsx` напрямую, без обёртки `cn()`. Условные варианты — maps в TSX или `cva`.
+Только SCSS modules (`*.module.scss`), CSS-in-JS запрещён. Токены — CSS-переменные в `app/globals.scss` + `ui-kit/styles/_tokens.scss`. Общие миксины — `@use '@/ui-kit/styles/mixins' as *`, без `../../../`. Склейка классов — `clsx` напрямую, без обёртки `cn()`. Условные варианты — maps в TSX или `cva`.
 
 Анимации появления/исчезновения и layout-переходы — `motion`; в CSS остаются hover/focus, бесконечные лупы и декоративный фон.
 

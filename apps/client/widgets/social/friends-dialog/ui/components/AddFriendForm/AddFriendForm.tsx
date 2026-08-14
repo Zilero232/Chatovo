@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { useSendFriendRequest } from '@/entities/social/friend';
-import { Button, Input, Spinner } from '@/shared/ui';
+import { Button, Input, Spinner } from '@/ui-kit';
 
 import s from '../../FriendsDialog.module.scss';
 

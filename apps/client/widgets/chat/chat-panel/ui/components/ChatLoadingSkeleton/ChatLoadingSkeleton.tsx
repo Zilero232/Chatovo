@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 
-import { Skeleton } from '@/shared/ui';
+import { Skeleton } from '@/ui-kit';
 
 import s from './ChatLoadingSkeleton.module.scss';
 

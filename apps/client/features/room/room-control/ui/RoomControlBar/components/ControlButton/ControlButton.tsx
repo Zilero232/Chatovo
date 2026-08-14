@@ -3,7 +3,7 @@
 import { clsx } from 'clsx';
 import { AnimatePresence, motion } from 'motion/react';
 
-import { Spinner, Tooltip, TooltipContent } from '@/shared/ui';
+import { Spinner, Tooltip, TooltipContent } from '@/ui-kit';
 
 import type { ControlButtonProps } from './ControlButton.types';
 

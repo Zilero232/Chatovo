@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { useErrorMessage } from '@/entities/app/locale';
 import { useDeleteRoom } from '@/entities/room/room';
 import { ROUTES } from '@/shared/constants';
-import { ConfirmDialog, Text } from '@/shared/ui';
+import { ConfirmDialog, Text } from '@/ui-kit';
 
 import type { DeleteRoomDialogProps } from './DeleteRoomDialog.types';
 

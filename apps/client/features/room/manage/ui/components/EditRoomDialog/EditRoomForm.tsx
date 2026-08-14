@@ -21,7 +21,7 @@ import {
   SubmitButton,
   Switch,
   Text
-} from '@/shared/ui';
+} from '@/ui-kit';
 
 import type { EditRoomFormProps } from './EditRoomDialog.types';
 

@@ -9,7 +9,7 @@ import type { ChangePasswordValues } from '@/entities/auth/user';
 
 import { useErrorMessage, useFieldError } from '@/entities/app/locale';
 import { changePasswordSchema, useChangePassword } from '@/entities/auth/user';
-import { FormField, Input, SubmitButton } from '@/shared/ui';
+import { FormField, Input, SubmitButton } from '@/ui-kit';
 
 import s from './ChangePasswordForm.module.scss';
 

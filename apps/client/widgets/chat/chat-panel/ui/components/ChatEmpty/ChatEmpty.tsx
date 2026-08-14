@@ -3,7 +3,7 @@
 import { MessageSquare } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { CenteredState } from '@/shared/ui';
+import { CenteredState } from '@/ui-kit';
 
 import s from './ChatEmpty.module.scss';
 

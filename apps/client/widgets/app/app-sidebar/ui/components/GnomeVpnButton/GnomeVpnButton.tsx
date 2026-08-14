@@ -4,7 +4,7 @@ import { ShieldCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { EXTERNAL_LINKS } from '@/shared/constants';
-import { Button, Tooltip, TooltipContent } from '@/shared/ui';
+import { Button, Tooltip, TooltipContent } from '@/ui-kit';
 
 import s from './GnomeVpnButton.module.scss';
 

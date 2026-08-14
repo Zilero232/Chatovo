@@ -6,7 +6,7 @@ import { match } from 'ts-pattern';
 
 import { useRooms, useRoomsPresence } from '@/entities/room/room';
 import { useFriends } from '@/entities/social/friend';
-import { ScrollArea, Skeleton } from '@/shared/ui';
+import { ScrollArea, Skeleton } from '@/ui-kit';
 import { buildFriendActivity } from '@/widgets/room/channels-panel/lib';
 
 import type { ChannelsActivityProps } from './ChannelsActivity.types';

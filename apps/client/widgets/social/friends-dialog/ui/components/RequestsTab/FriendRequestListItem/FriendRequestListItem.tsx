@@ -4,7 +4,7 @@ import { Check, X } from 'lucide-react';
 import { useFormatter, useNow, useTranslations } from 'next-intl';
 
 import { UserAvatar, UserName } from '@/entities/auth/user';
-import { Button } from '@/shared/ui';
+import { Button } from '@/ui-kit';
 
 import type { FriendRequestListItemProps } from './FriendRequestListItem.types';
 

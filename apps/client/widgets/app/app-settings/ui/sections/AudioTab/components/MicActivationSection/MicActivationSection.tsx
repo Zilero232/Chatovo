@@ -5,7 +5,7 @@ import { useId } from 'react';
 
 import type { MicActivationMode } from '@/entities/app/settings';
 
-import { RadioGroup, RadioGroupItem } from '@/shared/ui';
+import { RadioGroup, RadioGroupItem } from '@/ui-kit';
 
 import type { MicActivationSectionProps } from './MicActivationSection.types';
 

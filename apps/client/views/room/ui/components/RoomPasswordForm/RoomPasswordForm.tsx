@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { useFieldError } from '@/entities/app/locale';
-import { FormField, Input, Row, Stack, SubmitButton, Text } from '@/shared/ui';
+import { FormField, Input, Row, Stack, SubmitButton, Text } from '@/ui-kit';
 
 import type { RoomPasswordFormProps } from './RoomPasswordForm.types';
 

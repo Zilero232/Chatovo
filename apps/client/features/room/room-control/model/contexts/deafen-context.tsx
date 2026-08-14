@@ -8,11 +8,11 @@ import { useRef, useState } from 'react';
 const useDeafenState = () => {
   const [isDeafened, setIsDeafened] = useState(false);
 
-  const micBeforeDeafen = useRef(false);
-  const deafenQueue = useRef<Promise<void>>(Promise.resolve());
+  const micBeforeDeafenRef = useRef(false);
+  const deafenQueueRef = useRef<Promise<void>>(Promise.resolve());
   const deafenedRef = useRef(false);
 
-  return { isDeafened, setIsDeafened, micBeforeDeafen, deafenQueue, deafenedRef };
+  return { isDeafened, setIsDeafened, micBeforeDeafenRef, deafenQueueRef, deafenedRef };
 };
 
 const { Provider, use } = createContextHook(useDeafenState);

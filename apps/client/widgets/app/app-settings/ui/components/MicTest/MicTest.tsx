@@ -4,7 +4,7 @@ import { Mic, MicOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { formatPercent } from '@/shared/lib';
-import { Button } from '@/shared/ui';
+import { Button } from '@/ui-kit';
 
 import type { MicTestProps } from './MicTest.types';
 

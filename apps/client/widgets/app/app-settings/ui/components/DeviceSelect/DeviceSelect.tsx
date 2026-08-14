@@ -4,10 +4,10 @@ import { useMediaDeviceSelect } from '@livekit/components-react';
 import { useTranslations } from 'next-intl';
 import { isEmpty } from 'remeda';
 
-import type { SelectOption } from '@/shared/ui';
+import type { SelectOption } from '@/ui-kit';
 
 import { KIND_TO_SLOT, useAppSettings } from '@/entities/app/settings';
-import { Select } from '@/shared/ui';
+import { Select } from '@/ui-kit';
 
 import type { DeviceSelectProps } from './DeviceSelect.types';
 

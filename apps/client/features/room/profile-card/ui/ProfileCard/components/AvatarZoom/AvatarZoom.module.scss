@@ -1,4 +1,4 @@
-@use '@/shared/styles/functions' as *;
+@use '@/ui-kit/styles/functions' as *;
 
 .trigger {
   padding: 0;
@@ -27,6 +27,11 @@
   border: none;
   background: transparent;
   box-shadow: none;
+}
+
+.overlay.overlay,
+.modal.modal {
+  z-index: var(--z-splash);
 }
 
 .image {

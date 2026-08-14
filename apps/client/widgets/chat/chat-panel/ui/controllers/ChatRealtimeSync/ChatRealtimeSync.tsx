@@ -12,7 +12,7 @@ export const ChatRealtimeSync = () => {
   const queryClient = useQueryClient();
   const { isConnected } = useRealtime();
 
-  const wasDisconnected = useRef(false);
+  const wasDisconnectedRef = useRef(false);
 
   useRealtimeMessage((message) => {
     applyChatRealtime(queryClient, message);
@@ -20,16 +20,16 @@ export const ChatRealtimeSync = () => {
 
   useEffect(() => {
     if (!isConnected) {
-      wasDisconnected.current = true;
+      wasDisconnectedRef.current = true;
 
       return;
     }
 
-    if (!wasDisconnected.current) {
+    if (!wasDisconnectedRef.current) {
       return;
     }
 
-    wasDisconnected.current = false;
+    wasDisconnectedRef.current = false;
 
     void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.chatMessagesRoot() });
     void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.rooms() });
