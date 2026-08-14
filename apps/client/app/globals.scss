@@ -624,3 +624,18 @@ body {
     display: none;
   }
 }
+
+// April 1st only — `useAprilFools` adds this class for a single day, then removes it.
+.april-fools {
+  .lobby-ambience-orb {
+    animation-duration: 8s;
+  }
+
+  [data-slot='avatar'] {
+    transition: transform var(--duration-default) var(--timing-function-standard);
+
+    &:hover {
+      transform: rotate(-8deg) scale(1.08);
+    }
+  }
+}

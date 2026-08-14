@@ -4,6 +4,7 @@ import { clsx } from 'clsx';
 import { Menu } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import { SecretClickArea } from '@/features/app/secret-games';
 import { BrandMark, Button, Sheet, SheetContent, SheetDescription, SheetTitle } from '@/ui-kit';
 import { AppSidebar } from '@/widgets/app/app-sidebar';
 import { LanguageSwitcher } from '@/widgets/app/language-switcher';
@@ -63,7 +64,9 @@ export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
         </Sheet>
 
         <div className={s.brand}>
-          <BrandMark glow size={28} />
+          <SecretClickArea>
+            <BrandMark glow size={28} />
+          </SecretClickArea>
           <span className={s.brandTitle}>Chatovo</span>
         </div>
 

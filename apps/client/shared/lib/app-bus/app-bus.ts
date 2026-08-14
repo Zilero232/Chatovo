@@ -12,6 +12,7 @@ type AppBusEvents = {
   pttKey: { phase: 'pressed' | 'released' };
   reaction: undefined;
   recheckUpdate: undefined;
+  secretGameOpen: undefined;
   trayMuteToggle: undefined;
   updateCheckSettled: undefined;
 };
