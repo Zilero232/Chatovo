@@ -51,9 +51,9 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
 
   const volumes = defaultTo(value, {} as VolumeMap);
 
-  const [volume, setVolumeState] = useState(() => volumes[identity] ?? DEFAULT_VOLUME);
+  const [volume, setVolume] = useState(() => volumes[identity] ?? DEFAULT_VOLUME);
 
-  const volumeBeforeMute = useRef(DEFAULT_VOLUME);
+  const volumeBeforeMuteRef = useRef(DEFAULT_VOLUME);
 
   const persist = useDebounceCallback((targetIdentity: string, next: number) => {
     const stored = readVolumes();
@@ -68,7 +68,7 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
   const apply = (next: number) => {
     const clamped = clampVolume(next);
 
-    setVolumeState(clamped);
+    setVolume(clamped);
     persist(identity, clamped);
 
     if (participant instanceof RemoteParticipant) {
@@ -76,9 +76,9 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
     }
   };
 
-  const setVolume = (next: number) => {
+  const changeVolume = (next: number) => {
     if (next > 0) {
-      volumeBeforeMute.current = next;
+      volumeBeforeMuteRef.current = next;
     }
 
     apply(next);
@@ -86,13 +86,13 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
 
   const toggleMute = () => {
     if (volume > 0) {
-      volumeBeforeMute.current = volume;
+      volumeBeforeMuteRef.current = volume;
       apply(0);
 
       return;
     }
 
-    apply(volumeBeforeMute.current || DEFAULT_VOLUME);
+    apply(volumeBeforeMuteRef.current || DEFAULT_VOLUME);
   };
 
   useEffect(() => {
@@ -105,7 +105,7 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
     volume,
     isControllable,
     isMuted: volume === 0,
-    setVolume,
+    setVolume: changeVolume,
     toggleMute
   };
 };

@@ -10,6 +10,8 @@ import type { LandingSectionProps } from '../../LandingPage.types';
 
 import s from '../../LandingPage.module.scss';
 
+const buildYear = new Date().getFullYear();
+
 export const LandingFooter = async ({ locale }: LandingSectionProps) => {
   const t = await getTranslations({ locale, namespace: 'landing.footer' });
 
@@ -36,7 +38,7 @@ export const LandingFooter = async ({ locale }: LandingSectionProps) => {
           {t('terms')}
         </Link>
         <Text size='sm' tone='muted'>
-          © {new Date().getFullYear()} {SITE.name}
+          © {buildYear} {SITE.name}
         </Text>
       </nav>
     </footer>

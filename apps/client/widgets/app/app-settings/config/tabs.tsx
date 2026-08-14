@@ -3,11 +3,16 @@
 import type { ReactNode } from 'react';
 
 import { Keyboard, Mic, Settings2, ShieldCheck, User, Video, Volume2 } from 'lucide-react';
-import dynamic from 'next/dynamic';
 
-import { Spinner } from '@/ui-kit';
-
-import s from './tabs.module.scss';
+import {
+  AudioTab,
+  ProfileTab,
+  SecurityTab,
+  ShortcutsTab,
+  SoundsTab,
+  SystemTab,
+  VideoTab
+} from '../ui/sections';
 
 export type SettingsTabId =
   'audio' | 'profile' | 'security' | 'shortcuts' | 'sounds' | 'system' | 'video';
@@ -22,57 +27,6 @@ type SettingsTabConfig = {
   tauriDesktopOnly?: boolean;
   render: (controls: SettingsTabControls) => ReactNode;
 };
-
-const tabFallback = (
-  <div className={s.fallback}>
-    <Spinner size='lg' />
-  </div>
-);
-
-const ProfileTab = dynamic(
-  () => import('../ui/sections/ProfileTab').then((m) => ({ default: m.ProfileTab })),
-  {
-    loading: () => tabFallback
-  }
-);
-
-const AudioTab = dynamic(
-  () => import('../ui/sections/AudioTab').then((m) => ({ default: m.AudioTab })),
-  {
-    loading: () => tabFallback
-  }
-);
-
-const VideoTab = dynamic(
-  () => import('../ui/sections/VideoTab').then((m) => ({ default: m.VideoTab })),
-  {
-    loading: () => tabFallback
-  }
-);
-
-const SoundsTab = dynamic(
-  () => import('../ui/sections/SoundsTab').then((m) => ({ default: m.SoundsTab })),
-  {
-    loading: () => tabFallback
-  }
-);
-
-const SystemTab = dynamic(
-  () => import('../ui/sections/SystemTab').then((m) => ({ default: m.SystemTab })),
-  {
-    loading: () => tabFallback
-  }
-);
-
-const SecurityTab = dynamic(
-  () => import('../ui/sections/SecurityTab').then((m) => ({ default: m.SecurityTab })),
-  { loading: () => tabFallback }
-);
-
-const ShortcutsTab = dynamic(
-  () => import('../ui/sections/ShortcutsTab').then((m) => ({ default: m.ShortcutsTab })),
-  { loading: () => tabFallback }
-);
 
 export const SETTINGS_TABS: SettingsTabConfig[] = [
   { id: 'profile', icon: <User />, render: () => <ProfileTab /> },

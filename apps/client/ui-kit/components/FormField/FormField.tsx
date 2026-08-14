@@ -13,6 +13,7 @@ export const FormField = ({ htmlFor, label, children, hint, error, className }: 
 
   const describedBy = [hint && hintId, error && errorId].filter(Boolean).join(' ');
 
+  // eslint-disable-next-line react/no-clone-element -- aria-describedby/aria-invalid must land on the caller's own control
   const control = cloneElement(children, {
     'aria-describedby': describedBy || undefined,
     'aria-invalid': Boolean(error)

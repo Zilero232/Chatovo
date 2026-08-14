@@ -34,7 +34,3 @@ export type DialogFooterProps = ComponentProps<'div'> & {
 export type DialogTitleProps = ComponentProps<typeof Dialog.Title>;
 
 export type DialogDescriptionProps = ComponentProps<typeof Dialog.Description>;
-
-export type DialogOverlayContextValue = {
-  setOverlayClassName: (className?: string) => void;
-};

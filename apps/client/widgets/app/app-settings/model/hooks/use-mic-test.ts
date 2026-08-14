@@ -23,9 +23,14 @@ export const useMicTest = ({ deviceId, audio }: MicTestArgs): UseMicTest => {
   const [error, setError] = useState(false);
 
   const sinkRef = useRef<HTMLAudioElement | null>(null);
-  if (sinkRef.current === null && typeof Audio !== 'undefined') {
-    sinkRef.current = new Audio();
-  }
+
+  const ensureSink = () => {
+    if (sinkRef.current === null && typeof Audio !== 'undefined') {
+      sinkRef.current = new Audio();
+    }
+
+    return sinkRef.current;
+  };
 
   const stopSink = () => {
     const sink = sinkRef.current;
@@ -43,7 +48,8 @@ export const useMicTest = ({ deviceId, audio }: MicTestArgs): UseMicTest => {
     onReady: (stream) => {
       setError(false);
 
-      const sink = sinkRef.current;
+      const sink = ensureSink();
+
       if (sink) {
         sink.srcObject = stream;
         sink.play().catch(() => {});

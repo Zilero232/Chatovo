@@ -45,7 +45,7 @@ const Popover = ({ open, defaultOpen, onOpenChange, children, ...props }: Popove
       onOpenChange={handleOpenChange}
       {...props}
     >
-      <PopoverOpenProvider value={isOpen}>{children}</PopoverOpenProvider>
+      <PopoverOpenProvider isOpen={isOpen}>{children}</PopoverOpenProvider>
     </BasePopover.Root>
   );
 };

@@ -4,7 +4,7 @@ import { Dialog as BaseDialog } from '@base-ui/react/dialog';
 import { clsx } from 'clsx';
 import { Lightbulb } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import type {
   DialogContentProps,
@@ -18,9 +18,20 @@ import type {
 
 import { OverlayCloseButton } from '../../components/OverlayCloseButton';
 import { Button } from '../Button';
-import { DialogOverlayContext, useDialogOverlay } from './dialog-overlay-context';
+import { DialogOverlayProvider, useDialogOverlay } from './dialog-overlay-context';
 
 import s from './Dialog.module.scss';
+
+const DialogBackdrop = ({ className }: { className?: string }) => {
+  const overlay = useDialogOverlay();
+
+  return (
+    <BaseDialog.Backdrop
+      className={clsx(s.overlay, overlay?.overlayClassName, className)}
+      data-slot='dialog'
+    />
+  );
+};
 
 export const Dialog = ({
   open,
@@ -31,31 +42,24 @@ export const Dialog = ({
   trigger,
   children,
   ...props
-}: DialogProps) => {
-  const [overlayClassName, setOverlayClassName] = useState<string>();
+}: DialogProps) => (
+  <DialogOverlayProvider>
+    <BaseDialog.Root
+      defaultOpen={defaultOpen}
+      disablePointerDismissal={disablePointerDismissal}
+      open={open}
+      onOpenChange={onOpenChange}
+      {...props}
+    >
+      {trigger ? <BaseDialog.Trigger render={trigger as never} /> : null}
 
-  return (
-    <DialogOverlayContext.Provider value={{ setOverlayClassName }}>
-      <BaseDialog.Root
-        defaultOpen={defaultOpen}
-        disablePointerDismissal={disablePointerDismissal}
-        open={open}
-        onOpenChange={onOpenChange}
-        {...props}
-      >
-        {trigger ? <BaseDialog.Trigger render={trigger as never} /> : null}
-
-        <BaseDialog.Portal>
-          <BaseDialog.Backdrop
-            className={clsx(s.overlay, overlayClassName, className)}
-            data-slot='dialog'
-          />
-          {children}
-        </BaseDialog.Portal>
-      </BaseDialog.Root>
-    </DialogOverlayContext.Provider>
-  );
-};
+      <BaseDialog.Portal>
+        <DialogBackdrop className={className} />
+        {children}
+      </BaseDialog.Portal>
+    </BaseDialog.Root>
+  </DialogOverlayProvider>
+);
 
 export const DialogContent = ({
   className,

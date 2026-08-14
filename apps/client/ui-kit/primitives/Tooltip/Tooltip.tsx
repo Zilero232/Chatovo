@@ -28,6 +28,7 @@ const Tooltip = ({
 }: TooltipProps) => {
   const isTouch = useMediaQuery('(hover: none), (pointer: coarse)');
 
+  // eslint-disable-next-line react/no-children-to-array -- the compound API splits TooltipContent from its triggers
   const items = Children.toArray(children);
   const content = items.find(
     (child): child is ReactElement<TooltipContentProps> =>

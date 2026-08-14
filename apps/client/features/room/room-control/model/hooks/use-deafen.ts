@@ -17,21 +17,21 @@ export const useDeafen = () => {
   const { settings } = useAppSettings();
   const { send } = useRealtime();
 
-  const { isDeafened, setIsDeafened, micBeforeDeafen, deafenQueue, deafenedRef } =
+  const { isDeafened, setIsDeafened, micBeforeDeafenRef, deafenQueueRef, deafenedRef } =
     useDeafenContext();
 
   const isPtt = settings.audio.activationMode === 'pushToTalk';
 
   const enableDeafen = async (p: LocalParticipant, wasDeafened: boolean) => {
     if (!wasDeafened) {
-      micBeforeDeafen.current = p.isMicrophoneEnabled;
+      micBeforeDeafenRef.current = p.isMicrophoneEnabled;
     }
 
     await p.setMicrophoneEnabled(false);
   };
 
   const disableDeafen = async (p: LocalParticipant) => {
-    if (!micBeforeDeafen.current) {
+    if (!micBeforeDeafenRef.current) {
       return;
     }
 
@@ -54,14 +54,14 @@ export const useDeafen = () => {
 
   const setDeafened = (next: boolean) => {
     if (isNullish(localParticipant)) {
-      return deafenQueue.current;
+      return deafenQueueRef.current;
     }
 
     const wasDeafened = deafenedRef.current;
 
     publishDeafened(next);
 
-    deafenQueue.current = deafenQueue.current.then(async () => {
+    deafenQueueRef.current = deafenQueueRef.current.then(async () => {
       try {
         await (next
           ? enableDeafen(localParticipant, wasDeafened)
@@ -73,7 +73,7 @@ export const useDeafen = () => {
       }
     });
 
-    return deafenQueue.current;
+    return deafenQueueRef.current;
   };
 
   return {

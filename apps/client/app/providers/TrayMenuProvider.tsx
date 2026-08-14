@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react';
 
-import { trayMenuContext, useCloseOnWindowEvent, useTraySetup } from '@/features/app/system-tray';
+import { TrayMenuContext, useCloseOnWindowEvent, useTraySetup } from '@/features/app/system-tray';
 import { isTauriDesktop } from '@/shared/lib';
 
 const TrayBridge = ({ children }: { children: ReactNode }) => {
@@ -13,9 +13,9 @@ const TrayBridge = ({ children }: { children: ReactNode }) => {
   const contextValue = { value: tray, set: () => {} };
 
   return (
-    <trayMenuContext.instance.Provider value={contextValue}>
+    <TrayMenuContext.instance.Provider value={contextValue}>
       {children}
-    </trayMenuContext.instance.Provider>
+    </TrayMenuContext.instance.Provider>
   );
 };
 

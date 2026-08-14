@@ -14,7 +14,6 @@ export type {
   DialogHeaderProps,
   DialogHeaderTone,
   DialogHintProps,
-  DialogOverlayContextValue,
   DialogProps,
   DialogTitleProps
 } from './Dialog.types';
