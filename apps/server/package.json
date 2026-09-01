@@ -17,6 +17,7 @@
   "type": "module",
   "main": "src/main.ts",
   "scripts": {
+    "db:baseline": "prisma migrate resolve --applied 20260901000000_init || exit 0",
     "db:deploy": "prisma migrate deploy",
     "db:migrate": "prisma migrate dev && prisma generate",
     "db:push": "prisma db push && prisma generate",

@@ -135,6 +135,12 @@ jobs:
             set -euo pipefail
             cd "$DEPLOY_PATH"
             docker compose pull web server
+            # The production schema predates the migration history: it was
+            # applied with `db:push`, so `migrate deploy` refuses to touch a
+            # non-empty database (P3005). Marking the baseline as applied only
+            # writes a row into _prisma_migrations — it runs no SQL — and is a
+            # no-op once the row exists, so this stays safe on every deploy.
+            docker compose run --rm --no-deps server bun db:baseline
             docker compose run --rm --no-deps server bun db:deploy
             docker compose up -d
             docker image prune -f
