@@ -1,8 +1,10 @@
 export {
   appDownloadsSchema,
+  gitHubContributorListSchema,
+  gitHubContributorSchema,
   gitHubReleaseAssetSchema,
   gitHubReleaseListSchema,
   gitHubReleaseSchema
 } from './outputs';
 
-export type { AppDownloads, GitHubRelease, GitHubReleaseAsset } from './types';
+export type { AppDownloads, GitHubContributor, GitHubRelease, GitHubReleaseAsset } from './types';

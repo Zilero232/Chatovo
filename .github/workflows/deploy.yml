@@ -1,11 +1,10 @@
 name: deploy
 
-# Builds the two images, pushes them to ghcr, then tells the VPS to pull and
-# restart. The VPS holds no clone of the repository — only docker-compose.yml,
-# a hand-written .env and livekit.yaml — so the compose file is copied on every
-# deploy.
+# Builds both images, pushes them to ghcr, then tells the VPS to pull and
+# restart. The VPS has no clone of the repo, so docker-compose.yml is copied
+# on every deploy.
 #
-# Repository secrets — Settings → Secrets and variables → Actions:
+# Secrets — Settings → Secrets and variables → Actions:
 #   NEXT_PUBLIC_API_URL       baked into the web image at build time
 #   NEXT_PUBLIC_LIVEKIT_URL   likewise
 #   SSH_HOST                  production VPS
@@ -14,13 +13,8 @@ name: deploy
 #   SSH_PORT                  optional, defaults to 22
 #   DEPLOY_PATH               where docker-compose.yml lives, e.g. /opt/chatovo
 #
-# Actions are pinned to a commit SHA, not a tag: a moved tag would run unknown
-# code against the production host. Bumping them is a manual edit — the comment
-# next to each SHA says which release it is.
-
-# Manual only: production goes out when someone decides it does, not on every
-# commit that lands. Run it from Actions → deploy → Run workflow, on a commit
-# whose release checks are already green.
+# Actions are pinned to a SHA, not a tag: a moved tag would run unknown code
+# against production.
 on:
   workflow_dispatch:
 
@@ -29,9 +23,8 @@ concurrency:
   group: deploy
   cancel-in-progress: false
 
-# The docker builds carry their own placeholders, but a `bun install` added here
-# later would fire the server postinstall, and prisma.config.ts resolves
-# DIRECT_URL through env(). Cheap insurance.
+# prisma.config.ts resolves DIRECT_URL through env(), which throws when unset —
+# a `bun install` added here later would trip on it.
 env:
   DATABASE_URL: postgresql://placeholder
   DIRECT_URL: postgresql://placeholder
@@ -52,7 +45,7 @@ jobs:
         with:
           persist-credentials: false
 
-      # ghcr rejects an image name with capitals, and the owner has them.
+      # ghcr rejects capitals in an image name; the owner has them.
       - name: Lowercase the image prefix
         id: owner
         run: echo "value=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
@@ -94,7 +87,6 @@ jobs:
     permissions:
       contents: read
 
-    # Attach protection rules and scope the deploy secrets to this environment.
     environment: production
 
     runs-on: ubuntu-24.04
@@ -115,12 +107,8 @@ jobs:
           source: docker-compose.yml
           target: ${{ secrets.DEPLOY_PATH }}
 
-      # The path travels as an env var rather than being interpolated into the
-      # script — expression interpolation inside a shell body is how injection
-      # gets in.
-      # Migrations run inside the freshly pulled server image, before the new
-      # code serves traffic — a container started against an un-migrated schema
-      # crashes on the first query touching a new column.
+      # DEPLOY_PATH travels as an env var: interpolating an expression into a
+      # shell body is how injection gets in.
       - name: Pull and restart
         uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2 # v1
         env:
@@ -135,14 +123,15 @@ jobs:
             set -euo pipefail
             cd "$DEPLOY_PATH"
             docker compose pull web server
+            # Migrations run before the new code serves traffic. db:baseline
+            # covers the pre-migration schema (P3005) and is a no-op after.
+            docker compose run --rm --no-deps server bun db:baseline
             docker compose run --rm --no-deps server bun db:deploy
             docker compose up -d
             docker image prune -f
 
-            # `up -d` returns as soon as the container is started, not once the
-            # app inside answers. Reaching straight for `exec` hits the
-            # container mid-restart: "is restarting, wait until the container is
-            # running". The compose healthcheck already knows when the API is up.
+            # `up -d` returns when the container starts, not when the app
+            # answers — wait for the compose healthcheck instead.
             for attempt in $(seq 1 30); do
               state=$(docker inspect -f '{{.State.Health.Status}}' chatovo-server 2>/dev/null || echo missing)
 

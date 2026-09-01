@@ -1,13 +1,10 @@
 name: release
 
-# Tauri cannot meaningfully cross-compile, and macOS cannot be built off a Mac
-# at all, so each platform builds on its own runner. tauri-action creates the
-# draft on the first job to reach it, reuses it afterwards, and merges every
-# platform's entry into one latest.json — which is why nothing here hand-rolls
-# an updater manifest, and why the updater now covers macOS and Linux instead
-# of windows-x86_64 alone.
+# Tauri cannot cross-compile, so every platform builds on its own runner.
+# tauri-action creates the draft once and merges each platform's entry into a
+# single latest.json — hence no hand-rolled updater manifest here.
 #
-# Repository secrets — Settings → Secrets and variables → Actions:
+# Secrets — Settings → Secrets and variables → Actions:
 #   NEXT_PUBLIC_API_URL              baked into every bundle, e.g. https://api.chatovo.ru
 #   NEXT_PUBLIC_LIVEKIT_URL          likewise, e.g. wss://livekit.chatovo.ru
 #   TAURI_SIGNING_PRIVATE_KEY        contents of ~/.tauri/chatovo.key
@@ -28,23 +25,20 @@ name: release
 # jobs hold the signing keys. Bumping them is a manual edit — the comment next
 # to each SHA says which release it is.
 
-# The tag triggers this directly. The gate is the `checks` job below rather than
-# a separate chained workflow: `workflow_run` cannot filter on a tag, so it
-# would fire for every branch and pull request and build the frontend twice for
-# one release.
+# The gate is the `checks` job below rather than a chained workflow:
+# `workflow_run` cannot filter on a tag.
 on:
   push:
     tags: ['v*']
   workflow_dispatch:
 
-# Every `bun install` here — including the one tauri-action runs itself — fires
-# the server postinstall, and prisma.config.ts resolves DIRECT_URL through
-# env(). `generate` never connects, so a placeholder satisfies it.
+# Every `bun install` fires the server postinstall, and prisma.config.ts
+# resolves DIRECT_URL through env(). `generate` never connects.
 env:
   DATABASE_URL: postgresql://placeholder
   DIRECT_URL: postgresql://placeholder
 
-# Granted per job instead: only the ones that touch the release need write.
+# Granted per job: only the ones touching the release need write.
 permissions: {}
 
 concurrency:
@@ -52,13 +46,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # The gate, and the only automated run of the checks in this repo: nothing
-  # below it runs unless it passes, so a tag on a commit that does not typecheck
-  # never produces signed artefacts. Ordinary commits are checked by `bun run
-  # verify` locally — there is no workflow watching master.
+  # The gate: nothing below runs unless it passes, so a tag on a commit that
+  # does not typecheck never produces signed artefacts.
   checks:
-    # The root `permissions: {}` leaves GITHUB_TOKEN with no scopes at all, so
-    # the clone needs this back even on a public repository.
+    # The root `permissions: {}` strips every scope; the clone needs this back.
     permissions:
       contents: read
 
@@ -70,11 +61,8 @@ jobs:
         with:
           persist-credentials: false
 
-      # The root package.json is the single source of truth for the version:
-      # `draft`/`publish` read it, and tauri.conf.json points its `version` at
-      # ../../package.json so tauri-action resolves the same value. The per-app
-      # manifests stay at 0.0.0 and are never bumped. Only the pushed tag has to
-      # match the root version, or the release lands on a tag nobody pushed.
+      # The root package.json is the single source of truth for the version;
+      # per-app manifests stay at 0.0.0.
       - name: Check the tag matches the version
         env:
           REF_NAME: ${{ github.ref_name }}
@@ -94,21 +82,18 @@ jobs:
         with:
           cache-key: verify
 
-      # tauri links against webkit2gtk; without these clippy cannot build its
-      # dependencies and the Rust half of the checks never runs.
+      # tauri links against webkit2gtk; clippy cannot build without these.
       - name: Install Linux build dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libsoup-3.0-dev
 
-      # tauri.conf.json points frontendDist at ../client/out, and the build
-      # script validates it, so clippy cannot touch the crate until the icons
-      # and the exported frontend exist.
+      # frontendDist is validated at build time, so the icons and the exported
+      # client must exist before clippy touches the crate.
       - run: bun run tauri:icon
 
-      # `next build` bakes NEXT_PUBLIC_* into the bundle. Nothing built here
-      # ships, so placeholders are enough — and they keep the checks runnable
-      # on a fork with no secrets.
+      # Nothing built here ships, so placeholders keep the checks runnable on a
+      # fork with no secrets.
       - env:
           NODE_ENV: production
           NEXT_PUBLIC_API_URL: https://api.invalid
@@ -119,8 +104,7 @@ jobs:
       - run: bun run test
       - run: bun run lint:rust
 
-  # The draft exists before either build so desktop and android can upload into
-  # it at the same time instead of android queueing behind the matrix.
+  # Created up front so desktop and android upload in parallel.
   draft:
     needs: checks
 
@@ -161,9 +145,7 @@ jobs:
           - os: windows-2025
             label: windows
             args: ''
-          # Apple silicon and Intel ship as separate bundles: a universal
-          # binary would need both targets in one build, and the updater keys
-          # its platforms on the arch anyway.
+          # Separate bundles per arch: the updater keys its platforms on it.
           - os: macos-15
             label: macos-aarch64
             args: --target aarch64-apple-darwin
@@ -185,8 +167,7 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ matrix.label }}
-          # rust-toolchain.toml only names the windows target; the mac runners
-          # need theirs added explicitly, and x86_64 is a cross-build there.
+          # rust-toolchain.toml only names the windows target.
           rust-targets: ${{ matrix.label == 'macos-aarch64' && 'aarch64-apple-darwin' || matrix.label == 'macos-x86_64' && 'x86_64-apple-darwin' || '' }}
 
       - name: Install Linux build dependencies
@@ -195,8 +176,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libsoup-3.0-dev
 
-      # tauri-action runs beforeBuildCommand itself, which builds the client;
-      # the icons are the one input it does not generate.
+      # tauri-action builds the client itself; icons are the one input it does
+      # not generate.
       - run: bun run tauri:icon
 
       - uses: tauri-apps/tauri-action@1deb371b0cd8bd54025b384f1cd735e725c4060f # v1
@@ -229,11 +210,8 @@ jobs:
         with:
           persist-credentials: false
 
-      # No `cache: gradle` here: it hashes **/*.gradle* to build its key, and
-      # the gradle project does not exist yet — `tauri android init` generates
-      # gen/android later in this job, and gen/ is gitignored. With nothing to
-      # hash the action fails outright. The cache below does the same job keyed
-      # on something that is actually in the checkout.
+      # No `cache: gradle`: it hashes **/*.gradle*, which does not exist yet —
+      # `tauri android init` generates gen/android later in this job.
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin

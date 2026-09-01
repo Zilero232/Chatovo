@@ -1,5 +1,7 @@
 import type { ReportProblemValues } from '@chatovo/schemas';
 
+import { entries, isNonNullish } from 'remeda';
+
 import { api, UPLOAD_TIMEOUT_MS } from '../http';
 
 type ReportProblemArgs = ReportProblemValues & {
@@ -12,8 +14,8 @@ export const reportProblem = async ({
 }: ReportProblemArgs): Promise<void> => {
   const fd = new FormData();
 
-  for (const [key, value] of Object.entries(values)) {
-    if (value != null) {
+  for (const [key, value] of entries(values)) {
+    if (isNonNullish(value)) {
       fd.append(key, String(value));
     }
   }

@@ -1,8 +1,9 @@
-import { appDownloadsSchema } from '@chatovo/schemas';
+import { appDownloadsSchema, gitHubContributorListSchema } from '@chatovo/schemas';
 import { BadGatewayException, HttpException, Injectable } from '@nestjs/common';
 
 import { DESKTOP_TAG_PREFIXES, MOBILE_TAG_PREFIXES } from '../config';
 import {
+  fetchGitHubContributors,
   fetchGitHubReleases,
   findLatestByTagPrefix,
   findLatestUnifiedRelease,
@@ -50,6 +51,20 @@ export class GithubService {
       }
 
       throw new BadGatewayException('Failed to fetch app downloads');
+    }
+  }
+
+  async getContributors() {
+    try {
+      const contributors = await fetchGitHubContributors();
+
+      return gitHubContributorListSchema.parse(contributors);
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
+      throw new BadGatewayException('Failed to reach GitHub');
     }
   }
 }

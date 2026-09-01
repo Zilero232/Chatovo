@@ -25,7 +25,7 @@ export {
   ringFriendCall,
   sendFriendRequest
 } from './friends';
-export { getAppDownloads } from './github';
+export { getAppDownloads, listContributors } from './github';
 export { ApiError, apiErrorCode } from './http';
 export { fetchLiveKitToken } from './livekit';
 export { registerPushDevice, unregisterPushDevice } from './push';

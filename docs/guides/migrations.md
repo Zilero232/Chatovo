@@ -31,7 +31,14 @@ Review the generated SQL before committing. Prisma names things mechanically and
 
 ## Applying elsewhere
 
-`deploy.yml` runs `bun db:deploy` (`prisma migrate deploy`) inside the freshly pulled server image, **before** `docker compose up -d`. Order matters: a container started against an un-migrated schema crashes on the first query touching a new column.
+`deploy.yml` runs two steps inside the freshly pulled server image, **before** `docker compose up -d`. Order matters: a container started against an un-migrated schema crashes on the first query touching a new column.
+
+```bash
+bun db:baseline   # marks 20260901000000_init as applied, if it is not already
+bun db:deploy     # applies whatever is pending
+```
+
+The baseline step exists because production was built with `db:push` long before migrations did. `migrate deploy` refuses to run against a non-empty database with no history (`P3005`), and `migrate resolve --applied` fixes that by writing one row into `_prisma_migrations` — it executes no SQL and touches no data. Once the row is there the command reports `P3008` and the script exits 0, so it stays a no-op on every later deploy.
 
 ## Rules that avoid pain
 

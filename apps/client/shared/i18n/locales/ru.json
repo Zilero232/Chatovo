@@ -390,7 +390,8 @@
       "deafened": "Звук выключен"
     },
     "contributors": {
-      "title": "Разработчики"
+      "title": "Контрибьюторы",
+      "commits": "{count, plural, one {# коммит} few {# коммита} other {# коммитов}}"
     }
   },
   "room": {

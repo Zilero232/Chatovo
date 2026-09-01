@@ -1,3 +1,5 @@
+import { values } from 'remeda';
+
 import type { ShortcutActionId, ShortcutSettings } from '@/entities/app/shortcut';
 
 export const buildShortcutPatch = (
@@ -18,12 +20,5 @@ export const buildShortcutPatch = (
   return patch;
 };
 
-export const isOwnedByUs = (hotkey: string, current: ShortcutSettings): boolean => {
-  for (const id in current) {
-    if (current[id as ShortcutActionId] === hotkey) {
-      return true;
-    }
-  }
-
-  return false;
-};
+export const isOwnedByUs = (hotkey: string, current: ShortcutSettings): boolean =>
+  values(current).includes(hotkey);

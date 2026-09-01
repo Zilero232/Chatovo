@@ -6,6 +6,6 @@ export {
   MOBILE_DOWNLOAD_PLATFORMS,
   pickPreferredApk
 } from './config';
-export { useRelease } from './model/hooks';
+export { useContributors, useRelease } from './model/hooks';
 
 export type { DownloadPlatform, Release, ReleaseAsset } from './model/types';

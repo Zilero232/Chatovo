@@ -1,3 +1,5 @@
+import { clamp } from 'remeda';
+
 export type VoiceGateParams = {
   autoSensitivity: boolean;
   threshold: number;
@@ -11,8 +13,6 @@ const HANGOVER_MS = 280;
 const NOISE_FLOOR_RISE = 0.06;
 const NOISE_FLOOR_FALL = 0.015;
 const AUTO_MARGIN = 0.025;
-
-const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 
 export class VoiceGateDetector {
   private openUntil = 0;
@@ -32,8 +32,8 @@ export class VoiceGateDetector {
     this.noiseFloor += (level - this.noiseFloor) * rate;
 
     const threshold = params.autoSensitivity
-      ? clamp01(this.noiseFloor + AUTO_MARGIN)
-      : clamp01(params.threshold) * VOICE_GATE_MANUAL_RANGE;
+      ? clamp(this.noiseFloor + AUTO_MARGIN, { min: 0, max: 1 })
+      : clamp(params.threshold, { min: 0, max: 1 }) * VOICE_GATE_MANUAL_RANGE;
 
     if (level >= threshold) {
       this.openUntil = now + HANGOVER_MS;
