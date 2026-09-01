@@ -49,6 +49,7 @@ model Session {
 
 model Account {
   id                    String    @id
+  issuer                String    @default("local:credential")
   accountId             String
   providerId            String
   accessToken           String?
@@ -65,6 +66,7 @@ model Account {
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @db.Timestamptz(3)
 
+  @@unique([issuer, accountId])
   @@index([userId])
   @@map("account")
 }

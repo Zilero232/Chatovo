@@ -118,9 +118,9 @@ jobs:
       # The path travels as an env var rather than being interpolated into the
       # script — expression interpolation inside a shell body is how injection
       # gets in.
-      # No schema step here: this repo has no prisma/migrations — the schema is
-      # applied with `bun db:push` by hand. `migrate deploy` would only fail on
-      # an empty migrations directory.
+      # Migrations run inside the freshly pulled server image, before the new
+      # code serves traffic — a container started against an un-migrated schema
+      # crashes on the first query touching a new column.
       - name: Pull and restart
         uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2 # v1
         env:
@@ -135,6 +135,7 @@ jobs:
             set -euo pipefail
             cd "$DEPLOY_PATH"
             docker compose pull web server
+            docker compose run --rm --no-deps server bun db:deploy
             docker compose up -d
             docker image prune -f
 
