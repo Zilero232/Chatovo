@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useEffect, useEffectEvent, useRef } from 'react';
+import { clamp } from 'remeda';
 import { toast } from 'sonner';
 
 import {
@@ -56,7 +57,7 @@ export const useAloneAmbience = ({ isAlone, isEnabled }: AloneAmbienceArgs) => {
         const next = audio.volume + delta;
         const reached = delta >= 0 ? next >= target : next <= target;
 
-        audio.volume = reached ? target : Math.min(1, Math.max(0, next));
+        audio.volume = reached ? target : clamp(next, { min: 0, max: 1 });
 
         if (reached) {
           stopFade();
