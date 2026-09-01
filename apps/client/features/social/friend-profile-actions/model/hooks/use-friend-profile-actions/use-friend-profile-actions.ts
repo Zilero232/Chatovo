@@ -1,8 +1,8 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
+import { useErrorMessage } from '@/entities/app/locale';
 import {
   useAcceptFriendRequest,
   useCallFriend,
@@ -14,7 +14,7 @@ import {
 import type { UseFriendProfileActionsInput } from './use-friend-profile-actions.types';
 
 export const useFriendProfileActions = ({ userId, friendTag }: UseFriendProfileActionsInput) => {
-  const t = useTranslations('friends');
+  const errorMessage = useErrorMessage();
 
   const sendRequest = useSendFriendRequest();
   const acceptRequest = useAcceptFriendRequest();
@@ -32,34 +32,43 @@ export const useFriendProfileActions = ({ userId, friendTag }: UseFriendProfileA
   const add = () => {
     sendRequest.mutate(
       { tag: friendTag, relationUserId: userId },
-      { onError: () => toast.error(t('sendFailed'), { id: `friend-request-send-${userId}` }) }
+      {
+        onError: (err: Error) =>
+          toast.error(errorMessage(err), { id: `friend-request-send-${userId}` })
+      }
     );
   };
 
   const cancelRequest = () => {
     removeFriendship.mutate(userId, {
-      onError: () => toast.error(t('removeFailed'), { id: `friend-remove-${userId}` })
+      onError: (err: Error) => toast.error(errorMessage(err), { id: `friend-remove-${userId}` })
     });
   };
 
   const accept = (friendshipId: string) => {
     acceptRequest.mutate(
       { friendshipId, userId },
-      { onError: () => toast.error(t('acceptFailed'), { id: `friend-request-accept-${userId}` }) }
+      {
+        onError: (err: Error) =>
+          toast.error(errorMessage(err), { id: `friend-request-accept-${userId}` })
+      }
     );
   };
 
   const decline = (friendshipId: string) => {
     declineRequest.mutate(
       { friendshipId, userId },
-      { onError: () => toast.error(t('declineFailed'), { id: `friend-request-decline-${userId}` }) }
+      {
+        onError: (err: Error) =>
+          toast.error(errorMessage(err), { id: `friend-request-decline-${userId}` })
+      }
     );
   };
 
   const call = () => {
     callFriend.mutate(
       { userId },
-      { onError: () => toast.error(t('callFailed'), { id: `friend-call-${userId}` }) }
+      { onError: (err: Error) => toast.error(errorMessage(err), { id: `friend-call-${userId}` }) }
     );
   };
 

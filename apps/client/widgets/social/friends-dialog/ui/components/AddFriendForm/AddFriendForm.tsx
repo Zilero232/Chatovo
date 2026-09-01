@@ -9,6 +9,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { useErrorMessage } from '@/entities/app/locale';
 import { useSendFriendRequest } from '@/entities/social/friend';
 import { Button, Input, Spinner } from '@/ui-kit';
 
@@ -16,6 +17,7 @@ import s from '../../FriendsDialog.module.scss';
 
 export const AddFriendForm = () => {
   const t = useTranslations('friends');
+  const errorMessage = useErrorMessage();
 
   const sendRequest = useSendFriendRequest();
 
@@ -33,8 +35,8 @@ export const AddFriendForm = () => {
           reset();
           toast.success(t('requestSent'), { id: 'friend-request-send-by-tag' });
         },
-        onError: () => {
-          toast.error(t('sendFailed'), { id: 'friend-request-send-by-tag' });
+        onError: (err: Error) => {
+          toast.error(errorMessage(err), { id: 'friend-request-send-by-tag' });
         }
       }
     );

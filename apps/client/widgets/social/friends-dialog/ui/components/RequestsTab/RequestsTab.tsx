@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { match, P } from 'ts-pattern';
 
+import { useErrorMessage } from '@/entities/app/locale';
 import {
   useAcceptFriendRequest,
   useDeclineFriendRequest,
@@ -30,6 +31,7 @@ const hasRequests = (
 
 export const RequestsTab = () => {
   const t = useTranslations('friends');
+  const errorMessage = useErrorMessage();
 
   const { data: requests, isPending } = useIncomingFriendRequests();
   const acceptRequest = useAcceptFriendRequest();
@@ -57,8 +59,8 @@ export const RequestsTab = () => {
                   acceptRequest.mutate(
                     { friendshipId: entry.friendshipId, userId: entry.user.id },
                     {
-                      onError: () =>
-                        toast.error(t('acceptFailed'), {
+                      onError: (err: Error) =>
+                        toast.error(errorMessage(err), {
                           id: `friend-request-accept-${entry.user.id}`
                         })
                     }
@@ -68,8 +70,8 @@ export const RequestsTab = () => {
                   declineRequest.mutate(
                     { friendshipId: entry.friendshipId, userId: entry.user.id },
                     {
-                      onError: () =>
-                        toast.error(t('declineFailed'), {
+                      onError: (err: Error) =>
+                        toast.error(errorMessage(err), {
                           id: `friend-request-decline-${entry.user.id}`
                         })
                     }
