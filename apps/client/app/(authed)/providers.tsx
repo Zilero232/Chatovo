@@ -9,28 +9,21 @@ import { PushRegistration } from '@/features/app/push-notifications';
 import { FriendChatProvider } from '@/features/social/friend-chat';
 import { ChatRealtimeSync } from '@/widgets/chat/chat-panel';
 
-import {
-  DeepLinkProvider,
-  ShortcutsProvider,
-  TrayMenuProvider,
-  UpdateProvider
-} from '../providers/index';
+import { DeepLinkProvider, ShortcutsProvider, UpdateProvider } from '../providers/index';
 
 export const AuthedProviders = ({ children }: { children: ReactNode }) => (
-  <TrayMenuProvider>
-    <ShortcutsProvider>
-      <UpdateProvider>
-        <DeepLinkProvider>
-          <RealtimeProvider>
-            <FriendChatProvider>
-              <PushRegistration />
-              <FriendsRealtimeSync />
-              <ChatRealtimeSync />
-              <LeaveSoundProvider>{children}</LeaveSoundProvider>
-            </FriendChatProvider>
-          </RealtimeProvider>
-        </DeepLinkProvider>
-      </UpdateProvider>
-    </ShortcutsProvider>
-  </TrayMenuProvider>
+  <ShortcutsProvider>
+    <UpdateProvider>
+      <DeepLinkProvider>
+        <RealtimeProvider>
+          <FriendChatProvider>
+            <PushRegistration />
+            <FriendsRealtimeSync />
+            <ChatRealtimeSync />
+            <LeaveSoundProvider>{children}</LeaveSoundProvider>
+          </FriendChatProvider>
+        </RealtimeProvider>
+      </DeepLinkProvider>
+    </UpdateProvider>
+  </ShortcutsProvider>
 );

@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://chatovo.ru"><img src="https://img.shields.io/badge/website-chatovo.ru-4ea8e6?style=for-the-badge" alt="Website" /></a>
-  <a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/license-GPLv3-7b5cff?style=for-the-badge" alt="License" /></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-source--available-7b5cff?style=for-the-badge" alt="License" /></a>
   <img src="https://img.shields.io/badge/runtime-Bun-fbf0df?style=for-the-badge&logo=bun&logoColor=000" alt="Bun" />
   <img src="https://img.shields.io/badge/status-active-22c55e?style=for-the-badge" alt="Status" />
 </p>
@@ -125,7 +125,7 @@ flowchart LR
   API --> LK
 ```
 
-Frontend follows **[Feature-Sliced Design](docs/fsd.md)** — the `pages/` layer is named `views/` to avoid clashing with the Next.js router.
+Frontend follows **[Feature-Sliced Design](docs/architecture/fsd.md)** — the `pages/` layer is named `views/` to avoid clashing with the Next.js router.
 
 <br/>
 
@@ -285,18 +285,24 @@ docker compose pull && docker compose up -d
 
 ## Contributing
 
-Bug reports and PRs are welcome. For larger changes, open an issue first.
+Bug reports and PRs are welcome — the [licence](LICENSE) allows forking for
+exactly that. For larger changes, open an issue first.
 
 ```bash
-bun lint:fix       # before you commit
-bun lint:css:fix
+bun run fix        # eslint --fix + prettier + stylelint --fix
+bun run verify     # typecheck + lint + format + stylelint — must pass
+bun run test       # vitest across all workspaces
 ```
+
+Commit messages follow [Conventional Commits](https://www.conventionalcommits.org)
+and are checked by commitlint on commit. Tests live in `_tests/` next to the
+code they cover; conventions are in [.claude/rules/testing.md](.claude/rules/testing.md).
 
 <br/>
 
 ## License
 
-**GNU General Public License v3.0** — free to use, study, share, and modify. Derivative works must stay open source under the same license. See [LICENSE](LICENSE).
+**Source-available — all rights reserved.** The source is published so you can read it and contribute to it: forking to open a pull request is welcome. Redistributing it, publishing a fork as its own project, or reusing it in another product needs written permission. See [LICENSE](LICENSE).
 
 <br/>
 

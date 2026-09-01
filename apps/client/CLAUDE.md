@@ -6,11 +6,11 @@ Web client — **Next.js 16 / React 19**, App Router. Also the UI loaded by the 
 
 Architecture is **Feature-Sliced Design** with two local tweaks (`pages` → `views`, slices grouped by business domain). Read these before structural changes:
 
-- **[../../docs/fsd.md](../../docs/fsd.md)** — layers, import direction, public-API rules
-- **[../../docs/style.md](../../docs/style.md)** — naming, segments, import order (FULL version: examples + reasoning)
+- **[../../docs/architecture/fsd.md](../../docs/architecture/fsd.md)** — layers, import direction, public-API rules
+- **[../../docs/guides/style.md](../../docs/guides/style.md)** — naming, segments, import order (FULL version: examples + reasoning)
 - **[../../CLAUDE.md](../../CLAUDE.md)** — repo-wide guidance, reuse-first rules
 
-Компактная выжимка кодстайла — [../../.claude/rules/code-style-client.md](../../.claude/rules/code-style-client.md) (+ общий [code-style.md](../../.claude/rules/code-style.md)); она подгружается автоматически при редактировании файлов `apps/client`. Полная версия — `docs/style.md`; правило меняется в обоих местах.
+Компактная выжимка кодстайла — [../../.claude/rules/code-style-client.md](../../.claude/rules/code-style-client.md) (+ общий [code-style.md](../../.claude/rules/code-style.md)); она подгружается автоматически при редактировании файлов `apps/client`. Полная версия — `docs/guides/style.md`; правило меняется в обоих местах.
 
 ## Layer map
 
@@ -31,7 +31,7 @@ A **widget importing a feature is correct** (it composes them) — only Feature�
 ## Conventions that bite
 
 - **Public API**: import to the slice (`@/features/auth/sign-in`), never the domain group (`@/features/auth`) or deep past the barrel.
-- **`ui-kit`**: import from the single root barrel `@/ui-kit`, not per-primitive. Each primitive lives in its own PascalCase folder under `primitives/` (base) or `components/` (composed), see [../../docs/style.md](../../docs/style.md) §2.1.
+- **`ui-kit`**: import from the single root barrel `@/ui-kit`, not per-primitive. Each primitive lives in its own PascalCase folder under `primitives/` (base) or `components/` (composed), see [../../docs/guides/style.md](../../docs/guides/style.md) §2.1.
 - **SCSS shared imports**: `@use '@/ui-kit/styles/mixins' as *` — без относительных `../../../` (`sassOptions.loadPaths` + `turbopack.resolveAlias` в `next.config.ts`).
 - **`model/` barrels** live in subfolders (`model/hooks/index.ts`), never a slice-level `model/index.ts`.
 - **Per-component barrels**: every component folder carries an `index.ts` re-exporting the component and its types (`export { Button } from './Button'; export type { ButtonProps } from './Button.types';`). Parents import through the folder, not the file.
