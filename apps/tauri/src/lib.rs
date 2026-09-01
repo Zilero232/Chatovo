@@ -1,3 +1,6 @@
+#[cfg(desktop)]
+mod tray_menu;
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     #[cfg(desktop)]
@@ -21,6 +24,12 @@ pub fn run() {
         .plugin(tauri_plugin_safe_area_insets_css::init())
         .plugin(tauri_plugin_fcm::init());
 
+    #[cfg(desktop)]
+    let builder = builder.invoke_handler(tauri::generate_handler![
+        tray_menu::update_tray_labels,
+        tray_menu::update_tray_state
+    ]);
+
     builder
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_opener::init())
@@ -32,6 +41,10 @@ pub fn run() {
                 use tauri_plugin_deep_link::DeepLinkExt;
                 if let Err(err) = _app.deep_link().register_all() {
                     eprintln!("deep-link register_all failed: {err}");
+                }
+
+                if let Err(err) = tray_menu::init(&_app.handle().clone()) {
+                    eprintln!("tray init failed: {err}");
                 }
             }
 

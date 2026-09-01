@@ -1,2 +1,8 @@
-export { useCloseOnWindowEvent, useTrayMenuItem, useTraySetup } from './model/hooks';
-export { TrayMenuContext, useTrayMenu } from './model/tray-menu-context';
+export type { TrayAction, TrayLabels, TrayState } from './api/tray-state';
+export {
+  INITIAL_TRAY_STATE,
+  localizeTray,
+  pushTrayState,
+  subscribeTrayAction
+} from './api/tray-state';
+export { useCloseOnWindowEvent, useTrayBridge } from './model/hooks';

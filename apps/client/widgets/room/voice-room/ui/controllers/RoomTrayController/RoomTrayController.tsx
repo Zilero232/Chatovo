@@ -1,46 +1,63 @@
 'use client';
 
-import { useLocalParticipant } from '@livekit/components-react';
-import { useEffect } from 'react';
+import { useConnectionState, useLocalParticipant, useRoomContext } from '@livekit/components-react';
+import { ConnectionState } from 'livekit-client';
+import { useTranslations } from 'next-intl';
 import { isNullish } from 'remeda';
+import { match } from 'ts-pattern';
+
+import type { TrayAction } from '@/features/app/system-tray';
 
 import { useAppSettings } from '@/entities/app/settings';
-import { useTrayMenuItem } from '@/features/app/system-tray';
-import { appEvents, isTauriDesktop } from '@/shared/lib';
+import { useTrayBridge } from '@/features/app/system-tray';
+import { useDeafen } from '@/features/room/room-control';
+import { isTauriDesktop } from '@/shared/lib';
 
 import { toggleMicrophone } from '../../../lib';
 
 export const RoomTrayController = () => {
+  const t = useTranslations('tray');
+
+  const room = useRoomContext();
+  const connectionState = useConnectionState();
   const { localParticipant, isMicrophoneEnabled } = useLocalParticipant();
-  const muteItem = useTrayMenuItem('mute');
+  const { isDeafened, toggle: toggleDeafen } = useDeafen();
   const { settings } = useAppSettings();
 
   const isPtt = settings.audio.activationMode === 'pushToTalk';
-  const active = isTauriDesktop() && !isNullish(localParticipant);
+  const isInRoom = isTauriDesktop() && !isNullish(localParticipant);
+  const isMuted = isPtt ? false : !isMicrophoneEnabled;
 
-  appEvents.on.trayMuteToggle(async () => {
-    if (!active) {
-      return;
-    }
+  const status = match({ connectionState, isInRoom, isMuted })
+    .with({ connectionState: ConnectionState.Connecting }, () => t('status.connecting'))
+    .with({ connectionState: ConnectionState.Reconnecting }, () => t('status.reconnecting'))
+    .with({ connectionState: ConnectionState.SignalReconnecting }, () => t('status.reconnecting'))
+    .with({ isInRoom: false }, () => t('status.online'))
+    .with({ isMuted: true }, () => t('status.muted'))
+    .otherwise(() => t('status.inRoom', { room: room.name }));
 
-    await toggleMicrophone({ localParticipant, isPtt, source: 'tray' });
+  const handleAction = (action: TrayAction) => {
+    void match(action)
+      .with('toggleMute', async () => {
+        if (isInRoom) {
+          await toggleMicrophone({ localParticipant, isPtt, source: 'tray' });
+        }
+      })
+      .with('toggleDeafen', async () => {
+        toggleDeafen();
+      })
+      .with('leaveRoom', async () => {
+        if (isInRoom) {
+          await room.disconnect();
+        }
+      })
+      .otherwise(async () => {});
+  };
+
+  useTrayBridge({
+    state: { status, isInRoom, isMuted, isDeafened },
+    onAction: handleAction
   });
-
-  useEffect(() => {
-    if (isNullish(muteItem)) {
-      return;
-    }
-
-    const next = isPtt ? false : !isMicrophoneEnabled;
-
-    (async () => {
-      try {
-        await muteItem.setChecked(next);
-      } catch (err) {
-        console.error('tray mute setChecked failed', err);
-      }
-    })();
-  }, [muteItem, isMicrophoneEnabled, isPtt]);
 
   return null;
 };

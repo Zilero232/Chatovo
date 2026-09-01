@@ -17,6 +17,7 @@ import { I18nProvider } from './I18nProvider';
 import { QueryFocusManager } from './QueryFocusManager';
 import { TauriDesktopDocumentClass } from './TauriDesktopDocumentClass';
 import { TauriMobileInsets } from './TauriMobileInsets';
+import { TrayMenuProvider } from './TrayMenuProvider';
 
 export const AppProviders = ({ children }: { children: ReactNode }) => (
   <QueryClientProvider client={queryClient}>
@@ -30,7 +31,9 @@ export const AppProviders = ({ children }: { children: ReactNode }) => (
             {isTauriDesktop() && <TitleBar />}
 
             <div style={{ minHeight: 0, flex: 1 }}>
-              <AuthProvider>{children}</AuthProvider>
+              <TrayMenuProvider>
+                <AuthProvider>{children}</AuthProvider>
+              </TrayMenuProvider>
             </div>
           </div>
         </TooltipProvider>
