@@ -390,7 +390,8 @@
       "deafened": "Sound off"
     },
     "contributors": {
-      "title": "Contributors"
+      "title": "Contributors",
+      "commits": "{count, plural, one {# commit} other {# commits}}"
     }
   },
   "room": {

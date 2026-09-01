@@ -19,8 +19,8 @@ export const LobbyPage = () => (
     <div className={clsx(s.container, 'pb-page')}>
       <MobileUpdateBanner />
       <LobbyHeader />
-      <LobbyRooms />
       <LobbyContributors />
+      <LobbyRooms />
     </div>
   </ScrollArea>
 );

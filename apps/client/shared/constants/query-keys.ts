@@ -1,6 +1,7 @@
 export const QUERY_KEYS = {
   chatMessagesRoot: () => ['chat-messages'] as const,
   chatMessages: (roomId: string) => ['chat-messages', roomId] as const,
+  contributors: () => ['contributors'] as const,
   developers: () => ['developers'] as const,
   friendRequestsIncoming: () => ['friend-requests-incoming'] as const,
   friendCallIncoming: () => ['friend-call-incoming'] as const,

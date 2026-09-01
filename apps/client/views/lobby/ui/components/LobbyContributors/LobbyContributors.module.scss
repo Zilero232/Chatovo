@@ -33,10 +33,13 @@
 .item {
   display: flex;
   align-items: center;
-  padding: rem(6) rem(12) rem(6) rem(6);
+  padding: rem(5) rem(12) rem(5) rem(5);
   border: 1px solid var(--border);
   border-radius: 9999px;
   background: var(--surface-1);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
   gap: rem(8);
   transition:
     border-color var(--duration-fast) var(--timing-function-standard),
@@ -51,6 +54,7 @@
 .avatar {
   width: rem(24);
   height: rem(24);
+  border-radius: 50%;
 }
 
 .name {

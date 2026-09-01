@@ -23,3 +23,12 @@ export const appDownloadsSchema = z.object({
   desktop_assets: z.array(gitHubReleaseAssetSchema),
   mobile_assets: z.array(gitHubReleaseAssetSchema)
 });
+
+export const gitHubContributorSchema = z.object({
+  login: z.string(),
+  avatar_url: z.url(),
+  html_url: z.url(),
+  contributions: z.number().int().nonnegative()
+});
+
+export const gitHubContributorListSchema = z.array(gitHubContributorSchema);
