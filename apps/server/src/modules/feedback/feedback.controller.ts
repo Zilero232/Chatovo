@@ -5,6 +5,7 @@ import { Throttle } from '@nestjs/throttler';
 import { ZodResponse } from 'nestjs-zod';
 
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { decodeUploadName } from '../../lib';
 import { ReportProblemDto, ReportProblemResultDto } from './dto/feedback.dto';
 import { FeedbackService } from './services';
 
@@ -24,7 +25,7 @@ export class FeedbackController {
     @UploadedFile() screenshot?: Express.Multer.File
   ) {
     const file = screenshot
-      ? new File([new Uint8Array(screenshot.buffer)], screenshot.originalname, {
+      ? new File([new Uint8Array(screenshot.buffer)], decodeUploadName(screenshot.originalname), {
           type: screenshot.mimetype
         })
       : undefined;

@@ -38,6 +38,31 @@
     "DM_SELF": "You can't start a chat with yourself.",
     "DM_NOT_FRIENDS": "Direct messages are only available between friends.",
     "CALL_ALREADY_RINGING": "This user is already receiving a call.",
+    "INVALID_EMAIL_OR_PASSWORD": "Invalid email or password.",
+    "INVALID_EMAIL": "Invalid email address.",
+    "INVALID_PASSWORD": "Invalid password.",
+    "INVALID_TOKEN": "This link is not valid. Request a new one.",
+    "TOKEN_EXPIRED": "This link has expired. Request a new one.",
+    "EMAIL_NOT_VERIFIED": "Email is not verified. Check your inbox.",
+    "EMAIL_ALREADY_VERIFIED": "Email is already verified.",
+    "USER_ALREADY_EXISTS": "An account with this email already exists.",
+    "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL": "An account with this email already exists. Use another one.",
+    "USER_ALREADY_HAS_PASSWORD": "A password is already set.",
+    "PASSWORD_ALREADY_SET": "A password is already set.",
+    "ACCOUNT_NOT_FOUND": "Account not found.",
+    "INVALID_USER": "Invalid user.",
+    "EMAIL_CAN_NOT_BE_UPDATED": "This email cannot be changed.",
+    "CHANGE_EMAIL_DISABLED": "Changing email is disabled.",
+    "SESSION_NOT_FRESH": "Please sign in again to do this.",
+    "VERIFICATION_EMAIL_NOT_ENABLED": "Email verification is disabled.",
+    "FAILED_TO_CREATE_USER": "Could not create the account. Please try again later.",
+    "FAILED_TO_UPDATE_USER": "Could not update the profile. Please try again later.",
+    "FAILED_TO_CREATE_SESSION": "Could not create a session. Please sign in again.",
+    "USER_EMAIL_NOT_FOUND": "No account found for this email.",
+    "PASSWORD_TOO_SHORT": "Password is too short.",
+    "PASSWORD_TOO_LONG": "Password is too long.",
+    "SESSION_EXPIRED": "Your session expired. Please sign in again.",
+    "CREDENTIAL_ACCOUNT_NOT_FOUND": "This account has no password set. Sign in with the provider you registered with.",
     "FILE_EMPTY": "The file is empty.",
     "FILE_TOO_LARGE": "The file is too large.",
     "FILE_NOT_IMAGE": "An image is required.",
@@ -358,12 +383,14 @@
     "card": {
       "live": "Live",
       "empty": "Empty",
-      "joinFirst": "Be the first",
       "people": "{count, plural, one {# person} other {# people}}",
       "yours": "Yours",
       "ownerTooltip": "Room owner",
       "micMuted": "Microphone muted",
       "deafened": "Sound off"
+    },
+    "contributors": {
+      "title": "Contributors"
     }
   },
   "room": {
@@ -454,7 +481,9 @@
     "empty": {
       "title": "It's quiet here",
       "description": "Messages sent in this room appear here and stay for everyone who joins later. Drop a link, a file or just say hi."
-    }
+    },
+    "openInBrowser": "Open in browser",
+    "download": "Download"
   },
   "user": {
     "verified": "Verified account",
@@ -717,7 +746,9 @@
       "reaction": "Reaction",
       "reactionHint": "When someone sends an emoji reaction.",
       "call": "Call",
-      "callHint": "Incoming and outgoing friend calls."
+      "callHint": "Incoming and outgoing friend calls.",
+      "ambience": "Alone ambience",
+      "ambienceHint": "A calm loop that fades in when you are the only one left in a room."
     },
     "system": {
       "closeToTray": "Minimize to tray on close",
@@ -741,10 +772,18 @@
     }
   },
   "tray": {
-    "tooltip": "Chatovo",
-    "header": "Chatovo",
+    "status": {
+      "online": "Online",
+      "connecting": "Connecting…",
+      "reconnecting": "Reconnecting…",
+      "inRoom": "In room: {room}",
+      "muted": "Microphone muted"
+    },
     "mute": "Mute microphone",
-    "checkUpdates": "Check for Updates…",
+    "deafen": "Deafen",
+    "leaveRoom": "Leave room",
+    "openApp": "Open Chatovo",
+    "checkUpdates": "Check for updates",
     "quit": "Quit Chatovo"
   },
   "createRoom": {

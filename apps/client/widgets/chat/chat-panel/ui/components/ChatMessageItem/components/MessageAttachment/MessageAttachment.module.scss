@@ -1,9 +1,9 @@
 @use '@/ui-kit/styles/mixins' as *;
+
 .image {
   display: block;
   max-width: 100%;
   max-height: 18rem;
-  border-radius: var(--radius-lg);
   object-fit: cover;
   transition: opacity var(--duration-fast) var(--timing-function-standard);
 
@@ -62,4 +62,14 @@
 .fileSize {
   color: color-mix(in oklch, currentcolor 70%, transparent);
   font-size: 0.75rem;
+}
+
+.imageButton {
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  cursor: zoom-in;
 }

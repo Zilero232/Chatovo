@@ -1,5 +1,6 @@
 export { DeleteMessageDialog } from './DeleteMessageDialog';
 export { EditMessageDialog } from './EditMessageDialog';
+export { ImageLightbox } from './ImageLightbox';
 export { MessageActions } from './MessageActions';
 export { MessageAttachment } from './MessageAttachment';
 export { MessageBody } from './MessageBody';

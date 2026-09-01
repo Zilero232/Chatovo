@@ -1,20 +1,32 @@
 {
   "name": "@chatovo/tauri",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
+  "description": "Chatovo desktop and Android shell — Tauri 2 wrapping the web client.",
+  "homepage": "https://chatovo.ru",
+  "bugs": {
+    "url": "https://github.com/Zilero232/Chatovo/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zilero232/Chatovo.git",
+    "directory": "apps/tauri"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "Alexandr Artemev",
   "type": "module",
   "scripts": {
-    "tauri": "tauri",
-    "predev": "fkill --force --silent chatovo.exe chatovo; bun run icon",
-    "dev": "tauri dev",
+    "android:build": "bun run icon && node ./scripts/setup-android-fcm.mjs && bun --env-file .env tauri android build --apk --aab",
+    "android:dev": "bun run icon && node ./scripts/setup-android-fcm.mjs && bun --env-file .env tauri android dev",
+    "android:init": "bun --env-file .env tauri android init && node ./scripts/setup-android-fcm.mjs",
     "build": "bun run icon && tauri build",
     "build:debug": "bun run icon && tauri build --debug",
-    "android:init": "bun --env-file .env tauri android init && node ./scripts/setup-android-fcm.mjs",
-    "android:dev": "bun run icon && node ./scripts/setup-android-fcm.mjs && bun --env-file .env tauri android dev",
-    "android:build": "bun run icon && node ./scripts/setup-android-fcm.mjs && bun --env-file .env tauri android build --apk --aab",
-    "info": "tauri info",
+    "predev": "fkill --force --silent chatovo.exe chatovo; bun run icon",
+    "dev": "tauri dev",
     "icon": "tauri icon icon.manifest.json -o icons",
-    "signer:generate": "tauri signer generate -w ~/.tauri/chatovo.key --password \"\""
+    "info": "tauri info",
+    "signer:generate": "tauri signer generate -w ~/.tauri/chatovo.key --password \"\"",
+    "tauri": "tauri"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.11.4"

@@ -24,15 +24,19 @@ packages/schemas/    # Zod schemas (@chatovo/schemas), imported by client and se
 .claude/rules/       # Компактные кодстайл-правила с paths-фронтматтером (автозагрузка при редактировании)
 ├── code-style.md        # весь репо: **/*.{ts,tsx,js,jsx}
 ├── code-style-client.md # apps/client/**
-└── code-style-server.md # apps/server/**
+├── code-style-server.md # apps/server/**
+└── testing.md           # **/_tests/**, e2e/**, vitest + playwright configs
 docs/
 ├── fsd.md           # Frontend (apps/client) architecture — read before structural changes
 ├── style.md         # Code style, import order, naming — FULL версия (примеры + обоснования)
+├── developer-role.md # user.role = admin: contributors strip, developers tab, badges
+├── migrations.md    # Prisma migrations: baseline, deploy order, better-auth schema drift
+├── tray-menu.md     # Native tray menu: Rust-owned icon + menu, labels/state pushed from the client
 └── play-store/      # Android release: listing, data safety, signing
 infra/               # Caddy + LiveKit configs
 ```
 
-**Кодстайл в двух версиях.** [docs/style.md](docs/style.md) — полная: примеры, анти-паттерны, обоснования; читается по запросу и агентом-ревьюером целиком. `.claude/rules/*.md` — компактные выжимки, подгружаются автоматически при редактировании подходящих файлов (`paths:`-фронтматтер). Правило меняется — правь оба места.
+**Кодстайл в двух версиях.** [docs/guides/style.md](docs/guides/style.md) — полная: примеры, анти-паттерны, обоснования; читается по запросу и агентом-ревьюером целиком. `.claude/rules/*.md` — компактные выжимки, подгружаются автоматически при редактировании подходящих файлов (`paths:`-фронтматтер). Правило меняется — правь оба места.
 
 **Env**: один общий `.env` в корне на клиент и сервер (`.env.example` — шаблон). Клиент читает из него `NEXT_PUBLIC_*` через `loadRootEnv()` в [apps/client/next.config.ts](apps/client/next.config.ts). Отдельные `.env` есть только у `apps/tauri/` (машинные пути Android SDK/JDK). Креды для релиза и деплоя живут только в GitHub Secrets — локальных env-файлов под них нет, список нужных секретов описан в шапке каждого workflow. Всё, кроме `*.example`, в `.gitignore`.
 
@@ -42,7 +46,7 @@ Each app folder has its own `CLAUDE.md` (see [Per-app guidance](#per-app-guidanc
 
 Each app has its own `CLAUDE.md` (auto-loaded when working in its folder) with the detailed map and local conventions:
 
-- **[apps/client/CLAUDE.md](apps/client/CLAUDE.md)** — Feature-Sliced Design layers, public-API/barrel rules, naming, i18n, `ui-kit` layout. Full FSD spec in [docs/fsd.md](docs/fsd.md), code style in [docs/style.md](docs/style.md) (compressed: [.claude/rules/code-style-client.md](.claude/rules/code-style-client.md)).
+- **[apps/client/CLAUDE.md](apps/client/CLAUDE.md)** — Feature-Sliced Design layers, public-API/barrel rules, naming, i18n, `ui-kit` layout. Full FSD spec in [docs/architecture/fsd.md](docs/architecture/fsd.md), code style in [docs/guides/style.md](docs/guides/style.md) (compressed: [.claude/rules/code-style-client.md](.claude/rules/code-style-client.md)).
 - **[apps/server/CLAUDE.md](apps/server/CLAUDE.md)** — module convention (routes / handlers / service / `lib`), error handling, LiveKit/Prisma specifics (compressed style: [.claude/rules/code-style-server.md](.claude/rules/code-style-server.md)).
 - **[apps/tauri/CLAUDE.md](apps/tauri/CLAUDE.md)** — Rust shell, plugins, `isTauri()` gating.
 
@@ -114,6 +118,9 @@ bun format:check           # prettier --check
 bun verify                 # typecheck + lint + format:check + lint:css — прогони перед коммитом
 bun fix                    # lint:fix + format + lint:css:fix
 bun lint:rust              # clippy на apps/tauri (в verify не входит — нужен cargo)
+bun test                   # Vitest, whole monorepo in one run (not part of verify)
+bun test:coverage          # same plus a v8 coverage report
+bun test:e2e               # Playwright, starts the client dev server itself
 bun build                  # client production build (у сервера сборки нет — Bun гоняет TS напрямую)
 
 # Release / deploy — только через GitHub Actions, локальных скриптов больше нет.
@@ -143,7 +150,7 @@ bun --filter @chatovo/client typecheck
 ## Working with the user
 
 - **Language**: respond in Russian. Code, identifiers, commit messages, and quoted error strings stay in their original language (usually English).
-- **No code comments in application code**: no `//`, block or JSDoc comments in `views/`, `widgets/`, `features/`, `entities/` (client) or `modules/` (server). Code is self-documenting via clear naming; if a block needs a comment, extract it into a named function. **Narrow exception** — the public surface of reusable modules (`ui-kit`, `shared/lib`, `shared/hooks`, server `src/lib/`, `packages/schemas`): an **exported** primitive may carry a 1–2 line JSDoc when the signature doesn't explain the purpose (non-obvious units, side effect, edge-case behaviour). Internal helpers are never documented. Details and examples — [docs/style.md](docs/style.md) §18. Add other comments only when the user explicitly asks. Leave pre-existing comments in files you didn't author unless told to clean them.
+- **No code comments in application code**: no `//`, block or JSDoc comments in `views/`, `widgets/`, `features/`, `entities/` (client) or `modules/` (server). Code is self-documenting via clear naming; if a block needs a comment, extract it into a named function. **Narrow exception** — the public surface of reusable modules (`ui-kit`, `shared/lib`, `shared/hooks`, server `src/lib/`, `packages/schemas`): an **exported** primitive may carry a 1–2 line JSDoc when the signature doesn't explain the purpose (non-obvious units, side effect, edge-case behaviour). Internal helpers are never documented. Details and examples — [docs/guides/style.md](docs/guides/style.md) §18. Add other comments only when the user explicitly asks. Leave pre-existing comments in files you didn't author unless told to clean them.
 - **No git operations on your own**: never `git commit` / `branch` / `push` unless the user explicitly asks in that message. Stage (`git add`) at most. A task instruction like "go do X" is NOT a commit request.
 - **Measure before swapping for perf**: if a performance symptom persists across two implementation swaps, the cause is almost certainly not the library — stop swapping. First do ONE of: repeat the action (fast 2nd time = first-mount/dev-compile, not the lib), test a prod build (`bun run build && bun run start`), or read a DevTools Performance profile. Only swap a library once a profile implicates its code.
 
@@ -154,8 +161,8 @@ bun --filter @chatovo/client typecheck
 - **Lint**: `bun lint:fix` runs ESLint (`@siberiacancode/eslint`); он же сортирует импорты. Форматирование — отдельно, `bun format` (Prettier, `@siberiacancode/prettier`). Не правь стиль руками, не спорь с выводом.
 - **Lint SCSS**: `bun lint:css:fix` runs Stylelint (`@siberiacancode/stylelint`, порядок свойств из `stylelint-config-idiomatic-order`). Конфиг — [stylelint.config.mjs](stylelint.config.mjs). Все линтеры подключены к pre-commit через lint-staged.
 - **Общие версии — в каталоге**: `workspaces.catalog` в корневом [package.json](package.json) — единственный источник правды для react, zod, typescript, remeda, ts-pattern, date-fns, better-auth. В пакетах пиши `"zod": "catalog:"`, не версию.
-- **Tests**: none currently. Don't fabricate test commands.
-- **Commits**: Conventional Commits style (see git log).
+- **Tests**: `bun run test` — one Vitest run across the whole monorepo. The root [vitest.config.ts](vitest.config.ts) wires three projects (`schemas`, `server`, `client`) via `test.projects`; each workspace has its own config with a `name` and its environment. Tests live in a `_tests/` folder next to the file under test: `foo.ts` → `_tests/foo.test.ts`. Client tests run in jsdom with `@testing-library/react` (setup — [apps/client/vitest.setup.ts](apps/client/vitest.setup.ts) mocks `next/navigation`); server tests get a dummy env from their config, without which Zod env validation fails as soon as the Prisma chain is imported. E2E — Playwright, `bun run test:e2e`, specs in [e2e/](e2e/), two projects (desktop + mobile), the config starts the client dev server itself. Coverage — `bun run test:coverage`. CI (`release.yml`, job `checks`) runs `bun run test`; e2e is not included.
+- **Commits**: Conventional Commits, enforced by commitlint through the husky `commit-msg` hook ([commitlint.config.mjs](commitlint.config.mjs)). Subject up to 120 chars, scope is free-form (`client`, `server`, `tauri`, a domain or a file).
 - **Branches**: feature branches off `master`. PRs target `master`.
 
 ## Things to avoid (repo-wide)

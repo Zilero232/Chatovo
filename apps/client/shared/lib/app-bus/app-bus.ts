@@ -13,7 +13,6 @@ type AppBusEvents = {
   reaction: undefined;
   recheckUpdate: undefined;
   secretGameOpen: undefined;
-  trayMuteToggle: undefined;
   updateCheckSettled: undefined;
 };
 

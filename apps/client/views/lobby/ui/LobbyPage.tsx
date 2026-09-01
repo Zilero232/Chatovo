@@ -5,7 +5,7 @@ import { clsx } from 'clsx';
 import { MobileUpdateBanner } from '@/features/app/check-app-update';
 import { ScrollArea } from '@/ui-kit';
 
-import { LobbyHeader, LobbyRooms } from './components';
+import { LobbyContributors, LobbyHeader, LobbyRooms } from './components';
 
 import s from './LobbyPage.module.scss';
 
@@ -20,6 +20,7 @@ export const LobbyPage = () => (
       <MobileUpdateBanner />
       <LobbyHeader />
       <LobbyRooms />
+      <LobbyContributors />
     </div>
   </ScrollArea>
 );

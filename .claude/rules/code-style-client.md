@@ -4,11 +4,11 @@ paths:
 ---
 
 <!-- COMPRESSED editing-версия: автозагружается при правке файлов apps/client (paths-фронтматтер). -->
-<!-- Полная версия с примерами и обоснованиями — docs/style.md; архитектура слоёв — docs/fsd.md. Держи в синхроне при изменении правила. -->
+<!-- Полная версия с примерами и обоснованиями — docs/guides/style.md; архитектура слоёв — docs/architecture/fsd.md. Держи в синхроне при изменении правила. -->
 
 # Code Style — client (Next.js 16 / React 19, FSD)
 
-Расширяет общий `code-style.md`. Архитектура слоёв — `docs/fsd.md`, локальные конвенции — `apps/client/CLAUDE.md`.
+Расширяет общий `code-style.md`. Архитектура слоёв — `docs/architecture/fsd.md`, локальные конвенции — `apps/client/CLAUDE.md`.
 
 ## 1. Структура слайса
 

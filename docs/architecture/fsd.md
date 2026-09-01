@@ -138,9 +138,9 @@ export { DeafenProvider } from './model/contexts';
 - **Минимальная поверхность** — экспортируй только то, что реально нужно другим слоям.
 - **Внешние импорты — только через index слайса** — никогда `@/features/auth/sign-in/ui/SignInForm` напрямую. Всегда `@/features/auth/sign-in`.
 - **Группа домена — не публичный API** — `@/features/auth` не существует, импортируется конкретный слайс. Доменная папка только организует файлы.
-- **`model/` — barrel в подпапках, не на уровне `model/`.** `model/hooks/index.ts`, `model/contexts/index.ts`, `model/stores/index.ts` — каждая подпапка свой barrel. Slice-level `model/index.ts` НЕ создаём. Slice `index.ts` и внутренние импорты идут через подпапку: `./model/hooks`, `../model/contexts`. Подробнее — [`docs/style.md`](./style.md) §11.
+- **`model/` — barrel в подпапках, не на уровне `model/`.** `model/hooks/index.ts`, `model/contexts/index.ts`, `model/stores/index.ts` — каждая подпапка свой barrel. Slice-level `model/index.ts` НЕ создаём. Slice `index.ts` и внутренние импорты идут через подпапку: `./model/hooks`, `../model/contexts`. Подробнее — [`docs/guides/style.md`](./style.md) §11.
 - **Без циклических импортов** — не импортируй из собственного `index.ts` внутри слайса. Внутри — относительные пути.
-- **`ui-kit/` — дизайн-система, отдельный слой рядом с `shared/`.** Сегменты `primitives/` (базовые), `components/` (составные), `icons/`, `styles/`. **Каждый компонент — своя PascalCase-папка** (`primitives/Button/`, `components/FormField/`, …) с файлами `Component.tsx`, `Component.module.scss`, опционально `Component.types.ts` и обязательным barrel `index.ts`. Сегментные barrel (`primitives/index.ts`, …) и корневой `ui-kit/index.ts` реэкспортят всё. Снаружи — только `@/ui-kit`, не `@/ui-kit/primitives/Button`. Headless-примитивы — **`@base-ui/react`**; стили — **SCSS modules**, токены — `app/globals.scss` + `ui-kit/styles/_tokens.scss`. Подробнее — [`docs/style.md`](./style.md) §2.1.
+- **`ui-kit/` — дизайн-система, отдельный слой рядом с `shared/`.** Сегменты `primitives/` (базовые), `components/` (составные), `icons/`, `styles/`. **Каждый компонент — своя PascalCase-папка** (`primitives/Button/`, `components/FormField/`, …) с файлами `Component.tsx`, `Component.module.scss`, опционально `Component.types.ts` и обязательным barrel `index.ts`. Сегментные barrel (`primitives/index.ts`, …) и корневой `ui-kit/index.ts` реэкспортят всё. Снаружи — только `@/ui-kit`, не `@/ui-kit/primitives/Button`. Headless-примитивы — **`@base-ui/react`**; стили — **SCSS modules**, токены — `app/globals.scss` + `ui-kit/styles/_tokens.scss`. Подробнее — [`docs/guides/style.md`](./style.md) §2.1.
 
 ---
 
@@ -216,7 +216,7 @@ Feature
 - [ ] Слой Shared не содержит бизнес-логики — только project-agnostic код
 - [ ] Слой Entities не содержит UI-логики интеракций — это уровень Features
 
-> **Naming в Chatovo:** канон FSD требует kebab-case для всех файлов. Chatovo-кодстайл (см. [`docs/style.md`](./style.md) §5): kebab-case для слайсов/сегментов, **PascalCase для папок и файлов компонентов** (`VoiceRoom/VoiceRoom.tsx`), camelCase для хуков/утилит. Это локальная конвенция поверх FSD.
+> **Naming в Chatovo:** канон FSD требует kebab-case для всех файлов. Chatovo-кодстайл (см. [`docs/guides/style.md`](./style.md) §5): kebab-case для слайсов/сегментов, **PascalCase для папок и файлов компонентов** (`VoiceRoom/VoiceRoom.tsx`), camelCase для хуков/утилит. Это локальная конвенция поверх FSD.
 
 ---
 
@@ -239,4 +239,4 @@ Feature
 - Полная спецификация: [feature-sliced.design](https://feature-sliced.design)
 - Линтер FSD-правил: [Steiger](https://github.com/feature-sliced/steiger)
 - Cross-entity паттерн `@x` — секция 2 выше
-- Кодстайл Chatovo поверх FSD (структура слайса, naming, размер компонента): [`docs/style.md`](./style.md) — полная версия; компактные автозагружаемые выжимки — [`.claude/rules/`](../.claude/rules/)
+- Кодстайл Chatovo поверх FSD (структура слайса, naming, размер компонента): [`docs/guides/style.md`](./style.md) — полная версия; компактные автозагружаемые выжимки — [`.claude/rules/`](../.claude/rules/)

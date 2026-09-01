@@ -1,0 +1,69 @@
+Copyright (c) 2026 Alexandr Artemev. All rights reserved.
+
+SOURCE-AVAILABLE LICENSE (NO REDISTRIBUTION)
+
+This software and its source code, including every file in this repository
+(the "Software"), are the property of Alexandr Artemev (the "Author"). The
+source is published so that people can read it, learn from it, and contribute
+to it — not so that it can be copied into other projects or re-published.
+
+1. WHAT YOU MAY DO
+
+   a. Read, study and review the source code.
+
+   b. Clone or fork this repository for the sole purpose of contributing back
+      to it: building it locally, running it for development and testing,
+      making changes, and opening a pull request or an issue against the
+      official repository.
+
+   c. Quote short excerpts when discussing the project — in an issue, a pull
+      request, a review, a bug report, or a technical article — with
+      attribution.
+
+   d. Run the Software locally while developing a contribution.
+
+2. WHAT YOU MAY NOT DO, without prior written permission from the Author
+
+   a. Redistribute the Software or any substantial part of it, in source or
+      compiled form, including publishing a fork as a separate project.
+
+   b. Use the Software, or any substantial part of it, in another product or
+      service, whether commercial or not.
+
+   c. Deploy or host the Software as a public service.
+
+   d. Create a derivative work intended for anything other than a contribution
+      back to this repository.
+
+   e. Remove or alter any copyright, trademark or other proprietary notice.
+
+   A fork kept for the purpose of preparing a contribution is permitted under
+   1(b) and is not "redistribution" under 2(a); publishing that fork as a
+   product of its own is.
+
+3. CONTRIBUTIONS
+
+   By submitting a contribution (code, assets, documentation or any other
+   material) to this repository, you grant the Author a perpetual, worldwide,
+   irrevocable, royalty-free, non-exclusive licence to use, modify, publish
+   and distribute it as part of the Software, including in commercial use, and
+   you confirm that you have the right to grant that licence.
+
+   You keep the copyright on what you wrote. Contributing does not transfer
+   ownership of your work.
+
+4. THIRD-PARTY COMPONENTS
+
+   Dependencies are licensed by their respective owners under their own terms,
+   which this licence does not alter or restrict.
+
+5. NO WARRANTY
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+For permission beyond the scope of this licence, contact the Author.

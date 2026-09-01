@@ -26,6 +26,7 @@ export const useAchievementTracker = ({
   const { unlock } = useAchievements();
 
   const muteCountRef = useRef(0);
+  const hasSeenMicStateRef = useRef(false);
 
   useEffect(() => {
     const hour = getHours(new Date());
@@ -37,6 +38,12 @@ export const useAchievementTracker = ({
   }, []);
 
   useEffect(() => {
+    if (!hasSeenMicStateRef.current) {
+      hasSeenMicStateRef.current = true;
+
+      return;
+    }
+
     muteCountRef.current += 1;
 
     if (muteCountRef.current > MUTE_MASTER_TOGGLES) {
@@ -46,7 +53,7 @@ export const useAchievementTracker = ({
   }, [isMicEnabled]);
 
   useEffect(() => {
-    if (!isInRoom) {
+    if (!isInRoom || isMicEnabled) {
       return;
     }
 
@@ -57,8 +64,8 @@ export const useAchievementTracker = ({
     );
 
     return () => window.clearTimeout(quietTimer);
-    // eslint-disable-next-line react/exhaustive-deps -- only the room state should restart the timer
-  }, [isInRoom]);
+    // eslint-disable-next-line react/exhaustive-deps -- unmuting restarts the streak; `unlock` is recreated every render
+  }, [isInRoom, isMicEnabled]);
 
   useEffect(() => {
     if (!isInRoom || participantCount !== 1) {

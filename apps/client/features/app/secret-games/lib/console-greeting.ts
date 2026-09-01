@@ -13,7 +13,7 @@ export const printConsoleGreeting = () => {
   );
   // eslint-disable-next-line no-console -- see above
   console.info(
-    '%cНашёл баг или хочешь помочь? → https://github.com/Zilero232/Chatovo',
+    '%cFound a bug or want to help? https://github.com/Zilero232/Chatovo',
     'color: oklch(82% 0.16 200deg); font-size: 13px;'
   );
 };

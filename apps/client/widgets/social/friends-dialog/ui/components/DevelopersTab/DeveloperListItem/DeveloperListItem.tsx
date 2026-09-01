@@ -4,6 +4,7 @@ import { UserPlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
+import { useErrorMessage } from '@/entities/app/locale';
 import { UserAvatar, UserName } from '@/entities/auth/user';
 import { FriendTag, useSendFriendRequest } from '@/entities/social/friend';
 import { Button } from '@/ui-kit';
@@ -14,6 +15,7 @@ import s from './DeveloperListItem.module.scss';
 
 export const DeveloperListItem = ({ developer, isFriend }: DeveloperListItemProps) => {
   const t = useTranslations('friends');
+  const errorMessage = useErrorMessage();
 
   const sendRequest = useSendFriendRequest();
 
@@ -23,7 +25,8 @@ export const DeveloperListItem = ({ developer, isFriend }: DeveloperListItemProp
       {
         onSuccess: () =>
           toast.success(t('requestSent'), { id: `friend-request-send-${developer.id}` }),
-        onError: () => toast.error(t('sendFailed'), { id: `friend-request-send-${developer.id}` })
+        onError: (err: Error) =>
+          toast.error(errorMessage(err), { id: `friend-request-send-${developer.id}` })
       }
     );
   };

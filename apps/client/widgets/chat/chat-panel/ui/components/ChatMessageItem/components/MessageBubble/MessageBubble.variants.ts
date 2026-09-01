@@ -20,7 +20,7 @@ export const bubbleVariants = cva(s.bubble, {
   compoundVariants: [
     { owner: 'own', display: 'padded', className: s.ownPadded },
     { owner: 'other', display: 'padded', className: s.otherPadded },
-    { owner: 'own', tail: true, className: s.ownTail },
-    { owner: 'other', tail: true, className: s.otherTail }
+    { owner: 'own', display: 'padded', tail: true, className: s.ownTail },
+    { owner: 'other', display: 'padded', tail: true, className: s.otherTail }
   ]
 });

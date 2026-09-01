@@ -2,27 +2,50 @@
 
 import type { ReactNode } from 'react';
 
-import { TrayMenuContext, useCloseOnWindowEvent, useTraySetup } from '@/features/app/system-tray';
-import { isTauriDesktop } from '@/shared/lib';
+import { useTranslations } from 'next-intl';
+import { useEffect, useEffectEvent } from 'react';
 
-const TrayBridge = ({ children }: { children: ReactNode }) => {
-  const tray = useTraySetup();
+import {
+  localizeTray,
+  subscribeTrayAction,
+  useCloseOnWindowEvent
+} from '@/features/app/system-tray';
+import { appEvents, isTauriDesktop } from '@/shared/lib';
+
+export const TrayMenuProvider = ({ children }: { children: ReactNode }) => {
+  const t = useTranslations('tray');
 
   useCloseOnWindowEvent();
 
-  const contextValue = { value: tray, set: () => {} };
+  const localize = useEffectEvent(() => {
+    void localizeTray({
+      status: t('status.online'),
+      mute: t('mute'),
+      deafen: t('deafen'),
+      leaveRoom: t('leaveRoom'),
+      openApp: t('openApp'),
+      checkUpdates: t('checkUpdates'),
+      quit: t('quit')
+    });
+  });
 
-  return (
-    <TrayMenuContext.instance.Provider value={contextValue}>
-      {children}
-    </TrayMenuContext.instance.Provider>
-  );
-};
+  useEffect(() => {
+    if (!isTauriDesktop()) {
+      return;
+    }
 
-export const TrayMenuProvider = ({ children }: { children: ReactNode }) => {
-  if (!isTauriDesktop()) {
-    return <>{children}</>;
-  }
+    localize();
 
-  return <TrayBridge>{children}</TrayBridge>;
+    const action = subscribeTrayAction((next) => {
+      if (next === 'checkUpdates') {
+        appEvents.emit.recheckUpdate();
+      }
+    });
+
+    return () => {
+      void action.then((off) => off());
+    };
+  }, []);
+
+  return children;
 };

@@ -4,6 +4,7 @@ import { Phone, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
+import { useErrorMessage } from '@/entities/app/locale';
 import { useCurrentUser, UserAvatar, UserName } from '@/entities/auth/user';
 import { useCallFriend } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
@@ -15,6 +16,7 @@ import s from './FriendChatDialog.module.scss';
 export const FriendChatDialog = () => {
   const t = useTranslations('chat');
   const tFriends = useTranslations('friends');
+  const errorMessage = useErrorMessage();
   const { user } = useCurrentUser();
   const { session, openingPeer, isOpening, close } = useFriendChat();
   const callFriend = useCallFriend();
@@ -31,7 +33,7 @@ export const FriendChatDialog = () => {
 
     callFriend.mutate(
       { userId: peer.id },
-      { onError: () => toast.error(tFriends('callFailed'), { id: `friend-call-${peer.id}` }) }
+      { onError: (err: Error) => toast.error(errorMessage(err), { id: `friend-call-${peer.id}` }) }
     );
   };
 

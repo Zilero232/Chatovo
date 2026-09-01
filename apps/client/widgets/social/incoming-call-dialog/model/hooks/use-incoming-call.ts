@@ -1,9 +1,9 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
+import { useErrorMessage } from '@/entities/app/locale';
 import {
   useAcceptIncomingFriendCall,
   useDeclineIncomingFriendCall,
@@ -13,7 +13,7 @@ import {
 import { buildRoomHref } from '@/shared/constants';
 
 export const useIncomingCall = () => {
-  const t = useTranslations('friends.incomingCall');
+  const errorMessage = useErrorMessage();
   const router = useRouter();
 
   const { data } = useIncomingFriendCall();
@@ -27,7 +27,7 @@ export const useIncomingCall = () => {
 
   const decline = () => {
     declineCall.mutate(undefined, {
-      onError: () => toast.error(t('declineFailed'), { id: 'incoming-call-decline' })
+      onError: (err: Error) => toast.error(errorMessage(err), { id: 'incoming-call-decline' })
     });
   };
 
@@ -40,7 +40,7 @@ export const useIncomingCall = () => {
 
         router.push(buildRoomHref(accepted.roomId, { title: accepted.caller.name }));
       },
-      onError: () => toast.error(t('acceptFailed'), { id: 'incoming-call-accept' })
+      onError: (err: Error) => toast.error(errorMessage(err), { id: 'incoming-call-accept' })
     });
   };
 

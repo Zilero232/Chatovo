@@ -38,6 +38,6 @@ export const SETTINGS_TABS: SettingsTabConfig[] = [
   { id: 'video', icon: <Video />, render: () => <VideoTab /> },
   { id: 'sounds', icon: <Volume2 />, render: () => <SoundsTab /> },
   { id: 'system', icon: <Settings2 />, tauriDesktopOnly: true, render: () => <SystemTab /> },
-  { id: 'security', icon: <ShieldCheck />, render: () => <SecurityTab /> },
-  { id: 'shortcuts', icon: <Keyboard />, tauriDesktopOnly: true, render: () => <ShortcutsTab /> }
+  { id: 'shortcuts', icon: <Keyboard />, tauriDesktopOnly: true, render: () => <ShortcutsTab /> },
+  { id: 'security', icon: <ShieldCheck />, render: () => <SecurityTab /> }
 ];

@@ -1,13 +1,12 @@
 {
   "identifier": "desktop-capability",
   "platforms": ["macOS", "windows", "linux"],
-  "windows": ["main"],
+  "windows": ["main", "tray-menu"],
   "permissions": [
     "os:default",
     "core:default",
     "updater:default",
     "process:default",
-
     "core:window:allow-show",
     "core:window:allow-hide",
     "core:window:allow-minimize",
@@ -17,9 +16,7 @@
     "core:window:allow-start-dragging",
     "core:window:allow-close",
     "core:window:allow-destroy",
-
     "core:app:allow-default-window-icon",
-
     "global-shortcut:allow-register",
     "global-shortcut:allow-unregister",
     "global-shortcut:allow-unregister-all",

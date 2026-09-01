@@ -9,8 +9,12 @@ type ConnectionRtt = {
   rtt: number | null;
 };
 
-const readRtt = async (publisher: { getStats: () => Promise<RTCStatsReport> }) => {
+const readRtt = async (publisher: { getStats: () => Promise<RTCStatsReport> | undefined }) => {
   const stats = await publisher.getStats();
+
+  if (!stats) {
+    return null;
+  }
 
   for (const report of stats.values()) {
     if (

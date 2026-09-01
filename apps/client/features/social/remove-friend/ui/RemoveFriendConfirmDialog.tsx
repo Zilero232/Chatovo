@@ -4,6 +4,7 @@ import { UserMinus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
+import { useErrorMessage } from '@/entities/app/locale';
 import { useRemoveFriendship } from '@/entities/social/friend';
 import { ConfirmDialog, Text } from '@/ui-kit';
 
@@ -16,13 +17,14 @@ export const RemoveFriendConfirmDialog = ({
   friendName
 }: RemoveFriendConfirmDialogProps) => {
   const t = useTranslations('friends.removeFriendConfirm');
+  const errorMessage = useErrorMessage();
 
   const removeFriendship = useRemoveFriendship();
 
   const handleConfirm = () => {
     removeFriendship.mutate(userId, {
       onSuccess: () => onOpenChange(false),
-      onError: () => toast.error(t('failed'), { id: `friend-remove-${userId}` })
+      onError: (err: Error) => toast.error(errorMessage(err), { id: `friend-remove-${userId}` })
     });
   };
 

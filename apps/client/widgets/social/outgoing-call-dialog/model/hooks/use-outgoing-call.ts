@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useEffectEvent, useRef } from 'react';
 import { toast } from 'sonner';
 
+import { useErrorMessage } from '@/entities/app/locale';
 import {
   useCancelOutgoingFriendCall,
   useFriendCallRingtone,
@@ -19,6 +20,7 @@ const CALL_STATUS = friendCallStatusSchema.enum;
 
 export const useOutgoingCall = () => {
   const t = useTranslations('friends.outgoingCall');
+  const errorMessage = useErrorMessage();
   const router = useRouter();
   const queryClient = useQueryClient();
   const handledRef = useRef<string | null>(null);
@@ -34,6 +36,10 @@ export const useOutgoingCall = () => {
   const clearOutgoing = useEffectEvent(async () => {
     await ackOutgoingFriendCall();
     queryClient.setQueryData(QUERY_KEYS.friendCallOutgoing(), { call: null });
+  });
+
+  const notifyDeclined = useEffectEvent((name: string, roomId: string) => {
+    toast.error(t('declined', { name }), { id: `outgoing-call-declined-${roomId}` });
   });
 
   useEffect(() => {
@@ -56,16 +62,15 @@ export const useOutgoingCall = () => {
     }
 
     if (call.status === CALL_STATUS.declined) {
-      toast.error(t('declined', { name: call.callee.name }), {
-        id: `outgoing-call-declined-${call.roomId}`
-      });
+      notifyDeclined(call.callee.name, call.roomId);
       clearOutgoing();
     }
-  }, [call, router, t]);
+    // eslint-disable-next-line react/exhaustive-deps -- only a new call state should re-run this; router and the toast event are stable
+  }, [call]);
 
   const cancel = () => {
     cancelCall.mutate(undefined, {
-      onError: () => toast.error(t('cancelFailed'), { id: 'outgoing-call-cancel' })
+      onError: (err: Error) => toast.error(errorMessage(err), { id: 'outgoing-call-cancel' })
     });
   };
 

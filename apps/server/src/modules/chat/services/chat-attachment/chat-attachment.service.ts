@@ -7,13 +7,14 @@ import { extension } from 'mime-types';
 import type { UploadAttachmentInput } from './chat-attachment.service.types';
 
 import { AppBadRequestException } from '../../../../common/exceptions';
-import { assertCanAccessRoom } from '../../../../lib';
+import { assertCanAccessRoom, decodeUploadName } from '../../../../lib';
 import { saveUpload } from '../../../uploads';
 
 @Injectable()
 export class ChatAttachmentService {
   async uploadAttachment({ roomId, file, userId }: UploadAttachmentInput): Promise<ChatAttachment> {
-    const { size, mimetype: type, originalname: name } = file;
+    const { size, mimetype: type } = file;
+    const name = decodeUploadName(file.originalname);
 
     if (size === 0) {
       throw new AppBadRequestException('FILE_EMPTY', 'Empty file');
