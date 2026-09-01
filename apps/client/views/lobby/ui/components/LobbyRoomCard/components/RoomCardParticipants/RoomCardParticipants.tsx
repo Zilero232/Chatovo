@@ -29,7 +29,7 @@ export const RoomCardParticipants = ({ ownerId, participants }: RoomCardParticip
     <div className={s.participants}>
       <div className={s.avatars}>
         {shown.map((participant) => (
-          <span key={participant.identity} className={s.avatarCell}>
+          <span key={participant.identity} className={s.avatarCell} title={participant.name}>
             <AvatarWithBadges topLeft={participant.identity === ownerId && <OwnerCrown />}>
               <UserAvatar
                 className={s.avatar}
@@ -38,7 +38,6 @@ export const RoomCardParticipants = ({ ownerId, participants }: RoomCardParticip
                 src={participant.avatarUrl}
               />
             </AvatarWithBadges>
-            <span className={s.avatarName}>{participant.name}</span>
           </span>
         ))}
         {isCrowded ? (

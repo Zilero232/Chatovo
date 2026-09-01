@@ -27,6 +27,7 @@ export const MicActivationSection = ({
   return (
     <>
       <SettingRow
+        stacked
         control={
           <RadioGroup
             className={s.radioGroup}

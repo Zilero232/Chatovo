@@ -1,7 +1,7 @@
 import type { ShortcutSettings } from '@/entities/app/shortcut';
 
 export type SoundCategory =
-  'call' | 'join' | 'leave' | 'message' | 'mute' | 'reaction' | 'reconnect';
+  'ambience' | 'call' | 'join' | 'leave' | 'message' | 'mute' | 'reaction' | 'reconnect';
 
 export type MicActivationMode = 'pushToTalk' | 'voiceActivity';
 

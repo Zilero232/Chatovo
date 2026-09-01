@@ -267,31 +267,6 @@
   justify-content: center;
 }
 
-.avatarName {
-  position: absolute;
-  top: calc(100% + #{rem(2)});
-  left: 50%;
-  max-width: rem(64);
-  color: var(--muted-foreground);
-  font-size: rem(10);
-  line-height: 1;
-  opacity: 0;
-  pointer-events: none;
-
-  @include text-ellipsis;
-
-  transform: translateX(-50%);
-  transition: opacity var(--duration-default) var(--timing-function-standard);
-
-  @include tauri-mobile {
-    display: none;
-  }
-
-  .root:hover & {
-    opacity: 1;
-  }
-}
-
 .avatarFallback {
   font-size: rem(10);
 }
@@ -347,41 +322,6 @@
   .root:hover & {
     border-color: color-mix(in oklch, var(--brand-violet) 22%, transparent);
     background: color-mix(in oklch, var(--brand-violet) 7%, transparent);
-  }
-}
-
-.emptyJoin {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  padding: 0.25rem 0.625rem;
-  border: 1px solid color-mix(in oklch, var(--brand-cyan) 22%, transparent);
-  border-radius: 9999px;
-  margin-left: auto;
-  background: color-mix(in oklch, var(--brand-cyan) 8%, transparent);
-  color: var(--brand-cyan);
-  font-size: rem(11);
-  font-weight: 550;
-  gap: 0.25rem;
-  transition:
-    border-color var(--duration-fast) var(--timing-function-standard),
-    background-color var(--duration-fast) var(--timing-function-standard);
-  white-space: nowrap;
-
-  .root:hover & {
-    border-color: color-mix(in oklch, var(--brand-cyan) 45%, transparent);
-    background: color-mix(in oklch, var(--brand-cyan) 16%, transparent);
-  }
-}
-
-.emptyJoinIcon {
-  width: 0.75rem;
-  height: 0.75rem;
-  flex-shrink: 0;
-  transition: transform var(--duration-fast) var(--timing-function-standard);
-
-  .root:hover & {
-    transform: translateX(rem(2));
   }
 }
 

@@ -19,7 +19,8 @@ const SOUND_CATEGORIES: SoundCategory[] = [
   'reconnect',
   'message',
   'reaction',
-  'call'
+  'call',
+  'ambience'
 ];
 
 export const SoundsTab = () => {

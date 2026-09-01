@@ -7,17 +7,21 @@ import { isTauri } from '@tauri-apps/api/core';
 import { clsx } from 'clsx';
 import { FileIcon } from 'lucide-react';
 import prettyBytes from 'pretty-bytes';
+import { useState } from 'react';
 
 import { openExternal } from '@/shared/lib';
 
 import type { MessageAttachmentProps } from './MessageAttachment.types';
 
 import { useChatMessage } from '../../../../../model/contexts';
+import { ImageLightbox } from '../ImageLightbox';
 
 import s from './MessageAttachment.module.scss';
 
 export const MessageAttachment = ({ attachment }: MessageAttachmentProps) => {
   const { isOwn } = useChatMessage();
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
   const { url, name, size, mime } = attachment;
 
   const handleOpen = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -31,9 +35,19 @@ export const MessageAttachment = ({ attachment }: MessageAttachmentProps) => {
 
   if (isImageMime(mime)) {
     return (
-      <a href={url} rel='noopener noreferrer' target='_blank' onClick={handleOpen}>
-        <img alt={name} className={s.image} src={url} />
-      </a>
+      <>
+        <button className={s.imageButton} type='button' onClick={() => setIsPreviewOpen(true)}>
+          <img alt={name} className={s.image} src={url} />
+        </button>
+
+        <ImageLightbox
+          name={name}
+          open={isPreviewOpen}
+          size={size}
+          src={url}
+          onOpenChange={setIsPreviewOpen}
+        />
+      </>
     );
   }
 
