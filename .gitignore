@@ -49,3 +49,10 @@ docs/superpowers/
 #   apps/client/.gitignore   — .next/, out/, dist/
 #   apps/server/.gitignore   — generated/, dist/
 #   apps/tauri/.gitignore    — target/, gen/
+
+# Tests
+coverage/
+test-results/
+e2e/.results/
+playwright-report/
+playwright/.cache/
