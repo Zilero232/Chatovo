@@ -42,7 +42,8 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
   system: {
     tray: {
       closeToTray: true
-    }
+    },
+    invisibleMode: false
   },
   shortcuts: {
     muteToggle: 'Ctrl+Shift+M',

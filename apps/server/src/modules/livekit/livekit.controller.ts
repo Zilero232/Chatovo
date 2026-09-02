@@ -24,6 +24,7 @@ export class LivekitController {
     return this.livekit.issueRoomToken({
       roomId: body.roomId,
       password: body.password,
+      invisible: body.invisible,
       userId: session.user.id,
       isAdmin: session.user.role === 'admin'
     });

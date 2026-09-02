@@ -45,6 +45,7 @@ type TraySettings = {
 
 type SystemSettings = {
   tray: TraySettings;
+  invisibleMode: boolean;
 };
 
 export type { ShortcutActionId, ShortcutBinding, ShortcutSettings } from '@/entities/app/shortcut';
