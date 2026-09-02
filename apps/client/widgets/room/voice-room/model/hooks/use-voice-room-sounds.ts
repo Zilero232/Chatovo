@@ -8,6 +8,7 @@ import { ParticipantEvent, RoomEvent, Track } from 'livekit-client';
 import { useEffect, useEffectEvent, useMemo, useRef } from 'react';
 
 import { useAppSettings } from '@/entities/app/settings';
+import { useCurrentUser } from '@/entities/auth/user';
 import { useLeaveSound } from '@/entities/room/room';
 import { useDeafen } from '@/features/room/room-control';
 import { useEmitterEvent } from '@/shared/hooks';
@@ -26,6 +27,9 @@ export const useVoiceRoomSounds = (roomId: string) => {
 
   const { isDeafened } = useDeafen();
   const { settings } = useAppSettings();
+  const { isAdmin } = useCurrentUser();
+
+  const isInvisible = isAdmin && settings.system.invisibleMode;
 
   const player = useMemo(createSoundPlayer, []);
 
@@ -56,6 +60,11 @@ export const useVoiceRoomSounds = (roomId: string) => {
     }
 
     hasLeftRef.current = true;
+
+    if (isInvisible) {
+      return;
+    }
+
     playLeaveSound();
   };
 
@@ -65,6 +74,11 @@ export const useVoiceRoomSounds = (roomId: string) => {
     }
 
     hasJoinedRef.current = true;
+
+    if (isInvisible) {
+      return;
+    }
+
     play('join');
   };
 
