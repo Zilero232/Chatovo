@@ -30,6 +30,7 @@ docs/
 ├── fsd.md           # Frontend (apps/client) architecture — read before structural changes
 ├── style.md         # Code style, import order, naming — FULL версия (примеры + обоснования)
 ├── developer-role.md # user.role = admin: contributors strip, developers tab, badges
+├── invisible-mode.md # admin joins rooms hidden: server-enforced, presence filtered
 ├── migrations.md    # Prisma migrations: baseline, deploy order, better-auth schema drift
 ├── tray-menu.md     # Native tray menu: Rust-owned icon + menu, labels/state pushed from the client
 └── play-store/      # Android release: listing, data safety, signing

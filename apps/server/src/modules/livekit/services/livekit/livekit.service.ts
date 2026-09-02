@@ -16,7 +16,7 @@ import { AppConfigService } from '../../../../config/config.module';
 import { TOKEN_TTL_SECONDS } from '../../../../config/livekit';
 import { PrismaService } from '../../../../core';
 import { toUserProfile } from '../../../users';
-import { assertRoomAccess } from '../../lib';
+import { assertRoomAccess, resolveInvisible } from '../../lib';
 import { grantRoomAccess } from '../../room-grant-store';
 
 @Injectable()
@@ -27,7 +27,9 @@ export class LivekitService {
   ) {}
 
   async issueRoomToken(input: IssueTokenInput): Promise<TokenResponse> {
-    const { roomId, password, userId, isAdmin } = input;
+    const { roomId, password, userId, isAdmin, invisible } = input;
+
+    const isInvisible = resolveInvisible({ requested: invisible, isAdmin });
 
     const room = await this.prisma.room.findUnique({ where: { id: roomId } });
 
@@ -39,7 +41,9 @@ export class LivekitService {
       throw new AppForbiddenException('FORBIDDEN', 'Forbidden');
     }
 
-    assertRoomAccess({ room, password });
+    if (!isInvisible) {
+      assertRoomAccess({ room, password });
+    }
 
     grantRoomAccess(room.id, userId);
 
@@ -54,13 +58,14 @@ export class LivekitService {
 
     const { name, verified, developer, profileUrl, avatarUrl, bannerColor } = toUserProfile(user);
 
-    const participantMetadata: ParticipantMetadata = {
+    const participantMetadata = {
       verified,
       developer,
       profileUrl,
       avatarUrl,
-      bannerColor
-    };
+      bannerColor,
+      invisible: isInvisible
+    } satisfies ParticipantMetadata & { invisible: boolean };
 
     const at = new AccessToken(
       this.config.get('LIVEKIT_API_KEY'),
@@ -76,11 +81,12 @@ export class LivekitService {
     at.addGrant({
       room: room.id,
       roomJoin: true,
-      canPublish: true,
+      canPublish: !isInvisible,
       canSubscribe: true,
-      canPublishData: true,
+      canPublishData: !isInvisible,
       canUpdateOwnMetadata: true,
-      roomAdmin: isAdmin
+      roomAdmin: isAdmin,
+      hidden: isInvisible
     });
 
     return { token: await at.toJwt() };

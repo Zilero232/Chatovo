@@ -753,7 +753,9 @@
     },
     "system": {
       "closeToTray": "Minimize to tray on close",
-      "closeToTrayHint": "Close button hides the app to the system tray. Turn off to quit on close. The tray's Quit menu always exits."
+      "closeToTrayHint": "Close button hides the app to the system tray. Turn off to quit on close. The tray's Quit menu always exits.",
+      "invisibleMode": "Invisible mode",
+      "invisibleModeHint": "Join any room hidden: no password, and nobody sees or hears you."
     },
     "shortcuts": {
       "webNotice": "Custom hotkeys are not supported in the browser yet. To use custom hotkeys, <link>download</link> the desktop app.",

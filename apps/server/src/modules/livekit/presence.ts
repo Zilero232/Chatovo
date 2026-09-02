@@ -6,6 +6,7 @@ import { Logger } from '@nestjs/common';
 import { RoomServiceClient, TrackSource } from 'livekit-server-sdk';
 
 import { env } from '../../core';
+import { isInvisibleParticipant } from './lib';
 import { toRoomParticipant } from './mappers';
 import { replaceRoom } from './presence-store';
 
@@ -50,7 +51,9 @@ export const syncRoom = async (roomId: string) => {
   try {
     const live = await roomService.listParticipants(roomId);
     const participants = new Map<string, RoomParticipant>(
-      live.map((p) => [p.identity, toRoomParticipant(p)])
+      live
+        .filter((p) => !p.permission?.hidden && !isInvisibleParticipant(p.metadata))
+        .map((p) => [p.identity, toRoomParticipant(p)])
     );
 
     replaceRoom(roomId, participants);

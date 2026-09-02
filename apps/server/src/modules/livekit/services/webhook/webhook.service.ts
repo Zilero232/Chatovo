@@ -10,6 +10,7 @@ import { DomainEvent } from '../../../../common/events/domain-events';
 import { AppUnauthorizedException } from '../../../../common/exceptions';
 import { AppConfigService } from '../../../../config/config.module';
 import { getRoomName } from '../../../../lib';
+import { isInvisibleParticipant } from '../../lib';
 import {
   addParticipant,
   clearRoom,
@@ -55,7 +56,7 @@ export class WebhookService {
 
     await match(event.event)
       .with('participant_joined', async () => {
-        if (participant) {
+        if (participant && !isInvisibleParticipant(participant.metadata)) {
           const name = participant.name || participant.identity;
 
           addParticipant(roomId, {
@@ -76,7 +77,7 @@ export class WebhookService {
         }
       })
       .with('participant_left', () => {
-        if (participant) {
+        if (participant && !isInvisibleParticipant(participant.metadata)) {
           removeParticipant(roomId, participant.identity);
         }
       })
