@@ -43,7 +43,6 @@ export type DomainEventPayloads = {
     roomName: string;
     ownerName: string;
     isPrivate: boolean;
-    password: string | null;
   };
   [DomainEvent.RoomDeleted]: {
     roomName: string;

@@ -32,14 +32,12 @@ export const notifyUserSignup = ({ name, email }: UserSignupNotification): Promi
 export const notifyRoomCreated = ({
   roomName,
   ownerName,
-  isPrivate,
-  password
+  isPrivate
 }: RoomCreatedNotification): Promise<void> => {
   const badge = isPrivate ? '🔒 приватная' : '🌐 публичная';
-  const passwordLine = isPrivate && password ? fmt`\nПароль: ${code()}${password}${code()}` : '';
 
   return send(
-    fmt`➕ ${bold()}${ownerName}${bold()} создал комнату ${bold()}${roomName}${bold()} (${badge})${passwordLine}`
+    fmt`➕ ${bold()}${ownerName}${bold()} создал комнату ${bold()}${roomName}${bold()} (${badge})`
   );
 };
 

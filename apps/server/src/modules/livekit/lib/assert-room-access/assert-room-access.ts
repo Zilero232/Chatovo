@@ -6,8 +6,12 @@ import {
   AppInternalException,
   AppUnauthorizedException
 } from '../../../../common/exceptions';
+import { verifyRoomPassword } from '../../../../lib';
 
-export const assertRoomAccess = ({ room, password }: AssertRoomAccessInput): void => {
+export const assertRoomAccess = async ({
+  room,
+  password
+}: AssertRoomAccessInput): Promise<void> => {
   if (room.kind === RoomKind.dm) {
     return;
   }
@@ -24,7 +28,7 @@ export const assertRoomAccess = ({ room, password }: AssertRoomAccessInput): voi
     throw new AppInternalException('INTERNAL_ERROR', 'Room misconfigured');
   }
 
-  if (password !== room.password) {
+  if (!(await verifyRoomPassword(password, room.password))) {
     throw new AppForbiddenException('ROOM_PASSWORD_INVALID', 'Invalid password');
   }
 };

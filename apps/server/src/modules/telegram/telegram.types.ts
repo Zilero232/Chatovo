@@ -16,7 +16,6 @@ export type UserSignupNotification = {
 export type RoomCreatedNotification = {
   isPrivate: boolean;
   ownerName: string;
-  password?: string | null;
   roomName: string;
 };
 
