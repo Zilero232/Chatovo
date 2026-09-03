@@ -1,4 +1,5 @@
 import type { RoomParticipant } from '@chatovo/schemas';
+import type { ParticipantInfo } from 'livekit-server-sdk';
 
 export type IssueTokenInput = {
   isAdmin: boolean;
@@ -6,6 +7,11 @@ export type IssueTokenInput = {
   password?: string;
   roomId: string;
   userId: string;
+};
+
+export type ToRoomParticipantInput = {
+  invisible: boolean;
+  participant: ParticipantInfo;
 };
 
 export type ParticipantPatch = Partial<Pick<RoomParticipant, 'deafened' | 'micMuted'>>;

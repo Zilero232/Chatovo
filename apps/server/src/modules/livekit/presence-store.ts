@@ -12,12 +12,16 @@ const rooms = new Map<string, Map<string, RoomParticipant>>();
 // goes to N; closing N-1 keeps them online; closing the last evicts them.
 const lobbyConnections = new Map<string, number>();
 
-const buildSnapshot = (): RoomsParticipantsSnapshot => {
+const buildSnapshot = (includeInvisible: boolean): RoomsParticipantsSnapshot => {
   const result: RoomsParticipantsSnapshot['rooms'] = {};
 
   for (const [roomId, participants] of rooms) {
-    if (participants.size > 0) {
-      result[roomId] = [...participants.values()];
+    const visible = includeInvisible
+      ? [...participants.values()]
+      : [...participants.values()].filter((participant) => !participant.invisible);
+
+    if (visible.length > 0) {
+      result[roomId] = visible;
     }
   }
 
@@ -25,10 +29,15 @@ const buildSnapshot = (): RoomsParticipantsSnapshot => {
 };
 
 const emit = () => {
-  emitPresenceSnapshot(buildSnapshot());
+  emitPresenceSnapshot({
+    public: buildSnapshot(false),
+    admin: buildSnapshot(true)
+  });
 };
 
-export const getSnapshot = buildSnapshot;
+export const getSnapshot = () => buildSnapshot(false);
+
+export const getAdminSnapshot = () => buildSnapshot(true);
 
 export const addLobbyConnection = (userId: string) => {
   const current = lobbyConnections.get(userId) ?? 0;

@@ -1,7 +1,8 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { HeadphoneOff, MicOff, ScreenShare } from 'lucide-react';
+import { EyeOff, HeadphoneOff, MicOff, ScreenShare } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { UserAvatar, UserName } from '@/entities/auth/user';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
@@ -17,7 +18,15 @@ import { getCardTint } from './lib';
 
 import s from './ParticipantCard.module.scss';
 
-export const ParticipantCard = ({ participant, deafened, fill = false }: ParticipantCardProps) => {
+export const ParticipantCard = ({
+  participant,
+  deafened,
+  invisible = false,
+  fill = false
+}: ParticipantCardProps) => {
+  const t = useTranslations('room');
+  const tLobby = useTranslations('lobby.card');
+
   const {
     cameraTrack,
     screenTrack,
@@ -39,7 +48,7 @@ export const ParticipantCard = ({ participant, deafened, fill = false }: Partici
   return (
     <ParticipantCardMenu participant={participant}>
       <div
-        className={clsx(s.root, { [s.rootFill]: fill })}
+        className={clsx(s.root, { [s.rootFill]: fill, [s.rootInvisible]: invisible })}
         data-local={isLocal}
         data-speaking={isSpeaking}
       >
@@ -71,18 +80,28 @@ export const ParticipantCard = ({ participant, deafened, fill = false }: Partici
           )}
         </div>
 
-        {hasScreen && (
+        {(hasScreen || invisible) && (
           <div className={s.badges}>
-            <span className={s.badge}>
-              <ScreenShare className={s.badgeIcon} />
-              share
-            </span>
+            {invisible && (
+              <span className={clsx(s.badge, s.badgeInvisible)}>
+                <EyeOff className={s.badgeIcon} />
+                {t('invisibleBadge')}
+              </span>
+            )}
+            {hasScreen && (
+              <span className={s.badge}>
+                <ScreenShare className={s.badgeIcon} />
+                share
+              </span>
+            )}
           </div>
         )}
 
         <div className={s.metadata}>
-          {micMuted && <MicOff className={s.micIcon} />}
-          {deafened && <HeadphoneOff className={s.micIcon} />}
+          {micMuted && <MicOff aria-label={tLobby('micMuted')} className={s.micIcon} role='img' />}
+          {deafened && (
+            <HeadphoneOff aria-label={tLobby('deafened')} className={s.micIcon} role='img' />
+          )}
           <ProfileCardTrigger
             className={s.nameTrigger}
             identity={participant.identity}

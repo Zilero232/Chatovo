@@ -8,7 +8,12 @@ import { WebSocketGateway } from '@nestjs/websockets';
 
 import { isUserBlocked } from '../../lib';
 import { clearFriendsEpoch, FriendshipService, getUserCallSnapshot } from '../friends';
-import { addLobbyConnection, getSnapshot, removeLobbyConnection } from '../livekit';
+import {
+  addLobbyConnection,
+  getAdminSnapshot,
+  getSnapshot,
+  removeLobbyConnection
+} from '../livekit';
 import { BLOCKED_WS_CLOSE_CODE, HEARTBEAT_INTERVAL_MS } from './config';
 import {
   getConnectionByWs,
@@ -55,13 +60,15 @@ export class RealtimeGateway
 
   async handleConnection(client: WebSocket, request: IncomingMessage) {
     const token = new URL(request.url ?? '/', 'http://localhost').searchParams.get('token');
-    const userId = await authorizeToken(token);
+    const authorized = await authorizeToken(token);
 
-    if (!userId) {
+    if (!authorized) {
       client.close(4401, 'Unauthorized');
 
       return;
     }
+
+    const { userId, isAdmin } = authorized;
 
     if (await isUserBlocked(userId)) {
       client.close(BLOCKED_WS_CLOSE_CODE, 'Account blocked');
@@ -69,7 +76,7 @@ export class RealtimeGateway
       return;
     }
 
-    const connection = registerConnection(userId, client);
+    const connection = registerConnection(userId, client, isAdmin);
 
     addLobbyConnection(userId);
 
@@ -85,7 +92,7 @@ export class RealtimeGateway
 
     sendToConnection(connection.id, {
       type: 'presence.snapshot',
-      snapshot: getSnapshot()
+      snapshot: isAdmin ? getAdminSnapshot() : getSnapshot()
     });
 
     sendToConnection(connection.id, {

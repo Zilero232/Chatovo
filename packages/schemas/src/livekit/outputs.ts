@@ -28,7 +28,10 @@ export const roomParticipantSchema = participantProfileSchema.extend({
   micMuted: z.boolean().default(true),
   // True when the participant has muted all incoming audio (deafen). Carried
   // live via the deafen-state endpoint, mirroring micMuted.
-  deafened: z.boolean().default(false)
+  deafened: z.boolean().default(false),
+  // True when the participant joined in admin invisible mode. Only ever set on
+  // the admin-only snapshot — the public one never contains such a participant.
+  invisible: z.boolean().default(false)
 });
 
 // SSE payload pushed to clients: the full participant list of every active
