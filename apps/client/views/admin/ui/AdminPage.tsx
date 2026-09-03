@@ -33,13 +33,15 @@ export const AdminPage = () => {
           <AdminHeader />
 
           <Tabs value={tab} onValueChange={(value) => setTab(value as AdminTab)}>
-            <TabsList className={s.tabs}>
-              {TABS.map((value) => (
-                <TabsTrigger key={value} value={value}>
-                  {t(`tabs.${value}`)}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+            <div className={s.tabsScroller}>
+              <TabsList className={s.tabs}>
+                {TABS.map((value) => (
+                  <TabsTrigger key={value} value={value}>
+                    {t(`tabs.${value}`)}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
 
             <TabsContent value='overview'>
               <AdminOverview enabled={tab === 'overview'} />

@@ -29,7 +29,7 @@ import s from './BlockUserDialog.module.scss';
 
 export const BlockUserDialog = ({ user, open, onOpenChange }: BlockUserDialogProps) => {
   const t = useTranslations('admin');
-  const fieldError = useFieldError('admin');
+  const fieldError = useFieldError('moderation');
   const errorMessage = useErrorMessage();
   const { isPending, mutate } = useBlockUser();
 
