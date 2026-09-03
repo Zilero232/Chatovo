@@ -1,4 +1,4 @@
-import { userRoleSchema } from '@chatovo/schemas';
+import { USER_ROLE } from '@chatovo/schemas';
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { isNullish } from 'remeda';
@@ -18,8 +18,6 @@ import { ejectParticipantEverywhere, revokeUserGrants } from '../../../livekit';
 import { BLOCKED_WS_CLOSE_CODE, closeUserConnections } from '../../../realtime';
 import { ADMIN_LIST_MAX } from '../../config';
 import { adminUserInclude, toAdminUser } from '../../mappers';
-
-const USER_ROLE = userRoleSchema.enum;
 
 @Injectable()
 export class UserBlockService {

@@ -1,4 +1,4 @@
-import { userRoleSchema } from '@chatovo/schemas';
+import { USER_ROLE } from '@chatovo/schemas';
 import { Injectable } from '@nestjs/common';
 import { isNullish } from 'remeda';
 import { match } from 'ts-pattern';
@@ -15,11 +15,14 @@ import type {
 import { AppBadRequestException, AppNotFoundException } from '../../../../common/exceptions';
 import { PrismaService } from '../../../../core';
 import { assertIsAdmin } from '../../../../lib';
-import { listOnlineUserIds } from '../../../realtime';
+import { ejectParticipantEverywhere, revokeUserGrants } from '../../../livekit';
+import {
+  closeUserConnections,
+  listOnlineUserIds,
+  ROLE_CHANGED_WS_CLOSE_CODE
+} from '../../../realtime';
 import { toPageArgs } from '../../lib';
 import { adminUserInclude, toAbuseReport, toAdminUser, toAdminUserMessage } from '../../mappers';
-
-const USER_ROLE = userRoleSchema.enum;
 
 @Injectable()
 export class AdminUserService {
@@ -159,7 +162,15 @@ export class AdminUserService {
           update: profile
         });
       }
+
+      if (role) {
+        await tx.session.deleteMany({ where: { userId } });
+      }
     });
+
+    if (role) {
+      await this.dropPrivileges(userId);
+    }
 
     return this.get({ adminId, userId });
   }
@@ -184,6 +195,13 @@ export class AdminUserService {
     ]);
 
     return { items: items.map(toAdminUser), total };
+  }
+
+  private async dropPrivileges(userId: string) {
+    revokeUserGrants(userId);
+    closeUserConnections(userId, ROLE_CHANGED_WS_CLOSE_CODE, 'Role changed');
+
+    await ejectParticipantEverywhere(userId);
   }
 
   private filterClause(filter: ListAdminUsersInput['query']['filter']): Prisma.UserWhereInput {

@@ -1,4 +1,4 @@
-import { userRoleSchema } from '@chatovo/schemas';
+import { USER_ROLE } from '@chatovo/schemas';
 import { useQuery } from '@tanstack/react-query';
 import { minutesToMilliseconds } from 'date-fns';
 import { isNonNullish } from 'remeda';
@@ -8,8 +8,6 @@ import { QUERY_KEYS } from '@/shared/constants';
 import { firstNonEmpty, stripEmailDomain } from '@/shared/lib';
 
 import type { UserRole } from '../types';
-
-const USER_ROLE = userRoleSchema.enum;
 
 export const useCurrentUser = () => {
   const { data: session, isPending } = authClient.useSession();

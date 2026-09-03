@@ -1,4 +1,4 @@
-import { userRoleSchema } from '@chatovo/schemas';
+import { USER_ROLE } from '@chatovo/schemas';
 import { Injectable } from '@nestjs/common';
 import { startOfDay, subDays } from 'date-fns';
 
@@ -7,8 +7,6 @@ import { assertIsAdmin } from '../../../../lib';
 import { getSnapshot } from '../../../livekit';
 import { SERIES_DAYS } from '../../config';
 import { toDaySeries } from '../../lib';
-
-const USER_ROLE = userRoleSchema.enum;
 
 @Injectable()
 export class AdminStatsService {

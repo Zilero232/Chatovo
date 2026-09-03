@@ -6,6 +6,7 @@ export {
   resetPasswordSchema,
   signInSchema,
   signUpSchema,
+  USER_ROLE,
   userRoleSchema
 } from './inputs';
 

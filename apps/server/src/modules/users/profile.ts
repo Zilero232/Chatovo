@@ -1,6 +1,6 @@
 import type { UserProfile } from '@chatovo/schemas';
 
-import { userRoleSchema } from '@chatovo/schemas';
+import { USER_ROLE } from '@chatovo/schemas';
 import { isNullish, isString } from 'remeda';
 
 import type { Prisma } from '../../../generated';
@@ -15,8 +15,6 @@ const stripEmail = (value: string | null): string | null => {
 
   return resolveString(value.split('@')[0]);
 };
-
-const USER_ROLE = userRoleSchema.enum;
 
 export type UserWithProfile = Prisma.UserGetPayload<{ include: { profile: true } }>;
 
