@@ -7,15 +7,6 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-# Gradle wiring the Tauri CLI applies while generating gen/android, so the setup
-# scripts do not have to patch the build files by hand. Only what has no hook
-# here is still patched: the VK maven repositories, MainActivity, the proguard
-# rules and google-services.json.
-[package.metadata.cargo-android]
-app-plugins = ["com.google.gms.google-services"]
-project-dependencies = ["com.google.gms:google-services:4.4.2"]
-app-dependencies = ["ru.rustore.sdk:appupdate:10.5.1"]
-
 [lib]
 # The `_lib` suffix may seem redundant but it is necessary
 # to make the lib name unique and wouldn't conflict with the bin name.
