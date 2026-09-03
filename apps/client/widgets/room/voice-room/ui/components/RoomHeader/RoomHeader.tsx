@@ -19,7 +19,7 @@ export const RoomHeader = ({ name, isDm = false }: RoomHeaderProps) => (
 
     <div className={s.info}>
       <div className={s.titleRow}>
-        <span className={s.title}>{name}</span>
+        <h1 className={s.title}>{name}</h1>
         {!isDm && (
           <div className={s.mobileInvite}>
             <RoomInviteButton size='sm' />
