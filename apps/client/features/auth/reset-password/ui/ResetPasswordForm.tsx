@@ -1,5 +1,8 @@
 'use client';
 
+import type { ResetPasswordValues } from '@chatovo/schemas';
+
+import { resetPasswordSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
@@ -8,10 +11,9 @@ import { toast } from 'sonner';
 import { useErrorMessage, useFieldError } from '@/entities/app/locale';
 import { FormField, PasswordInput, Stack, SubmitButton } from '@/ui-kit';
 
-import type { ResetPasswordValues } from '../model/hooks';
 import type { ResetPasswordFormProps } from './ResetPasswordForm.types';
 
-import { resetPasswordSchema, useResetPassword } from '../model/hooks';
+import { useResetPassword } from '../model/hooks';
 
 import s from './ResetPasswordForm.module.scss';
 

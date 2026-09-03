@@ -6,5 +6,5 @@ export const LEGAL = {
   termsPath: '/terms',
   privacyUrl: `${SITE.url}/privacy`,
   termsUrl: `${SITE.url}/terms`,
-  playStoreUrl: 'https://play.google.com/store/apps/details?id=chatovo.app'
+  rustoreUrl: 'https://www.rustore.ru/catalog/app/chatovo.app'
 } as const;

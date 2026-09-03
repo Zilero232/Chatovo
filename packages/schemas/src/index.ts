@@ -6,6 +6,7 @@ export * from './friends';
 export * from './github';
 export * from './json';
 export * from './livekit';
+export * from './moderation';
 export * from './push';
 export * from './realtime';
 export * from './rooms';

@@ -1,1 +1,3 @@
 export const HEARTBEAT_INTERVAL_MS = 30_000;
+
+export const BLOCKED_WS_CLOSE_CODE = 4403;

@@ -279,7 +279,7 @@ docker compose pull && docker compose up -d
 | ✅  | Web · desktop · Android                             |
 | ✅  | Tray · shortcuts · PTT · screen share · auto-update |
 | ⬜  | iOS client                                          |
-| ⬜  | Play Store listing                                  |
+| ⬜  | RuStore listing                                     |
 
 <br/>
 

@@ -1,13 +1,9 @@
 'use client';
 
-import { Download, Loader2 } from 'lucide-react';
+import { Download, Loader2, Smartphone } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import {
-  DESKTOP_DOWNLOAD_PLATFORMS,
-  MOBILE_DOWNLOAD_PLATFORMS,
-  useRelease
-} from '@/entities/app/release';
+import { DOWNLOAD_PLATFORMS, useRelease } from '@/entities/app/release';
 import { EXTERNAL_LINKS } from '@/shared/constants';
 import {
   Dialog,
@@ -59,7 +55,7 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
                 {t('sections.desktop')}
               </Text>
               <div className={s.desktopGrid}>
-                {DESKTOP_DOWNLOAD_PLATFORMS.map(({ id, labelKey, Icon }) => (
+                {DOWNLOAD_PLATFORMS.map(({ id, labelKey, Icon }) => (
                   <PlatformCard
                     key={id}
                     asset={release.assets[id]}
@@ -74,16 +70,16 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
               <Text className={s.sectionTitle} size='xs' tone='muted' weight='medium'>
                 {t('sections.mobile')}
               </Text>
-              <div className={s.mobileGrid}>
-                {MOBILE_DOWNLOAD_PLATFORMS.map(({ id, labelKey, Icon }) => (
-                  <PlatformCard
-                    key={id}
-                    asset={release.assets[id]}
-                    Icon={Icon}
-                    label={t(`platforms.${labelKey}`)}
-                  />
-                ))}
-              </div>
+
+              <a
+                className={s.storeLink}
+                href={EXTERNAL_LINKS.rustore}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <Smartphone />
+                {t('openRustore')}
+              </a>
             </div>
 
             <div className={s.meta}>

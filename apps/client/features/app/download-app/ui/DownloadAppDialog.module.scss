@@ -95,3 +95,16 @@
   color: var(--muted-foreground);
   margin-inline: auto;
 }
+
+.storeLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  gap: 0.5rem;
+
+  @include surface-card(rem(12), 4%);
+  @include surface-card-hover;
+}

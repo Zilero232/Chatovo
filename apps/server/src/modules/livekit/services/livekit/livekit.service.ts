@@ -15,6 +15,7 @@ import {
 import { AppConfigService } from '../../../../config/config.module';
 import { TOKEN_TTL_SECONDS } from '../../../../config/livekit';
 import { PrismaService } from '../../../../core';
+import { assertNotBlocked } from '../../../../lib';
 import { toUserProfile } from '../../../users';
 import { assertRoomAccess, resolveInvisible } from '../../lib';
 import { grantRoomAccess } from '../../room-grant-store';
@@ -28,6 +29,8 @@ export class LivekitService {
 
   async issueRoomToken(input: IssueTokenInput): Promise<TokenResponse> {
     const { roomId, password, userId, isAdmin, invisible } = input;
+
+    await assertNotBlocked(userId);
 
     const isInvisible = resolveInvisible({ requested: invisible, isAdmin });
 

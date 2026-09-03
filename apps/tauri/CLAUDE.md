@@ -30,7 +30,7 @@ bun tauri:dev          # run the desktop dev shell
 bun tauri:build        # produce a native binary
 bun android:init # init Android project (requires SDK + NDK)
 bun android:dev  # run on Android device/emulator
-bun android:build # build the APK + the Play Store AAB
+bun android:build # build the APK + the RuStore AAB
 ```
 
 Releases are built by `.github/workflows/release.yml` on a `v*` tag — desktop
@@ -38,10 +38,12 @@ via `tauri-action` (Windows, macOS arm64 + x64, Linux), Android signed by
 `scripts/android-signing.mjs` from the `ANDROID_KEY_*` secrets. The local
 commands above are for development.
 
-Android setup: install Android Studio (SDK + NDK), copy `apps/tauri/.env.example` → `.env`, set `NDK_HOME` to your installed NDK folder, then `bun android:init`. See [docs/play-store/README.md](../../docs/play-store/README.md).
+Android setup: install Android Studio (SDK + NDK), copy `apps/tauri/.env.example` → `.env`, set `NDK_HOME` to your installed NDK folder, then `bun android:init`. See [docs/rustore/README.md](../../docs/rustore/README.md).
 
 **WebRTC (mic/camera):** `build.rs` calls `tauri_utils::build::update_android_manifest` (same API Tauri plugins use) to inject `RECORD_AUDIO`, `CAMERA`, and `MODIFY_AUDIO_SETTINGS` into `gen/android/.../AndroidManifest.xml` on Android builds. Without these, `getUserMedia` fails on Android — `RustWebChromeClient` can only show the OS prompt when permissions are declared in the manifest.
 
-**FCM (push):** `google-services.json` lives in `android/` (committed). `scripts/setup-android-fcm.mjs` runs before every `android:*` build and copies it into `gen/android/app/` + applies the Google Services Gradle plugin — `gen/` is gitignored and must not be edited by hand.
+**FCM (push):** `google-services.json` lives in `android/` (committed). `scripts/setup-android-fcm.mjs` runs before every `android:*` build and copies it into `gen/android/app/` + applies the Google Services Gradle plugin — `gen/` is gitignored and must not be edited by hand. FCM is the only push transport; devices with no Google mobile services get no push. Covering them would need a RuStore Push Tauri plugin, which does not exist and was deliberately not written.
+
+**RuStore in-app updates:** `scripts/setup-rustore-update.mjs` runs alongside the FCM overlay and patches the regenerated `gen/android/` — RuStore maven repos, `ru.rustore.sdk:appupdate`, proguard keep rules (release builds run R8), and an `IMMEDIATE` update check in `MainActivity.onCreate`. Android never uses the Tauri updater; it is gated behind `isTauriDesktop()`.
 
 **Android dev:** `bun dev:server` + `bun android:dev`. HMR shim in client `layout.tsx` (`getTauriMobileHmrShim`).

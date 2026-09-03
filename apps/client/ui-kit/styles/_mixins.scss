@@ -121,6 +121,20 @@
   }
 }
 
+@mixin surface-card($radius: rem(14), $alpha: 4%) {
+  border: 1px solid var(--border);
+  border-radius: $radius;
+  background: oklch(100% 0 0deg / #{$alpha});
+}
+
+@mixin surface-card-hover($alpha: 6%) {
+  transition: background var(--duration-fast) var(--timing-function-standard);
+
+  @include hover {
+    background: oklch(100% 0 0deg / #{$alpha});
+  }
+}
+
 @mixin overlay-enter {
   &[data-starting-style] {
     animation:

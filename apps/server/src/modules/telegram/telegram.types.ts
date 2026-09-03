@@ -32,3 +32,19 @@ export type ProblemReportNotification = {
   platform?: string;
   reporter: string;
 };
+
+export type AbuseReportNotification = {
+  comment?: string;
+  reason: string;
+  reporter: string;
+  roomName?: string;
+  target: string;
+  targetId: string;
+};
+
+export type UserBlockedNotification = {
+  blockedBy: string;
+  email: string;
+  reason: string;
+  userName: string;
+};

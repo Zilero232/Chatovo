@@ -68,7 +68,15 @@
     "FILE_NOT_IMAGE": "An image is required.",
     "IMAGE_TOO_LARGE": "The image is too large.",
     "SCREENSHOT_TOO_LARGE": "The screenshot is too large.",
-    "WEBHOOK_SIGNATURE_INVALID": "Invalid request signature."
+    "WEBHOOK_SIGNATURE_INVALID": "Invalid request signature.",
+    "USER_BLOCKED": "Account is blocked",
+    "ABUSE_TARGET_NOT_FOUND": "Reported target not found",
+    "ABUSE_SELF_REPORT": "You cannot report yourself",
+    "ABUSE_REPORT_NOT_FOUND": "Report not found",
+    "ADMIN_ONLY": "Admins only",
+    "ABUSE_ALREADY_REPORTED": "You already reported this",
+    "BLOCK_SELF": "You cannot block yourself",
+    "BLOCK_ADMIN": "An administrator cannot be blocked"
   },
   "legal": {
     "back": "Back",
@@ -126,7 +134,7 @@
             "LiveKit — real-time voice, video, and data channels.",
             "SMTP email provider — delivery of verification and password reset emails.",
             "Hosting and infrastructure providers that operate our servers and databases.",
-            "Google Play — app distribution and updates on Android (Google policies apply)."
+            "RuStore — app distribution and updates on Android (RuStore policies apply)."
           ]
         },
         {
@@ -219,6 +227,15 @@
             "You retain ownership of content you submit. You grant Chatovo a non-exclusive license to host, display, and transmit your content solely to operate the Service.",
             "We may remove content or restrict access to rooms that violate these Terms or applicable law.",
             "Report violations to {contact}."
+          ]
+        },
+        {
+          "heading": "Community rules and moderation",
+          "paragraphs": [
+            "Unacceptable content includes: pornography or sexualised depictions of minors; hate speech or discrimination based on race, nationality, religion, gender, orientation or disability; threats, bullying or harassment; incitement to violence or shocking depictions of it; romanticisation of self-harm, suicide or eating disorders; promotion of drugs, weapons, forged documents or other prohibited goods; real-money gambling; spam, fraud or phishing; infringement of intellectual property; disclosure of other people's personal data without consent; links to third-party app stores.",
+            "You can report a user, a message or a room from inside the app: open the participant or message menu and choose \"Report\". Reports can also be sent to {contact} with the room, the time and a description of the violation.",
+            "Reports are handled as post-moderation. Depending on the outcome we may remove the content, restrict access to a room, temporarily suspend or permanently block the offending account.",
+            "A blocked account loses access to sign-in, rooms and voice chat. Blocks can be appealed by writing to {contact}."
           ]
         },
         {
@@ -324,7 +341,8 @@
       "passwordsMismatch": "Passwords do not match",
       "urlInvalid": "Enter a valid URL",
       "bioMax": "Max 280 characters",
-      "required": "Required"
+      "required": "Required",
+      "termsRequired": "Accept the terms to continue"
     },
     "liveNow": "Live right now",
     "roomDemoName": "Friday hangout",
@@ -341,7 +359,8 @@
         "value": "∞",
         "label": "minutes per call"
       }
-    }
+    },
+    "consentLabel": "I accept the <terms>Terms of Service</terms> and the <privacy>Privacy Policy</privacy>"
   },
   "lobby": {
     "welcome": "Welcome back, {name}",
@@ -388,10 +407,6 @@
       "ownerTooltip": "Room owner",
       "micMuted": "Microphone muted",
       "deafened": "Sound off"
-    },
-    "contributors": {
-      "title": "Contributors",
-      "commits": "{count, plural, one {# commit} other {# commits}}"
     }
   },
   "room": {
@@ -838,7 +853,7 @@
   },
   "downloadApp": {
     "title": "Download Chatovo",
-    "description": "Native app for desktop and Android. Pick your platform.",
+    "description": "Native desktop app. Android lives in RuStore.",
     "loadFailed": "Couldn't load the latest release.",
     "openReleases": "Open releases on GitHub",
     "version": "Version {version}",
@@ -852,7 +867,8 @@
       "macos": "macOS",
       "linux": "Linux",
       "android": "Android"
-    }
+    },
+    "openRustore": "Open in RuStore"
   },
   "update": {
     "title": "Update available",
@@ -913,7 +929,8 @@
         "desktop": "Desktop app",
         "faq": "FAQ"
       },
-      "localeSwitch": "RU"
+      "localeSwitch": "RU",
+      "openApp": "Open the app"
     },
     "hero": {
       "eyebrow": "Voice chat without the setup",
@@ -939,7 +956,8 @@
           "suffix": "",
           "label": "minutes per call"
         }
-      }
+      },
+      "ctaOpenApp": "Open the app"
     },
     "features": {
       "heading": "What Chatovo does",
@@ -1046,12 +1064,18 @@
       "heading": "Your room is waiting",
       "description": "Create it now and share the link — the rest takes care of itself.",
       "action": "Create a room",
-      "note": "Email sign-up · Under a minute"
+      "note": "Email sign-up · Under a minute",
+      "actionOpenApp": "Open the app"
     },
     "footer": {
       "tagline": "Voice and video rooms that just work.",
       "privacy": "Privacy",
       "terms": "Terms"
+    },
+    "contributors": {
+      "heading": "Who built this",
+      "subheading": "Chatovo is open source — thanks to everyone who sent a pull request",
+      "commits": "{count, plural, one {# commit} other {# commits}}"
     }
   },
   "easterEggs": {
@@ -1100,5 +1124,175 @@
       "started": "Quiet in here — starting the music",
       "description": "You're alone in the room"
     }
+  },
+  "moderation": {
+    "title": "Report",
+    "descriptionFor": {
+      "user": "Tell us what this user did. A moderator will review the report.",
+      "message": "Tell us what is wrong with this message. A moderator will review the report.",
+      "room": "Tell us what is wrong with this room. A moderator will review the report."
+    },
+    "descriptionNamed": "Reporting {name}. Describe the violation — a moderator will review it.",
+    "reasonLabel": "Reason",
+    "reasons": {
+      "spam": "Spam or fraud",
+      "harassment": "Harassment or abuse",
+      "hate": "Hate speech",
+      "sexual": "Sexual content",
+      "violence": "Violence or threats",
+      "illegal": "Illegal content",
+      "other": "Other"
+    },
+    "commentLabel": "Comment",
+    "commentPlaceholder": "What happened, in which room and when…",
+    "commentHint": "Optional, but it helps us resolve the report faster.",
+    "submit": "Send report",
+    "sent": "Report sent. Thank you, we will look into it.",
+    "hint": "False reports may lead to restrictions on your own account.",
+    "reportUser": "Report user",
+    "reportMessage": "Report message",
+    "validation": {
+      "abuseCommentMax": "Max 2000 characters",
+      "blockReasonMin": "Min 3 characters",
+      "blockReasonMax": "Max 500 characters"
+    }
+  },
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Moderation, users and service stats",
+    "tabs": {
+      "overview": "Overview",
+      "reports": "Reports",
+      "users": "Users",
+      "rooms": "Rooms"
+    },
+    "stats": {
+      "users": "Users",
+      "online": "Online",
+      "blocked": "Blocked",
+      "admins": "Admins",
+      "newToday": "New today",
+      "newThisWeek": "New this week",
+      "rooms": "Rooms",
+      "roomsGroup": "Group",
+      "roomsDm": "Direct",
+      "roomsPrivate": "Private",
+      "roomsLive": "Live",
+      "messages": "Messages",
+      "messagesToday": "Today: {count}",
+      "messagesWeek": "This week",
+      "reportsPending": "Open reports",
+      "reportsHandled": "Handled",
+      "signups": "Sign-ups",
+      "messagesSeries": "Messages",
+      "chartHint": "Last 14 days",
+      "breakdownHint": "Rooms by type",
+      "roomsBreakdown": "Rooms breakdown",
+      "roomsLiveHint": "Live: {count}",
+      "messagesTodayHint": "Today: {count}",
+      "newTodayHint": "New today: {count}",
+      "groupPeople": "People",
+      "groupRooms": "Rooms",
+      "groupActivity": "Activity"
+    },
+    "reports": {
+      "pending": "Open",
+      "handled": "Handled",
+      "empty": "No reports",
+      "emptyHint": "Reports from users will show up here.",
+      "resolve": "Mark handled",
+      "resolved": "Report closed",
+      "reporter": "Reported by",
+      "targetUser": "On a user",
+      "targetMessage": "On a message",
+      "targetRoom": "On a room",
+      "inRoom": "in {room}",
+      "noComment": "No comment",
+      "scopeLabel": "Report status"
+    },
+    "users": {
+      "search": "Search by email, name or tag",
+      "empty": "Nobody found",
+      "emptyHint": "Try a different query or filter.",
+      "filters": {
+        "all": "All",
+        "online": "Online",
+        "blocked": "Blocked",
+        "admins": "Admins"
+      },
+      "online": "Online",
+      "blocked": "Blocked",
+      "admin": "Admin",
+      "verified": "Verified",
+      "roomsCount": "Rooms: {count}",
+      "messagesCount": "Messages: {count}",
+      "joined": "Joined {date}",
+      "edit": "Edit",
+      "block": "Block",
+      "unblock": "Unblock",
+      "blocked_toast": "User blocked",
+      "unblocked_toast": "User unblocked",
+      "updated": "Changes saved",
+      "total": "Total: {count}",
+      "details": "Details",
+      "messagesTitle": "User messages",
+      "messagesEmpty": "No messages",
+      "deletedMessage": "Message deleted",
+      "edited": "edited",
+      "ownedRooms": "Rooms",
+      "reportsAgainst": "Reports against",
+      "reportsFiled": "Reports filed",
+      "sessions": "Active sessions",
+      "lastMessage": "Last message",
+      "never": "never",
+      "overview": "Overview",
+      "filterLabel": "User filter"
+    },
+    "editUser": {
+      "title": "Edit user",
+      "description": "Profile and permissions. Email is changed by the user only.",
+      "displayName": "Display name",
+      "bio": "Bio",
+      "profileUrl": "Link",
+      "verified": "Verified account",
+      "role": "Role",
+      "roleAdmin": "Administrator",
+      "roleUser": "User",
+      "submit": "Save"
+    },
+    "blockUser": {
+      "title": "Block {name}?",
+      "description": "They lose access to sign-in, rooms and voice. Sessions are closed.",
+      "reason": "Reason",
+      "reasonPlaceholder": "What did they do…",
+      "submit": "Block"
+    },
+    "rooms": {
+      "search": "Search by name",
+      "empty": "No rooms",
+      "emptyHint": "Try a different query.",
+      "owner": "Owner",
+      "private": "Private",
+      "password": "Password",
+      "dm": "Direct",
+      "messages": "Messages: {count}",
+      "live": "Live: {count}",
+      "delete": "Delete room",
+      "deleteTitle": "Delete room \"{name}\"?",
+      "deleteDescription": "The room and its whole history are removed for good.",
+      "deleted": "Room deleted",
+      "total": "Total: {count}"
+    },
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next",
+      "page": "Page {page}"
+    },
+    "denied": {
+      "title": "No access",
+      "description": "This section is for administrators only."
+    },
+    "cancel": "Cancel",
+    "backToLobby": "Back to lobby"
   }
 }

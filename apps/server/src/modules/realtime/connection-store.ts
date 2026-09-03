@@ -135,6 +135,24 @@ export const sendToUser = (userId: string, message: RealtimeServerMessage): void
   }
 };
 
+export const closeUserConnections = (userId: string, code: number, reason: string): void => {
+  const userConnections = byUser.get(userId);
+
+  if (!userConnections) {
+    return;
+  }
+
+  for (const connectionId of userConnections) {
+    const connection = connections.get(connectionId);
+
+    if (connection) {
+      try {
+        connection.ws.close(code, reason);
+      } catch {}
+    }
+  }
+};
+
 export const hasUserConnection = (userId: string): boolean => {
   const userConnections = byUser.get(userId);
 
@@ -148,6 +166,8 @@ export const markConnectionAlive = (ws: WebSocket): void => {
     connection.isAlive = true;
   }
 };
+
+export const listOnlineUserIds = (): string[] => [...byUser.keys()];
 
 export const listConnections = (): RealtimeConnection[] => [...connections.values()];
 

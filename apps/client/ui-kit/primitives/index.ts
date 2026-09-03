@@ -3,6 +3,7 @@ export * from './Avatar';
 export * from './Badge';
 export * from './BannerPattern';
 export * from './Button';
+export * from './Checkbox';
 export * from './ContextMenu';
 export * from './Dialog';
 export * from './DropdownMenu';

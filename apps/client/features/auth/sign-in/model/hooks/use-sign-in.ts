@@ -1,12 +1,8 @@
 import type { SignInValues } from '@chatovo/schemas';
 
-import { signInSchema } from '@chatovo/schemas';
 import { useMutation } from '@tanstack/react-query';
 
 import { authClient, unwrapAuth } from '@/shared/api';
-
-export type { SignInValues };
-export { signInSchema };
 
 export const useSignIn = () =>
   useMutation({

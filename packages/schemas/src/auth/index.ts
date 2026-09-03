@@ -16,6 +16,7 @@ export type {
   ProfileValues,
   ResetPasswordValues,
   SignInValues,
+  SignUpFormValues,
   SignUpValues,
   UpdateProfileInput,
   UserRole

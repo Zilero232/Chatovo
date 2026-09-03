@@ -1,4 +1,4 @@
-export type DownloadPlatform = 'android' | 'linux' | 'macos' | 'windows';
+export type DownloadPlatform = 'linux' | 'macos' | 'windows';
 
 export type ReleaseAsset = {
   downloadUrl: string;

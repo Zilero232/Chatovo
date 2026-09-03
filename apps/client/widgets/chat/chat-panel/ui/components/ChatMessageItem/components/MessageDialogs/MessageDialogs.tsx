@@ -1,5 +1,7 @@
 'use client';
 
+import { ReportAbuseDialog } from '@/features/social/report-abuse';
+
 import { useChatMessage } from '../../../../../model/contexts';
 import { DeleteMessageDialog } from '../DeleteMessageDialog';
 import { EditMessageDialog } from '../EditMessageDialog';
@@ -11,6 +13,9 @@ export const MessageDialogs = () => {
     setIsEditing,
     isConfirmingDelete,
     setIsConfirmingDelete,
+    isReportingAbuse,
+    setIsReportingAbuse,
+    author,
     saveEdit,
     confirmDelete
   } = useChatMessage();
@@ -29,6 +34,14 @@ export const MessageDialogs = () => {
         open={isConfirmingDelete}
         onConfirm={confirmDelete}
         onOpenChange={setIsConfirmingDelete}
+      />
+
+      <ReportAbuseDialog
+        open={isReportingAbuse}
+        target='message'
+        targetId={message.id}
+        targetName={author}
+        onOpenChange={setIsReportingAbuse}
       />
     </>
   );

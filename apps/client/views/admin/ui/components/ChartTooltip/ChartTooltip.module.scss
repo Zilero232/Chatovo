@@ -1,0 +1,21 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: rem(10);
+  background: var(--popover);
+  box-shadow: 0 rem(8) rem(24) oklch(0% 0 0deg / 45%);
+  font-size: 0.75rem;
+  gap: 0.125rem;
+}
+
+.date {
+  color: var(--muted-foreground);
+}
+
+.value {
+  font-variant-numeric: tabular-nums;
+}

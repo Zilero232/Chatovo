@@ -8,6 +8,7 @@ import { extname } from 'node:path';
 
 import { bindDomainEventEmitter } from './common/events/emit-domain-event';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
+import { BlockedUserGuard } from './common/guards';
 import { AppConfigModule } from './config/config.module';
 import { INLINE_IMAGE_EXTENSIONS } from './config/uploads';
 import { env, PrismaModule } from './core';
@@ -18,6 +19,7 @@ import { FriendsModule } from './modules/friends';
 import { GithubModule } from './modules/github';
 import { HealthModule } from './modules/health';
 import { LivekitModule } from './modules/livekit';
+import { ModerationModule } from './modules/moderation';
 import { NotificationsModule } from './modules/notifications';
 import { PushModule } from './modules/push';
 import { RealtimeModule } from './modules/realtime';
@@ -69,12 +71,14 @@ import { UsersModule } from './modules/users';
     FeedbackModule,
     GithubModule,
     LivekitModule,
+    ModerationModule,
     PushModule,
     RealtimeModule
   ],
   providers: [
     { provide: APP_FILTER, useClass: AllExceptionsFilter },
-    { provide: APP_GUARD, useClass: ThrottlerGuard }
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
+    { provide: APP_GUARD, useClass: BlockedUserGuard }
   ]
 })
 export class AppModule {

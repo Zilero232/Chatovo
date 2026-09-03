@@ -1,5 +1,8 @@
 'use client';
 
+import type { ForgotPasswordValues } from '@chatovo/schemas';
+
+import { forgotPasswordSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
@@ -8,10 +11,9 @@ import { toast } from 'sonner';
 import { useErrorMessage, useFieldError } from '@/entities/app/locale';
 import { FormField, Input, Stack, SubmitButton } from '@/ui-kit';
 
-import type { ForgotPasswordValues } from '../model/hooks';
 import type { ForgotPasswordFormProps } from './ForgotPasswordForm.types';
 
-import { forgotPasswordSchema, useForgotPassword } from '../model/hooks';
+import { useForgotPassword } from '../model/hooks';
 
 import s from './ForgotPasswordForm.module.scss';
 

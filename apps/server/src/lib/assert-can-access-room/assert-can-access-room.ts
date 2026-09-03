@@ -7,11 +7,14 @@ import { RoomKind } from '../../../generated';
 import { AppForbiddenException, AppNotFoundException } from '../../common/exceptions';
 import { basePrisma as prisma } from '../../core';
 import { hasRoomGrant } from '../../modules/livekit';
+import { assertNotBlocked } from '../assert-not-blocked';
 
 export const assertCanAccessRoom = async ({
   roomId,
   userId
 }: AssertCanAccessRoomInput): Promise<void> => {
+  await assertNotBlocked(userId);
+
   const room = await prisma.room.findUnique({
     where: { id: roomId },
     select: { kind: true, isPrivate: true, ownerId: true, dmUserAId: true, dmUserBId: true }

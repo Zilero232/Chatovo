@@ -22,6 +22,7 @@ export const useChatMessageItem = ({
 }: UseChatMessageItemArgs) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [isReportingAbuse, setIsReportingAbuse] = useState(false);
 
   const author = message.from?.name || message.from?.identity || 'Guest';
   const identity = message.from?.identity ?? author;
@@ -34,12 +35,15 @@ export const useChatMessageItem = ({
   const isUnsent = Boolean(message.status);
   const isEdited = Boolean(message.editedAt) && !isDeleted;
   const canEdit = canManage && isOwn && !isDeleted && !attachment && !isUnsent;
+  const canReport = !isOwn && !isDeleted && !isUnsent;
 
   return {
     isEditing,
     setIsEditing,
     isConfirmingDelete,
     setIsConfirmingDelete,
+    isReportingAbuse,
+    setIsReportingAbuse,
     author,
     identity,
     verified,
@@ -48,8 +52,10 @@ export const useChatMessageItem = ({
     attachment,
     isEdited,
     canEdit,
+    canReport,
     showHeader: !isGrouped,
     showActions: canManage && isOwn && !isDeleted && !isEditing && !isUnsent,
-    startEdit: () => setIsEditing(true)
+    startEdit: () => setIsEditing(true),
+    reportAbuse: () => setIsReportingAbuse(true)
   };
 };

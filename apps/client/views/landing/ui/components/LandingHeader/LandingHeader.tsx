@@ -4,11 +4,12 @@ import Link from 'next/link';
 
 import { SITE } from '@/shared/config';
 import { ROUTES } from '@/shared/constants';
-import { BrandMark, Button, Text } from '@/ui-kit';
+import { BrandMark, Text } from '@/ui-kit';
 
 import type { LandingSectionProps } from '../../LandingPage.types';
 
 import { LANDING_LOCALE_SWITCH, LANDING_NAV_KEYS } from '../../../config';
+import { LandingAuthCta } from '../LandingAuthCta/LandingAuthCta';
 import { LandingHeaderShell } from './LandingHeaderShell';
 
 import s from '../../LandingPage.module.scss';
@@ -39,9 +40,11 @@ export const LandingHeader = async ({ locale }: LandingSectionProps) => {
           {t('localeSwitch')}
         </Link>
 
-        <Button className={s.headerCta} href={ROUTES.auth} size='sm'>
-          {t('signIn')}
-        </Button>
+        <LandingAuthCta
+          className={s.headerCta}
+          openAppLabel={t('openApp')}
+          signInLabel={t('signIn')}
+        />
       </div>
     </LandingHeaderShell>
   );

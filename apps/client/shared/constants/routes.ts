@@ -9,6 +9,7 @@ export const ROUTES = {
   auth: AUTH_PATH,
   resetPassword: `${AUTH_PATH}/reset-password`,
   room: '/room',
+  admin: '/admin',
   privacy: '/privacy',
   terms: '/terms'
 } as const;

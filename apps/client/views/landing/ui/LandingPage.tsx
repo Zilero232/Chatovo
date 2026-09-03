@@ -2,6 +2,7 @@ import type { LandingPageProps } from './LandingPage.types';
 
 import {
   LandingBackground,
+  LandingContributors,
   LandingDesktop,
   LandingFaq,
   LandingFeatures,
@@ -28,6 +29,7 @@ export const LandingPage = ({ locale }: LandingPageProps) => (
       <LandingSteps locale={locale} />
       <LandingDesktop locale={locale} />
       <LandingFaq locale={locale} />
+      <LandingContributors locale={locale} />
       <LandingFinalCta locale={locale} />
     </main>
 

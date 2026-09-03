@@ -18,4 +18,3 @@ export const CONTRIBUTORS_CACHE_TTL_MS = hoursToMilliseconds(6);
 export const UNIFIED_TAG_RE = /^v\d+\.\d+\.\d+$/;
 
 export const DESKTOP_TAG_PREFIXES = ['desktop-v', 'app-v'] as const;
-export const MOBILE_TAG_PREFIXES = ['mobile-v', 'android-v'] as const;

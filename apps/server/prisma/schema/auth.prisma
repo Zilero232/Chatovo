@@ -9,6 +9,10 @@ model User {
   role     String  @default("user")
   verified Boolean @default(false)
 
+  blockedAt     DateTime? @map("blocked_at") @db.Timestamptz(3)
+  blockedReason String?   @map("blocked_reason")
+  blockedById   String?   @map("blocked_by_id")
+
   sessions Session[]
   accounts Account[]
   profile  Profile?
@@ -23,10 +27,14 @@ model User {
   friendshipsRequested Friendship[] @relation("FriendshipRequester")
   friendshipsReceived  Friendship[] @relation("FriendshipAddressee")
 
+  abuseReportsFiled   AbuseReport[] @relation("AbuseReporter")
+  abuseReportsHandled AbuseReport[] @relation("AbuseHandler")
+
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @db.Timestamptz(3)
 
   @@index([createdAt(sort: Desc)])
+  @@index([blockedAt])
   @@map("user")
 }
 

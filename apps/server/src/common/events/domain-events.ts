@@ -8,10 +8,21 @@ export const DomainEvent = {
   VoiceJoined: 'voice.joined',
   VoiceEmptied: 'voice.emptied',
   CallRinging: 'call.ringing',
-  DmMessageSent: 'dm.message-sent'
+  DmMessageSent: 'dm.message-sent',
+  AbuseReported: 'abuse.reported',
+  UserBlocked: 'user.blocked'
 } as const;
 
 export type DomainEventPayloads = {
+  [DomainEvent.AbuseReported]: {
+    reportId: string;
+    reporter: string;
+    target: string;
+    targetId: string;
+    reason: string;
+    comment?: string;
+    roomName?: string;
+  };
   [DomainEvent.CallRinging]: {
     calleeId: string;
     caller: FriendUser;
@@ -38,6 +49,13 @@ export type DomainEventPayloads = {
     roomName: string;
     ownerName: string;
   };
+  [DomainEvent.UserBlocked]: {
+    userId: string;
+    userName: string;
+    email: string;
+    reason: string;
+    blockedBy: string;
+  };
   [DomainEvent.UserSignedUp]: {
     name: string;
     email: string;
@@ -60,3 +78,5 @@ export type VoiceJoinedEvent = DomainEventPayloads[typeof DomainEvent.VoiceJoine
 export type VoiceEmptiedEvent = DomainEventPayloads[typeof DomainEvent.VoiceEmptied];
 export type CallRingingEvent = DomainEventPayloads[typeof DomainEvent.CallRinging];
 export type DmMessageSentEvent = DomainEventPayloads[typeof DomainEvent.DmMessageSent];
+export type AbuseReportedEvent = DomainEventPayloads[typeof DomainEvent.AbuseReported];
+export type UserBlockedEvent = DomainEventPayloads[typeof DomainEvent.UserBlocked];

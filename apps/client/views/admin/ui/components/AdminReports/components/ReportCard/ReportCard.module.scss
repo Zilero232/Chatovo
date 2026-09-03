@@ -1,0 +1,28 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  padding: 1rem 1.125rem;
+
+  @include surface-card;
+}
+
+.head {
+  justify-content: flex-start;
+}
+
+.date {
+  margin-left: auto;
+}
+
+.quote {
+  padding: 0.5rem 0.75rem;
+  border-left: 2px solid oklch(100% 0 0deg / 20%);
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+}
+
+.foot {
+  justify-content: space-between;
+}

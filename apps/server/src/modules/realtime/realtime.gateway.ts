@@ -6,9 +6,10 @@ import type { WebSocket } from 'ws';
 import { Logger } from '@nestjs/common';
 import { WebSocketGateway } from '@nestjs/websockets';
 
+import { isUserBlocked } from '../../lib';
 import { clearFriendsEpoch, FriendshipService, getUserCallSnapshot } from '../friends';
 import { addLobbyConnection, getSnapshot, removeLobbyConnection } from '../livekit';
-import { HEARTBEAT_INTERVAL_MS } from './config';
+import { BLOCKED_WS_CLOSE_CODE, HEARTBEAT_INTERVAL_MS } from './config';
 import {
   getConnectionByWs,
   hasUserConnection,
@@ -58,6 +59,12 @@ export class RealtimeGateway
 
     if (!userId) {
       client.close(4401, 'Unauthorized');
+
+      return;
+    }
+
+    if (await isUserBlocked(userId)) {
+      client.close(BLOCKED_WS_CLOSE_CODE, 'Account blocked');
 
       return;
     }
