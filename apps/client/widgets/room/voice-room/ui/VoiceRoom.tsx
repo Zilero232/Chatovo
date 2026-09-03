@@ -15,7 +15,7 @@ import { ChatPanel } from '@/widgets/chat/chat-panel';
 
 import type { VoiceRoomProps } from './VoiceRoom.types';
 
-import { LocalSpeakingProvider, SessionStatsProvider } from '../model/contexts';
+import { LocalSpeakingProvider } from '../model/contexts';
 import { useRoomConnection } from '../model/hooks';
 import {
   ConnectingOverlay,
@@ -65,35 +65,29 @@ export const VoiceRoom = ({
           onDisconnected={handleDisconnected}
         >
           <LocalSpeakingProvider>
-            <SessionStatsProvider>
-              <DeafenProvider>
-                <ReactionsProvider roomId={roomId}>
-                  <RoomHeader isDm={isDm} name={roomName} />
+            <DeafenProvider>
+              <ReactionsProvider roomId={roomId}>
+                <RoomHeader isDm={isDm} name={roomName} />
 
-                  <div className={s.body}>
-                    <RoomAmbience />
-                    <ParticipantsView isDm={isDm} />
-                    <ReactionsOverlay />
-                    <ConnectingOverlay roomName={roomName} />
-                  </div>
+                <div className={s.body}>
+                  <RoomAmbience />
+                  <ParticipantsView isDm={isDm} />
+                  <ReactionsOverlay />
+                  <ConnectingOverlay roomName={roomName} />
+                </div>
 
-                  <RoomControlsBar
-                    isChatOpen={isChatOpen}
-                    isDm={isDm}
-                    onToggleChat={() => toggleChat()}
-                  />
+                <RoomControlsBar
+                  isChatOpen={isChatOpen}
+                  isDm={isDm}
+                  onToggleChat={() => toggleChat()}
+                />
 
-                  <ChatPanel
-                    isOpen={isChatOpen}
-                    roomId={roomId}
-                    onClose={() => toggleChat(false)}
-                  />
+                <ChatPanel isOpen={isChatOpen} roomId={roomId} onClose={() => toggleChat(false)} />
 
-                  <RoomAudio />
-                  <RoomControllers />
-                </ReactionsProvider>
-              </DeafenProvider>
-            </SessionStatsProvider>
+                <RoomAudio />
+                <RoomControllers />
+              </ReactionsProvider>
+            </DeafenProvider>
           </LocalSpeakingProvider>
         </LiveKitRoom>
       </div>
