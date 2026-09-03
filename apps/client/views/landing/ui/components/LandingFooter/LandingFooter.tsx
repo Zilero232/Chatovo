@@ -3,8 +3,8 @@ import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 
 import { SITE } from '@/shared/config';
-import { ROUTES } from '@/shared/constants';
-import { BrandMark, Text } from '@/ui-kit';
+import { EXTERNAL_LINKS, ROUTES } from '@/shared/constants';
+import { BrandMark, GithubIcon, Text } from '@/ui-kit';
 
 import type { LandingSectionProps } from '../../LandingPage.types';
 
@@ -37,6 +37,15 @@ export const LandingFooter = async ({ locale }: LandingSectionProps) => {
         <Link className={s.footerLink} href={ROUTES.terms}>
           {t('terms')}
         </Link>
+        <a
+          className={s.footerLink}
+          href={EXTERNAL_LINKS.repository}
+          rel='noopener noreferrer'
+          target='_blank'
+        >
+          <GithubIcon className={s.footerLinkIcon} />
+          {t('github')}
+        </a>
         <Text size='sm' tone='muted'>
           © {buildYear} {SITE.name}
         </Text>

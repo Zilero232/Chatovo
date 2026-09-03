@@ -14,6 +14,7 @@ export {
   addLobbyConnection,
   addParticipant,
   clearRoom,
+  getAdminSnapshot,
   getSnapshot,
   patchParticipant,
   removeLobbyConnection,
@@ -51,9 +52,14 @@ export const syncRoom = async (roomId: string) => {
   try {
     const live = await roomService.listParticipants(roomId);
     const participants = new Map<string, RoomParticipant>(
-      live
-        .filter((p) => !p.permission?.hidden && !isInvisibleParticipant(p.metadata))
-        .map((p) => [p.identity, toRoomParticipant(p)])
+      live.map((participant) => [
+        participant.identity,
+        toRoomParticipant({
+          participant,
+          invisible:
+            Boolean(participant.permission?.hidden) || isInvisibleParticipant(participant.metadata)
+        })
+      ])
     );
 
     replaceRoom(roomId, participants);

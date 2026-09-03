@@ -1,6 +1,6 @@
 import type { UserProfile } from '@chatovo/schemas';
 
-import { AVATAR_MAX_BYTES, userRoleSchema } from '@chatovo/schemas';
+import { AVATAR_MAX_BYTES, USER_ROLE } from '@chatovo/schemas';
 import { Injectable } from '@nestjs/common';
 import { extension } from 'mime-types';
 
@@ -15,8 +15,6 @@ import { PrismaService } from '../../../core';
 import { ensureUserFriendTag, getUserWithProfileOrThrow } from '../../../lib';
 import { saveUpload, toArrayBuffer } from '../../uploads';
 import { toUserProfile } from '../profile';
-
-const USER_ROLE = userRoleSchema.enum;
 
 @Injectable()
 export class UsersService {

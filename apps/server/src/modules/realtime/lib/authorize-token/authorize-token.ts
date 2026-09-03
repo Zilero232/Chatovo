@@ -1,6 +1,13 @@
 import { auth } from '../../../auth/auth';
 
-export const authorizeToken = async (token: string | null): Promise<string | null> => {
+export type AuthorizedRealtimeUser = {
+  isAdmin: boolean;
+  userId: string;
+};
+
+export const authorizeToken = async (
+  token: string | null
+): Promise<AuthorizedRealtimeUser | null> => {
   if (!token) {
     return null;
   }
@@ -9,5 +16,9 @@ export const authorizeToken = async (token: string | null): Promise<string | nul
     headers: new Headers({ Authorization: `Bearer ${token}` })
   });
 
-  return session?.user.id ?? null;
+  if (!session) {
+    return null;
+  }
+
+  return { userId: session.user.id, isAdmin: session.user.role === 'admin' };
 };

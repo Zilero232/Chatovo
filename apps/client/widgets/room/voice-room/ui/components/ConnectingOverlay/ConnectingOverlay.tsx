@@ -39,9 +39,11 @@ export const ConnectingOverlay = ({ roomName }: ConnectingOverlayProps) => {
       {text !== null && (
         <motion.div
           animate={{ opacity: 1 }}
+          aria-atomic='true'
           className={s.root}
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
+          role='status'
           transition={OVERLAY_TRANSITION}
         >
           <motion.div

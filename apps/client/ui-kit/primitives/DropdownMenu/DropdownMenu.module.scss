@@ -67,6 +67,12 @@
   }
 }
 
+.checkboxItem {
+  &[data-checked] svg {
+    color: currentcolor;
+  }
+}
+
 .radioItem {
   position: relative;
   display: flex;

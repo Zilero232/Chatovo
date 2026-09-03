@@ -6,7 +6,7 @@ import { isNullish } from 'remeda';
 import type { AudioSettings, MicActivationMode } from '@/entities/app/settings';
 
 import { useAppSettings } from '@/entities/app/settings';
-import { isTauriDesktop } from '@/shared/lib';
+import { useIsTauriDesktop } from '@/shared/hooks';
 
 import type { AudioTabProps } from './AudioTab.types';
 
@@ -25,8 +25,9 @@ export const AudioTab = ({ onJumpToShortcuts }: AudioTabProps) => {
   const t = useTranslations('settings.audio');
   const { settings, setGroup } = useAppSettings();
 
+  const isDesktop = useIsTauriDesktop();
+
   const audio = settings.audio;
-  const isDesktop = isTauriDesktop();
   const pttBindingMissing =
     audio.activationMode === 'pushToTalk' && isNullish(settings.shortcuts.pttHold);
 

@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 export const userRoleSchema = z.enum(['admin', 'user']);
 
+export const USER_ROLE = userRoleSchema.enum;
+
 const emailSchema = z.email('validation.emailInvalid').trim().toLowerCase();
 const passwordSchema = z.string().min(8, 'validation.passwordMin');
 export const displayNameSchema = z

@@ -71,7 +71,7 @@ export const ReportAbuseForm = ({ target, targetId, onSent }: ReportAbuseFormPro
               {REASONS.map((reason) => (
                 <Label key={reason} className={s.reason} htmlFor={`abuse-reason-${reason}`}>
                   <RadioGroupItem id={`abuse-reason-${reason}`} value={reason} />
-                  {t(`reasons.${reason}`)}
+                  <span className={s.reasonLabel}>{t(`reasons.${reason}`)}</span>
                 </Label>
               ))}
             </RadioGroup>

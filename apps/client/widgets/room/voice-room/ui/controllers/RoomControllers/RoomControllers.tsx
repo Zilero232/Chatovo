@@ -1,6 +1,7 @@
 'use client';
 
 import { DeafenSyncController } from '../DeafenSyncController/DeafenSyncController';
+import { InvisibleNoticeController } from '../InvisibleNoticeController';
 import { LocalSpeakingController } from '../LocalSpeakingController/LocalSpeakingController';
 import { MicActivationController } from '../MicActivationController/MicActivationController';
 import { MicStateController } from '../MicStateController/MicStateController';
@@ -9,7 +10,6 @@ import { RoomEasterEggsController } from '../RoomEasterEggsController/RoomEaster
 import { RoomRealtimeSubscribe } from '../RoomRealtimeSubscribe/RoomRealtimeSubscribe';
 import { RoomSoundsController } from '../RoomSoundsController/RoomSoundsController';
 import { RoomTrayController } from '../RoomTrayController/RoomTrayController';
-import { SessionStatsController } from '../SessionStatsController/SessionStatsController';
 import { ShortcutActionsController } from '../ShortcutActionsController/ShortcutActionsController';
 
 export const RoomControllers = () => (
@@ -20,10 +20,10 @@ export const RoomControllers = () => (
     <ShortcutActionsController />
     <MicActivationController />
     <LocalSpeakingController />
-    <SessionStatsController />
     <MicStateController />
     <RoomSoundsController />
     <DeafenSyncController />
     <RoomEasterEggsController />
+    <InvisibleNoticeController />
   </>
 );

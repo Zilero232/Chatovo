@@ -458,11 +458,15 @@
       "undeafen": "Включить звук",
       "speakerDevice": "Выбрать колонки",
       "pttHint": "Push-to-talk",
-      "leave": "Выйти"
+      "leave": "Выйти",
+      "invisibleMicBlocked": "В режиме невидимки нельзя говорить"
     },
     "dmWaiting": "Ожидаем собеседника…",
     "expandVideo": "Развернуть видео",
-    "collapseVideo": "Свернуть видео"
+    "collapseVideo": "Свернуть видео",
+    "invisibleBadge": "В невидимке",
+    "invisibleNotice": "Вы в комнате скрытно: вас не видно и не слышно",
+    "invisibleSwitching": "Переподключение — режим невидимки изменён"
   },
   "chat": {
     "title": "Чат",
@@ -512,10 +516,7 @@
     "volume": "Громкость",
     "volumeFor": "Громкость {name}",
     "copyName": "Скопировать имя",
-    "nameCopied": "Имя скопировано",
-    "sessionStats": "Сессия",
-    "inRoomFor": "В комнате",
-    "spokeFor": "Говорил"
+    "nameCopied": "Имя скопировано"
   },
   "profileCard": {
     "inVoice": "В голосовом чате",
@@ -621,8 +622,6 @@
     "downloadAppLabel": "Скачать приложение",
     "checkUpdate": "Проверить обновления",
     "checkUpdateLabel": "Проверить обновления приложения",
-    "github": "GitHub",
-    "githubLabel": "Открыть проект на GitHub",
     "gnomeVpn": "GnomeVPN",
     "gnomeVpnLabel": "Открыть сайт GnomeVPN",
     "logout": "Выйти",
@@ -770,7 +769,9 @@
       "closeToTray": "Сворачивать в трей при закрытии",
       "closeToTrayHint": "Кнопка закрытия скрывает приложение в системный трей. Выключите, чтобы выходить при закрытии. Пункт «Выйти» в меню трея всегда завершает работу.",
       "invisibleMode": "Режим невидимки",
-      "invisibleModeHint": "Заходите в любую комнату скрытно: без пароля, вас не видят и не слышат."
+      "invisibleModeHint": "Заходите в любую комнату скрытно: без пароля, вас не видят и не слышат.",
+      "invisibleModeOn": "Невидимка включена",
+      "invisibleModeOff": "Невидимка выключена"
     },
     "shortcuts": {
       "webNotice": "В браузере пока нельзя настроить hotkeys. <link>Скачайте</link> desktop-приложение.",
@@ -1070,7 +1071,8 @@
     "footer": {
       "tagline": "Голосовые и видеокомнаты, которые просто работают.",
       "privacy": "Конфиденциальность",
-      "terms": "Условия использования"
+      "terms": "Условия использования",
+      "github": "GitHub"
     },
     "contributors": {
       "heading": "Кто это сделал",
@@ -1293,6 +1295,8 @@
       "description": "Раздел доступен только администраторам."
     },
     "cancel": "Отмена",
-    "backToLobby": "Вернуться в лобби"
+    "backToLobby": "Вернуться в лобби",
+    "menuLabel": "Меню админа",
+    "openPanel": "Админ-панель"
   }
 }

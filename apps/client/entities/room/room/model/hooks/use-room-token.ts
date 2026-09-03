@@ -18,7 +18,7 @@ export const useRoomToken = (roomId: string | null, { isPrivate, password }: Opt
   const invisible = isAdmin && settings.system.invisibleMode;
 
   return useQuery({
-    queryKey: QUERY_KEYS.livekitToken(roomId, password),
+    queryKey: QUERY_KEYS.livekitToken(roomId, password, invisible),
     queryFn: () => fetchLiveKitToken({ roomId: roomId as string, password, invisible }),
     select: ({ token }) => token,
     enabled: isNonNullish(roomId) && (invisible || !isPrivate || isNonNullish(password)),

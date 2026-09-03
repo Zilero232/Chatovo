@@ -56,16 +56,22 @@ export class WebhookService {
 
     await match(event.event)
       .with('participant_joined', async () => {
-        if (participant && !isInvisibleParticipant(participant.metadata)) {
+        if (participant) {
           const name = participant.name || participant.identity;
+          const invisible = isInvisibleParticipant(participant.metadata);
 
           addParticipant(roomId, {
             identity: participant.identity,
             name,
             micMuted: isMicMuted(participant.tracks),
             deafened: participant.attributes?.deafened === 'true',
+            invisible,
             ...parseParticipantMeta(participant.metadata)
           });
+
+          if (invisible) {
+            return;
+          }
 
           const roomName = await getRoomName(roomId);
 
@@ -77,7 +83,7 @@ export class WebhookService {
         }
       })
       .with('participant_left', () => {
-        if (participant && !isInvisibleParticipant(participant.metadata)) {
+        if (participant) {
           removeParticipant(roomId, participant.identity);
         }
       })

@@ -1,12 +1,17 @@
 import type { RoomParticipant } from '@chatovo/schemas';
-import type { ParticipantInfo } from 'livekit-server-sdk';
+
+import type { ToRoomParticipantInput } from './livekit.types';
 
 import { isMicMuted, parseParticipantMeta } from './presence';
 
-export const toRoomParticipant = (p: ParticipantInfo): RoomParticipant => ({
-  identity: p.identity,
-  name: p.name || p.identity,
-  micMuted: isMicMuted(p.tracks),
-  deafened: p.attributes?.deafened === 'true',
-  ...parseParticipantMeta(p.metadata)
+export const toRoomParticipant = ({
+  participant,
+  invisible
+}: ToRoomParticipantInput): RoomParticipant => ({
+  identity: participant.identity,
+  name: participant.name || participant.identity,
+  micMuted: isMicMuted(participant.tracks),
+  deafened: participant.attributes?.deafened === 'true',
+  invisible,
+  ...parseParticipantMeta(participant.metadata)
 });

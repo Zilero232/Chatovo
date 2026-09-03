@@ -10,9 +10,10 @@ export const VOICE_GATE_MANUAL_RANGE = 0.5;
 export const VOICE_GATE_TICK_MS = 20;
 
 const HANGOVER_MS = 280;
-const NOISE_FLOOR_RISE = 0.06;
-const NOISE_FLOOR_FALL = 0.015;
-const AUTO_MARGIN = 0.025;
+const NOISE_FLOOR_RISE = 0.004;
+const NOISE_FLOOR_FALL = 0.05;
+const NOISE_FLOOR_MAX = 0.12;
+const AUTO_MARGIN = 0.02;
 
 export class VoiceGateDetector {
   private openUntil = 0;
@@ -28,8 +29,16 @@ export class VoiceGateDetector {
   }
 
   step(level: number, params: VoiceGateParams, now = performance.now()) {
-    const rate = level < this.noiseFloor ? NOISE_FLOOR_FALL : NOISE_FLOOR_RISE;
-    this.noiseFloor += (level - this.noiseFloor) * rate;
+    const wasOpen = now < this.openUntil;
+
+    if (!wasOpen || level < this.noiseFloor) {
+      const rate = level < this.noiseFloor ? NOISE_FLOOR_FALL : NOISE_FLOOR_RISE;
+
+      this.noiseFloor = clamp(this.noiseFloor + (level - this.noiseFloor) * rate, {
+        min: 0,
+        max: NOISE_FLOOR_MAX
+      });
+    }
 
     const threshold = params.autoSensitivity
       ? clamp(this.noiseFloor + AUTO_MARGIN, { min: 0, max: 1 })

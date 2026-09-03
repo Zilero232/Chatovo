@@ -1,5 +1,6 @@
 import type { ParticipantMetadata, TokenResponse } from '@chatovo/schemas';
 
+import { USER_ROLE } from '@chatovo/schemas';
 import { Injectable } from '@nestjs/common';
 import { AccessToken } from 'livekit-server-sdk';
 import { isNullish } from 'remeda';
@@ -28,10 +29,20 @@ export class LivekitService {
   ) {}
 
   async issueRoomToken(input: IssueTokenInput): Promise<TokenResponse> {
-    const { roomId, password, userId, isAdmin, invisible } = input;
+    const { roomId, password, userId, invisible } = input;
 
     await assertNotBlocked(userId);
 
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: { profile: true }
+    });
+
+    if (isNullish(user)) {
+      throw new AppInternalException('INTERNAL_ERROR', 'User lookup failed');
+    }
+
+    const isAdmin = user.role === USER_ROLE.admin;
     const isInvisible = resolveInvisible({ requested: invisible, isAdmin });
 
     const room = await this.prisma.room.findUnique({ where: { id: roomId } });
@@ -45,19 +56,10 @@ export class LivekitService {
     }
 
     if (!isInvisible) {
-      assertRoomAccess({ room, password });
+      await assertRoomAccess({ room, password });
     }
 
     grantRoomAccess(room.id, userId);
-
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-      include: { profile: true }
-    });
-
-    if (isNullish(user)) {
-      throw new AppInternalException('INTERNAL_ERROR', 'User lookup failed');
-    }
 
     const { name, verified, developer, profileUrl, avatarUrl, bannerColor } = toUserProfile(user);
 

@@ -1,10 +1,8 @@
-import { userRoleSchema } from '@chatovo/schemas';
+import { USER_ROLE } from '@chatovo/schemas';
 import { isNullish } from 'remeda';
 
 import { AppForbiddenException } from '../../common/exceptions';
 import { basePrisma as prisma } from '../../core';
-
-const USER_ROLE = userRoleSchema.enum;
 
 /** Throws unless the user carries the admin role — the gate for every moderation route. */
 export const assertIsAdmin = async (userId: string): Promise<void> => {

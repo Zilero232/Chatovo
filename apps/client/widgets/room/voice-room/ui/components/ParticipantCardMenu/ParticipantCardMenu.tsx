@@ -20,8 +20,6 @@ import {
 
 import type { ParticipantCardMenuProps } from './ParticipantCardMenu.types';
 
-import { useSessionStats } from '../../../model/contexts';
-import { ParticipantStatsBars } from '../ParticipantStatsBars/ParticipantStatsBars';
 import { ParticipantVolumeControls } from '../ParticipantVolumeControls/ParticipantVolumeControls';
 
 import s from './ParticipantCardMenu.module.scss';
@@ -32,13 +30,11 @@ export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMe
 
   const { user } = useCurrentUser();
 
-  const { read } = useSessionStats();
   const { copy } = useCopy();
 
   const [isReportOpen, setIsReportOpen] = useState(false);
 
   const displayName = participant.name || participant.identity;
-  const stats = read(participant.identity);
   const isSelf = participant.identity === user?.id;
 
   const handleCopyName = async () => {
@@ -56,19 +52,6 @@ export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMe
           <ContextMenuLabel>{displayName}</ContextMenuLabel>
         </ContextMenuGroup>
 
-        {stats && (
-          <>
-            <ContextMenuSeparator />
-
-            <ContextMenuGroup>
-              <ContextMenuLabel>{t('sessionStats')}</ContextMenuLabel>
-              <ParticipantStatsBars stats={stats} />
-            </ContextMenuGroup>
-          </>
-        )}
-
-        <ParticipantVolumeControls displayName={displayName} participant={participant} />
-
         <ContextMenuSeparator />
 
         <ContextMenuItem onSelect={handleCopyName}>
@@ -82,6 +65,8 @@ export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMe
             {tModeration('reportUser')}
           </ContextMenuItem>
         )}
+
+        <ParticipantVolumeControls displayName={displayName} participant={participant} />
       </ContextMenuContent>
 
       <ReportAbuseDialog

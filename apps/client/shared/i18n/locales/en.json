@@ -458,11 +458,15 @@
       "undeafen": "Undeafen",
       "speakerDevice": "Select speakers",
       "pttHint": "Push-to-talk",
-      "leave": "Leave"
+      "leave": "Leave",
+      "invisibleMicBlocked": "You cannot speak in invisible mode"
     },
     "dmWaiting": "Waiting for the other person to join…",
     "expandVideo": "Expand video",
-    "collapseVideo": "Collapse video"
+    "collapseVideo": "Collapse video",
+    "invisibleBadge": "Invisible",
+    "invisibleNotice": "You joined hidden: nobody sees or hears you",
+    "invisibleSwitching": "Reconnecting — invisible mode changed"
   },
   "chat": {
     "title": "Chat",
@@ -512,10 +516,7 @@
     "volume": "Volume",
     "volumeFor": "Volume for {name}",
     "copyName": "Copy name",
-    "nameCopied": "Name copied",
-    "sessionStats": "Session",
-    "inRoomFor": "In room",
-    "spokeFor": "Spoke"
+    "nameCopied": "Name copied"
   },
   "profileCard": {
     "inVoice": "In voice channel",
@@ -621,8 +622,6 @@
     "downloadAppLabel": "Download app",
     "checkUpdate": "Check for updates",
     "checkUpdateLabel": "Check for app updates",
-    "github": "GitHub",
-    "githubLabel": "Open project on GitHub",
     "gnomeVpn": "GnomeVPN",
     "gnomeVpnLabel": "Open GnomeVPN website",
     "logout": "Logout",
@@ -770,7 +769,9 @@
       "closeToTray": "Minimize to tray on close",
       "closeToTrayHint": "Close button hides the app to the system tray. Turn off to quit on close. The tray's Quit menu always exits.",
       "invisibleMode": "Invisible mode",
-      "invisibleModeHint": "Join any room hidden: no password, and nobody sees or hears you."
+      "invisibleModeHint": "Join any room hidden: no password, and nobody sees or hears you.",
+      "invisibleModeOn": "Invisible mode on",
+      "invisibleModeOff": "Invisible mode off"
     },
     "shortcuts": {
       "webNotice": "Custom hotkeys are not supported in the browser yet. To use custom hotkeys, <link>download</link> the desktop app.",
@@ -1070,7 +1071,8 @@
     "footer": {
       "tagline": "Voice and video rooms that just work.",
       "privacy": "Privacy",
-      "terms": "Terms"
+      "terms": "Terms",
+      "github": "GitHub"
     },
     "contributors": {
       "heading": "Who built this",
@@ -1293,6 +1295,8 @@
       "description": "This section is for administrators only."
     },
     "cancel": "Cancel",
-    "backToLobby": "Back to lobby"
+    "backToLobby": "Back to lobby",
+    "menuLabel": "Admin menu",
+    "openPanel": "Admin panel"
   }
 }

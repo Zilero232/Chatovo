@@ -26,7 +26,7 @@ import s from './EditUserDialog.module.scss';
 
 export const EditUserDialog = ({ user, open, onOpenChange }: EditUserDialogProps) => {
   const t = useTranslations('admin');
-  const fieldError = useFieldError('admin');
+  const fieldError = useFieldError('moderation');
 
   const { form, isPending, onSubmit } = useEditUserForm({
     user,

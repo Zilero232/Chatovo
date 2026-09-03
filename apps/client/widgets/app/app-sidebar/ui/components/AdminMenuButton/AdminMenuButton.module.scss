@@ -1,0 +1,38 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.menu {
+  min-width: 13rem;
+}
+
+.trigger {
+  border: 1px solid color-mix(in oklch, var(--brand-violet) 32%, transparent);
+  background: color-mix(in oklch, var(--brand-violet) 12%, transparent);
+  color: var(--brand-violet);
+
+  &:hover {
+    border-color: color-mix(in oklch, var(--brand-violet) 48%, transparent);
+    background: color-mix(in oklch, var(--brand-violet) 20%, transparent);
+  }
+}
+
+.triggerActive {
+  border-color: var(--brand-violet);
+  background: color-mix(in oklch, var(--brand-violet) 26%, transparent);
+  box-shadow: 0 0 rem(16) rem(-4) oklch(70% 0.2 270deg / 60%);
+}
+
+.triggerInvisible {
+  position: relative;
+  color: var(--brand-fuchsia);
+
+  &:after {
+    position: absolute;
+    right: 0.375rem;
+    bottom: 0.375rem;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 9999px;
+    background: var(--brand-fuchsia);
+    content: '';
+  }
+}

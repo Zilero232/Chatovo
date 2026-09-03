@@ -5,6 +5,7 @@ import type { DisconnectReason } from 'livekit-client';
 import { useRef } from 'react';
 
 import { getPublishDefaults, useAppSettings } from '@/entities/app/settings';
+import { useCurrentUser } from '@/entities/auth/user';
 import { useRecentRooms } from '@/entities/room/room';
 
 import type { UseRoomConnectionInput } from './use-room-connection.types';
@@ -17,7 +18,10 @@ export const useRoomConnection = ({
   onLeave
 }: UseRoomConnectionInput) => {
   const { settings } = useAppSettings();
+  const { isAdmin } = useCurrentUser();
   const { push: pushRecent } = useRecentRooms();
+
+  const isInvisible = isAdmin && settings.system.invisibleMode;
 
   const hasConnectedRef = useRef(false);
 
@@ -48,7 +52,8 @@ export const useRoomConnection = ({
   };
 
   return {
-    audioCapture: audioCaptureRef.current,
+    isInvisible,
+    audioCapture: isInvisible ? false : audioCaptureRef.current,
     publishDefaults: publishDefaultsRef.current,
     handleConnected,
     handleDisconnected

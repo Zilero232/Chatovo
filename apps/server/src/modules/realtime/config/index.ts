@@ -1,1 +1,5 @@
-export { BLOCKED_WS_CLOSE_CODE, HEARTBEAT_INTERVAL_MS } from './realtime.config';
+export {
+  BLOCKED_WS_CLOSE_CODE,
+  HEARTBEAT_INTERVAL_MS,
+  ROLE_CHANGED_WS_CLOSE_CODE
+} from './realtime.config';

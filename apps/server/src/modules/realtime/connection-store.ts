@@ -1,7 +1,7 @@
 import type { RealtimeServerMessage } from '@chatovo/schemas';
 import type { WebSocket } from 'ws';
 
-import type { RealtimeConnection } from './realtime.types';
+import type { PresenceSnapshots, RealtimeConnection } from './realtime.types';
 
 import { bindRealtimeBroadcast as bindEmit } from './emit';
 
@@ -58,9 +58,20 @@ export const getConnectionByWs = (ws: WebSocket): RealtimeConnection | null => {
   return null;
 };
 
-export const registerConnection = (userId: string, ws: WebSocket): RealtimeConnection => {
+export const registerConnection = (
+  userId: string,
+  ws: WebSocket,
+  isAdmin: boolean
+): RealtimeConnection => {
   const id = crypto.randomUUID();
-  const connection: RealtimeConnection = { id, userId, ws, rooms: new Set(), isAlive: true };
+  const connection: RealtimeConnection = {
+    id,
+    userId,
+    ws,
+    isAdmin,
+    rooms: new Set(),
+    isAlive: true
+  };
 
   connections.set(id, connection);
 
@@ -68,9 +79,6 @@ export const registerConnection = (userId: string, ws: WebSocket): RealtimeConne
 
   return connection;
 };
-
-export const getConnection = (connectionId: string): RealtimeConnection | null =>
-  connections.get(connectionId) ?? null;
 
 export const unregisterConnection = (connectionId: string): RealtimeConnection | null => {
   const connection = connections.get(connectionId);
@@ -187,16 +195,19 @@ export const sendToRoom = (roomId: string, message: RealtimeServerMessage): void
   }
 };
 
-export const sendToAll = (message: RealtimeServerMessage): void => {
+const sendPresenceByRole = (snapshots: PresenceSnapshots): void => {
   for (const connection of connections.values()) {
-    send(connection, message);
+    send(connection, {
+      type: 'presence.snapshot',
+      snapshot: connection.isAdmin ? snapshots.admin : snapshots.public
+    });
   }
 };
 
 export const initRealtimeBroadcast = (): void => {
   bindEmit({
-    presence: (message) => {
-      sendToAll(message);
+    presence: (snapshots) => {
+      sendPresenceByRole(snapshots);
     },
     friends: (userId, message) => {
       sendToUser(userId, message);

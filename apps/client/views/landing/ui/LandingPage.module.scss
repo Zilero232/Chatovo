@@ -722,7 +722,10 @@
 }
 
 .footerLink {
+  display: inline-flex;
+  align-items: center;
   color: var(--muted-foreground);
+  gap: var(--space-2);
   text-decoration: none;
   text-underline-offset: rem(4);
 
@@ -730,6 +733,11 @@
     color: var(--foreground);
     text-decoration: underline;
   }
+}
+
+.footerLinkIcon {
+  width: 1rem;
+  height: 1rem;
 }
 
 @keyframes wave-pulse {

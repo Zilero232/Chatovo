@@ -2,7 +2,6 @@ export { CardVideo } from './CardVideo/CardVideo';
 export { ConnectingOverlay } from './ConnectingOverlay/ConnectingOverlay';
 export { ConnectionIndicator } from './ConnectionIndicator/ConnectionIndicator';
 export { ParticipantCard } from './ParticipantCard/ParticipantCard';
-export { ParticipantStatsBars } from './ParticipantStatsBars/ParticipantStatsBars';
 export { ParticipantsView } from './ParticipantsView/ParticipantsView';
 export { RoomAmbience } from './RoomAmbience/RoomAmbience';
 export { RoomControlsBar } from './RoomControlsBar/RoomControlsBar';

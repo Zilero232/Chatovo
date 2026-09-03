@@ -2,7 +2,6 @@ import type {
   FriendEntry,
   FriendRequestEntry,
   FriendshipRelation,
-  FriendUser,
   IncomingFriendCall,
   IncomingFriendCallResponse,
   OutgoingFriendCallResponse,
@@ -34,12 +33,6 @@ export const sendFriendRequest = async (
   input: SendFriendRequestInput
 ): Promise<FriendshipRelation> => {
   const { data } = await api.post('/friends/requests', input);
-
-  return data;
-};
-
-export const findFriendByTag = async (tag: string): Promise<FriendUser> => {
-  const { data } = await api.get(`/friends/lookup/${tag}`);
 
   return data;
 };

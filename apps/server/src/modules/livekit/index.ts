@@ -2,6 +2,7 @@ export { LivekitModule } from './livekit.module';
 export {
   addLobbyConnection,
   ejectParticipantEverywhere,
+  getAdminSnapshot,
   getSnapshot,
   removeLobbyConnection,
   syncRoom

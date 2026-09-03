@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { useCurrentUser } from '@/entities/auth/user';
-import { isTauriDesktop } from '@/shared/lib';
+import { useIsTauriDesktop } from '@/shared/hooks';
 import {
   Button,
   Dialog,
@@ -36,9 +36,10 @@ export const AppSettingsButton = () => {
 
   const [isOpen, toggleOpen] = useBoolean(false);
   const [activeTab, setActiveTab] = useState<SettingsTabId>('profile');
+  const isDesktop = useIsTauriDesktop();
 
   const needsEmailVerification = Boolean(user && !emailVerified);
-  const tabs = SETTINGS_TABS.filter((tab) => !tab.tauriDesktopOnly || isTauriDesktop());
+  const tabs = SETTINGS_TABS.filter((tab) => !tab.tauriDesktopOnly || isDesktop);
 
   return (
     <>

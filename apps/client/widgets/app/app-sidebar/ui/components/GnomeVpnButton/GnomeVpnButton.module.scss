@@ -26,6 +26,10 @@
     color: var(--brand-cyan);
   }
 
+  &:focus-visible {
+    animation-play-state: paused;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }

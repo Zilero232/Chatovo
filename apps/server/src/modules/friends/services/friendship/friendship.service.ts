@@ -1,9 +1,4 @@
-import type {
-  FriendEntry,
-  FriendRequestEntry,
-  FriendshipRelation,
-  FriendUser
-} from '@chatovo/schemas';
+import type { FriendEntry, FriendRequestEntry, FriendshipRelation } from '@chatovo/schemas';
 
 import { Injectable } from '@nestjs/common';
 import { isNullish } from 'remeda';
@@ -28,7 +23,6 @@ import {
 } from '../../../../common/exceptions';
 import { PrismaService } from '../../../../core';
 import { getUserWithProfileOrThrow } from '../../../../lib';
-import { userWithProfileInclude } from '../../../../lib/selectors';
 import { emitUserEvent } from '../../../realtime';
 import { bumpFriendsEpoch } from '../../call-store';
 import {
@@ -162,20 +156,6 @@ export class FriendshipService {
 
       throw error;
     }
-  }
-
-  async findUserByTag(tag: string): Promise<FriendUser> {
-    const friendTag = normalizeFriendTag(tag);
-    const user = await this.prisma.user.findUnique({
-      where: { friendTag },
-      include: userWithProfileInclude
-    });
-
-    if (isNullish(user)) {
-      throw new AppNotFoundException('USER_NOT_FOUND', 'User not found');
-    }
-
-    return toFriendUser(user);
   }
 
   async sendFriendRequest({

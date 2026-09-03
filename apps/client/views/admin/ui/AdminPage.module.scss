@@ -24,7 +24,7 @@
 }
 
 // The trigger list overflows on a phone; let it scroll instead of clipping.
-.tabs {
+.tabsScroller {
   max-width: 100%;
   margin-bottom: 1rem;
   overflow-x: auto;
@@ -35,4 +35,8 @@
   @container admin-page (min-width: 40rem) {
     margin-bottom: 1.25rem;
   }
+}
+
+.tabs {
+  min-width: max-content;
 }

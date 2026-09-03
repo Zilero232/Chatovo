@@ -14,14 +14,12 @@ export { readStoredJson } from './read-stored-json';
 export { isScreenShareSupported } from './screen-share';
 export { stripEmailDomain } from './strip-email-domain';
 export { isTauriDesktop, isTauriMobile } from './tauri-platform';
-export { armPttStream, toggleMicStream } from './toggle-mic-stream';
+export { armPttStream, readMicStreamEnabled, toggleMicStream } from './toggle-mic-stream';
 export {
   closeMainWindow,
   hideMainWindow,
   isMainWindowMaximized,
   minimizeMainWindow,
   onMainWindowResized,
-  showMainWindow,
-  toggleMainWindow,
   toggleMaximizeMainWindow
-} from './window-controls/window-controls';
+} from './window-controls';

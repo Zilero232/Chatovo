@@ -19,6 +19,7 @@ import {
   assertCanAccessRoom,
   assertCanManageRoom,
   getUserDisplayName,
+  hashRoomPassword,
   roomSelect
 } from '../../../lib';
 import { revokeRoomGrants } from '../../livekit';
@@ -66,7 +67,7 @@ export class RoomsService {
 
     await this.assertRoomNameAvailable(name);
 
-    const storedPassword = isPrivate ? (password ?? null) : null;
+    const storedPassword = isPrivate && password ? await hashRoomPassword(password) : null;
 
     const room = await this.prisma.room.create({
       data: { name, isPrivate, password: storedPassword, ownerId },
@@ -78,8 +79,7 @@ export class RoomsService {
     this.events.emit(DomainEvent.RoomCreated, {
       roomName: room.name,
       ownerName,
-      isPrivate: room.isPrivate,
-      password: storedPassword
+      isPrivate: room.isPrivate
     } satisfies RoomCreatedEvent);
 
     return room;
@@ -107,15 +107,21 @@ export class RoomsService {
       const willBePrivate = input.isPrivate ?? current.isPrivate;
 
       if (willBePrivate) {
-        data.password = input.password;
+        data.password = await hashRoomPassword(input.password);
       }
     }
+
+    const updated = await this.prisma.room.update({
+      where: { id: roomId },
+      data,
+      select: roomSelect
+    });
 
     if ('password' in data || 'isPrivate' in data) {
       revokeRoomGrants(roomId);
     }
 
-    return this.prisma.room.update({ where: { id: roomId }, data, select: roomSelect });
+    return updated;
   }
 
   async deleteRoom({ roomId, userId }: DeleteRoomInput) {

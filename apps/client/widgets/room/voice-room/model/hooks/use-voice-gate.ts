@@ -5,7 +5,7 @@ import { useEffect, useEffectEvent, useRef } from 'react';
 import { isNullish } from 'remeda';
 
 import { useAppSettings, VoiceGateProcessor } from '@/entities/app/settings';
-import { toggleMicStream } from '@/shared/lib';
+import { readMicStreamEnabled, toggleMicStream } from '@/shared/lib';
 
 import { getLocalMicTrack, subscribeToMicTrack } from '../../lib';
 
@@ -18,6 +18,7 @@ export const useVoiceGate = (enabled: boolean, setIsSpeaking: (speaking: boolean
   const setSpeaking = useEffectEvent(setIsSpeaking);
 
   const processorRef = useRef<VoiceGateProcessor | null>(null);
+  const streamEnabledBeforeAttachRef = useRef<boolean | null>(null);
   const paramsRef = useRef({ autoSensitivity, threshold: micThreshold });
 
   useEffect(() => {
@@ -52,6 +53,8 @@ export const useVoiceGate = (enabled: boolean, setIsSpeaking: (speaking: boolean
           return;
         }
 
+        streamEnabledBeforeAttachRef.current = readMicStreamEnabled(localParticipant);
+
         toggleMicStream(localParticipant, true);
 
         const processor = new VoiceGateProcessor(paramsRef.current, (_level, isOpen) => {
@@ -71,6 +74,14 @@ export const useVoiceGate = (enabled: boolean, setIsSpeaking: (speaking: boolean
         processorRef.current = null;
 
         await getLocalMicTrack(localParticipant)?.stopProcessor();
+
+        const previous = streamEnabledBeforeAttachRef.current;
+
+        streamEnabledBeforeAttachRef.current = null;
+
+        if (previous !== null) {
+          toggleMicStream(localParticipant, previous);
+        }
       });
 
     attach();

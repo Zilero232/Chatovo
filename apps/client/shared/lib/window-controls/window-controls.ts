@@ -8,32 +8,9 @@ const safeWindow = async (label: string, fn: () => Promise<void>) => {
   }
 };
 
-export const showMainWindow = async () => {
-  await safeWindow('show', async () => {
-    const win = getCurrentWindow();
-
-    await win.unminimize();
-    await win.show();
-    await win.setFocus();
-  });
-};
-
 export const hideMainWindow = async () => {
   await safeWindow('hide', async () => {
     await getCurrentWindow().hide();
-  });
-};
-
-export const toggleMainWindow = async () => {
-  await safeWindow('toggle', async () => {
-    const win = getCurrentWindow();
-
-    if (await win.isVisible()) {
-      await win.hide();
-      return;
-    }
-
-    await showMainWindow();
   });
 };
 

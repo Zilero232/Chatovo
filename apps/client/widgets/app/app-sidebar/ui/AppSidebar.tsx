@@ -3,16 +3,15 @@
 import { isTauri } from '@tauri-apps/api/core';
 import { clsx } from 'clsx';
 
-import { isTauriDesktop } from '@/shared/lib';
+import { useIsTauriDesktop } from '@/shared/hooks';
 import { FriendsDialog } from '@/widgets/social/friends-dialog';
 
 import type { AppSidebarProps } from './AppSidebar.types';
 
 import {
-  AdminButton,
+  AdminMenuButton,
   CheckUpdateButton,
   DownloadAppButton,
-  GithubButton,
   GnomeVpnButton,
   LogoutButton,
   ToggleChannelsButton
@@ -25,23 +24,27 @@ export const AppSidebar = ({
   onToggleChannels,
   orientation = 'vertical',
   showToggleChannels = true
-}: AppSidebarProps) => (
-  <div
-    className={clsx(s.root, {
-      [s.vertical]: orientation === 'vertical',
-      [s.horizontal]: orientation !== 'vertical'
-    })}
-  >
-    {showToggleChannels && (
-      <ToggleChannelsButton opened={channelsOpened} onToggle={onToggleChannels} />
-    )}
-    <AdminButton />
-    <GnomeVpnButton />
-    <FriendsDialog />
-    {!isTauri() && <DownloadAppButton />}
-    <div className={s.spacer} />
-    <GithubButton />
-    {isTauriDesktop() && <CheckUpdateButton />}
-    <LogoutButton />
-  </div>
-);
+}: AppSidebarProps) => {
+  const isDesktop = useIsTauriDesktop();
+  const isVertical = orientation === 'vertical';
+
+  return (
+    <div
+      className={clsx(s.root, {
+        [s.vertical]: isVertical,
+        [s.horizontal]: !isVertical
+      })}
+    >
+      {showToggleChannels && (
+        <ToggleChannelsButton opened={channelsOpened} onToggle={onToggleChannels} />
+      )}
+      <GnomeVpnButton />
+      <FriendsDialog />
+      {!isTauri() && <DownloadAppButton />}
+      <div className={s.spacer} />
+      <AdminMenuButton side={isVertical ? 'right' : 'top'} />
+      {isDesktop && <CheckUpdateButton />}
+      <LogoutButton />
+    </div>
+  );
+};
