@@ -14,7 +14,13 @@ export const ToggleChannelsButton = ({ opened, onToggle }: ToggleChannelsButtonP
 
   return (
     <Tooltip>
-      <Button aria-label={t('toggleChannels')} size='icon' variant='ghost' onClick={onToggle}>
+      <Button
+        aria-expanded={opened}
+        aria-label={opened ? t('hideChannels') : t('showChannels')}
+        size='icon'
+        variant='ghost'
+        onClick={onToggle}
+      >
         {opened ? (
           <PanelLeftClose key='close' className={s.iconEnter} />
         ) : (

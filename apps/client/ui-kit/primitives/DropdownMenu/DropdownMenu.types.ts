@@ -24,6 +24,8 @@ export type DropdownMenuContentProps = Omit<ComponentProps<typeof Menu.Popup>, '
   className?: string;
 };
 
+export type DropdownMenuCheckboxItemProps = ComponentProps<typeof Menu.CheckboxItem>;
+
 export type DropdownMenuRadioGroupProps = ComponentProps<typeof Menu.RadioGroup>;
 
 export type DropdownMenuRadioItemProps = ComponentProps<typeof Menu.RadioItem>;

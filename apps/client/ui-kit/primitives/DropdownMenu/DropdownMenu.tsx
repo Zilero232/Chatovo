@@ -5,6 +5,7 @@ import { clsx } from 'clsx';
 import { CircleIcon } from 'lucide-react';
 
 import type {
+  DropdownMenuCheckboxItemProps,
   DropdownMenuContentProps,
   DropdownMenuGroupProps,
   DropdownMenuItemProps,
@@ -78,6 +79,20 @@ export const DropdownMenuItem = ({
     }}
     {...props}
   />
+);
+
+export const DropdownMenuCheckboxItem = ({
+  className,
+  children,
+  ...props
+}: DropdownMenuCheckboxItemProps) => (
+  <Menu.CheckboxItem
+    className={clsx(s.item, s.checkboxItem, className)}
+    data-slot='dropdown-menu-checkbox-item'
+    {...props}
+  >
+    {children}
+  </Menu.CheckboxItem>
 );
 
 export const DropdownMenuRadioGroup = ({ children, ...props }: DropdownMenuRadioGroupProps) => (

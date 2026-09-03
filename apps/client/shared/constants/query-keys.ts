@@ -5,29 +5,52 @@ import type {
   AdminUserQuery
 } from '@chatovo/schemas';
 
-export const QUERY_KEYS = {
+const admin = {
   adminStats: () => ['admin-stats'] as const,
+  adminUsers: (query: AdminUserQuery) => ['admin-users', query] as const,
   adminUserDetails: (userId: string) => ['admin-user-details', userId] as const,
   adminUserMessages: (userId: string, query: AdminUserMessageQuery) =>
     ['admin-user-messages', userId, query] as const,
-  adminUsers: (query: AdminUserQuery) => ['admin-users', query] as const,
   adminRooms: (query: AdminRoomQuery) => ['admin-rooms', query] as const,
-  adminReports: (query: AdminReportQuery) => ['admin-reports', query] as const,
+  adminReports: (query: AdminReportQuery) => ['admin-reports', query] as const
+};
+
+const rooms = {
+  room: (id: string | null) => ['room', id] as const,
+  rooms: () => ['rooms'] as const,
+  livekitToken: (roomName: string | null, password?: string, invisible?: boolean) =>
+    ['livekit-token', roomName, password ?? null, invisible ?? false] as const
+};
+
+const chat = {
   chatMessagesRoot: () => ['chat-messages'] as const,
-  chatMessages: (roomId: string) => ['chat-messages', roomId] as const,
-  contributors: () => ['contributors'] as const,
-  developers: () => ['developers'] as const,
+  chatMessages: (roomId: string) => ['chat-messages', roomId] as const
+};
+
+const friends = {
+  friends: () => ['friends'] as const,
   friendRequestsIncoming: () => ['friend-requests-incoming'] as const,
   friendCallIncoming: () => ['friend-call-incoming'] as const,
   friendCallOutgoing: () => ['friend-call-outgoing'] as const,
-  friendByTag: (tag: string) => ['friend-by-tag', tag] as const,
-  friends: () => ['friends'] as const,
   friendshipRelations: () => ['friendship-relation'] as const,
-  friendshipRelation: (userId: string) => ['friendship-relation', userId] as const,
-  release: () => ['release'] as const,
-  livekitToken: (roomName: string | null, password?: string) =>
-    ['livekit-token', roomName, password ?? null] as const,
-  room: (id: string | null) => ['room', id] as const,
-  rooms: () => ['rooms'] as const,
+  friendshipRelation: (userId: string) => ['friendship-relation', userId] as const
+};
+
+const users = {
   userProfile: (id: string) => ['user-profile', id] as const
+};
+
+const meta = {
+  contributors: () => ['contributors'] as const,
+  developers: () => ['developers'] as const,
+  release: () => ['release'] as const
+};
+
+export const QUERY_KEYS = {
+  ...admin,
+  ...rooms,
+  ...chat,
+  ...friends,
+  ...users,
+  ...meta
 };

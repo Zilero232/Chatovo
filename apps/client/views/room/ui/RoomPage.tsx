@@ -9,6 +9,8 @@ import { toast } from 'sonner';
 import { match, P } from 'ts-pattern';
 
 import { useErrorMessage } from '@/entities/app/locale';
+import { useAppSettings } from '@/entities/app/settings';
+import { useCurrentUser } from '@/entities/auth/user';
 import { useRoomById, useRoomToken } from '@/entities/room/room';
 import { env } from '@/shared/config';
 import { ROUTES } from '@/shared/constants';
@@ -31,6 +33,11 @@ export const RoomPage = () => {
   const titleOverride = params.get('title');
 
   const { room, isLoading, displayName, isPrivate, isDm } = useRoomById(roomId);
+
+  const { settings } = useAppSettings();
+  const { isAdmin } = useCurrentUser();
+
+  const isInvisible = isAdmin && settings.system.invisibleMode;
 
   const roomReady = isNonNullish(room);
   const roomTitle = titleOverride ?? displayName;
@@ -82,7 +89,7 @@ export const RoomPage = () => {
     .with({ token: P.nullish }, () => <RoomConnecting />)
     .with({ roomId: P.string, token: P.nonNullable, room: P.nonNullable }, ({ roomId, token }) => (
       <VoiceRoom
-        key={roomId}
+        key={`${roomId}:${isInvisible}`}
         initialChatOpen={view === 'chat'}
         isDm={isDm}
         roomId={roomId}
