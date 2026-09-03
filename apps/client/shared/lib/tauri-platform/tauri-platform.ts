@@ -11,4 +11,5 @@ export const isTauriMobile = (): boolean => {
   return type === 'android' || type === 'ios';
 };
 
-export const isTauriDesktop = (): boolean => isTauri() && !isTauriMobile();
+export const isTauriDesktop = (): boolean =>
+  typeof window !== 'undefined' && isTauri() && !isTauriMobile();
