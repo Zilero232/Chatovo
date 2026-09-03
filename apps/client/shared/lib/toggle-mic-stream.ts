@@ -16,3 +16,10 @@ export const toggleMicStream = (participant: LocalParticipant, enabled: boolean)
 };
 
 export const armPttStream = (participant: LocalParticipant) => toggleMicStream(participant, false);
+
+/** Current `enabled` flag of the published mic track, or null when unpublished. */
+export const readMicStreamEnabled = (participant: LocalParticipant): boolean | null => {
+  const publication = participant.getTrackPublication(Track.Source.Microphone);
+
+  return publication?.track?.mediaStreamTrack?.enabled ?? null;
+};
