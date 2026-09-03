@@ -10,10 +10,13 @@ Create a dedicated user before submitting:
 
 ```text
 Email:    review@chatovo.ru
-Password: <pick a strong one, keep it in a password manager>
+Password: ChatovoReview2026!
 ```
 
-The address has to be verified — walk the signup flow once by hand.
+The account exists on production and owns the public room **Review Room**; both
+were created through the app itself. The password is deliberately not a secret —
+it ships to RuStore inside the version description, so a moderator can sign in.
+Treat the account as public: never give it moderation rights.
 
 ## Instructions for the moderator
 
@@ -30,14 +33,30 @@ If sign-in fails, contact zilero@chatovo.ru
 
 ## Server-side preparation
 
-Before submitting a version:
+Both the account and the room already exist. What still has to be re-checked
+before every submission:
 
-1. Create the user `review@chatovo.ru` with a known password
-2. Create the public room **Review Room** with no password
-3. Check that `https://api.chatovo.ru` resolves over a mobile network, not only
-   from the office
-4. Check that `wss://livekit.chatovo.ru` is reachable from there too — without it
-   voice never comes up and the moderator sees the main feature broken
+1. `https://api.chatovo.ru` resolves over a mobile network, not only from the
+   office
+2. `wss://livekit.chatovo.ru` is reachable from there too — without it voice
+   never comes up and the moderator sees the main feature broken
+3. The room **Review Room** is still public and still there
+
+## Store screenshots
+
+`assets/screenshots/` holds the five 1080x2400 captures the listing uses, taken
+on an Android 15 emulator against production:
+
+| File | Screen |
+|------|--------|
+| `01-sign-in.png` | sign-in, with the privacy and terms links |
+| `02-lobby.png` | lobby: room counts, Continue, room list |
+| `03-voice-room.png` | a voice room with the call controls |
+| `04-chat.png` | room chat |
+| `05-settings.png` | profile settings |
+
+Re-take them whenever the UI changes shape. `assets/icon-512.png` is the store
+icon: 512x512, flattened onto the brand background, no alpha.
 
 ## Age rating
 
