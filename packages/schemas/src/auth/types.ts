@@ -15,6 +15,8 @@ export type UserRole = z.infer<typeof userRoleSchema>;
 
 export type SignInValues = z.infer<typeof signInSchema>;
 export type SignUpValues = z.infer<typeof signUpSchema>;
+/** Form shape before validation — `acceptedTerms` starts out `false`. */
+export type SignUpFormValues = z.input<typeof signUpSchema>;
 export type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordValues = z.infer<typeof resetPasswordSchema>;
 export type ChangeEmailValues = z.infer<typeof changeEmailSchema>;

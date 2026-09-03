@@ -7,7 +7,7 @@ import { detectAssetPlatform } from '@/shared/lib';
 
 import type { DownloadPlatform, Release, ReleaseAsset } from '../types';
 
-import { EXTENSION_TO_PLATFORM, pickPreferredApk } from '../../config';
+import { EXTENSION_TO_PLATFORM } from '../../config';
 
 export const useRelease = (enabled = true) =>
   useQuery({
@@ -21,21 +21,10 @@ export const useRelease = (enabled = true) =>
       const data = await getAppDownloads();
       const assets: Partial<Record<DownloadPlatform, ReleaseAsset>> = {};
 
-      const preferredApk = pickPreferredApk(data.mobile_assets);
-
-      if (preferredApk) {
-        assets.android = {
-          platform: 'android',
-          name: preferredApk.name,
-          sizeBytes: preferredApk.size,
-          downloadUrl: preferredApk.browser_download_url
-        };
-      }
-
       for (const asset of data.desktop_assets) {
         const platform = detectAssetPlatform(asset.name, EXTENSION_TO_PLATFORM);
 
-        if (!platform || platform === 'android' || assets[platform]) {
+        if (!platform || assets[platform]) {
           continue;
         }
 

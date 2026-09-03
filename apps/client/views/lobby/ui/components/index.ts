@@ -1,4 +1,3 @@
-export { LobbyContributors } from './LobbyContributors/LobbyContributors';
 export { LobbyEmpty } from './LobbyEmpty/LobbyEmpty';
 export { LobbyHeader } from './LobbyHeader/LobbyHeader';
 export { LobbyRoomCard } from './LobbyRoomCard/LobbyRoomCard';

@@ -1,4 +1,6 @@
+export { LandingAuthCta } from './LandingAuthCta/LandingAuthCta';
 export { LandingBackground } from './LandingBackground/LandingBackground';
+export { LandingContributors } from './LandingContributors/LandingContributors';
 export { LandingDesktop } from './LandingDesktop/LandingDesktop';
 export { LandingDownloadButton } from './LandingDownloadButton/LandingDownloadButton';
 export { LandingFaq } from './LandingFaq/LandingFaq';

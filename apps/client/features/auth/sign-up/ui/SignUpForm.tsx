@@ -1,24 +1,27 @@
 'use client';
 
+import type { SignUpFormValues, SignUpValues } from '@chatovo/schemas';
+
+import { signUpSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { useErrorMessage, useFieldError } from '@/entities/app/locale';
 import { FormField, Input, PasswordInput, Stack, SubmitButton } from '@/ui-kit';
 
-import type { SignUpValues } from '../model/hooks';
-
-import { signUpSchema, useSignUp } from '../model/hooks';
+import { useSignUp } from '../model/hooks';
+import { SignUpConsentField } from './components';
 
 import s from './SignUpForm.module.scss';
 
-const DEFAULT_VALUES: SignUpValues = {
+const DEFAULT_VALUES: SignUpFormValues = {
   name: '',
   email: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  acceptedTerms: false
 };
 
 export const SignUpForm = () => {
@@ -27,14 +30,16 @@ export const SignUpForm = () => {
   const errorMessage = useErrorMessage();
   const { isPending, mutate } = useSignUp();
 
+  const form = useForm<SignUpFormValues, unknown, SignUpValues>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: DEFAULT_VALUES
+  });
+
   const {
     formState: { errors },
     handleSubmit,
     register
-  } = useForm<SignUpValues>({
-    resolver: zodResolver(signUpSchema),
-    defaultValues: DEFAULT_VALUES
-  });
+  } = form;
 
   const onSubmit = handleSubmit((values) => {
     mutate(values, {
@@ -44,46 +49,54 @@ export const SignUpForm = () => {
   });
 
   return (
-    <Stack as='form' gap='4' onSubmit={onSubmit}>
-      <FormField
-        error={errors.name && fieldError(errors.name)}
-        htmlFor='signup-name'
-        label={t('fields.name')}
-      >
-        <Input autoComplete='name' id='signup-name' type='text' {...register('name')} />
-      </FormField>
+    <FormProvider {...form}>
+      <Stack as='form' gap='4' onSubmit={onSubmit}>
+        <FormField
+          error={errors.name && fieldError(errors.name)}
+          htmlFor='signup-name'
+          label={t('fields.name')}
+        >
+          <Input autoComplete='name' id='signup-name' type='text' {...register('name')} />
+        </FormField>
 
-      <FormField
-        error={errors.email && fieldError(errors.email)}
-        htmlFor='signup-email'
-        label={t('fields.email')}
-      >
-        <Input autoComplete='email' id='signup-email' type='email' {...register('email')} />
-      </FormField>
+        <FormField
+          error={errors.email && fieldError(errors.email)}
+          htmlFor='signup-email'
+          label={t('fields.email')}
+        >
+          <Input autoComplete='email' id='signup-email' type='email' {...register('email')} />
+        </FormField>
 
-      <FormField
-        error={errors.password && fieldError(errors.password)}
-        htmlFor='signup-password'
-        label={t('fields.password')}
-      >
-        <PasswordInput autoComplete='new-password' id='signup-password' {...register('password')} />
-      </FormField>
+        <FormField
+          error={errors.password && fieldError(errors.password)}
+          htmlFor='signup-password'
+          label={t('fields.password')}
+        >
+          <PasswordInput
+            autoComplete='new-password'
+            id='signup-password'
+            {...register('password')}
+          />
+        </FormField>
 
-      <FormField
-        error={errors.confirmPassword && fieldError(errors.confirmPassword)}
-        htmlFor='signup-confirm-password'
-        label={t('fields.confirmPassword')}
-      >
-        <PasswordInput
-          autoComplete='new-password'
-          id='signup-confirm-password'
-          {...register('confirmPassword')}
-        />
-      </FormField>
+        <FormField
+          error={errors.confirmPassword && fieldError(errors.confirmPassword)}
+          htmlFor='signup-confirm-password'
+          label={t('fields.confirmPassword')}
+        >
+          <PasswordInput
+            autoComplete='new-password'
+            id='signup-confirm-password'
+            {...register('confirmPassword')}
+          />
+        </FormField>
 
-      <SubmitButton className={s.submit} isPending={isPending}>
-        {t('signUp')}
-      </SubmitButton>
-    </Stack>
+        <SignUpConsentField />
+
+        <SubmitButton className={s.submit} isPending={isPending}>
+          {t('signUp')}
+        </SubmitButton>
+      </Stack>
+    </FormProvider>
   );
 };

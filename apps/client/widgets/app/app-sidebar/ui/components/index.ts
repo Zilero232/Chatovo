@@ -1,3 +1,4 @@
+export { AdminButton } from './AdminButton/AdminButton';
 export { CheckUpdateButton } from './CheckUpdateButton/CheckUpdateButton';
 export { DownloadAppButton } from './DownloadAppButton/DownloadAppButton';
 export { GithubButton } from './GithubButton/GithubButton';

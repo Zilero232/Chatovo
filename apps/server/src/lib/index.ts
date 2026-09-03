@@ -2,6 +2,8 @@ export type { AssertCanAccessRoomInput } from './assert-can-access-room';
 export { assertCanAccessRoom } from './assert-can-access-room';
 export type { AssertCanManageRoomInput } from './assert-can-manage-room';
 export { assertCanManageRoom } from './assert-can-manage-room';
+export { assertIsAdmin } from './assert-is-admin';
+export { assertNotBlocked, isUserBlocked } from './assert-not-blocked';
 export { assertRoomExists } from './assert-room-exists';
 export { decodeUploadName } from './decode-upload-name';
 export type { EnsureUserFriendTagInput } from './ensure-user-friend-tag';

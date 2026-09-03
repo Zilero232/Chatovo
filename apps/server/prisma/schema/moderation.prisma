@@ -1,0 +1,40 @@
+enum AbuseTarget {
+  user
+  message
+  room
+}
+
+enum AbuseReason {
+  spam
+  harassment
+  hate
+  sexual
+  violence
+  illegal
+  other
+}
+
+model AbuseReport {
+  id String @id @default(dbgenerated("gen_random_uuid()"))
+
+  target   AbuseTarget
+  targetId String      @map("target_id")
+  reason   AbuseReason
+  comment  String?
+  roomId   String?     @map("room_id")
+
+  reporterId String @map("reporter_id")
+  reporter   User   @relation("AbuseReporter", fields: [reporterId], references: [id], onDelete: Cascade)
+
+  handled     Boolean   @default(false)
+  handledAt   DateTime? @map("handled_at") @db.Timestamptz(3)
+  handledById String?   @map("handled_by_id")
+  handledBy   User?     @relation("AbuseHandler", fields: [handledById], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([reporterId, target, targetId, handled])
+  @@index([handled, createdAt(sort: Desc)])
+  @@index([target, targetId])
+  @@map("abuse_reports")
+}

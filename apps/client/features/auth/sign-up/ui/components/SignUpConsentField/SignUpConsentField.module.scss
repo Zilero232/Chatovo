@@ -1,0 +1,25 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.125rem 0;
+  cursor: pointer;
+  gap: 0.625rem;
+  line-height: 1.45;
+}
+
+.link {
+  color: var(--brand-violet);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity var(--duration-fast) var(--timing-function-standard);
+
+  &:hover {
+    opacity: 0.85;
+  }
+}

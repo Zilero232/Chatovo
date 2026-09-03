@@ -67,3 +67,17 @@ export const syncRoom = async (roomId: string) => {
     logger.warn(`Failed to sync presence for room ${roomId}: ${String(error)}`);
   }
 };
+
+export const ejectParticipantEverywhere = async (identity: string): Promise<void> => {
+  try {
+    const rooms = await roomService.listRooms();
+
+    await Promise.allSettled(
+      rooms.map((room) => roomService.removeParticipant(room.name, identity))
+    );
+  } catch (error) {
+    const reason = error instanceof Error ? error.message : 'unknown error';
+
+    logger.warn(`Failed to eject ${identity}: ${reason}`);
+  }
+};

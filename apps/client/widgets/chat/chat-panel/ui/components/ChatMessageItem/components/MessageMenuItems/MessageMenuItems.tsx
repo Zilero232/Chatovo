@@ -1,6 +1,6 @@
 'use client';
 
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil, ShieldAlert, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { ContextMenuItem } from '@/ui-kit';
@@ -9,7 +9,9 @@ import { useChatMessage } from '../../../../../model/contexts';
 
 export const MessageMenuItems = () => {
   const t = useTranslations('chat');
-  const { canEdit, startEdit, requestDelete } = useChatMessage();
+  const tModeration = useTranslations('moderation');
+  const { canEdit, canReport, showActions, startEdit, requestDelete, reportAbuse } =
+    useChatMessage();
 
   return (
     <>
@@ -19,10 +21,20 @@ export const MessageMenuItems = () => {
           {t('edit')}
         </ContextMenuItem>
       )}
-      <ContextMenuItem variant='destructive' onSelect={requestDelete}>
-        <Trash2 />
-        {t('delete')}
-      </ContextMenuItem>
+
+      {showActions && (
+        <ContextMenuItem variant='destructive' onSelect={requestDelete}>
+          <Trash2 />
+          {t('delete')}
+        </ContextMenuItem>
+      )}
+
+      {canReport && (
+        <ContextMenuItem variant='destructive' onSelect={reportAbuse}>
+          <ShieldAlert />
+          {tModeration('reportMessage')}
+        </ContextMenuItem>
+      )}
     </>
   );
 };

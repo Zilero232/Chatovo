@@ -80,7 +80,8 @@ Plain modules that can't inject (`call-store`, `emit-chat-event`) raise events t
 
 - `PrismaService` (in `core/`) is a plain `PrismaClient` subclass (Nest recipe) with `onModuleInit`/`onModuleDestroy` for connect/disconnect. Inject it and call models directly: `this.prisma.<model>`. No `$extends`, no global error mapping — services validate conflicts explicitly (e.g. `assertRoomNameAvailable` before a create/rename) and throw the right `HttpException`.
 - `basePrisma` (raw, no mapping) is for better-auth only. Don't use it in feature services.
-- Schema split per domain in `prisma/schema/*.prisma` (`auth`, `room`, `message`) + `prisma/base.prisma`. Models: `User`/`Session`/`Account`/`Verification` (better-auth), `Profile` (1-1 FK to user), `Room`, `Message`.
+- Schema split per domain in `prisma/schema/*.prisma` (`auth`, `room`, `message`, `moderation`) + `prisma/base.prisma`. Models: `User`/`Session`/`Account`/`Verification` (better-auth), `Profile` (1-1 FK to user), `Room`, `Message`, `AbuseReport`.
+- **Moderation gates**: a blocked account (`user.blockedAt`) is refused by the global `BlockedUserGuard` (`common/guards/`, registered as an `APP_GUARD` next to `ThrottlerGuard`), so every authenticated HTTP route is covered without per-route wiring — anonymous requests pass straight through. The two non-HTTP paths carry their own check: `LivekitService.issueRoomToken` (voice/video) and `RealtimeGateway.handleConnection` (new socket); `assertCanAccessRoom` also asserts it so room access stays closed even when called outside a request. Blocking tears down what already exists: sessions, room grants, the live LiveKit participant and the open WebSocket. Admin-only routes go through `assertIsAdmin` from `src/lib/` inside the service, never in the controller.
 
 ## Ops baked in
 

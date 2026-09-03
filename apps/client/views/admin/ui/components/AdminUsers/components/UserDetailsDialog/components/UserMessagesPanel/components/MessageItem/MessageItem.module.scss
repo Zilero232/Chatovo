@@ -1,0 +1,38 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  padding: 0.625rem 0.75rem;
+  gap: 0.25rem;
+
+  @include surface-card(rem(10), 3%);
+}
+
+.body {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.attachment {
+  min-width: 0;
+}
+
+.icon {
+  width: rem(15);
+  height: rem(15);
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+}
+
+.link {
+  overflow: hidden;
+  color: var(--brand-violet);
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

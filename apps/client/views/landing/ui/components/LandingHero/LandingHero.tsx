@@ -1,8 +1,7 @@
 import { clsx } from 'clsx';
 import { getTranslations } from 'next-intl/server';
 
-import { ROUTES } from '@/shared/constants';
-import { Button, Text } from '@/ui-kit';
+import { Text } from '@/ui-kit';
 
 import type { LandingSectionProps } from '../../LandingPage.types';
 
@@ -11,6 +10,7 @@ import {
   LANDING_HERO_STAT_COUNTS,
   LANDING_HERO_STAT_KEYS
 } from '../../../config';
+import { LandingAuthCta } from '../LandingAuthCta/LandingAuthCta';
 import { LandingHeroStat } from '../LandingHeroStat/LandingHeroStat';
 import { LandingHeroVisual } from '../LandingHeroVisual/LandingHeroVisual';
 import { LandingReveal } from '../LandingReveal/LandingReveal';
@@ -45,9 +45,11 @@ export const LandingHero = async ({ locale }: LandingSectionProps) => {
 
         <LandingReveal delay={0.18}>
           <div className={s.heroActions}>
-            <Button href={ROUTES.auth} size='lg'>
-              {t('ctaPrimary')}
-            </Button>
+            <LandingAuthCta
+              openAppLabel={t('ctaOpenApp')}
+              signInLabel={t('ctaPrimary')}
+              size='lg'
+            />
             <Text className={s.heroNote} size='sm' tone='muted'>
               {t('ctaNote')}
             </Text>

@@ -1,14 +1,13 @@
 import { appDownloadsSchema, gitHubContributorListSchema } from '@chatovo/schemas';
 import { BadGatewayException, HttpException, Injectable } from '@nestjs/common';
 
-import { DESKTOP_TAG_PREFIXES, MOBILE_TAG_PREFIXES } from '../config';
+import { DESKTOP_TAG_PREFIXES } from '../config';
 import {
   fetchGitHubContributors,
   fetchGitHubReleases,
   findLatestByTagPrefix,
   findLatestUnifiedRelease,
-  parseReleaseVersion,
-  splitReleaseAssets
+  parseReleaseVersion
 } from '../lib';
 
 @Injectable()
@@ -19,31 +18,27 @@ export class GithubService {
       const unified = findLatestUnifiedRelease(releases);
 
       if (unified) {
-        const { desktop_assets, mobile_assets } = splitReleaseAssets(unified.assets);
+        const desktop_assets = unified.assets;
 
         return appDownloadsSchema.parse({
           version: parseReleaseVersion(unified.tag_name),
           html_url: unified.html_url,
           published_at: unified.published_at,
-          desktop_assets,
-          mobile_assets
+          desktop_assets
         });
       }
 
       const desktop = findLatestByTagPrefix({ releases, prefixes: [...DESKTOP_TAG_PREFIXES] });
-      const mobile = findLatestByTagPrefix({ releases, prefixes: [...MOBILE_TAG_PREFIXES] });
-      const source = desktop ?? mobile;
 
-      if (!source) {
+      if (!desktop) {
         throw new BadGatewayException('No releases found');
       }
 
       return appDownloadsSchema.parse({
-        version: parseReleaseVersion(source.tag_name),
-        html_url: source.html_url,
-        published_at: source.published_at,
-        desktop_assets: desktop?.assets ?? [],
-        mobile_assets: mobile?.assets ?? []
+        version: parseReleaseVersion(desktop.tag_name),
+        html_url: desktop.html_url,
+        published_at: desktop.published_at,
+        desktop_assets: desktop.assets
       });
     } catch (error) {
       if (error instanceof HttpException) {

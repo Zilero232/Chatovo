@@ -1,11 +1,11 @@
 import { clsx } from 'clsx';
 import { getTranslations } from 'next-intl/server';
 
-import { ROUTES } from '@/shared/constants';
-import { Button, Text } from '@/ui-kit';
+import { Text } from '@/ui-kit';
 
 import type { LandingSectionProps } from '../../LandingPage.types';
 
+import { LandingAuthCta } from '../LandingAuthCta/LandingAuthCta';
 import { LandingReveal } from '../LandingReveal/LandingReveal';
 
 import s from '../../LandingPage.module.scss';
@@ -27,9 +27,7 @@ export const LandingFinalCta = async ({ locale }: LandingSectionProps) => {
         </Text>
 
         <div className={s.finalCtaActions}>
-          <Button href={ROUTES.auth} size='lg'>
-            {t('action')}
-          </Button>
+          <LandingAuthCta openAppLabel={t('actionOpenApp')} signInLabel={t('action')} size='lg' />
 
           <Text size='sm' tone='muted'>
             {t('note')}

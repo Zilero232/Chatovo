@@ -2,9 +2,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 
 import type {
+  AbuseReportedEvent,
   ProblemReportedEvent,
   RoomCreatedEvent,
   RoomDeletedEvent,
+  UserBlockedEvent,
   UserSignedUpEvent,
   VoiceEmptiedEvent,
   VoiceJoinedEvent
@@ -13,9 +15,11 @@ import type {
 import { DomainEvent } from '../../../common/events/domain-events';
 import { runNotification } from '../../../common/notifications';
 import {
+  notifyAbuseReport,
   notifyProblemReport,
   notifyRoomCreated,
   notifyRoomDeleted,
+  notifyUserBlocked,
   notifyUserSignup,
   notifyVoiceEmpty,
   notifyVoiceJoin
@@ -47,6 +51,16 @@ export class TelegramListener {
   @OnEvent(DomainEvent.ProblemReported)
   onProblemReported(event: ProblemReportedEvent) {
     return this.run('problem.reported', notifyProblemReport(event));
+  }
+
+  @OnEvent(DomainEvent.AbuseReported)
+  onAbuseReported(event: AbuseReportedEvent) {
+    return this.run('abuse.reported', notifyAbuseReport(event));
+  }
+
+  @OnEvent(DomainEvent.UserBlocked)
+  onUserBlocked(event: UserBlockedEvent) {
+    return this.run('user.blocked', notifyUserBlocked(event));
   }
 
   @OnEvent(DomainEvent.VoiceJoined)

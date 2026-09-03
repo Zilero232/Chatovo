@@ -1,3 +1,16 @@
+export {
+  blockAdminUser,
+  deleteAdminRoom,
+  getAdminStats,
+  getAdminUserDetails,
+  listAdminReports,
+  listAdminRooms,
+  listAdminUserMessages,
+  listAdminUsers,
+  resolveAdminReport,
+  unblockAdminUser,
+  updateAdminUser
+} from './admin';
 export { authClient, clearToken, getAuthToken, unwrapAuth } from './auth';
 export {
   deleteChatMessage,
@@ -28,6 +41,7 @@ export {
 export { getAppDownloads, listContributors } from './github';
 export { ApiError, apiErrorCode } from './http';
 export { fetchLiveKitToken } from './livekit';
+export { reportAbuse } from './moderation';
 export { registerPushDevice, unregisterPushDevice } from './push';
 export { queryClient } from './query-client';
 export { buildRealtimeUrl } from './realtime';

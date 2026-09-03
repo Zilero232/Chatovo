@@ -37,7 +37,11 @@ export const signUpSchema = z
     name: displayNameSchema,
     email: emailSchema,
     password: passwordSchema,
-    confirmPassword: z.string()
+    confirmPassword: z.string(),
+    // Consent is required before an account is created and is never sent to the
+    // server: better-auth signs up with credentials only. Typed as a boolean so
+    // the form can start unchecked; the refinement is what demands `true`.
+    acceptedTerms: z.boolean().refine((value) => value, 'validation.termsRequired')
   })
   .refine(passwordsMatch, mismatchIssue);
 

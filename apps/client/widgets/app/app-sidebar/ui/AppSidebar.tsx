@@ -9,6 +9,7 @@ import { FriendsDialog } from '@/widgets/social/friends-dialog';
 import type { AppSidebarProps } from './AppSidebar.types';
 
 import {
+  AdminButton,
   CheckUpdateButton,
   DownloadAppButton,
   GithubButton,
@@ -34,6 +35,7 @@ export const AppSidebar = ({
     {showToggleChannels && (
       <ToggleChannelsButton opened={channelsOpened} onToggle={onToggleChannels} />
     )}
+    <AdminButton />
     <GnomeVpnButton />
     <FriendsDialog />
     {!isTauri() && <DownloadAppButton />}

@@ -1,0 +1,87 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  padding: 1rem;
+  gap: 0.875rem;
+
+  @include surface-card;
+
+  transition:
+    border-color var(--duration-fast) var(--timing-function-standard),
+    background var(--duration-fast) var(--timing-function-standard);
+
+  &:hover {
+    border-color: oklch(100% 0 0deg / 14%);
+    background: oklch(100% 0 0deg / 6%);
+  }
+}
+
+.iconWrap {
+  display: grid;
+  width: rem(38);
+  height: rem(38);
+  flex-shrink: 0;
+  border-radius: rem(11);
+  background: oklch(100% 0 0deg / 7%);
+  place-items: center;
+}
+
+.icon {
+  width: rem(18);
+  height: rem(18);
+  color: var(--muted-foreground);
+}
+
+.body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.label {
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.value {
+  font-size: clamp(1.375rem, 3cqi, 1.75rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.brand {
+  .iconWrap {
+    background: oklch(70% 0.2 270deg / 16%);
+  }
+
+  .icon {
+    color: var(--brand-violet);
+  }
+}
+
+.success {
+  .iconWrap {
+    background: oklch(82% 0.16 200deg / 16%);
+  }
+
+  .icon,
+  .value {
+    color: var(--brand-cyan);
+  }
+}
+
+.danger {
+  .iconWrap {
+    background: oklch(70% 0.22 22deg / 16%);
+  }
+
+  .icon,
+  .value {
+    color: var(--destructive);
+  }
+}

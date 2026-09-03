@@ -33,7 +33,7 @@ docs/
 ├── invisible-mode.md # admin joins rooms hidden: server-enforced, presence filtered
 ├── migrations.md    # Prisma migrations: baseline, deploy order, better-auth schema drift
 ├── tray-menu.md     # Native tray menu: Rust-owned icon + menu, labels/state pushed from the client
-└── play-store/      # Android release: listing, data safety, signing
+└── rustore/         # RuStore release: listing, data safety, signing, moderation
 infra/               # Caddy + LiveKit configs
 ```
 

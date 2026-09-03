@@ -1,4 +1,18 @@
+import type {
+  AdminReportQuery,
+  AdminRoomQuery,
+  AdminUserMessageQuery,
+  AdminUserQuery
+} from '@chatovo/schemas';
+
 export const QUERY_KEYS = {
+  adminStats: () => ['admin-stats'] as const,
+  adminUserDetails: (userId: string) => ['admin-user-details', userId] as const,
+  adminUserMessages: (userId: string, query: AdminUserMessageQuery) =>
+    ['admin-user-messages', userId, query] as const,
+  adminUsers: (query: AdminUserQuery) => ['admin-users', query] as const,
+  adminRooms: (query: AdminRoomQuery) => ['admin-rooms', query] as const,
+  adminReports: (query: AdminReportQuery) => ['admin-reports', query] as const,
   chatMessagesRoot: () => ['chat-messages'] as const,
   chatMessages: (roomId: string) => ['chat-messages', roomId] as const,
   contributors: () => ['contributors'] as const,

@@ -20,8 +20,7 @@ export const appDownloadsSchema = z.object({
   version: z.string(),
   html_url: z.url(),
   published_at: z.string(),
-  desktop_assets: z.array(gitHubReleaseAssetSchema),
-  mobile_assets: z.array(gitHubReleaseAssetSchema)
+  desktop_assets: z.array(gitHubReleaseAssetSchema)
 });
 
 export const gitHubContributorSchema = z.object({

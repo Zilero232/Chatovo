@@ -1,7 +1,10 @@
+export { BLOCKED_WS_CLOSE_CODE } from './config';
 export {
+  closeUserConnections,
   hasUserConnection,
   initRealtimeBroadcast,
   listConnections,
+  listOnlineUserIds,
   sendToUser
 } from './connection-store';
 export {

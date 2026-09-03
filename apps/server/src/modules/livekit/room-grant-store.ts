@@ -43,3 +43,11 @@ export const revokeRoomGrants = (roomId: string) => {
     }
   }
 };
+
+export const revokeUserGrants = (userId: string) => {
+  for (const grantKey of grants.keys()) {
+    if (grantKey.endsWith(`:${userId}`)) {
+      grants.delete(grantKey);
+    }
+  }
+};

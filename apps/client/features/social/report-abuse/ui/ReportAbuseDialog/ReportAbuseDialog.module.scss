@@ -1,0 +1,16 @@
+.reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.reason {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.625rem;
+}
+
+.submit {
+  width: 100%;
+}

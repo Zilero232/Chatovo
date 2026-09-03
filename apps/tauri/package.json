@@ -16,9 +16,9 @@
   "author": "Alexandr Artemev",
   "type": "module",
   "scripts": {
-    "android:build": "bun run icon && node ./scripts/setup-android-fcm.mjs && bun --env-file .env tauri android build --apk --aab",
-    "android:dev": "bun run icon && node ./scripts/setup-android-fcm.mjs && bun --env-file .env tauri android dev",
-    "android:init": "bun --env-file .env tauri android init && node ./scripts/setup-android-fcm.mjs",
+    "android:build": "bun run icon && node ./scripts/setup-android-fcm.mjs && node ./scripts/setup-rustore-update.mjs && bun --env-file .env tauri android build --apk --aab",
+    "android:dev": "bun run icon && node ./scripts/setup-android-fcm.mjs && node ./scripts/setup-rustore-update.mjs && bun --env-file .env tauri android dev",
+    "android:init": "bun --env-file .env tauri android init && node ./scripts/setup-android-fcm.mjs && node ./scripts/setup-rustore-update.mjs",
     "build": "bun run icon && tauri build",
     "build:debug": "bun run icon && tauri build --debug",
     "predev": "fkill --force --silent chatovo.exe chatovo; bun run icon",
@@ -29,6 +29,7 @@
     "tauri": "tauri"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.11.4"
+    "@tauri-apps/cli": "^2.11.4",
+    "rustore": "1.0.6"
   }
 }

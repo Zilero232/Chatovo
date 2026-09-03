@@ -32,7 +32,7 @@ export const LandingDesktop = async ({ locale }: LandingSectionProps) => {
           </Text>
 
           <div className={s.desktopActions}>
-            <LandingDownloadButton label={t('cta')} locale={locale} />
+            <LandingDownloadButton label={t('cta')} />
             <Text size='sm' tone='muted'>
               {t('platforms')}
             </Text>
