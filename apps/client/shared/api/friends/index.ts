@@ -5,7 +5,6 @@ export {
   cancelOutgoingFriendCall,
   declineFriendRequest,
   declineIncomingFriendCall,
-  findFriendByTag,
   getFriendshipRelation,
   getIncomingFriendCall,
   getOrCreateFriendDmRoom,

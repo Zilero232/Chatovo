@@ -7,7 +7,6 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import {
   FriendListDto,
   FriendRequestListDto,
-  FriendUserDto,
   IncomingFriendCallResponseDto,
   OutgoingFriendCallResponseDto,
   RoomDto,
@@ -44,13 +43,6 @@ export class FriendsController {
   @Post('requests')
   sendRequest(@Body() body: SendFriendRequestDto, @CurrentUser() userId: string) {
     return this.friendship.sendFriendRequest({ requesterId: userId, tag: body.tag });
-  }
-
-  @Get('lookup/:tag')
-  @Throttle({ default: { ttl: 60_000, limit: 10 } })
-  @ZodResponse({ type: FriendUserDto })
-  findByTag(@Param('tag') tag: string) {
-    return this.friendship.findUserByTag(tag);
   }
 
   @Post('requests/:id/accept')
