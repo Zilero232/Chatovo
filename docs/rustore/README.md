@@ -95,10 +95,13 @@ RuStore does not allow updating an app around the store, so the Tauri updater
 stays off on Android (it is already gated behind `isTauriDesktop()`) and updates
 go through the **RuStore in-app update SDK**.
 
-`scripts/setup-rustore-update.mjs` patches the regenerated `gen/android/` with
-the RuStore maven repository, the `ru.rustore.sdk:appupdate` dependency, the
-proguard keep rules (release builds run R8) and a Kotlin hook in `MainActivity`.
-It runs from every `android:*` script, next to `setup-android-fcm.mjs`.
+The `ru.rustore.sdk:appupdate` dependency is declared in
+`[package.metadata.cargo-android]` in `apps/tauri/Cargo.toml`, which the Tauri
+CLI applies while generating `gen/android`. What has no hook there —
+the RuStore maven repositories, the proguard keep rules (release builds run R8)
+and a Kotlin hook in `MainActivity` — is patched by
+`scripts/setup-rustore-update.mjs`, which runs from every `android:*` script
+next to `setup-android-fcm.mjs`.
 
 The update type is `IMMEDIATE`: the user gets a blocking RuStore screen and
 cannot continue on an outdated build. For a realtime app that is the right
@@ -140,7 +143,7 @@ edit it by hand.
 
 1. Download `google-services.json` from the Firebase Console (Android app `chatovo.app`).
 2. Save it to **`apps/tauri/android/google-services.json`** (committed — not a secret).
-3. Run any android script — `setup-android-fcm.mjs` copies the file into `gen/android/app/` and patches Gradle.
+3. Run any android script — `setup-android-fcm.mjs` copies the file into `gen/android/app/` (the Gradle plugin comes from `Cargo.toml`).
 
 `POST_NOTIFICATIONS` is injected through `build.rs` on every build. Plugin
 permission: `fcm:default` in `capabilities/mobile.json`.

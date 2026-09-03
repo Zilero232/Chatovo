@@ -2,7 +2,6 @@ import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from '
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const SDK_VERSION = '10.5.1';
 const MAVEN_URLS = [
   'https://nexus-external.vkteam.ru/repository/maven/',
   'https://artifactory-external.vkpartner.ru/artifactory/maven'
@@ -73,23 +72,6 @@ const addMavenRepositories = () => {
   );
 
   writeFileSync(rootGradlePath, gradle);
-};
-
-const addDependency = () => {
-  let gradle = readFileSync(appGradlePath, 'utf8');
-
-  if (gradle.includes('ru.rustore.sdk:appupdate')) {
-    return;
-  }
-
-  gradle = replaceOrFail(
-    gradle,
-    /dependencies\s*\{/,
-    `dependencies {\n    implementation("ru.rustore.sdk:appupdate:${SDK_VERSION}")`,
-    'the dependencies block in app/build.gradle.kts'
-  );
-
-  writeFileSync(appGradlePath, gradle);
 };
 
 // The generated release build runs R8 with `isMinifyEnabled = true`, and the
@@ -192,8 +174,7 @@ const patchMainActivity = () => {
 };
 
 addMavenRepositories();
-addDependency();
 addProguardRules();
 patchMainActivity();
 
-console.info(`[rustore] in-app update SDK ${SDK_VERSION} wired into gen/android`);
+console.info('[rustore] in-app update SDK wired into gen/android');

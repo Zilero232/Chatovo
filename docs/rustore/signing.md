@@ -7,11 +7,27 @@ re-signs the APKs it generates from it with the app signing key.
 ## 1. Create the upload key (once)
 
 ```bash
-keytool -genkey -v -keystore chatovo-release.keystore -alias chatovo -keyalg RSA -keysize 2048 -validity 10000
+keytool -J-Dkeystore.pkcs12.legacy -genkeypair -v \
+  -keystore chatovo-release.keystore -alias chatovo \
+  -keyalg RSA -keysize 2048 -validity 10000
 ```
+
+`-J-Dkeystore.pkcs12.legacy` is not optional. A modern JDK encrypts PKCS12 with
+algorithms the PEPK tool of step 3 cannot read, and it reports that as
+`keystore password was incorrect` — with the correct password. Keep both
+passwords identical: `android-signing.kts` feeds one property into `keyPassword`
+and `storePassword` alike.
 
 Keep the keystore and the passwords safe. **Losing them means the app can never
 be updated.**
+
+The keystore is regenerable only until the first version is published. After
+that the upload key changes only through RuStore support, and the app signing
+key not at all — so this command is effectively one-shot.
+
+Run it on its own line. In fish, pasting it together with the next command
+leaves the password prompt reading from the wrong buffer, and keytool fails with
+a password error that has nothing to do with the password.
 
 ## 2. GitHub Actions secrets
 
@@ -26,12 +42,29 @@ be updated.**
 Encode the keystore:
 
 ```bash
-# Linux / macOS / Git Bash
+# macOS (BSD base64 has no -w; strip the wrapping by hand)
+base64 -i chatovo-release.keystore | tr -d '\n' > keystore.base64
+
+# Linux / Git Bash
 base64 -w0 chatovo-release.keystore
 
 # PowerShell
 [Convert]::ToBase64String([IO.File]::ReadAllBytes("chatovo-release.keystore"))
 ```
+
+`keystore.base64` is not a second artefact — it is the same private key written
+as text, because a GitHub secret takes text and not a file. Treat it like the
+keystore, delete the local copy once the secret is set, and regenerate it from
+the keystore whenever it is needed again.
+
+Verify the round-trip before pasting it (`base64 -D` on macOS, `-d` elsewhere):
+
+```bash
+base64 -D -i keystore.base64 -o roundtrip.bin && cmp chatovo-release.keystore roundtrip.bin && echo ok
+```
+
+`android-signing.mjs` decodes the secret back with `Buffer.from(…, 'base64')`,
+so a stray newline in it breaks the build rather than the paste.
 
 Job `android` in `release.yml` wires signing up after `tauri android init` and
 verifies the APK with `apksigner` before uploading.
@@ -42,16 +75,45 @@ RuStore accepts an AAB only with store-side signing enabled: the store builds an
 APK per architecture from the bundle and signs each with the app signing key. The
 developer signs the uploaded bundle with the upload key.
 
-On the app page in the RuStore console, upload:
+**App Signing Key → Upload Signing Key** opens a four-step modal. Step 2 shows a
+`pepk.jar` command with an `--encryptionkey` value **unique to this app** — copy
+it from the console rather than from here, and download `pepk.jar` from step 1.
 
-1. **The upload key certificate** — the public half in PEM:
+Produce the two files it asks for:
 
-   ```bash
-   keytool -export -rfc -alias chatovo -keystore chatovo-release.keystore -file upload-certificate.pem
-   ```
+```bash
+# step 3 — the private key, encrypted so that only RuStore can read it
+java -jar pepk.jar --keystore=chatovo-release.keystore --alias=chatovo \
+  --output=pepk_out.zip --encryptionkey=<from the console> --include-cert
 
-2. **The app signing key** — a ZIP that RuStore uses to re-sign. If the app has
-   never been published anywhere, the same keystore can serve as the signing key.
+# step 4 — the upload certificate, PEM (-rfc; without it keytool writes DER)
+keytool -exportcert -alias chatovo -keystore chatovo-release.keystore \
+  -rfc -file uploadcert.pem
+```
+
+Both files have to stay under 100 KB. `pepk_out.zip` is safe to hand over — the
+private key inside it is encrypted with RuStore's public key. The keystore itself
+never leaves the machine.
+
+PEPK needs a JDK (`brew install --cask temurin`) and reads the password only from
+an interactive terminal — `System.console()` is null anywhere else, including a
+pipeline or a CI step. Pass `--keystore-pass=` / `--key-pass=` when scripting.
+Run the pepk command alone rather than pasted together with the keytool one,
+for the same reason as in step 1.
+
+Check the two files agree before uploading — the certificate inside the ZIP has
+to be the one in `uploadcert.pem`:
+
+```bash
+unzip -o -q pepk_out.zip -d zipcheck
+openssl x509 -in uploadcert.pem          -noout -fingerprint -sha256
+openssl x509 -in zipcheck/certificate.pem -noout -fingerprint -sha256
+rm -rf zipcheck
+```
+
+`pepk_out.zip` and `uploadcert.pem` are consumed by the upload and can be
+deleted afterwards; both are reproducible from the keystore. What must survive
+is the keystore and its password.
 
 Once signing is enabled, the upload key cannot be changed without contacting
 RuStore support.
@@ -123,6 +185,12 @@ ANDROID_KEY_ALIAS=chatovo ANDROID_KEY_PASSWORD=... ANDROID_KEY_BASE64=$(base64 -
 The `release` workflow builds and signs both on CI whenever a `v*` tag is pushed,
 and job `rustore` uploads the AAB as a draft version and submits it for
 moderation. A local build is only needed to test the signing setup itself.
+
+**The very first version has to be published by hand**, through `App page →
+Upload` in the console: a draft inherits its unset fields from the active
+version, so until one exists `createDraftVersion` answers `403 This user does not
+have rights to perform this action` — which reads like a permissions problem and
+is not one. Fill in the listing, publish, and every later tag flows through CI.
 
 The APK on the GitHub Release stays a sideload channel and is never uploaded to
 RuStore.
