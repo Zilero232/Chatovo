@@ -8,8 +8,8 @@ import { useRouter } from 'next/navigation';
 import { useCurrentUser } from '@/entities/auth/user';
 import { OwnerBadge, useRoomParticipants } from '@/entities/room/room';
 import { ManageRoomMenu } from '@/features/room/manage';
-import { buildRoomHref } from '@/shared/constants';
 import { usePointerGlow } from '@/shared/hooks';
+import { buildRoomHref } from '@/shared/lib';
 import { Badge } from '@/ui-kit';
 
 import type { LobbyRoomCardProps } from './LobbyRoomCard.types';
