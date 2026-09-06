@@ -3,5 +3,4 @@ import type { ComponentProps } from 'react';
 
 export type SeparatorProps = Omit<ComponentProps<typeof Separator>, 'className'> & {
   className?: string;
-  decorative?: boolean;
 };

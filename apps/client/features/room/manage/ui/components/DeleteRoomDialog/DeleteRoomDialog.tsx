@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 
 import { useErrorMessage } from '@/entities/app/locale';
 import { useDeleteRoom } from '@/entities/room/room';
+import { useRoomSession } from '@/entities/room/session';
 import { ROUTES } from '@/shared/constants';
 import { ConfirmDialog, Text } from '@/ui-kit';
 
@@ -19,6 +20,8 @@ export const DeleteRoomDialog = ({ room, open, onOpenChange }: DeleteRoomDialogP
   const router = useRouter();
   const params = useSearchParams();
 
+  const { close } = useRoomSession();
+
   const deleteMutation = useDeleteRoom();
 
   const onConfirm = () => {
@@ -29,6 +32,8 @@ export const DeleteRoomDialog = ({ room, open, onOpenChange }: DeleteRoomDialogP
           description: `"${room.name}"`
         });
         onOpenChange(false);
+        close(room.id);
+
         if (params.get('id') === room.id) {
           router.replace(ROUTES.lobby);
         }

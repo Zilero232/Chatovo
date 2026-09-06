@@ -8,7 +8,8 @@ import { useEffect, useRef } from 'react';
 import { match } from 'ts-pattern';
 
 import { useCurrentUser } from '@/entities/auth/user';
-import { isPublicRoute, ROUTES } from '@/shared/constants';
+import { ROUTES } from '@/shared/constants';
+import { isPublicRoute } from '@/shared/lib';
 import { AppSplash } from '@/ui-kit';
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {

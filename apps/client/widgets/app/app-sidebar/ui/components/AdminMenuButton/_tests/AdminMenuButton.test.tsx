@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { NextIntlClientProvider } from 'next-intl';
 import { describe, expect, it, vi } from 'vitest';
 
-import messages from '@/shared/i18n/locales/en.json';
+import { en as messages } from '@/shared/i18n/locales/en';
 
 const setGroup = vi.fn();
 

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { isNonNullish } from 'remeda';
 
 import { UserAvatar, UserName } from '@/entities/auth/user';
-import { buildRoomHref } from '@/shared/constants';
+import { buildRoomHref } from '@/shared/lib';
 
 import type { ChannelsFriendItemProps } from './ChannelsFriendItem.types';
 

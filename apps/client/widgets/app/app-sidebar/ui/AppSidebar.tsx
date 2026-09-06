@@ -13,6 +13,7 @@ import {
   CheckUpdateButton,
   DownloadAppButton,
   GnomeVpnButton,
+  LobbyButton,
   LogoutButton,
   ToggleChannelsButton
 } from './components';
@@ -21,9 +22,10 @@ import s from './AppSidebar.module.scss';
 
 export const AppSidebar = ({
   channelsOpened,
-  onToggleChannels,
   orientation = 'vertical',
-  showToggleChannels = true
+  showToggleChannels = true,
+  onNavigate,
+  onToggleChannels
 }: AppSidebarProps) => {
   const isDesktop = useIsTauriDesktop();
   const isVertical = orientation === 'vertical';
@@ -38,11 +40,12 @@ export const AppSidebar = ({
       {showToggleChannels && (
         <ToggleChannelsButton opened={channelsOpened} onToggle={onToggleChannels} />
       )}
+      <LobbyButton side={isVertical ? 'right' : 'top'} onNavigate={onNavigate} />
       <GnomeVpnButton />
       <FriendsDialog />
       {!isTauri() && <DownloadAppButton />}
       <div className={s.spacer} />
-      <AdminMenuButton side={isVertical ? 'right' : 'top'} />
+      <AdminMenuButton side={isVertical ? 'right' : 'top'} onNavigate={onNavigate} />
       {isDesktop && <CheckUpdateButton />}
       <LogoutButton />
     </div>

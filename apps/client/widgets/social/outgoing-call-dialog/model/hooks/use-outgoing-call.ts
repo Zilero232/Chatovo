@@ -14,7 +14,8 @@ import {
   useOutgoingFriendCall
 } from '@/entities/social/friend';
 import { ackOutgoingFriendCall } from '@/shared/api';
-import { buildRoomHref, QUERY_KEYS } from '@/shared/constants';
+import { QUERY_KEYS } from '@/shared/constants';
+import { buildRoomHref } from '@/shared/lib';
 
 const CALL_STATUS = friendCallStatusSchema.enum;
 

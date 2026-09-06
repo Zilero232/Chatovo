@@ -10,7 +10,7 @@ import {
   useFriendCallRingtone,
   useIncomingFriendCall
 } from '@/entities/social/friend';
-import { buildRoomHref } from '@/shared/constants';
+import { buildRoomHref } from '@/shared/lib';
 
 export const useIncomingCall = () => {
   const errorMessage = useErrorMessage();

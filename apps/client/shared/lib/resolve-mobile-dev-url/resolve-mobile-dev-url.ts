@@ -1,4 +1,4 @@
-import { isTauriMobile } from './tauri-platform';
+import { isTauriMobile } from '../tauri-platform';
 
 const ANDROID_EMULATOR_HOST = '10.0.2.2';
 

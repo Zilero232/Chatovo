@@ -1,4 +1,4 @@
-import { APP_SCHEME } from '@/shared/constants/scheme';
+import { APP_SCHEME } from '@/shared/constants';
 
 export const parseDeepLinkToAppPath = (url: string): string | null => {
   try {

@@ -15,7 +15,7 @@ import type { AdminMenuButtonProps } from './AdminMenuButton.types';
 
 import s from './AdminMenuButton.module.scss';
 
-export const AdminMenuButton = ({ side = 'right' }: AdminMenuButtonProps) => {
+export const AdminMenuButton = ({ side = 'right', onNavigate }: AdminMenuButtonProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -47,7 +47,12 @@ export const AdminMenuButton = ({ side = 'right' }: AdminMenuButtonProps) => {
 
       <DropdownMenuContent align={side === 'top' ? 'start' : 'end'} className={s.menu} side={side}>
         {!isInAdmin && (
-          <DropdownMenuItem onSelect={() => router.push(ROUTES.admin)}>
+          <DropdownMenuItem
+            onSelect={() => {
+              router.push(ROUTES.admin);
+              onNavigate?.();
+            }}
+          >
             <Wrench />
             {t('openPanel')}
           </DropdownMenuItem>

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { filter, indexBy, isEmpty, isNonNullish, map } from 'remeda';
 
 import { useRecentRooms, useRooms, useRoomsPresence } from '@/entities/room/room';
-import { buildRoomHref } from '@/shared/constants';
+import { buildRoomHref } from '@/shared/lib';
 import { Skeleton } from '@/ui-kit';
 
 import type { RecentRoomsProps } from './RecentRooms.types';

@@ -7,7 +7,7 @@ import { sum, values } from 'remeda';
 
 import { useAppSettings } from '@/entities/app/settings';
 import { useCurrentUser } from '@/entities/auth/user';
-import { useActiveVoiceRoomId } from '@/shared/hooks';
+import { useActiveVoiceRoomId } from '@/entities/room/session';
 import { appEvents } from '@/shared/lib';
 
 import type { UseFriendChatUnreadInput } from './use-friend-chat-unread.types';

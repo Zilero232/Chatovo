@@ -4,7 +4,8 @@ import { useRouter } from 'next/navigation';
 import { useAppSettings } from '@/entities/app/settings';
 import { useCurrentUser } from '@/entities/auth/user';
 import { fetchLiveKitToken } from '@/shared/api';
-import { buildRoomHref, QUERY_KEYS } from '@/shared/constants';
+import { QUERY_KEYS } from '@/shared/constants';
+import { buildRoomHref } from '@/shared/lib';
 
 export type EnterRoomInput = {
   password?: string;

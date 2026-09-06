@@ -1,4 +1,4 @@
-import { isTauriMobile } from './tauri-platform';
+import { isTauriMobile } from '../tauri-platform';
 
 export const isScreenShareSupported = (): boolean => {
   if (typeof window === 'undefined') {

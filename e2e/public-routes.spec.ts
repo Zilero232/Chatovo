@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('public routes', () => {
-  test('landing renders and links to the auth page', async ({ page }) => {
+  test('home renders and links to the auth page', async ({ page }) => {
     await page.goto('/');
 
     await expect(page).toHaveTitle(/chatovo/i);

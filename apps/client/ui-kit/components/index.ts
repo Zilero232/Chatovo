@@ -1,6 +1,5 @@
 export * from './AuthBackground';
 export * from './AvatarWithBadges';
-export * from './Banner';
 export * from './BrandMark';
 export * from './CenteredState';
 export * from './ConfirmDialog';
@@ -8,5 +7,6 @@ export * from './FilePicker';
 export * from './FormField';
 export * from './IconButtonWithTooltip';
 export * from './OverlayCloseButton';
+export * from './RevealOnScroll';
 export * from './SearchField';
 export * from './SubmitButton';
