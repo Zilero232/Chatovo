@@ -1,3 +1,5 @@
+import type { AdminUserQuery } from '@chatovo/schemas';
+
 import { USER_ROLE } from '@chatovo/schemas';
 import { Injectable } from '@nestjs/common';
 import { isNullish } from 'remeda';
@@ -5,8 +7,6 @@ import { match } from 'ts-pattern';
 
 import type { Prisma } from '../../../../../generated';
 import type {
-  GetAdminUserInput,
-  ListAdminUsersInput,
   ListOnlineUsersInput,
   ListUserMessagesInput,
   UpdateAdminUserInput
@@ -14,7 +14,6 @@ import type {
 
 import { AppBadRequestException, AppNotFoundException } from '../../../../common/exceptions';
 import { PrismaService } from '../../../../core';
-import { assertIsAdmin } from '../../../../lib';
 import { ejectParticipantEverywhere, revokeUserGrants } from '../../../livekit';
 import {
   closeUserConnections,
@@ -28,9 +27,7 @@ import { adminUserInclude, toAbuseReport, toAdminUser, toAdminUserMessage } from
 export class AdminUserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async list({ adminId, query }: ListAdminUsersInput) {
-    await assertIsAdmin(adminId);
-
+  async list(query: AdminUserQuery) {
     const { search, filter, page, perPage } = query;
 
     const where: Prisma.UserWhereInput = {
@@ -63,9 +60,7 @@ export class AdminUserService {
     return { items: items.map(toAdminUser), total };
   }
 
-  async get({ adminId, userId }: GetAdminUserInput) {
-    await assertIsAdmin(adminId);
-
+  async get(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       include: adminUserInclude
@@ -78,10 +73,8 @@ export class AdminUserService {
     return toAdminUser(user);
   }
 
-  async details({ adminId, userId }: GetAdminUserInput) {
-    await assertIsAdmin(adminId);
-
-    const user = await this.get({ adminId, userId });
+  async details(userId: string) {
+    const user = await this.get(userId);
 
     const [ownedRooms, reportsAgainst, reportsFiled, sessions, lastMessage] = await Promise.all([
       this.prisma.room.findMany({
@@ -114,9 +107,7 @@ export class AdminUserService {
     };
   }
 
-  async messages({ adminId, userId, query }: ListUserMessagesInput) {
-    await assertIsAdmin(adminId);
-
+  async messages({ userId, query }: ListUserMessagesInput) {
     const { page, perPage } = query;
     const where = { senderId: userId };
 
@@ -134,8 +125,6 @@ export class AdminUserService {
   }
 
   async update({ adminId, userId, input }: UpdateAdminUserInput) {
-    await assertIsAdmin(adminId);
-
     const user = await this.prisma.user.findUnique({ where: { id: userId }, select: { id: true } });
 
     if (isNullish(user)) {
@@ -172,7 +161,7 @@ export class AdminUserService {
       await this.dropPrivileges(userId);
     }
 
-    return this.get({ adminId, userId });
+    return this.get(userId);
   }
 
   private async listOnline({ where, page, perPage }: ListOnlineUsersInput) {
@@ -204,7 +193,7 @@ export class AdminUserService {
     await ejectParticipantEverywhere(userId);
   }
 
-  private filterClause(filter: ListAdminUsersInput['query']['filter']): Prisma.UserWhereInput {
+  private filterClause(filter: AdminUserQuery['filter']): Prisma.UserWhereInput {
     return match(filter)
       .with('blocked', () => ({ blockedAt: { not: null } }))
       .with('admins', () => ({ role: USER_ROLE.admin }))

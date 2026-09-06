@@ -1,13 +1,13 @@
+import type { AdminRoomQuery } from '@chatovo/schemas';
+
 import { Injectable } from '@nestjs/common';
 import { isNullish } from 'remeda';
 
 import type { Prisma } from '../../../../../generated';
-import type { DeleteAdminRoomInput, ListAdminRoomsInput } from '../../moderation.service.types';
 
 import { AppNotFoundException } from '../../../../common/exceptions';
 import { PrismaService } from '../../../../core';
-import { assertIsAdmin } from '../../../../lib';
-import { getSnapshot, revokeRoomGrants } from '../../../livekit';
+import { closeLivekitRoom, getSnapshot, revokeRoomGrants } from '../../../livekit';
 import { toPageArgs } from '../../lib';
 import { adminRoomInclude, toAdminRoom } from '../../mappers';
 
@@ -15,9 +15,7 @@ import { adminRoomInclude, toAdminRoom } from '../../mappers';
 export class AdminRoomService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async list({ adminId, query }: ListAdminRoomsInput) {
-    await assertIsAdmin(adminId);
-
+  async list(query: AdminRoomQuery) {
     const { search, page, perPage } = query;
 
     const where: Prisma.RoomWhereInput = search
@@ -44,9 +42,7 @@ export class AdminRoomService {
     };
   }
 
-  async remove({ adminId, roomId }: DeleteAdminRoomInput) {
-    await assertIsAdmin(adminId);
-
+  async remove(roomId: string) {
     const room = await this.prisma.room.findUnique({ where: { id: roomId }, select: { id: true } });
 
     if (isNullish(room)) {
@@ -56,5 +52,6 @@ export class AdminRoomService {
     await this.prisma.room.delete({ where: { id: roomId } });
 
     revokeRoomGrants(roomId);
+    await closeLivekitRoom(roomId);
   }
 }

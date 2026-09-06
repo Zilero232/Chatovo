@@ -30,12 +30,12 @@ export const handleClientMessage = async (
 
       setConnectionRooms(connection.id, accessible);
     })
-    .with({ op: 'presence.patch' }, ({ roomId, micMuted, deafened }) => {
+    .with({ op: 'presence.patch' }, ({ roomId, micMuted, deafened, activity }) => {
       if (!connection.rooms.has(roomId)) {
         return;
       }
 
-      patchParticipant(roomId, connection.userId, { micMuted, deafened });
+      patchParticipant(roomId, connection.userId, { micMuted, deafened, activity });
     })
     .with({ op: 'room.reaction' }, ({ roomId, emoji }) => {
       if (!connection.rooms.has(roomId)) {
@@ -46,6 +46,18 @@ export const handleClientMessage = async (
         type: 'room.reaction',
         roomId,
         emoji,
+        senderId: connection.userId
+      });
+    })
+    .with({ op: 'room.soundboard' }, ({ roomId, sound }) => {
+      if (!connection.isAdmin || !connection.rooms.has(roomId)) {
+        return;
+      }
+
+      emitRoomEvent(roomId, {
+        type: 'room.soundboard',
+        roomId,
+        sound,
         senderId: connection.userId
       });
     })

@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { startOfDay, subDays } from 'date-fns';
 
 import { PrismaService } from '../../../../core';
-import { assertIsAdmin } from '../../../../lib';
 import { getSnapshot } from '../../../livekit';
 import { SERIES_DAYS } from '../../config';
 import { toDaySeries } from '../../lib';
@@ -12,9 +11,7 @@ import { toDaySeries } from '../../lib';
 export class AdminStatsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async read(adminId: string) {
-    await assertIsAdmin(adminId);
-
+  async read() {
     const now = new Date();
     const today = startOfDay(now);
     const weekAgo = subDays(today, 7);

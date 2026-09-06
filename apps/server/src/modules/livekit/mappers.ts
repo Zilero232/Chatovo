@@ -13,5 +13,6 @@ export const toRoomParticipant = ({
   micMuted: isMicMuted(participant.tracks),
   deafened: participant.attributes?.deafened === 'true',
   invisible,
+  activity: null,
   ...parseParticipantMeta(participant.metadata)
 });

@@ -31,7 +31,10 @@ export const roomParticipantSchema = participantProfileSchema.extend({
   deafened: z.boolean().default(false),
   // True when the participant joined in admin invisible mode. Only ever set on
   // the admin-only snapshot — the public one never contains such a participant.
-  invisible: z.boolean().default(false)
+  invisible: z.boolean().default(false),
+  // Name of the game or app the participant is running, when they chose to
+  // share it. Desktop-only and opt-in, so null is the normal case.
+  activity: z.string().nullable().default(null)
 });
 
 // SSE payload pushed to clients: the full participant list of every active

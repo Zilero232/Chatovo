@@ -13,7 +13,6 @@ import {
   AppNotFoundException
 } from '../../../../common/exceptions';
 import { PrismaService } from '../../../../core';
-import { assertIsAdmin } from '../../../../lib';
 import { ejectParticipantEverywhere, revokeUserGrants } from '../../../livekit';
 import { BLOCKED_WS_CLOSE_CODE, closeUserConnections } from '../../../realtime';
 import { ADMIN_LIST_MAX } from '../../config';
@@ -27,8 +26,6 @@ export class UserBlockService {
   ) {}
 
   async block({ userId, adminId, input }: BlockUserInput) {
-    await assertIsAdmin(adminId);
-
     if (userId === adminId) {
       throw new AppBadRequestException('BLOCK_SELF', 'Cannot block yourself');
     }
@@ -62,9 +59,7 @@ export class UserBlockService {
     return toAdminUser(blocked);
   }
 
-  async unblock({ userId, adminId }: UnblockUserInput) {
-    await assertIsAdmin(adminId);
-
+  async unblock({ userId }: UnblockUserInput) {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
 
     if (isNullish(user)) {
@@ -80,9 +75,7 @@ export class UserBlockService {
     return toAdminUser(unblocked);
   }
 
-  async list(adminId: string) {
-    await assertIsAdmin(adminId);
-
+  async list() {
     const users = await this.prisma.user.findMany({
       where: { blockedAt: { not: null } },
       include: adminUserInclude,

@@ -16,13 +16,13 @@ import { DomainEvent } from '../../../common/events/domain-events';
 import { AppConflictException, AppNotFoundException } from '../../../common/exceptions';
 import { PrismaService } from '../../../core';
 import {
-  assertCanAccessRoom,
   assertCanManageRoom,
+  assertCanViewRoom,
   getUserDisplayName,
   hashRoomPassword,
   roomSelect
 } from '../../../lib';
-import { revokeRoomGrants } from '../../livekit';
+import { closeLivekitRoom, revokeRoomGrants } from '../../livekit';
 
 @Injectable()
 export class RoomsService {
@@ -40,7 +40,7 @@ export class RoomsService {
   }
 
   async getRoom({ roomId, userId }: GetRoomInput) {
-    await assertCanAccessRoom({ roomId, userId });
+    await assertCanViewRoom({ roomId, userId });
 
     const room = await this.prisma.room.findUnique({ where: { id: roomId }, select: roomSelect });
 
@@ -130,6 +130,9 @@ export class RoomsService {
       where: { id: roomId },
       select: { name: true }
     });
+
+    revokeRoomGrants(roomId);
+    await closeLivekitRoom(roomId);
 
     const ownerName = await getUserDisplayName(room.ownerId);
 

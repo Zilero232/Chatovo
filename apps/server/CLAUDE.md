@@ -2,7 +2,7 @@
 
 Guidance for Claude Code when working in the API. Extends the root [../../CLAUDE.md](../../CLAUDE.md) (incl. the DB-schema note, `bun db:push`); root rules still apply.
 
-Компактная выжимка кодстайла — [../../.claude/rules/code-style-server.md](../../.claude/rules/code-style-server.md) (+ общий [code-style.md](../../.claude/rules/code-style.md)); подгружается автоматически при редактировании файлов `apps/server`. Полная версия с примерами — [../../docs/guides/style.md](../../docs/guides/style.md).
+The compact code-style digest is [../../.claude/rules/code-style-server.md](../../.claude/rules/code-style-server.md) (plus the shared [code-style.md](../../.claude/rules/code-style.md)); it loads automatically when you edit files under `apps/server`. The full version with examples is [../../docs/guides/style.md](../../docs/guides/style.md).
 
 API — **NestJS 11 on the Bun runtime** + **Prisma** (self-hosted Postgres) + **better-auth** (Bearer tokens). Realtime media via **LiveKit** SFU with server-issued JWTs. Bun runs the TypeScript source directly (no compile step); Nest provides DI + module structure.
 

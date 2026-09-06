@@ -2,7 +2,13 @@ import type { RoomParticipant } from '@chatovo/schemas';
 
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { addParticipant, clearRoom, getAdminSnapshot, getSnapshot } from '../presence-store';
+import {
+  addParticipant,
+  clearRoom,
+  getAdminSnapshot,
+  getSnapshot,
+  patchParticipant
+} from '../presence-store';
 
 const participant = (identity: string, invisible = false): RoomParticipant => ({
   identity,
@@ -10,6 +16,7 @@ const participant = (identity: string, invisible = false): RoomParticipant => ({
   micMuted: true,
   deafened: false,
   invisible,
+  activity: null,
   verified: false,
   developer: false,
   profileUrl: null,
@@ -44,5 +51,41 @@ describe('presence snapshots', () => {
 
     expect(getSnapshot().rooms['room-a']).toBeUndefined();
     expect(getAdminSnapshot().rooms['room-a']).toHaveLength(1);
+  });
+});
+
+describe('patchParticipant', () => {
+  beforeEach(() => {
+    clearRoom('room-b');
+    addParticipant('room-b', participant('user-1'));
+  });
+
+  const readParticipant = () => getSnapshot().rooms['room-b']?.[0];
+
+  it('publishes the activity a participant shares', () => {
+    patchParticipant('room-b', 'user-1', { activity: 'Dota 2' });
+
+    expect(readParticipant()?.activity).toBe('Dota 2');
+  });
+
+  it('clears the activity when null is sent', () => {
+    patchParticipant('room-b', 'user-1', { activity: 'Dota 2' });
+    patchParticipant('room-b', 'user-1', { activity: null });
+
+    expect(readParticipant()?.activity).toBeNull();
+  });
+
+  it('leaves the activity alone when the patch omits it', () => {
+    patchParticipant('room-b', 'user-1', { activity: 'Dota 2' });
+    patchParticipant('room-b', 'user-1', { deafened: true });
+
+    expect(readParticipant()?.activity).toBe('Dota 2');
+    expect(readParticipant()?.deafened).toBe(true);
+  });
+
+  it('ignores a patch for a participant who is not in the room', () => {
+    patchParticipant('room-b', 'stranger', { activity: 'Dota 2' });
+
+    expect(readParticipant()?.activity).toBeNull();
   });
 });
