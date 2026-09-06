@@ -6,6 +6,7 @@ name: deploy
 #
 # Secrets — Settings → Secrets and variables → Actions:
 #   NEXT_PUBLIC_API_URL       baked into the web image at build time
+#   NEXT_PUBLIC_APP_URL       likewise, the app host e.g. https://app.chatovo.ru
 #   NEXT_PUBLIC_LIVEKIT_URL   likewise
 #   SSH_HOST                  production VPS
 #   SSH_USER
@@ -67,6 +68,7 @@ jobs:
           tags: ghcr.io/${{ steps.owner.outputs.value }}/chatovo-web:latest
           build-args: |
             NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+            NEXT_PUBLIC_APP_URL=${{ secrets.NEXT_PUBLIC_APP_URL }}
             NEXT_PUBLIC_LIVEKIT_URL=${{ secrets.NEXT_PUBLIC_LIVEKIT_URL }}
           cache-from: type=gha,scope=web
           cache-to: type=gha,mode=max,scope=web

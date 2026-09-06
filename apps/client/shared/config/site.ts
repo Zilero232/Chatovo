@@ -1,5 +1,6 @@
 export const SITE = {
   url: 'https://chatovo.ru',
+  appUrl: 'https://app.chatovo.ru',
   name: 'Chatovo',
   title: 'Chatovo — голосовые и видеокомнаты в реальном времени',
   description:
