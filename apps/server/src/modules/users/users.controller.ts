@@ -1,3 +1,4 @@
+import { CacheInterceptor } from '@nestjs/cache-manager';
 import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
@@ -37,6 +38,7 @@ export class UsersController {
     });
   }
 
+  @UseInterceptors(CacheInterceptor)
   @Get('developers')
   @ZodResponse({ type: DeveloperListDto })
   listDevelopers() {

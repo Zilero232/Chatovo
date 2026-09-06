@@ -92,8 +92,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-html.landing,
-html.landing body {
+html.marketing,
+html.marketing body {
   overflow: clip auto;
   height: auto;
   min-height: 100%;
@@ -101,7 +101,7 @@ html.landing body {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  html.landing {
+  html.marketing {
     scroll-behavior: smooth;
   }
 }

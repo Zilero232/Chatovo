@@ -10,13 +10,13 @@ Architecture is **Feature-Sliced Design** with two local tweaks (`pages` → `vi
 - **[../../docs/guides/style.md](../../docs/guides/style.md)** — naming, segments, import order (FULL version: examples + reasoning)
 - **[../../CLAUDE.md](../../CLAUDE.md)** — repo-wide guidance, reuse-first rules
 
-Компактная выжимка кодстайла — [../../.claude/rules/code-style-client.md](../../.claude/rules/code-style-client.md) (+ общий [code-style.md](../../.claude/rules/code-style.md)); она подгружается автоматически при редактировании файлов `apps/client`. Полная версия — `docs/guides/style.md`; правило меняется в обоих местах.
+The compact code-style digest is [../../.claude/rules/code-style-client.md](../../.claude/rules/code-style-client.md) (plus the shared [code-style.md](../../.claude/rules/code-style.md)); it loads automatically when you edit files under `apps/client`. The full version is `docs/guides/style.md`; when a rule changes, update both places.
 
 ## Layer map
 
 ```
 app/        # Next.js routes (thin server wrappers) + providers/. No 'use client' in page/layout.
-views/      # whole screens per route (canon FSD: pages/) — auth, error, landing, legal, lobby, not-found, reset-password, room
+views/      # whole screens per route (canon FSD: pages/) — auth, error, home, legal, lobby, not-found, reset-password, room
 widgets/    # large composable UI blocks, grouped by domain: app/, chat/, layout/, room/, social/
 features/   # user interactions w/ business value, by domain: app/, auth/, room/, social/
 entities/   # base domain concepts, by domain: app/, auth/, room/, social/
@@ -32,29 +32,29 @@ A **widget importing a feature is correct** (it composes them) — only Feature�
 
 - **Public API**: import to the slice (`@/features/auth/sign-in`), never the domain group (`@/features/auth`) or deep past the barrel.
 - **`ui-kit`**: import from the single root barrel `@/ui-kit`, not per-primitive. Each primitive lives in its own PascalCase folder under `primitives/` (base) or `components/` (composed), see [../../docs/guides/style.md](../../docs/guides/style.md) §2.1.
-- **SCSS shared imports**: `@use '@/ui-kit/styles/mixins' as *` — без относительных `../../../` (`sassOptions.loadPaths` + `turbopack.resolveAlias` в `next.config.ts`).
+- **SCSS shared imports**: `@use '@/ui-kit/styles/mixins' as *` — no relative `../../../` (via `sassOptions.loadPaths` + `turbopack.resolveAlias` in `next.config.ts`).
 - **`model/` barrels** live in subfolders (`model/hooks/index.ts`), never a slice-level `model/index.ts`.
-- **Per-component barrels**: every component folder carries an `index.ts` re-exporting the component and its types (`export { Button } from './Button'; export type { ButtonProps } from './Button.types';`). Parents import through the folder, not the file.
+- **Per-component barrels — only in `ui-kit`**: there every primitive folder carries its own `index.ts` (`export { Button } from './Button'; export type { ButtonProps } from './Button.types';`). In `views/` `widgets/` `features/` `entities/` do **not** create per-component `index.ts` files: the aggregating `ui/components/index.ts` points straight at the file (`export { X } from './X/X'`), and the parent imports through it.
 - **Settings state** (`useAppSettings`, settings types) lives in `entities/app/settings` — NOT the `widgets/app/app-settings` widget (which is UI-only).
 - **Shared Zod schemas** come from `@chatovo/schemas` ([../../packages/schemas](../../packages/schemas)); auth/profile/room schemas live there, not inline.
-- **i18n**: `useTranslations` in client components, `getTranslations` from `next-intl/server` in server components (see `views/landing`). Keys in locale JSON under `shared/i18n/locales/`. Don't edit generated `messages.d.ts`.
+- **i18n**: `useTranslations` in client components, `getTranslations` from `next-intl/server` in server components (see `views/home`). Keys in locale JSON under `shared/i18n/locales/`. Don't edit generated `messages.d.ts`.
 - Alias `@/*` → `apps/client/*`.
 
 ## Base UI gotchas
 
-UI-примитивы в `ui-kit` построены на **`@base-ui/react`** (миграция с react-aria-components завершена; `react-aria` / `react-aria-components` больше не в зависимостях). Импорт — всегда из подпути: `import { Menu } from '@base-ui/react/menu'`, не из корня пакета.
+The `ui-kit` UI primitives are built on **`@base-ui/react`** (the migration off react-aria-components is complete; `react-aria` / `react-aria-components` are no longer dependencies). Always import from the subpath: `import { Menu } from '@base-ui/react/menu'`, never from the package root.
 
-- **Имя пакета**: в v1.0.0 пакет переехал из орг-скоупа `@base-ui-components/react` в **`@base-ui/react`** (единственный breaking change релиза, CHANGELOG v1.0.0). Старое имя больше не ставится и не резолвится — если встретил его в коде или доке, это устаревший след.
+- **Package name**: in v1.0.0 the package moved from the `@base-ui-components/react` org scope to **`@base-ui/react`** (the release's only breaking change, CHANGELOG v1.0.0). The old name no longer installs or resolves — if you find it in code or docs, it is a stale leftover.
 
-- **State attributes**: Base UI ставит `data-popup-open` (открытый оверлей — и на триггере, и на popup), `data-highlighted` (активный пункт меню), `data-checked`, `data-disabled`, `data-placeholder`. Селекторы из RAC (`data-selected`, `data-hovered`, `data-pressed`) и из Radix (`data-state='open'`) молча не срабатывают. Стиль «меню открыто» — `&[data-popup-open]`, hover-пункт меню — `&[data-highlighted]`.
-- **`render`, а не `asChild` / `Pressable`**: чтобы триггер отрендерился твоим компонентом, передавай элемент в `render`: `<Menu.Trigger render={<Button {...props} />} />` (см. `DropdownMenu`, `Dialog`). Никаких оберток-`Pressable` — их в кодовой базе больше нет.
-- **`onClick` работает**: `ui-kit` `Button` — обычный нативный `<button>` (или `<a>` при `href`), моста `onPress`/`ButtonContext` больше нет. Нативный элемент можно спокойно класть в `render` любого триггера.
-- **Анимация оверлеев**: два рабочих подхода. (1) **CSS** — Base UI сам держит узел в DOM на время выхода и ставит `data-starting-style` / `data-ending-style`; enter/exit пиши как `&[data-starting-style] { animation: … }` (см. `Dialog.module.scss`). (2) **motion** — как в `Sheet`: `<Dialog.Portal keepMounted>` + `AnimatePresence` вокруг содержимого, а `motion.div` подставляется через проп `render` у `Dialog.Backdrop` / `Dialog.Popup`, чтобы focus-trap и a11y остались за библиотекой. Ключевое: при motion выходом управляет `AnimatePresence`, поэтому портал обязан быть `keepMounted`, а `data-starting-style` / `data-ending-style` в стилях не используются — иначе анимации подерутся за момент размонтирования.
-- **Закрытие по outside-press с вложенным оверлеем**: `onOpenChange` во втором аргументе получает `eventDetails` с `reason` (`'outside-press'`, `'escape-key'`, `'trigger-press'`, `'close-press'`, `'focus-out'`, …), методом `cancel()` и флагом `isCanceled` (полный список причин — `internals/reason-parts.d.ts` в пакете). Сейчас **ни один компонент в `ui-kit` этим не пользуется**: хелпер `shouldKeepDialogOpen` и `shared/lib/nested-overlay.ts` удалены, `Sheet`/`Dialog` прокидывают `onOpenChange` как `(open: boolean) => void`. Если вложенный оверлей снова начнёт закрывать родительский Dialog — гаси точечно через `eventDetails.reason === 'outside-press'` + `eventDetails.cancel()`, второй аргумент для этого никуда не делся.
-- **`DropdownMenuLabel` только внутри группы**: `Menu.GroupLabel` обязан лежать в `Menu.Group` или `Menu.RadioGroup`. Голый `<DropdownMenuLabel>` прямо в `DropdownMenuContent` роняет попап — меню молча не открывается по клику, без ошибки в консоли. Нужен заголовок без группы — не ставь его вовсе.
-- **Тумблер в меню — `DropdownMenuCheckboxItem`**, не самодельный `<label>` со `Switch`: `Menu.CheckboxItem` по умолчанию не закрывает попап при клике (`closeOnClick={false}`) и сам даёт `data-checked`, клавиатуру и aria.
-- **Select**: `onValueChange` отдаёт `unknown`; `BaseSelect.Value` принимает children-функцию `(selected) => …` для рендера выбранного. `data-placeholder` на триггере проставляется вручную (см. `Select.tsx`), автоматически его нет.
-- **Нативные `<button>` без своих стилей**: глобальный reset в `globals.scss` убирает UA-фон; `cursor: pointer` тоже задаётся глобально по ролям.
+- **State attributes**: Base UI sets `data-popup-open` (an open overlay — on both the trigger and the popup), `data-highlighted` (the active menu item), `data-checked`, `data-disabled`, `data-placeholder`. Selectors from RAC (`data-selected`, `data-hovered`, `data-pressed`) and from Radix (`data-state='open'`) silently never match. Style "menu is open" as `&[data-popup-open]` and a hovered menu item as `&[data-highlighted]`.
+- **`render`, not `asChild` / `Pressable`**: to have a trigger render as your own component, pass the element to `render`: `<Menu.Trigger render={<Button {...props} />} />` (see `DropdownMenu`, `Dialog`). No `Pressable` wrappers — they are gone from the codebase.
+- **`onClick` works**: the `ui-kit` `Button` is a plain native `<button>` (or an `<a>` when given `href`); the `onPress` / `ButtonContext` bridge is gone. A native element can safely be passed to the `render` prop of any trigger.
+- **Animating overlays**: two approaches work. (1) **CSS** — Base UI keeps the node in the DOM for the duration of the exit and sets `data-starting-style` / `data-ending-style`; write enter/exit as `&[data-starting-style] { animation: … }` (see `Dialog.module.scss`). (2) **motion** — as in `Sheet`: `<Dialog.Portal keepMounted>` plus `AnimatePresence` around the content, with `motion.div` supplied through the `render` prop of `Dialog.Backdrop` / `Dialog.Popup` so the focus trap and a11y stay with the library. The key point: with motion, `AnimatePresence` owns the exit, so the portal must be `keepMounted` and `data-starting-style` / `data-ending-style` must not be used in the styles — otherwise the two animations fight over the moment of unmount.
+- **Closing on outside-press with a nested overlay**: `onOpenChange` receives `eventDetails` as its second argument, carrying `reason` (`'outside-press'`, `'escape-key'`, `'trigger-press'`, `'close-press'`, `'focus-out'`, …), a `cancel()` method and an `isCanceled` flag (the full list of reasons is in `internals/reason-parts.d.ts` in the package). Right now **no component in `ui-kit` uses this**: the `shouldKeepDialogOpen` helper and `shared/lib/nested-overlay.ts` were deleted, and `Sheet` / `Dialog` pass `onOpenChange` through as `(open: boolean) => void`. If a nested overlay starts closing the parent Dialog again, suppress it narrowly with `eventDetails.reason === 'outside-press'` + `eventDetails.cancel()` — that second argument is still there for exactly this.
+- **`DropdownMenuLabel` only inside a group**: `Menu.GroupLabel` must live inside a `Menu.Group` or `Menu.RadioGroup`. A bare `<DropdownMenuLabel>` directly in `DropdownMenuContent` breaks the popup — the menu silently stops opening on click, with no console error. If you need a heading without a group, don't add one at all.
+- **A toggle inside a menu is `DropdownMenuCheckboxItem`**, not a hand-made `<label>` with a `Switch`: `Menu.CheckboxItem` does not close the popup on click by default (`closeOnClick={false}`) and gives you `data-checked`, keyboard support and aria for free.
+- **Select**: `onValueChange` hands back `unknown`; `BaseSelect.Value` accepts a children function `(selected) => …` to render the selected value. `data-placeholder` on the trigger is set manually (see `Select.tsx`) — it is not applied automatically.
+- **Native `<button>` without its own styles**: the global reset in `globals.scss` removes the UA background; `cursor: pointer` is likewise set globally by role.
 
 ## Commands
 

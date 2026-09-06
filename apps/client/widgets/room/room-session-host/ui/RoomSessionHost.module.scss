@@ -1,0 +1,20 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  min-width: 0;
+}
+
+.expanded {
+  overflow: hidden;
+  min-height: 0;
+  flex: 1;
+}
+
+.minimized {
+  flex-shrink: 0;
+  padding: 0 0.5rem 0.5rem;
+
+  @include bp(md) {
+    padding: 0 0.75rem 0.75rem;
+  }
+}

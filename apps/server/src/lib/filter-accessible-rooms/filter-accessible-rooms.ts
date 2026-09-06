@@ -1,10 +1,7 @@
-import { match } from 'ts-pattern';
-
 import type { FilterAccessibleRoomsInput } from './filter-accessible-rooms.types';
 
-import { RoomKind } from '../../../generated';
 import { basePrisma as prisma } from '../../core';
-import { hasRoomGrant } from '../../modules/livekit';
+import { canAccessRoom } from '../can-access-room';
 
 export const filterAccessibleRooms = async ({
   roomIds,
@@ -27,17 +24,6 @@ export const filterAccessibleRooms = async ({
   });
 
   return rooms
-    .filter((room) =>
-      match(room)
-        .with(
-          { kind: RoomKind.dm },
-          ({ dmUserAId, dmUserBId }) => dmUserAId === userId || dmUserBId === userId
-        )
-        .with(
-          { isPrivate: true },
-          ({ id, ownerId }) => ownerId === userId || hasRoomGrant(id, userId)
-        )
-        .otherwise(() => true)
-    )
+    .filter((room) => canAccessRoom({ room, userId, tier: 'access' }))
     .map((room) => room.id);
 };

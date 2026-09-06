@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { UserAvatar } from '@/entities/auth/user';
-import { buildRoomHref } from '@/shared/constants';
+import { buildRoomHref } from '@/shared/lib';
 
 import type { ActivityRoomCardProps } from './ActivityRoomCard.types';
 

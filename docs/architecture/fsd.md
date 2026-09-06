@@ -1,50 +1,50 @@
 # Feature-Sliced Design — Chatovo
 
-FSD-методология для `apps/client/`. Этот документ — рабочая справка по архитектуре фронтенда: иерархия слоёв, правила импортов, публичные API, сегменты.
+The FSD methodology as applied to `apps/client/`. This document is the working reference for the frontend architecture: layer hierarchy, import rules, public APIs, segments.
 
-Полная спецификация: [feature-sliced.design](https://feature-sliced.design). Линтер FSD-правил: [Steiger](https://github.com/feature-sliced/steiger).
+Full specification: [feature-sliced.design](https://feature-sliced.design). Linter for FSD rules: [Steiger](https://github.com/feature-sliced/steiger).
 
-> **Расхождения с каноном FSD в этом проекте** (осознанные, см. причины ниже):
+> **Deviations from FSD canon in this project** (deliberate, reasons below):
 >
-> | Канон FSD | Chatovo | Почему |
+> | FSD canon | Chatovo | Why |
 > |---|---|---|
-> | Корень `src/` | Корень `apps/client/` (без `src/`) | Монорепо: `apps/client` уже изолирует фронтенд. `@/` → `apps/client/`. |
-> | Слой `pages/` | Слой `views/` | `pages/` в корне Next.js включает Pages Router. `views/` его обходит. |
+> | Root `src/` | Root `apps/client/` (no `src/`) | Monorepo: `apps/client` already isolates the frontend. `@/` → `apps/client/`. |
+> | Layer `pages/` | Layer `views/` | `pages/` at the Next.js root enables the Pages Router. `views/` sidesteps it. |
 >
-> Везде ниже, где канон говорит `pages` или `src/pages` — у нас `views`. Где говорит `src/` — у нас корень `apps/client/`.
+> Everywhere below where the canon says `pages` or `src/pages`, we have `views`. Where it says `src/`, we have the `apps/client/` root.
 
 ---
 
-## 1. Иерархия слоёв (сверху вниз)
+## 1. Layer hierarchy (top to bottom)
 
-| # | Слой | Назначение | Слайсы? |
+| # | Layer | Purpose | Slices? |
 |---|---|---|---|
-| 1 | App | Роутинг, провайдеры, глобальные стили, entrypoint | Нет |
-| 2 | Views *(канон: Pages)* | Целые экраны / композиции уровня роута | Да |
-| 3 | Widgets | Крупные самодостаточные UI-блоки (переиспользуемые или независимые) | Да |
-| 4 | Features | Пользовательские интеракции с бизнес-ценностью (формы, действия) | Да |
-| 5 | Entities | Базовые бизнес-понятия (user, room, message) | Да |
-| 6 | Shared | UI-кит, API-клиент, утилиты, i18n, конфиг — project-agnostic | Нет |
+| 1 | App | Routing, providers, global styles, entrypoint | No |
+| 2 | Views *(canon: Pages)* | Whole screens / route-level compositions | Yes |
+| 3 | Widgets | Large self-contained UI blocks (reusable or independent) | Yes |
+| 4 | Features | User interactions with business value (forms, actions) | Yes |
+| 5 | Entities | Core business concepts (user, room, message) | Yes |
+| 6 | Shared | UI kit, API client, utilities, i18n, config — project-agnostic | No |
 
-Слой `Processes` устарел — его содержимое переносится в `Features` или `App`.
+The `Processes` layer is deprecated — its contents move into `Features` or `App`.
 
-### Структура директорий
+### Directory structure
 
 ```
-apps/client/            # (канон: src/)
-├── app/                # Слой App (без слайсов — только сегменты)
-├── views/              # Слой Views (канон: pages/)
+apps/client/            # (canon: src/)
+├── app/                # App layer (no slices — segments only)
+├── views/              # Views layer (canon: pages/)
 │   └── <view-name>/
-├── widgets/            # Слой Widgets
+├── widgets/            # Widgets layer
 │   └── <domain>/       # app | chat | layout | room | social
 │       └── <widget-name>/
-├── features/           # Слой Features
+├── features/           # Features layer
 │   └── <domain>/       # app | auth | room | social
 │       └── <feature-name>/
-├── entities/           # Слой Entities
+├── entities/           # Entities layer
 │   └── <domain>/       # app | auth | room | social
 │       └── <entity-name>/
-├── shared/             # Слой Shared (без слайсов — только сегменты)
+├── shared/             # Shared layer (no slices — segments only)
 │   ├── api/
 │   ├── config/
 │   ├── constants/
@@ -52,78 +52,78 @@ apps/client/            # (канон: src/)
 │   ├── i18n/
 │   ├── lib/
 │   └── seo/
-└── ui-kit/             # Дизайн-система (без слайсов — только сегменты)
-    ├── primitives/     # базовые: Button, Input, Dialog, …
-    ├── components/     # составные: FormField, ConfirmDialog, …
+└── ui-kit/             # Design system (no slices — segments only)
+    ├── primitives/     # base: Button, Input, Dialog, …
+    ├── components/     # composed: FormField, ConfirmDialog, …
     ├── icons/
     └── styles/         # _tokens, _mixins, _functions, _breakpoints, _keyframes
 ```
 
-> **Доменная группировка слайсов.** В Chatovo слайсы внутри `features/`, `entities/`, `widgets/` сгруппированы по бизнес-домену (`auth`, `room`, `app`, `layout`). Это надстройка поверх FSD-канона (`<layer>/<slice>/`). Импорты: `@/features/auth/sign-in`, `@/entities/room/room`, `@/widgets/layout/authed-shell`. Группа `app` — кросс-доменная инфраструктура приложения (release, locale, tray, shortcuts, update). Группа `layout` — корневой shell.
+> **Domain grouping of slices.** In Chatovo the slices inside `features/`, `entities/` and `widgets/` are grouped by business domain (`auth`, `room`, `app`, `layout`). This is a layer on top of the FSD canon (`<layer>/<slice>/`). Imports: `@/features/auth/sign-in`, `@/entities/room/room`, `@/widgets/layout/authed-shell`. The `app` group is cross-domain application infrastructure (release, locale, tray, shortcuts, update). The `layout` group is the root shell.
 
 ---
 
-## 2. Золотое правило: направление импортов
+## 2. The golden rule: import direction
 
 ```
 App → Views → Widgets → Features → Entities → Shared
 ```
 
-Модуль импортирует только из слоёв **строго ниже**. Запрещено:
+A module imports only from layers **strictly below** it. Banned:
 
-- **Вверх** — Feature не может импортить из Widget или View.
-- **Вбок внутри слоя** — один Feature не может импортить другой Feature.
+- **Upwards** — a Feature cannot import from a Widget or a View.
+- **Sideways within a layer** — one Feature cannot import another Feature.
 
-**Исключение — cross-entity ссылки.** Когда Entity A нужен тип из Entity B, используй `@x`-паттерн: `entities/A/@x/B.ts` экспортирует только то, что B нужно от A.
-
----
-
-## 3. Слайсы
-
-Слайс — директория внутри слоя, названная по **бизнес-домену** (не по технической роли).
-
-- ✓ Хорошо: `user`, `room`, `auth`, `message`, `notification`
-- ✗ Плохо: `components`, `hooks`, `helpers`, `utils`
-
-**Правила:**
-
-- Каждый слайс изолирован — ноль связности с соседними слайсами того же слоя.
-- Связанные слайсы можно группировать в подпапки, но они остаются независимыми.
-- Имена слайсов — kebab-case.
-
-**Доменные группы (Chatovo):** слои `features/`, `entities/`, `widgets/` группируют слайсы по бизнес-домену:
-
-- `auth/` — авторизация (sign-in, sign-up, user)
-- `room/` — комнаты, голос, чат, presence
-- `social/` — друзья, профили, социальные диалоги
-- `app/` — инфраструктура приложения (release, locale, system-tray, shortcuts, check-app-update)
-- `chat/` (только widgets) — панель чата
-- `layout/` (только widgets) — корневой shell
-
-Доменная папка — организационный контейнер, **не публичный API**. Импорт всегда до уровня слайса: `@/features/room/create`, не `@/features/room`.
+**Exception — cross-entity references.** When Entity A needs a type from Entity B, use the `@x` pattern: `entities/A/@x/B.ts` exports only what B needs from A.
 
 ---
 
-## 4. Сегменты
+## 3. Slices
 
-Сегменты организуют код внутри слайса по технической цели:
+A slice is a directory inside a layer, named after a **business domain** (not a technical role).
 
-| Сегмент | Содержит |
+- ✓ Good: `user`, `room`, `auth`, `message`, `notification`
+- ✗ Bad: `components`, `hooks`, `helpers`, `utils`
+
+**Rules:**
+
+- Every slice is isolated — zero coupling with neighbouring slices of the same layer.
+- Related slices may be grouped into subfolders, but they stay independent.
+- Slice names are kebab-case.
+
+**Domain groups (Chatovo):** the `features/`, `entities/` and `widgets/` layers group slices by business domain:
+
+- `auth/` — authentication (sign-in, sign-up, user)
+- `room/` — rooms, voice, chat, presence
+- `social/` — friends, profiles, social dialogs
+- `app/` — application infrastructure (release, locale, system-tray, shortcuts, check-app-update)
+- `chat/` (widgets only) — the chat panel
+- `layout/` (widgets only) — the root shell
+
+A domain folder is an organisational container, **not a public API**. Always import down to the slice level: `@/features/room/create`, not `@/features/room`.
+
+---
+
+## 4. Segments
+
+Segments organise code inside a slice by technical purpose:
+
+| Segment | Holds |
 |---|---|
-| `ui/` | Компоненты, форматтеры, стили |
-| `model/` | Типы, интерфейсы, сторы, схемы, бизнес-логика |
-| `api/` | Запросы на бэкенд, мапперы данных, query-хуки |
-| `lib/` | Внутренние утилиты только для этого слайса |
-| `config/` | Фиче-флаги, константы, конфигурация |
+| `ui/` | Components, formatters, styles |
+| `model/` | Types, interfaces, stores, schemas, business logic |
+| `api/` | Backend requests, data mappers, query hooks |
+| `lib/` | Internal utilities for this slice only |
+| `config/` | Feature flags, constants, configuration |
 
-Кастомные сегменты допустимы — называй по тому, **что делают**, не что они есть.
-✗ Плохо: `hooks/`, `components/`. ✓ Хорошо: `model/`, `lib/`.
+Custom segments are allowed — name them after **what they do**, not what they are.
+✗ Bad: `hooks/`, `components/`. ✓ Good: `model/`, `lib/`.
 
 ---
 
-## 5. Публичный API (`index.ts`)
+## 5. Public API (`index.ts`)
 
-У каждого слайса — `index.ts` в корне, реэкспортирующий публичный интерфейс.
+Every slice has an `index.ts` at its root, re-exporting the public interface.
 
 ```ts
 // features/room/room-control/index.ts
@@ -132,24 +132,24 @@ export { useRoomControls } from './model/hooks';
 export { DeafenProvider } from './model/contexts';
 ```
 
-**Правила:**
+**Rules:**
 
-- **Без wildcard-экспортов** — `export * from './ui/Foo'` запрещён. Явно.
-- **Минимальная поверхность** — экспортируй только то, что реально нужно другим слоям.
-- **Внешние импорты — только через index слайса** — никогда `@/features/auth/sign-in/ui/SignInForm` напрямую. Всегда `@/features/auth/sign-in`.
-- **Группа домена — не публичный API** — `@/features/auth` не существует, импортируется конкретный слайс. Доменная папка только организует файлы.
-- **`model/` — barrel в подпапках, не на уровне `model/`.** `model/hooks/index.ts`, `model/contexts/index.ts`, `model/stores/index.ts` — каждая подпапка свой barrel. Slice-level `model/index.ts` НЕ создаём. Slice `index.ts` и внутренние импорты идут через подпапку: `./model/hooks`, `../model/contexts`. Подробнее — [`docs/guides/style.md`](./style.md) §11.
-- **Без циклических импортов** — не импортируй из собственного `index.ts` внутри слайса. Внутри — относительные пути.
-- **`ui-kit/` — дизайн-система, отдельный слой рядом с `shared/`.** Сегменты `primitives/` (базовые), `components/` (составные), `icons/`, `styles/`. **Каждый компонент — своя PascalCase-папка** (`primitives/Button/`, `components/FormField/`, …) с файлами `Component.tsx`, `Component.module.scss`, опционально `Component.types.ts` и обязательным barrel `index.ts`. Сегментные barrel (`primitives/index.ts`, …) и корневой `ui-kit/index.ts` реэкспортят всё. Снаружи — только `@/ui-kit`, не `@/ui-kit/primitives/Button`. Headless-примитивы — **`@base-ui/react`**; стили — **SCSS modules**, токены — `app/globals.scss` + `ui-kit/styles/_tokens.scss`. Подробнее — [`docs/guides/style.md`](./style.md) §2.1.
+- **No wildcard exports** — `export * from './ui/Foo'` is banned. Be explicit.
+- **Minimal surface** — export only what other layers actually need.
+- **External imports go through the slice index only** — never `@/features/auth/sign-in/ui/SignInForm` directly. Always `@/features/auth/sign-in`.
+- **A domain group is not a public API** — `@/features/auth` does not exist; import the specific slice. The domain folder only organises files.
+- **`model/` — barrels in the subfolders, not at the `model/` level.** `model/hooks/index.ts`, `model/contexts/index.ts`, `model/stores/index.ts` — each subfolder gets its own barrel. Do NOT create a slice-level `model/index.ts`. The slice `index.ts` and internal imports go through the subfolder: `./model/hooks`, `../model/contexts`. More in [`docs/guides/style.md`](../guides/style.md) §11.
+- **No circular imports** — do not import from a slice's own `index.ts` inside that slice. Inside, use relative paths.
+- **`ui-kit/` is the design system, a separate layer next to `shared/`.** Segments: `primitives/` (base), `components/` (composed), `icons/`, `styles/`. **Every component gets its own PascalCase folder** (`primitives/Button/`, `components/FormField/`, …) with `Component.tsx`, `Component.module.scss`, optionally `Component.types.ts` and a mandatory `index.ts` barrel. The segment barrels (`primitives/index.ts`, …) and the root `ui-kit/index.ts` re-export everything. From outside, only `@/ui-kit`, never `@/ui-kit/primitives/Button`. Headless primitives come from **`@base-ui/react`**; styles are **SCSS modules**, tokens live in `app/globals.scss` + `ui-kit/styles/_tokens.scss`. More in [`docs/guides/style.md`](../guides/style.md) §2.1.
 
 ---
 
-## 6. Интеграция с Next.js (App Router)
+## 6. Next.js integration (App Router)
 
-`app/` остаётся в корне `apps/client/`. Роут-файлы — тонкие обёртки, делегируют во `views/`:
+`app/` stays at the `apps/client/` root. Route files are thin wrappers that delegate into `views/`:
 
 ```tsx
-// app/(authed)/room/page.tsx — серверный, тонкий
+// app/(authed)/room/page.tsx — server, thin
 import { RoomPage } from '@/views/room';
 
 const Page = () => <RoomPage />;
@@ -157,13 +157,13 @@ const Page = () => <RoomPage />;
 export default Page;
 ```
 
-Роут-файлы (`page.tsx`, `layout.tsx`) — серверные компоненты, без `'use client'`. Содержат только: metadata, обёртку, default export. Вся UI и логика — во `views/<name>/`.
+Route files (`page.tsx`, `layout.tsx`) are server components, without `'use client'`. They contain only metadata, a wrapper and a default export. All UI and logic lives in `views/<name>/`.
 
-> Канон FSD рекомендует `export { Page as default } from '@/views/...'` и пустую `pages/` с `.gitkeep`. В Chatovo слой назван `views/` — конфликта с Next.js Pages Router нет, `.gitkeep`-заглушка не нужна. Роут-обёртка пишется как обычный компонент (см. выше).
+> FSD canon recommends `export { Page as default } from '@/views/...'` and an empty `pages/` with a `.gitkeep`. In Chatovo the layer is named `views/`, so there is no clash with the Next.js Pages Router and no `.gitkeep` placeholder is needed. The route wrapper is written as an ordinary component (see above).
 
-### Path-алиасы
+### Path aliases
 
-`@/` указывает на `apps/client/` (канон: на `src/`):
+`@/` points at `apps/client/` (canon: at `src/`):
 
 ```jsonc
 // tsconfig.json
@@ -172,71 +172,71 @@ export default Page;
 
 ---
 
-## 7. Паттерны композиции
+## 7. Composition patterns
 
-**View** *(канон: Page)*:
+**View** *(canon: Page)*:
 
 ```
 View
-├── импортит Widget A (самодостаточный блок)
-├── импортит Widget B
-├── импортит Feature X (интерактивный элемент)
-└── использует Shared UI-примитивы для лейаута
+├── imports Widget A (self-contained block)
+├── imports Widget B
+├── imports Feature X (interactive element)
+└── uses Shared UI primitives for layout
 ```
 
 **Widget:**
 
 ```
 Widget
-├── импортит Feature(s) для интерактивности
-├── импортит Entity типы/компоненты для отображения
-└── использует Shared UI-примитивы
+├── imports Feature(s) for interactivity
+├── imports Entity types/components for display
+└── uses Shared UI primitives
 ```
 
 **Feature:**
 
 ```
 Feature
-├── импортит Entity типы/хуки для доменных данных
-└── использует Shared API-клиент, UI-примитивы, утилиты
+├── imports Entity types/hooks for domain data
+└── uses the Shared API client, UI primitives, utilities
 ```
 
 ---
 
-## 8. Чек-лист (проверять перед каждым изменением)
+## 8. Checklist (check before every change)
 
-- [ ] Файл в правильной директории слоя
-- [ ] Импорты идут только вниз — никогда вверх или вбок
-- [ ] У слайса есть публичный `index.ts` с явными именованными экспортами
-- [ ] Нет прямых импортов во внутренности слайса извне
-- [ ] Имена директорий и файлов — kebab-case (исключение — папки компонентов: PascalCase)
-- [ ] Функции-компоненты — именованные PascalCase-экспорты (никаких default-экспортов из слайсов)
-- [ ] Сегменты описывают цель (`model/`, `api/`), не техническую роль (`hooks/`, `components/`)
-- [ ] Роут-файлы — тонкие обёртки, делегируют во `views/`
-- [ ] Слой Shared не содержит бизнес-логики — только project-agnostic код
-- [ ] Слой Entities не содержит UI-логики интеракций — это уровень Features
+- [ ] The file is in the correct layer directory
+- [ ] Imports go downwards only — never up or sideways
+- [ ] The slice has a public `index.ts` with explicit named exports
+- [ ] No direct imports into a slice's internals from outside
+- [ ] Directory and file names are kebab-case (exception — component folders: PascalCase)
+- [ ] Component functions are named PascalCase exports (no default exports from slices)
+- [ ] Segments describe purpose (`model/`, `api/`), not technical role (`hooks/`, `components/`)
+- [ ] Route files are thin wrappers that delegate into `views/`
+- [ ] The Shared layer holds no business logic — project-agnostic code only
+- [ ] The Entities layer holds no interaction UI logic — that is the Features level
 
-> **Naming в Chatovo:** канон FSD требует kebab-case для всех файлов. Chatovo-кодстайл (см. [`docs/guides/style.md`](./style.md) §5): kebab-case для слайсов/сегментов, **PascalCase для папок и файлов компонентов** (`VoiceRoom/VoiceRoom.tsx`), camelCase для хуков/утилит. Это локальная конвенция поверх FSD.
+> **Naming in Chatovo:** FSD canon requires kebab-case for every file. The Chatovo code style (see [`docs/guides/style.md`](../guides/style.md) §5) uses kebab-case for slices and segments, **PascalCase for component folders and files** (`VoiceRoom/VoiceRoom.tsx`), and camelCase for hooks and utilities. This is a local convention on top of FSD.
 
 ---
 
-## 9. Частые ошибки
+## 9. Common mistakes
 
-| Ошибка | Фикс |
+| Mistake | Fix |
 |---|---|
-| Feature импортит из другого Feature | Вынести общую логику в Entities или Shared |
-| View содержит бизнес-логику напрямую | Вынести в Feature, скомпоновать во View |
-| `shared/hooks/useSignIn.ts` | Auth — бизнес-домен → `features/auth/sign-in/model/use-sign-in.ts` |
-| Widget импортит из View | Инвертировать: View импортит Widget |
-| Слайс экспортит всё через `export *` | Явные именованные реэкспорты |
-| Папка `components/` в корне слоя | Классифицировать: это Widget, Feature, Entity или Shared UI? |
-| Роут-файл содержит полную реализацию страницы | Перенести во `views/<name>/`, роут — тонкая обёртка |
+| A Feature imports from another Feature | Move the shared logic into Entities or Shared |
+| A View holds business logic directly | Move it into a Feature, compose it in the View |
+| `shared/hooks/useSignIn.ts` | Auth is a business domain → `features/auth/sign-in/model/use-sign-in.ts` |
+| A Widget imports from a View | Invert it: the View imports the Widget |
+| A slice exports everything via `export *` | Explicit named re-exports |
+| A `components/` folder at the layer root | Classify it: is it a Widget, a Feature, an Entity or Shared UI? |
+| A route file holds the full page implementation | Move it into `views/<name>/`, leave the route a thin wrapper |
 
 ---
 
-## Дополнительно
+## Further reading
 
-- Полная спецификация: [feature-sliced.design](https://feature-sliced.design)
-- Линтер FSD-правил: [Steiger](https://github.com/feature-sliced/steiger)
-- Cross-entity паттерн `@x` — секция 2 выше
-- Кодстайл Chatovo поверх FSD (структура слайса, naming, размер компонента): [`docs/guides/style.md`](./style.md) — полная версия; компактные автозагружаемые выжимки — [`.claude/rules/`](../.claude/rules/)
+- Full specification: [feature-sliced.design](https://feature-sliced.design)
+- Linter for FSD rules: [Steiger](https://github.com/feature-sliced/steiger)
+- The `@x` cross-entity pattern — section 2 above
+- The Chatovo code style on top of FSD (slice structure, naming, component size): [`docs/guides/style.md`](../guides/style.md) — the full version; the compact auto-loaded digests are in [`.claude/rules/`](../.claude/rules/)

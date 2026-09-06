@@ -1,4 +1,6 @@
 #[cfg(desktop)]
+mod game_detection;
+#[cfg(desktop)]
 mod tray_menu;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -27,7 +29,8 @@ pub fn run() {
     #[cfg(desktop)]
     let builder = builder.invoke_handler(tauri::generate_handler![
         tray_menu::update_tray_labels,
-        tray_menu::update_tray_state
+        tray_menu::update_tray_state,
+        game_detection::detect_running_game
     ]);
 
     builder

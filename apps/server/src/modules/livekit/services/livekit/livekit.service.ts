@@ -7,7 +7,6 @@ import { isNullish } from 'remeda';
 
 import type { IssueTokenInput } from '../../livekit.types';
 
-import { RoomKind } from '../../../../../generated';
 import {
   AppForbiddenException,
   AppInternalException,
@@ -16,7 +15,7 @@ import {
 import { AppConfigService } from '../../../../config/config.module';
 import { TOKEN_TTL_SECONDS } from '../../../../config/livekit';
 import { PrismaService } from '../../../../core';
-import { assertNotBlocked } from '../../../../lib';
+import { assertNotBlocked, canAccessRoom } from '../../../../lib';
 import { toUserProfile } from '../../../users';
 import { assertRoomAccess, resolveInvisible } from '../../lib';
 import { grantRoomAccess } from '../../room-grant-store';
@@ -51,7 +50,7 @@ export class LivekitService {
       throw new AppNotFoundException('ROOM_NOT_FOUND', 'Room not found');
     }
 
-    if (room.kind === RoomKind.dm && room.dmUserAId !== userId && room.dmUserBId !== userId) {
+    if (!canAccessRoom({ room, userId, tier: 'view' })) {
       throw new AppForbiddenException('FORBIDDEN', 'Forbidden');
     }
 

@@ -20,4 +20,5 @@ const webOrigins = pipe(
 
 export const allowedOrigins = [...webOrigins, ...TAURI_ORIGINS];
 
+/** Base for auth callback links: the FIRST configured origin, which must be the app host. */
 export const clientBaseURL = webOrigins[0] ?? 'http://localhost:3000';

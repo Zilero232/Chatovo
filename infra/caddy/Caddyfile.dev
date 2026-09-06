@@ -44,7 +44,7 @@ chatovo.localhost {
 	reverse_proxy host.docker.internal:3000
 }
 
-# --- API server (Hono / bun dev on the host) ---
+# --- API server (NestJS / bun dev on the host) ---
 api.chatovo.localhost {
 	tls internal
 	reverse_proxy host.docker.internal:4000

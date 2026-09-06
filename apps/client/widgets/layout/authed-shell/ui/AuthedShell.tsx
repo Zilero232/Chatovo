@@ -7,6 +7,7 @@ import { Suspense } from 'react';
 import { AppSidebar } from '@/widgets/app/app-sidebar';
 import { MobileNav } from '@/widgets/layout/mobile-nav';
 import { ChannelsPanel } from '@/widgets/room/channels-panel';
+import { RoomSessionHost } from '@/widgets/room/room-session-host';
 import { IncomingCallDialog } from '@/widgets/social/incoming-call-dialog';
 import { OutgoingCallDialog } from '@/widgets/social/outgoing-call-dialog';
 
@@ -44,7 +45,10 @@ export const AuthedShell = ({ children }: AuthedShellProps) => {
           </div>
         )}
 
-        <div className={s.content}>{children}</div>
+        <div className={s.content}>
+          <div className={s.page}>{children}</div>
+          <RoomSessionHost />
+        </div>
       </div>
     </div>
   );

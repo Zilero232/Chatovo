@@ -92,7 +92,11 @@ export const patchParticipant = (roomId: string, identity: string, patch: Partic
 
   const next = { ...current, ...pickBy(patch, isDefined) };
 
-  if (next.micMuted === current.micMuted && next.deafened === current.deafened) {
+  if (
+    next.micMuted === current.micMuted &&
+    next.deafened === current.deafened &&
+    next.activity === current.activity
+  ) {
     return;
   }
 

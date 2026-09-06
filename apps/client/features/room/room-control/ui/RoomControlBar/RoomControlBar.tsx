@@ -17,6 +17,7 @@ import { isScreenShareSupported } from '@/shared/lib';
 
 import type { RoomControlDevice } from '../../config/devices';
 import type { ControlDevice } from './components';
+import type { RoomControlBarProps } from './RoomControlBar.types';
 
 import { CAM_DEVICE, MIC_DEVICE, SPEAKER_DEVICE } from '../../config/devices';
 import { useRoomControls } from '../../model/hooks';
@@ -24,7 +25,7 @@ import { ControlButton, ReactionButton } from './components';
 
 import s from './RoomControlBar.module.scss';
 
-export const RoomControlBar = () => {
+export const RoomControlBar = ({ extraActions }: RoomControlBarProps) => {
   const t = useTranslations('room.controls');
 
   const { mic, camera, screen, deafen, leave } = useRoomControls();
@@ -81,6 +82,8 @@ export const RoomControlBar = () => {
       )}
 
       <ReactionButton />
+
+      {extraActions}
 
       <span aria-hidden className={s.divider} />
 

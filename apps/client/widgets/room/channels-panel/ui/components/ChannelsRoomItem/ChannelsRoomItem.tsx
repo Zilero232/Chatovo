@@ -1,8 +1,7 @@
 'use client';
 
-import { useBoolean } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
-import { ChevronDown, Crown, Headphones, Lock } from 'lucide-react';
+import { Crown, Gamepad2, Headphones, Lock } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -17,8 +16,8 @@ import {
 } from '@/entities/room/room';
 import { ManageRoomMenu } from '@/features/room/manage';
 import { ProfileCardTrigger } from '@/features/room/profile-card';
-import { buildRoomHref } from '@/shared/constants';
-import { AvatarWithBadges, Badge } from '@/ui-kit';
+import { buildRoomHref } from '@/shared/lib';
+import { AvatarWithBadges } from '@/ui-kit';
 import { FriendProfileActionsPanel } from '@/widgets/social/friend-profile-actions-panel';
 
 import type { ChannelsRoomItemProps } from './ChannelsRoomItem.types';
@@ -31,8 +30,6 @@ import {
 } from './ChannelsRoomItem.motion';
 
 import s from './ChannelsRoomItem.module.scss';
-
-const MAX_STACK_AVATARS = 5;
 
 export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) => {
   const t = useTranslations('channels');
@@ -47,12 +44,6 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
 
   const participants = useRoomParticipants(room.id);
   const hasParticipants = !isEmpty(participants);
-
-  const [isManuallyExpanded, toggleExpanded] = useBoolean(false);
-  const isExpanded = isActive || isManuallyExpanded;
-
-  const stacked = participants.slice(0, MAX_STACK_AVATARS);
-  const overflow = participants.length - stacked.length;
 
   const handleClick = () => {
     router.push(buildRoomHref(room.id));
@@ -85,41 +76,8 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
         <ManageRoomMenu className={s.manageSlot} room={room} />
       </div>
 
-      {hasParticipants && !isExpanded && (
-        <button
-          aria-expanded={false}
-          aria-label={t('showParticipants')}
-          className={s.stack}
-          type='button'
-          onClick={() => toggleExpanded(true)}
-        >
-          <span className={s.stackAvatars}>
-            {stacked.map((participant) => (
-              <AvatarWithBadges
-                key={participant.identity}
-                className={s.stackAvatarSlot}
-                topLeft={participant.identity === room.ownerId && <OwnerCrown />}
-              >
-                <UserAvatar
-                  className={s.stackAvatar}
-                  fallbackClassName={s.stackAvatarFallback}
-                  name={participant.name}
-                  src={participant.avatarUrl}
-                />
-              </AvatarWithBadges>
-            ))}
-            {overflow > 0 && (
-              <Badge size='sm' tone='muted'>
-                +{overflow}
-              </Badge>
-            )}
-          </span>
-          <ChevronDown aria-hidden className={s.stackChevron} />
-        </button>
-      )}
-
       <AnimatePresence initial={false}>
-        {hasParticipants && isExpanded && (
+        {hasParticipants && (
           <motion.div
             animate={PARTICIPANTS_ANIMATE}
             className={s.participantsWrap}
@@ -148,27 +106,23 @@ export const ChannelsRoomItem = ({ room, onNavigate }: ChannelsRoomItemProps) =>
                       src={p.avatarUrl}
                     />
                   </AvatarWithBadges>
-                  <UserName
-                    className={s.participantName}
-                    developer={p.developer}
-                    name={p.name}
-                    verified={p.verified}
-                  />
+                  <span className={s.participantMeta}>
+                    <UserName
+                      className={s.participantName}
+                      developer={p.developer}
+                      name={p.name}
+                      verified={p.verified}
+                    />
+                    {p.activity && (
+                      <span className={s.participantActivity}>
+                        <Gamepad2 aria-hidden className={s.participantActivityIcon} />
+                        <span className={s.participantActivityLabel}>{p.activity}</span>
+                      </span>
+                    )}
+                  </span>
                 </ProfileCardTrigger>
               ))}
             </div>
-
-            {!isActive && (
-              <button
-                aria-expanded
-                className={s.collapse}
-                type='button'
-                onClick={() => toggleExpanded(false)}
-              >
-                <ChevronDown aria-hidden className={s.collapseIcon} />
-                {t('hideParticipants')}
-              </button>
-            )}
           </motion.div>
         )}
       </AnimatePresence>

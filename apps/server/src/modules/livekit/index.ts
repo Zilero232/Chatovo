@@ -1,6 +1,8 @@
 export { LivekitModule } from './livekit.module';
 export {
   addLobbyConnection,
+  bindLivekitCredentials,
+  closeLivekitRoom,
   ejectParticipantEverywhere,
   getAdminSnapshot,
   getSnapshot,

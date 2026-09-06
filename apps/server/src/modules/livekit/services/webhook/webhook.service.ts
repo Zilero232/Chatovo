@@ -11,11 +11,10 @@ import { AppUnauthorizedException } from '../../../../common/exceptions';
 import { AppConfigService } from '../../../../config/config.module';
 import { getRoomName } from '../../../../lib';
 import { isInvisibleParticipant } from '../../lib';
+import { toRoomParticipant } from '../../mappers';
 import {
   addParticipant,
   clearRoom,
-  isMicMuted,
-  parseParticipantMeta,
   patchParticipant,
   removeParticipant,
   syncRoom
@@ -60,14 +59,7 @@ export class WebhookService {
           const name = participant.name || participant.identity;
           const invisible = isInvisibleParticipant(participant.metadata);
 
-          addParticipant(roomId, {
-            identity: participant.identity,
-            name,
-            micMuted: isMicMuted(participant.tracks),
-            deafened: participant.attributes?.deafened === 'true',
-            invisible,
-            ...parseParticipantMeta(participant.metadata)
-          });
+          addParticipant(roomId, toRoomParticipant({ participant, invisible }));
 
           if (invisible) {
             return;

@@ -1,51 +1,42 @@
 # Chatovo — Caddy config (runs on the VPS).
 #
-# Three site blocks share this VPS:
-#   chatovo.ru          — static web client (no /api proxy any more)
-#   api.chatovo.ru      — Bun API server (Hono)
-#   livekit.chatovo.ru  — TLS termination for the self-hosted LiveKit SFU
+# chatovo.ru and app.chatovo.ru serve ONE static export; Caddy decides which
+# pages each host exposes, so there is no second build.
 #
-# The web client and the API live on different origins, so the Hono server's
-# CORS middleware must allow https://chatovo.ru (see CORS_ORIGINS in the
-# server .env). Tauri origin (tauri://localhost) is always allowed
-# automatically.
-#
-# Caddy obtains and renews a free TLS certificate from Let's Encrypt
-# automatically — no certbot, no manual setup.
-#
-# Requirements for the auto-certificate to work:
-#   - DNS A-records for chatovo.ru, www.chatovo.ru, api.chatovo.ru and
-#     livekit.chatovo.ru all point at this VPS
-#   - ports 80 and 443 are open on the VPS firewall
-#
-# To use a different domain, change the site addresses below.
+# Needs DNS A-records for chatovo.ru, www, app, api and livekit pointing here,
+# plus ports 80 and 443 open. TLS certificates are issued automatically.
+
+(static_client) {
+	root * /srv/www
+
+	@assets path /_next/static/*
+	header @assets Cache-Control "public, max-age=31536000, immutable"
+
+	encode gzip
+}
+
+(static_routing) {
+	try_files {path} {path}.html {path}/index.html /404.html
+	file_server
+}
 
 www.chatovo.ru {
-	# Send the www host to the bare domain (preserve scheme via Caddy default).
 	redir https://chatovo.ru{uri} permanent
 }
 
 livekit.chatovo.ru {
-	# The LiveKit container runs with network_mode: host on the VPS, so from
-	# this bridge-networked Caddy container it is reachable via host-gateway
-	# (mapped to host.docker.internal — see docker-compose.yml). Port 7880 is
-	# LiveKit's WebSocket signalling port; Caddy handles WSS upgrade natively,
-	# no extra config needed.
+	# LiveKit runs with network_mode: host, so from this bridge-networked
+	# container it is reachable via host-gateway (see docker-compose.yml).
 	#
-	# The WSS signalling connection is exempt from CORS, but the LiveKit
-	# client also makes a plain fetch to /rtc/v1/validate, which is not — so
-	# CORS headers are required here. The allowed origins must match the API
-	# server's CORS_ORIGINS: the web client (https://chatovo.ru) and the
-	# Tauri desktop webview (tauri://localhost, http://tauri.localhost).
-	# Allow-Origin must echo the request's Origin (a single value, never a
-	# list), so the request Origin is matched against the allowed set and
-	# reflected back.
+	# The WSS signalling connection is exempt from CORS, but the client also
+	# fetches /rtc/v1/validate, which is not. Allow-Origin must carry a single
+	# value, so the request Origin is matched and echoed back.
 
-	@cors_web header Origin https://chatovo.ru
+	@cors_app header Origin https://app.chatovo.ru
 	@cors_tauri header Origin tauri://localhost
 	@cors_tauri_win header Origin http://tauri.localhost
 
-	header @cors_web Access-Control-Allow-Origin "https://chatovo.ru"
+	header @cors_app Access-Control-Allow-Origin "https://app.chatovo.ru"
 	header @cors_tauri Access-Control-Allow-Origin "tauri://localhost"
 	header @cors_tauri_win Access-Control-Allow-Origin "http://tauri.localhost"
 
@@ -58,35 +49,39 @@ livekit.chatovo.ru {
 	}
 
 	reverse_proxy host.docker.internal:7880 {
-		# LiveKit emits its own `Access-Control-Allow-Origin: *`. Left in place
-		# it arrives alongside the single value set above, and the browser
-		# rejects a response carrying the header twice — the user is dropped
-		# from the room with "could not establish signal connection".
+		# LiveKit emits its own `Access-Control-Allow-Origin: *`; left in place
+		# the browser sees the header twice and drops the user from the room.
 		header_down -Access-Control-Allow-Origin
 	}
 }
 
 api.chatovo.ru {
-	# The Hono server mounts routes at the root (e.g. /rooms, /livekit, /health)
-	# — no path rewriting needed. The web client uses fetch('https://api.chatovo.ru/...')
-	# directly; Tauri uses the same origin.
-
 	reverse_proxy server:4000
 }
 
+app.chatovo.ru {
+	import static_client
+
+	# Nothing on the app host belongs in an index; the public site owns SEO.
+	handle /robots.txt {
+		header Content-Type "text/plain; charset=utf-8"
+		respond `User-agent: *
+Disallow: /
+`
+	}
+
+	# The lobby is this host's front page, which is why the app has no /lobby URL.
+	handle / {
+		rewrite * /lobby.html
+		file_server
+	}
+
+	handle {
+		import static_routing
+	}
+}
+
 chatovo.ru {
-	# --- Web client: static Next.js export ---
-	# Static files are uploaded here by CI (see docker-compose volume).
-	root * /srv/www
-
-	# Cache hashed Next.js assets aggressively.
-	@assets path /_next/static/*
-	header @assets Cache-Control "public, max-age=31536000, immutable"
-
-	encode gzip
-
-	# SPA / static-export routing: try the file, then `<path>.html`,
-	# then the directory index, finally fall back to the 404 page.
-	try_files {path} {path}.html {path}/index.html /404.html
-	file_server
+	import static_client
+	import static_routing
 }

@@ -3,6 +3,7 @@
 import { useParticipants, useRoomContext } from '@livekit/components-react';
 import { clsx } from 'clsx';
 import { useTranslations } from 'next-intl';
+import { indexBy } from 'remeda';
 
 import { useAppSettings } from '@/entities/app/settings';
 import { useCurrentUser } from '@/entities/auth/user';
@@ -29,9 +30,10 @@ export const ParticipantsView = ({ isDm = false }: ParticipantsViewProps) => {
   const isSelfInvisible = isAdmin && settings.system.invisibleMode;
 
   const presence = useRoomParticipants(room.name);
-  const deafenedIds = new Set(presence.filter((p) => p.deafened).map((p) => p.identity));
+  const presenceByIdentity = indexBy(presence, (p) => p.identity);
+  const liveIdentities = new Set(participants.map((p) => p.identity));
   const invisibleParticipants = presence.filter(
-    (p) => p.invisible && !participants.some((live) => live.identity === p.identity)
+    (p) => p.invisible && !liveIdentities.has(p.identity)
   );
 
   if (isDm) {
@@ -43,7 +45,12 @@ export const ParticipantsView = ({ isDm = false }: ParticipantsViewProps) => {
         <div className={s.dmStage}>
           {peer ? (
             <div className={s.dmPeer}>
-              <ParticipantCard fill deafened={deafenedIds.has(peer.identity)} participant={peer} />
+              <ParticipantCard
+                fill
+                activity={presenceByIdentity[peer.identity]?.activity ?? null}
+                deafened={presenceByIdentity[peer.identity]?.deafened ?? false}
+                participant={peer}
+              />
             </div>
           ) : (
             <Text className={s.dmWaiting} tone='muted'>
@@ -55,7 +62,8 @@ export const ParticipantsView = ({ isDm = false }: ParticipantsViewProps) => {
             <div className={s.dmSelf}>
               <ParticipantCard
                 fill
-                deafened={deafenedIds.has(localParticipant.identity)}
+                activity={presenceByIdentity[localParticipant.identity]?.activity ?? null}
+                deafened={presenceByIdentity[localParticipant.identity]?.deafened ?? false}
                 invisible={isSelfInvisible}
                 participant={localParticipant}
               />
@@ -74,7 +82,8 @@ export const ParticipantsView = ({ isDm = false }: ParticipantsViewProps) => {
         {participants.map((participant) => (
           <ParticipantCard
             key={participant.identity}
-            deafened={deafenedIds.has(participant.identity)}
+            activity={presenceByIdentity[participant.identity]?.activity ?? null}
+            deafened={presenceByIdentity[participant.identity]?.deafened ?? false}
             invisible={isSelfInvisible && participant.isLocal}
             participant={participant}
           />

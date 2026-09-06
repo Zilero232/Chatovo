@@ -19,10 +19,12 @@ WORKDIR /app
 
 # NEXT_PUBLIC_* values, supplied by CI via --build-arg.
 ARG NEXT_PUBLIC_API_URL=/api
+ARG NEXT_PUBLIC_APP_URL
 ARG NEXT_PUBLIC_LIVEKIT_URL
 # Expose them to `next build` as environment variables.
 ENV NODE_ENV=production \
     NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL} \
+    NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL} \
     NEXT_PUBLIC_LIVEKIT_URL=${NEXT_PUBLIC_LIVEKIT_URL}
 
 # Install dependencies. Copy manifests first so the install layer is cached

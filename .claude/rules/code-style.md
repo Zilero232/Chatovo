@@ -3,16 +3,16 @@ paths:
   - "**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}"
 ---
 
-<!-- COMPRESSED editing-версия: автозагружается при правке любого TS/JS-файла (paths-фронтматтер). -->
-<!-- Полная версия с примерами и обоснованиями — docs/style.md; держи в синхроне при изменении правила. -->
+<!-- COMPRESSED editing version: auto-loads when editing any TS/JS file (paths frontmatter). -->
+<!-- Full version with examples and reasoning — docs/guides/style.md; keep in sync when a rule changes. -->
 
-# Code Style — общий (TypeScript)
+# Code Style — shared (TypeScript)
 
-Действует во всём репозитории. Клиентские дополнения — `code-style-client.md`, серверные — `code-style-server.md`. Один канонический пример на правило; `✗` показан там, где ошибка неочевидна.
+Applies across the whole repository. Client additions — `code-style-client.md`, server ones — `code-style-server.md`. One canonical example per rule; `✗` is shown where the mistake is not obvious.
 
-## 1. Типы
+## 1. Types
 
-`type` для всего — Props, unions, алиасы, DTO. `interface` запрещён. `unknown` вместо `any` (`ts/no-explicit-any`). Non-null `!` без обоснования запрещён — проверка или `?.`. Варианты состояния — discriminated union.
+`type` for everything — Props, unions, aliases, DTOs. `interface` is banned. `unknown` instead of `any` (`ts/no-explicit-any`). A non-null `!` without justification is banned — use a check or `?.`. State variants are a discriminated union.
 
 ```ts
 export type ChatMessage =
@@ -20,11 +20,11 @@ export type ChatMessage =
   | { type: 'file'; url: string; name: string; size: number };
 ```
 
-`import type` / `export type` чинит `bun lint:fix` (в `apps/server/**` правило выключено — Nest резолвит зависимости по метаданным декораторов).
+`import type` / `export type` is fixed by `bun lint:fix` (the rule is off under `apps/server/**` — Nest resolves dependencies from decorator metadata).
 
-## 2. Функции
+## 2. Functions
 
-**2+ аргумента → один объект с деструктуризацией.** Позиционные одного типа легко перепутать. Одноаргументные (`listFriends(userId)`) остаются позиционными.
+**2+ arguments → a single object with destructuring.** Same-typed positional args are easy to mix up. Single-argument functions (`listFriends(userId)`) stay positional.
 
 ```ts
 resolveDisplayName({ displayName, name, email, userId });
@@ -32,19 +32,19 @@ resolveDisplayName({ displayName, name, email, userId });
 // ✗ resolveDisplayName(displayName, name, email, userId);
 ```
 
-**Объявления — block body с `return`.** Expression body только у: React-компонентов с JSX, inline-колбэков (аргумент функции, JSX-проп).
+**Declarations use a block body with `return`.** An expression body is allowed only for React components returning JSX and for inline callbacks (a function argument, a JSX prop).
 
 ```ts
 const readRole = (user: User | null): UserRole => {
   return user?.role === 'admin' ? 'admin' : 'user';
 };
 
-arr.map((x) => x.id); // ✓ аргумент — expression ок
+arr.map((x) => x.id); // ✓ an argument — an expression is fine
 
 // ✗ const readRole = (user: User | null): UserRole => user?.role === 'admin' ? 'admin' : 'user';
 ```
 
-**`if` / `else if` / `else` — всегда `{}`**, даже на одну строку. Тернарник для возврата значения — ок (`return a ? b : c`).
+**`if` / `else if` / `else` always use `{}`**, even for a single line. A ternary that returns a value is fine (`return a ? b : c`).
 
 ```ts
 if (!isTauri()) {
@@ -54,9 +54,9 @@ if (!isTauri()) {
 // ✗ if (!isTauri()) return;
 ```
 
-## 3. Независимые `await` — параллельно
+## 3. Independent `await` calls go in parallel
 
-Второй вызов не использует результат первого → `Promise.all`. Последовательные `await` складывают задержки.
+The second call does not use the first one's result → `Promise.all`. Sequential `await`s add up the latency.
 
 ```ts
 const [user, rooms] = await Promise.all([getUser(id), getRooms(id)]);
@@ -64,11 +64,11 @@ const [user, rooms] = await Promise.all([getUser(id), getRooms(id)]);
 // ✗ const user = await getUser(id); const rooms = await getRooms(id);
 ```
 
-`Promise.allSettled` — когда частичный отказ допустим (нотификации, аналитика). Последовательность оставляем, когда порядок значим: второй вызов принимает результат первого, проверка прав перед мутацией, запись перед чтением, шаги транзакции.
+`Promise.allSettled` — when partial failure is acceptable (notifications, analytics). Keep the sequence when the order matters: the second call consumes the first's result, a permission check before a mutation, a write before a read, transaction steps.
 
-## 4. Деструктуризация
+## 4. Destructuring
 
-Значение через точку 2+ раза или вложенное — вытащи. Не деструктурируй: одно обращение, потеря контекста (`user.name` понятнее голого `name`), неймспейс-объекты (`router`, `Math`).
+A value reached through the dot 2+ times, or arriving nested, gets pulled out. Do not destructure: a single access, a loss of context (`user.name` is clearer than a bare `name`), namespace objects (`router`, `Math`).
 
 ```ts
 const { size, type } = file;
@@ -76,24 +76,24 @@ if (size === 0) ...;
 if (size > MAX) ...;
 ```
 
-## 5. Комментарии
+## 5. Comments
 
-**Прикладной код — без комментариев** (`views/`, `widgets/`, `features/`, `entities/`, `modules/`). Нужен комментарий для блока — вынеси блок в функцию с именем.
+**Application code carries no comments** (`views/`, `widgets/`, `features/`, `entities/`, `modules/`). If a block needs a comment, extract the block into a named function.
 
-**Исключение — публичная поверхность переиспользуемых модулей** (`ui-kit`, `shared/lib`, `shared/hooks`, серверный `src/lib/`, `packages/schemas`): у **экспортируемого** примитива допустим JSDoc в 1–2 строки, **если сигнатура не объясняет назначение** (неочевидные единицы, побочный эффект, граничное поведение).
+**Exception — the public surface of reusable modules** (`ui-kit`, `shared/lib`, `shared/hooks`, the server's `src/lib/`, `packages/schemas`): an **exported** primitive may carry a 1–2 line JSDoc **when the signature does not explain the purpose** (non-obvious units, a side effect, edge-case behaviour).
 
 ```ts
-/** Возвращает `null`, если пользователь отменил диалог выбора файла. */
+/** Returns `null` if the user cancelled the file picker dialog. */
 export const pickAvatarFile = async (): Promise<File | null> => { ... };
 
-// ✗ /** Форматирует байты в строку. */ — пересказ сигнатуры
+// ✗ /** Formats bytes into a string. */ — restates the signature
 ```
 
-Внутренние хелперы не документируются никогда. Закомментированный код и `// TODO` без задачи запрещены везде. Легитимны директивы: `eslint-disable-next-line ... -- причина`, `@ts-expect-error` с причиной, `'use client'`.
+Internal helpers are never documented. Commented-out code and a `// TODO` with no ticket are banned everywhere. Directives are legitimate: `eslint-disable-next-line ... -- reason`, `@ts-expect-error` with a reason, `'use client'`.
 
-## 6. Пустые строки между логическими шагами
+## 6. Blank lines between logical steps
 
-ESLint не автофиксит — руками. Пустая строка перед `return` (если не первый statement), `throw`, `if`, `try` / `for` / `while` / `switch`, и после `if`-блока.
+ESLint does not autofix this — by hand. A blank line before `return` (unless it's the first statement), `throw`, `if`, `try` / `for` / `while` / `switch`, and after an `if` block.
 
 ```ts
 const trimmed = room.trim();
@@ -105,27 +105,27 @@ const { token, url } = await fetchLiveKitToken({ room: trimmed });
 router.push(`/room?name=${encodeURIComponent(trimmed)}`);
 ```
 
-Исключения: один statement в блоке, однотипные single-line guards подряд, последовательные `const` одного смыслового блока.
+Exceptions: a single statement in a block, uniform single-line guards in a row, consecutive `const`s of one logical block.
 
-## 7. Импорты
+## 7. Imports
 
-Группы (пустая строка между, сортирует `bun lint:fix`): внешние типы → внешние value → локальные типы `@/` → локальные value `@/` → относительные типы → относительные value → стили. Не удаляй пустые строки между группами вручную.
+Groups (blank line between, sorted by `bun lint:fix`): external types → external values → local types `@/` → local values `@/` → relative types → relative values → styles. Do not remove the blank lines between groups by hand.
 
-Deep import мимо barrel запрещён. Wildcard `export * from` запрещён — только явные именованные.
+A deep import past a barrel is banned. Wildcard `export * from` is banned — explicit named exports only.
 
-## 8. Shared-схемы
+## 8. Shared schemas
 
-Zod-схемы и типы, общие для client/server, — только `@chatovo/schemas`. Дублирование схем запрещено. Одна схема даёт два типа: `z.input` (форма до валидации, для `defaultValues`) и `z.output` (после — для submit / API body).
+Zod schemas and types shared by client and server live only in `@chatovo/schemas`. Duplicating schemas is banned. One schema yields two types: `z.input` (the shape before validation, for `defaultValues`) and `z.output` (after — for submit / the API body).
 
-## 9. Запреты
+## 9. Bans
 
-- `console.log` в коммите (`no-console`; `**/scripts/**` — off).
-- `any`, non-null `!` без обоснования.
-- Deep imports мимо barrel, cross-import между слайсами одного слоя.
-- Ручной `fetch` / свой `axios.create` для бизнес-вызовов.
-- Дублирование схем client/server.
-- Хендролл того, что уже есть в зависимостях (remeda, ts-pattern, date-fns, reactuse) — см. «Reuse over reinvention» в корневом `CLAUDE.md`.
+- `console.log` in a commit (`no-console`; `**/scripts/**` — off).
+- `any`, a non-null `!` without justification.
+- Deep imports past a barrel, cross-imports between slices of the same layer.
+- A manual `fetch` / your own `axios.create` for business calls.
+- Duplicating schemas between client and server.
+- Hand-rolling what the dependencies already provide (remeda, ts-pattern, date-fns, reactuse) — see "Reuse over reinvention" in the root `CLAUDE.md`.
 
-## 10. Проверка
+## 10. Verification
 
-`bun run fix` (ESLint --fix + Prettier + Stylelint --fix), затем `bun run verify`. `fix` не чинит: пустые строки (§6), порядок хуков, FSD-границы импортов.
+`bun run fix` (ESLint --fix + Prettier + Stylelint --fix), then `bun run verify`. `fix` does not fix: blank lines (§6), hook order, FSD import boundaries.

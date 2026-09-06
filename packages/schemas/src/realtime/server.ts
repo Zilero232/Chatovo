@@ -4,6 +4,7 @@ import { chatMessageSchema } from '../chat/outputs';
 import { friendCallStreamSnapshotSchema } from '../friends/outputs';
 import { roomsParticipantsSnapshotSchema } from '../livekit/outputs';
 import { roomSchema } from '../rooms/outputs';
+import { soundboardSoundSchema } from './soundboard';
 
 export const realtimeRoomKindSchema = roomSchema.shape.kind;
 
@@ -38,6 +39,13 @@ export const realtimeRoomReactionEventSchema = z.object({
   senderId: z.string()
 });
 
+export const realtimeRoomSoundboardEventSchema = z.object({
+  type: z.literal('room.soundboard'),
+  roomId: roomSchema.shape.id,
+  sound: soundboardSoundSchema,
+  senderId: z.string()
+});
+
 export const realtimePresenceSnapshotEventSchema = z.object({
   type: z.literal('presence.snapshot'),
   snapshot: roomsParticipantsSnapshotSchema
@@ -59,6 +67,7 @@ export const realtimeServerMessageSchema = z.discriminatedUnion('type', [
   realtimeChatEditEventSchema,
   realtimeChatDeleteEventSchema,
   realtimeRoomReactionEventSchema,
+  realtimeRoomSoundboardEventSchema,
   realtimePresenceSnapshotEventSchema,
   realtimeFriendsSnapshotEventSchema,
   realtimeFriendPresenceEventSchema

@@ -1,10 +1,11 @@
+import type { AdminReportQuery } from '@chatovo/schemas';
+
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { isNonNullish, isNullish } from 'remeda';
 
 import type { AbuseReportedEvent } from '../../../../common/events/domain-events';
 import type {
-  ListAbuseReportsInput,
   ReportAbuseInput,
   ReportAbuseTarget,
   ResolveReportInput
@@ -18,7 +19,7 @@ import {
 } from '../../../../common/exceptions';
 import { AppConfigService } from '../../../../config/config.module';
 import { PrismaService } from '../../../../core';
-import { assertIsAdmin, getUserWithProfileOrThrow } from '../../../../lib';
+import { getUserWithProfileOrThrow } from '../../../../lib';
 import { AbuseReport, sendEmail } from '../../../email';
 import { resolveDisplayName } from '../../../users';
 import { assertCanReportTarget, attachReportContext, toPageArgs } from '../../lib';
@@ -91,9 +92,7 @@ export class AbuseReportService {
     return toAbuseReport(created);
   }
 
-  async list({ adminId, query }: ListAbuseReportsInput) {
-    await assertIsAdmin(adminId);
-
+  async list(query: AdminReportQuery) {
     const { handled, page, perPage } = query;
 
     const reports = await this.prisma.abuseReport.findMany({
@@ -106,8 +105,6 @@ export class AbuseReportService {
   }
 
   async resolve({ reportId, adminId }: ResolveReportInput) {
-    await assertIsAdmin(adminId);
-
     const report = await this.prisma.abuseReport.findUnique({ where: { id: reportId } });
 
     if (isNullish(report)) {

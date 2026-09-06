@@ -1,4 +1,7 @@
 import { SITE } from '@/shared/config';
+import { ROUTES } from '@/shared/constants';
+
+const url = (path: string) => new URL(path, SITE.url).toString();
 
 export const siteJsonLd = {
   '@context': 'https://schema.org',
@@ -26,9 +29,11 @@ export const siteJsonLd = {
       description: SITE.description,
       applicationCategory: 'CommunicationApplication',
       applicationSubCategory: 'Voice and video conferencing',
-      operatingSystem: 'Web, Windows, macOS, Linux',
+      operatingSystem: 'Web, Windows, macOS, Linux, Android',
       browserRequirements: 'Requires a browser with WebRTC support',
-      softwareHelp: `${SITE.url}/#faq`,
+      softwareHelp: url(ROUTES.support),
+      downloadUrl: url(ROUTES.download),
+      releaseNotes: url(ROUTES.changelog),
       isAccessibleForFree: true,
       inLanguage: [SITE.lang, SITE.en.lang],
       author: { '@id': `${SITE.url}/#author` },
@@ -46,10 +51,12 @@ export const siteJsonLd = {
         'Screen sharing',
         'Text chat with file attachments',
         'Password-protected private rooms',
+        'Friends list with direct voice calls',
         'Global shortcuts and push-to-talk on desktop',
         'Email sign-in',
         'Native desktop app for Windows, macOS and Linux',
-        'Self-hostable open source project'
+        'Android app',
+        'Self-hostable source-available project'
       ]
     }
   ]

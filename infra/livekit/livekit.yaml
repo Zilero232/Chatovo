@@ -37,14 +37,14 @@ rtc:
 
 # API keys. The same key + secret pair must be set in the server's .env
 # (LIVEKIT_API_KEY / LIVEKIT_API_SECRET). The client never sees the secret —
-# the Hono API mints short-lived JWTs and hands them to the browser/Tauri.
+# the API mints short-lived JWTs and hands them to the browser/Tauri.
 #
 # Format: one entry per line, "<key>: <secret>". The secret must be at least
 # 32 characters. NEVER reuse the example below — generate your own.
 keys:
   # APIxxxxxxxxxxxx: replace-with-32-plus-char-secret
 
-# Webhooks. LiveKit POSTs room/participant lifecycle events to the Hono API,
+# Webhooks. LiveKit POSTs room/participant lifecycle events to the API,
 # which keeps an in-memory presence store and streams it to clients over SSE
 # (powering the live participant lists in the channels panel).
 #

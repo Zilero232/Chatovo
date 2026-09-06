@@ -3,6 +3,7 @@
 import { clsx } from 'clsx';
 
 import { RoomControlBar } from '@/features/room/room-control';
+import { SoundboardButton } from '@/features/room/soundboard';
 
 import type { RoomControlsBarProps } from './RoomControlsBar.types';
 
@@ -15,7 +16,7 @@ export const RoomControlsBar = ({ isDm, isChatOpen, onToggleChat }: RoomControls
   <div className={clsx(s.controls, 'surface-bar')}>
     <span aria-hidden className='accent-top-line' />
     <div className={s.controlBarWrap}>
-      <RoomControlBar />
+      <RoomControlBar extraActions={<SoundboardButton />} />
     </div>
 
     <div className={s.sideActions}>

@@ -2,15 +2,20 @@
 
 import { useCopy } from '@siberiacancode/reactuse';
 
-import { buildRoomHref } from '@/shared/constants';
-import { buildPublicAppUrl } from '@/shared/lib/app-url';
+import { buildPublicAppUrl, buildRoomHref } from '@/shared/lib';
 
 const COPIED_RESET_MS = 2000;
 
 export const useCopyInviteLink = (roomId: string) => {
   const { copied, copy } = useCopy(COPIED_RESET_MS);
 
-  const copyInviteLink = () => copy(buildPublicAppUrl(buildRoomHref(roomId)));
+  const copyInviteLink = () => {
+    if (!roomId) {
+      return;
+    }
 
-  return { copied, copyInviteLink };
+    copy(buildPublicAppUrl(buildRoomHref(roomId)));
+  };
+
+  return { canCopy: Boolean(roomId), copied, copyInviteLink };
 };

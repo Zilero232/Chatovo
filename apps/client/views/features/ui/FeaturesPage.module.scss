@@ -1,0 +1,39 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-8) var(--space-6);
+  border-radius: var(--radius-2xl);
+  gap: var(--space-3);
+  text-align: center;
+
+  @include bp(lg) {
+    padding: rem(64) var(--space-10);
+  }
+}
+
+.ctaHeading {
+  &#{&}#{&} {
+    font-size: clamp(#{rem(24)}, 3.2vw, #{rem(34)});
+    font-weight: 700;
+  }
+
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.ctaDescription {
+  max-width: rem(460);
+  text-wrap: pretty;
+}
+
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--space-3);
+  gap: var(--space-3);
+}

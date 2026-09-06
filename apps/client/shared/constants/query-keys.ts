@@ -43,7 +43,8 @@ const users = {
 const meta = {
   contributors: () => ['contributors'] as const,
   developers: () => ['developers'] as const,
-  release: () => ['release'] as const
+  release: () => ['release'] as const,
+  runningGame: () => ['running-game'] as const
 };
 
 export const QUERY_KEYS = {

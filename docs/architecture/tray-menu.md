@@ -51,5 +51,5 @@ Left click toggles the main window; right click opens the menu (`show_menu_on_le
 ## Gotchas
 
 - **The tray survives a webview reload; a JS-side handler does not.** Anything that must work regardless of the app's state belongs in Rust.
-- **Rust changes need a real rebuild.** A running `chatovo.exe` holds the binary and `cargo build` fails with "Отказано в доступе" — the error is easy to miss in a long log, and the old binary keeps running. Close the app first (`bunx fkill chatovo.exe`).
+- **Rust changes need a real rebuild.** A running `chatovo.exe` holds the binary and `cargo build` fails with an access-denied error (localized by Windows, so the wording depends on the system language) — it is easy to miss in a long log, and the old binary keeps running. Close the app first (`bunx fkill chatovo.exe`).
 - **Labels are not reactive.** Changing the locale at runtime requires another `update_tray_labels` call; nothing pushes it automatically.

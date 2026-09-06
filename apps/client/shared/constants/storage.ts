@@ -3,7 +3,7 @@ export const STORAGE_KEYS = {
   participantVolumes: 'chatovo.participant-volumes',
   appSettings: 'chatovo.app-settings',
   locale: 'chatovo.locale',
-  landingLocaleRedirected: 'chatovo.landing-locale-redirected',
+  homeLocaleRedirected: 'chatovo.landing-locale-redirected',
   recentRooms: 'chatovo.recent-rooms',
   lobbyRoomsView: 'chatovo.lobby-rooms-view'
 } as const;

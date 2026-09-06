@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { useAppSettings } from '@/entities/app/settings';
+import { useIsTauriDesktop } from '@/shared/hooks';
 import { Switch } from '@/ui-kit';
 
 import { SettingRow } from '../components/SettingRow/SettingRow';
@@ -13,7 +14,9 @@ export const SystemTab = () => {
   const t = useTranslations('settings.system');
   const { settings, setGroup } = useAppSettings();
 
-  const { tray } = settings.system;
+  const isDesktop = useIsTauriDesktop();
+
+  const { tray, shareActivity } = settings.system;
 
   return (
     <div className={s.tabPanel}>
@@ -29,6 +32,19 @@ export const SystemTab = () => {
         hint={t('closeToTrayHint')}
         label={t('closeToTray')}
       />
+
+      {isDesktop && (
+        <SettingRow
+          control={
+            <Switch
+              checked={shareActivity}
+              onCheckedChange={(value) => setGroup('system', { shareActivity: value })}
+            />
+          }
+          hint={t('shareActivityHint')}
+          label={t('shareActivity')}
+        />
+      )}
     </div>
   );
 };

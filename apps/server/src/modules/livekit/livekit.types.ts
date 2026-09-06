@@ -14,4 +14,4 @@ export type ToRoomParticipantInput = {
   participant: ParticipantInfo;
 };
 
-export type ParticipantPatch = Partial<Pick<RoomParticipant, 'deafened' | 'micMuted'>>;
+export type ParticipantPatch = Partial<Pick<RoomParticipant, 'activity' | 'deafened' | 'micMuted'>>;

@@ -3,10 +3,11 @@ Author: Alexandr Artemev
 Project: Chatovo
 Site: https://chatovo.ru
 Contact: zilero@chatovo.ru
+Source: https://github.com/Zilero232/Chatovo
 
 /* SITE */
-Last update: 2026-05-20
-Language: English
+Last update: 2026-09-06
+Language: Russian, English
 Doctype: HTML5
-Components: Next.js, React, Tauri, LiveKit, Hono, Postgres, better-auth
-Standards: HTML5, CSS3, Open Graph, JSON-LD, PWA
+Components: Next.js, React, Tauri, LiveKit, NestJS, Bun, Prisma, Postgres, better-auth
+Standards: HTML5, CSS3, Open Graph, JSON-LD, WebRTC
