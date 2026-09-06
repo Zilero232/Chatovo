@@ -1,0 +1,88 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  padding: 0.375rem 0.5rem;
+  border-radius: var(--radius-lg);
+  gap: 0.5rem;
+
+  @include bp(md) {
+    padding: 0.5rem 0.625rem;
+  }
+}
+
+.identity {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: none;
+  gap: 0.5rem;
+  text-align: start;
+
+  @include interactive-cursor;
+  @include button-focus-ring;
+}
+
+.pulse {
+  display: grid;
+  width: rem(30);
+  height: rem(30);
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: color-mix(in oklch, var(--muted-foreground) 18%, transparent);
+  color: var(--muted-foreground);
+  place-items: center;
+}
+
+.pulseLive {
+  background: color-mix(in oklch, var(--brand-violet) 22%, transparent);
+  box-shadow: 0 0 rem(14) rem(-4) var(--brand-violet);
+  color: var(--brand-violet);
+}
+
+.pulseGlyph {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
+.meta {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.name {
+  color: var(--foreground);
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.off {
+  background: color-mix(in oklch, var(--destructive) 15%, transparent);
+  color: var(--destructive);
+
+  @include hover {
+    background: color-mix(in oklch, var(--destructive) 25%, transparent);
+    color: var(--destructive);
+  }
+}
+
+.leave {
+  color: var(--destructive);
+
+  @include hover {
+    background: color-mix(in oklch, var(--destructive) 15%, transparent);
+    color: var(--destructive);
+  }
+}

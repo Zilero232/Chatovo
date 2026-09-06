@@ -2,6 +2,7 @@
 
 import { LiveKitRoom } from '@livekit/components-react';
 import { useBoolean } from '@siberiacancode/reactuse';
+import { clsx } from 'clsx';
 import { setLogLevel } from 'livekit-client';
 
 import {
@@ -19,6 +20,7 @@ import { LocalSpeakingProvider } from '../model/contexts';
 import { useRoomConnection } from '../model/hooks';
 import {
   ConnectingOverlay,
+  MiniRoomBar,
   ParticipantsView,
   RoomAmbience,
   RoomControlsBar,
@@ -37,7 +39,9 @@ export const VoiceRoom = ({
   token,
   initialChatOpen = false,
   isDm = false,
+  isMinimized = false,
   onConnectFailure,
+  onExpand,
   onLeave
 }: VoiceRoomProps) => {
   const [isChatOpen, toggleChat] = useBoolean(initialChatOpen);
@@ -51,12 +55,12 @@ export const VoiceRoom = ({
   });
 
   return (
-    <div className={s.root}>
-      <div className={s.frame}>
+    <div className={clsx(s.root, isMinimized && s.rootMinimized)}>
+      <div className={clsx(s.frame, isMinimized && s.frameMinimized)}>
         <LiveKitRoom
           connect
           audio={audioCapture}
-          className={s.room}
+          className={clsx(s.room, isMinimized && s.roomMinimized)}
           options={{ webAudioMix: true, publishDefaults }}
           serverUrl={serverUrl}
           token={token}
@@ -67,22 +71,32 @@ export const VoiceRoom = ({
           <LocalSpeakingProvider>
             <DeafenProvider>
               <ReactionsProvider roomId={roomId}>
-                <RoomHeader isDm={isDm} name={roomName} />
+                {isMinimized ? (
+                  <MiniRoomBar isDm={isDm} roomName={roomName} onExpand={onExpand} />
+                ) : (
+                  <>
+                    <RoomHeader isDm={isDm} name={roomName} />
 
-                <div className={s.body}>
-                  <RoomAmbience />
-                  <ParticipantsView isDm={isDm} />
-                  <ReactionsOverlay />
-                  <ConnectingOverlay roomName={roomName} />
-                </div>
+                    <div className={s.body}>
+                      <RoomAmbience />
+                      <ParticipantsView isDm={isDm} />
+                      <ReactionsOverlay />
+                      <ConnectingOverlay roomName={roomName} />
+                    </div>
 
-                <RoomControlsBar
-                  isChatOpen={isChatOpen}
-                  isDm={isDm}
-                  onToggleChat={() => toggleChat()}
-                />
+                    <RoomControlsBar
+                      isChatOpen={isChatOpen}
+                      isDm={isDm}
+                      onToggleChat={() => toggleChat()}
+                    />
 
-                <ChatPanel isOpen={isChatOpen} roomId={roomId} onClose={() => toggleChat(false)} />
+                    <ChatPanel
+                      isOpen={isChatOpen}
+                      roomId={roomId}
+                      onClose={() => toggleChat(false)}
+                    />
+                  </>
+                )}
 
                 <RoomAudio />
                 <RoomControllers />

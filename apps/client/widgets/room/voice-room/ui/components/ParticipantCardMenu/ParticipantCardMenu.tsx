@@ -59,14 +59,18 @@ export const ParticipantCardMenu = ({ participant, children }: ParticipantCardMe
           {t('copyName')}
         </ContextMenuItem>
 
-        {!isSelf && (
-          <ContextMenuItem variant='destructive' onSelect={() => setIsReportOpen(true)}>
-            <ShieldAlert />
-            {tModeration('reportUser')}
-          </ContextMenuItem>
-        )}
-
         <ParticipantVolumeControls displayName={displayName} participant={participant} />
+
+        {!isSelf && (
+          <>
+            <ContextMenuSeparator />
+
+            <ContextMenuItem variant='destructive' onSelect={() => setIsReportOpen(true)}>
+              <ShieldAlert />
+              {tModeration('reportUser')}
+            </ContextMenuItem>
+          </>
+        )}
       </ContextMenuContent>
 
       <ReportAbuseDialog

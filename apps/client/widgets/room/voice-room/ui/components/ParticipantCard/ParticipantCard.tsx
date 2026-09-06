@@ -1,7 +1,7 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { EyeOff, HeadphoneOff, MicOff, ScreenShare } from 'lucide-react';
+import { EyeOff, Gamepad2, HeadphoneOff, MicOff, ScreenShare } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { UserAvatar, UserName } from '@/entities/auth/user';
@@ -19,10 +19,11 @@ import { getCardTint } from './lib';
 import s from './ParticipantCard.module.scss';
 
 export const ParticipantCard = ({
-  participant,
+  activity,
   deafened,
+  fill = false,
   invisible = false,
-  fill = false
+  participant
 }: ParticipantCardProps) => {
   const t = useTranslations('room');
   const tLobby = useTranslations('lobby.card');
@@ -98,23 +99,34 @@ export const ParticipantCard = ({
         )}
 
         <div className={s.metadata}>
-          {micMuted && <MicOff aria-label={tLobby('micMuted')} className={s.micIcon} role='img' />}
-          {deafened && (
-            <HeadphoneOff aria-label={tLobby('deafened')} className={s.micIcon} role='img' />
-          )}
-          <ProfileCardTrigger
-            className={s.nameTrigger}
-            identity={participant.identity}
-            name={displayName}
-            renderFriendActions={(state) => <FriendProfileActionsPanel {...state} />}
-          >
-            <UserName
-              className={s.name}
-              developer={developer}
+          <div className={s.identity}>
+            {micMuted && (
+              <MicOff aria-label={tLobby('micMuted')} className={s.micIcon} role='img' />
+            )}
+            {deafened && (
+              <HeadphoneOff aria-label={tLobby('deafened')} className={s.micIcon} role='img' />
+            )}
+            <ProfileCardTrigger
+              className={s.nameTrigger}
+              identity={participant.identity}
               name={displayName}
-              verified={verified}
-            />
-          </ProfileCardTrigger>
+              renderFriendActions={(state) => <FriendProfileActionsPanel {...state} />}
+            >
+              <UserName
+                className={s.name}
+                developer={developer}
+                name={displayName}
+                verified={verified}
+              />
+            </ProfileCardTrigger>
+          </div>
+
+          {activity && (
+            <div className={s.activity}>
+              <Gamepad2 aria-hidden className={s.activityIcon} />
+              <span className={s.activityLabel}>{activity}</span>
+            </div>
+          )}
         </div>
       </div>
     </ParticipantCardMenu>

@@ -10,11 +10,24 @@
   animation-fill-mode: both;
 }
 
+.rootMinimized {
+  height: auto;
+  animation: none;
+}
+
 .frame {
   display: flex;
   overflow: hidden;
   height: 100%;
   flex-direction: column;
+}
+
+.frameMinimized {
+  height: auto;
+}
+
+.roomMinimized {
+  height: auto;
 }
 
 .room {

@@ -22,7 +22,7 @@ import s from './RoomInviteButton.module.scss';
 export const RoomInviteButton = ({ size = 'lg' }: RoomInviteButtonProps) => {
   const t = useTranslations('room.invite');
   const roomId = useCurrentRoomId();
-  const { copied, copyInviteLink } = useCopyInviteLink(roomId);
+  const { canCopy, copied, copyInviteLink } = useCopyInviteLink(roomId);
 
   return (
     <Tooltip>
@@ -33,6 +33,7 @@ export const RoomInviteButton = ({ size = 'lg' }: RoomInviteButtonProps) => {
           copied && s.buttonCopied
         )}
         aria-label={copied ? t('linkCopied') : t('copyLink')}
+        disabled={!canCopy}
         size={size === 'sm' ? 'icon-sm' : 'icon-lg'}
         type='button'
         variant='ghost'
