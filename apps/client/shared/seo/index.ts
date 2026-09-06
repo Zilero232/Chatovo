@@ -1,5 +1,15 @@
-export { JsonLd, SiteJsonLd, siteJsonLd } from './json-ld';
-export type { JsonLdProps } from './json-ld';
+export { FaqJsonLd, JsonLd, SiteJsonLd, siteJsonLd } from './json-ld';
+export type { FaqJsonLdProps, JsonLdProps } from './json-ld';
 
-export { createPageMetadata, defaultMetadata, defaultViewport } from './site-metadata';
-export type { PageMetadataInput } from './site-metadata';
+export {
+  createMarketingMetadata,
+  createPageMetadata,
+  defaultMetadata,
+  defaultViewport
+} from './site-metadata';
+export type {
+  MarketingMetadataInput,
+  MarketingNamespace,
+  PageMetadataInput,
+  TranslatedMarketingNamespace
+} from './site-metadata';
