@@ -21,25 +21,29 @@ apps/
 └── tauri/           # Rust shell (src/), capabilities/, tauri.conf.json (CLAUDE.md)
 packages/schemas/    # Zod schemas (@chatovo/schemas), imported by client and server; grouped by domain
 .github/            # CI: workflows/release.yml, workflows/deploy.yml, actions/setup/
-.claude/rules/       # Компактные кодстайл-правила с paths-фронтматтером (автозагрузка при редактировании)
-├── code-style.md        # весь репо: **/*.{ts,tsx,js,jsx}
+.claude/rules/       # Compact code-style rules with a paths frontmatter (auto-loaded while editing)
+├── code-style.md        # whole repo: **/*.{ts,tsx,js,jsx}
 ├── code-style-client.md # apps/client/**
 ├── code-style-server.md # apps/server/**
 └── testing.md           # **/_tests/**, e2e/**, vitest + playwright configs
 docs/
-├── fsd.md           # Frontend (apps/client) architecture — read before structural changes
-├── style.md         # Code style, import order, naming — FULL версия (примеры + обоснования)
-├── developer-role.md # user.role = admin: contributors strip, developers tab, badges
-├── invisible-mode.md # admin joins rooms hidden: server-enforced, presence filtered
-├── migrations.md    # Prisma migrations: baseline, deploy order, better-auth schema drift
-├── tray-menu.md     # Native tray menu: Rust-owned icon + menu, labels/state pushed from the client
-└── rustore/         # RuStore release: listing, data safety, signing, moderation
+├── architecture/
+│   ├── fsd.md            # Frontend (apps/client) architecture — read before structural changes
+│   ├── room-session.md   # The call outlives navigation: session above the route, collapsed bar
+│   ├── game-activity.md  # "Playing X" status: Steam manifests + exe metadata, opt-in, desktop-only
+│   ├── invisible-mode.md # admin joins rooms hidden: server-enforced, presence filtered
+│   └── tray-menu.md      # Native tray menu: Rust-owned icon + menu, labels/state pushed from the client
+├── guides/
+│   ├── style.md          # Code style, import order, naming — FULL version (examples + rationale)
+│   ├── developer-role.md # user.role = admin: contributors strip, developers tab, badges
+│   └── migrations.md     # Prisma migrations: baseline, deploy order, better-auth schema drift
+└── rustore/              # RuStore release: listing, data safety, signing, moderation
 infra/               # Caddy + LiveKit configs
 ```
 
-**Кодстайл в двух версиях.** [docs/guides/style.md](docs/guides/style.md) — полная: примеры, анти-паттерны, обоснования; читается по запросу и агентом-ревьюером целиком. `.claude/rules/*.md` — компактные выжимки, подгружаются автоматически при редактировании подходящих файлов (`paths:`-фронтматтер). Правило меняется — правь оба места.
+**Code style comes in two versions.** [docs/guides/style.md](docs/guides/style.md) is the full one: examples, anti-patterns, rationale; read it on demand, and the reviewer agent reads it end to end. `.claude/rules/*.md` are the compact digests, loaded automatically when you edit matching files (the `paths:` frontmatter). When a rule changes, update both places.
 
-**Env**: один общий `.env` в корне на клиент и сервер (`.env.example` — шаблон). Клиент читает из него `NEXT_PUBLIC_*` через `loadRootEnv()` в [apps/client/next.config.ts](apps/client/next.config.ts). Отдельные `.env` есть только у `apps/tauri/` (машинные пути Android SDK/JDK). Креды для релиза и деплоя живут только в GitHub Secrets — локальных env-файлов под них нет, список нужных секретов описан в шапке каждого workflow. Всё, кроме `*.example`, в `.gitignore`.
+**Env**: a single shared `.env` at the repo root covers both client and server (`.env.example` is the template). The client reads `NEXT_PUBLIC_*` out of it via `loadRootEnv()` in [apps/client/next.config.ts](apps/client/next.config.ts). Only `apps/tauri/` has its own `.env` (machine-specific Android SDK/JDK paths). Release and deploy credentials live only in GitHub Secrets — there are no local env files for them; each workflow lists the secrets it needs in its header. Everything except `*.example` is in `.gitignore`.
 
 Each app folder has its own `CLAUDE.md` (see [Per-app guidance](#per-app-guidance)).
 
@@ -65,9 +69,9 @@ The rules below apply repo-wide (every app and `packages/`).
 4. Form state + validation → **`react-hook-form`** + **`@hookform/resolvers/zod`** + Zod schemas from `@chatovo/schemas`. No useState-driven forms.
 5. Server state, caching, mutations, query keys → **`@tanstack/react-query`** (`useQuery`, `useMutation`, `QueryClient`). All query keys live in `shared/constants/query-keys.ts`. No `useEffect + fetch` patterns.
 6. Date / time → **`date-fns`** (already in deps). No `Date` arithmetic by hand.
-7. Class composition → **`clsx`** напрямую. Не оборачивать в `cn()`.
+7. Class composition → **`clsx`** directly. Do not wrap it in a `cn()` helper.
 8. Validation schemas → **Zod 4** via `@chatovo/schemas`. Schema is source of truth, infer types with `z.infer`.
-9. UI primitives (dialog, dropdown, tooltip, popover, tabs, switch, etc.) → **`@base-ui/react`** в `ui-kit/` (импорт из подпути: `@base-ui/react/menu`). Стили — **SCSS modules** (`*.module.scss`). Не реализуй focus trap / aria с нуля. Грабли Base UI — в [apps/client/CLAUDE.md](apps/client/CLAUDE.md).
+9. UI primitives (dialog, dropdown, tooltip, popover, tabs, switch, etc.) → **`@base-ui/react`** inside `ui-kit/` (import from the subpath: `@base-ui/react/menu`). Styling is **SCSS modules** (`*.module.scss`). Don't implement focus trap / aria from scratch. Base UI gotchas are in [apps/client/CLAUDE.md](apps/client/CLAUDE.md).
 10. Icons → **`lucide-react`**. No custom SVG inline unless brand-specific.
 11. Toasts → **`sonner`** (`toast.success` / `toast.error`). No custom notification system.
 12. LiveKit room state, participants, tracks, chat → **`@livekit/components-react`** hooks (`useChat`, `useParticipants`, `useTracks`, `useConnectionState`). No raw `Room` event listeners unless the hook genuinely doesn't cover it.
@@ -79,8 +83,8 @@ The rules below apply repo-wide (every app and `packages/`).
 18. Keyboard event → human-readable combo string → **`keyboard-event-to-string`** (shortcut recording UI). No hand-rolled key formatter.
 19. Cross-app pub/sub events → typed **`appBus`** in `shared/lib/app-bus` (built on reactuse `createEventEmitter`). For app-wide events (mute/deafen toggle, PTT, recheck-update) use the bus instead of `window` `CustomEvent` — types are enforced in `AppBusEvents`.
 20. Calling a fresh callback/prop from inside `useEffect` without making the effect re-run → **`useEffectEvent`** (React 19.2+). Do NOT hand-roll the `const cbRef = useRef(cb); cbRef.current = cb;` pattern to read a "latest" callback — `useEffectEvent` is the idiomatic replacement (the effect omits the event from its deps). The ref-latest pattern is only acceptable for non-callback mutable values that genuinely can't use an Effect Event.
-21. Анимации появления/исчезновения, layout-переходы, stagger → **`motion`** (`motion.div`, `AnimatePresence`, `useReducedMotion`). В CSS остаются только hover/focus-транзишны, бесконечные лупы (спиннер, пульс) и декоративный фон. Не пиши `@keyframes` для enter/exit — они не реагируют на стейт и конфликтуют с motion.
-22. Выбор файла → **`useFileDialog`** (reactuse) + `FilePicker` из `ui-kit`. Нативный `<input type="file">` не стилизуется и выбивается из дизайна.
+21. Enter/exit animations, layout transitions, stagger → **`motion`** (`motion.div`, `AnimatePresence`, `useReducedMotion`). CSS keeps only hover/focus transitions, infinite loops (spinner, pulse) and decorative backgrounds. Don't write `@keyframes` for enter/exit — they don't react to state and they fight with motion.
+22. File selection → **`useFileDialog`** (reactuse) + `FilePicker` from `ui-kit`. A native `<input type="file">` can't be styled and breaks the design.
 
 **When to roll your own:**
 
@@ -113,27 +117,27 @@ bun dev:full               # docker + bun dev
 bun lint                   # eslint (TS/JS)
 bun lint:fix               # eslint --fix
 bun lint:css               # stylelint (SCSS)
-bun lint:css:fix           # stylelint --fix — сортирует свойства, чинит порядок
+bun lint:css:fix           # stylelint --fix — sorts properties, fixes ordering
 bun format                 # prettier --write
 bun format:check           # prettier --check
-bun verify                 # typecheck + lint + format:check + lint:css — прогони перед коммитом
+bun verify                 # typecheck + lint + format:check + lint:css — run before committing
 bun fix                    # lint:fix + format + lint:css:fix
-bun lint:rust              # clippy на apps/tauri (в verify не входит — нужен cargo)
+bun lint:rust              # clippy on apps/tauri (not part of verify — needs cargo)
 bun test                   # Vitest, whole monorepo in one run (not part of verify)
 bun test:coverage          # same plus a v8 coverage report
 bun test:e2e               # Playwright, starts the client dev server itself
-bun build                  # client production build (у сервера сборки нет — Bun гоняет TS напрямую)
+bun build                  # client production build (the server has no build — Bun runs TS directly)
 
-# Release / deploy — только через GitHub Actions, локальных скриптов больше нет.
-#   release: git tag vX.Y.Z && git push --tags  (или Actions → release → Run workflow)
+# Release / deploy — only through GitHub Actions, there are no local scripts anymore.
+#   release: git tag vX.Y.Z && git push --tags  (or Actions → release → Run workflow)
 #            checks → draft → desktop (win/mac aarch64+x86_64/linux) + android → publish
-#   deploy:  Actions → deploy → Run workflow (ghcr + ssh на VPS, вручную)
-# Секреты — Settings → Secrets and variables → Actions (список в шапке workflow).
+#   deploy:  Actions → deploy → Run workflow (ghcr + ssh to the VPS, manual)
+# Secrets — Settings → Secrets and variables → Actions (each workflow lists them in its header).
 
 # Tauri (desktop)
 bun tauri:dev              # run Tauri dev shell
 bun tauri:build            # produce native binary
-bun android:build          # APK + AAB (нужны SDK/NDK, см. apps/tauri/.env)
+bun android:build          # APK + AAB (needs SDK/NDK, see apps/tauri/.env)
 
 # Server / Prisma (run from apps/server/)
 bun db:push                # push schema without migration (USE THIS — see note)
@@ -151,17 +155,18 @@ bun --filter @chatovo/client typecheck
 ## Working with the user
 
 - **Language**: respond in Russian. Code, identifiers, commit messages, and quoted error strings stay in their original language (usually English).
+- **Docs are English**: every `.md` in the repo — `CLAUDE.md` files, `docs/`, `.claude/rules/`, READMEs — is written in English, as are comments in config files. The two exceptions are `docs/rustore/listing.md` and the quoted store requirements in `docs/rustore/moderation.md`: that text is submitted verbatim to RuStore, so translating it would break the store entry.
 - **No code comments in application code**: no `//`, block or JSDoc comments in `views/`, `widgets/`, `features/`, `entities/` (client) or `modules/` (server). Code is self-documenting via clear naming; if a block needs a comment, extract it into a named function. **Narrow exception** — the public surface of reusable modules (`ui-kit`, `shared/lib`, `shared/hooks`, server `src/lib/`, `packages/schemas`): an **exported** primitive may carry a 1–2 line JSDoc when the signature doesn't explain the purpose (non-obvious units, side effect, edge-case behaviour). Internal helpers are never documented. Details and examples — [docs/guides/style.md](docs/guides/style.md) §18. Add other comments only when the user explicitly asks. Leave pre-existing comments in files you didn't author unless told to clean them.
 - **No git operations on your own**: never `git commit` / `branch` / `push` unless the user explicitly asks in that message. Stage (`git add`) at most. A task instruction like "go do X" is NOT a commit request.
 - **Measure before swapping for perf**: if a performance symptom persists across two implementation swaps, the cause is almost certainly not the library — stop swapping. First do ONE of: repeat the action (fast 2nd time = first-mount/dev-compile, not the lib), test a prod build (`bun run build && bun run start`), or read a DevTools Performance profile. Only swap a library once a profile implicates its code.
 
 ## Workflow
 
-- **Verification**: `bun run verify` — одна команда на всё (typecheck × 3 пакета, ESLint, Prettier, Stylelint). Контрпара — `bun run fix`. Прогоняй `verify` перед коммитом.
+- **Verification**: `bun run verify` — one command for everything (typecheck across 3 packages, ESLint, Prettier, Stylelint). Its counterpart is `bun run fix`. Run `verify` before committing.
 - **Type checking**: `bun typecheck` from the root runs all workspaces; `bun --filter @chatovo/client typecheck` for one.
-- **Lint**: `bun lint:fix` runs ESLint (`@siberiacancode/eslint`); он же сортирует импорты. Форматирование — отдельно, `bun format` (Prettier, `@siberiacancode/prettier`). Не правь стиль руками, не спорь с выводом.
-- **Lint SCSS**: `bun lint:css:fix` runs Stylelint (`@siberiacancode/stylelint`, порядок свойств из `stylelint-config-idiomatic-order`). Конфиг — [stylelint.config.mjs](stylelint.config.mjs). Все линтеры подключены к pre-commit через lint-staged.
-- **Общие версии — в каталоге**: `workspaces.catalog` в корневом [package.json](package.json) — единственный источник правды для react, zod, typescript, remeda, ts-pattern, date-fns, better-auth. В пакетах пиши `"zod": "catalog:"`, не версию.
+- **Lint**: `bun lint:fix` runs ESLint (`@siberiacancode/eslint`); it also sorts imports. Formatting is separate — `bun format` (Prettier, `@siberiacancode/prettier`). Don't fix style by hand and don't argue with the output.
+- **Lint SCSS**: `bun lint:css:fix` runs Stylelint (`@siberiacancode/stylelint`, property order from `stylelint-config-idiomatic-order`). Config — [stylelint.config.mjs](stylelint.config.mjs). All linters are wired into pre-commit through lint-staged.
+- **Shared versions live in the catalog**: `workspaces.catalog` in the root [package.json](package.json) is the single source of truth for react, zod, typescript, remeda, ts-pattern, date-fns, better-auth. In packages write `"zod": "catalog:"`, not a version.
 - **Tests**: `bun run test` — one Vitest run across the whole monorepo. The root [vitest.config.ts](vitest.config.ts) wires three projects (`schemas`, `server`, `client`) via `test.projects`; each workspace has its own config with a `name` and its environment. Tests live in a `_tests/` folder next to the file under test: `foo.ts` → `_tests/foo.test.ts`. Client tests run in jsdom with `@testing-library/react` (setup — [apps/client/vitest.setup.ts](apps/client/vitest.setup.ts) mocks `next/navigation`); server tests get a dummy env from their config, without which Zod env validation fails as soon as the Prisma chain is imported. E2E — Playwright, `bun run test:e2e`, specs in [e2e/](e2e/), two projects (desktop + mobile), the config starts the client dev server itself. Coverage — `bun run test:coverage`. CI (`release.yml`, job `checks`) runs `bun run test`; e2e is not included.
 - **Commits**: Conventional Commits, enforced by commitlint through the husky `commit-msg` hook ([commitlint.config.mjs](commitlint.config.mjs)). Subject up to 120 chars, scope is free-form (`client`, `server`, `tauri`, a domain or a file).
 - **Branches**: feature branches off `master`. PRs target `master`.

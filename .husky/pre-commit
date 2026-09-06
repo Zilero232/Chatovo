@@ -6,11 +6,11 @@ staged_has() {
   printf '%s\n' "$staged" | grep -qE "$1"
 }
 
-# bun --filter не умеет git-диапазоны (аналога pnpm --filter=[HEAD^1] нет),
-# поэтому изменённые воркспейсы вычисляем сами и фильтруем по пути.
+# bun --filter takes no git range (there is no pnpm --filter=[HEAD^1] equivalent),
+# so work out the touched workspaces here and filter by path.
 typecheck_targets=''
 
-# Корневые конфиги и @chatovo/schemas влияют на все воркспейсы сразу.
+# Root configs and @chatovo/schemas affect every workspace at once.
 if staged_has '^(package\.json|bun\.lock|tsconfig.*\.json)$' || staged_has '^packages/schemas/'; then
   typecheck_targets='./packages/schemas ./apps/server ./apps/client'
 else

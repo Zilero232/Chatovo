@@ -3,73 +3,73 @@ paths:
   - "apps/server/**/*.ts"
 ---
 
-<!-- COMPRESSED editing-версия: автозагружается при правке файлов apps/server (paths-фронтматтер). -->
-<!-- Полная конвенция модулей — apps/server/CLAUDE.md; общий кодстайл — docs/style.md. Держи в синхроне при изменении правила. -->
+<!-- COMPRESSED editing version: auto-loads when editing files under apps/server (paths frontmatter). -->
+<!-- Full module convention — apps/server/CLAUDE.md; shared code style — docs/guides/style.md. Keep in sync when a rule changes. -->
 
-# Code Style — server (NestJS 11 на Bun + Prisma)
+# Code Style — server (NestJS 11 on Bun + Prisma)
 
-Расширяет общий `code-style.md`. Полная конвенция модулей, auth, realtime, ops — `apps/server/CLAUDE.md`.
+Extends the shared `code-style.md`. The full convention for modules, auth, realtime and ops — `apps/server/CLAUDE.md`.
 
-## 1. Структура модуля
+## 1. Module structure
 
 ```
 modules/rooms/
-├── index.ts                    # public API — Module + сервисы для инъекции
+├── index.ts                    # public API — Module + services for injection
 ├── rooms.module.ts
 ├── rooms.controller.ts         # transport only
 ├── services/
 │   ├── index.ts
 │   ├── rooms.service.types.ts  # <Fn>Input
 │   └── rooms.service.ts
-└── dto/rooms.dto.ts            # createZodDto(...) из @chatovo/schemas
+└── dto/rooms.dto.ts            # createZodDto(...) from @chatovo/schemas
 ```
 
-`services/` всегда, даже под один сервис — один файл на домен работы, не жирный `<name>.service.ts` в корне модуля. Кросс-модульный импорт — только через barrel (`from '../realtime'`), не deep (`from '../realtime/emit'`). Контроллеры и DTO наружу не экспортируются.
+`services/` always, even for a single service — one file per work domain, not a fat `<name>.service.ts` at the module root. A cross-module import goes only through the barrel (`from '../realtime'`), never deep (`from '../realtime/emit'`). Controllers and DTOs are not exported outwards.
 
-## 2. Слои
+## 2. Layers
 
-- **Controller** — валидированный вход (`@Body() dto`), вызов сервиса, возврат значения. Без Prisma и бизнес-правил. Не собирай ответ руками — пусть сериализуется.
-- **Service** — бизнес-логика. Инжектит `PrismaService` (`this.prisma.<model>`), другие сервисы, `AppConfigService`, `EventEmitter2`. Принимает простые аргументы (никакого `Request`), возвращает данные или **бросает** `ConflictException` / `NotFoundException` / `ForbiddenException` / `BadRequestException`. Ответы об ошибке не конструируем — глобальный `AllExceptionsFilter` превращает throw в `{ error: string }`.
-- **lib/** — переиспользуемые guard-функции (`assertRoomExists`, `assertCanManageRoom`) и Prisma-селекты (`roomSelect`, `senderSelect`). Обычные функции на `basePrisma`, не провайдеры. Не переобъявляй их в модулях.
+- **Controller** — validated input (`@Body() dto`), a service call, a returned value. No Prisma and no business rules. Don't assemble the response by hand — let it serialise.
+- **Service** — business logic. Injects `PrismaService` (`this.prisma.<model>`), other services, `AppConfigService`, `EventEmitter2`. Takes plain arguments (never a `Request`), returns data or **throws** `ConflictException` / `NotFoundException` / `ForbiddenException` / `BadRequestException`. We never construct error responses — the global `AllExceptionsFilter` turns a throw into `{ error: string }`.
+- **lib/** — reusable guard functions (`assertRoomExists`, `assertCanManageRoom`) and Prisma selects (`roomSelect`, `senderSelect`). Plain functions over `basePrisma`, not providers. Do not redeclare them in modules.
 
-## 3. Сигнатуры
+## 3. Signatures
 
-**2+ параметра → один объект**, тип `<Fn>Input` в `<module>.service.types.ts`. Одноаргументные (`listFriends(userId)`) остаются позиционными. То же правило на клиенте — общий `code-style.md` §2.
+**2+ parameters → a single object**, typed `<Fn>Input` in `<module>.service.types.ts`. Single-argument functions (`listFriends(userId)`) stay positional. Same rule on the client — shared `code-style.md` §2.
 
-В файле сервиса/контроллера — **ничего кроме класса**. Константы → `config/<name>.config.ts`. Чистые функции → `lib/<fn-name>/` (папка на функцию: `<fn-name>.ts` + `index.ts` + `<fn-name>.types.ts` при 2+ параметрах).
+A service or controller file holds **nothing but the class**. Constants → `config/<name>.config.ts`. Pure functions → `lib/<fn-name>/` (a folder per function: `<fn-name>.ts` + `index.ts` + `<fn-name>.types.ts` when there are 2+ parameters).
 
-## 4. Валидация
+## 4. Validation
 
-DTO — только `createZodDto(schema)` из `nestjs-zod`, схема из `@chatovo/schemas`. `class-validator` / `class-transformer` запрещены: они форкнут контракт, который клиент уже валидирует через `zodResolver`. Одна схема = валидация запроса + OpenAPI + валидация формы на клиенте.
+DTOs are only `createZodDto(schema)` from `nestjs-zod`, with the schema from `@chatovo/schemas`. `class-validator` / `class-transformer` are banned: they would fork a contract the client already validates through `zodResolver`. One schema = request validation + OpenAPI + form validation on the client.
 
-## 5. Независимые `await` — параллельно
+## 5. Independent `await` calls go in parallel
 
-Как в общем правиле: второй вызов не использует результат первого → `Promise.all`.
+As in the shared rule: the second call does not use the first one's result → `Promise.all`.
 
-**На сервере порядок чаще значим — не параллель:** guard перед мутацией (`assertCanManageRoom` → `delete`), проверка существования перед связанным чтением, запись перед чтением тех же данных, шаги транзакции. Параллелить можно независимые чтения.
+**On the server the order matters more often — don't parallelise:** a guard before a mutation (`assertCanManageRoom` → `delete`), an existence check before a related read, a write before reading the same data, transaction steps. Independent reads can be parallelised.
 
 ```ts
-// ✗ НЕ параллелить — guard обязан отработать до мутации
+// ✗ do NOT parallelise — the guard must run before the mutation
 await assertCanManageRoom({ roomId, userId });
 await this.prisma.room.delete({ where: { id: roomId } });
 ```
 
-## 6. Side effects — через доменные события
+## 6. Side effects go through domain events
 
-Доменные сервисы не импортируют Telegram / email / push. Инжектят `EventEmitter2` и эмитят типизированное событие из `common/events/domain-events.ts`; `*.listener.ts` в `modules/notifications/` обрабатывает и держит свой try/catch. Плоские модули без DI (`call-store`, `emit-chat-event`) — через `emitDomainEvent`.
+Domain services do not import Telegram / email / push. They inject `EventEmitter2` and emit a typed event from `common/events/domain-events.ts`; a `*.listener.ts` in `modules/notifications/` handles it and keeps its own try/catch. Flat modules without DI (`call-store`, `emit-chat-event`) go through `emitDomainEvent`.
 
-Fire-and-forget `.then()` без `.catch()` запрещён.
+A fire-and-forget `.then()` without a `.catch()` is banned.
 
 ## 7. Prisma
 
-`PrismaService` — подкласс `PrismaClient`, инжектится, модели зовутся напрямую. Без `$extends` и глобального маппинга ошибок: конфликты проверяем явно (`assertRoomNameAvailable` до create/rename) и бросаем нужный `HttpException`. `basePrisma` — только для better-auth, не в фиче-сервисах.
+`PrismaService` is a subclass of `PrismaClient`, injected, with models called directly. No `$extends` and no global error mapping: conflicts are checked explicitly (`assertRoomNameAvailable` before a create/rename) and throw the appropriate `HttpException`. `basePrisma` is for better-auth only, never in feature services.
 
-## 8. Локальные отличия от клиентского стиля
+## 8. Local differences from the client style
 
-- `import type` не enforce-ится (`ts/consistent-type-imports` выключен для `apps/server/**`) — Nest резолвит зависимости по метаданным декораторов.
-- Декораторы (`@Injectable`, `@Controller`, `@AllowAnonymous`, `@Session`) — не «комментарии», правило «без комментариев» их не касается.
-- `process.env` в фиче-коде запрещён — только `AppConfigService.get('KEY')`.
+- `import type` is not enforced (`ts/consistent-type-imports` is off for `apps/server/**`) — Nest resolves dependencies from decorator metadata.
+- Decorators (`@Injectable`, `@Controller`, `@AllowAnonymous`, `@Session`) are not "comments"; the no-comments rule does not apply to them.
+- `process.env` in feature code is banned — only `AppConfigService.get('KEY')`.
 
-## 9. Комментарии
+## 9. Comments
 
-Как в общем правиле: `modules/` — прикладной код, комментариев нет. Узкое исключение — короткий JSDoc у **экспортируемых** хелперов `src/lib/`, если сигнатура не объясняет контракт. Внутренние функции не документируются.
+As in the shared rule: `modules/` is application code, so no comments. The narrow exception is a short JSDoc on **exported** helpers in `src/lib/`, when the signature does not explain the contract. Internal functions are not documented.

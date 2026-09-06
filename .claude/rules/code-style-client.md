@@ -3,49 +3,49 @@ paths:
   - "apps/client/**/*.{ts,tsx}"
 ---
 
-<!-- COMPRESSED editing-версия: автозагружается при правке файлов apps/client (paths-фронтматтер). -->
-<!-- Полная версия с примерами и обоснованиями — docs/guides/style.md; архитектура слоёв — docs/architecture/fsd.md. Держи в синхроне при изменении правила. -->
+<!-- COMPRESSED editing version: auto-loads when editing files under apps/client (paths frontmatter). -->
+<!-- Full version with examples and reasoning — docs/guides/style.md; layer architecture — docs/architecture/fsd.md. Keep in sync when a rule changes. -->
 
 # Code Style — client (Next.js 16 / React 19, FSD)
 
-Расширяет общий `code-style.md`. Архитектура слоёв — `docs/architecture/fsd.md`, локальные конвенции — `apps/client/CLAUDE.md`.
+Extends the shared `code-style.md`. Layer architecture — `docs/architecture/fsd.md`, local conventions — `apps/client/CLAUDE.md`.
 
-## 1. Структура слайса
+## 1. Slice structure
 
-Сегменты: `ui/` `model/` `lib/` `api/` `config/` + `index.ts` (public API). Минимум — `ui/` + `index.ts`.
+Segments: `ui/` `model/` `lib/` `api/` `config/` + `index.ts` (public API). The minimum is `ui/` + `index.ts`.
 
-Главный компонент плоско в `ui/`, файлы рядом: `VoiceRoom.tsx`, `VoiceRoom.types.ts`, `VoiceRoom.module.scss`. Подкомпоненты — в `ui/components/<Name>/` c агрегирующим `components/index.ts`, который указывает прямо на файл (`export { X } from './X/X'`) — **без** per-component `index.ts`.
+The main component sits flat in `ui/` with its files next to it: `VoiceRoom.tsx`, `VoiceRoom.types.ts`, `VoiceRoom.module.scss`. Subcomponents go in `ui/components/<Name>/` with an aggregating `components/index.ts` that points straight at the file (`export { X } from './X/X'`) — with **no** per-component `index.ts`.
 
-Родитель импортирует через barrel `./components`, не `./components/ChannelsHeader`.
+The parent imports through the `./components` barrel, not `./components/ChannelsHeader`.
 
-`ui-kit` — дизайн-система (`primitives/` `components/` `icons/` `styles/`), каждый компонент в PascalCase-папке со своим `index.ts`. Снаружи — только `@/ui-kit`, внутри — относительные.
+`ui-kit` is the design system (`primitives/` `components/` `icons/` `styles/`), each component in a PascalCase folder with its own `index.ts`. From outside — only `@/ui-kit`; inside — relative imports.
 
 ## 2. Naming
 
-| Что | Как |
+| What | How |
 |---|---|
-| Слайсы, сегменты, файлы хуков/утилит | kebab-case (`voice-room`, `use-room-state.ts`) |
-| Папка и файл компонента | PascalCase (`VoiceRoom/VoiceRoom.tsx`) |
-| Типы | `<Name>Props`, `<Name>.types.ts`, `Use<Name>Input`, DTO `<Name>Input/Output` |
-| Хук / утилита (export) | `useEnterRoom` / `groupMessages` |
+| Slices, segments, hook/utility files | kebab-case (`voice-room`, `use-room-state.ts`) |
+| Component folder and file | PascalCase (`VoiceRoom/VoiceRoom.tsx`) |
+| Types | `<Name>Props`, `<Name>.types.ts`, `Use<Name>Input`, DTO `<Name>Input/Output` |
+| Hook / utility (export) | `useEnterRoom` / `groupMessages` |
 
-Отклонение от канона FSD (там kebab-case везде) — осознанное.
+The deviation from FSD canon (kebab-case everywhere there) is deliberate.
 
-## 3. Размер компонента
+## 3. Component size
 
-**100 строк JSX-файла максимум.** Перевалил: подкомпоненты → `components/`, логика → `model/` (хук), утилиты → `lib/`.
+**100 lines per JSX file, maximum.** Over the limit: subcomponents → `components/`, logic → `model/` (a hook), utilities → `lib/`.
 
-Barrel родственных примитивов (`Dialog`, `Sheet`, `DropdownMenu` на 8–15 экспортов) — не исключение: каждая часть в `components/<Name>/`, `<Name>.tsx` — тонкий реэкспорт. Группируй по смыслу (`Header`/`Footer`/`Title` вместе), а не «файл на экспорт». Общий контекст частей — отдельным модулем рядом (`dialog-overlay-context.ts`), иначе цикл импортов.
+A barrel of related primitives (`Dialog`, `Sheet`, `DropdownMenu` with 8–15 exports) is no exception: each part goes in `components/<Name>/` and `<Name>.tsx` is a thin re-export. Group by meaning (`Header` / `Footer` / `Title` together), not "one file per export". Context shared by the parts goes into its own module next to them (`dialog-overlay-context.ts`), otherwise you get an import cycle.
 
-Побочный эффект без разметки — headless-контроллер в `ui/controllers/`, рендерит `null`, собирается в фрагмент-оркестратор. Куча `useEffect` в главном компоненте — запрещена.
+A side effect with no markup is a headless controller in `ui/controllers/` that renders `null` and is assembled into an orchestrator fragment. A pile of `useEffect` in the main component is banned.
 
-## 4. Порядок полей Props
+## 4. Props field order
 
-Один порядок в трёх местах: `type Props` ↔ деструктуризация ↔ JSX-вызов. Группы: **данные** (включая `children`) → **идентификаторы/стили** (`id`, `className`, `style`) → **обработчики** (`on<Event>`). Расхождение между тремя местами ловится на ревью.
+One order in three places: `type Props` ↔ destructuring ↔ the JSX call. The groups: **data** (including `children`) → **identifiers/styles** (`id`, `className`, `style`) → **handlers** (`on<Event>`). A mismatch between the three is caught at review.
 
-## 5. Порядок хуков
+## 5. Hook order
 
-ESLint не сортирует — руками. Группы, пустая строка между:
+ESLint does not sort them — by hand. Groups, with a blank line between:
 
 1. Navigation (`useRouter`, `useSearchParams`)
 2. Store / context (`useCurrentUser`, `use<Name>Store`)
@@ -56,11 +56,11 @@ ESLint не сортирует — руками. Группы, пустая ст
 7. Effects
 8. Derived const
 
-Кастомные хуки — по семантике содержимого (`useRooms` делает `useQuery` → группа Data). Хук с data dependency не переставляем: если `name` нужен `useRoomToken({ roomName: name })`, `name` идёт раньше. `if (...) useFoo()` — баг `rules-of-hooks`, чинить, не сортировать.
+Custom hooks go by what they do inside (`useRooms` runs a `useQuery` → the Data group). Never move a hook across a data dependency: if `name` is needed by `useRoomToken({ roomName: name })`, `name` comes first. `if (...) useFoo()` is a `rules-of-hooks` bug — fix it, don't sort it.
 
-## 6. Effects и deps
+## 6. Effects and deps
 
-В `deps` — только то, что **должно триггерить перезапуск**. Стабильные ref (`router`, `mutate`/`reset` из react-query) в deps не идут; `eslint-disable-next-line react/exhaustive-deps -- причина` с явной причиной — нормальная практика.
+`deps` holds only what **should re-trigger** the effect. Stable refs (`router`, `mutate` / `reset` from react-query) don't go into deps; `eslint-disable-next-line react/exhaustive-deps -- reason` with an explicit reason is normal practice.
 
 ```tsx
 // eslint-disable-next-line react/exhaustive-deps -- redirect must fire only on roomId change; router is a stable ref
@@ -68,73 +68,87 @@ useEffect(() => {
   if (!roomId) router.replace(ROUTES.lobby);
 }, [roomId]);
 
-// ✗ }, [roomId, room, router, tokenMutation]); — объект мутации меняет ref каждый рендер
+// ✗ }, [roomId, room, router, tokenMutation]); — the mutation object changes its ref every render
 ```
 
-**Антипаттерн: `useEffect` + `mutate` для загрузки данных** → рефетч-циклы. Декларативная загрузка — `useQuery` с ключом (`queryKey: [roomId]`), react-query сам рефетчит при смене ключа.
+**Anti-pattern: `useEffect` + `mutate` to load data** → refetch loops. Declarative loading is `useQuery` with a key (`queryKey: [roomId]`); react-query refetches on a key change by itself.
 
-Свежий колбэк внутри эффекта без перезапуска эффекта — `useEffectEvent`, не ручной `cbRef.current = cb`.
+A fresh callback inside an effect without re-running the effect — `useEffectEvent`, not a hand-rolled `cbRef.current = cb`.
 
-## 7. Деструктуризация query / mutation
+## 7. Destructuring query / mutation
 
-`useQuery` деструктурируем сразу, `data` переименовываем под смысл. `useMutation` оставляем цельным объектом — нужны и поля, и методы.
+`useQuery` is destructured immediately, with `data` renamed to say what it is. `useMutation` stays a whole object — you need both its fields and its methods.
 
 ```tsx
 const { data: room, isLoading } = useRoomById(roomId);
-const tokenMutation = useRoomTokenMutation(); // ✓ mutation — объект
+const tokenMutation = useRoomTokenMutation(); // ✓ mutation — an object
 
 // ✗ const roomById = useRoomById(roomId); const room = roomById.data;
 ```
 
 ## 8. Conditional render — ts-pattern
 
-3+ ветки → `match` (на discriminated union из хука либо прямо на объекте сырых хуков с `P.nullish` / `P.nonNullable`). `.exhaustive()` обязателен. Порядок `.with` важен — первый совпавший выигрывает; узкие значения бери из аргумента хендлера, не из замыкания и не через `as`.
+3+ branches → `match` (on a discriminated union from a hook, or directly on an object of raw hooks with `P.nullish` / `P.nonNullable`). `.exhaustive()` is mandatory. The order of `.with` matters — the first match wins; take narrowed values from the handler's argument, not from the closure and not via `as`.
 
 ```tsx
-// ✗ condition hell в view
+// ✗ condition hell in the view
 return !roomId ? null : isLoading ? <Loading /> : !room ? <NotFound /> : <Room />;
 ```
 
-**Одна ветка — `&&`, не `? : null`.** Условие обязано быть boolean: `&&` рендерит левый операнд как есть, `0` / `''` попадут в разметку.
+**A single branch — `&&`, not `? : null`.** The condition must be a boolean: `&&` renders the left operand as-is, so `0` / `''` end up in the markup.
 
 ```tsx
 {isAdmin && <Badge />}
 {participants.length > 0 && <List />}
 
-// ✗ {participants.length && <List />} — отрендерит "0" на пустом массиве
+// ✗ {participants.length && <List />} — renders "0" on an empty array
 // ✗ {isAdmin ? <Badge /> : null}
 ```
 
-Тернарник — для двух реальных веток.
+The ternary is for two real branches.
 
-## 9. Сегменты model / lib / api
+## 9. The model / lib / api segments
 
-**`model/`** — хуки, стор, контексты, типы стейта. Подсистема (Provider + context + хук) → своя папка с `index.ts`. Группировка внутри: `model/hooks/`, `model/contexts/`, `model/stores/` — у каждой свой barrel. **Slice-level `model/index.ts` НЕ создаём**; импорт снаружи — через barrel подпапки, внутри подпапки — по файлу.
+**`model/`** — hooks, stores, contexts, state types. A subsystem (Provider + context + hook) gets its own folder with an `index.ts`. Grouping inside: `model/hooks/`, `model/contexts/`, `model/stores/` — each with its own barrel. **Do NOT create a slice-level `model/index.ts`**; an import from outside goes through the subfolder's barrel, and inside a subfolder you import by file.
 
-Локальные типы одного хука — в том же файле. Публичные типы слайса — `model/types.ts` (это файл, импортируется напрямую). Отдельные сегменты `types/` и `hooks/` на верхнем уровне слайса — антипаттерн FSD.
+Types local to a single hook live in the same file. The slice's public types go in `model/types.ts` (a file, imported directly). Separate `types/` and `hooks/` segments at the top level of a slice are an FSD anti-pattern.
 
-**`lib/`** — чистые функции без React. Возвращает JSX → это компонент, в `ui/`. Использует React → `model/`. Константы → `config/`.
+**`lib/`** — pure functions with no React. Returns JSX → it's a component, move it to `ui/`. Uses React → `model/`. Constants → `config/`.
 
-**`api/`** — I/O-граница (подписки, мапперы, обёртки сервиса). Слушает/шлёт во внешний сервис → `api/`; читает/выводит доменный стейт → `model/`.
+**One file per task, a folder per cluster.** A single export with an obvious name is a flat file (`lib/group-rooms.ts`). The moment a file gains its own type, a test or a second companion file, create a folder and put them together: `<fn-name>/<fn-name>.ts` + `index.ts` + `<fn-name>.types.ts` + `_tests/`. Same in `shared/lib/` and in the server's `src/lib/`. A flat `<fn-name>.types.ts` next to a flat `<fn-name>.ts` is already a reason to create a folder; types belong in their function's folder, not in the segment's common pile.
 
-HTTP — только общий axios-инстанс из `shared/api/http` (он вешает `Authorization` и разворачивает `{ error }` в `Error`). Ручной `fetch` / свой `axios.create` запрещены. Типы запроса/ответа — из `@chatovo/schemas`.
+```text
+shared/lib/build-room-href/          ✓ the function + its type + its test together
+├── build-room-href.ts
+├── build-room-href.types.ts
+├── index.ts
+└── _tests/build-room-href.test.ts
 
-## 10. Стили
+shared/lib/build-room-href.ts        ✗ sitting next to build-room-href.types.ts
+```
 
-Только SCSS modules (`*.module.scss`), CSS-in-JS запрещён. Токены — CSS-переменные в `app/globals.scss` + `ui-kit/styles/_tokens.scss`. Общие миксины — `@use '@/ui-kit/styles/mixins' as *`, без `../../../`. Склейка классов — `clsx` напрямую, без обёртки `cn()`. Условные варианты — maps в TSX или `cva`.
+The exception is `model/hooks/`, `model/contexts/`, `model/stores/`: files there sit flat under a shared barrel, and a hook gets a folder only once it has its own `.types.ts` and tests.
 
-Анимации появления/исчезновения и layout-переходы — `motion`; в CSS остаются hover/focus, бесконечные лупы и декоративный фон.
+**`api/`** — the I/O boundary (subscriptions, mappers, service wrappers). Listens to / sends to an external service → `api/`; reads / derives domain state → `model/`.
 
-## 11. Формы
+HTTP goes only through the shared axios instance from `shared/api/http` (it attaches `Authorization` and unwraps `{ error }` into an `Error`). A manual `fetch` / your own `axios.create` is banned. Request/response types come from `@chatovo/schemas`.
 
-`react-hook-form` + `zodResolver`, схема из `@chatovo/schemas/<resource>` (не inline). `useState` для полей формы запрещён. Server-side ошибки — `setError('field', { message })`. Boolean-тоглы вне формы — `useBoolean` из reactuse.
+## 10. Styles
+
+SCSS modules only (`*.module.scss`); CSS-in-JS is banned. Tokens are CSS variables in `app/globals.scss` + `ui-kit/styles/_tokens.scss`. Shared mixins come from `@use '@/ui-kit/styles/mixins' as *`, with no `../../../`. Joining classes is `clsx` directly, without a `cn()` wrapper. Conditional variants are maps in TSX or `cva`.
+
+Enter/exit animations and layout transitions use `motion`; CSS keeps hover/focus, infinite loops and decorative background.
+
+## 11. Forms
+
+`react-hook-form` + `zodResolver`, with the schema from `@chatovo/schemas/<resource>` (not inline). `useState` for form fields is banned. Server-side errors go through `setError('field', { message })`. Boolean toggles outside a form use `useBoolean` from reactuse.
 
 ## 12. Drill cleanup
 
-Данные доступны через глобальный хук — leaf берёт сам, не принимает props. Не делай параметризацию для статичного контента (`<RoomLoader text="Loading room..." />` → `<RoomLoadingFallback />`).
+When data is reachable through a global hook, the leaf takes it itself instead of accepting props. Don't parameterise static content (`<RoomLoader text="Loading room..." />` → `<RoomLoadingFallback />`).
 
-Props оставляем: данные из `.map`, UI state оркестратора, колбэк требует контекст родителя.
+Keep props for: data from a `.map`, the orchestrator's UI state, a callback that needs the parent's context.
 
-## 13. React-конвенции
+## 13. React conventions
 
-Функциональные компоненты, arrow-функции. `'use client'` в каждом файле с хуками/state/handlers. React Compiler включён — `useMemo`/`useCallback` только для семантически стабильного ref. Типы React — именованные импорты (`import type { ReactNode } from 'react'`), `import type * as React` запрещён. Обработчики — `on<Event>` camelCase.
+Function components, arrow functions. `'use client'` in every file with hooks / state / handlers. React Compiler is enabled — `useMemo` / `useCallback` only for a semantically stable ref. React types are named imports (`import type { ReactNode } from 'react'`); `import type * as React` is banned. Handlers are `on<Event>` in camelCase.
