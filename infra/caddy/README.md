@@ -19,6 +19,11 @@ The site and the app are **one static build**: Caddy decides what each host
 exposes, so there is no second build and no second deploy. On `app.chatovo.ru`
 the root serves `lobby.html`, which is why the app has no `/lobby` path.
 
+Because both hosts serve the same export, `chatovo.ru` would otherwise answer on
+the app's own pages as well. It redirects `/lobby`, `/room`, `/auth` and `/admin`
+to `app.chatovo.ru` instead — the session lives in that origin's storage, so an
+app page opened on the site host would look signed out.
+
 The client and the server are packaged as Docker images — the images are built
 in CI and published to the private GitHub Container Registry (ghcr.io). The VPS
 builds nothing: it only pulls ready-made images and runs them.
