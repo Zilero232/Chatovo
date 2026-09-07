@@ -45,8 +45,8 @@ export const AppSidebar = ({
       <FriendsDialog />
       {!isTauri() && <DownloadAppButton />}
       <div className={s.spacer} />
-      <AdminMenuButton side={isVertical ? 'right' : 'top'} onNavigate={onNavigate} />
       {isDesktop && <CheckUpdateButton />}
+      <AdminMenuButton side={isVertical ? 'right' : 'top'} onNavigate={onNavigate} />
       <LogoutButton />
     </div>
   );

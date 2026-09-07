@@ -1,4 +1,5 @@
 @use '@/ui-kit/styles/mixins' as *;
+@use '@/ui-kit/styles/keyframes';
 
 .root {
   position: relative;
@@ -188,6 +189,14 @@
   width: 0.875rem;
   height: 0.875rem;
   color: var(--brand-cyan);
+}
+
+.versionIconChecking {
+  animation: spin 1s linear infinite;
+
+  @include reduced-motion {
+    animation: none;
+  }
 }
 
 .versionText {
