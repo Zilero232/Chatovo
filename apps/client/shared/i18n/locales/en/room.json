@@ -85,7 +85,8 @@
       }
     },
     "password": {
-      "title": "Enter password for \"{name}\"",
+      "heading": "This room is locked",
+      "hint": "Ask whoever sent you the link for the password — “{name}” will not open without it.",
       "label": "Password",
       "wrong": "Wrong password",
       "join": "Join",

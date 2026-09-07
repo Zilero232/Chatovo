@@ -8,7 +8,7 @@ import { useAppSettings } from '@/entities/app/settings';
 import { QUERY_KEYS } from '@/shared/constants';
 import { isTauriDesktop } from '@/shared/lib';
 
-const POLL_INTERVAL_MS = secondsToMilliseconds(10);
+const POLL_INTERVAL_MS = secondsToMilliseconds(5);
 
 const detectRunningGame = async (): Promise<string | null> => {
   try {

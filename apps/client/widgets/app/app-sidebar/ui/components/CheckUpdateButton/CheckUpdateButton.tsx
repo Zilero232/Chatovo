@@ -14,10 +14,10 @@ export const CheckUpdateButton = () => {
 
   const [checking, setChecking] = useState(false);
 
+  appEvents.on.recheckUpdate(() => setChecking(true));
   appEvents.on.updateCheckSettled(() => setChecking(false));
 
   const handleClick = () => {
-    setChecking(true);
     appEvents.emit.recheckUpdate();
   };
 

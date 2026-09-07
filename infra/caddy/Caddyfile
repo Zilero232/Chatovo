@@ -83,5 +83,11 @@ Disallow: /
 
 chatovo.ru {
 	import static_client
+
+	# The app lives on its own host. Both hosts serve the same export, so without
+	# this the app pages would answer here too and split the session across origins.
+	@app path /lobby /lobby/* /room /room/* /auth /auth/* /admin /admin/*
+	redir @app https://app.chatovo.ru{uri} permanent
+
 	import static_routing
 }

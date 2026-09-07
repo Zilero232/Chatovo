@@ -1,3 +1,5 @@
+@use '@/ui-kit/styles/keyframes';
+
 .spinning {
   animation: spin 1s linear infinite;
 }

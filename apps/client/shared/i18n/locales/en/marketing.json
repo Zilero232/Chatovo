@@ -201,6 +201,30 @@
       "label": "Filter changes by type"
     },
     "entries": {
+      "appHost": {
+        "title": "The app has its own domain",
+        "description": "The app moved to app.chatovo.ru while chatovo.ru stays the public site, so the lobby is now the app’s front page."
+      },
+      "lobbyButton": {
+        "title": "A lobby button in the sidebar",
+        "description": "Return to the lobby from any screen without leaving the call."
+      },
+      "roomPasswordScreen": {
+        "title": "A new room password screen",
+        "description": "The password prompt got a proper design and a way back to the lobby."
+      },
+      "spinAnimations": {
+        "title": "Loading indicators work again",
+        "description": "Spinners and overlay transitions never animated because their style names did not match."
+      },
+      "blurryIcons": {
+        "title": "Crisp icons",
+        "description": "Icon strokes no longer blur at small sizes."
+      },
+      "trayUpdateSpinner": {
+        "title": "Update checks from the tray",
+        "description": "Starting a check from the system menu now shows the spinner, just like the in-app button."
+      },
       "persistentRoom": {
         "title": "The room survives navigation",
         "description": "You can now open the lobby, settings or the admin panel without dropping the call — only Leave or a page reload disconnects you."
@@ -487,6 +511,8 @@
       }
     },
     "highlights": {
+      "appHost": "A dedicated app domain",
+      "roomPasswordScreen": "New password screen",
       "persistentRoom": "Room stays connected",
       "privateRooms": "Private rooms",
       "siteRebuild": "New site pages",

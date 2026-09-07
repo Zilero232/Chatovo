@@ -23,6 +23,20 @@ export type ChangelogRelease = {
 
 export const CHANGELOG_RELEASES: ChangelogRelease[] = [
   {
+    version: '1.4.1',
+    date: '2026-09-07',
+    tone: 'minor',
+    highlights: ['appHost', 'roomPasswordScreen'],
+    entries: [
+      { kind: 'feature', key: 'appHost' },
+      { kind: 'feature', key: 'lobbyButton' },
+      { kind: 'improvement', key: 'roomPasswordScreen' },
+      { kind: 'fix', key: 'spinAnimations' },
+      { kind: 'fix', key: 'blurryIcons' },
+      { kind: 'fix', key: 'trayUpdateSpinner' }
+    ]
+  },
+  {
     version: '1.4.0',
     date: '2026-09-06',
     tone: 'major',

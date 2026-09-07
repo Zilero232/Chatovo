@@ -57,6 +57,12 @@ object {
   display: block;
 }
 
+/* Lucide draws on a 24px grid with stroke-width 2. Rendered at 16px that stroke
+   lands on 1.33px and blurs, so the width is scaled back to a whole pixel. */
+.lucide {
+  vector-effect: non-scaling-stroke;
+}
+
 input,
 select,
 textarea {

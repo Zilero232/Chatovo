@@ -3,12 +3,15 @@
 import { roomPasswordSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { clsx } from 'clsx';
+import { ArrowLeft, KeyRound, Lock } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { useFieldError } from '@/entities/app/locale';
-import { FormField, Input, Row, Stack, SubmitButton, Text } from '@/ui-kit';
+import { ROUTES } from '@/shared/constants';
+import { Button, EmptyStatePattern, FormField, Input, Stack, SubmitButton, Text } from '@/ui-kit';
 
 import type { RoomPasswordFormProps } from './RoomPasswordForm.types';
 
@@ -25,6 +28,9 @@ export const RoomPasswordForm = ({
   onSubmit
 }: RoomPasswordFormProps) => {
   const t = useTranslations('room.password');
+  const tRoom = useTranslations('room');
+  const router = useRouter();
+
   const passwordError = useFieldError('room.password');
 
   const {
@@ -41,17 +47,28 @@ export const RoomPasswordForm = ({
   const fieldError = passwordError(errors.password) ?? error;
 
   return (
-    <Row align='center' className={s.root} justify='center'>
+    <section className={s.root}>
+      <EmptyStatePattern className={s.pattern} variant='waves' />
+
       <Stack
-        align='center'
         as='form'
-        className={clsx(s.form, 'glass', 'shadow-glow-violet')}
+        className={clsx(s.card, 'glass', 'shadow-glow-violet')}
         gap='4'
         onSubmit={submit}
       >
-        <Text align='center' className={s.title} size='sm' tone='inherit'>
-          {t('title', { name: displayName })}
-        </Text>
+        <span aria-hidden className={clsx(s.badge, 'glass')}>
+          <Lock className={s.badgeIcon} />
+        </span>
+
+        <Stack align='center' gap='2'>
+          <Text as='h1' className={s.heading} weight='semibold'>
+            {t('heading')}
+          </Text>
+
+          <Text align='center' size='sm' tone='muted'>
+            {t('hint', { name: displayName })}
+          </Text>
+        </Stack>
 
         <FormField
           className={s.field}
@@ -60,6 +77,8 @@ export const RoomPasswordForm = ({
           label={t('label')}
         >
           <Input
+            autoComplete='off'
+            className={s.input}
             disabled={isSubmitting}
             id='room-password'
             type='password'
@@ -67,10 +86,18 @@ export const RoomPasswordForm = ({
           />
         </FormField>
 
-        <SubmitButton className={s.submit} isPending={isSubmitting}>
-          {t('join')}
-        </SubmitButton>
+        <Stack className={s.actions} gap='2'>
+          <SubmitButton isPending={isSubmitting} size='lg'>
+            <KeyRound />
+            {t('join')}
+          </SubmitButton>
+
+          <Button size='sm' variant='ghost' onClick={() => router.replace(ROUTES.lobby)}>
+            <ArrowLeft />
+            {tRoom('backToLobby')}
+          </Button>
+        </Stack>
       </Stack>
-    </Row>
+    </section>
   );
 };
