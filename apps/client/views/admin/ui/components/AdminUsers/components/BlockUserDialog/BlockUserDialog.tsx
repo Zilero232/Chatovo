@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { useBlockUser } from '@/entities/app/admin';
-import { useErrorMessage, useFieldError } from '@/entities/app/locale';
+import { useFieldError, useToastError } from '@/entities/app/locale';
 import {
   Dialog,
   DialogContent,
@@ -30,7 +30,7 @@ import s from './BlockUserDialog.module.scss';
 export const BlockUserDialog = ({ user, open, onOpenChange }: BlockUserDialogProps) => {
   const t = useTranslations('admin');
   const fieldError = useFieldError('moderation');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
   const { isPending, mutate } = useBlockUser();
 
   const {
@@ -52,7 +52,7 @@ export const BlockUserDialog = ({ user, open, onOpenChange }: BlockUserDialogPro
           toast.success(t('users.blocked_toast'), { id: 'block-user' });
           onOpenChange(false);
         },
-        onError: (error: Error) => toast.error(errorMessage(error), { id: 'block-user' })
+        onError: toastError('block-user')
       }
     );
   });

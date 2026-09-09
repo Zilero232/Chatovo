@@ -16,7 +16,7 @@ export const useRoomPage = () => {
 
   const { settings } = useAppSettings();
   const { isAdmin } = useCurrentUser();
-  const { session, open } = useRoomSession();
+  const { session, open, isRecentlyLeft, rejoin } = useRoomSession();
 
   const [passwordByRoom, setPasswordByRoom] = useState<Record<string, string>>({});
 
@@ -53,8 +53,16 @@ export const useRoomPage = () => {
     // eslint-disable-next-line react/exhaustive-deps -- redirect must fire only when a public-room token fetch fails; router is a stable ref
   }, [isPrivate, tokenFailed]);
 
+  useEffect(
+    () => () => {
+      rejoin();
+    },
+    // eslint-disable-next-line react/exhaustive-deps -- the leave guard is lifted once the room route is gone; rejoin is stable
+    []
+  );
+
   useEffect(() => {
-    if (isNonNullish(roomId) && isNonNullish(token)) {
+    if (isNonNullish(roomId) && isNonNullish(token) && !isRecentlyLeft(roomId)) {
       open({
         roomId,
         roomName: roomTitle,

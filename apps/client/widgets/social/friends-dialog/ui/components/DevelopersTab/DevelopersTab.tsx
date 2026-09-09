@@ -18,7 +18,7 @@ import { CenteredState, Spinner } from '@/ui-kit';
 
 import type { DevelopersTabProps } from './DevelopersTab.types';
 
-import { DeveloperListItem } from './DeveloperListItem';
+import { DeveloperListItem } from './DeveloperListItem/DeveloperListItem';
 
 import s from '../../FriendsDialog.module.scss';
 

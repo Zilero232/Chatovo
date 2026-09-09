@@ -1,1 +1,0 @@
-export { RoomCapacityArc } from './RoomCapacityArc';

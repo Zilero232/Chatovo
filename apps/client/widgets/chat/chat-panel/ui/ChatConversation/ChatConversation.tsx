@@ -52,7 +52,7 @@ export const ChatConversation = ({
     onSend: (body) => send(body)
   });
 
-  const grouped = groupChatLines(messages, currentUserId);
+  const grouped = groupChatLines({ lines: messages, ownIdentity: currentUserId });
 
   return (
     <div ref={dropRef as Ref<HTMLDivElement>} className={s.root}>

@@ -5,33 +5,17 @@ import type { Participant } from 'livekit-client';
 import { useParticipantTracks } from '@livekit/components-react';
 import { createAudioAnalyser, LocalAudioTrack, RemoteAudioTrack, Track } from 'livekit-client';
 import { useEffect, useState } from 'react';
-import { clamp } from 'remeda';
 
 import { isTauriMobile } from '@/shared/lib';
 
-const ANALYSER_OPTIONS = { fftSize: 32, smoothingTimeConstant: 0.4 } as const;
-
-const FRAME_INTERVAL_MS = 1_000 / 30;
-const LITE_FRAME_INTERVAL_MS = 1_000 / 15;
-
-const NOISE_FLOOR = 0.06;
-const LEVEL_GAIN = 2.6;
-const ATTACK = 0.5;
-const RELEASE = 0.12;
-
-const readLevel = (analyser: AnalyserNode, bins: Uint8Array<ArrayBuffer>): number => {
-  analyser.getByteFrequencyData(bins);
-
-  let sum = 0;
-
-  for (const bin of bins) {
-    sum += bin * bin;
-  }
-
-  const rms = Math.sqrt(sum / bins.length) / 255;
-
-  return clamp((rms - NOISE_FLOOR) * LEVEL_GAIN, { min: 0, max: 1 });
-};
+import {
+  ANALYSER_OPTIONS,
+  FRAME_INTERVAL_MS,
+  LEVEL_ATTACK,
+  LEVEL_RELEASE,
+  LITE_FRAME_INTERVAL_MS
+} from '../../config';
+import { readAudioLevel } from '../../lib';
 
 export const useParticipantAudioLevel = <T extends HTMLElement>(participant: Participant) => {
   const [micTrack] = useParticipantTracks([Track.Source.Microphone], participant.identity);
@@ -66,9 +50,9 @@ export const useParticipantAudioLevel = <T extends HTMLElement>(participant: Par
 
       lastFrameAt = now;
 
-      const level = readLevel(analyser, bins);
+      const level = readAudioLevel(analyser, bins);
 
-      smoothed += (level - smoothed) * (level > smoothed ? ATTACK : RELEASE);
+      smoothed += (level - smoothed) * (level > smoothed ? LEVEL_ATTACK : LEVEL_RELEASE);
 
       node.style.setProperty('--voice-level', smoothed.toFixed(3));
     };

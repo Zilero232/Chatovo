@@ -52,7 +52,7 @@ export const useUpdateUser = () => {
   });
 };
 
-export const useDeleteRoom = () => {
+export const useDeleteRoomAsAdmin = () => {
   const invalidate = useInvalidate(ROOMS_ROOT);
 
   return useMutation({ mutationFn: deleteAdminRoom, onSuccess: invalidate });

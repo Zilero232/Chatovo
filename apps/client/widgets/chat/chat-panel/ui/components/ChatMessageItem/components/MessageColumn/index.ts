@@ -1,1 +1,0 @@
-export { MessageColumn } from './MessageColumn';

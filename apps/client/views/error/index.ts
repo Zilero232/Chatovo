@@ -1,3 +1,3 @@
-export { ErrorPage } from './ui/ErrorPage';
+export { ErrorPage } from './ui/ErrorPage/ErrorPage';
 
-export type { ErrorPageProps } from './ui/ErrorPage';
+export type { ErrorPageProps } from './ui/ErrorPage/ErrorPage.types';

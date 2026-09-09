@@ -5,11 +5,10 @@ import { FileText, Image as ImageIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import prettyBytes from 'pretty-bytes';
 
+import { formatDateTime } from '@/shared/lib';
 import { Row, Text } from '@/ui-kit';
 
 import type { MessageItemProps } from './MessageItem.types';
-
-import { formatAdminDate } from '../../../../../../../../../lib';
 
 import s from './MessageItem.module.scss';
 
@@ -51,7 +50,7 @@ export const MessageItem = ({ message }: MessageItemProps) => {
       )}
 
       <Text size='xs' tone='muted'>
-        {message.roomName ?? message.roomId} · {formatAdminDate(message.createdAt)}
+        {message.roomName ?? message.roomId} · {formatDateTime(message.createdAt)}
         {message.editedAt && ` · ${t('users.edited')}`}
       </Text>
     </article>

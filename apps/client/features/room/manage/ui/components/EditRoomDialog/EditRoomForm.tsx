@@ -2,34 +2,25 @@
 
 import type { UpdateRoomRequest } from '@chatovo/schemas';
 
-import { ROOM_NAME_MAX_LENGTH, updateRoomInputSchema } from '@chatovo/schemas';
+import { updateRoomInputSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useErrorMessage } from '@/entities/app/locale';
+import { useToastError } from '@/entities/app/locale';
 import { useUpdateRoom } from '@/entities/room/room';
-import {
-  FormField,
-  Input,
-  Label,
-  PasswordInput,
-  Row,
-  Stack,
-  SubmitButton,
-  Switch,
-  Text
-} from '@/ui-kit';
+import { Row, Stack, SubmitButton } from '@/ui-kit';
 
 import type { EditRoomFormProps } from './EditRoomDialog.types';
+
+import { EditRoomNameField, EditRoomPasswordField, EditRoomPrivacyField } from './components';
 
 import s from './EditRoomForm.module.scss';
 
 export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
   const t = useTranslations('manageRoom.edit');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
 
   const updateMutation = useUpdateRoom();
 
@@ -60,78 +51,22 @@ export const EditRoomForm = ({ room, onUpdated }: EditRoomFormProps) => {
           });
           onUpdated?.();
         },
-        onError: (err: Error) => toast.error(errorMessage(err), { id: `room-update-${room.id}` })
+        onError: toastError(`room-update-${room.id}`)
       }
     );
   });
 
   return (
     <Stack as='form' gap='3' onSubmit={onSubmit}>
-      <FormField
-        label={
-          <span className={s.labelRow}>
-            {t('nameLabel')}
-            <Text size='xs' tone='muted'>
-              {t('nameCounter', { count: name?.length ?? 0, max: ROOM_NAME_MAX_LENGTH })}
-            </Text>
-          </span>
-        }
-        error={errors.name?.message}
-        htmlFor='edit-room-name'
-      >
-        <Input
-          autoComplete='off'
-          id='edit-room-name'
-          maxLength={ROOM_NAME_MAX_LENGTH}
-          {...register('name')}
-        />
-      </FormField>
+      <EditRoomNameField error={errors.name?.message} register={register} value={name ?? ''} />
 
-      <Stack gap='2'>
-        <Row align='center' gap='2'>
-          <Controller
-            render={({ field }) => (
-              <Switch
-                checked={field.value}
-                id='edit-room-private'
-                onCheckedChange={field.onChange}
-              />
-            )}
-            control={control}
-            name='isPrivate'
-          />
-          <Label htmlFor='edit-room-private'>{t('privateLabel')}</Label>
-        </Row>
+      <EditRoomPrivacyField control={control} isPrivate={isPrivate ?? false} />
 
-        <Text size='xs' tone='muted'>
-          {t(isPrivate ? 'privateExplainer' : 'publicExplainer')}
-        </Text>
-      </Stack>
-
-      <AnimatePresence initial={false}>
-        {isPrivate && (
-          <motion.div
-            animate={{ height: 'auto', opacity: 1 }}
-            className={s.passwordReveal}
-            exit={{ height: 0, opacity: 0 }}
-            initial={{ height: 0, opacity: 0 }}
-            transition={{ type: 'spring', bounce: 0, duration: 0.32 }}
-          >
-            <FormField
-              error={errors.password?.message}
-              hint={t('passwordHint')}
-              htmlFor='edit-room-password'
-              label={t('passwordLabel')}
-            >
-              <PasswordInput
-                autoComplete='new-password'
-                id='edit-room-password'
-                {...register('password')}
-              />
-            </FormField>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <EditRoomPasswordField
+        error={errors.password?.message}
+        isPrivate={isPrivate ?? false}
+        register={register}
+      />
 
       <Row className={s.actions} gap='2' justify='end'>
         <SubmitButton disabled={!isDirty} isPending={isPending}>

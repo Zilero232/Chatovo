@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 import { env } from '@/shared/config';
+import { appEvents } from '@/shared/lib';
 
-import { getAuthToken } from '../auth';
-import { toApiError } from './api-error';
+import { clearToken, getAuthToken } from '../auth';
+import { isUnauthorizedError, toApiError } from './api-error';
 
 export const REQUEST_TIMEOUT_MS = 20_000;
 export const UPLOAD_TIMEOUT_MS = 120_000;
@@ -23,13 +24,25 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-api.interceptors.response.use(undefined, (error) => {
-  if (axios.isAxiosError(error)) {
-    const apiError = toApiError(error.response?.data);
+const rejectSession = () => {
+  clearToken();
+  appEvents.emit.sessionExpired();
+};
 
-    if (apiError) {
-      return Promise.reject(apiError);
-    }
+api.interceptors.response.use(undefined, (error) => {
+  if (!axios.isAxiosError(error)) {
+    return Promise.reject(error);
+  }
+
+  const status = error.response?.status ?? null;
+  const apiError = toApiError(error.response?.data, status);
+
+  if (isUnauthorizedError(apiError)) {
+    rejectSession();
+  }
+
+  if (apiError) {
+    return Promise.reject(apiError);
   }
 
   return Promise.reject(error);

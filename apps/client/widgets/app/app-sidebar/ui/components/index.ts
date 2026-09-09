@@ -1,4 +1,4 @@
-export { AdminMenuButton } from './AdminMenuButton';
+export { AdminMenuButton } from './AdminMenuButton/AdminMenuButton';
 export { CheckUpdateButton } from './CheckUpdateButton/CheckUpdateButton';
 export { DownloadAppButton } from './DownloadAppButton/DownloadAppButton';
 export { GnomeVpnButton } from './GnomeVpnButton/GnomeVpnButton';

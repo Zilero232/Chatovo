@@ -1,1 +1,0 @@
-export { DeleteMessageDialog } from './DeleteMessageDialog';

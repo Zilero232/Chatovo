@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { useUpdateUser } from '@/entities/app/admin';
-import { useErrorMessage } from '@/entities/app/locale';
+import { useToastError } from '@/entities/app/locale';
 
 type UseEditUserFormInput = {
   user: AdminUser;
@@ -18,7 +18,7 @@ type UseEditUserFormInput = {
 
 export const useEditUserForm = ({ user, onDone }: UseEditUserFormInput) => {
   const t = useTranslations('admin');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
   const { isPending, mutate } = useUpdateUser();
 
   const form = useForm<UpdateAdminUserValues>({
@@ -40,7 +40,7 @@ export const useEditUserForm = ({ user, onDone }: UseEditUserFormInput) => {
           toast.success(t('users.updated'), { id: 'update-user' });
           onDone();
         },
-        onError: (error: Error) => toast.error(errorMessage(error), { id: 'update-user' })
+        onError: toastError('update-user')
       }
     );
   });

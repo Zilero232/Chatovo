@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 
 import type { ChangeEmailValues } from '@/entities/auth/user';
 
-import { useErrorMessage, useFieldError } from '@/entities/app/locale';
+import { useFieldError, useToastError } from '@/entities/app/locale';
 import { changeEmailSchema, useChangeEmail, useCurrentUser } from '@/entities/auth/user';
 import { FormField, Input, SubmitButton } from '@/ui-kit';
 
@@ -16,7 +16,7 @@ import s from './ChangeEmailForm.module.scss';
 export const ChangeEmailForm = () => {
   const t = useTranslations('settings.security');
   const fieldError = useFieldError('auth');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
 
   const { user } = useCurrentUser();
   const currentEmail = user?.email ?? '';
@@ -39,7 +39,7 @@ export const ChangeEmailForm = () => {
         toast.success(t('emailChangeRequested'), { id: 'change-email' });
         reset();
       },
-      onError: (err: Error) => toast.error(errorMessage(err), { id: 'change-email' })
+      onError: toastError('change-email')
     });
   });
 

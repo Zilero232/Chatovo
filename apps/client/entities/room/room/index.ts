@@ -20,13 +20,13 @@ export {
   useUpdateRoom
 } from './model/hooks';
 export { LeaveSoundProvider, useLeaveSound } from './model/leave-sound';
-export { DeafenedBadge } from './ui/DeafenedBadge';
-export type { DeafenedBadgeProps } from './ui/DeafenedBadge';
-export { MicMutedBadge } from './ui/MicMutedBadge';
-export type { MicMutedBadgeProps } from './ui/MicMutedBadge';
-export { OwnerBadge } from './ui/OwnerBadge';
+export { DeafenedBadge } from './ui/DeafenedBadge/DeafenedBadge';
+export type { DeafenedBadgeProps } from './ui/DeafenedBadge/DeafenedBadge.types';
+export { MicMutedBadge } from './ui/MicMutedBadge/MicMutedBadge';
+export type { MicMutedBadgeProps } from './ui/MicMutedBadge/MicMutedBadge.types';
+export { OwnerBadge } from './ui/OwnerBadge/OwnerBadge';
 
-export type { OwnerBadgeProps } from './ui/OwnerBadge';
-export { OwnerCrown } from './ui/OwnerCrown';
-export type { OwnerCrownProps } from './ui/OwnerCrown';
-export { RoomsListError } from './ui/RoomsListError';
+export type { OwnerBadgeProps } from './ui/OwnerBadge/OwnerBadge.types';
+export { OwnerCrown } from './ui/OwnerCrown/OwnerCrown';
+export type { OwnerCrownProps } from './ui/OwnerCrown/OwnerCrown.types';
+export { RoomsListError } from './ui/RoomsListError/RoomsListError';

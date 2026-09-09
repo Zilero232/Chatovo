@@ -1,73 +1,27 @@
 'use client';
 
-import { useMediaDeviceSelect } from '@livekit/components-react';
-import { clsx } from 'clsx';
-import { Check, ChevronUp } from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import { useEffect, useEffectEvent } from 'react';
+import { ChevronUp } from 'lucide-react';
 import { isEmpty } from 'remeda';
-import { toast } from 'sonner';
 
-import { useAppSettings } from '@/entities/app/settings';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuTrigger
 } from '@/ui-kit';
 
 import type { DeviceMenuProps } from './DeviceMenu.types';
 
-import { deviceErrorKey } from './lib/device-error-key';
+import { useDeviceSelect } from '../../../../model/hooks';
+import { DeviceMenuItem } from './components';
 import { deviceIcon } from './lib/device-icon';
 
 import s from './DeviceMenu.module.scss';
 
 export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
-  const t = useTranslations('settings.devices');
-  const { settings, setGroup } = useAppSettings();
-
-  const { devices, activeDeviceId, setActiveMediaDevice } = useMediaDeviceSelect({
-    kind,
-    requestPermissions: true,
-    onError: (error) => {
-      toast.error(t(deviceErrorKey(error), { device: label }), { id: `device-${kind}` });
-    }
-  });
-
-  const selectedId = settings.devices[slot];
-
-  const availableIds = devices.map((device) => device.deviceId).filter((id) => !isEmpty(id));
-  const [fallbackId] = availableIds;
-
-  const resolvedId = [selectedId, activeDeviceId, fallbackId].find((deviceId) =>
-    availableIds.includes(deviceId)
-  );
-
-  const persistDevice = useEffectEvent((deviceId: string) => {
-    setGroup('devices', { [slot]: deviceId });
-  });
-
-  useEffect(() => {
-    if (!resolvedId || resolvedId === selectedId) {
-      return;
-    }
-
-    persistDevice(resolvedId);
-  }, [resolvedId, selectedId]);
-
-  const selectDevice = async (deviceId: string) => {
-    setGroup('devices', { [slot]: deviceId });
-
-    try {
-      await setActiveMediaDevice(deviceId);
-    } catch (error) {
-      toast.error(t(deviceErrorKey(error as Error), { device: label }), { id: `device-${kind}` });
-    }
-  };
+  const { devices, resolvedId, selectDevice } = useDeviceSelect({ kind, slot, label });
 
   /* eslint-disable react/static-components -- deviceIcon is a lookup returning a module-level lucide icon, not a component built per render */
   const Icon = deviceIcon(kind);
@@ -87,26 +41,14 @@ export const DeviceMenu = ({ kind, slot, label }: DeviceMenuProps) => {
         </DropdownMenuGroup>
 
         <DropdownMenuRadioGroup className={s.list} value={resolvedId} onValueChange={selectDevice}>
-          {devices.map((device) => {
-            const name = device.label || t('unknownDevice');
-            const isActive = device.deviceId === resolvedId;
-
-            return (
-              <DropdownMenuRadioItem
-                key={device.deviceId}
-                className={clsx(s.item, { [s.itemActive]: isActive, [s.itemInactive]: !isActive })}
-                value={device.deviceId}
-              >
-                <span className={clsx(s.itemIconBox, { [s.itemIconBoxActive]: isActive })}>
-                  <Icon />
-                </span>
-                <span className={s.itemLabel} title={name}>
-                  {name}
-                </span>
-                {isActive && <Check className={s.itemCheck} />}
-              </DropdownMenuRadioItem>
-            );
-          })}
+          {devices.map((device) => (
+            <DeviceMenuItem
+              key={device.deviceId}
+              device={device}
+              icon={Icon}
+              isActive={device.deviceId === resolvedId}
+            />
+          ))}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

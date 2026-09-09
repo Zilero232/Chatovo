@@ -8,7 +8,7 @@ import { AvatarWithBadges, Badge } from '@/ui-kit';
 
 import type { RoomCardParticipantsProps } from './RoomCardParticipants.types';
 
-import { RoomCapacityArc } from '../RoomCapacityArc';
+import { RoomCapacityArc } from '../RoomCapacityArc/RoomCapacityArc';
 
 import s from '../../LobbyRoomCard.module.scss';
 

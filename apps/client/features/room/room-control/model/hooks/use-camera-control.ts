@@ -11,24 +11,27 @@ export const useCameraControl = () => {
   const { localParticipant, isCameraEnabled } = useLocalParticipant();
   const { settings } = useAppSettings();
 
-  const { run, isPending } = useParticipantAction(localParticipant, async (participant) => {
-    if (participant.isCameraEnabled) {
-      await participant.setCameraEnabled(false);
+  const { run, isPending } = useParticipantAction({
+    participant: localParticipant,
+    action: async (participant) => {
+      if (participant.isCameraEnabled) {
+        await participant.setCameraEnabled(false);
 
-      return;
-    }
-
-    try {
-      await participant.setCameraEnabled(
-        true,
-        getCameraCaptureOptions(settings.video.cameraQuality)
-      );
-    } catch (err) {
-      if (!isOverconstrained(err)) {
-        throw err;
+        return;
       }
 
-      await participant.setCameraEnabled(true);
+      try {
+        await participant.setCameraEnabled(
+          true,
+          getCameraCaptureOptions(settings.video.cameraQuality)
+        );
+      } catch (err) {
+        if (!isOverconstrained(err)) {
+          throw err;
+        }
+
+        await participant.setCameraEnabled(true);
+      }
     }
   });
 

@@ -10,9 +10,9 @@ import { firstNonEmpty, stripEmailDomain } from '@/shared/lib';
 import type { UserRole } from '../types';
 
 export const useCurrentUser = () => {
-  const { data: session, isPending } = authClient.useSession();
+  const { data: session, isPending, error: sessionError } = authClient.useSession();
 
-  const user = session?.user ?? null;
+  const user = isNonNullish(sessionError) ? null : (session?.user ?? null);
   const userId = user?.id ?? null;
   const hasToken = getAuthToken().length > 0;
 
@@ -31,7 +31,7 @@ export const useCurrentUser = () => {
   return {
     user,
     role,
-    session: session ?? null,
+    session: user ? (session ?? null) : null,
     isLoading: isPending,
     displayName,
     initial,

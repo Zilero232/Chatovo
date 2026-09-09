@@ -28,29 +28,32 @@ export const useMicControl = () => {
   const isPtt = settings.audio.activationMode === 'pushToTalk';
   const pttBinding = settings.shortcuts.pttHold;
 
-  const visual = resolveMicVisual(pttState, isMicrophoneEnabled);
+  const visual = resolveMicVisual({ pttState, isMicrophoneEnabled });
 
-  const { run, isPending } = useParticipantAction(localParticipant, async (participant) => {
-    if (isInvisible) {
-      toast.error(t('invisibleMicBlocked'), { id: 'invisible-mic' });
+  const { run, isPending } = useParticipantAction({
+    participant: localParticipant,
+    action: async (participant) => {
+      if (isInvisible) {
+        toast.error(t('invisibleMicBlocked'), { id: 'invisible-mic' });
 
-      return;
-    }
+        return;
+      }
 
-    const next = !participant.isMicrophoneEnabled;
+      const next = !participant.isMicrophoneEnabled;
 
-    await participant.setMicrophoneEnabled(next);
+      await participant.setMicrophoneEnabled(next);
 
-    if (!next) {
-      return;
-    }
+      if (!next) {
+        return;
+      }
 
-    if (isDeafened) {
-      undeafen();
-    }
+      if (isDeafened) {
+        undeafen();
+      }
 
-    if (isPtt) {
-      armPttStream(participant);
+      if (isPtt) {
+        armPttStream(participant);
+      }
     }
   });
 

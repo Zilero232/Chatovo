@@ -10,7 +10,7 @@ import {
   useShortcutActions,
   useVoiceRoomSounds
 } from '../../../model/hooks';
-import { InvisibleNoticeController } from '../InvisibleNoticeController';
+import { InvisibleNoticeController } from '../InvisibleNoticeController/InvisibleNoticeController';
 import { LocalSpeakingController } from '../LocalSpeakingController/LocalSpeakingController';
 import { MicStateController } from '../MicStateController/MicStateController';
 import { RoomEasterEggsController } from '../RoomEasterEggsController/RoomEasterEggsController';

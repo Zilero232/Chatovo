@@ -1,1 +1,0 @@
-export { FriendRequestListItem } from './FriendRequestListItem';

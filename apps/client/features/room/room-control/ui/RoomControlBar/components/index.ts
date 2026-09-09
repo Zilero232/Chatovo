@@ -1,5 +1,5 @@
-export { ControlButton } from './ControlButton';
-export type { ControlDevice } from './ControlButton';
-export { DeviceMenu } from './DeviceMenu';
+export { ControlButton } from './ControlButton/ControlButton';
+export type { ControlDevice } from './ControlButton/ControlButton.types';
+export { DeviceMenu } from './DeviceMenu/DeviceMenu';
 
-export { ReactionButton } from './ReactionButton';
+export { ReactionButton } from './ReactionButton/ReactionButton';

@@ -1,8 +1,5 @@
 'use client';
 
-import type { PushPlatform } from '@chatovo/schemas';
-
-import { type as osType } from '@tauri-apps/plugin-os';
 import { useEffect, useRef } from 'react';
 import {
   checkPermissions,
@@ -16,20 +13,8 @@ import {
 import { registerPushDevice, unregisterPushDevice } from '@/shared/api';
 import { isTauriMobile } from '@/shared/lib';
 
-const CHANNELS = [
-  { id: 'messages', name: 'Messages', importance: 4 },
-  { id: 'calls', name: 'Calls', importance: 5 }
-] as const;
-
-const resolvePlatform = (): PushPlatform | null => {
-  const type = osType();
-
-  if (type === 'android' || type === 'ios') {
-    return type;
-  }
-
-  return null;
-};
+import { PUSH_CHANNELS } from '../../config';
+import { resolvePushPlatform } from '../../lib';
 
 export const usePushRegistration = (enabled: boolean): void => {
   const tokenRef = useRef<string | null>(null);
@@ -39,7 +24,7 @@ export const usePushRegistration = (enabled: boolean): void => {
       return;
     }
 
-    const platform = resolvePlatform();
+    const platform = resolvePushPlatform();
 
     if (!platform) {
       return;
@@ -49,7 +34,7 @@ export const usePushRegistration = (enabled: boolean): void => {
     let cancelled = false;
 
     const setup = async () => {
-      for (const channel of CHANNELS) {
+      for (const channel of PUSH_CHANNELS) {
         await createChannel(channel);
       }
 

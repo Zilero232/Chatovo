@@ -6,11 +6,11 @@ import {
   useLocalParticipant
 } from '@livekit/components-react';
 import { clsx } from 'clsx';
-import { ConnectionQuality, ConnectionState } from 'livekit-client';
+import { ConnectionState } from 'livekit-client';
 import { useTranslations } from 'next-intl';
 import { isNonNullish } from 'remeda';
-import { match } from 'ts-pattern';
 
+import { barsFromQuality, barsFromRtt } from '../../../lib';
 import { useConnectionRtt } from '../../../model/hooks';
 
 import s from './ConnectionIndicator.module.scss';
@@ -23,30 +23,17 @@ const barToneClass = {
   poor: s.barPoor
 } as const;
 
-const barsFromRtt = (rtt: number): number => {
-  if (rtt < 50) {
-    return 5;
-  }
-  if (rtt < 100) {
-    return 4;
-  }
-  if (rtt < 150) {
-    return 3;
-  }
-  if (rtt < 250) {
-    return 2;
+const toneFromBars = (bars: number) => {
+  if (bars >= 4) {
+    return 'good';
   }
 
-  return 1;
+  if (bars >= 2) {
+    return 'fair';
+  }
+
+  return 'poor';
 };
-
-const barsFromQuality = (quality: ConnectionQuality): number =>
-  match(quality)
-    .with(ConnectionQuality.Excellent, () => 5)
-    .with(ConnectionQuality.Good, () => 3)
-    .with(ConnectionQuality.Poor, () => 1)
-    .with(ConnectionQuality.Lost, () => 0)
-    .otherwise(() => 0);
 
 export const ConnectionIndicator = () => {
   const t = useTranslations('room.connection');
@@ -62,8 +49,7 @@ export const ConnectionIndicator = () => {
 
   const hasRtt = isNonNullish(rtt);
   const bars = hasRtt ? barsFromRtt(rtt) : barsFromQuality(quality);
-
-  const tone = bars >= 4 ? 'good' : bars >= 2 ? 'fair' : 'poor';
+  const tone = toneFromBars(bars);
   const label = hasRtt ? t('ping', { ms: rtt }) : t('measuring');
 
   return (

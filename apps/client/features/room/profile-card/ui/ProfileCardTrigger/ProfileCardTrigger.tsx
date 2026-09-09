@@ -7,7 +7,7 @@ import { PopoverContent } from '@/ui-kit';
 
 import type { ProfileCardTriggerProps } from './ProfileCardTrigger.types';
 
-import { ProfileCard } from '../ProfileCard';
+import { ProfileCard } from '../ProfileCard/ProfileCard';
 
 import s from './ProfileCardTrigger.module.scss';
 

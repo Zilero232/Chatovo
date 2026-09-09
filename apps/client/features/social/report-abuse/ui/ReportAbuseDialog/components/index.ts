@@ -1,1 +1,1 @@
-export { ReportAbuseForm } from './ReportAbuseForm';
+export { ReportAbuseForm } from './ReportAbuseForm/ReportAbuseForm';

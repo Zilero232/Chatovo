@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 
 import type { ChatPanelProps } from './ChatPanel.types';
 
-import { ChatConversation } from './ChatConversation';
+import { ChatConversation } from './ChatConversation/ChatConversation';
 import { ChatHeader } from './components';
 
 import s from './ChatPanel.module.scss';

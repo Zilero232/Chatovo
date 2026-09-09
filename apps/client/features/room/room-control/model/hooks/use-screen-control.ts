@@ -10,12 +10,14 @@ export const useScreenControl = () => {
   const { localParticipant, isScreenShareEnabled } = useLocalParticipant();
   const { settings } = useAppSettings();
 
-  const { run, isPending } = useParticipantAction(localParticipant, (participant) =>
-    participant.setScreenShareEnabled(
-      !participant.isScreenShareEnabled,
-      getScreenCaptureOptions(settings.video.screenQuality)
-    )
-  );
+  const { run, isPending } = useParticipantAction({
+    participant: localParticipant,
+    action: (participant) =>
+      participant.setScreenShareEnabled(
+        !participant.isScreenShareEnabled,
+        getScreenCaptureOptions(settings.video.screenQuality)
+      )
+  });
 
   return { enabled: isScreenShareEnabled, isPending, toggle: run };
 };

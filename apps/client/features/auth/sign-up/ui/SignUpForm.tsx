@@ -8,11 +8,11 @@ import { useTranslations } from 'next-intl';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useErrorMessage, useFieldError } from '@/entities/app/locale';
-import { FormField, Input, PasswordInput, Stack, SubmitButton } from '@/ui-kit';
+import { useToastError } from '@/entities/app/locale';
+import { Stack, SubmitButton } from '@/ui-kit';
 
 import { useSignUp } from '../model/hooks';
-import { SignUpConsentField } from './components';
+import { SignUpConsentField, SignUpCredentialFields } from './components';
 
 import s from './SignUpForm.module.scss';
 
@@ -26,8 +26,8 @@ const DEFAULT_VALUES: SignUpFormValues = {
 
 export const SignUpForm = () => {
   const t = useTranslations('auth');
-  const fieldError = useFieldError('auth');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
+
   const { isPending, mutate } = useSignUp();
 
   const form = useForm<SignUpFormValues, unknown, SignUpValues>({
@@ -35,61 +35,17 @@ export const SignUpForm = () => {
     defaultValues: DEFAULT_VALUES
   });
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    register
-  } = form;
-
-  const onSubmit = handleSubmit((values) => {
+  const onSubmit = form.handleSubmit((values) => {
     mutate(values, {
       onSuccess: () => toast.success(t('signedIn'), { id: 'sign-up' }),
-      onError: (err: Error) => toast.error(errorMessage(err), { id: 'sign-up' })
+      onError: toastError('sign-up')
     });
   });
 
   return (
     <FormProvider {...form}>
       <Stack as='form' gap='4' onSubmit={onSubmit}>
-        <FormField
-          error={errors.name && fieldError(errors.name)}
-          htmlFor='signup-name'
-          label={t('fields.name')}
-        >
-          <Input autoComplete='name' id='signup-name' type='text' {...register('name')} />
-        </FormField>
-
-        <FormField
-          error={errors.email && fieldError(errors.email)}
-          htmlFor='signup-email'
-          label={t('fields.email')}
-        >
-          <Input autoComplete='email' id='signup-email' type='email' {...register('email')} />
-        </FormField>
-
-        <FormField
-          error={errors.password && fieldError(errors.password)}
-          htmlFor='signup-password'
-          label={t('fields.password')}
-        >
-          <PasswordInput
-            autoComplete='new-password'
-            id='signup-password'
-            {...register('password')}
-          />
-        </FormField>
-
-        <FormField
-          error={errors.confirmPassword && fieldError(errors.confirmPassword)}
-          htmlFor='signup-confirm-password'
-          label={t('fields.confirmPassword')}
-        >
-          <PasswordInput
-            autoComplete='new-password'
-            id='signup-confirm-password'
-            {...register('confirmPassword')}
-          />
-        </FormField>
+        <SignUpCredentialFields />
 
         <SignUpConsentField />
 

@@ -5,19 +5,20 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import { useResolveReport } from '@/entities/app/admin';
-import { useErrorMessage } from '@/entities/app/locale';
+import { useToastError } from '@/entities/app/locale';
+import { formatDateTime } from '@/shared/lib';
 import { Badge, Button, Row, Stack, Text } from '@/ui-kit';
 
 import type { ReportCardProps } from './ReportCard.types';
 
-import { formatAdminDate, resolveReportTargetKey } from '../../../../../lib';
+import { resolveReportTargetKey } from '../../../../../lib';
 
 import s from './ReportCard.module.scss';
 
 export const ReportCard = ({ report }: ReportCardProps) => {
   const t = useTranslations('admin');
   const tReason = useTranslations('moderation');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
   const { isPending, mutate } = useResolveReport();
 
   const subject = report.reportedUser?.name ?? report.roomName ?? report.targetId;
@@ -25,7 +26,7 @@ export const ReportCard = ({ report }: ReportCardProps) => {
   const resolve = () =>
     mutate(report.id, {
       onSuccess: () => toast.success(t('reports.resolved'), { id: 'resolve-report' }),
-      onError: (error: Error) => toast.error(errorMessage(error), { id: 'resolve-report' })
+      onError: toastError('resolve-report')
     });
 
   return (
@@ -36,7 +37,7 @@ export const ReportCard = ({ report }: ReportCardProps) => {
           {t(resolveReportTargetKey(report.target))}: {subject}
         </Text>
         <Text className={s.date} size='xs' tone='muted'>
-          {formatAdminDate(report.createdAt)}
+          {formatDateTime(report.createdAt)}
         </Text>
       </Row>
 

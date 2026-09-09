@@ -1,1 +1,0 @@
-export { DeveloperListItem } from './DeveloperListItem';

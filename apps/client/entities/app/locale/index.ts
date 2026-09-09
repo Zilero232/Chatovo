@@ -1,1 +1,7 @@
-export { useDateLocale, useErrorMessage, useFieldError, useLocale } from './model/hooks';
+export {
+  useDateLocale,
+  useErrorMessage,
+  useFieldError,
+  useLocale,
+  useToastError
+} from './model/hooks';

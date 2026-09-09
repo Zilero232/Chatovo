@@ -12,7 +12,7 @@ import { Tooltip, TooltipContent } from '@/ui-kit';
 
 import type { UserNameProps } from './UserName.types';
 
-import { DeveloperBadge } from '../DeveloperBadge';
+import { DeveloperBadge } from '../DeveloperBadge/DeveloperBadge';
 
 import s from './UserName.module.scss';
 

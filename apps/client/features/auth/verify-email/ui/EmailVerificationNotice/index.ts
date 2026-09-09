@@ -1,1 +1,0 @@
-export { EmailVerificationNotice } from './EmailVerificationNotice';

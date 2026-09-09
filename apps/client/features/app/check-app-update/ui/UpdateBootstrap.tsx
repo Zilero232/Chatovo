@@ -8,7 +8,7 @@ import { match } from 'ts-pattern';
 import { AppSplash } from '@/ui-kit';
 
 import { useCheckAppUpdate } from '../model/hooks';
-import { UpdateDialog } from './UpdateDialog';
+import { UpdateDialog } from './UpdateDialog/UpdateDialog';
 
 export const UpdateBootstrap = ({ children }: { children: ReactNode }) => {
   const t = useTranslations('update');

@@ -11,6 +11,8 @@ export type RoomSession = {
 
 export type RoomSessionValue = {
   close: (roomId?: string) => void;
+  isRecentlyLeft: (roomId: string) => boolean;
   open: (session: RoomSession) => void;
+  rejoin: () => void;
   session: RoomSession | null;
 };

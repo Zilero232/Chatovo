@@ -8,6 +8,16 @@ export const roomSelect = {
   ownerId: true
 } satisfies Prisma.RoomSelect;
 
+/** The fields `canAccessRoom` needs; shared by every room-access guard. */
+export const roomAccessSelect = {
+  id: true,
+  kind: true,
+  isPrivate: true,
+  ownerId: true,
+  dmUserAId: true,
+  dmUserBId: true
+} satisfies Prisma.RoomSelect;
+
 export const senderSelect = {
   select: { name: true, profile: { select: { displayName: true } } }
 } as const;

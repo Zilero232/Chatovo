@@ -1,1 +1,0 @@
-export { RoomEasterEggsController } from './RoomEasterEggsController';

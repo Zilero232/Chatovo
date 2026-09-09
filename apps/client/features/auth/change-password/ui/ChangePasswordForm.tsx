@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 
 import type { ChangePasswordValues } from '@/entities/auth/user';
 
-import { useErrorMessage, useFieldError } from '@/entities/app/locale';
+import { useFieldError, useToastError } from '@/entities/app/locale';
 import { changePasswordSchema, useChangePassword } from '@/entities/auth/user';
 import { FormField, Input, SubmitButton } from '@/ui-kit';
 
@@ -16,7 +16,7 @@ import s from './ChangePasswordForm.module.scss';
 export const ChangePasswordForm = () => {
   const t = useTranslations('settings.security');
   const fieldError = useFieldError('auth');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
 
   const { isPending, mutate } = useChangePassword();
 
@@ -36,7 +36,7 @@ export const ChangePasswordForm = () => {
         toast.success(t('passwordChanged'), { id: 'change-password' });
         reset();
       },
-      onError: (err: Error) => toast.error(errorMessage(err), { id: 'change-password' })
+      onError: toastError('change-password')
     });
   });
 

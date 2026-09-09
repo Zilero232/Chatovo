@@ -4,18 +4,7 @@ import { target, useEventListener } from '@siberiacancode/reactuse';
 import { useRef } from 'react';
 
 import { KONAMI_SEQUENCE } from '../../config';
-
-const isTypingTarget = (target: EventTarget | null) => {
-  if (!(target instanceof HTMLElement)) {
-    return false;
-  }
-
-  return (
-    target.isContentEditable ||
-    target instanceof HTMLInputElement ||
-    target instanceof HTMLTextAreaElement
-  );
-};
+import { isTypingTarget } from '../../lib';
 
 export const useKonamiCode = (onUnlock: () => void) => {
   const progressRef = useRef(0);

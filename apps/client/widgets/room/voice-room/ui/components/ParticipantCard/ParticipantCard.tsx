@@ -1,20 +1,12 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { EyeOff, Gamepad2, HeadphoneOff, MicOff, ScreenShare } from 'lucide-react';
-import { useTranslations } from 'next-intl';
-
-import { UserAvatar, UserName } from '@/entities/auth/user';
-import { ProfileCardTrigger } from '@/features/room/profile-card';
-import { FriendProfileActionsPanel } from '@/widgets/social/friend-profile-actions-panel';
 
 import type { ParticipantCardProps } from './ParticipantCard.types';
 
-import { useParticipantAudioLevel, useParticipantMedia } from '../../../model/hooks';
-import { CardVideo } from '../CardVideo/CardVideo';
+import { useParticipantMedia } from '../../../model/hooks';
 import { ParticipantCardMenu } from '../ParticipantCardMenu/ParticipantCardMenu';
-import { VoiceLevelRing } from '../VoiceLevelRing/VoiceLevelRing';
-import { getCardTint } from './lib';
+import { ParticipantBadges, ParticipantMetadata, ParticipantStage } from './components';
 
 import s from './ParticipantCard.module.scss';
 
@@ -25,26 +17,7 @@ export const ParticipantCard = ({
   invisible = false,
   participant
 }: ParticipantCardProps) => {
-  const t = useTranslations('room');
-  const tLobby = useTranslations('lobby.card');
-
-  const {
-    cameraTrack,
-    screenTrack,
-    isSpeaking,
-    micMuted,
-    verified,
-    developer,
-    avatarUrl,
-    bannerColor,
-    displayName,
-    isLocal,
-    hasCamera,
-    hasScreen,
-    hasVideo
-  } = useParticipantMedia(participant);
-
-  const setAudioStage = useParticipantAudioLevel<HTMLDivElement>(participant);
+  const { isSpeaking, isLocal, hasScreen } = useParticipantMedia(participant);
 
   return (
     <ParticipantCardMenu participant={participant}>
@@ -53,81 +26,11 @@ export const ParticipantCard = ({
         data-local={isLocal}
         data-speaking={isSpeaking}
       >
-        <div className={s.stage}>
-          {hasVideo ? (
-            <div className={s.videoGrid}>
-              {hasCamera && cameraTrack && <CardVideo trackRef={cameraTrack} />}
-              {hasScreen && screenTrack && <CardVideo trackRef={screenTrack} />}
-            </div>
-          ) : (
-            <div ref={setAudioStage} className={s.audioStage}>
-              <span aria-hidden className={s.tint} style={getCardTint(bannerColor)} />
-              <span
-                aria-hidden
-                className={clsx(s.avatarHalo, {
-                  [s.avatarHaloSpeaking]: isSpeaking,
-                  [s.avatarHaloLocalSpeaking]: isLocal && isSpeaking
-                })}
-              />
-              <VoiceLevelRing speaking={isSpeaking} />
+        <ParticipantStage participant={participant} />
 
-              <UserAvatar
-                className={clsx(s.avatar, { [s.avatarSpeaking]: isSpeaking })}
-                fallbackClassName={s.avatarFallback}
-                name={displayName}
-                src={avatarUrl}
-              />
-            </div>
-          )}
-        </div>
+        <ParticipantBadges hasScreen={hasScreen} invisible={invisible} />
 
-        {(hasScreen || invisible) && (
-          <div className={s.badges}>
-            {invisible && (
-              <span className={clsx(s.badge, s.badgeInvisible)}>
-                <EyeOff className={s.badgeIcon} />
-                {t('invisibleBadge')}
-              </span>
-            )}
-            {hasScreen && (
-              <span className={s.badge}>
-                <ScreenShare className={s.badgeIcon} />
-                share
-              </span>
-            )}
-          </div>
-        )}
-
-        <div className={s.metadata}>
-          <div className={s.identity}>
-            {micMuted && (
-              <MicOff aria-label={tLobby('micMuted')} className={s.micIcon} role='img' />
-            )}
-            {deafened && (
-              <HeadphoneOff aria-label={tLobby('deafened')} className={s.micIcon} role='img' />
-            )}
-            <ProfileCardTrigger
-              className={s.nameTrigger}
-              identity={participant.identity}
-              name={displayName}
-              renderFriendActions={(state) => <FriendProfileActionsPanel {...state} />}
-            >
-              <UserName
-                className={s.name}
-                developer={developer}
-                name={displayName}
-                verified={verified}
-              />
-            </ProfileCardTrigger>
-          </div>
-
-          {activity && (
-            <div className={s.activity}>
-              <Gamepad2 aria-hidden className={s.activityIcon} />
-              <span className={s.activityLabel}>{activity}</span>
-            </div>
-          )}
-        </div>
+        <ParticipantMetadata activity={activity} deafened={deafened} participant={participant} />
       </div>
     </ParticipantCardMenu>
   );

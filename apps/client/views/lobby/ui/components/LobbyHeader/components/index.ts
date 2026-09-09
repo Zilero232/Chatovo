@@ -1,2 +1,2 @@
-export { LobbyGreeting } from './LobbyGreeting';
-export { LobbyStat } from './LobbyStat';
+export { LobbyGreeting } from './LobbyGreeting/LobbyGreeting';
+export { LobbyStat } from './LobbyStat/LobbyStat';

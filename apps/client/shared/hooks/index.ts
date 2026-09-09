@@ -3,3 +3,4 @@ export { useEmitterEvent } from './use-emitter-event';
 export { useIsTauriDesktop } from './use-is-tauri-desktop';
 export { useNavHistory } from './use-nav-history';
 export { usePointerGlow } from './use-pointer-glow';
+export { useRunWhen } from './use-run-when';

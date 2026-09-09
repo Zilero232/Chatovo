@@ -37,11 +37,14 @@ docs/
 │   ├── style.md          # Code style, import order, naming — FULL version (examples + rationale)
 │   ├── developer-role.md # user.role = admin: contributors strip, developers tab, badges
 │   └── migrations.md     # Prisma migrations: baseline, deploy order, better-auth schema drift
+├── references.md         # Where library docs come from (context7 ids) + when reading them is mandatory
 └── rustore/              # RuStore release: listing, data safety, signing, moderation
 infra/               # Caddy + LiveKit configs
 ```
 
 **Code style comes in two versions.** [docs/guides/style.md](docs/guides/style.md) is the full one: examples, anti-patterns, rationale; read it on demand, and the reviewer agent reads it end to end. `.claude/rules/*.md` are the compact digests, loaded automatically when you edit matching files (the `paths:` frontmatter). When a rule changes, update both places.
+
+**Library documentation is fetched, never guessed.** [docs/references.md](docs/references.md) holds the resolved context7 ids for every major dependency and the list of situations where reading the docs before writing code is mandatory (any LiveKit API beyond the hooks already in use, better-auth config, Next 16 conventions, react-query behaviour past the basics, Prisma migrations, Base UI parts). Fetch through the context7 MCP server — third-party docs are never vendored into this repo. Repo documents outrank library documents where they disagree.
 
 **Env**: a single shared `.env` at the repo root covers both client and server (`.env.example` is the template). The client reads `NEXT_PUBLIC_*` out of it via `loadRootEnv()` in [apps/client/next.config.ts](apps/client/next.config.ts). Only `apps/tauri/` has its own `.env` (machine-specific Android SDK/JDK paths). Release and deploy credentials live only in GitHub Secrets — there are no local env files for them; each workflow lists the secrets it needs in its header. Everything except `*.example` is in `.gitignore`.
 
@@ -93,6 +96,7 @@ The rules below apply repo-wide (every app and `packages/`).
 - Thin wrappers over lib APIs to enforce project conventions (e.g. a typed `useEventListener` for a specific custom event name).
 - Lib has a real gotcha that hurts the call site. Document known ones:
   - `useBoolean` from `@siberiacancode/reactuse` returns a **new toggle function every render** — using it as a setter inside `useEffect` deps triggers `useExhaustiveDeps` warnings and re-runs the effect on each render. Use plain `useState(false)` when the setter is passed into effects, callbacks, or refs. `useBoolean` is fine for inline `<button onClick={() => toggle()}>`.
+  - `useDropZone` from reactuse captures its `onDrop` callback **once**, in an effect keyed only on the element — a stale closure would call the first render's handler forever. `useEffectEvent` cannot fix it (`rules-of-hooks` forbids calling one from a library callback), so the `cbRef.current = cb` pattern is the correct escape here despite rule 20. Same reasoning applies to any reactuse hook whose effect deps exclude its callback.
   - `useEventListener` from reactuse types `event` as `keyof WindowEventMap` — custom event names need a cast or module augmentation. For one-off custom events, plain `addEventListener` + cleanup is shorter.
   - `Intl.NumberFormat` with `style: 'unit', unit: 'byte', notation: 'compact'` produces inconsistent output (`1.5kB` vs `1.5K B`) across `unitDisplay` values. Hand-rolled byte formatter is fine.
   - `useAudio` from reactuse has no `loop` option and returns only controls (`play`/`pause`/`stop`/`setVolume`), never the `HTMLAudioElement`. Looping sound (call ringtone) needs a manual `new Audio()` — see `entities/social/friend/model/hooks/use-friend-call-ringtone.ts`. One-shot sounds should still use `useAudio`.

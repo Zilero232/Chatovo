@@ -18,4 +18,4 @@ export {
 export type { CallFriendInput } from './model/hooks/use-call-friend';
 export { FriendsRealtimeSync } from './ui/controllers/FriendsRealtimeSync/FriendsRealtimeSync';
 
-export { FriendTag } from './ui/FriendTag';
+export { FriendTag } from './ui/FriendTag/FriendTag';

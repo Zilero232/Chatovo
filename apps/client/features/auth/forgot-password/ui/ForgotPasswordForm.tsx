@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useErrorMessage, useFieldError } from '@/entities/app/locale';
+import { useFieldError, useToastError } from '@/entities/app/locale';
 import { FormField, Input, Stack, SubmitButton } from '@/ui-kit';
 
 import type { ForgotPasswordFormProps } from './ForgotPasswordForm.types';
@@ -22,7 +22,7 @@ const DEFAULT_VALUES: ForgotPasswordValues = { email: '' };
 export const ForgotPasswordForm = ({ onBack }: ForgotPasswordFormProps) => {
   const t = useTranslations('auth');
   const fieldError = useFieldError('auth');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
   const { isPending, mutate } = useForgotPassword();
 
   const {
@@ -37,7 +37,7 @@ export const ForgotPasswordForm = ({ onBack }: ForgotPasswordFormProps) => {
   const onSubmit = handleSubmit((values) => {
     mutate(values, {
       onSuccess: () => toast.success(t('resetEmailSent'), { id: 'forgot-password' }),
-      onError: (err: Error) => toast.error(errorMessage(err), { id: 'forgot-password' })
+      onError: toastError('forgot-password')
     });
   });
 

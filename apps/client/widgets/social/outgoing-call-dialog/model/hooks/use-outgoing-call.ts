@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useEffectEvent, useRef } from 'react';
 import { toast } from 'sonner';
 
-import { useErrorMessage } from '@/entities/app/locale';
+import { useToastError } from '@/entities/app/locale';
 import {
   useCancelOutgoingFriendCall,
   useFriendCallRingtone,
@@ -21,7 +21,7 @@ const CALL_STATUS = friendCallStatusSchema.enum;
 
 export const useOutgoingCall = () => {
   const t = useTranslations('friends.outgoingCall');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
   const router = useRouter();
   const queryClient = useQueryClient();
   const handledRef = useRef<string | null>(null);
@@ -71,7 +71,7 @@ export const useOutgoingCall = () => {
 
   const cancel = () => {
     cancelCall.mutate(undefined, {
-      onError: (err: Error) => toast.error(errorMessage(err), { id: 'outgoing-call-cancel' })
+      onError: toastError('outgoing-call-cancel')
     });
   };
 

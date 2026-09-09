@@ -1,1 +1,1 @@
-export { ReportProblemForm } from './ReportProblemForm';
+export { ReportProblemForm } from './ReportProblemForm/ReportProblemForm';

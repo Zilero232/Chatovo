@@ -3,17 +3,16 @@
 import { roomPasswordSchema } from '@chatovo/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { clsx } from 'clsx';
-import { ArrowLeft, KeyRound, Lock } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { useFieldError } from '@/entities/app/locale';
-import { ROUTES } from '@/shared/constants';
-import { Button, EmptyStatePattern, FormField, Input, Stack, SubmitButton, Text } from '@/ui-kit';
+import { EmptyStatePattern, FormField, Input, Stack } from '@/ui-kit';
 
 import type { RoomPasswordFormProps } from './RoomPasswordForm.types';
+
+import { RoomPasswordActions, RoomPasswordHeader } from './components';
 
 import s from './RoomPasswordForm.module.scss';
 
@@ -28,8 +27,6 @@ export const RoomPasswordForm = ({
   onSubmit
 }: RoomPasswordFormProps) => {
   const t = useTranslations('room.password');
-  const tRoom = useTranslations('room');
-  const router = useRouter();
 
   const passwordError = useFieldError('room.password');
 
@@ -56,19 +53,7 @@ export const RoomPasswordForm = ({
         gap='4'
         onSubmit={submit}
       >
-        <span aria-hidden className={clsx(s.badge, 'glass')}>
-          <Lock className={s.badgeIcon} />
-        </span>
-
-        <Stack align='center' gap='2'>
-          <Text as='h1' className={s.heading} weight='semibold'>
-            {t('heading')}
-          </Text>
-
-          <Text align='center' size='sm' tone='muted'>
-            {t('hint', { name: displayName })}
-          </Text>
-        </Stack>
+        <RoomPasswordHeader displayName={displayName} />
 
         <FormField
           className={s.field}
@@ -86,17 +71,7 @@ export const RoomPasswordForm = ({
           />
         </FormField>
 
-        <Stack className={s.actions} gap='2'>
-          <SubmitButton isPending={isSubmitting} size='lg'>
-            <KeyRound />
-            {t('join')}
-          </SubmitButton>
-
-          <Button size='sm' variant='ghost' onClick={() => router.replace(ROUTES.lobby)}>
-            <ArrowLeft />
-            {tRoom('backToLobby')}
-          </Button>
-        </Stack>
+        <RoomPasswordActions isSubmitting={isSubmitting} />
       </Stack>
     </section>
   );

@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 
 import { Button, Tooltip, TooltipContent } from '@/ui-kit';
 
-import { ReportProblemDialog } from './ReportProblemDialog';
+import { ReportProblemDialog } from './ReportProblemDialog/ReportProblemDialog';
 
 export const ReportProblemButton = () => {
   const t = useTranslations('feedback');

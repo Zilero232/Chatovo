@@ -2,7 +2,8 @@
 
 import type { LocalParticipant } from 'livekit-client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useUnmount } from '@siberiacancode/reactuse';
+import { useRef, useState } from 'react';
 import { isNullish } from 'remeda';
 
 import { isCancelled } from '../../lib/media-errors';
@@ -14,26 +15,24 @@ export type ParticipantAction = {
   run: () => Promise<void>;
 };
 
-export const useParticipantAction = (
-  participant: LocalParticipant | undefined,
-  action: (participant: LocalParticipant) => Promise<unknown>
-): ParticipantAction => {
+export type UseParticipantActionInput = {
+  action: (participant: LocalParticipant) => Promise<unknown>;
+  participant: LocalParticipant | undefined;
+};
+
+export const useParticipantAction = ({
+  participant,
+  action
+}: UseParticipantActionInput): ParticipantAction => {
   const [isPending, setIsPending] = useState(false);
   const isRunningRef = useRef(false);
-  const isMountedRef = useRef(true);
   const revealTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    isMountedRef.current = true;
-
-    return () => {
-      isMountedRef.current = false;
-
-      if (revealTimeoutRef.current) {
-        clearTimeout(revealTimeoutRef.current);
-      }
-    };
-  }, []);
+  useUnmount(() => {
+    if (revealTimeoutRef.current) {
+      clearTimeout(revealTimeoutRef.current);
+    }
+  });
 
   const run = async () => {
     if (isNullish(participant) || isRunningRef.current) {
@@ -43,7 +42,7 @@ export const useParticipantAction = (
     isRunningRef.current = true;
 
     revealTimeoutRef.current = setTimeout(() => {
-      if (isMountedRef.current && isRunningRef.current) {
+      if (isRunningRef.current) {
         setIsPending(true);
       }
     }, PENDING_VISIBLE_AFTER_MS);
@@ -62,9 +61,7 @@ export const useParticipantAction = (
         revealTimeoutRef.current = null;
       }
 
-      if (isMountedRef.current) {
-        setIsPending(false);
-      }
+      setIsPending(false);
     }
   };
 

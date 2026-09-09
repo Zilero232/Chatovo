@@ -82,7 +82,10 @@ export const useCheckAppUpdate = () => {
       }
 
       try {
-        const result = await raceWithTimeout(check(), APP_UPDATE_CONFIG.checkTimeoutMs);
+        const result = await raceWithTimeout({
+          promise: check(),
+          timeoutMs: APP_UPDATE_CONFIG.checkTimeoutMs
+        });
 
         if (cancelled) {
           return;

@@ -1,2 +1,2 @@
-export { ContributorsSection } from './ContributorsSection';
-export type { ContributorsSectionProps } from './ContributorsSection';
+export { ContributorsSection } from './ContributorsSection/ContributorsSection';
+export type { ContributorsSectionProps } from './ContributorsSection/ContributorsSection.types';

@@ -2,6 +2,7 @@ import type { FilterAccessibleRoomsInput } from './filter-accessible-rooms.types
 
 import { basePrisma as prisma } from '../../core';
 import { canAccessRoom } from '../can-access-room';
+import { roomAccessSelect } from '../selectors';
 
 export const filterAccessibleRooms = async ({
   roomIds,
@@ -13,14 +14,7 @@ export const filterAccessibleRooms = async ({
 
   const rooms = await prisma.room.findMany({
     where: { id: { in: roomIds } },
-    select: {
-      id: true,
-      kind: true,
-      isPrivate: true,
-      ownerId: true,
-      dmUserAId: true,
-      dmUserBId: true
-    }
+    select: roomAccessSelect
   });
 
   return rooms

@@ -8,6 +8,6 @@ export {
   markChatLineStatus,
   mergeChatHistory
 } from './chat-cache';
-export { groupChatLines } from './group-chat-lines';
+export { groupChatLines, type GroupedChatLine } from './group-chat-lines';
 export { normalizeMessage } from './normalize-message';
 export { chatMessageToChatLine } from './to-chat-line';

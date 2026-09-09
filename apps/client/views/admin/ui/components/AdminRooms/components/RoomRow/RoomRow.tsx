@@ -5,20 +5,19 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { useDeleteRoom } from '@/entities/app/admin';
-import { useErrorMessage } from '@/entities/app/locale';
+import { useDeleteRoomAsAdmin } from '@/entities/app/admin';
+import { useToastError } from '@/entities/app/locale';
+import { formatDateTime } from '@/shared/lib';
 import { Badge, ConfirmDialog, IconButtonWithTooltip, Row, Stack, Text } from '@/ui-kit';
 
 import type { RoomRowProps } from './RoomRow.types';
-
-import { formatAdminDate } from '../../../../../lib';
 
 import s from './RoomRow.module.scss';
 
 export const RoomRow = ({ room }: RoomRowProps) => {
   const t = useTranslations('admin');
-  const errorMessage = useErrorMessage();
-  const { isPending, mutate } = useDeleteRoom();
+  const toastError = useToastError();
+  const { isPending, mutate } = useDeleteRoomAsAdmin();
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
@@ -28,7 +27,7 @@ export const RoomRow = ({ room }: RoomRowProps) => {
         toast.success(t('rooms.deleted'), { id: 'delete-room' });
         setIsConfirmOpen(false);
       },
-      onError: (error: Error) => toast.error(errorMessage(error), { id: 'delete-room' })
+      onError: toastError('delete-room')
     });
 
   return (
@@ -59,7 +58,7 @@ export const RoomRow = ({ room }: RoomRowProps) => {
 
         <Text truncate size='xs' tone='muted'>
           {t('rooms.owner')}: {room.ownerName ?? room.ownerId} ·{' '}
-          {t('rooms.messages', { count: room.messagesCount })} · {formatAdminDate(room.createdAt)}
+          {t('rooms.messages', { count: room.messagesCount })} · {formatDateTime(room.createdAt)}
         </Text>
       </Stack>
 

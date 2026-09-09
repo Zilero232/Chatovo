@@ -1,8 +1,8 @@
 'use client';
 
-import type { ChartTooltipProps } from './ChartTooltip.types';
+import { formatDay } from '@/shared/lib';
 
-import { formatChartDay } from '../../../lib';
+import type { ChartTooltipProps } from './ChartTooltip.types';
 
 import s from './ChartTooltip.module.scss';
 
@@ -15,7 +15,7 @@ export const ChartTooltip = ({ label, active, payload }: ChartTooltipProps) => {
 
   return (
     <div className={s.root}>
-      <span className={s.date}>{formatChartDay(point.payload?.date ?? '')}</span>
+      <span className={s.date}>{formatDay(point.payload?.date ?? '')}</span>
       <span className={s.value}>
         {label}: <b>{(point.value ?? 0).toLocaleString()}</b>
       </span>

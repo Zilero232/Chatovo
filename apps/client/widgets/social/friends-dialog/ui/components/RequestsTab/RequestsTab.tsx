@@ -4,10 +4,9 @@ import type { FriendRequestEntry } from '@chatovo/schemas';
 
 import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
-import { toast } from 'sonner';
 import { match, P } from 'ts-pattern';
 
-import { useErrorMessage } from '@/entities/app/locale';
+import { useToastError } from '@/entities/app/locale';
 import {
   useAcceptFriendRequest,
   useDeclineFriendRequest,
@@ -21,7 +20,7 @@ import {
 } from '@/shared/config';
 import { CenteredState, Spinner } from '@/ui-kit';
 
-import { FriendRequestListItem } from './FriendRequestListItem';
+import { FriendRequestListItem } from './FriendRequestListItem/FriendRequestListItem';
 
 import s from '../../FriendsDialog.module.scss';
 
@@ -31,7 +30,7 @@ const hasRequests = (
 
 export const RequestsTab = () => {
   const t = useTranslations('friends');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
 
   const { data: requests, isPending } = useIncomingFriendRequests();
   const acceptRequest = useAcceptFriendRequest();
@@ -60,9 +59,7 @@ export const RequestsTab = () => {
                     { friendshipId: entry.friendshipId, userId: entry.user.id },
                     {
                       onError: (err: Error) =>
-                        toast.error(errorMessage(err), {
-                          id: `friend-request-accept-${entry.user.id}`
-                        })
+                        toastError(`friend-request-accept-${entry.user.id}`)(err)
                     }
                   );
                 }}
@@ -71,9 +68,7 @@ export const RequestsTab = () => {
                     { friendshipId: entry.friendshipId, userId: entry.user.id },
                     {
                       onError: (err: Error) =>
-                        toast.error(errorMessage(err), {
-                          id: `friend-request-decline-${entry.user.id}`
-                        })
+                        toastError(`friend-request-decline-${entry.user.id}`)(err)
                     }
                   );
                 }}
