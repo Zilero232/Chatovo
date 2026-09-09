@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useErrorMessage } from '@/entities/app/locale';
+import { useToastError } from '@/entities/app/locale';
 import { useCreateRoom, useEnterRoom } from '@/entities/room/room';
 
 import type { UseCreateRoomFormInput } from './use-create-room-form.types';
@@ -17,7 +17,7 @@ const DEFAULT_VALUES: CreateRoomRequest = { name: '', isPrivate: false };
 
 export const useCreateRoomForm = ({ onCreated }: UseCreateRoomFormInput) => {
   const t = useTranslations('createRoom');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
   const createMutation = useCreateRoom();
   const enterMutation = useEnterRoom();
 
@@ -40,11 +40,11 @@ export const useCreateRoomForm = ({ onCreated }: UseCreateRoomFormInput) => {
         enterMutation.mutate(
           { roomId: room.id, password: values.isPrivate ? values.password : undefined },
           {
-            onError: (err: Error) => toast.error(errorMessage(err), { id: `room-enter-${room.id}` })
+            onError: toastError(`room-enter-${room.id}`)
           }
         );
       },
-      onError: (err: Error) => toast.error(errorMessage(err), { id: 'room-create' })
+      onError: toastError('room-create')
     });
   });
 

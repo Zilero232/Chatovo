@@ -2,9 +2,8 @@
 
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
 
-import { useErrorMessage } from '@/entities/app/locale';
+import { useToastError } from '@/entities/app/locale';
 import { useCloseWhenCallAccepted } from '@/entities/social/friend';
 import { getOrCreateFriendDmRoom } from '@/shared/api';
 import { useCloseWhenInVoiceRoom } from '@/shared/hooks';
@@ -12,7 +11,7 @@ import { useCloseWhenInVoiceRoom } from '@/shared/hooks';
 import type { FriendChatPeer, FriendChatSession } from '../../types';
 
 export const useFriendChatSession = () => {
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
 
   const [session, setSession] = useState<FriendChatSession | null>(null);
   const [openingPeer, setOpeningPeer] = useState<FriendChatPeer | null>(null);
@@ -30,7 +29,7 @@ export const useFriendChatSession = () => {
     },
     onError: (error, peer) => {
       setOpeningPeer(null);
-      toast.error(errorMessage(error), { id: `friend-open-dm-${peer.id}` });
+      toastError(`friend-open-dm-${peer.id}`)(error);
     }
   });
 

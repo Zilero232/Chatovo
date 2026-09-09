@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 
-import { useErrorMessage } from '@/entities/app/locale';
+import { useToastError } from '@/entities/app/locale';
 import { useDeleteRoom } from '@/entities/room/room';
 import { useRoomSession } from '@/entities/room/session';
 import { ROUTES } from '@/shared/constants';
@@ -15,7 +15,7 @@ import type { DeleteRoomDialogProps } from './DeleteRoomDialog.types';
 
 export const DeleteRoomDialog = ({ room, open, onOpenChange }: DeleteRoomDialogProps) => {
   const t = useTranslations('manageRoom.delete');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
 
   const router = useRouter();
   const params = useSearchParams();
@@ -38,7 +38,7 @@ export const DeleteRoomDialog = ({ room, open, onOpenChange }: DeleteRoomDialogP
           router.replace(ROUTES.lobby);
         }
       },
-      onError: (err: Error) => toast.error(errorMessage(err), { id: `room-delete-${room.id}` })
+      onError: toastError(`room-delete-${room.id}`)
     });
   };
 

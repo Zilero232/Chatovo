@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { useErrorMessage, useFieldError } from '@/entities/app/locale';
+import { useFieldError, useToastError } from '@/entities/app/locale';
 import { FormField, Input, PasswordInput, Stack, SubmitButton } from '@/ui-kit';
 
 import type { SignInFormProps } from './SignInForm.types';
@@ -22,7 +22,7 @@ const DEFAULT_VALUES: SignInValues = { email: '', password: '' };
 export const SignInForm = ({ onForgotPassword }: SignInFormProps) => {
   const t = useTranslations('auth');
   const fieldError = useFieldError('auth');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
   const { isPending, mutate } = useSignIn();
 
   const {
@@ -37,7 +37,7 @@ export const SignInForm = ({ onForgotPassword }: SignInFormProps) => {
   const onSubmit = handleSubmit((values) => {
     mutate(values, {
       onSuccess: () => toast.success(t('signedIn'), { id: 'sign-in' }),
-      onError: (err: Error) => toast.error(errorMessage(err), { id: 'sign-in' })
+      onError: toastError('sign-in')
     });
   });
 

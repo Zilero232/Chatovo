@@ -9,7 +9,7 @@ import { useTranslations } from 'next-intl';
 import { useRef } from 'react';
 import { toast } from 'sonner';
 
-import { useErrorMessage } from '@/entities/app/locale';
+import { useToastError } from '@/entities/app/locale';
 import { uploadChatAttachment } from '@/shared/api';
 
 type UseChatFilesParams = {
@@ -20,7 +20,7 @@ type UseChatFilesParams = {
 
 export const useChatFiles = ({ roomId, disabled, onSend }: UseChatFilesParams) => {
   const t = useTranslations('chat');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
 
   const { isPending, mutate } = useMutation({
     mutationFn: async (files: File[]) => {
@@ -31,7 +31,7 @@ export const useChatFiles = ({ roomId, disabled, onSend }: UseChatFilesParams) =
       }
     },
     onError: (err: Error) => {
-      toast.error(errorMessage(err), { id: `chat-upload-${roomId}` });
+      toastError(`chat-upload-${roomId}`)(err);
     }
   });
 

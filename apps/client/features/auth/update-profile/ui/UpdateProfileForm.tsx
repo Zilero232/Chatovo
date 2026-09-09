@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 
 import type { ProfileValues } from '@/entities/auth/user';
 
-import { useErrorMessage } from '@/entities/app/locale';
+import { useToastError } from '@/entities/app/locale';
 import { profileSchema, useCurrentUser, useUpdateProfile } from '@/entities/auth/user';
 import { SubmitButton } from '@/ui-kit';
 
@@ -18,7 +18,7 @@ import s from './UpdateProfileForm.module.scss';
 
 export const UpdateProfileForm = () => {
   const t = useTranslations('settings.profile');
-  const errorMessage = useErrorMessage();
+  const toastError = useToastError();
 
   const { displayName, profileUrl, avatarUrl, bannerColor, bio } = useCurrentUser();
   const { isPending, mutate } = useUpdateProfile();
@@ -50,7 +50,7 @@ export const UpdateProfileForm = () => {
           reset(values);
           avatar.reset();
         },
-        onError: (err: Error) => toast.error(errorMessage(err), { id: 'update-profile' })
+        onError: toastError('update-profile')
       }
     );
   });
