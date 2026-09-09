@@ -1,7 +1,10 @@
 'use client';
 
-import { Volume1, Volume2, VolumeX } from 'lucide-react';
+import { useParticipantTracks } from '@livekit/components-react';
+import { Track } from 'livekit-client';
+import { MonitorSpeaker, Volume1, Volume2, VolumeX } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { isNonNullish } from 'remeda';
 
 import { formatPercent } from '@/shared/lib';
 import { ContextMenuItem, ContextMenuSeparator, Slider } from '@/ui-kit';
@@ -20,6 +23,15 @@ export const ParticipantVolumeControls = ({
 
   const { isMuted, volume, isControllable, setVolume, toggleMute } =
     useParticipantVolume(participant);
+
+  const screenAudio = useParticipantVolume(participant, Track.Source.ScreenShareAudio);
+
+  const [screenAudioTrack] = useParticipantTracks(
+    [Track.Source.ScreenShareAudio],
+    participant.identity
+  );
+
+  const hasScreenAudio = isNonNullish(screenAudioTrack);
 
   if (!isControllable) {
     return null;
@@ -52,6 +64,27 @@ export const ParticipantVolumeControls = ({
           onValueChange={(next) => setVolume(next as number)}
         />
       </ContextMenuItem>
+
+      {hasScreenAudio && (
+        <ContextMenuItem className={s.volumeItem} closeOnClick={false}>
+          <div className={s.volumeRow}>
+            <span className={s.volumeLabel}>
+              <MonitorSpeaker />
+              {t('screenVolume')}
+            </span>
+            <span className={s.volumeValue}>{formatPercent(screenAudio.volume)}</span>
+          </div>
+
+          <Slider
+            aria-label={t('screenVolumeFor', { name: displayName })}
+            max={1}
+            min={0}
+            step={0.01}
+            value={screenAudio.volume}
+            onValueChange={(next) => screenAudio.setVolume(next as number)}
+          />
+        </ContextMenuItem>
+      )}
     </>
   );
 };

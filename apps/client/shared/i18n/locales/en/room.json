@@ -237,6 +237,8 @@
     "unmuteForMe": "Unmute for me",
     "volume": "Volume",
     "volumeFor": "Volume for {name}",
+    "screenVolume": "Screen audio",
+    "screenVolumeFor": "Screen audio volume for {name}",
     "copyName": "Copy name",
     "nameCopied": "Name copied"
   }

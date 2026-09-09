@@ -5,7 +5,6 @@ import type { Room } from 'livekit-client';
 import { useRoomContext } from '@livekit/components-react';
 import { LocalVideoTrack, RoomEvent, Track } from 'livekit-client';
 import { useEffect, useEffectEvent, useRef } from 'react';
-import { keys } from 'remeda';
 
 import type { DeviceSettings } from '@/entities/app/settings';
 
@@ -16,25 +15,13 @@ import {
   useAppSettings
 } from '@/entities/app/settings';
 
-const applyDevices = (room: Room, devices: DeviceSettings) => {
-  for (const kind of keys(KIND_TO_SLOT)) {
-    const deviceId = devices[KIND_TO_SLOT[kind]];
-
-    if (!deviceId || room.getActiveDevice(kind) === deviceId) {
-      continue;
-    }
-
-    room.switchActiveDevice(kind, deviceId).catch((err) => {
-      console.error('failed to switch active device', kind, err);
-    });
-  }
-};
+import { applyDevices } from '../../lib';
 
 const useApplyDevices = (room: Room, devices: DeviceSettings) => {
   const { audioInput, audioOutput, videoInput } = devices;
 
   useEffect(() => {
-    const apply = () => applyDevices(room, { audioInput, audioOutput, videoInput });
+    const apply = () => applyDevices({ room, devices: { audioInput, audioOutput, videoInput } });
 
     if (room.state === 'connected') {
       apply();

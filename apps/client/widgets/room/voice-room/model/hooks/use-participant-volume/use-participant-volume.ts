@@ -3,45 +3,26 @@
 import type { Participant } from 'livekit-client';
 
 import { useDebounceCallback, useLocalStorage } from '@siberiacancode/reactuse';
-import { RemoteParticipant } from 'livekit-client';
+import { RemoteParticipant, Track } from 'livekit-client';
 import { useEffect, useRef, useState } from 'react';
-import { clamp, defaultTo, omit, pick, takeLast } from 'remeda';
+import { defaultTo, omit } from 'remeda';
 
 import { STORAGE_KEYS } from '@/shared/constants';
 import { readStoredJson } from '@/shared/lib';
 
-const MAX_VOLUME = 1;
-const DEFAULT_VOLUME = 1;
+import type { VolumeMap, VolumeSource } from '../../../lib';
+import type { ParticipantVolume } from './use-participant-volume.types';
 
-const PERSIST_DELAY_MS = 300;
-const MAX_STORED_VOLUMES = 100;
-
-type VolumeMap = Record<string, number>;
-
-const capVolumes = (volumes: VolumeMap): VolumeMap => {
-  const identities = Object.keys(volumes);
-
-  if (identities.length <= MAX_STORED_VOLUMES) {
-    return volumes;
-  }
-
-  return pick(volumes, takeLast(identities, MAX_STORED_VOLUMES));
-};
+import { DEFAULT_VOLUME, VOLUME_PERSIST_DELAY_MS } from '../../../config';
+import { buildVolumeStorageKey, capVolumes, clampVolume } from '../../../lib';
 
 const readVolumes = (): VolumeMap => readStoredJson<VolumeMap>(STORAGE_KEYS.participantVolumes, {});
 
-type ParticipantVolume = {
-  isControllable: boolean;
-  isMuted: boolean;
-  volume: number;
-  setVolume: (next: number) => void;
-  toggleMute: () => void;
-};
-
-const clampVolume = (value: number) => clamp(value, { min: 0, max: MAX_VOLUME });
-
-export const useParticipantVolume = (participant: Participant): ParticipantVolume => {
-  const { identity } = participant;
+export const useParticipantVolume = (
+  participant: Participant,
+  source: VolumeSource = Track.Source.Microphone
+): ParticipantVolume => {
+  const storageKey = buildVolumeStorageKey(participant.identity, source);
   const isControllable = participant instanceof RemoteParticipant;
 
   const { value, set: setVolumes } = useLocalStorage<VolumeMap>(
@@ -51,28 +32,28 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
 
   const volumes = defaultTo(value, {} as VolumeMap);
 
-  const [volume, setVolume] = useState(() => volumes[identity] ?? DEFAULT_VOLUME);
+  const [volume, setVolume] = useState(() => volumes[storageKey] ?? DEFAULT_VOLUME);
 
   const volumeBeforeMuteRef = useRef(DEFAULT_VOLUME);
 
-  const persist = useDebounceCallback((targetIdentity: string, next: number) => {
+  const persist = useDebounceCallback((targetKey: string, next: number) => {
     const stored = readVolumes();
 
     setVolumes(
       next === DEFAULT_VOLUME
-        ? omit(stored, [targetIdentity])
-        : capVolumes({ ...omit(stored, [targetIdentity]), [targetIdentity]: next })
+        ? omit(stored, [targetKey])
+        : capVolumes({ ...omit(stored, [targetKey]), [targetKey]: next })
     );
-  }, PERSIST_DELAY_MS);
+  }, VOLUME_PERSIST_DELAY_MS);
 
   const apply = (next: number) => {
     const clamped = clampVolume(next);
 
     setVolume(clamped);
-    persist(identity, clamped);
+    persist(storageKey, clamped);
 
     if (participant instanceof RemoteParticipant) {
-      participant.setVolume(clamped);
+      participant.setVolume(clamped, source);
     }
   };
 
@@ -97,9 +78,9 @@ export const useParticipantVolume = (participant: Participant): ParticipantVolum
 
   useEffect(() => {
     if (participant instanceof RemoteParticipant) {
-      participant.setVolume(clampVolume(volume));
+      participant.setVolume(clampVolume(volume), source);
     }
-  }, [participant, volume]);
+  }, [participant, source, volume]);
 
   return {
     volume,
