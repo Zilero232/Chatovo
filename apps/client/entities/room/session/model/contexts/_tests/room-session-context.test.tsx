@@ -72,6 +72,38 @@ describe('useRoomSession', () => {
     expect(result.current.session?.isChatOpen).toBe(true);
   });
 
+  it('refuses to reopen a room that was just left', () => {
+    const { result } = renderHook(() => useRoomSession(), { wrapper });
+
+    act(() => result.current.open(sessionOf('room-1')));
+    act(() => result.current.close('room-1'));
+    act(() => result.current.open(sessionOf('room-1')));
+
+    expect(result.current.session).toBeNull();
+    expect(result.current.isRecentlyLeft('room-1')).toBe(true);
+  });
+
+  it('still allows opening a different room after leaving one', () => {
+    const { result } = renderHook(() => useRoomSession(), { wrapper });
+
+    act(() => result.current.open(sessionOf('room-1')));
+    act(() => result.current.close('room-1'));
+    act(() => result.current.open(sessionOf('room-2')));
+
+    expect(result.current.session?.roomId).toBe('room-2');
+  });
+
+  it('lets the room be reopened once rejoin lifts the guard', () => {
+    const { result } = renderHook(() => useRoomSession(), { wrapper });
+
+    act(() => result.current.open(sessionOf('room-1')));
+    act(() => result.current.close('room-1'));
+    act(() => result.current.rejoin());
+    act(() => result.current.open(sessionOf('room-1')));
+
+    expect(result.current.session?.roomId).toBe('room-1');
+  });
+
   it('throws outside a provider', () => {
     expect(() => renderHook(() => useRoomSession())).toThrow(
       'useRoomSession must be used within RoomSessionProvider'

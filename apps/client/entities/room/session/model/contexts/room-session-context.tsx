@@ -9,18 +9,32 @@ import type { RoomSession, RoomSessionValue } from './room-session-context.types
 
 const useRoomSessionValue = (): RoomSessionValue => {
   const [session, setSession] = useState<RoomSession | null>(null);
+  const [leftRoomId, setLeftRoomId] = useState<string | null>(null);
 
-  const close = (roomId?: string) => {
-    setSession((current) => {
-      if (roomId && current?.roomId !== roomId) {
-        return current;
-      }
+  const isRecentlyLeft = (roomId: string) => leftRoomId === roomId;
 
-      return null;
-    });
+  const open = (next: RoomSession) => {
+    if (isRecentlyLeft(next.roomId)) {
+      return;
+    }
+
+    setSession(next);
   };
 
-  return { session, open: setSession, close };
+  const close = (roomId?: string) => {
+    if (roomId && session && session.roomId !== roomId) {
+      return;
+    }
+
+    setLeftRoomId(roomId ?? session?.roomId ?? null);
+    setSession(null);
+  };
+
+  const rejoin = () => {
+    setLeftRoomId(null);
+  };
+
+  return { session, open, close, isRecentlyLeft, rejoin };
 };
 
 const { Provider, use } = createContextHook(useRoomSessionValue);
