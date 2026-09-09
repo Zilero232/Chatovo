@@ -15,6 +15,7 @@ import { AuthProvider } from './AuthProvider';
 import { EasterEggsProvider } from './EasterEggsProvider';
 import { I18nProvider } from './I18nProvider';
 import { QueryFocusManager } from './QueryFocusManager';
+import { SessionExpiryWatcher } from './SessionExpiryWatcher';
 import { TauriDesktopDocumentClass } from './TauriDesktopDocumentClass';
 import { TauriMobileInsets } from './TauriMobileInsets';
 import { TrayMenuProvider } from './TrayMenuProvider';
@@ -23,6 +24,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => (
   <QueryClientProvider client={queryClient}>
     <I18nProvider>
       <QueryFocusManager />
+      <SessionExpiryWatcher />
       <TauriMobileInsets />
       <TauriDesktopDocumentClass />
       <MotionConfig reducedMotion='user'>

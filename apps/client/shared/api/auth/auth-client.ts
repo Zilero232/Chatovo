@@ -2,7 +2,8 @@ import { inferAdditionalFields } from 'better-auth/client/plugins';
 import { createAuthClient } from 'better-auth/react';
 
 import { env } from '@/shared/config';
-import { STORAGE_KEYS } from '@/shared/constants';
+import { HTTP_STATUS, STORAGE_KEYS } from '@/shared/constants';
+import { appEvents } from '@/shared/lib';
 
 const resolveAuthBaseUrl = () => {
   const apiUrl = env.NEXT_PUBLIC_API_URL;
@@ -46,7 +47,7 @@ export const authClient = createAuthClient({
   baseURL: resolveAuthBaseUrl(),
   basePath: '/auth',
   session: {
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: true
   },
   plugins: [
     inferAdditionalFields({
@@ -65,6 +66,13 @@ export const authClient = createAuthClient({
       const token = ctx.response.headers.get('set-auth-token');
 
       saveAuthToken(token);
+    },
+    onError: (ctx) => {
+      if (ctx.response.status === HTTP_STATUS.unauthorized) {
+        clearToken();
+
+        appEvents.emit.sessionExpired();
+      }
     }
   }
 });

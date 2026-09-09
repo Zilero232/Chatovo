@@ -38,7 +38,7 @@ export {
   sendFriendRequest
 } from './friends';
 export { getAppDownloads, listContributors } from './github';
-export { ApiError, apiErrorCode } from './http';
+export { ApiError, apiErrorCode, isUnauthorizedError } from './http';
 export { fetchLiveKitToken } from './livekit';
 export { reportAbuse } from './moderation';
 export { registerPushDevice, unregisterPushDevice } from './push';

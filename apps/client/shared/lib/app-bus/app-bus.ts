@@ -13,6 +13,7 @@ type AppBusEvents = {
   reaction: undefined;
   recheckUpdate: undefined;
   secretGameOpen: undefined;
+  sessionExpired: undefined;
   updateCheckSettled: undefined;
 };
 
