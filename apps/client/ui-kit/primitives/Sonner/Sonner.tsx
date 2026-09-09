@@ -1,6 +1,7 @@
 'use client';
 
 import { useMediaQuery } from '@siberiacancode/reactuse';
+import { clsx } from 'clsx';
 import {
   CircleCheckIcon,
   InfoIcon,
@@ -37,7 +38,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         info: <InfoIcon className={s.iconSize} />,
         warning: <TriangleAlertIcon className={s.iconSize} />,
         error: <OctagonXIcon className={s.iconSize} />,
-        loading: <Loader2Icon className={`${s.iconSize} ${s.spin}`} />
+        loading: <Loader2Icon className={clsx(s.iconSize, s.spin)} />
       }}
       toastOptions={{
         classNames: {
@@ -52,7 +53,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           loading: s.loading
         }
       }}
-      className={`${s.toaster} group`}
+      className={clsx(s.toaster, 'group')}
       mobileOffset={MOBILE_TOAST_OFFSET}
       offset={isMobile ? MOBILE_TOAST_OFFSET : DESKTOP_TOAST_OFFSET}
       position='top-right'
