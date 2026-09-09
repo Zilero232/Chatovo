@@ -6,7 +6,7 @@ export {
   useAdminUserMessages,
   useAdminUsers,
   useBlockUser,
-  useDeleteRoom,
+  useDeleteRoomAsAdmin,
   useResolveReport,
   useUnblockUser,
   useUpdateUser

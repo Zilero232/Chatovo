@@ -1,6 +1,6 @@
 export {
   useBlockUser,
-  useDeleteRoom,
+  useDeleteRoomAsAdmin,
   useResolveReport,
   useUnblockUser,
   useUpdateUser

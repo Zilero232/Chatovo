@@ -1,4 +1,4 @@
-type RaceResult<T> = { ok: false; reason: 'timeout' } | { ok: true; value: T };
+import type { RaceResult, RaceWithTimeoutInput } from './race-with-timeout.types';
 
 const wrapWork = async <T>(promise: Promise<T>): Promise<RaceResult<T>> => {
   const value = await promise;
@@ -11,7 +11,9 @@ const wrapTimeout = <T>(timeoutMs: number) =>
     setTimeout(resolve, timeoutMs, { ok: false, reason: 'timeout' });
   });
 
-export const raceWithTimeout = async <T>(
-  promise: Promise<T>,
-  timeoutMs: number
-): Promise<RaceResult<T>> => Promise.race([wrapWork(promise), wrapTimeout<T>(timeoutMs)]);
+/** Resolves with the promise's value, or `{ ok: false, reason: 'timeout' }` once `timeoutMs` passes. */
+export const raceWithTimeout = async <T>({
+  promise,
+  timeoutMs
+}: RaceWithTimeoutInput<T>): Promise<RaceResult<T>> =>
+  Promise.race([wrapWork(promise), wrapTimeout<T>(timeoutMs)]);

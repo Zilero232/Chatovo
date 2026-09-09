@@ -1,3 +1,9 @@
-export { formatMessageTime, getDateDivider, isSameCalendarDay } from './format-date';
+export {
+  formatDateTime,
+  formatDay,
+  formatMessageTime,
+  getDateDivider,
+  isSameCalendarDay
+} from './format-date';
 
-export type { DateDivider } from './format-date';
+export type * from './format-date.types';

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+import { clsx } from 'clsx';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 
 import { SITE } from '@/shared/config';
@@ -28,7 +29,7 @@ const tauriMobileHmrShim = getTauriMobileHmrShim();
 const RootLayout = ({ children }: { children: ReactNode }) => (
   <html
     suppressHydrationWarning
-    className={`dark ${sans.variable} ${mono.variable}`}
+    className={clsx('dark', sans.variable, mono.variable)}
     lang={SITE.lang}
   >
     <head>

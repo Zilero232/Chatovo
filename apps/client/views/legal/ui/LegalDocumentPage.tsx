@@ -9,7 +9,7 @@ import { Text } from '@/ui-kit';
 
 import type { LegalDocumentPageProps } from './LegalDocumentPage.types';
 
-import { getLegalDocument } from '../model';
+import { getLegalDocument } from '../lib';
 
 import s from './LegalDocumentPage.module.scss';
 

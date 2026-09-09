@@ -44,8 +44,8 @@ export const LobbyRooms = () => {
 
   const view = storedView ?? 'grid';
 
-  const counts = countRoomsByFilter(rooms, presence, user?.id);
-  const sections = groupRooms(rooms, presence, query, filter, user?.id);
+  const counts = countRoomsByFilter({ rooms, presence, currentUserId: user?.id });
+  const sections = groupRooms({ rooms, presence, query, filter, currentUserId: user?.id });
 
   return (
     <div className={s.root}>

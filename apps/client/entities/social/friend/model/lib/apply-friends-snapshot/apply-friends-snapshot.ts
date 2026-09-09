@@ -1,17 +1,15 @@
-import type { FriendCallStreamSnapshot } from '@chatovo/schemas';
-import type { QueryClient } from '@tanstack/react-query';
-
 import { friendCallStreamSnapshotSchema } from '@chatovo/schemas';
 
 import { QUERY_KEYS } from '@/shared/constants';
 
-import { invalidateFriendsQueries } from './invalidate-friends-queries';
+import type { ApplyFriendsSnapshotInput } from './apply-friends-snapshot.types';
 
-export const applyFriendsSnapshot = (
-  queryClient: QueryClient,
-  snapshot: FriendCallStreamSnapshot,
-  friendsEpochRef: { current: number | undefined }
-): void => {
+import { invalidateFriendsQueries } from '../invalidate-friends-queries';
+
+export const applyFriendsSnapshot = ({
+  queryClient,
+  snapshot
+}: ApplyFriendsSnapshotInput): void => {
   const parsed = friendCallStreamSnapshotSchema.safeParse(snapshot);
 
   if (!parsed.success) {
@@ -22,10 +20,11 @@ export const applyFriendsSnapshot = (
   queryClient.setQueryData(QUERY_KEYS.friendCallOutgoing(), { call: parsed.data.outgoing });
 
   const epoch = parsed.data.friendsEpoch;
+  const knownEpoch = queryClient.getQueryData<number>(QUERY_KEYS.friendsEpoch());
 
-  if (friendsEpochRef.current !== undefined && epoch !== friendsEpochRef.current) {
+  queryClient.setQueryData(QUERY_KEYS.friendsEpoch(), epoch);
+
+  if (knownEpoch !== undefined && epoch !== knownEpoch) {
     invalidateFriendsQueries(queryClient);
   }
-
-  friendsEpochRef.current = epoch;
 };
