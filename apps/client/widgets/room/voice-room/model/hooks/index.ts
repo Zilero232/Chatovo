@@ -1,4 +1,4 @@
-export { useConnectionRtt } from './use-connection-rtt';
+export { type ConnectionRtt, useConnectionRtt } from './use-connection-rtt';
 export { useCopyInviteLink } from './use-copy-invite-link';
 export { useCurrentRoomId } from './use-current-room-id';
 export { useDeviceSync } from './use-device-sync';
@@ -6,7 +6,7 @@ export { useMicActivationMode } from './use-mic-activation-mode';
 export { useParticipantAudioLevel } from './use-participant-audio-level';
 export { useParticipantIsSpeaking } from './use-participant-is-speaking';
 export { useParticipantMedia } from './use-participant-media';
-export { useParticipantVolume } from './use-participant-volume';
+export { type ParticipantVolume, useParticipantVolume } from './use-participant-volume';
 export { usePttLocalSpeaking } from './use-ptt-local-speaking';
 export { useRoomConnection } from './use-room-connection';
 export { useShortcutActions } from './use-shortcut-actions';
