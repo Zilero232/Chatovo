@@ -1,6 +1,6 @@
-export { FriendActions } from './FriendActions';
+export { FriendActions } from './FriendActions/FriendActions';
 export {
   AddFriendAction,
   CancelRequestAction,
   IncomingRequestActions
-} from './FriendRequestActions';
+} from './FriendRequestActions/FriendRequestActions';

@@ -1,3 +1,3 @@
-export { AvatarZoom } from './AvatarZoom';
-export { ProfileCardSkeleton } from './ProfileCardSkeleton';
-export { ProfileVoiceBlock } from './ProfileVoiceBlock';
+export { AvatarZoom } from './AvatarZoom/AvatarZoom';
+export { ProfileCardSkeleton } from './ProfileCardSkeleton/ProfileCardSkeleton';
+export { ProfileVoiceBlock } from './ProfileVoiceBlock/ProfileVoiceBlock';

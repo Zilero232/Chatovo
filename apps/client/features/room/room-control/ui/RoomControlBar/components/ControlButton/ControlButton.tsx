@@ -7,7 +7,7 @@ import { Spinner, Tooltip, TooltipContent } from '@/ui-kit';
 
 import type { ControlButtonProps } from './ControlButton.types';
 
-import { DeviceMenu } from '../DeviceMenu';
+import { DeviceMenu } from '../DeviceMenu/DeviceMenu';
 import {
   controlButtonToneClass,
   controlMainToneClass,

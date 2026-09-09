@@ -4,12 +4,12 @@ import { isImageMime } from '@chatovo/schemas';
 import dynamic from 'next/dynamic';
 
 import { useChatMessage } from '../../../../../model/contexts';
-import { MessageAttachment } from '../MessageAttachment';
-import { MessageContextMenu } from '../MessageContextMenu';
+import { MessageAttachment } from '../MessageAttachment/MessageAttachment';
+import { MessageContextMenu } from '../MessageContextMenu/MessageContextMenu';
 import { bubbleVariants } from './MessageBubble.variants';
 
 const MessageContent = dynamic(
-  () => import('../MessageContent').then((m) => ({ default: m.MessageContent })),
+  () => import('../MessageContent/MessageContent').then((m) => ({ default: m.MessageContent })),
   { ssr: false }
 );
 

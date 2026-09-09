@@ -1,1 +1,1 @@
-export { EmailVerificationNotice } from './ui/EmailVerificationNotice';
+export { EmailVerificationNotice } from './ui/EmailVerificationNotice/EmailVerificationNotice';

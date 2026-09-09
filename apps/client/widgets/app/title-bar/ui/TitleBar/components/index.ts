@@ -1,1 +1,1 @@
-export { TitleBarControls } from './TitleBarControls';
+export { TitleBarControls } from './TitleBarControls/TitleBarControls';

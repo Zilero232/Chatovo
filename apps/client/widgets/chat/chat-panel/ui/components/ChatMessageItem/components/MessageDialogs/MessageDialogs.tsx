@@ -3,8 +3,8 @@
 import { ReportAbuseDialog } from '@/features/social/report-abuse';
 
 import { useChatMessage } from '../../../../../model/contexts';
-import { DeleteMessageDialog } from '../DeleteMessageDialog';
-import { EditMessageDialog } from '../EditMessageDialog';
+import { DeleteMessageDialog } from '../DeleteMessageDialog/DeleteMessageDialog';
+import { EditMessageDialog } from '../EditMessageDialog/EditMessageDialog';
 
 export const MessageDialogs = () => {
   const {

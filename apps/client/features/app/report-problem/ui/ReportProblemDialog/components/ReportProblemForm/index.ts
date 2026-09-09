@@ -1,1 +1,0 @@
-export { ReportProblemForm } from './ReportProblemForm';

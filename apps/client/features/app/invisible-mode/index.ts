@@ -1,1 +1,1 @@
-export { InvisibleModeMenuItem } from './ui/InvisibleModeMenuItem';
+export { InvisibleModeMenuItem } from './ui/InvisibleModeMenuItem/InvisibleModeMenuItem';

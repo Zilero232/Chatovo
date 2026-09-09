@@ -5,7 +5,7 @@ import { ContextMenu, ContextMenuContent, ContextMenuTrigger } from '@/ui-kit';
 import type { MessageContextMenuProps } from './MessageContextMenu.types';
 
 import { useChatMessage } from '../../../../../model/contexts';
-import { MessageMenuItems } from '../MessageMenuItems';
+import { MessageMenuItems } from '../MessageMenuItems/MessageMenuItems';
 
 import s from './MessageContextMenu.module.scss';
 

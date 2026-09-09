@@ -1,3 +1,3 @@
-export { RoomCapacityArc } from './RoomCapacityArc';
-export { RoomCardEmptySlots } from './RoomCardEmptySlots';
-export { RoomCardParticipants } from './RoomCardParticipants';
+export { RoomCapacityArc } from './RoomCapacityArc/RoomCapacityArc';
+export { RoomCardEmptySlots } from './RoomCardEmptySlots/RoomCardEmptySlots';
+export { RoomCardParticipants } from './RoomCardParticipants/RoomCardParticipants';

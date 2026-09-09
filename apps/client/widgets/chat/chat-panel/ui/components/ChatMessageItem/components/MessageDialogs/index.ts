@@ -1,1 +1,0 @@
-export { MessageDialogs } from './MessageDialogs';

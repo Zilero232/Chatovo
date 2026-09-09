@@ -1,6 +1,6 @@
 export { useChatUnread } from './model/hooks';
-export { ChatConversation } from './ui/ChatConversation';
-export type { ChatConversationProps } from './ui/ChatConversation';
+export { ChatConversation } from './ui/ChatConversation/ChatConversation';
+export type { ChatConversationProps } from './ui/ChatConversation/ChatConversation.types';
 export { ChatPanel } from './ui/ChatPanel';
 
 export type { ChatPanelProps } from './ui/ChatPanel.types';

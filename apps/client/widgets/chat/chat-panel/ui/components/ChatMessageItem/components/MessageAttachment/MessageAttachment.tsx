@@ -14,7 +14,7 @@ import { openExternal } from '@/shared/lib';
 import type { MessageAttachmentProps } from './MessageAttachment.types';
 
 import { useChatMessage } from '../../../../../model/contexts';
-import { ImageLightbox } from '../ImageLightbox';
+import { ImageLightbox } from '../ImageLightbox/ImageLightbox';
 
 import s from './MessageAttachment.module.scss';
 

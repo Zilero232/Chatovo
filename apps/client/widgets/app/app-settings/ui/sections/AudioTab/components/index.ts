@@ -1,4 +1,4 @@
-export { AudioDevicesSection } from './AudioDevicesSection';
-export { AudioProcessingSection } from './AudioProcessingSection';
-export { MicActivationSection } from './MicActivationSection';
-export { SensitivitySection } from './SensitivitySection';
+export { AudioDevicesSection } from './AudioDevicesSection/AudioDevicesSection';
+export { AudioProcessingSection } from './AudioProcessingSection/AudioProcessingSection';
+export { MicActivationSection } from './MicActivationSection/MicActivationSection';
+export { SensitivitySection } from './SensitivitySection/SensitivitySection';

@@ -1,1 +1,0 @@
-export { RoomsListError } from './RoomsListError';
