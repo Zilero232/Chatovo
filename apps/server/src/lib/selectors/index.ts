@@ -1,1 +1,1 @@
-export { roomSelect, senderSelect, userWithProfileInclude } from './selectors';
+export { roomAccessSelect, roomSelect, senderSelect, userWithProfileInclude } from './selectors';
