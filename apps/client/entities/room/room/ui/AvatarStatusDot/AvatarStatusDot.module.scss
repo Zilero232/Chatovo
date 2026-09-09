@@ -1,11 +1,9 @@
 .root {
   position: absolute;
   z-index: var(--z-raised);
-  top: -0.125rem;
-  left: 0;
   display: flex;
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 0.875rem;
+  height: 0.875rem;
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
@@ -13,7 +11,33 @@
   box-shadow: 0 0 0 1px var(--background);
 }
 
+.cornerBottomLeft {
+  bottom: -0.25rem;
+  left: -0.25rem;
+}
+
+.cornerBottomRight {
+  right: -0.25rem;
+  bottom: -0.25rem;
+}
+
+.cornerTopLeft {
+  top: -0.125rem;
+  left: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
 .icon {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+.toneDanger {
+  color: var(--destructive);
+}
+
+.toneGold {
   width: 0.5rem;
   height: 0.5rem;
   color: oklch(87.9% 0.169 91.605deg);
