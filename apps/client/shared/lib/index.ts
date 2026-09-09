@@ -4,11 +4,18 @@ export { getBannerStyle } from './banner-style';
 export { buildAppHref } from './build-app-href';
 export { buildRoomHref } from './build-room-href';
 export type { BuildRoomHrefOptions } from './build-room-href';
+export { createSoundPlayer, type SoundPlayer } from './create-sound-player';
 export { getDefaultAvatar } from './default-avatar';
 export { detectAssetPlatform } from './detect-asset-platform';
 export { firstNonEmpty } from './first-non-empty';
 export { formatBadgeCount } from './format-count';
-export { formatMessageTime, getDateDivider, isSameCalendarDay } from './format-date';
+export {
+  formatDateTime,
+  formatDay,
+  formatMessageTime,
+  getDateDivider,
+  isSameCalendarDay
+} from './format-date';
 export { formatPercent } from './format-percent';
 export { formatHotkey, hasModifier, isPureModifier, prettyHotkey } from './hotkey/hotkey';
 export { getAvatarColor, getInitials } from './initials';

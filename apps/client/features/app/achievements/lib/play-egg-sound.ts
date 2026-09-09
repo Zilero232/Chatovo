@@ -1,3 +1,5 @@
+import { createSoundPlayer } from '@/shared/lib';
+
 const EGG_SOUND_SRC = {
   achievement: '/audios/easter-eggs/achievement.ogg',
   unlock: '/audios/easter-eggs/unlock.ogg',
@@ -7,19 +9,8 @@ const EGG_SOUND_SRC = {
 
 export type EggSound = keyof typeof EGG_SOUND_SRC;
 
-const cache = new Map<EggSound, HTMLAudioElement>();
+const player = createSoundPlayer<EggSound>({ sources: EGG_SOUND_SRC, defaultVolume: 0.4 });
 
-export const playEggSound = (sound: EggSound, volume = 0.4) => {
-  const cached = cache.get(sound);
-  const audio = cached ?? new Audio(EGG_SOUND_SRC[sound]);
-
-  if (!cached) {
-    audio.preload = 'auto';
-    cache.set(sound, audio);
-  }
-
-  audio.volume = volume;
-  audio.currentTime = 0;
-
-  audio.play().catch(() => {});
+export const playEggSound = (sound: EggSound, volume?: number) => {
+  player.play(sound, volume);
 };

@@ -1,8 +1,14 @@
 import type { SoundboardSound } from '@chatovo/schemas';
 
+import { createSoundPlayer } from '@/shared/lib';
+
 import { SOUNDBOARD_SOUND_MAX_SECONDS, SOUNDBOARD_SOUND_SRC } from '../config/sounds';
 
-const cache = new Map<SoundboardSound, HTMLAudioElement>();
+const player = createSoundPlayer<SoundboardSound>({
+  sources: SOUNDBOARD_SOUND_SRC,
+  defaultVolume: 0.6
+});
+
 const stopListeners = new Map<SoundboardSound, () => void>();
 
 const armStop = (audio: HTMLAudioElement, sound: SoundboardSound) => {
@@ -28,19 +34,9 @@ const armStop = (audio: HTMLAudioElement, sound: SoundboardSound) => {
   audio.addEventListener('timeupdate', stopWhenElapsed);
 };
 
-export const playSoundboardSound = (sound: SoundboardSound, volume = 0.6) => {
-  const cached = cache.get(sound);
-  const audio = cached ?? new Audio(SOUNDBOARD_SOUND_SRC[sound]);
-
-  if (!cached) {
-    audio.preload = 'auto';
-    cache.set(sound, audio);
-  }
-
-  audio.volume = volume;
-  audio.currentTime = 0;
+export const playSoundboardSound = (sound: SoundboardSound, volume?: number) => {
+  const audio = player.get(sound);
 
   armStop(audio, sound);
-
-  audio.play().catch(() => {});
+  player.play(sound, volume);
 };
