@@ -41,7 +41,7 @@ export const ChannelsList = ({ footer, onNavigate }: ChannelsListProps = {}) => 
 
   const [query, setQuery] = useState('');
 
-  const sections = groupRooms(rooms, presence, query);
+  const sections = groupRooms({ rooms, presence, query });
 
   return (
     <>

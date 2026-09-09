@@ -10,26 +10,9 @@ import {
 } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
 import { useCloseWhenInVoiceRoom } from '@/shared/hooks';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger
-} from '@/ui-kit';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/ui-kit';
 
-import {
-  AddFriendForm,
-  DevelopersTab,
-  FriendsDialogTrigger,
-  FriendsTab,
-  OwnFriendTag,
-  RequestsTab
-} from './components';
+import { AddFriendForm, FriendsDialogTrigger, FriendsTabs, OwnFriendTag } from './components';
 
 import s from './FriendsDialog.module.scss';
 
@@ -72,31 +55,7 @@ export const FriendsDialog = () => {
           <OwnFriendTag />
           <AddFriendForm />
 
-          <Tabs defaultValue='friends'>
-            <TabsList className={s.tabsList}>
-              <TabsTrigger value='friends'>
-                {t('friendsTab')}
-                {friendsCount > 0 && <span className={s.count}>{friendsCount}</span>}
-              </TabsTrigger>
-              <TabsTrigger value='requests'>
-                {t('requestsTab')}
-                {incomingCount > 0 && <span className={s.badge}>{incomingCount}</span>}
-              </TabsTrigger>
-              <TabsTrigger value='developers'>{t('developersTab')}</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value='friends'>
-              <FriendsTab enabled={open} />
-            </TabsContent>
-
-            <TabsContent value='requests'>
-              <RequestsTab />
-            </TabsContent>
-
-            <TabsContent value='developers'>
-              <DevelopersTab enabled={open} />
-            </TabsContent>
-          </Tabs>
+          <FriendsTabs friendsCount={friendsCount} incomingCount={incomingCount} isOpen={open} />
         </DialogContent>
       </Dialog>
     </>

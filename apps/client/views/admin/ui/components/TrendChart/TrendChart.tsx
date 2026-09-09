@@ -10,11 +10,12 @@ import {
   YAxis
 } from 'recharts';
 
+import { formatDay } from '@/shared/lib';
 import { Text } from '@/ui-kit';
 
 import type { TrendChartProps } from './TrendChart.types';
 
-import { formatChartDay, sumTrendPoints } from '../../../lib';
+import { sumTrendPoints } from '../../../lib';
 import { ChartTooltip } from '../ChartTooltip/ChartTooltip';
 
 import s from './TrendChart.module.scss';
@@ -56,7 +57,7 @@ export const TrendChart = ({ title, hint, points, color = 'violet' }: TrendChart
               dataKey='date'
               minTickGap={24}
               tick={AXIS_STYLE}
-              tickFormatter={formatChartDay}
+              tickFormatter={formatDay}
               tickLine={false}
             />
             <YAxis

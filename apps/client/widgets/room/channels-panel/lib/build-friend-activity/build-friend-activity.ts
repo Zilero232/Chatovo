@@ -1,30 +1,6 @@
-import type { FriendEntry, Room, RoomsParticipantsSnapshot } from '@chatovo/schemas';
-
 import { entries, indexBy, isNullish, sortBy } from 'remeda';
 
-type ActivityFriend = {
-  friendshipId: string;
-  isLive: boolean;
-  user: FriendEntry['user'];
-};
-
-export type ActivityRoomGroup = {
-  friends: ActivityFriend[];
-  roomId: string;
-  roomName: string;
-  totalInRoom: number;
-};
-
-type FriendActivity = {
-  inRooms: ActivityRoomGroup[];
-  online: FriendEntry[];
-};
-
-type BuildFriendActivityInput = {
-  friends: FriendEntry[];
-  presence: RoomsParticipantsSnapshot['rooms'];
-  rooms: Room[];
-};
+import type { BuildFriendActivityInput, FriendActivity } from './build-friend-activity.types';
 
 export const buildFriendActivity = ({
   friends,

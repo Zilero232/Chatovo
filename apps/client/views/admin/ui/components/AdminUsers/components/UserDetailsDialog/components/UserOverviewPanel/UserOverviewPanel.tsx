@@ -7,11 +7,10 @@ import { isNonNullish } from 'remeda';
 import { match, P } from 'ts-pattern';
 
 import { useAdminUserDetails } from '@/entities/app/admin';
+import { formatDateTime } from '@/shared/lib';
 import { Badge, Row, Spinner, Stack, Text } from '@/ui-kit';
 
 import type { UserPanelProps } from '../../UserDetailsDialog.types';
-
-import { formatAdminDate } from '../../../../../../../lib';
 
 import s from './UserOverviewPanel.module.scss';
 
@@ -46,7 +45,7 @@ export const UserOverviewPanel = ({ userId, enabled }: UserPanelProps) => {
 
       <Text size='xs' tone='muted'>
         {t('users.lastMessage')}:{' '}
-        {details.lastMessageAt ? formatAdminDate(details.lastMessageAt) : t('users.never')}
+        {details.lastMessageAt ? formatDateTime(details.lastMessageAt) : t('users.never')}
       </Text>
 
       {details.ownedRooms.length > 0 && (

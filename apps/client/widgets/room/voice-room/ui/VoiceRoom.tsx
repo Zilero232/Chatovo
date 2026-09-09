@@ -5,27 +5,14 @@ import { useBoolean } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { setLogLevel } from 'livekit-client';
 
-import {
-  DeafenProvider,
-  ReactionsOverlay,
-  ReactionsProvider,
-  RoomAudio
-} from '@/features/room/room-control';
+import { DeafenProvider, ReactionsProvider, RoomAudio } from '@/features/room/room-control';
 import { appEvents } from '@/shared/lib';
-import { ChatPanel } from '@/widgets/chat/chat-panel';
 
 import type { VoiceRoomProps } from './VoiceRoom.types';
 
 import { LocalSpeakingProvider } from '../model/contexts';
 import { useRoomConnection } from '../model/hooks';
-import {
-  ConnectingOverlay,
-  MiniRoomBar,
-  ParticipantsView,
-  RoomAmbience,
-  RoomControlsBar,
-  RoomHeader
-} from './components';
+import { ExpandedRoomView, MiniRoomBar } from './components';
 import { RoomControllers } from './controllers';
 
 import s from './VoiceRoom.module.scss';
@@ -74,28 +61,13 @@ export const VoiceRoom = ({
                 {isMinimized ? (
                   <MiniRoomBar isDm={isDm} roomName={roomName} onExpand={onExpand} />
                 ) : (
-                  <>
-                    <RoomHeader isDm={isDm} name={roomName} />
-
-                    <div className={s.body}>
-                      <RoomAmbience />
-                      <ParticipantsView isDm={isDm} />
-                      <ReactionsOverlay />
-                      <ConnectingOverlay roomName={roomName} />
-                    </div>
-
-                    <RoomControlsBar
-                      isChatOpen={isChatOpen}
-                      isDm={isDm}
-                      onToggleChat={() => toggleChat()}
-                    />
-
-                    <ChatPanel
-                      isOpen={isChatOpen}
-                      roomId={roomId}
-                      onClose={() => toggleChat(false)}
-                    />
-                  </>
+                  <ExpandedRoomView
+                    isChatOpen={isChatOpen}
+                    isDm={isDm}
+                    roomId={roomId}
+                    roomName={roomName}
+                    onToggleChat={toggleChat}
+                  />
                 )}
 
                 <RoomAudio />
