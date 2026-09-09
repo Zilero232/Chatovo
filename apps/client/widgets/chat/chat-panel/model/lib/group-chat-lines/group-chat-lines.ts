@@ -1,14 +1,7 @@
 import { isSameCalendarDay } from '@/shared/lib';
 
-import type { ChatLine } from '../types';
-
-export type GroupedChatLine = {
-  isGrouped: boolean;
-  isOwn: boolean;
-  isTail: boolean;
-  line: ChatLine;
-  showDivider: boolean;
-};
+import type { ChatLine } from '../../types';
+import type { GroupChatLinesInput, GroupedChatLine } from './group-chat-lines.types';
 
 const sameAuthor = (a?: ChatLine, b?: ChatLine) =>
   Boolean(a && b && a.from?.identity === b.from?.identity);
@@ -18,7 +11,7 @@ const sameDay = (a?: ChatLine, b?: ChatLine) =>
 
 const continuesSeries = (a?: ChatLine, b?: ChatLine) => sameAuthor(a, b) && sameDay(a, b);
 
-export const groupChatLines = (lines: ChatLine[], ownIdentity: string): GroupedChatLine[] =>
+export const groupChatLines = ({ lines, ownIdentity }: GroupChatLinesInput): GroupedChatLine[] =>
   lines.map((line, index) => {
     const prev = lines[index - 1];
     const next = lines[index + 1];
