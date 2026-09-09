@@ -40,3 +40,6 @@ export const SNAKE_KEY_TO_DIRECTION: Record<string, Direction> = {
   KeyA: 'left',
   KeyD: 'right'
 };
+
+export const SNAKE_FOOD_SEED_MULTIPLIER = 9301;
+export const SNAKE_FOOD_SEED_INCREMENT = 49_297;

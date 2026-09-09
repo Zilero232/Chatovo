@@ -16,21 +16,7 @@ import {
   SNAKE_SWIPE_THRESHOLD,
   SNAKE_TICK_MS
 } from '../../config';
-
-const nextFood = (snake: Point[], seed: number): Point => {
-  const taken = new Set(snake.map((cell) => `${cell.x}:${cell.y}`));
-
-  for (let attempt = 0; attempt < SNAKE_GRID * SNAKE_GRID; attempt += 1) {
-    const spot = (seed * 9301 + attempt * 49_297) % (SNAKE_GRID * SNAKE_GRID);
-    const candidate = { x: spot % SNAKE_GRID, y: Math.floor(spot / SNAKE_GRID) };
-
-    if (!taken.has(`${candidate.x}:${candidate.y}`)) {
-      return candidate;
-    }
-  }
-
-  return { x: 0, y: 0 };
-};
+import { nextFood } from '../../lib';
 
 export const useSnakeGame = (isRunning: boolean) => {
   const { value: best, set: setBest } = useLocalStorage(SNAKE_BEST_STORAGE_KEY, 0);
@@ -125,7 +111,7 @@ export const useSnakeGame = (isRunning: boolean) => {
         if (ate) {
           tickRef.current += 1;
           setScore((value) => value + 1);
-          setFood(nextFood(grown, tickRef.current));
+          setFood(nextFood({ snake: grown, seed: tickRef.current }));
 
           return grown;
         }
