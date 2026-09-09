@@ -58,6 +58,18 @@ ESLint does not sort them — by hand. Groups, with a blank line between:
 
 Custom hooks go by what they do inside (`useRooms` runs a `useQuery` → the Data group). Never move a hook across a data dependency: if `name` is needed by `useRoomToken({ roomName: name })`, `name` comes first. `if (...) useFoo()` is a `rules-of-hooks` bug — fix it, don't sort it.
 
+## 5a. Component body order
+
+After the hooks the body follows one order, blank line between blocks:
+
+1. Hooks (§5 order)
+2. Derived const from hook results
+3. Early returns / guards
+4. Handlers and local functions
+5. `return` with the JSX
+
+A handler wedged between two hooks, or a derived `const` declared below the handlers that use it, is a review finding. Helpers needing nothing from the render scope are module-level in `lib/`, not in the body.
+
 ## 6. Effects and deps
 
 `deps` holds only what **should re-trigger** the effect. Stable refs (`router`, `mutate` / `reset` from react-query) don't go into deps; `eslint-disable-next-line react/exhaustive-deps -- reason` with an explicit reason is normal practice.
