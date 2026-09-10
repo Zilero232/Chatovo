@@ -2,7 +2,7 @@ import type { AdminUserQuery } from '@chatovo/schemas';
 
 import { USER_ROLE } from '@chatovo/schemas';
 import { Injectable } from '@nestjs/common';
-import { isNullish } from 'remeda';
+import { isNonNullish, isNullish } from 'remeda';
 import { match } from 'ts-pattern';
 
 import type { Prisma } from '../../../../../generated';
@@ -125,7 +125,10 @@ export class AdminUserService {
   }
 
   async update({ adminId, userId, input }: UpdateAdminUserInput) {
-    const user = await this.prisma.user.findUnique({ where: { id: userId }, select: { id: true } });
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true, role: true }
+    });
 
     if (isNullish(user)) {
       throw new AppNotFoundException('USER_NOT_FOUND', 'User not found');
@@ -136,6 +139,8 @@ export class AdminUserService {
     if (role === USER_ROLE.user && userId === adminId) {
       throw new AppBadRequestException('BLOCK_SELF', 'Cannot drop your own admin role');
     }
+
+    const isRoleChanged = isNonNullish(role) && role !== user.role;
 
     const account = { ...(role ? { role } : {}), ...(verified === undefined ? {} : { verified }) };
 
@@ -150,14 +155,14 @@ export class AdminUserService {
           create: { userId, ...profile },
           update: profile
         });
-      }
 
-      if (role) {
-        await tx.session.deleteMany({ where: { userId } });
+        if (isNonNullish(profile.displayName)) {
+          await tx.user.update({ where: { id: userId }, data: { name: profile.displayName } });
+        }
       }
     });
 
-    if (role) {
+    if (isRoleChanged) {
       await this.dropPrivileges(userId);
     }
 
@@ -195,7 +200,7 @@ export class AdminUserService {
 
   private filterClause(filter: AdminUserQuery['filter']): Prisma.UserWhereInput {
     return match(filter)
-      .with('blocked', () => ({ blockedAt: { not: null } }))
+      .with('blocked', () => ({ banned: true }))
       .with('admins', () => ({ role: USER_ROLE.admin }))
       .otherwise(() => ({}));
   }

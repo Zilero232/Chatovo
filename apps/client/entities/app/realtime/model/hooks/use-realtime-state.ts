@@ -2,11 +2,13 @@
 
 import type { RealtimeClientMessage, RoomsParticipantsSnapshot } from '@chatovo/schemas';
 
+import { isPrivilegesChangedCloseCode, isSessionEndedCloseCode } from '@chatovo/schemas';
 import { WebSocket } from 'partysocket';
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
 
 import { useCurrentUser } from '@/entities/auth/user';
-import { buildRealtimeUrl } from '@/shared/api';
+import { authClient, buildRealtimeUrl, clearToken } from '@/shared/api';
+import { appEvents } from '@/shared/lib';
 
 import {
   buildSubscribeMessage,
@@ -81,7 +83,22 @@ export const useRealtimeState = () => {
       setIsConnected(true);
       syncRoomSubscriptions();
     };
-    const onClose = () => setIsConnected(false);
+    const onClose = (event: CloseEvent) => {
+      setIsConnected(false);
+
+      if (isSessionEndedCloseCode(event.code)) {
+        ws.close();
+        wsRef.current = null;
+        clearToken();
+        appEvents.emit.sessionExpired();
+
+        return;
+      }
+
+      if (isPrivilegesChangedCloseCode(event.code)) {
+        void authClient.getSession({ query: { disableCookieCache: true } });
+      }
+    };
     const onMessage = (event: MessageEvent) => {
       void handleMessage(event.data);
     };

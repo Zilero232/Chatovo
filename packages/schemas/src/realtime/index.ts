@@ -6,6 +6,11 @@ export {
   realtimeSubscribeSchema
 } from './client';
 export {
+  isPrivilegesChangedCloseCode,
+  isSessionEndedCloseCode,
+  WS_CLOSE_CODE
+} from './close-codes';
+export {
   realtimeChatDeleteEventSchema,
   realtimeChatEditEventSchema,
   realtimeChatMessageEventSchema,

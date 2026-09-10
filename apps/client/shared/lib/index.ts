@@ -24,7 +24,7 @@ export { localizeMarketingPath } from './localize-marketing-path';
 export type { LocalizeMarketingPathInput } from './localize-marketing-path';
 export { openExternal } from './open-external';
 export { raceWithTimeout } from './race-with-timeout';
-export { readStoredJson } from './read-stored-json';
+export { readStoredJson, writeStoredJson } from './read-stored-json';
 export { isScreenShareSupported } from './screen-share';
 export { stripEmailDomain } from './strip-email-domain';
 export { isTauriDesktop, isTauriMobile } from './tauri-platform';

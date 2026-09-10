@@ -1,5 +1,3 @@
-import { isNonNullish } from 'remeda';
-
 import { AppForbiddenException } from '../../common/exceptions';
 import { basePrisma as prisma } from '../../core';
 
@@ -7,10 +5,10 @@ import { basePrisma as prisma } from '../../core';
 export const isUserBlocked = async (userId: string): Promise<boolean> => {
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { blockedAt: true }
+    select: { banned: true }
   });
 
-  return isNonNullish(user?.blockedAt);
+  return user?.banned === true;
 };
 
 /** Throws when the account is blocked, so a banned user cannot reach rooms, chat or voice. */

@@ -30,9 +30,11 @@ const user = {
   role: 'user',
   verified: false,
   emailVerified: true,
-  blockedAt: new Date('2026-09-03T11:00:00.000Z'),
-  blockedReason: 'repeated spam',
-  blockedById: 'admin-1',
+  banned: true,
+  banReason: 'repeated spam',
+  banExpires: null,
+  bannedAt: new Date('2026-09-03T11:00:00.000Z'),
+  bannedById: 'admin-1',
   createdAt: new Date('2026-01-05T09:00:00.000Z'),
   profile: { displayName: 'Spammy', avatarUrl: null, bio: 'hi', profileUrl: null },
   _count: { rooms: 3, messages: 42 }
@@ -96,7 +98,10 @@ describe('toAdminUser', () => {
   });
 
   it('never leaks the moderator who applied the block', () => {
-    expect(toAdminUser(user as never)).not.toHaveProperty('blockedById');
+    const mapped = toAdminUser(user as never);
+
+    expect(mapped).not.toHaveProperty('blockedById');
+    expect(mapped).not.toHaveProperty('bannedById');
   });
 
   it('carries the aggregate counts through', () => {

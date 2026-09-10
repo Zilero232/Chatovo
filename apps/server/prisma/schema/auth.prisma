@@ -9,9 +9,12 @@ model User {
   role     String  @default("user")
   verified Boolean @default(false)
 
-  blockedAt     DateTime? @map("blocked_at") @db.Timestamptz(3)
-  blockedReason String?   @map("blocked_reason")
-  blockedById   String?   @map("blocked_by_id")
+  banned     Boolean?  @default(false)
+  banReason  String?   @map("ban_reason")
+  banExpires DateTime? @map("ban_expires") @db.Timestamptz(3)
+
+  bannedAt   DateTime? @map("banned_at") @db.Timestamptz(3)
+  bannedById String?   @map("banned_by_id")
 
   sessions Session[]
   accounts Account[]
@@ -34,7 +37,7 @@ model User {
   updatedAt DateTime @updatedAt @db.Timestamptz(3)
 
   @@index([createdAt(sort: Desc)])
-  @@index([blockedAt])
+  @@index([banned])
   @@map("user")
 }
 
@@ -47,6 +50,8 @@ model Session {
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  impersonatedBy String? @map("impersonated_by")
 
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @db.Timestamptz(3)

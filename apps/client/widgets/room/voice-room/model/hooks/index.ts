@@ -8,6 +8,7 @@ export { useParticipantIsSpeaking } from './use-participant-is-speaking';
 export { useParticipantMedia } from './use-participant-media';
 export { type ParticipantVolume, useParticipantVolume } from './use-participant-volume';
 export { usePttLocalSpeaking } from './use-ptt-local-speaking';
+export { useRestoreParticipantVolumes } from './use-restore-participant-volumes';
 export { useRoomConnection } from './use-room-connection';
 export { useShortcutActions } from './use-shortcut-actions';
 export { useVoiceGate } from './use-voice-gate';

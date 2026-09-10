@@ -4,7 +4,7 @@ import { TrackSource, WebhookReceiver } from 'livekit-server-sdk';
 import { match } from 'ts-pattern';
 
 import type { VoiceEmptiedEvent, VoiceJoinedEvent } from '../../../../common/events/domain-events';
-import type { HandleWebhookInput } from './webhook.service.types';
+import type { HandleWebhookInput, ParticipantJoinedInput } from './webhook.service.types';
 
 import { DomainEvent } from '../../../../common/events/domain-events';
 import { AppUnauthorizedException } from '../../../../common/exceptions';
@@ -56,22 +56,7 @@ export class WebhookService {
     await match(event.event)
       .with('participant_joined', async () => {
         if (participant) {
-          const name = participant.name || participant.identity;
-          const invisible = isInvisibleParticipant(participant.metadata);
-
-          addParticipant(roomId, toRoomParticipant({ participant, invisible }));
-
-          if (invisible) {
-            return;
-          }
-
-          const roomName = await getRoomName(roomId);
-
-          this.events.emit(DomainEvent.VoiceJoined, {
-            roomId,
-            roomName,
-            participantName: name
-          } satisfies VoiceJoinedEvent);
+          await this.onParticipantJoined({ roomId, participant });
         }
       })
       .with('participant_left', () => {
@@ -98,5 +83,23 @@ export class WebhookService {
       })
       .with('room_started', () => syncRoom(roomId))
       .otherwise(() => undefined);
+  }
+
+  private async onParticipantJoined({ roomId, participant }: ParticipantJoinedInput) {
+    const invisible = isInvisibleParticipant(participant.metadata);
+
+    addParticipant(roomId, toRoomParticipant({ participant, invisible }));
+
+    if (invisible) {
+      return;
+    }
+
+    const roomName = await getRoomName(roomId);
+
+    this.events.emit(DomainEvent.VoiceJoined, {
+      roomId,
+      roomName,
+      participantName: participant.name || participant.identity
+    } satisfies VoiceJoinedEvent);
   }
 }
