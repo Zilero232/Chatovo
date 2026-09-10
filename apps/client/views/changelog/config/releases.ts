@@ -23,6 +23,21 @@ export type ChangelogRelease = {
 
 export const CHANGELOG_RELEASES: ChangelogRelease[] = [
   {
+    version: '1.4.2',
+    date: '2026-09-10',
+    tone: 'minor',
+    highlights: ['participantVolume', 'sessionExpiry', 'adminEditStability'],
+    entries: [
+      { kind: 'feature', key: 'screenAudioVolume' },
+      { kind: 'fix', key: 'participantVolume' },
+      { kind: 'fix', key: 'pingIndicator' },
+      { kind: 'fix', key: 'leaveRoom' },
+      { kind: 'fix', key: 'sessionExpiry' },
+      { kind: 'fix', key: 'adminEditStability' },
+      { kind: 'improvement', key: 'chatReadability' }
+    ]
+  },
+  {
     version: '1.4.1',
     date: '2026-09-07',
     tone: 'minor',

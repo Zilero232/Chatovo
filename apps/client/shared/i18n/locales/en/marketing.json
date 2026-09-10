@@ -201,6 +201,34 @@
       "label": "Filter changes by type"
     },
     "entries": {
+      "participantVolume": {
+        "title": "Per-participant volume is remembered",
+        "description": "The level you set and \"Mute for me\" survive rejoining a room."
+      },
+      "screenAudioVolume": {
+        "title": "Separate screen-share volume",
+        "description": "Shared screen audio is adjusted independently from the same participant microphone."
+      },
+      "pingIndicator": {
+        "title": "The ping no longer disappears",
+        "description": "The latency reading stays visible while the network renegotiates."
+      },
+      "leaveRoom": {
+        "title": "Leaving a room works the first time",
+        "description": "The leave button no longer drops you back into the same room, collapsed."
+      },
+      "chatReadability": {
+        "title": "Long messages read better",
+        "description": "Chat paragraphs, headings and lists got real spacing, and the bubble caps at a comfortable line length."
+      },
+      "sessionExpiry": {
+        "title": "Clear sign-out messages",
+        "description": "An expired session or a blocked account now explains itself instead of leaving a dead page."
+      },
+      "adminEditStability": {
+        "title": "Steadier admin panel",
+        "description": "Editing a user no longer signs them out or triggers an endless reload loop."
+      },
       "appHost": {
         "title": "The app has its own domain",
         "description": "The app moved to app.chatovo.ru while chatovo.ru stays the public site, so the lobby is now the app’s front page."
@@ -511,6 +539,9 @@
       }
     },
     "highlights": {
+      "participantVolume": "Volume is remembered",
+      "sessionExpiry": "Clear session messages",
+      "adminEditStability": "Steadier admin panel",
       "appHost": "A dedicated app domain",
       "roomPasswordScreen": "New password screen",
       "persistentRoom": "Room stays connected",
