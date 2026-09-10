@@ -1,6 +1,7 @@
+import { USER_ROLE } from '@chatovo/schemas';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
-import { bearer } from 'better-auth/plugins';
+import { admin, bearer } from 'better-auth/plugins';
 import { createElement } from 'react';
 
 import { allowedOrigins } from '../../config/cors';
@@ -85,6 +86,7 @@ export const auth = betterAuth({
 
           return {
             data: {
+              role: USER_ROLE.user,
               ...user,
               friendTag
             }
@@ -100,6 +102,6 @@ export const auth = betterAuth({
       }
     }
   },
-  plugins: [bearer()],
+  plugins: [admin({ defaultRole: USER_ROLE.user, adminRoles: [USER_ROLE.admin] }), bearer()],
   database: prismaAdapter(basePrisma, { provider: 'postgresql' })
 });

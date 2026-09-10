@@ -87,11 +87,20 @@ export class UsersService {
       ...(avatarUrl !== undefined ? { avatarUrl } : {})
     };
 
-    await this.prisma.profile.upsert({
-      where: { userId },
-      create: { userId, ...profileData },
-      update: profileData
-    });
+    await this.prisma.$transaction([
+      this.prisma.profile.upsert({
+        where: { userId },
+        create: { userId, ...profileData },
+        update: profileData
+      }),
+      this.prisma.user.update({
+        where: { id: userId },
+        data: {
+          name: profileData.displayName,
+          ...(avatarUrl !== undefined ? { image: avatarUrl } : {})
+        }
+      })
+    ]);
 
     return this.getUserProfile(userId);
   }

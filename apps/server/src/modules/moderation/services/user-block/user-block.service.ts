@@ -13,6 +13,7 @@ import {
   AppNotFoundException
 } from '../../../../common/exceptions';
 import { PrismaService } from '../../../../core';
+import { revokeUserSessions } from '../../../auth';
 import { ejectParticipantEverywhere, revokeUserGrants } from '../../../livekit';
 import { BLOCKED_WS_CLOSE_CODE, closeUserConnections } from '../../../realtime';
 import { ADMIN_LIST_MAX } from '../../config';
@@ -42,7 +43,12 @@ export class UserBlockService {
 
     const blocked = await this.prisma.user.update({
       where: { id: userId },
-      data: { blockedAt: new Date(), blockedReason: input.reason, blockedById: adminId },
+      data: {
+        banned: true,
+        banReason: input.reason,
+        bannedAt: new Date(),
+        bannedById: adminId
+      },
       include: adminUserInclude
     });
 
@@ -68,7 +74,13 @@ export class UserBlockService {
 
     const unblocked = await this.prisma.user.update({
       where: { id: userId },
-      data: { blockedAt: null, blockedReason: null, blockedById: null },
+      data: {
+        banned: false,
+        banReason: null,
+        banExpires: null,
+        bannedAt: null,
+        bannedById: null
+      },
       include: adminUserInclude
     });
 
@@ -77,9 +89,9 @@ export class UserBlockService {
 
   async list() {
     const users = await this.prisma.user.findMany({
-      where: { blockedAt: { not: null } },
+      where: { banned: true },
       include: adminUserInclude,
-      orderBy: { blockedAt: 'desc' },
+      orderBy: { bannedAt: 'desc' },
       take: ADMIN_LIST_MAX
     });
 
@@ -90,9 +102,6 @@ export class UserBlockService {
     revokeUserGrants(userId);
     closeUserConnections(userId, BLOCKED_WS_CLOSE_CODE, 'Account blocked');
 
-    await Promise.allSettled([
-      this.prisma.session.deleteMany({ where: { userId } }),
-      ejectParticipantEverywhere(userId)
-    ]);
+    await Promise.allSettled([revokeUserSessions(userId), ejectParticipantEverywhere(userId)]);
   }
 }
