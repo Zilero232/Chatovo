@@ -26,6 +26,7 @@ packages/schemas/    # Zod schemas (@chatovo/schemas), imported by client and se
 ├── code-style-client.md # apps/client/**
 ├── code-style-server.md # apps/server/**
 └── testing.md           # **/_tests/**, e2e/**, vitest + playwright configs
+.claude/skills/      # Prisma's own agent skills, installed by the Prisma CLI (skills-lock.json pins them)
 docs/
 ├── architecture/
 │   ├── fsd.md            # Frontend (apps/client) architecture — read before structural changes
