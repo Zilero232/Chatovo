@@ -70,6 +70,7 @@
     "IMAGE_TOO_LARGE": "The image is too large.",
     "SCREENSHOT_TOO_LARGE": "The screenshot is too large.",
     "WEBHOOK_SIGNATURE_INVALID": "Invalid request signature.",
+    "BANNED_USER": "Your account has been blocked",
     "USER_BLOCKED": "Account is blocked",
     "ABUSE_TARGET_NOT_FOUND": "Reported target not found",
     "ABUSE_SELF_REPORT": "You cannot report yourself",

@@ -33,6 +33,7 @@ export const apiErrorCodeSchema = z.enum([
   'CALL_ALREADY_RINGING',
 
   'USER_BLOCKED',
+  'BANNED_USER',
   'ABUSE_TARGET_NOT_FOUND',
   'ABUSE_SELF_REPORT',
   'ABUSE_REPORT_NOT_FOUND',

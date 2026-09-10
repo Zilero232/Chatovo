@@ -70,6 +70,7 @@
     "IMAGE_TOO_LARGE": "Изображение слишком большое.",
     "SCREENSHOT_TOO_LARGE": "Скриншот слишком большой.",
     "WEBHOOK_SIGNATURE_INVALID": "Неверная подпись запроса.",
+    "BANNED_USER": "Ваш аккаунт заблокирован",
     "USER_BLOCKED": "Аккаунт заблокирован",
     "ABUSE_TARGET_NOT_FOUND": "Объект жалобы не найден",
     "ABUSE_SELF_REPORT": "Нельзя пожаловаться на самого себя",
