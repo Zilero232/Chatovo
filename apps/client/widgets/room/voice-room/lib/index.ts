@@ -3,8 +3,10 @@ export { barsFromQuality, barsFromRtt } from './connection-bars';
 export { getLocalMicTrack, subscribeToMicTrack } from './local-mic-track';
 export {
   buildVolumeStorageKey,
+  capMutes,
   capVolumes,
   clampVolume,
+  type MuteMap,
   type VolumeMap,
   type VolumeSource
 } from './participant-volume';

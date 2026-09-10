@@ -7,6 +7,7 @@ import {
   useCurrentRoomId,
   useDeviceSync,
   useMicActivationMode,
+  useRestoreParticipantVolumes,
   useShortcutActions,
   useVoiceRoomSounds
 } from '../../../model/hooks';
@@ -24,6 +25,7 @@ export const RoomControllers = () => {
   useShortcutActions();
   useMicActivationMode();
   useVoiceRoomSounds(roomId);
+  useRestoreParticipantVolumes();
   useDeafenSync();
   useGameActivitySync();
 

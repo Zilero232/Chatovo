@@ -1,1 +1,1 @@
-export { readStoredJson } from './read-stored-json';
+export { readStoredJson, writeStoredJson } from './read-stored-json';

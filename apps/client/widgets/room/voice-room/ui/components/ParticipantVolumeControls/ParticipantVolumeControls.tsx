@@ -41,7 +41,7 @@ export const ParticipantVolumeControls = ({
     <>
       <ContextMenuSeparator />
 
-      <ContextMenuItem onSelect={toggleMute}>
+      <ContextMenuItem closeOnClick={false} onSelect={toggleMute}>
         {isMuted ? <Volume2 /> : <VolumeX />}
         {isMuted ? t('unmuteForMe') : t('muteForMe')}
       </ContextMenuItem>
