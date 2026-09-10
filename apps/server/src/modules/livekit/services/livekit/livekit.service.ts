@@ -5,7 +5,11 @@ import { Injectable } from '@nestjs/common';
 import { AccessToken } from 'livekit-server-sdk';
 import { isNullish } from 'remeda';
 
-import type { IssueTokenInput } from '../../livekit.types';
+import type {
+  BuildAccessTokenInput,
+  IssueTokenInput,
+  LoadAccessibleRoomInput
+} from '../../livekit.types';
 
 import {
   AppForbiddenException,
@@ -27,11 +31,33 @@ export class LivekitService {
     private readonly config: AppConfigService
   ) {}
 
-  async issueRoomToken(input: IssueTokenInput): Promise<TokenResponse> {
-    const { roomId, password, userId, invisible } = input;
-
+  async issueRoomToken({
+    roomId,
+    password,
+    userId,
+    invisible
+  }: IssueTokenInput): Promise<TokenResponse> {
     await assertNotBlocked(userId);
 
+    const user = await this.loadUserOrThrow(userId);
+
+    const isAdmin = user.role === USER_ROLE.admin;
+    const isInvisible = resolveInvisible({ requested: invisible, isAdmin });
+
+    const room = await this.loadAccessibleRoomOrThrow({ roomId, userId });
+
+    if (!isInvisible) {
+      await assertRoomAccess({ room, password });
+    }
+
+    grantRoomAccess(room.id, userId);
+
+    const token = await this.buildAccessToken({ user, roomId: room.id, isAdmin, isInvisible });
+
+    return { token };
+  }
+
+  private async loadUserOrThrow(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       include: { profile: true }
@@ -41,9 +67,10 @@ export class LivekitService {
       throw new AppInternalException('INTERNAL_ERROR', 'User lookup failed');
     }
 
-    const isAdmin = user.role === USER_ROLE.admin;
-    const isInvisible = resolveInvisible({ requested: invisible, isAdmin });
+    return user;
+  }
 
+  private async loadAccessibleRoomOrThrow({ roomId, userId }: LoadAccessibleRoomInput) {
     const room = await this.prisma.room.findUnique({ where: { id: roomId } });
 
     if (isNullish(room)) {
@@ -54,12 +81,10 @@ export class LivekitService {
       throw new AppForbiddenException('FORBIDDEN', 'Forbidden');
     }
 
-    if (!isInvisible) {
-      await assertRoomAccess({ room, password });
-    }
+    return room;
+  }
 
-    grantRoomAccess(room.id, userId);
-
+  private async buildAccessToken({ user, roomId, isAdmin, isInvisible }: BuildAccessTokenInput) {
     const { name, verified, developer, profileUrl, avatarUrl, bannerColor } = toUserProfile(user);
 
     const participantMetadata = {
@@ -75,7 +100,7 @@ export class LivekitService {
       this.config.get('LIVEKIT_API_KEY'),
       this.config.get('LIVEKIT_API_SECRET'),
       {
-        identity: userId,
+        identity: user.id,
         name,
         metadata: JSON.stringify(participantMetadata),
         ttl: TOKEN_TTL_SECONDS
@@ -83,7 +108,7 @@ export class LivekitService {
     );
 
     at.addGrant({
-      room: room.id,
+      room: roomId,
       roomJoin: true,
       canPublish: !isInvisible,
       canSubscribe: true,
@@ -93,6 +118,6 @@ export class LivekitService {
       hidden: isInvisible
     });
 
-    return { token: await at.toJwt() };
+    return at.toJwt();
   }
 }
