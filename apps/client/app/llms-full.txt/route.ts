@@ -16,7 +16,7 @@ usual group-call apps. You open a room in the browser, share its link, and whoev
 lands in the conversation. There is nothing to install to join, and no server to configure.
 
 The same client ships three ways: as a website, as a desktop app for Windows, macOS and Linux
-built with Tauri, and as an Android app distributed through RuStore. The desktop build adds
+built with Tauri, and as an Android app distributed through Google Play. The desktop build adds
 global shortcuts, push-to-talk and a system tray menu that the web version cannot offer.
 
 ## How a room works

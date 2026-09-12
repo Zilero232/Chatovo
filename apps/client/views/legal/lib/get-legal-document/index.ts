@@ -1,7 +1,2 @@
-export { getLegalDocument } from './get-legal-document';
-export type {
-  GetLegalDocumentInput,
-  LegalDocument,
-  LegalDocumentId,
-  LegalSection
-} from './get-legal-document.types';
+export { readLegalDocument } from './get-legal-document';
+export type { LegalDocument, LegalDocumentId, LegalSection } from './get-legal-document.types';

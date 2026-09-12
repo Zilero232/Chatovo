@@ -23,6 +23,16 @@ export type ChangelogRelease = {
 
 export const CHANGELOG_RELEASES: ChangelogRelease[] = [
   {
+    version: '1.5.0',
+    date: '2026-09-11',
+    tone: 'major',
+    highlights: ['googlePlay', 'accountDeletion'],
+    entries: [
+      { kind: 'feature', key: 'googlePlay' },
+      { kind: 'feature', key: 'accountDeletion' }
+    ]
+  },
+  {
     version: '1.4.2',
     date: '2026-09-10',
     tone: 'minor',

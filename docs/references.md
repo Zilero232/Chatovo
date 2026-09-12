@@ -58,4 +58,4 @@ Skip fetching only for a mechanical edit inside code whose API is already visibl
 
 Repo documents outrank library documents. When an external page suggests a pattern our own docs forbid — a `cn()` wrapper, `useState`-driven forms, a manual `fetch` — our rule wins. The library docs answer *how the API behaves*, never *how this project is written*.
 
-Internal documents: [architecture/](architecture/) for how a subsystem works, [guides/style.md](guides/style.md) for code style, [architecture/fsd.md](architecture/fsd.md) for layer rules, [rustore/](rustore/) for the store release.
+Internal documents: [architecture/](architecture/) for how a subsystem works, [guides/style.md](guides/style.md) for code style, [architecture/fsd.md](architecture/fsd.md) for layer rules, [google-play/](google-play/) for the store release.

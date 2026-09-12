@@ -6,6 +6,7 @@ export {
   EN_PREFIX,
   HOME_ROUTES,
   MARKETING_ROUTES,
+  OPEN_ROUTES,
   PUBLIC_ROUTES,
   ROUTES
 } from './routes';

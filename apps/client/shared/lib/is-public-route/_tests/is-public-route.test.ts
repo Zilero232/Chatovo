@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { ROUTES } from '@/shared/constants';
 
-import { isPublicRoute } from '../is-public-route';
+import { isOpenRoute, isPublicRoute } from '../is-public-route';
 
 describe('isPublicRoute', () => {
   it('treats the auth pages as public', () => {
@@ -52,5 +52,32 @@ describe('isPublicRoute', () => {
 
   it('rejects an unknown path', () => {
     expect(isPublicRoute('/definitely-not-a-route')).toBe(false);
+  });
+});
+
+describe('isOpenRoute', () => {
+  it('opens the account deletion page for everyone', () => {
+    expect(isOpenRoute(ROUTES.accountDelete)).toBe(true);
+  });
+
+  it('keeps it out of the guest zone, so a signed-in user is not bounced to the lobby', () => {
+    expect(isPublicRoute(ROUTES.accountDelete)).toBe(false);
+  });
+
+  it('does not open the guest pages, which do redirect a signed-in user', () => {
+    expect(isOpenRoute(ROUTES.auth)).toBe(false);
+    expect(isOpenRoute(ROUTES.privacy)).toBe(false);
+  });
+
+  it('does not open an app route', () => {
+    expect(isOpenRoute(ROUTES.lobby)).toBe(false);
+  });
+
+  it('matches a nested path under an open route', () => {
+    expect(isOpenRoute(`${ROUTES.accountDelete}/done`)).toBe(true);
+  });
+
+  it('does not match a route that merely shares a prefix', () => {
+    expect(isOpenRoute('/account/delete-everything-else')).toBe(false);
   });
 });

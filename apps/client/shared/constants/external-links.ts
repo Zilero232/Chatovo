@@ -7,6 +7,6 @@ export const EXTERNAL_LINKS = {
   gnomeVpn: 'https://gnomevpn.ru',
   privacy: LEGAL.privacyUrl,
   terms: LEGAL.termsUrl,
-  rustore: LEGAL.rustoreUrl,
+  googlePlay: LEGAL.googlePlayUrl,
   supportEmail: `mailto:${LEGAL.supportEmail}`
 } as const;

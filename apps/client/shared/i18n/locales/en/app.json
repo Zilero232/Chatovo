@@ -68,7 +68,8 @@
       "emailVerificationSend": "Send verification email",
       "emailVerificationResend": "Resend email",
       "emailVerificationSent": "Verification email sent",
-      "emailVerificationSentHint": "Check your inbox and spam folder."
+      "emailVerificationSentHint": "Check your inbox and spam folder.",
+      "deleteTitle": "Delete account"
     },
     "devices": {
       "systemDefault": "System default",
@@ -172,6 +173,17 @@
         "needsModifier": "Use a combination with Ctrl, Shift or Alt",
         "systemTaken": "This combination is reserved by another application"
       }
+    },
+    "deleteAccount": {
+      "description": "Your account is deleted for good, along with your profile, rooms and friend list. We will email you a confirmation link.",
+      "action": "Delete account",
+      "requested": "Confirmation email sent",
+      "dialogTitle": "Delete your account?",
+      "dialogDescription": "This cannot be undone.",
+      "hint": "Follow the link in the email to confirm.",
+      "consequences": "Your profile, rooms, friends and notification devices are removed. Your messages stay, without your name on them.",
+      "confirm": "Send confirmation",
+      "cancel": "Cancel"
     }
   },
   "tray": {
@@ -208,7 +220,7 @@
   },
   "downloadApp": {
     "title": "Download Chatovo",
-    "description": "Native desktop app. Android lives in RuStore.",
+    "description": "Native desktop app. Android lives in Google Play.",
     "loadFailed": "Couldn't load the latest release.",
     "openReleases": "Open releases on GitHub",
     "version": "Version {version}",
@@ -223,7 +235,7 @@
       "linux": "Linux",
       "android": "Android"
     },
-    "openRustore": "Open in RuStore"
+    "openGooglePlay": "Open in Google Play"
   },
   "feedback": {
     "title": "Report a problem",

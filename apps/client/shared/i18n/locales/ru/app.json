@@ -68,7 +68,8 @@
       "emailVerificationSend": "Отправить письмо",
       "emailVerificationResend": "Отправить снова",
       "emailVerificationSent": "Письмо отправлено",
-      "emailVerificationSentHint": "Проверьте входящие и папку «Спам»."
+      "emailVerificationSentHint": "Проверьте входящие и папку «Спам».",
+      "deleteTitle": "Удаление аккаунта"
     },
     "devices": {
       "systemDefault": "Системное по умолчанию",
@@ -172,6 +173,17 @@
         "needsModifier": "Используйте комбинацию с Ctrl, Shift или Alt",
         "systemTaken": "Эта комбинация занята другим приложением"
       }
+    },
+    "deleteAccount": {
+      "description": "Аккаунт будет удалён навсегда вместе с профилем, комнатами и списком друзей. Мы отправим письмо для подтверждения.",
+      "action": "Удалить аккаунт",
+      "requested": "Письмо с подтверждением отправлено",
+      "dialogTitle": "Удалить аккаунт?",
+      "dialogDescription": "Это действие необратимо.",
+      "hint": "Для подтверждения нужно перейти по ссылке из письма.",
+      "consequences": "Профиль, ваши комнаты, друзья и устройства для уведомлений будут удалены. Ваши сообщения останутся без имени автора.",
+      "confirm": "Отправить подтверждение",
+      "cancel": "Отмена"
     }
   },
   "tray": {
@@ -208,7 +220,7 @@
   },
   "downloadApp": {
     "title": "Скачать Chatovo",
-    "description": "Нативное приложение для Desktop. Android — в RuStore.",
+    "description": "Нативное приложение для Desktop. Android — в Google Play.",
     "loadFailed": "Не удалось загрузить последний релиз.",
     "openReleases": "Открыть релизы на GitHub",
     "version": "Версия {version}",
@@ -223,7 +235,7 @@
       "linux": "Linux",
       "android": "Android"
     },
-    "openRustore": "Открыть в RuStore"
+    "openGooglePlay": "Открыть в Google Play"
   },
   "feedback": {
     "title": "Сообщить о проблеме",
