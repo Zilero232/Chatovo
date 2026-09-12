@@ -5,7 +5,8 @@ export default defineConfig({
     projects: [
       'packages/schemas/vitest.config.ts',
       'apps/server/vitest.config.ts',
-      'apps/client/vitest.config.ts'
+      'apps/client/vitest.config.ts',
+      'apps/tauri/vitest.config.ts'
     ],
     coverage: {
       provider: 'v8',

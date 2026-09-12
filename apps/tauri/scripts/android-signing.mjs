@@ -2,6 +2,8 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { patchAndroidGradle } from './lib/patch-android-gradle.mjs';
+
 const tauriRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const genRoot = join(tauriRoot, 'gen/android');
 const gradlePath = join(genRoot, 'app/build.gradle.kts');
@@ -28,37 +30,17 @@ writeFileSync(
   ].join('\n')
 );
 
-const snippet = readFileSync(snippetPath, 'utf8');
-
-let gradle = readFileSync(gradlePath, 'utf8');
-
-if (!gradle.includes('import java.io.FileInputStream')) {
-  gradle = gradle.replace(
-    'import java.util.Properties',
-    'import java.io.FileInputStream\nimport java.util.Properties'
+try {
+  writeFileSync(
+    gradlePath,
+    patchAndroidGradle({
+      gradle: readFileSync(gradlePath, 'utf8'),
+      signingSnippet: readFileSync(snippetPath, 'utf8')
+    })
   );
+} catch (error) {
+  console.error(`[signing] ${error.message}`);
+  process.exit(1);
 }
-
-if (gradle.includes('signingConfigs')) {
-  gradle = gradle.replace(/ {4}signingConfigs \{[\s\S]*?\r?\n {4}\}\r?\n/, snippet);
-} else {
-  gradle = gradle.replace('    buildTypes {', `${snippet}    buildTypes {`);
-}
-
-if (!gradle.includes('signingConfig = signingConfigs.getByName("release")')) {
-  gradle = gradle.replace(
-    'getByName("release") {',
-    'getByName("release") {\n            signingConfig = signingConfigs.getByName("release")'
-  );
-}
-
-if (!gradle.includes('debugSymbolLevel')) {
-  gradle = gradle.replace(
-    '    buildTypes {',
-    '    ndk {\n        debugSymbolLevel = "FULL"\n    }\n    buildTypes {'
-  );
-}
-
-writeFileSync(gradlePath, gradle);
 
 console.log('[signing] release signing and native debug symbols wired into build.gradle.kts');
