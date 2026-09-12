@@ -201,6 +201,14 @@
       "label": "Filter changes by type"
     },
     "entries": {
+      "googlePlay": {
+        "title": "App on Google Play",
+        "description": "The Android version of Chatovo moved to Google Play and updates straight from there."
+      },
+      "accountDeletion": {
+        "title": "Delete your account from the app",
+        "description": "Delete the account in Settings → Security, confirmed by email. A public page with the steps lives at chatovo.ru/account/delete."
+      },
       "participantVolume": {
         "title": "Per-participant volume is remembered",
         "description": "The level you set and \"Mute for me\" survive rejoining a room."
@@ -539,6 +547,8 @@
       }
     },
     "highlights": {
+      "googlePlay": "Moved to Google Play",
+      "accountDeletion": "Account deletion",
       "participantVolume": "Volume is remembered",
       "sessionExpiry": "Clear session messages",
       "adminEditStability": "Steadier admin panel",
@@ -733,7 +743,7 @@
       },
       "android": {
         "title": "Android",
-        "description": "The mobile build ships through RuStore and shares an account with the web."
+        "description": "The mobile build ships through Google Play and shares an account with the web."
       },
       "safeArea": {
         "title": "Safe areas",
@@ -847,7 +857,7 @@
     },
     "mobile": {
       "heading": "Phone",
-      "description": "The Android app is published on RuStore."
+      "description": "The Android app is published on Google Play."
     },
     "web": {
       "heading": "Browser",
@@ -961,7 +971,7 @@
       },
       "androidApp": {
         "question": "Is there an Android app",
-        "answer": "Yes, it is published on RuStore. The link is on the download page."
+        "answer": "Yes, it is published on Google Play. The link is on the download page."
       },
       "screenShare": {
         "question": "Screen sharing does not work",
@@ -1031,7 +1041,7 @@
             "LiveKit — real-time voice, video, and data channels.",
             "SMTP email provider — delivery of verification and password reset emails.",
             "Hosting and infrastructure providers that operate our servers and databases.",
-            "RuStore — app distribution and updates on Android (RuStore policies apply)."
+            "Google Play — app distribution and updates on Android (Google Play policies apply)."
           ]
         },
         {
@@ -1040,7 +1050,7 @@
             "Account and profile data is kept while your account is active.",
             "Chat messages and uploaded files are kept until deleted by you or removed as part of account deletion.",
             "Session logs are kept for a limited period required for security and troubleshooting.",
-            "You may request account deletion by contacting {contact}."
+            "You can delete the account yourself: Settings → Security → Delete account, or from chatovo.ru/account/delete. Deletion is confirmed through a link we email you."
           ]
         },
         {
@@ -1179,5 +1189,16 @@
         }
       ]
     }
+  },
+  "accountDelete": {
+    "title": "Delete your Chatovo account",
+    "intro": "You can delete your account yourself, from the app or on the web. No request form is needed.",
+    "step1": "Sign in to Chatovo with the account you want to delete.",
+    "step2": "Open Settings → Security → Delete account.",
+    "step3": "Confirm through the link we email to the account address.",
+    "removed": "Removed: your profile, avatar, the rooms you created, your friend list and your push notification devices.",
+    "kept": "Your messages in shared rooms stay, without your name on them, so other people conversations are not torn apart. Backups roll over within 30 days.",
+    "signIn": "Sign in and delete",
+    "contact": "Contact support"
   }
 }
