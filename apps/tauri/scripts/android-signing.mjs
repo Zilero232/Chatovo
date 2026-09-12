@@ -52,6 +52,13 @@ if (!gradle.includes('signingConfig = signingConfigs.getByName("release")')) {
   );
 }
 
+if (!gradle.includes('debugSymbolLevel')) {
+  gradle = gradle.replace(
+    '    buildTypes {',
+    '    ndk {\n        debugSymbolLevel = "FULL"\n    }\n    buildTypes {'
+  );
+}
+
 writeFileSync(gradlePath, gradle);
 
-console.log('[signing] release signing wired into build.gradle.kts');
+console.log('[signing] release signing and native debug symbols wired into build.gradle.kts');

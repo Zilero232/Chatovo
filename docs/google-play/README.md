@@ -32,7 +32,25 @@ Releases are unrelated to it.
 | Data safety form | See [data-safety.md](data-safety.md) |
 | Moderation and UGC | See [moderation.md](moderation.md) |
 | Foreground service for calls | **Missing** — a backgrounded call loses the microphone on API 30+ |
+| 16 KB memory pages | Done — 64-bit only, see [ABIs](#abis) |
 | Automated Play upload | Not wired — the aab is attached to the GitHub Release and uploaded by hand |
+
+## ABIs
+
+Both the CI job and `bun android:build` build `aarch64` and `x86_64` only.
+
+32-bit Rust output (`armeabi-v7a`, `x86`) links its `LOAD` segments at a 4 KB
+alignment, which Play flags: devices with 16 KB memory pages — Pixel 9 and
+newer — may fail to install or crash. The 64-bit targets already come out at
+`0x4000`, so dropping the 32-bit ones clears the warning and halves the bundle.
+Play has required 64-bit support since 2019, and `x86` only ever served
+emulators.
+
+Check a built library with:
+
+```bash
+llvm-readelf -l <lib>.so | grep -A1 LOAD   # want 0x4000, not 0x1000
+```
 
 ## Commands
 

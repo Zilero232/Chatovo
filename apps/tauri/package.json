@@ -16,7 +16,7 @@
   "author": "Alexandr Artemev",
   "type": "module",
   "scripts": {
-    "android:build": "bun run icon && node ./scripts/setup-android-fcm.mjs && bun --env-file .env tauri android build --apk --aab",
+    "android:build": "bun run icon && node ./scripts/setup-android-fcm.mjs && bun --env-file .env tauri android build --apk --aab --target aarch64 --target x86_64",
     "android:dev": "bun run icon && node ./scripts/setup-android-fcm.mjs && bun --env-file .env tauri android dev",
     "android:init": "bun --env-file .env tauri android init && node ./scripts/setup-android-fcm.mjs",
     "build": "bun run icon && tauri build",
