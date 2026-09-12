@@ -1,1 +1,1 @@
-export { isPublicRoute } from './is-public-route';
+export { isOpenRoute, isPublicRoute } from './is-public-route';

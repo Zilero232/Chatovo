@@ -16,6 +16,9 @@ The compact code-style digest is [../../.claude/rules/code-style-client.md](../.
 
 ```
 app/        # Next.js routes (thin server wrappers) + providers/. No 'use client' in page/layout.
+            #   (authed)/     — the app behind a session
+            #   (marketing)/  — the public site, one catch-all route
+            #   (standalone)/ — auth, legal and account pages; one shared layout, no duplicates
 views/      # whole screens per route (canon FSD: pages/) — auth, error, home, legal, lobby, not-found, reset-password, room
 widgets/    # large composable UI blocks, grouped by domain: app/, chat/, layout/, room/, social/
 features/   # user interactions w/ business value, by domain: app/, auth/, room/, social/

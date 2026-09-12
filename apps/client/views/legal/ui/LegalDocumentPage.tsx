@@ -1,44 +1,37 @@
+'use client';
+
 import { clsx } from 'clsx';
-import { ArrowLeft } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 import { LEGAL } from '@/shared/config';
 import { EXTERNAL_LINKS, ROUTES } from '@/shared/constants';
 import { Text } from '@/ui-kit';
+import { StandaloneShell } from '@/widgets/layout/standalone-shell';
 
 import type { LegalDocumentPageProps } from './LegalDocumentPage.types';
 
-import { getLegalDocument } from '../lib';
+import { readLegalDocument } from '../lib';
 
 import s from './LegalDocumentPage.module.scss';
 
-export const LegalDocumentPage = async ({
-  documentId,
-  alternatePath,
-  locale
-}: LegalDocumentPageProps) => {
-  const t = await getTranslations({ locale, namespace: 'legal' });
-  const content = await getLegalDocument({ documentId, locale });
+export const LegalDocumentPage = ({ documentId, alternatePath }: LegalDocumentPageProps) => {
+  const t = useTranslations('legal');
+  const document = useTranslations(`legal.${documentId}`);
+
+  const content = readLegalDocument(document);
 
   const alternateLabel = alternatePath === LEGAL.termsPath ? t('terms') : t('privacy');
 
   return (
-    <main className={clsx(s.root, 'inset-page-x', 'inset-page-y')}>
+    <StandaloneShell backHref={ROUTES.auth} backLabel={t('back')}>
       <article className={clsx(s.shell, 'glass', 'shadow-glow-violet')}>
-        <div className={s.top}>
-          <Link className={s.backLink} href={ROUTES.auth}>
-            <ArrowLeft aria-hidden className={s.backIcon} />
-            {t('back')}
-          </Link>
-
-          <header className={s.header}>
-            <h1 className={clsx(s.title, 'gradient-text')}>{content.title}</h1>
-            <Text size='sm' tone='muted'>
-              {content.updated}
-            </Text>
-          </header>
-        </div>
+        <header className={s.header}>
+          <h1 className={clsx(s.title, 'gradient-text')}>{content.title}</h1>
+          <Text size='sm' tone='muted'>
+            {content.updated}
+          </Text>
+        </header>
 
         <div className={clsx(s.scroll, 'scrollbar-none')}>
           <div className={s.sections}>
@@ -69,6 +62,6 @@ export const LegalDocumentPage = async ({
           </footer>
         </div>
       </article>
-    </main>
+    </StandaloneShell>
   );
 };

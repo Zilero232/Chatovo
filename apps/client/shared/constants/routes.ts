@@ -14,6 +14,7 @@ export const ROUTES = {
   admin: '/admin',
   privacy: '/privacy',
   terms: '/terms',
+  accountDelete: '/account/delete',
   features: '/features',
   download: '/download',
   about: '/about',
@@ -31,6 +32,8 @@ const LOCALIZED_MARKETING_PATHS = [
 
 const EN_MARKETING_PATHS = LOCALIZED_MARKETING_PATHS.map((path) => `${EN_PREFIX}${path}`);
 
+const LEGAL_PATHS = [ROUTES.privacy, ROUTES.terms] as const;
+
 export const HOME_ROUTES = [ROUTES.home, ROUTES.homeEn] as const;
 
 export const MARKETING_ROUTES = [
@@ -38,18 +41,24 @@ export const MARKETING_ROUTES = [
   ROUTES.homeEn,
   ...LOCALIZED_MARKETING_PATHS,
   ...EN_MARKETING_PATHS,
-  ROUTES.privacy,
-  ROUTES.terms
+  ...LEGAL_PATHS,
+  ROUTES.accountDelete
 ] as const;
 
 export const PUBLIC_ROUTES = [
   ROUTES.auth,
   ROUTES.resetPassword,
-  ROUTES.privacy,
-  ROUTES.terms,
+  ...LEGAL_PATHS,
   ...LOCALIZED_MARKETING_PATHS,
   ...EN_MARKETING_PATHS
 ] as const;
+
+/**
+ * Reachable with or without a session, and never redirected either way.
+ * Google Play requires the account deletion page to open for a signed-out
+ * visitor, while the people who actually use it are signed in.
+ */
+export const OPEN_ROUTES = [ROUTES.accountDelete] as const;
 
 export const DEEP_LINKS = {
   auth: `${APP_SCHEME}://auth`

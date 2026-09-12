@@ -1,20 +1,13 @@
-import { getTranslations } from 'next-intl/server';
+import type { useTranslations } from 'next-intl';
 
 import { LEGAL } from '@/shared/config';
 
-import type {
-  GetLegalDocumentInput,
-  LegalDocument,
-  LegalSection
-} from './get-legal-document.types';
+import type { LegalDocument, LegalSection } from './get-legal-document.types';
 
 const formatParagraph = (text: string) => text.replaceAll('{contact}', LEGAL.supportEmail);
 
-export const getLegalDocument = async ({
-  documentId,
-  locale
-}: GetLegalDocumentInput): Promise<LegalDocument> => {
-  const t = await getTranslations({ locale, namespace: `legal.${documentId}` });
+/** Reads one legal document out of the active translations, resolving {contact} placeholders. */
+export const readLegalDocument = (t: ReturnType<typeof useTranslations>): LegalDocument => {
   const sections = t.raw('sections') as LegalSection[];
 
   return {

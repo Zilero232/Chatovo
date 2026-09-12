@@ -9,8 +9,6 @@ export const metadata = createPageMetadata({
   path: ROUTES.privacy
 });
 
-const Page = () => (
-  <LegalDocumentPage alternatePath={LEGAL.termsPath} documentId='privacyPage' locale='ru' />
-);
+const Page = () => <LegalDocumentPage alternatePath={LEGAL.termsPath} documentId='privacyPage' />;
 
 export default Page;

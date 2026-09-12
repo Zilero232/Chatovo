@@ -19,7 +19,7 @@ export {
 export { formatPercent } from './format-percent';
 export { formatHotkey, hasModifier, isPureModifier, prettyHotkey } from './hotkey/hotkey';
 export { getAvatarColor, getInitials } from './initials';
-export { isPublicRoute } from './is-public-route';
+export { isOpenRoute, isPublicRoute } from './is-public-route';
 export { localizeMarketingPath } from './localize-marketing-path';
 export type { LocalizeMarketingPathInput } from './localize-marketing-path';
 export { openExternal } from './open-external';

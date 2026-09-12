@@ -9,7 +9,7 @@ import { match } from 'ts-pattern';
 
 import { useCurrentUser } from '@/entities/auth/user';
 import { ROUTES } from '@/shared/constants';
-import { isPublicRoute } from '@/shared/lib';
+import { isOpenRoute, isPublicRoute } from '@/shared/lib';
 import { AppSplash } from '@/ui-kit';
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -28,9 +28,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const isInitialLoading = isLoading && !hasResolvedRef.current;
 
   const isGuestZone = isPublicRoute(pathname);
+  const isOpenZone = isOpenRoute(pathname);
 
-  const target = match({ isGuestZone, isInitialLoading, isAuthenticated })
+  const target = match({ isGuestZone, isOpenZone, isInitialLoading, isAuthenticated })
     .with({ isInitialLoading: true }, () => null)
+    .with({ isOpenZone: true }, () => null)
     .with({ isGuestZone: true, isAuthenticated: true }, () => ROUTES.lobby)
     .with({ isGuestZone: false, isAuthenticated: false }, () => ROUTES.auth)
     .otherwise(() => null);

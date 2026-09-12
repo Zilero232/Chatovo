@@ -9,6 +9,7 @@ import { ForgotPasswordForm } from '@/features/auth/forgot-password';
 import { SignInForm } from '@/features/auth/sign-in';
 import { SignUpForm } from '@/features/auth/sign-up';
 import { AuthBackground, BrandMark, Text } from '@/ui-kit';
+import { LanguageSwitcher } from '@/widgets/app/language-switcher';
 
 import type { AuthMode } from './AuthPage.types';
 
@@ -24,6 +25,10 @@ export const AuthPage = () => {
   return (
     <div className={clsx(s.root, 'inset-page-x', 'inset-page-y')}>
       <AuthBackground />
+
+      <header className={s.topBar}>
+        <LanguageSwitcher />
+      </header>
 
       <div className={clsx(s.shell, 'glass', 'shadow-glow-violet')}>
         <AuthBrandPanel />
