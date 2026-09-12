@@ -112,18 +112,46 @@ passed as `whatsNew` when the draft is created.
 
 ## Graphics
 
-| Asset | Requirements |
-|-------|--------------|
-| Icon | 512×512 px, PNG/JPG, up to 3 MB, background filled edge to edge (no transparency) |
-| Phone screenshots | at least 3, at most 10 active; PNG/JPG; any side 320–3840 px, no larger than 2160×3840; up to 3 MB |
-| Tablet screenshots | same dimensions, up to 5 MB |
-| Video | up to 256 GB, up to 4K, 1–2 minutes recommended |
+Everything below lives in [assets/](assets/), ready to upload.
 
-Aspect ratio is 16:9 for landscape and 9:16 for portrait. Mixing orientations
-inside one set is not allowed. Uploading an eleventh screenshot deactivates the
-earliest one.
+| Asset | Requirements | In the repo |
+|-------|--------------|-------------|
+| Icon | 512×512, **32-bit PNG with alpha**, up to 1 MB | `assets/icon-512.png` |
+| Feature graphic | 1024×500, **24-bit PNG or JPEG, no alpha** — mandatory, the listing cannot publish without it | `assets/feature-graphic.png` |
+| Phone screenshots | 2–8, **24-bit PNG or JPEG, no alpha**, each side 320–3840 px, the long side at most twice the short one | `assets/screenshots/` |
+| Tablet screenshots | 4 each for 7-inch and 10-inch, only if the app is distributed to tablets | — |
+| Video | a YouTube link, optional | — |
 
-Suggested screens: auth, lobby, voice room, chat, settings.
+Note the two formats pull in opposite directions: the icon **needs** an alpha
+channel, the screenshots and the feature graphic **must not** have one. A
+32-bit screenshot is rejected on upload.
+
+Play recommends at least 4 phone screenshots at 1080 px or more on the short
+side for the app to qualify for promotional placement.
+
+**Set the emulator screen, don't hunt for the right AVD.** Play rejects a
+screenshot whose long side is more than twice the short one, so a modern tall
+phone at 1080×2400 (2.22:1) fails on upload. Override the screen on any running
+emulator instead:
+
+```bash
+adb shell wm size 1080x1920   # adb shell wm size reset  to undo
+adb shell wm density 420
+```
+
+`adb exec-out screencap -p` then writes a 1080×1920 file straight away. The shot
+comes out RGBA, so convert it to RGB before uploading — `check-assets.py` catches
+it if you forget.
+
+Screens to capture, in this order: auth, lobby, voice room, chat, settings.
+Shoot them with a signed-in account that has a few rooms and a live
+conversation; an empty lobby reads as a broken app.
+
+Verify before uploading:
+
+```bash
+cd docs/google-play/assets && python check-assets.py
+```
 
 ## FAQ (optional)
 

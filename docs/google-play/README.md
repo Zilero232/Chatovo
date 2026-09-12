@@ -27,6 +27,8 @@ Releases are unrelated to it.
 | Consent checkbox on signup | Done (sign-up form) |
 | Admin panel | Done (`/admin`, four tabs — see [moderation.md](moderation.md)) |
 | Store listing | See [listing.md](listing.md) |
+| Icon + feature graphic | Done (`assets/`) |
+| Phone screenshots | Done (`assets/screenshots/`, five 1080×1920 shots) |
 | Data safety form | See [data-safety.md](data-safety.md) |
 | Moderation and UGC | See [moderation.md](moderation.md) |
 | Foreground service for calls | **Missing** — a backgrounded call loses the microphone on API 30+ |
