@@ -73,12 +73,12 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
 
               <a
                 className={s.storeLink}
-                href={EXTERNAL_LINKS.rustore}
+                href={EXTERNAL_LINKS.googlePlay}
                 rel='noopener noreferrer'
                 target='_blank'
               >
                 <Smartphone />
-                {t('openRustore')}
+                {t('openGooglePlay')}
               </a>
             </div>
 
