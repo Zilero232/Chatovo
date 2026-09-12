@@ -1,0 +1,65 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.shell {
+  display: flex;
+  width: 100%;
+  max-width: rem(640);
+  max-height: 100%;
+  flex-direction: column;
+  padding: rem(32);
+  border-radius: var(--radius-xl);
+  gap: rem(20);
+  overflow-y: auto;
+}
+
+.title {
+  margin: 0;
+  font-size: rem(28);
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  padding-left: rem(20);
+  gap: rem(10);
+  list-style: decimal;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: rem(12);
+}
+
+.primaryAction {
+  display: inline-flex;
+  height: rem(40);
+  align-items: center;
+  border-radius: var(--radius-lg);
+  background: var(--brand-violet);
+  color: #fff;
+  font-size: rem(14);
+  font-weight: 550;
+  padding-inline: rem(20);
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+}
+
+.secondaryAction {
+  display: inline-flex;
+  height: rem(40);
+  align-items: center;
+  border: 1px solid oklch(100% 0 0deg / 15%);
+  border-radius: var(--radius-lg);
+  color: var(--foreground);
+  font-size: rem(14);
+  padding-inline: rem(20);
+
+  &:hover {
+    background: oklch(100% 0 0deg / 6%);
+  }
+}

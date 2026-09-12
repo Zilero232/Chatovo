@@ -30,3 +30,7 @@ export const saveUpload = async (key: string, body: ArrayBuffer): Promise<string
 export const deleteUpload = async (key: string): Promise<void> => {
   await rm(join(UPLOADS_DIR, key), { force: true });
 };
+
+export const deleteUploadDirectory = async (key: string): Promise<void> => {
+  await rm(join(UPLOADS_DIR, key), { force: true, recursive: true });
+};

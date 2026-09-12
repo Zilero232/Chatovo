@@ -8,10 +8,11 @@ import { allowedOrigins } from '../../config/cors';
 import { validateEnv } from '../../config/env.schema';
 import { basePrisma } from '../../core/base-prisma';
 import { issueUniqueFriendTag } from '../../lib';
-import { ChangeEmail, ResetPassword, sendEmail, VerifyEmail } from '../email';
+import { ChangeEmail, DeleteAccount, ResetPassword, sendEmail, VerifyEmail } from '../email';
 import { notifyUserSignup } from '../telegram';
 import { authBaseURL } from './auth-base-url';
 import { withClientCallback } from './auth-callback-url';
+import { purgeUserContent } from './lib/purge-user-content';
 
 const env = validateEnv(process.env);
 
@@ -56,6 +57,19 @@ export const auth = betterAuth({
           subject: 'Approve email change',
           react: createElement(ChangeEmail, { newEmail, url: withClientCallback(url) })
         });
+      }
+    },
+    deleteUser: {
+      enabled: true,
+      sendDeleteAccountVerification: async ({ user, url }) => {
+        await sendEmail({
+          to: user.email,
+          subject: 'Confirm account deletion',
+          react: createElement(DeleteAccount, { url: withClientCallback(url) })
+        });
+      },
+      beforeDelete: async (user) => {
+        await purgeUserContent(user.id);
       }
     },
     additionalFields: {

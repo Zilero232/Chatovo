@@ -1,2 +1,9 @@
-export { AbuseReport, BugReport, ChangeEmail, ResetPassword, VerifyEmail } from './templates';
+export {
+  AbuseReport,
+  BugReport,
+  ChangeEmail,
+  DeleteAccount,
+  ResetPassword,
+  VerifyEmail
+} from './templates';
 export { sendEmail } from './transport';
