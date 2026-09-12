@@ -1,22 +1,21 @@
 # Moderation and user-generated content
 
 Chatovo carries user-generated content: text, files, voice, video and profiles.
-RuStore has separate requirements for such apps, and a version that does not meet
-them is rejected at moderation.
+Play applies its User Generated Content policy to such apps, and a build that
+does not meet it is rejected or pulled after publication.
 
-## What RuStore requires
+## What Play requires
 
-The [app requirements](https://www.rustore.ru/help/developers/publishing-and-verifying-apps/requirement-apps)
-oblige an app with UGC to carry, quoted verbatim:
+The [UGC policy](https://support.google.com/googleplay/android-developer/answer/9876937)
+obliges an app with UGC to ship four things:
 
-> определение и критерии неприемлемого контента; механизм для сообщения об
-> оскорбительном контенте; блокировку пользователей, злоупотребляющих услугами
-> сервиса; контактную информацию с технической поддержкой
+- a content policy the user agrees to, defining what is not allowed
+- an in-app way to report objectionable content and other users
+- a way to block abusive users
+- a moderation process that acts on those reports
 
-That is: a definition and criteria of unacceptable content, a mechanism to report
-abusive content, blocking of users who abuse the service, and support contact
-details. The developer must also provide "timely and adequate pre-moderation of
-that content, or post-moderation on user reports".
+Play also expects the in-app reporting flow to be reachable without leaving the
+app, and the developer contact to be live.
 
 ## What the app has
 
@@ -126,8 +125,8 @@ The rating must cover the worst content users can produce, not what the app
 itself shows. Open voice and text chat with no pre-moderation lands on 16+; 12+
 and below do not pass moderation for an app like this.
 
-RuStore has no rule aimed specifically at WebRTC or voice — the general UGC and
-social clause is what applies.
+Play has no rule aimed specifically at WebRTC or voice — the general UGC and
+social policy is what applies.
 
 ## What a moderator checks
 

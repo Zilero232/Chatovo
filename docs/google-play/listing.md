@@ -1,7 +1,7 @@
 # Store listing
 
-Copy and asset requirements for the RuStore console. Limits come from the
-[publication requirements](https://www.rustore.ru/help/developers/publishing-and-verifying-apps/app-publication).
+Copy and asset requirements for the Play Console. Limits come from Play's
+[store listing requirements](https://support.google.com/googleplay/android-developer/answer/9859455).
 
 The app must offer Russian or English (Chatovo ships both plus a switcher) —
 otherwise publication is declined.
@@ -78,7 +78,7 @@ Privacy: https://chatovo.ru/privacy
 
 **16+**
 
-RuStore's scale: `0+`, `6+`, `12+`, `16+`, `18+` (the `ageLegal` API field).
+Play uses an IARC questionnaire instead of a fixed scale; a UGC chat app with no purchases lands on Teen / 16+.
 
 Rationale: user-generated content with no pre-moderation — text, voice, video and
 files. The rating has to cover the worst content users can produce, so 12+ and

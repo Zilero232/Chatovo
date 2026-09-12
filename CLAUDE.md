@@ -39,7 +39,7 @@ docs/
 │   ├── developer-role.md # user.role = admin: contributors strip, developers tab, badges
 │   └── migrations.md     # Prisma migrations: baseline, deploy order, better-auth schema drift
 ├── references.md         # Where library docs come from (context7 ids) + when reading them is mandatory
-└── rustore/              # RuStore release: listing, data safety, signing, moderation
+└── google-play/          # Google Play release: listing, data safety, signing, moderation
 infra/               # Caddy + LiveKit configs
 ```
 
@@ -160,7 +160,7 @@ bun --filter @chatovo/client typecheck
 ## Working with the user
 
 - **Language**: respond in Russian. Code, identifiers, commit messages, and quoted error strings stay in their original language (usually English).
-- **Docs are English**: every `.md` in the repo — `CLAUDE.md` files, `docs/`, `.claude/rules/`, READMEs — is written in English, as are comments in config files. The two exceptions are `docs/rustore/listing.md` and the quoted store requirements in `docs/rustore/moderation.md`: that text is submitted verbatim to RuStore, so translating it would break the store entry.
+- **Docs are English**: every `.md` in the repo — `CLAUDE.md` files, `docs/`, `.claude/rules/`, READMEs — is written in English, as are comments in config files. The two exceptions are `docs/google-play/listing.md` and the quoted store requirements in `docs/google-play/moderation.md`: that text is submitted verbatim to the store, so translating it would break the store entry.
 - **No code comments in application code**: no `//`, block or JSDoc comments in `views/`, `widgets/`, `features/`, `entities/` (client) or `modules/` (server). Code is self-documenting via clear naming; if a block needs a comment, extract it into a named function. **Narrow exception** — the public surface of reusable modules (`ui-kit`, `shared/lib`, `shared/hooks`, server `src/lib/`, `packages/schemas`): an **exported** primitive may carry a 1–2 line JSDoc when the signature doesn't explain the purpose (non-obvious units, side effect, edge-case behaviour). Internal helpers are never documented. Details and examples — [docs/guides/style.md](docs/guides/style.md) §18. Add other comments only when the user explicitly asks. Leave pre-existing comments in files you didn't author unless told to clean them.
 - **No git operations on your own**: never `git commit` / `branch` / `push` unless the user explicitly asks in that message. Stage (`git add`) at most. A task instruction like "go do X" is NOT a commit request.
 - **Measure before swapping for perf**: if a performance symptom persists across two implementation swaps, the cause is almost certainly not the library — stop swapping. First do ONE of: repeat the action (fast 2nd time = first-mount/dev-compile, not the lib), test a prod build (`bun run build && bun run start`), or read a DevTools Performance profile. Only swap a library once a profile implicates its code.

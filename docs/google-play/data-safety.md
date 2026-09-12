@@ -1,24 +1,25 @@
 # Personal data
 
-What Chatovo collects, why, and who it is shared with. Needed when filling in the
-RuStore console and as the basis for answers to a moderator.
+What Chatovo collects, why, and who it is shared with. Fill the Play Console's
+Data safety form from this, and answer a reviewer from it.
 
-## RuStore requirements
+## Play requirements
 
-[App requirements](https://www.rustore.ru/help/developers/publishing-and-verifying-apps/requirement-apps):
+[Data safety](https://support.google.com/googleplay/android-developer/answer/10787469):
 
 | Requirement | Status |
 |-------------|--------|
-| Personal data operator status | **Not done** — filed with Roskomnadzor before publication |
-| Privacy policy in Russian | Done — `https://chatovo.ru/privacy` |
+| Privacy policy URL | Done — `https://chatovo.ru/privacy` |
 | User informed about collection | Done — the `/privacy` page |
 | User consent to collection | Done — checkbox linking `/terms` and `/privacy` in the sign-up form |
 | No selling of collected data | Data is never sold or handed to advertisers |
 | Encryption in transit | Done — HTTPS / WSS |
-| Account deletion on request | Done — `zilero@chatovo.ru` |
+| In-app account deletion | Done — Settings → Security → Delete account |
+| Web account deletion URL | Done — `https://chatovo.ru/account/delete` |
 
-Operator status is the only item that is settled outside the code. Everything
-else is in place, see [moderation.md](moderation.md).
+Play requires **both** deletion paths for an app with accounts: one inside the
+app and one reachable on the web without installing it. See
+[moderation.md](moderation.md) for the UGC side.
 
 ## What is collected
 
@@ -73,7 +74,7 @@ No permission is requested at startup without a user action.
 | LiveKit (self-hosted SFU) | Voice, video, data channels | Real-time media relay |
 | SMTP provider | Email address | Address verification, password reset |
 | Firebase Cloud Messaging (Google) | Push token, notification title | Push delivery on Android |
-| RuStore (VK) | Install and update events | App distribution |
+| Google Play | Install and update events | App distribution |
 
 Nothing is shared with ad networks or third-party analytics: the app carries no
 advertising.
@@ -89,8 +90,14 @@ advertising.
 
 ## Deletion
 
-Request to `zilero@chatovo.ru`. The account, the profile, messages and uploaded
-files are removed.
+Self-service, from Settings → Security → Delete account, or from
+`https://chatovo.ru/account/delete`. better-auth emails a confirmation link;
+following it deletes the account.
+
+Removed: the profile, the avatar files on disk, the rooms the user created,
+friendships, and push devices. Messages in shared rooms are kept with a null
+sender, so other people's conversations stay readable — the author's name is
+gone from them. Backups roll over within 30 days.
 
 ## Other declarations
 
