@@ -53,7 +53,8 @@
       "declined": "{name} declined the call"
     },
     "addTitle": "Add friend",
-    "addHint": "You can add friends by their Chatovo tag."
+    "addHint": "You can add friends by their Chatovo tag.",
+    "dmMissing": "Pick a conversation to start chatting"
   },
   "user": {
     "verified": "Verified account",

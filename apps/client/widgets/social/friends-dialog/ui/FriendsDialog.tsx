@@ -22,7 +22,7 @@ export const FriendsDialog = ({ renderTrigger }: FriendsDialogProps = {}) => {
   const t = useTranslations('friends');
 
   const [open, toggleOpen] = useBoolean(false);
-  const { blocksParentDialogClose, dmUnread } = useFriendChat();
+  const { dmUnread } = useFriendChat();
 
   const { data: requests } = useIncomingFriendRequests();
   const { data: friends } = useFriends(open);
@@ -44,17 +44,7 @@ export const FriendsDialog = ({ renderTrigger }: FriendsDialogProps = {}) => {
         />
       )}
 
-      <Dialog
-        disablePointerDismissal={blocksParentDialogClose}
-        open={open}
-        onOpenChange={(next) => {
-          if (!next && blocksParentDialogClose) {
-            return;
-          }
-
-          toggleOpen(next);
-        }}
-      >
+      <Dialog open={open} onOpenChange={toggleOpen}>
         <DialogContent className={s.content}>
           <DialogHeader>
             <DialogTitle>{t('title')}</DialogTitle>

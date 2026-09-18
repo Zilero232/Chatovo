@@ -4,7 +4,7 @@ export { getBannerStyle } from './banner-style';
 export { buildAppHref } from './build-app-href';
 export { buildRoomHref } from './build-room-href';
 export type { BuildRoomHrefOptions } from './build-room-href';
-export { buildInviteHref, buildServerHref } from './build-server-href';
+export { buildDmHref, buildInviteHref, buildServerHref } from './build-server-href';
 export type { BuildServerHrefOptions } from './build-server-href';
 export { createSoundPlayer, type SoundPlayer } from './create-sound-player';
 export { getDefaultAvatar } from './default-avatar';

@@ -45,6 +45,7 @@ const channels = {
 };
 
 const chat = {
+  friendDmRoom: (userId: string) => ['friend-dm-room', userId] as const,
   chatMessagesRoot: () => ['chat-messages'] as const,
   chatMessages: (roomId: string) => ['chat-messages', roomId] as const,
   chatThreadMessages: (roomId: string, threadId: string) =>

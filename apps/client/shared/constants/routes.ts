@@ -11,6 +11,7 @@ export const ROUTES = {
   auth: AUTH_PATH,
   resetPassword: `${AUTH_PATH}/reset-password`,
   room: '/room',
+  dm: '/dm',
   server: '/server',
   invite: '/invite',
   admin: '/admin',

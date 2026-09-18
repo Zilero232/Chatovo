@@ -14,7 +14,7 @@ import type { UseFriendChatUnreadInput } from './use-friend-chat-unread.types';
 
 const MESSAGE_SOUND_SRC = '/audios/ui/notification.mp3';
 
-export const useFriendChatUnread = ({ openRoomId }: UseFriendChatUnreadInput) => {
+export const useFriendChatUnread = ({ openPeerId }: UseFriendChatUnreadInput) => {
   const { user } = useCurrentUser();
   const { settings } = useAppSettings();
   const messageAudio = useAudio(MESSAGE_SOUND_SRC, { interrupt: true });
@@ -44,7 +44,7 @@ export const useFriendChatUnread = ({ openRoomId }: UseFriendChatUnreadInput) =>
       roomKind !== roomKindSchema.enum.dm ||
       !senderId ||
       senderId === user?.id ||
-      openRoomId === roomId ||
+      openPeerId === senderId ||
       activeVoiceRoomId === roomId
     ) {
       return;

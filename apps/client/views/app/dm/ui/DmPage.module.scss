@@ -1,0 +1,46 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  min-width: 0;
+  height: 100%;
+  flex-direction: column;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  height: rem(48);
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.75rem;
+  padding-inline: 1rem;
+}
+
+.name {
+  min-width: 0;
+  flex: 1;
+  color: var(--foreground);
+  font-size: rem(16);
+  font-weight: 600;
+
+  @include text-ellipsis;
+}
+
+.call {
+  flex-shrink: 0;
+}
+
+.body {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.loading {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}

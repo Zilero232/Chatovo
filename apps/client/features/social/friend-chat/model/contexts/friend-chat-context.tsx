@@ -3,16 +3,18 @@
 import type { ReactNode } from 'react';
 
 import { createContextHook } from '@siberiacancode/reactuse';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useEffectEvent } from 'react';
 
-import { useFriendChatSession, useFriendChatUnread } from '../hooks';
+import { useFriendChatUnread } from '../hooks';
 
 const useFriendChatState = () => {
-  const { session, openingPeer, isOpening, blocksParentDialogClose, open, close } =
-    useFriendChatSession();
+  const searchParams = useSearchParams();
+
+  const openPeerId = searchParams.get('user');
 
   const { dmUnread, getFriendUnread, clearFriendUnread } = useFriendChatUnread({
-    openRoomId: session?.roomId ?? null
+    openPeerId
   });
 
   const clearPeerUnread = useEffectEvent((friendId: string) => {
@@ -20,21 +22,12 @@ const useFriendChatState = () => {
   });
 
   useEffect(() => {
-    if (session?.peer.id) {
-      clearPeerUnread(session.peer.id);
+    if (openPeerId) {
+      clearPeerUnread(openPeerId);
     }
-  }, [session?.peer.id]);
+  }, [openPeerId]);
 
-  return {
-    session,
-    openingPeer,
-    isOpening,
-    dmUnread,
-    getFriendUnread,
-    blocksParentDialogClose,
-    open,
-    close
-  };
+  return { dmUnread, getFriendUnread };
 };
 
 const { Provider, use } = createContextHook(useFriendChatState);

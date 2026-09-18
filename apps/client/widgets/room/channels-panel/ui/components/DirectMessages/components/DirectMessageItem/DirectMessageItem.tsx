@@ -2,17 +2,18 @@
 
 import { clsx } from 'clsx';
 import { Headphones } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { isNonNullish } from 'remeda';
 
 import { UserAvatar } from '@/entities/auth/user';
-import { useFriendChat } from '@/features/social/friend-chat';
+import { buildDmHref } from '@/shared/lib';
 
 import type { DirectMessageItemProps } from './DirectMessageItem.types';
 
 import s from './DirectMessageItem.module.scss';
 
 export const DirectMessageItem = ({ room, user, onNavigate }: DirectMessageItemProps) => {
-  const { open } = useFriendChat();
+  const router = useRouter();
 
   const isInRoom = isNonNullish(room);
 
@@ -21,7 +22,7 @@ export const DirectMessageItem = ({ room, user, onNavigate }: DirectMessageItemP
       className={s.root}
       type='button'
       onClick={() => {
-        open(user);
+        router.push(buildDmHref(user.id));
         onNavigate?.();
       }}
     >

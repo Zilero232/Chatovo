@@ -1,7 +1,6 @@
 'use client';
 
 import { useBoolean } from '@siberiacancode/reactuse';
-import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -18,12 +17,6 @@ import type { AuthedShellProps } from './AuthedShell.types';
 
 import s from './AuthedShell.module.scss';
 
-const FriendChatDialog = dynamic(
-  () =>
-    import('@/widgets/social/friend-chat-dialog').then((m) => ({ default: m.FriendChatDialog })),
-  { ssr: false }
-);
-
 export const AuthedShell = ({ children }: AuthedShellProps) => {
   const pathname = usePathname();
 
@@ -36,7 +29,6 @@ export const AuthedShell = ({ children }: AuthedShellProps) => {
       <MobileNav open={mobileNavOpen} onOpenChange={toggleMobileNav} />
       <IncomingCallDialog />
       <OutgoingCallDialog />
-      <FriendChatDialog />
 
       <div className={s.shell}>
         <div className={s.desktopOnly}>

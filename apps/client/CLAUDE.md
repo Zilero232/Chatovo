@@ -19,7 +19,7 @@ app/        # Next.js routes (thin server wrappers) + providers/. No 'use client
             #   (authed)/     — the app behind a session
             #   (marketing)/  — the public site, one catch-all route
             #   (standalone)/ — auth, legal and account pages; one shared layout, no duplicates
-views/      # whole screens per route (canon FSD: pages/), grouped by domain — app/ (admin, invite, lobby, room, server), auth/ (sign-in, reset-password, account-delete), landing/ (about, changelog, download, features, home, legal, support), system/ (error, not-found)
+views/      # whole screens per route (canon FSD: pages/), grouped by domain — app/ (admin, dm, invite, lobby, room, server), auth/ (sign-in, reset-password, account-delete), landing/ (about, changelog, download, features, home, legal, support), system/ (error, not-found)
 widgets/    # large composable UI blocks, grouped by domain: app/, chat/, layout/, room/, social/
 features/   # user interactions w/ business value, by domain: app/, auth/, room/, social/
 entities/   # base domain concepts, by domain: app/, auth/, room/, social/

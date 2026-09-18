@@ -19,3 +19,5 @@ export const buildServerHref = (serverId: string, options?: BuildServerHrefOptio
 
 export const buildInviteHref = (code: string) =>
   `${ROUTES.invite}?code=${encodeURIComponent(code)}`;
+
+export const buildDmHref = (userId: string) => `${ROUTES.dm}?user=${encodeURIComponent(userId)}`;

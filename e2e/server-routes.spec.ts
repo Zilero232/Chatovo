@@ -15,6 +15,13 @@ test.describe('server routes', () => {
     expect(page.url()).toContain('/auth');
   });
 
+  test('a direct message redirects an anonymous visitor to auth', async ({ page }) => {
+    await page.goto('/dm?user=00000000-0000-4000-8000-000000000000');
+
+    await page.waitForURL(/\/auth/, { timeout: 15_000 });
+    expect(page.url()).toContain('/auth');
+  });
+
   test('the room route still redirects an anonymous visitor to auth', async ({ page }) => {
     await page.goto('/room?id=00000000-0000-4000-8000-000000000000');
 

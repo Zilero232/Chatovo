@@ -7,8 +7,7 @@ import { useRouter } from 'next/navigation';
 import { isNonNullish } from 'remeda';
 
 import { UserAvatar, UserName } from '@/entities/auth/user';
-import { useFriendChat } from '@/features/social/friend-chat';
-import { buildServerHref } from '@/shared/lib';
+import { buildDmHref, buildServerHref } from '@/shared/lib';
 import { IconButtonWithTooltip } from '@/ui-kit';
 
 import type { FriendRowProps } from './FriendRow.types';
@@ -20,8 +19,6 @@ export const FriendRow = ({ entry, room }: FriendRowProps) => {
 
   const t = useTranslations('channels.friends');
   const tLobby = useTranslations('lobby.tabs');
-
-  const { open } = useFriendChat();
 
   const { user } = entry;
   const isInRoom = isNonNullish(room);
@@ -67,7 +64,7 @@ export const FriendRow = ({ entry, room }: FriendRowProps) => {
           label={tLobby('message')}
           tooltipSide='top'
           type='button'
-          onClick={() => open(user)}
+          onClick={() => router.push(buildDmHref(user.id))}
         />
       </span>
     </div>
