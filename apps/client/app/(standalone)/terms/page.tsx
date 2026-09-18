@@ -1,7 +1,7 @@
 import { LEGAL } from '@/shared/config';
 import { ROUTES } from '@/shared/constants';
 import { createPageMetadata } from '@/shared/seo';
-import { LegalDocumentPage } from '@/views/legal';
+import { LegalDocumentPage } from '@/views/landing/legal';
 
 export const metadata = createPageMetadata({
   title: 'Terms of Service',

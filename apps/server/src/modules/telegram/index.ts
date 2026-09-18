@@ -1,8 +1,6 @@
 export {
   notifyAbuseReport,
   notifyProblemReport,
-  notifyRoomCreated,
-  notifyRoomDeleted,
   notifyUserBlocked,
   notifyUserSignup,
   notifyVoiceEmpty,

@@ -1,8 +1,6 @@
 import type { ChatMessage, FriendUser } from '@chatovo/schemas';
 
 export const DomainEvent = {
-  RoomCreated: 'room.created',
-  RoomDeleted: 'room.deleted',
   UserSignedUp: 'user.signed-up',
   ProblemReported: 'problem.reported',
   VoiceJoined: 'voice.joined',
@@ -39,15 +37,6 @@ export type DomainEventPayloads = {
     platform?: string;
     appVersion?: string;
   };
-  [DomainEvent.RoomCreated]: {
-    roomName: string;
-    ownerName: string;
-    isPrivate: boolean;
-  };
-  [DomainEvent.RoomDeleted]: {
-    roomName: string;
-    ownerName: string;
-  };
   [DomainEvent.UserBlocked]: {
     userId: string;
     userName: string;
@@ -69,8 +58,6 @@ export type DomainEventPayloads = {
   };
 };
 
-export type RoomCreatedEvent = DomainEventPayloads[typeof DomainEvent.RoomCreated];
-export type RoomDeletedEvent = DomainEventPayloads[typeof DomainEvent.RoomDeleted];
 export type UserSignedUpEvent = DomainEventPayloads[typeof DomainEvent.UserSignedUp];
 export type ProblemReportedEvent = DomainEventPayloads[typeof DomainEvent.ProblemReported];
 export type VoiceJoinedEvent = DomainEventPayloads[typeof DomainEvent.VoiceJoined];

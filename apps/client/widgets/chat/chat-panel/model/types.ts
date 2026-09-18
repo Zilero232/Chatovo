@@ -1,3 +1,5 @@
+import type { ChatReaction } from '@chatovo/schemas';
+
 export type ChatLineStatus = 'failed' | 'sending';
 
 export type ChatLine = {
@@ -9,7 +11,13 @@ export type ChatLine = {
     metadata?: string;
   };
   id: string;
+  mentions?: string[];
+  mentionsEveryone?: boolean;
   message: string;
+  pinned?: boolean;
+  reactions?: ChatReaction[];
+  replyToId?: string | null;
   status?: ChatLineStatus;
+  threadId?: string | null;
   timestamp: number;
 };

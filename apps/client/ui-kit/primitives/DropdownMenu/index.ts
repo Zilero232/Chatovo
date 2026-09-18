@@ -7,6 +7,7 @@ export {
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from './DropdownMenu';
 export type {
@@ -18,5 +19,6 @@ export type {
   DropdownMenuProps,
   DropdownMenuRadioGroupProps,
   DropdownMenuRadioItemProps,
+  DropdownMenuSeparatorProps,
   DropdownMenuTriggerProps
 } from './DropdownMenu.types';

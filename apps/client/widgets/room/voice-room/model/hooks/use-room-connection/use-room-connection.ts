@@ -6,20 +6,14 @@ import { useRef } from 'react';
 
 import { getPublishDefaults, useAppSettings } from '@/entities/app/settings';
 import { useCurrentUser } from '@/entities/auth/user';
-import { useRecentRooms } from '@/entities/room/room';
 
 import type { UseRoomConnectionInput } from './use-room-connection.types';
 
 import { FAILURE_REASONS } from '../../../config';
 
-export const useRoomConnection = ({
-  roomId,
-  onConnectFailure,
-  onLeave
-}: UseRoomConnectionInput) => {
+export const useRoomConnection = ({ onConnectFailure, onLeave }: UseRoomConnectionInput) => {
   const { settings } = useAppSettings();
   const { isAdmin } = useCurrentUser();
-  const { push: pushRecent } = useRecentRooms();
 
   const isInvisible = isAdmin && settings.system.invisibleMode;
 
@@ -32,7 +26,6 @@ export const useRoomConnection = ({
 
   const handleConnected = () => {
     hasConnectedRef.current = true;
-    pushRecent(roomId);
   };
 
   const handleDisconnected = (reason?: DisconnectReason) => {

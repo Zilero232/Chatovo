@@ -1,6 +1,11 @@
 export { useChatFiles } from './use-chat-files';
 export { useChatHistory } from './use-chat-history';
 export { useChatMessageItem } from './use-chat-message-item';
+export { useChatPins } from './use-chat-pins';
+export { useChatReactions } from './use-chat-reactions';
 export { useChatSend } from './use-chat-send';
 export { useChatSync } from './use-chat-sync';
 export { useChatUnread } from './use-chat-unread';
+export { useMemberStyling } from './use-member-styling';
+export { useMentionAutocomplete } from './use-mention-autocomplete';
+export { useMentionLookup } from './use-mention-lookup';

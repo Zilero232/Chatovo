@@ -1,19 +1,60 @@
 @use '@/ui-kit/styles/mixins' as *;
 
 .root {
+  position: absolute;
+  top: rem(-14);
+  right: 0.75rem;
   display: flex;
   align-items: center;
-  align-self: center;
-  gap: 0.125rem;
+  padding: rem(2);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(rem(12)) saturate(140%);
+  background: var(--surface-overlay);
+  box-shadow: var(--shadow-soft);
+  gap: rem(1);
   opacity: 0;
   transition: opacity var(--duration-fast) var(--timing-function-standard);
+  visibility: hidden;
 
-  :global([data-message-root]:hover) &,
-  :global([data-message-root]:focus-within) & {
+  [data-message-root]:hover &,
+  [data-message-root]:focus-within &,
+  &:has([data-popup-open]) {
     opacity: 1;
+    visibility: visible;
   }
 
   @include coarse-pointer {
-    display: none;
+    position: static;
+    padding: 0;
+    border: 0;
+    margin-top: 0.25rem;
+    backdrop-filter: none;
+    background: none;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.picker {
+  display: flex;
+  width: rem(224);
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.pickerItem {
+  display: inline-flex;
+  width: rem(34);
+  height: rem(34);
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  font-size: 1.125rem;
+  transition: background-color var(--duration-fast) var(--timing-function-standard);
+
+  @include hover {
+    background: oklch(100% 0 0deg / 8%);
   }
 }

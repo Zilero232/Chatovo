@@ -12,11 +12,13 @@ import { useFriendChat } from '@/features/social/friend-chat';
 import { useCloseWhenInVoiceRoom } from '@/shared/hooks';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/ui-kit';
 
+import type { FriendsDialogProps } from './FriendsDialog.types';
+
 import { AddFriendForm, FriendsDialogTrigger, FriendsTabs, OwnFriendTag } from './components';
 
 import s from './FriendsDialog.module.scss';
 
-export const FriendsDialog = () => {
+export const FriendsDialog = ({ renderTrigger }: FriendsDialogProps = {}) => {
   const t = useTranslations('friends');
 
   const [open, toggleOpen] = useBoolean(false);
@@ -33,7 +35,14 @@ export const FriendsDialog = () => {
 
   return (
     <>
-      <FriendsDialogTrigger badgeCount={dmUnread + incomingCount} onOpen={() => toggleOpen(true)} />
+      {renderTrigger ? (
+        renderTrigger({ onOpen: () => toggleOpen(true) })
+      ) : (
+        <FriendsDialogTrigger
+          badgeCount={dmUnread + incomingCount}
+          onOpen={() => toggleOpen(true)}
+        />
+      )}
 
       <Dialog
         disablePointerDismissal={blocksParentDialogClose}

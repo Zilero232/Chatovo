@@ -1,0 +1,138 @@
+enum ServerMemberRole {
+  owner
+  admin
+  member
+}
+
+model Server {
+  id String @id @default(dbgenerated("gen_random_uuid()"))
+
+  name        String
+  slug        String  @unique
+  description String?
+  iconUrl     String? @map("icon_url")
+  bannerColor String? @map("banner_color")
+
+  ownerId String @map("owner_id")
+  owner   User   @relation("ServerOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  systemChannelId String? @unique @map("system_channel_id")
+
+  members    ServerMember[]
+  roles      ServerRole[]
+  categories Category[]
+  channels   Room[]
+  invites    ServerInvite[]
+  bans       ServerBan[]
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([ownerId])
+  @@map("servers")
+}
+
+model ServerRole {
+  id String @id @default(dbgenerated("gen_random_uuid()"))
+
+  serverId String @map("server_id")
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  name        String
+  color       String?
+  position    Int     @default(0)
+  permissions BigInt  @default(0)
+  isDefault   Boolean @default(false) @map("is_default")
+  mentionable Boolean @default(true)
+  hoist       Boolean @default(false)
+
+  members    ServerMemberRoleLink[]
+  overwrites ChannelOverwrite[]
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @default(now()) @updatedAt @db.Timestamptz(3)
+
+  @@unique([serverId, name])
+  @@index([serverId, position])
+  @@map("server_roles")
+}
+
+model ServerMember {
+  id String @id @default(dbgenerated("gen_random_uuid()"))
+
+  serverId String @map("server_id")
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  nickname String?
+  role     ServerMemberRole @default(member)
+
+  mutedUntil  DateTime? @map("muted_until") @db.Timestamptz(3)
+  joinedAt    DateTime  @default(now()) @map("joined_at") @db.Timestamptz(3)
+  invitedById String?   @map("invited_by_id")
+
+  roles      ServerMemberRoleLink[]
+  overwrites ChannelOverwrite[]
+
+  @@unique([serverId, userId])
+  @@index([userId])
+  @@index([serverId, role])
+  @@map("server_members")
+}
+
+model ServerMemberRoleLink {
+  memberId String       @map("member_id")
+  member   ServerMember @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  roleId String     @map("role_id")
+  role   ServerRole @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  assignedAt DateTime @default(now()) @map("assigned_at") @db.Timestamptz(3)
+
+  @@id([memberId, roleId])
+  @@index([roleId])
+  @@map("server_member_roles")
+}
+
+model ServerInvite {
+  id String @id @default(dbgenerated("gen_random_uuid()"))
+
+  code String @unique
+
+  serverId String @map("server_id")
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  creatorId String? @map("creator_id")
+  creator   User?   @relation("ServerInviteCreator", fields: [creatorId], references: [id], onDelete: SetNull)
+
+  maxUses   Int?      @map("max_uses")
+  uses      Int       @default(0)
+  expiresAt DateTime? @map("expires_at") @db.Timestamptz(3)
+  revokedAt DateTime? @map("revoked_at") @db.Timestamptz(3)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([serverId])
+  @@map("server_invites")
+}
+
+model ServerBan {
+  id String @id @default(dbgenerated("gen_random_uuid()"))
+
+  serverId String @map("server_id")
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  userId String @map("user_id")
+  user   User   @relation("ServerBanTarget", fields: [userId], references: [id], onDelete: Cascade)
+
+  bannedById String? @map("banned_by_id")
+  reason     String?
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@unique([serverId, userId])
+  @@index([userId])
+  @@map("server_bans")
+}

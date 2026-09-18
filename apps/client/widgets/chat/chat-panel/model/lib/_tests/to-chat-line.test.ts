@@ -39,7 +39,16 @@ describe('chatMessageToChatLine', () => {
     expect(line.deletedAt).toBe(new Date('2026-09-03T12:06:00.000Z').getTime());
   });
 
-  it('falls back to a deleted-author identity so the bubble still renders', () => {
-    expect(chatMessageToChatLine(messageOf({ senderId: null })).from?.identity).toBe('deleted');
+  it('falls back to a per-message deleted identity so the bubble still renders', () => {
+    const line = chatMessageToChatLine(messageOf({ senderId: null }));
+
+    expect(line.from?.identity).toBe(`deleted:${line.id}`);
+  });
+
+  it('keeps two deleted authors apart so their messages do not group', () => {
+    const first = chatMessageToChatLine(messageOf({ id: 'message-a', senderId: null }));
+    const second = chatMessageToChatLine(messageOf({ id: 'message-b', senderId: null }));
+
+    expect(first.from?.identity).not.toBe(second.from?.identity);
   });
 });

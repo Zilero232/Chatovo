@@ -4,46 +4,34 @@
     "subtitle": "Jump into a voice room or start your own",
     "appVersion": "App version",
     "stats": {
-      "rooms": "Rooms",
-      "live": "Live now",
+      "servers": "Servers",
+      "members": "Members",
       "online": "Online"
     },
-    "recent": {
-      "heading": "Continue",
-      "privateRoom": "Private room"
-    },
-    "roomsHeading": "Rooms",
-    "searchPlaceholder": "Search rooms...",
-    "filters": {
-      "all": "All",
-      "live": "Live",
-      "mine": "Mine"
-    },
-    "view": {
-      "grid": "Grid view",
-      "list": "List view"
-    },
-    "nothingFound": "No rooms match \"{query}\"",
-    "nothingFoundHint": "Try a shorter query, or create a room with that name yourself.",
-    "nothingFoundTitle": "Nothing found",
-    "clearSearch": "Clear search",
-    "roomsError": {
-      "title": "Could not load rooms",
-      "description": "Check your connection and try again.",
-      "retry": "Try again"
-    },
     "empty": {
-      "title": "No rooms yet",
-      "text": "Rooms show up here the moment someone creates one. Start the first one and share the link — whoever opens it lands straight in the call."
+      "title": "No servers yet",
+      "text": "Create your own server or join with an invite — channels, roles and voice are already inside."
     },
-    "card": {
-      "live": "Live",
-      "empty": "Empty",
-      "people": "{count, plural, one {# person} other {# people}}",
-      "yours": "Yours",
-      "ownerTooltip": "Room owner",
-      "micMuted": "Microphone muted",
-      "deafened": "Sound off"
+    "serversHeading": "Your servers",
+    "createServer": "Create a server",
+    "joinServer": "Join with an invite",
+    "tabs": {
+      "friends": "Friends",
+      "online": "Online",
+      "all": "All",
+      "servers": "Servers",
+      "search": "Search",
+      "empty": "Nothing here yet",
+      "onlineCount": "Online — {count}",
+      "allCount": "All friends — {count}",
+      "joinVoice": "Join voice",
+      "message": "Message",
+      "addFriend": "Add friend"
+    },
+    "activeNow": {
+      "title": "Active now",
+      "emptyTitle": "It's quiet for now…",
+      "emptyHint": "When a friend joins a voice channel, you will see it here."
     }
   },
   "room": {
@@ -84,17 +72,6 @@
         "applause": "Applause"
       }
     },
-    "password": {
-      "heading": "This room is locked",
-      "hint": "Ask whoever sent you the link for the password — “{name}” will not open without it.",
-      "label": "Password",
-      "wrong": "Wrong password",
-      "join": "Join",
-      "validation": {
-        "passwordMin": "Min 4 characters",
-        "passwordMax": "Max 128 characters"
-      }
-    },
     "shortcuts": {
       "pttBlockedByMute": "Microphone is muted — unmute to use push-to-talk"
     },
@@ -119,8 +96,7 @@
     "expandVideo": "Expand video",
     "collapseVideo": "Collapse video",
     "invisibleBadge": "Invisible",
-    "invisibleNotice": "You joined hidden: nobody sees or hears you",
-    "invisibleSwitching": "Reconnecting — invisible mode changed"
+    "invisibleNotice": "You joined hidden: nobody sees or hears you"
   },
   "chat": {
     "title": "Chat",
@@ -132,7 +108,6 @@
     "attach": "Attach file",
     "dropToSend": "Drop to send",
     "uploading": "Uploading…",
-    "uploadFailed": "Failed to upload file",
     "fileTooLarge": "File is too large (max 25 MB)",
     "sending": "Sending…",
     "sendFailed": "Not sent",
@@ -154,20 +129,34 @@
     "yesterday": "Yesterday",
     "empty": {
       "title": "It's quiet here",
-      "description": "Messages sent in this room appear here and stay for everyone who joins later. Drop a link, a file or just say hi."
+      "description": "Messages sent in this room appear here and stay for everyone who joins later. Drop a link, a file or just say hi.",
+      "channelTitle": "Welcome to #{name}",
+      "channelDescription": "This is the start of the #{name} channel. Say hi, drop a link or share a file."
     },
     "openInBrowser": "Open in browser",
-    "download": "Download"
+    "download": "Download",
+    "readOnly": "Only members with the right permission can post here.",
+    "typingOne": "{name} is typing…",
+    "typingMany": "{count} people are typing…",
+    "pin": "Pin",
+    "unpin": "Unpin",
+    "pinned": "Pinned messages",
+    "noPinned": "No pinned messages",
+    "reply": "Reply",
+    "replyingTo": "Replying to {name}",
+    "cancelReply": "Cancel reply",
+    "replyUnavailable": "Message unavailable",
+    "addReaction": "Add reaction",
+    "reactWith": "React with {emoji}",
+    "error": {
+      "title": "Could not load messages",
+      "description": "Something went wrong while fetching this conversation.",
+      "retry": "Try again"
+    },
+    "openImage": "Open image {name}"
   },
   "channels": {
-    "searchPlaceholder": "Search rooms...",
-    "noRoomsYet": "No rooms yet",
-    "nothingFound": "Nothing found",
-    "nothingFoundHint": "No room matches that name. Clear the search to see all of them again.",
     "online": "online",
-    "createRoom": "Create a room",
-    "emptyHint": "Pick a room from the page, or start a new one.",
-    "privateRoom": "Private room",
     "friends": {
       "heading": "Friends",
       "online": "Online — {count}",
@@ -183,53 +172,14 @@
       "others": "{count, plural, one {+# more person} other {+# more people}}",
       "emptyTitle": "It's quiet right now",
       "emptyHint": "None of your friends are around. Start a room and be the first one in."
-    }
-  },
-  "createRoom": {
-    "trigger": "Create room",
-    "title": "Create a room",
-    "description": "Set a name, pick who can join, and we drop you straight into the call.",
-    "nameLabel": "New room name",
-    "namePlaceholder": "team standup",
-    "passwordLabel": "Password",
-    "passwordPlaceholder": "Min 4 chars",
-    "privateLabel": "Private (password required to join)",
-    "submit": "Create room",
-    "created": "Room created",
-    "nameCounter": "{count}/{max}",
-    "passwordHint": "At least 4 characters. Share it only with people you want inside.",
-    "privateExplainer": "The room stays listed under a lock. Only people with the password can get in.",
-    "publicExplainer": "Everyone sees the room in the lobby and can join without a password.",
-    "hint": "You can rename the room or change its password later from the room menu."
-  },
-  "manageRoom": {
-    "menu": {
-      "open": "Manage room",
-      "edit": "Edit room",
-      "delete": "Delete room"
     },
-    "edit": {
-      "title": "Edit room",
-      "description": "Rename the room, or switch it between public and private.",
-      "nameLabel": "Name",
-      "passwordLabel": "New password",
-      "passwordHint": "Leave empty to keep the current password.",
-      "privateLabel": "Private (password required to join)",
-      "submit": "Save changes",
-      "saved": "Room updated",
-      "nameCounter": "{count}/{max}",
-      "privateExplainer": "The room stays listed under a lock. Only people with the password can get in.",
-      "publicExplainer": "Everyone sees the room in the lobby and can join without a password.",
-      "hint": "Changing the password does not kick anyone out — it only affects new joins."
-    },
-    "delete": {
-      "title": "Delete \"{name}\"?",
-      "description": "Anyone currently inside will be disconnected. This cannot be undone.",
-      "cancel": "Cancel",
-      "confirm": "Delete",
-      "deleted": "Room deleted",
-      "consequences": "The room, its chat history, and every channel inside it are gone for good.",
-      "hint": "Everyone currently in the call will be disconnected right away."
+    "findOrStart": "Find or start a conversation",
+    "directMessages": "Direct messages",
+    "noDirectMessages": "No conversations yet",
+    "startConversation": "Start a conversation",
+    "voiceStatus": {
+      "connected": "Voice connected",
+      "disconnect": "Disconnect"
     }
   },
   "participant": {
@@ -240,6 +190,11 @@
     "screenVolume": "Screen audio",
     "screenVolumeFor": "Screen audio volume for {name}",
     "copyName": "Copy name",
-    "nameCopied": "Name copied"
+    "nameCopied": "Name copied",
+    "live": "Live",
+    "yours": "Yours",
+    "ownerTooltip": "Owner",
+    "micMuted": "Microphone muted",
+    "deafened": "Sound off"
   }
 }

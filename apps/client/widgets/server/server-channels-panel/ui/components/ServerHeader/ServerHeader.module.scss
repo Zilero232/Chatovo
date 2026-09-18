@@ -1,0 +1,50 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  position: relative;
+  display: flex;
+  height: rem(52);
+  flex-shrink: 0;
+  align-items: center;
+  padding: 0 0.5rem;
+  border-bottom: 1px solid oklch(100% 0 0deg / 8%);
+}
+
+.skeleton {
+  width: 60%;
+  height: rem(18);
+  margin-left: 0.5rem;
+}
+
+.trigger {
+  display: flex;
+  width: 100%;
+  height: rem(36);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.5rem;
+  border-radius: var(--radius-md);
+  color: var(--foreground);
+  font-weight: 600;
+  gap: 0.5rem;
+  transition: background-color var(--duration-fast) var(--timing-function-standard);
+
+  @include hover {
+    background: oklch(100% 0 0deg / 6%);
+  }
+
+  &[data-popup-open] {
+    background: oklch(100% 0 0deg / 8%);
+  }
+
+  svg {
+    width: rem(16);
+    height: rem(16);
+    flex-shrink: 0;
+    color: var(--muted-foreground);
+  }
+}
+
+.name {
+  @include text-ellipsis;
+}

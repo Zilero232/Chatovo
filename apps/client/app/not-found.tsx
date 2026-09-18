@@ -1,4 +1,4 @@
-import { NotFoundPage } from '@/views/not-found';
+import { NotFoundPage } from '@/views/system/not-found';
 
 import { AppProviders } from './providers/index';
 

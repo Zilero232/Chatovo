@@ -1,133 +1,79 @@
 @use '@/ui-kit/styles/mixins' as *;
 
 .root {
-  position: relative;
   display: flex;
-  min-height: 8.25rem;
+  min-width: 0;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 1.125rem 1rem;
-  border: 1px solid oklch(100% 0 0deg / 8%);
-  border-radius: var(--radius-xl);
+  padding: 1rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   background: oklch(100% 0 0deg / 3%);
-  color: inherit;
   gap: 0.5rem;
   text-align: center;
-  text-decoration: none;
+  transition:
+    border-color var(--duration-fast) var(--timing-function-standard),
+    background-color var(--duration-fast) var(--timing-function-standard);
+
+  @include hover {
+    border-color: color-mix(in oklch, var(--brand-violet) 50%, transparent);
+    background: oklch(100% 0 0deg / 5%);
+  }
 }
 
-.available {
-  transition:
-    border-color var(--duration-default) var(--timing-function-out),
-    background-color var(--duration-default) var(--timing-function-out),
-    transform var(--duration-default) var(--timing-function-out);
-
-  @include interactive-cursor;
-
-  &:hover {
-    border-color: color-mix(in oklch, var(--brand-cyan) 45%, transparent);
-    background: oklch(100% 0 0deg / 6%);
-    transform: translateY(#{rem(-2)});
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  &:focus-visible {
-    border-color: color-mix(in oklch, var(--brand-cyan) 60%, transparent);
-    box-shadow: 0 0 0 rem(3) color-mix(in oklch, var(--brand-cyan) 22%, transparent);
-    outline: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-
-    &:hover {
-      transform: none;
-    }
-  }
+.wide {
+  padding: 1.25rem 1rem;
 }
 
 .unavailable {
-  border-style: dashed;
-  background: transparent;
+  opacity: 0.6;
 
-  .icon {
-    color: var(--muted-foreground);
+  @include hover {
+    border-color: var(--border);
+    background: oklch(100% 0 0deg / 3%);
   }
 }
 
 .iconBox {
   display: flex;
-  width: 3rem;
-  height: 3rem;
+  width: rem(64);
+  height: rem(64);
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-lg);
-  background: color-mix(in oklch, var(--brand-cyan) 12%, transparent);
-  transition: background-color var(--duration-default) var(--timing-function-out);
+  border-radius: var(--radius-xl);
+  background: oklch(100% 0 0deg / 6%);
 
-  .available:hover & {
-    background: color-mix(in oklch, var(--brand-cyan) 20%, transparent);
+  .wide & {
+    width: rem(76);
+    height: rem(76);
   }
 }
 
 .icon {
-  width: 1.625rem;
-  height: 1.625rem;
-  color: var(--brand-cyan);
+  width: rem(32);
+  height: rem(32);
+  color: var(--foreground);
+
+  .wide & {
+    width: rem(38);
+    height: rem(38);
+  }
 }
 
 .name {
   font-size: 0.9375rem;
   font-weight: 600;
-  line-height: 1.2;
+
+  @include text-ellipsis;
 }
 
 .size {
   color: var(--muted-foreground);
-  font-size: 0.75rem;
+  font-size: rem(11);
   font-variant-numeric: tabular-nums;
 }
 
 .unavailableLabel {
   color: var(--muted-foreground);
   font-size: 0.75rem;
-}
-
-.action {
-  position: absolute;
-  top: 0.625rem;
-  right: 0.625rem;
-  display: flex;
-  width: 1.5rem;
-  height: 1.5rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background: color-mix(in oklch, var(--brand-cyan) 16%, transparent);
-  color: var(--brand-cyan);
-  opacity: 0;
-  transform: translateY(#{rem(-3)});
-  transition:
-    opacity var(--duration-default) var(--timing-function-out),
-    transform var(--duration-default) var(--timing-function-out);
-
-  .available:hover &,
-  .available:focus-visible & {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transform: none;
-    transition: opacity var(--duration-default) var(--timing-function-out);
-  }
-}
-
-.actionIcon {
-  width: 0.8125rem;
-  height: 0.8125rem;
 }

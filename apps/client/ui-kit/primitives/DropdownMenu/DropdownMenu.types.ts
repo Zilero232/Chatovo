@@ -31,3 +31,5 @@ export type DropdownMenuRadioGroupProps = ComponentProps<typeof Menu.RadioGroup>
 export type DropdownMenuRadioItemProps = ComponentProps<typeof Menu.RadioItem>;
 
 export type DropdownMenuGroupProps = ComponentProps<typeof Menu.Group>;
+
+export type DropdownMenuSeparatorProps = ComponentProps<typeof Menu.Separator>;

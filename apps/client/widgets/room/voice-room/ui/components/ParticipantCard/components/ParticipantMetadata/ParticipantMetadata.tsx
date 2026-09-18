@@ -18,7 +18,7 @@ export const ParticipantMetadata = ({
   deafened,
   participant
 }: ParticipantMetadataProps) => {
-  const tLobby = useTranslations('lobby.card');
+  const tLobby = useTranslations('participant');
 
   const { micMuted, verified, developer, displayName } = useParticipantMedia(participant);
 

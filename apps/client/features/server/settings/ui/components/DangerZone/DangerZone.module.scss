@@ -1,0 +1,6 @@
+.root {
+  padding: 0.75rem 1rem;
+  border: 1px solid color-mix(in oklch, var(--destructive) 40%, transparent);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklch, var(--destructive) 8%, transparent);
+}

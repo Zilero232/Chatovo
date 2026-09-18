@@ -1,0 +1,59 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border: 1px solid oklch(100% 0 0deg / 8%);
+  border-radius: var(--radius-lg);
+  background: oklch(100% 0 0deg / 4%);
+  cursor: pointer;
+  gap: 0.75rem;
+  text-align: left;
+  transition:
+    background-color var(--duration-fast) var(--timing-function-standard),
+    border-color var(--duration-fast) var(--timing-function-standard);
+
+  @include hover {
+    border-color: color-mix(in oklch, var(--brand-violet) 45%, transparent);
+    background: oklch(100% 0 0deg / 8%);
+  }
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--brand-violet);
+
+  svg {
+    width: rem(22);
+    height: rem(22);
+  }
+}
+
+.label {
+  min-width: 0;
+  color: var(--foreground);
+  font-size: rem(15);
+  font-weight: 500;
+
+  @include text-ellipsis;
+}
+
+.skip {
+  margin-top: 0.25rem;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  font-size: rem(13);
+
+  @include hover {
+    color: var(--foreground);
+    text-decoration: underline;
+  }
+}

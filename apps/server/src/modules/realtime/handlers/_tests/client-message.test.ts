@@ -6,6 +6,9 @@ const emitRoomEvent = vi.fn();
 const patchParticipant = vi.fn();
 const setConnectionRooms = vi.fn();
 const filterAccessibleRooms = vi.fn();
+const filterAccessibleServers = vi.fn();
+const setConnectionServers = vi.fn();
+const broadcastTyping = vi.fn();
 
 vi.mock('../../emit', () => ({
   emitRoomEvent: (...args: unknown[]) => emitRoomEvent(...args)
@@ -16,11 +19,17 @@ vi.mock('../../../livekit/presence', () => ({
 }));
 
 vi.mock('../../connection-store', () => ({
-  setConnectionRooms: (...args: unknown[]) => setConnectionRooms(...args)
+  setConnectionRooms: (...args: unknown[]) => setConnectionRooms(...args),
+  setConnectionServers: (...args: unknown[]) => setConnectionServers(...args)
+}));
+
+vi.mock('../../typing', () => ({
+  broadcastTyping: (...args: unknown[]) => broadcastTyping(...args)
 }));
 
 vi.mock('../../../../lib', () => ({
-  filterAccessibleRooms: (input: unknown) => filterAccessibleRooms(input)
+  filterAccessibleRooms: (input: unknown) => filterAccessibleRooms(input),
+  filterAccessibleServers: (input: unknown) => filterAccessibleServers(input)
 }));
 
 const { handleClientMessage } = await import('../client-message');
@@ -33,6 +42,7 @@ const connectionOf = (isAdmin: boolean, rooms: string[]): RealtimeConnection =>
     isAdmin,
     isAlive: true,
     rooms: new Set(rooms),
+    servers: new Set<string>(),
     userId: 'user-1',
     ws: {} as RealtimeConnection['ws']
   }) satisfies RealtimeConnection;
@@ -43,6 +53,9 @@ describe('handleClientMessage', () => {
     patchParticipant.mockReset();
     setConnectionRooms.mockReset();
     filterAccessibleRooms.mockReset().mockResolvedValue([]);
+    filterAccessibleServers.mockReset().mockResolvedValue([]);
+    setConnectionServers.mockReset();
+    broadcastTyping.mockReset();
   });
 
   it('broadcasts a soundboard sound sent by an admin', async () => {

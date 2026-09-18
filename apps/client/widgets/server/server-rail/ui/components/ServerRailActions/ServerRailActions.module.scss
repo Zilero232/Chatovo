@@ -1,0 +1,30 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.5rem;
+
+  [data-orientation='vertical'] & {
+    flex-direction: column;
+  }
+}
+
+.action {
+  width: rem(44);
+  height: rem(44);
+  border-radius: rem(22);
+  background: oklch(100% 0 0deg / 6%);
+  color: oklch(75% 0.18 150deg);
+  transition:
+    border-radius var(--duration-fast) var(--timing-function-standard),
+    background-color var(--duration-fast) var(--timing-function-standard),
+    color var(--duration-fast) var(--timing-function-standard);
+
+  @include hover {
+    border-radius: rem(14);
+    background: oklch(75% 0.18 150deg);
+    color: oklch(15% 0 0deg);
+  }
+}

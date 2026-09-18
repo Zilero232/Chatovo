@@ -34,7 +34,8 @@ The `Processes` layer is deprecated — its contents move into `Features` or `Ap
 apps/client/            # (canon: src/)
 ├── app/                # App layer (no slices — segments only)
 ├── views/              # Views layer (canon: pages/)
-│   └── <view-name>/
+│   └── <domain>/       # app | auth | landing | system
+│       └── <view-name>/
 ├── widgets/            # Widgets layer
 │   └── <domain>/       # app | chat | layout | room | social
 │       └── <widget-name>/
@@ -150,14 +151,17 @@ export { DeafenProvider } from './model/contexts';
 
 ```tsx
 // app/(authed)/room/page.tsx — server, thin
-import { RoomPage } from '@/views/room';
+import { RoomPage } from '@/views/app/room';
 
 const Page = () => <RoomPage />;
 
 export default Page;
 ```
 
-Route files (`page.tsx`, `layout.tsx`) are server components, without `'use client'`. They contain only metadata, a wrapper and a default export. All UI and logic lives in `views/<name>/`.
+Route files (`page.tsx`, `layout.tsx`) are server components, without `'use client'`. They contain only metadata, a wrapper and a default export. All UI and logic lives in `views/<domain>/<name>/`.
+
+Views are grouped by domain, the same way widgets, features and entities are:
+`app/` (behind auth — admin, invite, lobby, room, server), `auth/` (sign-in, reset-password, account-delete), `landing/` (public marketing and legal pages) and `system/` (error, not-found). The groups line up with the Next.js route groups in `app/`.
 
 > FSD canon recommends `export { Page as default } from '@/views/...'` and an empty `pages/` with a `.gitkeep`. In Chatovo the layer is named `views/`, so there is no clash with the Next.js Pages Router and no `.gitkeep` placeholder is needed. The route wrapper is written as an ordinary component (see above).
 
@@ -230,7 +234,7 @@ Feature
 | A Widget imports from a View | Invert it: the View imports the Widget |
 | A slice exports everything via `export *` | Explicit named re-exports |
 | A `components/` folder at the layer root | Classify it: is it a Widget, a Feature, an Entity or Shared UI? |
-| A route file holds the full page implementation | Move it into `views/<name>/`, leave the route a thin wrapper |
+| A route file holds the full page implementation | Move it into `views/<domain>/<name>/`, leave the route a thin wrapper |
 
 ---
 

@@ -54,7 +54,7 @@ export const useChatMessageItem = ({
     canEdit,
     canReport,
     showHeader: !isGrouped,
-    showActions: canManage && isOwn && !isDeleted && !isEditing && !isUnsent,
+    showActions: canManage && !isDeleted && !isEditing && !isUnsent,
     startEdit: () => setIsEditing(true),
     reportAbuse: () => setIsReportingAbuse(true)
   };

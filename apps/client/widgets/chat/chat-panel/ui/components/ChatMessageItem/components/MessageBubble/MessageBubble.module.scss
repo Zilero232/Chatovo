@@ -1,55 +1,17 @@
 @use '@/ui-kit/styles/mixins' as *;
 
 .bubble {
-  max-width: min(100%, 68ch);
-  border-radius: var(--radius-xl);
-  font-size: rem(15);
-  line-height: 1.65;
-  overflow-wrap: break-word;
-}
-
-.own {
-  color: #fff;
-}
-
-.other {
+  max-width: min(100%, 78ch);
   color: var(--foreground);
+  font-size: rem(16);
+  line-height: 1.375;
+  overflow-wrap: break-word;
 }
 
 .bare {
   overflow: hidden;
-  border-radius: 0;
-}
-
-.padded {
-  padding: 0.5rem 0.875rem;
-  box-shadow: 0 rem(1) rem(2) oklch(0% 0 0deg / 5%);
-}
-
-.ownPadded {
-  background: linear-gradient(
-    to bottom right,
-    var(--brand-violet),
-    color-mix(in oklch, var(--brand-violet) 85%, transparent)
-  );
-  box-shadow: 0 rem(2) rem(10) rem(-2) oklch(70% 0.2 270deg / 50%);
-}
-
-.otherPadded {
-  border: 1px solid oklch(100% 0 0deg / 8%);
-  backdrop-filter: blur(rem(12));
-  background: oklch(100% 0 0deg / 6%);
-
-  @include tauri-mobile {
-    backdrop-filter: none;
-    background: oklch(28% 0.02 280deg);
-  }
-}
-
-.ownTail {
-  border-bottom-right-radius: var(--radius-sm);
-}
-
-.otherTail {
-  border-bottom-left-radius: var(--radius-sm);
+  width: fit-content;
+  max-width: min(100%, rem(420));
+  border-radius: var(--radius-lg);
+  margin-top: rem(2);
 }

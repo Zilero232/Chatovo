@@ -61,6 +61,24 @@
   }
 }
 
+.primary {
+  background: var(--brand-violet);
+  box-shadow:
+    0 rem(1) 0 oklch(100% 0 0deg / 18%) inset,
+    0 rem(6) rem(16) rem(-6) color-mix(in oklch, var(--brand-violet) 70%, transparent);
+  color: oklch(100% 0 0deg);
+
+  @include hover {
+    &:not(:disabled) {
+      background: color-mix(in oklch, var(--brand-violet) 88%, oklch(0% 0 0deg));
+    }
+  }
+
+  &:active:not(:disabled) {
+    background: color-mix(in oklch, var(--brand-violet) 80%, oklch(0% 0 0deg));
+  }
+}
+
 .outline {
   border: 1px solid oklch(100% 0 0deg / 12%);
   background: oklch(100% 0 0deg / 3%);

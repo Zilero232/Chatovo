@@ -1,0 +1,7 @@
+export const CHANNEL_NAME_MAX_LENGTH = 64;
+export const CHANNEL_TOPIC_MAX_LENGTH = 512;
+export const CATEGORY_NAME_MAX_LENGTH = 64;
+export const THREAD_NAME_MAX_LENGTH = 100;
+export const THREAD_TAG_NAME_MAX_LENGTH = 24;
+export const SLOW_MODE_MAX_SECONDS = 21600;
+export const VOICE_USER_LIMIT_MAX = 99;

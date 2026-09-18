@@ -1,41 +1,78 @@
+@use '@/ui-kit/styles/mixins' as *;
 @use '@/ui-kit/styles/keyframes';
 
 .root {
+  position: relative;
   display: flex;
-  align-items: flex-end;
-  animation:
-    overlay-fade-in var(--duration-default) var(--timing-function-out),
-    slide-in-from-bottom var(--duration-default) var(--timing-function-out);
-  gap: 0.5rem;
+  align-items: flex-start;
+  padding: rem(2) 0.75rem rem(2) 0.5rem;
+  border-radius: var(--radius-md);
+  animation: overlay-fade-in var(--duration-default) var(--timing-function-out);
+  gap: 0.75rem;
 
-  &[data-own='true'] {
-    flex-direction: row-reverse;
+  @include hover {
+    background: oklch(100% 0 0deg / 3%);
   }
 
   &[data-pending='true'] {
     opacity: 0.6;
+  }
+
+  &[data-grouped='true'] {
+    padding-top: 0;
+  }
+
+  &[data-grouped='false'] {
+    margin-top: 0.5rem;
+  }
+
+  &[data-tail='true'] {
+    margin-bottom: 0.25rem;
+  }
+
+  &[data-mentioned='true'] {
+    background: color-mix(in oklch, var(--brand-violet) 12%, transparent);
+    box-shadow: inset rem(2) 0 0 var(--brand-violet);
+  }
+}
+
+.gutter {
+  display: flex;
+  width: rem(40);
+  flex-shrink: 0;
+  justify-content: center;
+  padding-top: rem(2);
+}
+
+.avatar {
+  width: rem(40);
+  height: rem(40);
+}
+
+.hoverTime {
+  color: color-mix(in oklch, var(--muted-foreground) 80%, transparent);
+  font-size: rem(10);
+  font-variant-numeric: tabular-nums;
+  line-height: rem(22);
+  opacity: 0;
+  user-select: none;
+
+  .root:hover & {
+    opacity: 1;
   }
 }
 
 .column {
   display: flex;
   min-width: 0;
-  max-width: 85%;
+  flex: 1;
   flex-direction: column;
-  gap: 0.25rem;
-
-  &[data-own='true'] {
-    align-items: flex-end;
-  }
+  gap: rem(2);
 }
 
 .bodyRow {
   display: flex;
   min-width: 0;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.25rem;
-
-  &[data-own='true'] {
-    flex-direction: row-reverse;
-  }
 }

@@ -4,6 +4,7 @@ export {
   parseRealtimeServerMessage
 } from './dispatch-realtime-message';
 export {
+  buildServerSubscribeMessage,
   buildSubscribeMessage,
   setSubscriptionSender,
   syncRoomSubscriptions

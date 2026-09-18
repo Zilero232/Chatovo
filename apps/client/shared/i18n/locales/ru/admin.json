@@ -46,7 +46,6 @@
       "blocked": "Заблокированы",
       "admins": "Администраторы",
       "newToday": "Новых сегодня",
-      "newThisWeek": "Новых за неделю",
       "rooms": "Комнаты",
       "roomsGroup": "Групповые",
       "roomsDm": "Личные",
@@ -54,9 +53,7 @@
       "roomsLive": "Активные",
       "messages": "Сообщения",
       "messagesToday": "Сегодня: {count}",
-      "messagesWeek": "За неделю",
       "reportsPending": "Жалобы в работе",
-      "reportsHandled": "Рассмотрено",
       "signups": "Регистрации",
       "messagesSeries": "Сообщения",
       "chartHint": "За последние 14 дней",
@@ -164,7 +161,6 @@
     },
     "cancel": "Отмена",
     "backToLobby": "Вернуться в лобби",
-    "menuLabel": "Меню админа",
-    "openPanel": "Админ-панель"
+    "menuLabel": "Меню админа"
   }
 }

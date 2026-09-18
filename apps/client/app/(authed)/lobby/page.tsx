@@ -1,6 +1,6 @@
 import { ROUTES } from '@/shared/constants';
 import { createPageMetadata } from '@/shared/seo';
-import { LobbyPage } from '@/views/lobby';
+import { LobbyPage } from '@/views/app/lobby';
 
 export const metadata = createPageMetadata({
   title: 'Lobby',

@@ -1,11 +1,12 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { isNonNullish } from 'remeda';
 import { match, P } from 'ts-pattern';
 
 import { useCurrentUser } from '@/entities/auth/user';
-import { useEnterRoom } from '@/entities/room/room';
+import { buildServerHref } from '@/shared/lib';
 import { Button, Spinner } from '@/ui-kit';
 
 import type { ProfileVoiceBlockProps } from './ProfileVoiceBlock.types';
@@ -15,13 +16,14 @@ import { useParticipantRoom } from '../../../../model/hooks';
 import s from './ProfileVoiceBlock.module.scss';
 
 export const ProfileVoiceBlock = ({ identity, isSelf }: ProfileVoiceBlockProps) => {
+  const router = useRouter();
+
   const t = useTranslations('profileCard');
 
   const { user } = useCurrentUser();
 
   const { room, isLoading } = useParticipantRoom(identity);
   const { room: myRoom } = useParticipantRoom(user?.id ?? '');
-  const { isPending, mutate: enterRoom } = useEnterRoom();
 
   const inSameRoom = isNonNullish(room) && room.roomId === myRoom?.roomId;
 
@@ -48,11 +50,11 @@ export const ProfileVoiceBlock = ({ identity, isSelf }: ProfileVoiceBlockProps) 
             {!same && (
               <Button
                 className={s.button}
-                disabled={isPending}
                 size='sm'
-                onClick={() => enterRoom({ roomId: current.roomId })}
+                onClick={() =>
+                  router.push(buildServerHref(current.serverId, { channelId: current.roomId }))
+                }
               >
-                {isPending && <Spinner decorative size='xs' />}
                 {t('join')}
               </Button>
             )}

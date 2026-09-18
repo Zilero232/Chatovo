@@ -1,0 +1,32 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  overflow: hidden;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 0.125rem 0 0.25rem 1.5rem;
+  gap: 0.125rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-sm);
+  gap: 0.5rem;
+}
+
+.avatar {
+  width: rem(20);
+  height: rem(20);
+}
+
+.name {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+
+  @include text-ellipsis;
+}

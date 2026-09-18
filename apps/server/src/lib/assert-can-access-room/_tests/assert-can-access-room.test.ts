@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const findRoom = vi.fn();
 const assertNotBlocked = vi.fn();
-const hasRoomGrant = vi.fn();
 
 vi.mock('../../../core', () => ({
   basePrisma: {
@@ -12,10 +11,6 @@ vi.mock('../../../core', () => ({
 
 vi.mock('../../assert-not-blocked', () => ({
   assertNotBlocked: (userId: string) => assertNotBlocked(userId)
-}));
-
-vi.mock('../../../modules/livekit', () => ({
-  hasRoomGrant: (roomId: string, userId: string) => hasRoomGrant(roomId, userId)
 }));
 
 const { assertCanAccessRoom } = await import('../assert-can-access-room');
@@ -35,7 +30,6 @@ const userId = 'user-1';
 const publicRoom = {
   id: 'room-1',
   kind: 'group',
-  isPrivate: false,
   ownerId: 'owner-1',
   dmUserAId: null,
   dmUserBId: null
@@ -45,7 +39,6 @@ describe('assertCanAccessRoom', () => {
   beforeEach(() => {
     findRoom.mockReset();
     assertNotBlocked.mockReset().mockResolvedValue(undefined);
-    hasRoomGrant.mockReset().mockReturnValue(false);
   });
 
   it('lets anyone into a public room', async () => {
@@ -69,27 +62,6 @@ describe('assertCanAccessRoom', () => {
 
   it('allows a dm member', async () => {
     findRoom.mockResolvedValueOnce({ ...publicRoom, kind: 'dm', dmUserAId: userId });
-
-    await expect(assertCanAccessRoom({ roomId: 'room-1', userId })).resolves.toBeUndefined();
-  });
-
-  it('refuses a private room to a stranger without a grant', async () => {
-    findRoom.mockResolvedValueOnce({ ...publicRoom, isPrivate: true });
-
-    await expect(codeOf(assertCanAccessRoom({ roomId: 'room-1', userId }))).resolves.toBe(
-      'ROOM_ACCESS_DENIED'
-    );
-  });
-
-  it('allows the owner of a private room', async () => {
-    findRoom.mockResolvedValueOnce({ ...publicRoom, isPrivate: true, ownerId: userId });
-
-    await expect(assertCanAccessRoom({ roomId: 'room-1', userId })).resolves.toBeUndefined();
-  });
-
-  it('allows a stranger holding a live grant into a private room', async () => {
-    findRoom.mockResolvedValueOnce({ ...publicRoom, isPrivate: true });
-    hasRoomGrant.mockReturnValue(true);
 
     await expect(assertCanAccessRoom({ roomId: 'room-1', userId })).resolves.toBeUndefined();
   });

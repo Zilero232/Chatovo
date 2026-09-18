@@ -11,7 +11,7 @@ let invisibleMode = false;
 let isAdmin = true;
 let issuedToken: string | undefined = 'token-invisible';
 
-const roomTokenCalls: { roomId: string | null; isPrivate: boolean; password?: string }[] = [];
+const roomTokenCalls: { roomId: string | null }[] = [];
 
 vi.mock('@/entities/app/settings', () => ({
   useAppSettings: () => ({ settings: { system: { invisibleMode } } })
@@ -22,8 +22,8 @@ vi.mock('@/entities/auth/user', () => ({
 }));
 
 vi.mock('@/entities/room/room', () => ({
-  useRoomToken: (roomId: string | null, options: { isPrivate: boolean; password?: string }) => {
-    roomTokenCalls.push({ roomId, ...options });
+  useRoomToken: (roomId: string | null) => {
+    roomTokenCalls.push({ roomId });
 
     return { data: roomId ? issuedToken : undefined };
   }
@@ -41,7 +41,7 @@ const sessionOf = (overrides: Partial<RoomSession> = {}): RoomSession => ({
   token: 'token-visible',
   isChatOpen: false,
   isDm: false,
-  isPrivate: false,
+  serverId: null,
   isInvisible: false,
   ...overrides
 });
@@ -85,19 +85,6 @@ describe('useInvisibleModeSync', () => {
     });
 
     expect(result.current.session?.token).toBe('token-invisible');
-  });
-
-  it('carries the room password so a private room can reconnect', async () => {
-    const { result, rerender } = renderSync();
-
-    act(() => result.current.open(sessionOf({ isPrivate: true, password: 'hunter2' })));
-
-    invisibleMode = true;
-    rerender();
-
-    await waitFor(() => {
-      expect(roomTokenCalls.some((call) => call.password === 'hunter2')).toBe(true);
-    });
   });
 
   it('leaves the session alone for a non-admin, who has no invisible mode', () => {

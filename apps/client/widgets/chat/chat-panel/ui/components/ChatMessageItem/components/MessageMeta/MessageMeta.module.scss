@@ -2,14 +2,14 @@
 
 .root {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   color: var(--muted-foreground);
-  font-size: rem(11);
+  font-size: rem(12);
   gap: 0.5rem;
-  padding-inline: 0.25rem;
 }
 
 .nameTrigger {
+  min-width: 0;
   border-radius: var(--radius-md);
   outline: none;
 
@@ -21,10 +21,12 @@
 }
 
 .author {
-  color: color-mix(in oklch, var(--foreground) 80%, transparent);
+  color: var(--foreground);
+  font-size: rem(16);
   font-weight: 500;
 }
 
 .time {
+  flex-shrink: 0;
   font-variant-numeric: tabular-nums;
 }

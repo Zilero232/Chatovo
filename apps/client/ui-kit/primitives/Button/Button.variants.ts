@@ -8,6 +8,7 @@ export const buttonVariants = cva(s.root, {
   variants: {
     variant: {
       default: s.default,
+      primary: s.primary,
       destructive: s.destructive,
       outline: s.outline,
       secondary: s.secondary,

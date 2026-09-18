@@ -2,16 +2,10 @@
   "appSidebar": {
     "lobby": "Lobby",
     "downloadApp": "Download app",
-    "downloadAppLabel": "Download app",
     "checkUpdate": "Check for updates",
-    "checkUpdateLabel": "Check for app updates",
     "gnomeVpn": "GnomeVPN",
-    "gnomeVpnLabel": "Open GnomeVPN website",
     "logout": "Logout",
     "signedOut": "Signed out",
-    "showChannels": "Show channels",
-    "hideChannels": "Hide channels",
-    "toggleChannels": "Toggle channels",
     "menu": "Menu",
     "menuDescription": "Navigation and room list",
     "openMenu": "Open menu"
@@ -213,14 +207,10 @@
     "failed": "Update failed. Try again later.",
     "upToDate": "You're on the latest version",
     "checkFailed": "Couldn't check for updates",
-    "checkTimedOut": "Update check timed out. Try again later.",
-    "mobileTitle": "Version {version} available",
-    "mobileBody": "Download the new version of the app",
-    "mobileAction": "Download"
+    "checkTimedOut": "Update check timed out. Try again later."
   },
   "downloadApp": {
     "title": "Download Chatovo",
-    "description": "Native desktop app. Android lives in Google Play.",
     "loadFailed": "Couldn't load the latest release.",
     "openReleases": "Open releases on GitHub",
     "version": "Version {version}",
@@ -235,6 +225,8 @@
       "linux": "Linux",
       "android": "Android"
     },
+    "download": "Download",
+    "allReleasesHint": "Need another version or build?",
     "openGooglePlay": "Open in Google Play"
   },
   "feedback": {

@@ -1,18 +1,19 @@
-import type { FriendEntry, Room, RoomsParticipantsSnapshot } from '@chatovo/schemas';
+import type { FriendEntry, RoomsParticipantsSnapshot, VoiceChannelRef } from '@chatovo/schemas';
 
 export type FriendRoomRef = {
   id: string;
   name: string;
-};
-
-export type GroupFriendsByPresenceInput = {
-  friends: FriendEntry[];
-  presence: RoomsParticipantsSnapshot['rooms'];
-  rooms: Room[];
+  serverId: string;
 };
 
 export type FriendsByPresence = {
   offline: FriendEntry[];
   online: FriendEntry[];
   roomByUserId: Map<string, FriendRoomRef>;
+};
+
+export type GroupFriendsByPresenceInput = {
+  channels: VoiceChannelRef[];
+  friends: FriendEntry[];
+  presence: RoomsParticipantsSnapshot['rooms'];
 };

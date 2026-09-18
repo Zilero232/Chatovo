@@ -13,7 +13,8 @@ export const emitChatEvent = async (
   const room = await getRoomDmRouting(roomId);
 
   const roomKind = room?.kind ?? RoomKind.group;
-  const message: ChatRealtimeEvent = { ...event, roomId, roomKind };
+  const serverId = room?.serverId ?? null;
+  const message: ChatRealtimeEvent = { ...event, roomId, roomKind, serverId };
 
   if (room?.kind === RoomKind.dm && room.dmUserAId && room.dmUserBId) {
     emitUserEvent(room.dmUserAId, message);

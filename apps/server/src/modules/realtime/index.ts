@@ -12,6 +12,7 @@ export {
   emitFriendsSnapshot,
   emitPresenceSnapshot,
   emitRoomEvent,
+  emitServerEvent,
   emitUserEvent
 } from './emit';
 export { RealtimeGateway } from './realtime.gateway';

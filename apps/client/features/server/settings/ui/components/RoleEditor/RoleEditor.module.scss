@@ -1,0 +1,31 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  min-width: 0;
+}
+
+.title {
+  font-weight: 600;
+
+  @include text-ellipsis;
+}
+
+.swatch {
+  width: rem(28);
+  height: rem(28);
+  border: 2px solid transparent;
+  border-radius: 50%;
+  transition: border-color var(--duration-fast) var(--timing-function-standard);
+
+  @include hover {
+    border-color: oklch(100% 0 0deg / 40%);
+  }
+}
+
+.none {
+  background: oklch(100% 0 0deg / 12%);
+}
+
+.picked {
+  border-color: var(--foreground);
+}

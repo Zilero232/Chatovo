@@ -3,8 +3,6 @@ import { bold, code, fmt, link } from '@grammyjs/parse-mode';
 import type {
   AbuseReportNotification,
   ProblemReportNotification,
-  RoomCreatedNotification,
-  RoomDeletedNotification,
   UserBlockedNotification,
   UserSignupNotification,
   VoiceEmptyNotification,
@@ -28,24 +26,6 @@ export const notifyVoiceEmpty = ({ roomName }: VoiceEmptyNotification): Promise<
 
 export const notifyUserSignup = ({ name, email }: UserSignupNotification): Promise<void> =>
   send(fmt`✨ Новый пользователь: ${bold()}${name}${bold()} (${email})`);
-
-export const notifyRoomCreated = ({
-  roomName,
-  ownerName,
-  isPrivate
-}: RoomCreatedNotification): Promise<void> => {
-  const badge = isPrivate ? '🔒 приватная' : '🌐 публичная';
-
-  return send(
-    fmt`➕ ${bold()}${ownerName}${bold()} создал комнату ${bold()}${roomName}${bold()} (${badge})`
-  );
-};
-
-export const notifyRoomDeleted = ({
-  roomName,
-  ownerName
-}: RoomDeletedNotification): Promise<void> =>
-  send(fmt`➖ ${bold()}${ownerName}${bold()} удалил комнату ${bold()}${roomName}${bold()}`);
 
 export const notifyProblemReport = ({
   reporter,

@@ -3,7 +3,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 const findRoom = vi.fn();
 const findUser = vi.fn();
 const assertNotBlocked = vi.fn();
-const assertRoomAccess = vi.fn();
 const hasRoomGrant = vi.fn();
 const grantRoomAccess = vi.fn();
 
@@ -13,7 +12,6 @@ vi.mock('../../../../../lib', async (importOriginal) => ({
 }));
 
 vi.mock('../../../lib', () => ({
-  assertRoomAccess: (input: unknown) => assertRoomAccess(input),
   resolveInvisible: ({ requested, isAdmin }: { requested?: boolean; isAdmin: boolean }) =>
     Boolean(requested) && isAdmin
 }));
@@ -64,7 +62,7 @@ const room = (overrides: Record<string, unknown>) => ({
   id: 'room-1',
   kind: 'group',
   isPrivate: false,
-  password: null,
+  serverId: null,
   ownerId: 'owner-1',
   dmUserAId: null,
   dmUserBId: null,
@@ -76,7 +74,6 @@ describe('LivekitService.issueRoomToken', () => {
     findRoom.mockReset();
     findUser.mockReset().mockResolvedValue({ id: userId, role: 'user', profile: null });
     assertNotBlocked.mockReset().mockResolvedValue(undefined);
-    assertRoomAccess.mockReset().mockResolvedValue(undefined);
     hasRoomGrant.mockReset().mockReturnValue(false);
     grantRoomAccess.mockReset();
   });
@@ -113,42 +110,12 @@ describe('LivekitService.issueRoomToken', () => {
     });
   });
 
-  it('lets a stranger reach the password check of a private room', async () => {
-    findRoom.mockResolvedValueOnce(room({ isPrivate: true, password: 'hashed' }));
-
-    await serviceUnderTest().issueRoomToken({
-      roomId: 'room-1',
-      userId,
-      password: 'secret',
-      isAdmin: false
-    });
-
-    expect(assertRoomAccess).toHaveBeenCalledWith({
-      room: expect.objectContaining({ isPrivate: true }),
-      password: 'secret'
-    });
-  });
-
   it('reports a missing room as not found', async () => {
     findRoom.mockResolvedValueOnce(null);
 
     await expect(
       codeOf(serviceUnderTest().issueRoomToken({ roomId: 'gone', userId, isAdmin: false }))
     ).resolves.toBe('ROOM_NOT_FOUND');
-  });
-
-  it('skips the password check for an invisible admin', async () => {
-    findUser.mockResolvedValueOnce({ id: userId, role: 'admin', profile: null });
-    findRoom.mockResolvedValueOnce(room({ isPrivate: true, password: 'hashed' }));
-
-    await serviceUnderTest().issueRoomToken({
-      roomId: 'room-1',
-      userId,
-      invisible: true,
-      isAdmin: false
-    });
-
-    expect(assertRoomAccess).not.toHaveBeenCalled();
   });
 
   it('refuses a blocked account before any lookup', async () => {

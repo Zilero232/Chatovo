@@ -1,0 +1,59 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  max-width: rem(720);
+  flex-direction: column;
+  padding: 1.25rem;
+  gap: 0.5rem;
+}
+
+.title {
+  margin: 0;
+  color: var(--foreground);
+  font-size: rem(18);
+  font-weight: 700;
+}
+
+.hint {
+  margin: 0 0 0.5rem;
+  color: var(--muted-foreground);
+  font-size: rem(14);
+  line-height: 1.5;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border: 1px solid oklch(100% 0 0deg / 10%);
+  border-radius: var(--radius-lg);
+  background: oklch(0% 0 0deg / 25%);
+  gap: 0.5rem;
+
+  &:focus-within {
+    border-color: color-mix(in oklch, var(--brand-cyan) 45%, transparent);
+  }
+}
+
+.input {
+  flex: 1;
+  border: none;
+  background: transparent;
+
+  &:focus-visible {
+    box-shadow: none;
+  }
+}
+
+.ownTag {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 0.5rem;
+}
+
+.ownTagLabel {
+  color: var(--muted-foreground);
+  font-size: rem(13);
+}

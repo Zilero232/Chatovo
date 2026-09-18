@@ -10,9 +10,9 @@ import { MessageMenuItems } from '../MessageMenuItems/MessageMenuItems';
 import s from './MessageContextMenu.module.scss';
 
 export const MessageContextMenu = ({ children }: MessageContextMenuProps) => {
-  const { showActions, canReport } = useChatMessage();
+  const { showActions, canReport, canReply, canPin } = useChatMessage();
 
-  if (!showActions && !canReport) {
+  if (!showActions && !canReport && !canReply && !canPin) {
     return children;
   }
 

@@ -6,6 +6,7 @@ import { isImageMime } from '@chatovo/schemas';
 import { isTauri } from '@tauri-apps/api/core';
 import { clsx } from 'clsx';
 import { FileIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import prettyBytes from 'pretty-bytes';
 import { useState } from 'react';
 
@@ -19,6 +20,8 @@ import { ImageLightbox } from '../ImageLightbox/ImageLightbox';
 import s from './MessageAttachment.module.scss';
 
 export const MessageAttachment = ({ attachment }: MessageAttachmentProps) => {
+  const t = useTranslations('chat');
+
   const { isOwn } = useChatMessage();
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
@@ -36,7 +39,12 @@ export const MessageAttachment = ({ attachment }: MessageAttachmentProps) => {
   if (isImageMime(mime)) {
     return (
       <>
-        <button className={s.imageButton} type='button' onClick={() => setIsPreviewOpen(true)}>
+        <button
+          aria-label={t('openImage', { name })}
+          className={s.imageButton}
+          type='button'
+          onClick={() => setIsPreviewOpen(true)}
+        >
           <img alt={name} className={s.image} src={url} />
         </button>
 

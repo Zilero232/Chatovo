@@ -61,9 +61,12 @@ export const useChatFiles = ({ roomId, disabled, onSend }: UseChatFilesParams) =
 
   sendFilesRef.current = sendFiles;
 
-  const { ref, overed } = useDropZone<HTMLElement>((files) => {
-    if (files) {
-      sendFilesRef.current(files);
+  const { ref, overed } = useDropZone<HTMLElement>({
+    multiple: true,
+    onDrop: (files) => {
+      if (files) {
+        sendFilesRef.current(files);
+      }
     }
   });
 

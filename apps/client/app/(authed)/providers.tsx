@@ -9,6 +9,7 @@ import { FriendsRealtimeSync } from '@/entities/social/friend';
 import { PushRegistration } from '@/features/app/push-notifications';
 import { FriendChatProvider } from '@/features/social/friend-chat';
 import { ChatRealtimeSync } from '@/widgets/chat/chat-panel';
+import { ServerRealtimeSync } from '@/widgets/server/server-realtime-sync';
 
 import { DeepLinkProvider, ShortcutsProvider, UpdateProvider } from '../providers/index';
 
@@ -22,6 +23,7 @@ export const AuthedProviders = ({ children }: { children: ReactNode }) => (
               <PushRegistration />
               <FriendsRealtimeSync />
               <ChatRealtimeSync />
+              <ServerRealtimeSync />
               <LeaveSoundProvider>{children}</LeaveSoundProvider>
             </FriendChatProvider>
           </RoomSessionProvider>

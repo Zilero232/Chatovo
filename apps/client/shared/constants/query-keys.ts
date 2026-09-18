@@ -17,14 +17,39 @@ const admin = {
 
 const rooms = {
   room: (id: string | null) => ['room', id] as const,
-  rooms: () => ['rooms'] as const,
-  livekitToken: (roomName: string | null, password?: string, invisible?: boolean) =>
-    ['livekit-token', roomName, password ?? null, invisible ?? false] as const
+  livekitToken: (roomId: string | null, invisible?: boolean) =>
+    ['livekit-token', roomId, invisible ?? false] as const
+};
+
+const servers = {
+  servers: () => ['servers'] as const,
+  server: (serverId: string | null) => ['server', serverId] as const,
+  serverMembers: (serverId: string) => ['server-members', serverId] as const,
+  serverRoles: (serverId: string) => ['server-roles', serverId] as const,
+  serverInvites: (serverId: string) => ['server-invites', serverId] as const,
+  serverInvitePreview: (code: string) => ['server-invite-preview', code] as const,
+  serverBans: (serverId: string) => ['server-bans', serverId] as const
+};
+
+const channels = {
+  channelTree: (serverId: string | null) => ['channel-tree', serverId] as const,
+  channel: (channelId: string | null) => ['channel', channelId] as const,
+  channelOverwrites: (channelId: string) => ['channel-overwrites', channelId] as const,
+  categoryOverwrites: (categoryId: string) => ['category-overwrites', categoryId] as const,
+  channelThreads: (channelId: string, archived: boolean) =>
+    ['channel-threads', channelId, archived] as const,
+  channelThreadTags: (channelId: string) => ['channel-thread-tags', channelId] as const,
+  readStatesRoot: () => ['read-states'] as const,
+  readStates: (serverId: string | null) => ['read-states', serverId] as const,
+  voiceChannels: () => ['voice-channels'] as const
 };
 
 const chat = {
   chatMessagesRoot: () => ['chat-messages'] as const,
-  chatMessages: (roomId: string) => ['chat-messages', roomId] as const
+  chatMessages: (roomId: string) => ['chat-messages', roomId] as const,
+  chatThreadMessages: (roomId: string, threadId: string) =>
+    ['chat-messages', roomId, threadId] as const,
+  chatPinnedMessages: (roomId: string) => ['chat-pinned', roomId] as const
 };
 
 const friends = {
@@ -51,6 +76,8 @@ const meta = {
 export const QUERY_KEYS = {
   ...admin,
   ...rooms,
+  ...servers,
+  ...channels,
   ...chat,
   ...friends,
   ...users,

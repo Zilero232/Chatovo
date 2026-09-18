@@ -23,6 +23,7 @@ const checkSizeClass = {
 
 export const UserName = ({
   className,
+  color = null,
   developer = false,
   name,
   profileUrl = null,
@@ -53,7 +54,7 @@ export const UserName = ({
   };
 
   return (
-    <span className={clsx(s.root, className)}>
+    <span className={clsx(s.root, className)} style={color ? { color } : undefined}>
       {profileUrl ? (
         <a
           className={clsx(s.link, developer && s.developerName)}

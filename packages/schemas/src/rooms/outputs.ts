@@ -14,5 +14,6 @@ export const roomSchema = z.object({
     .regex(/^[\w\s-]+$/, 'Only letters, digits, spaces, _ and -'),
   kind: roomKindSchema,
   isPrivate: z.boolean(),
+  serverId: z.uuid().nullable(),
   ownerId: z.uuid()
 });

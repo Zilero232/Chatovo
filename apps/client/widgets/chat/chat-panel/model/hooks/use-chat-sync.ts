@@ -14,15 +14,18 @@ type EditVariables = {
   id: string;
 };
 
-export const useChatSync = (roomId: string) => {
+export const useChatSync = (roomId: string, threadId?: string | null) => {
   const t = useTranslations('chat');
   const queryClient = useQueryClient();
-  const queryKey = QUERY_KEYS.chatMessages(roomId);
+
+  const queryKey = threadId
+    ? QUERY_KEYS.chatThreadMessages(roomId, threadId)
+    : QUERY_KEYS.chatMessages(roomId);
 
   const editMutation = useMutation({
     mutationFn: ({ id, body }: EditVariables) => editChatMessage(id, body),
     onMutate: ({ id, body }) => {
-      editChatMessageInCache(queryClient, roomId, id, body, Date.now());
+      editChatMessageInCache(queryClient, roomId, id, body, Date.now(), threadId);
     },
     onError: async (_error, { id }) => {
       await queryClient.invalidateQueries({ queryKey });
@@ -33,7 +36,7 @@ export const useChatSync = (roomId: string) => {
   const removeMutation = useMutation({
     mutationFn: (id: string) => deleteChatMessage(id),
     onMutate: (id) => {
-      deleteChatMessageInCache(queryClient, roomId, id, Date.now());
+      deleteChatMessageInCache(queryClient, roomId, id, Date.now(), threadId);
     },
     onError: async (_error, id) => {
       await queryClient.invalidateQueries({ queryKey });

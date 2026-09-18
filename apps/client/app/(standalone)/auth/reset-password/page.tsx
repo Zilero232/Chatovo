@@ -1,6 +1,6 @@
 import { ROUTES } from '@/shared/constants';
 import { createPageMetadata } from '@/shared/seo';
-import { ResetPasswordPage } from '@/views/reset-password';
+import { ResetPasswordPage } from '@/views/auth/reset-password';
 
 export const metadata = createPageMetadata({
   title: 'Reset password',

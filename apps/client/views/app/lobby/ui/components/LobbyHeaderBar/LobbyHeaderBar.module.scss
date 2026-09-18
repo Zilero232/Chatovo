@@ -1,0 +1,71 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  position: relative;
+  display: flex;
+  height: rem(48);
+  flex-shrink: 0;
+  align-items: center;
+  padding: 0 0.75rem;
+  border-bottom: 1px solid var(--border);
+  gap: 0.75rem;
+}
+
+.title {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  gap: 0.375rem;
+}
+
+.titleIcon {
+  width: rem(18);
+  height: rem(18);
+  color: var(--muted-foreground);
+}
+
+.divider {
+  width: 1px;
+  height: rem(20);
+  flex-shrink: 0;
+  background: var(--border-strong);
+}
+
+.tabs {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 0.375rem;
+  overflow-x: auto;
+
+  @include hide-scrollbar;
+}
+
+.tab {
+  flex-shrink: 0;
+  padding: rem(4) 0.625rem;
+  border-radius: var(--radius-md);
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  transition:
+    background-color var(--duration-fast) var(--timing-function-standard),
+    color var(--duration-fast) var(--timing-function-standard);
+
+  @include hover {
+    background: oklch(100% 0 0deg / 6%);
+    color: var(--foreground);
+  }
+}
+
+.tabActive {
+  background: oklch(100% 0 0deg / 10%);
+  color: var(--foreground);
+}
+
+.addFriend {
+  flex-shrink: 0;
+  margin-left: 0.25rem;
+}

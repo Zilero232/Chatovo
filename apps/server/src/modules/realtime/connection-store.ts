@@ -8,6 +8,7 @@ import { bindRealtimeBroadcast as bindEmit } from './emit';
 const connections = new Map<string, RealtimeConnection>();
 const byUser = new Map<string, Set<string>>();
 const byRoom = new Map<string, Set<string>>();
+const byServer = new Map<string, Set<string>>();
 
 const send = (connection: RealtimeConnection, message: RealtimeServerMessage): void => {
   try {
@@ -48,6 +49,14 @@ const unlinkRoom = (connectionId: string, roomId: string) => {
   removeFromSet(byRoom, roomId, connectionId);
 };
 
+const linkServer = (connectionId: string, serverId: string) => {
+  addToSet(byServer, serverId, connectionId);
+};
+
+const unlinkServer = (connectionId: string, serverId: string) => {
+  removeFromSet(byServer, serverId, connectionId);
+};
+
 export const getConnectionByWs = (ws: WebSocket): RealtimeConnection | null => {
   for (const connection of connections.values()) {
     if (connection.ws === ws) {
@@ -70,6 +79,7 @@ export const registerConnection = (
     ws,
     isAdmin,
     rooms: new Set(),
+    servers: new Set(),
     isAlive: true
   };
 
@@ -95,6 +105,10 @@ export const unregisterConnection = (connectionId: string): RealtimeConnection |
     unlinkRoom(connectionId, roomId);
   }
 
+  for (const serverId of connection.servers) {
+    unlinkServer(connectionId, serverId);
+  }
+
   return connection;
 };
 
@@ -114,6 +128,25 @@ export const setConnectionRooms = (connectionId: string, roomIds: string[]): voi
   for (const roomId of roomIds) {
     connection.rooms.add(roomId);
     linkRoom(connectionId, roomId);
+  }
+};
+
+export const setConnectionServers = (connectionId: string, serverIds: string[]): void => {
+  const connection = connections.get(connectionId);
+
+  if (!connection) {
+    return;
+  }
+
+  for (const serverId of connection.servers) {
+    unlinkServer(connectionId, serverId);
+  }
+
+  connection.servers.clear();
+
+  for (const serverId of serverIds) {
+    connection.servers.add(serverId);
+    linkServer(connectionId, serverId);
   }
 };
 
@@ -195,6 +228,22 @@ export const sendToRoom = (roomId: string, message: RealtimeServerMessage): void
   }
 };
 
+export const sendToServer = (serverId: string, message: RealtimeServerMessage): void => {
+  const serverConnections = byServer.get(serverId);
+
+  if (!serverConnections) {
+    return;
+  }
+
+  for (const connectionId of serverConnections) {
+    const connection = connections.get(connectionId);
+
+    if (connection) {
+      send(connection, message);
+    }
+  }
+};
+
 const sendPresenceByRole = (snapshots: PresenceSnapshots): void => {
   for (const connection of connections.values()) {
     send(connection, {
@@ -214,6 +263,9 @@ export const initRealtimeBroadcast = (): void => {
     },
     room: (roomId, message) => {
       sendToRoom(roomId, message);
+    },
+    server: (serverId, message) => {
+      sendToServer(serverId, message);
     }
   });
 };

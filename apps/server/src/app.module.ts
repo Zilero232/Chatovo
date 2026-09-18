@@ -13,6 +13,7 @@ import { AppConfigModule } from './config/config.module';
 import { INLINE_IMAGE_EXTENSIONS } from './config/uploads';
 import { env, PrismaModule } from './core';
 import { AuthModule } from './modules/auth';
+import { ChannelsModule } from './modules/channels';
 import { ChatModule } from './modules/chat';
 import { FeedbackModule } from './modules/feedback';
 import { FriendsModule } from './modules/friends';
@@ -24,6 +25,7 @@ import { NotificationsModule } from './modules/notifications';
 import { PushModule } from './modules/push';
 import { RealtimeModule } from './modules/realtime';
 import { RoomsModule } from './modules/rooms';
+import { ServersModule } from './modules/servers';
 import { UPLOADS_DIR } from './modules/uploads';
 import { UsersModule } from './modules/users';
 
@@ -65,6 +67,8 @@ import { UsersModule } from './modules/users';
     NotificationsModule,
     HealthModule,
     RoomsModule,
+    ServersModule,
+    ChannelsModule,
     UsersModule,
     ChatModule,
     FriendsModule,

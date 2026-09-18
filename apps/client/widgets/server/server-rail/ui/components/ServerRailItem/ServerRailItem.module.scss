@@ -1,0 +1,77 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  position: relative;
+  display: flex;
+  overflow: visible;
+  width: rem(44);
+  height: rem(44);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: rem(22);
+  background: oklch(100% 0 0deg / 8%);
+  color: var(--foreground);
+  transition:
+    border-radius var(--duration-fast) var(--timing-function-standard),
+    background-color var(--duration-fast) var(--timing-function-standard),
+    box-shadow var(--duration-fast) var(--timing-function-standard);
+
+  @include hover {
+    border-radius: rem(14);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 rem(2) var(--brand-cyan);
+  }
+}
+
+.home {
+  background: color-mix(in oklch, var(--brand-violet) 25%, transparent);
+}
+
+.active {
+  border-radius: rem(14);
+  box-shadow: 0 0 0 rem(2) color-mix(in oklch, var(--brand-cyan) 70%, transparent);
+}
+
+.pill {
+  position: absolute;
+  top: 50%;
+  left: rem(-14);
+  width: rem(4);
+  height: 0;
+  border-radius: 0 rem(2) rem(2) 0;
+  background: var(--foreground);
+  transition: height var(--duration-fast) var(--timing-function-standard);
+  translate: 0 -50%;
+
+  .unread & {
+    height: rem(8);
+  }
+
+  .root:hover & {
+    height: rem(20);
+  }
+
+  .active & {
+    height: rem(36);
+  }
+
+  [data-orientation='horizontal'] & {
+    display: none;
+  }
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.initials {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}

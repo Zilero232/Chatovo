@@ -8,7 +8,7 @@ import type { OwnerCrownProps } from './OwnerCrown.types';
 import { AvatarStatusDot } from '../AvatarStatusDot/AvatarStatusDot';
 
 export const OwnerCrown = ({ className }: OwnerCrownProps) => {
-  const t = useTranslations('lobby.card');
+  const t = useTranslations('participant');
 
   return (
     <AvatarStatusDot

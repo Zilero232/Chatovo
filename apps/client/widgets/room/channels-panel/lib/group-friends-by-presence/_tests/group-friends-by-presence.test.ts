@@ -1,4 +1,4 @@
-import type { FriendEntry, Room } from '@chatovo/schemas';
+import type { FriendEntry, VoiceChannelRef } from '@chatovo/schemas';
 
 import { describe, expect, it } from 'vitest';
 
@@ -7,7 +7,9 @@ import { groupFriendsByPresence } from '../group-friends-by-presence';
 const friendOf = (id: string, name: string, isOnline: boolean): FriendEntry =>
   ({ friendshipId: `f-${id}`, user: { id, name, isOnline } }) as FriendEntry;
 
-const ROOMS = [{ id: 'room-1', name: 'Lobby' }] as Room[];
+const CHANNELS = [
+  { id: 'room-1', name: 'General', serverId: 'server-1', serverName: 'Server' }
+] as VoiceChannelRef[];
 
 const PRESENCE = { 'room-1': [{ identity: 'busy' }] } as never;
 
@@ -16,7 +18,7 @@ describe('groupFriendsByPresence', () => {
     const { online, offline } = groupFriendsByPresence({
       friends: [friendOf('busy', 'Busy', false)],
       presence: PRESENCE,
-      rooms: ROOMS
+      channels: CHANNELS
     });
 
     expect(online.map((entry) => entry.user.id)).toEqual(['busy']);
@@ -27,7 +29,7 @@ describe('groupFriendsByPresence', () => {
     const { online, offline } = groupFriendsByPresence({
       friends: [friendOf('a', 'Ann', true), friendOf('b', 'Bob', false)],
       presence: {} as never,
-      rooms: ROOMS
+      channels: CHANNELS
     });
 
     expect(online.map((entry) => entry.user.id)).toEqual(['a']);
@@ -38,17 +40,21 @@ describe('groupFriendsByPresence', () => {
     const { roomByUserId } = groupFriendsByPresence({
       friends: [friendOf('busy', 'Busy', true)],
       presence: PRESENCE,
-      rooms: ROOMS
+      channels: CHANNELS
     });
 
-    expect(roomByUserId.get('busy')).toEqual({ id: 'room-1', name: 'Lobby' });
+    expect(roomByUserId.get('busy')).toEqual({
+      id: 'room-1',
+      name: 'General',
+      serverId: 'server-1'
+    });
   });
 
   it('ignores presence for a room that is no longer in the list', () => {
     const { roomByUserId } = groupFriendsByPresence({
       friends: [friendOf('busy', 'Busy', true)],
       presence: { 'gone-room': [{ identity: 'busy' }] } as never,
-      rooms: ROOMS
+      channels: CHANNELS
     });
 
     expect(roomByUserId.size).toBe(0);
@@ -58,14 +64,18 @@ describe('groupFriendsByPresence', () => {
     const { online } = groupFriendsByPresence({
       friends: [friendOf('z', 'Zoe', true), friendOf('a', 'Ann', true)],
       presence: {} as never,
-      rooms: ROOMS
+      channels: CHANNELS
     });
 
     expect(online.map((entry) => entry.user.name)).toEqual(['Ann', 'Zoe']);
   });
 
   it('handles an empty friend list', () => {
-    const result = groupFriendsByPresence({ friends: [], presence: {} as never, rooms: ROOMS });
+    const result = groupFriendsByPresence({
+      friends: [],
+      presence: {} as never,
+      channels: CHANNELS
+    });
 
     expect(result.online).toEqual([]);
     expect(result.offline).toEqual([]);

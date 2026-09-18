@@ -5,8 +5,19 @@ model Message {
   roomId String @map("room_id")
   senderId String? @map("sender_id")
 
+  threadId String? @map("thread_id")
+  thread   Thread? @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  replyToId String?  @map("reply_to_id")
+  replyTo   Message? @relation("MessageReply", fields: [replyToId], references: [id], onDelete: SetNull)
+  replies   Message[] @relation("MessageReply")
+
+  pinned Boolean @default(false)
+
   room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
   sender   User?   @relation(fields: [senderId], references: [id], onDelete: SetNull)
+
+  reactions MessageReaction[]
 
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
@@ -14,6 +25,24 @@ model Message {
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
 
   @@index([roomId, createdAt])
+  @@index([threadId, createdAt])
+  @@index([roomId, pinned])
   @@index([senderId])
   @@map("messages")
+}
+
+model MessageReaction {
+  messageId String  @map("message_id")
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  emoji String
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@id([messageId, userId, emoji])
+  @@index([messageId])
+  @@map("message_reactions")
 }

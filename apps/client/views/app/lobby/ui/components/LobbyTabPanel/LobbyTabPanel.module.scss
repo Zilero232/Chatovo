@@ -1,0 +1,37 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  overflow: hidden;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.search {
+  flex-shrink: 0;
+  padding: 0.75rem 1rem 0.5rem;
+}
+
+.scroll {
+  min-height: 0;
+  flex: 1;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem 1rem;
+  gap: rem(2);
+}
+
+.count {
+  padding: 0.5rem 0.25rem 0.25rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.skeleton {
+  height: rem(48);
+  border-radius: var(--radius-lg);
+}

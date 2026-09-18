@@ -14,19 +14,13 @@ const MessageContent = dynamic(
 );
 
 export const MessageBubble = () => {
-  const { attachment, isOwn, isTail } = useChatMessage();
+  const { attachment } = useChatMessage();
 
   const isBareImage = attachment ? isImageMime(attachment.mime) : false;
 
   return (
     <MessageContextMenu>
-      <div
-        className={bubbleVariants({
-          owner: isOwn ? 'own' : 'other',
-          display: isBareImage ? 'bare' : 'padded',
-          tail: isTail
-        })}
-      >
+      <div className={bubbleVariants({ display: isBareImage ? 'bare' : 'padded' })}>
         {attachment ? <MessageAttachment attachment={attachment} /> : <MessageContent />}
       </div>
     </MessageContextMenu>

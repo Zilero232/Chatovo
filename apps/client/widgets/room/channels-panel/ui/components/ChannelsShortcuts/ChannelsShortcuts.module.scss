@@ -1,0 +1,23 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 0.5rem 0.5rem 0.25rem;
+  gap: rem(1);
+}
+
+.spinning {
+  animation: shortcut-spin 1s linear infinite;
+
+  @include reduced-motion {
+    animation: none;
+  }
+}
+
+@keyframes shortcut-spin {
+  to {
+    rotate: 360deg;
+  }
+}

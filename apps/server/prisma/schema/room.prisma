@@ -3,29 +3,92 @@ enum RoomKind {
   dm
 }
 
+enum ChannelType {
+  text
+  voice
+  announcement
+  forum
+}
+
 model Room {
   id String @id @default(dbgenerated("gen_random_uuid()"))
 
-  name      String   @unique
-  password  String?
+  name      String
   isPrivate Boolean  @default(false) @map("is_private")
   kind      RoomKind @default(group)
+
+  type       ChannelType @default(voice)
+  topic      String?
+  position   Int         @default(0)
+  slowMode   Int         @default(0) @map("slow_mode")
+  nsfw       Boolean     @default(false)
+  userLimit  Int?        @map("user_limit")
+  archivedAt DateTime?   @map("archived_at") @db.Timestamptz(3)
+
+  serverId String? @map("server_id")
+  server   Server? @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  categoryId String?   @map("category_id")
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   ownerId   String  @map("owner_id")
   dmUserAId String? @map("dm_user_a_id")
   dmUserBId String? @map("dm_user_b_id")
 
-  owner     User    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  dmUserA   User?   @relation("DmUserA", fields: [dmUserAId], references: [id], onDelete: Cascade)
-  dmUserB   User?   @relation("DmUserB", fields: [dmUserBId], references: [id], onDelete: Cascade)
+  owner   User  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  dmUserA User? @relation("DmUserA", fields: [dmUserAId], references: [id], onDelete: Cascade)
+  dmUserB User? @relation("DmUserB", fields: [dmUserBId], references: [id], onDelete: Cascade)
 
-  messages Message[]
+  messages   Message[]
+  overwrites ChannelOverwrite[]
+  threads    Thread[]
+  threadTags ThreadTag[]
+  reads      ChannelRead[]
 
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   @@unique([kind, dmUserAId, dmUserBId])
+  @@unique([serverId, type, name])
   @@index([ownerId])
   @@index([kind])
+  @@index([serverId, position])
+  @@index([categoryId, position])
   @@map("rooms")
+}
+
+model Category {
+  id String @id @default(dbgenerated("gen_random_uuid()"))
+
+  serverId String @map("server_id")
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  name     String
+  position Int    @default(0)
+
+  channels   Room[]
+  overwrites ChannelOverwrite[]
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@unique([serverId, name])
+  @@index([serverId, position])
+  @@map("categories")
+}
+
+model ChannelRead {
+  channelId String @map("channel_id")
+  channel   Room   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  lastReadAt   DateTime  @default(now()) @map("last_read_at") @db.Timestamptz(3)
+  mentionCount Int       @default(0) @map("mention_count")
+  mutedUntil   DateTime? @map("muted_until") @db.Timestamptz(3)
+
+  @@id([channelId, userId])
+  @@index([userId])
+  @@map("channel_reads")
 }

@@ -2,16 +2,18 @@
 
 import { entries, find, isNullish, pipe } from 'remeda';
 
-import { useRooms, useRoomsPresence } from '@/entities/room/room';
+import { useRoomsPresence } from '@/entities/room/room';
+import { useVoiceChannels } from '@/entities/server/channel';
 
 export type ParticipantRoom = {
   roomId: string;
   roomName: string;
+  serverId: string;
 };
 
 export const useParticipantRoom = (identity: string) => {
   const presence = useRoomsPresence();
-  const { rooms, isLoading } = useRooms();
+  const { byId, isLoading } = useVoiceChannels();
 
   const entry = pipe(
     entries(presence),
@@ -23,7 +25,14 @@ export const useParticipantRoom = (identity: string) => {
   }
 
   const [roomId] = entry;
-  const roomName = find(rooms, (room) => room.id === roomId)?.name ?? roomId;
+  const channel = byId.get(roomId);
 
-  return { room: { roomId, roomName } satisfies ParticipantRoom, isLoading };
+  if (isNullish(channel)) {
+    return { room: null, isLoading };
+  }
+
+  return {
+    room: { roomId, roomName: channel.name, serverId: channel.serverId } satisfies ParticipantRoom,
+    isLoading
+  };
 };

@@ -4,8 +4,6 @@ import { OnEvent } from '@nestjs/event-emitter';
 import type {
   AbuseReportedEvent,
   ProblemReportedEvent,
-  RoomCreatedEvent,
-  RoomDeletedEvent,
   UserBlockedEvent,
   UserSignedUpEvent,
   VoiceEmptiedEvent,
@@ -17,8 +15,6 @@ import { runNotification } from '../../../common/notifications';
 import {
   notifyAbuseReport,
   notifyProblemReport,
-  notifyRoomCreated,
-  notifyRoomDeleted,
   notifyUserBlocked,
   notifyUserSignup,
   notifyVoiceEmpty,
@@ -31,16 +27,6 @@ export class TelegramListener {
 
   private run(label: string, task: Promise<unknown>) {
     return runNotification({ logger: this.logger, channel: 'Telegram', label, task });
-  }
-
-  @OnEvent(DomainEvent.RoomCreated)
-  onRoomCreated(event: RoomCreatedEvent) {
-    return this.run('room.created', notifyRoomCreated(event));
-  }
-
-  @OnEvent(DomainEvent.RoomDeleted)
-  onRoomDeleted(event: RoomDeletedEvent) {
-    return this.run('room.deleted', notifyRoomDeleted(event));
   }
 
   @OnEvent(DomainEvent.UserSignedUp)

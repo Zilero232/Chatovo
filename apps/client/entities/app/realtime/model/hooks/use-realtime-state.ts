@@ -11,6 +11,7 @@ import { authClient, buildRealtimeUrl, clearToken } from '@/shared/api';
 import { appEvents } from '@/shared/lib';
 
 import {
+  buildServerSubscribeMessage,
   buildSubscribeMessage,
   dispatchRealtimeMessage,
   emptyPresence,
@@ -46,6 +47,7 @@ export const useRealtimeState = () => {
     }
 
     ws.send(JSON.stringify(buildSubscribeMessage()));
+    ws.send(JSON.stringify(buildServerSubscribeMessage()));
   });
 
   useEffect(() => {

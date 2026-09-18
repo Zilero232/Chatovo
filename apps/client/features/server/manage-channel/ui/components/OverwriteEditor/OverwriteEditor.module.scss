@@ -1,0 +1,17 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.header {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid oklch(100% 0 0deg / 8%);
+}
+
+.scroll {
+  max-height: rem(420);
+}

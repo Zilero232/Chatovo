@@ -88,20 +88,7 @@
   }
 }
 
-.linkOwn {
-  color: #fff;
-  font-weight: 500;
-  text-decoration: underline;
-  text-decoration-color: oklch(100% 0 0deg / 50%);
-  text-underline-offset: rem(2);
-  word-break: break-all;
-
-  &:hover {
-    text-decoration-color: #fff;
-  }
-}
-
-.linkOther {
+.link {
   color: var(--brand-cyan);
   text-decoration: underline;
   text-decoration-color: color-mix(in oklch, var(--brand-cyan) 50%, transparent);
@@ -111,6 +98,24 @@
   &:hover {
     text-decoration-color: var(--brand-cyan);
   }
+}
+
+.mention {
+  padding: 0 rem(3);
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklch, var(--brand-violet) 25%, transparent);
+  color: color-mix(in oklch, var(--brand-violet) 35%, var(--foreground));
+  font-weight: 500;
+  transition: background-color var(--duration-fast) var(--timing-function-standard);
+
+  &:hover {
+    background: color-mix(in oklch, var(--brand-violet) 40%, transparent);
+  }
+}
+
+.mentionEveryone {
+  background: color-mix(in oklch, var(--brand-cyan) 22%, transparent);
+  color: color-mix(in oklch, var(--brand-cyan) 40%, var(--foreground));
 }
 
 .code {

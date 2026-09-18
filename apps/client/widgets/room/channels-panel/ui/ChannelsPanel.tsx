@@ -1,48 +1,36 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { usePathname } from 'next/navigation';
-
-import { ROUTES } from '@/shared/constants';
 
 import type { ChannelsPanelProps } from './ChannelsPanel.types';
 
 import {
-  ChannelsActivity,
   ChannelsFooter,
-  ChannelsFriends,
-  ChannelsHeader,
-  ChannelsList
+  ChannelsSearch,
+  ChannelsShortcuts,
+  DirectMessages,
+  VoiceStatusBar
 } from './components';
 
 import s from './ChannelsPanel.module.scss';
 
-export const ChannelsPanel = ({ variant = 'desktop', onNavigate }: ChannelsPanelProps = {}) => {
-  const pathname = usePathname();
+export const ChannelsPanel = ({ variant = 'desktop', onNavigate }: ChannelsPanelProps = {}) => (
+  <div
+    className={clsx(
+      s.root,
+      variant === 'desktop' ? s.desktop : s.drawer,
+      variant === 'desktop' && 'surface-bar'
+    )}
+    data-variant={variant}
+  >
+    <ChannelsSearch />
 
-  const isLobby = pathname === ROUTES.lobby;
+    <ChannelsShortcuts onNavigate={onNavigate} />
 
-  return (
-    <div
-      className={clsx(
-        s.root,
-        variant === 'desktop' ? s.desktop : s.drawer,
-        variant === 'desktop' && 'surface-bar'
-      )}
-      data-variant={variant}
-    >
-      <ChannelsHeader compact={variant === 'drawer'} />
+    <DirectMessages onNavigate={onNavigate} />
 
-      {isLobby ? (
-        <ChannelsActivity onNavigate={onNavigate} />
-      ) : (
-        <ChannelsList
-          footer={<ChannelsFriends onNavigate={onNavigate} />}
-          onNavigate={onNavigate}
-        />
-      )}
+    <VoiceStatusBar />
 
-      <ChannelsFooter />
-    </div>
-  );
-};
+    <ChannelsFooter />
+  </div>
+);

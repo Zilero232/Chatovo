@@ -3,21 +3,27 @@
 import { clsx } from 'clsx';
 import { Menu } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 
 import { SecretClickArea } from '@/features/app/secret-games';
+import { ROUTES } from '@/shared/constants';
 import { BrandMark, Button, Sheet, SheetContent, SheetDescription, SheetTitle } from '@/ui-kit';
-import { AppSidebar } from '@/widgets/app/app-sidebar';
 import { LanguageSwitcher } from '@/widgets/app/language-switcher';
 import { ChannelsPanel } from '@/widgets/room/channels-panel';
+import { ServerChannelsPanel } from '@/widgets/server/server-channels-panel';
+import { ServerRail } from '@/widgets/server/server-rail';
 
 import type { MobileNavProps } from './MobileNav.types';
 
 import s from './MobileNav.module.scss';
 
 export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
+  const pathname = usePathname();
+
   const t = useTranslations('appSidebar');
 
   const close = () => onOpenChange(false);
+  const isServerRoute = pathname === ROUTES.server;
 
   return (
     <div className={clsx('glass-strong', s.topBar)}>
@@ -48,17 +54,15 @@ export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
 
             <div className={s.sheetBody}>
               <div className={s.sheetActions}>
-                <AppSidebar
-                  channelsOpened={false}
-                  orientation='horizontal'
-                  showToggleChannels={false}
-                  onNavigate={close}
-                  onToggleChannels={() => undefined}
-                />
+                <ServerRail orientation='horizontal' onNavigate={close} />
               </div>
 
               <div className={s.sheetChannels}>
-                <ChannelsPanel variant='drawer' onNavigate={close} />
+                {isServerRoute ? (
+                  <ServerChannelsPanel variant='drawer' onNavigate={close} />
+                ) : (
+                  <ChannelsPanel variant='drawer' onNavigate={close} />
+                )}
               </div>
             </div>
           </SheetContent>

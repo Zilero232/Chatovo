@@ -1,0 +1,17 @@
+@use '@/ui-kit/styles/mixins' as *;
+@use '@/ui-kit/styles/breakpoints' as *;
+
+.root {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+
+  @include bp(md) {
+    grid-template-columns: rem(220) 1fr;
+  }
+}
+
+.skeleton {
+  height: 12rem;
+  border-radius: var(--radius-md);
+}

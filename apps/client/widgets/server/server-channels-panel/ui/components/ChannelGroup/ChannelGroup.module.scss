@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  min-height: 1.5rem;
+  flex-direction: column;
+  border-radius: var(--radius-md);
+  gap: 0.125rem;
+  transition: background-color var(--duration-fast) var(--timing-function-standard);
+}
+
+.over {
+  background: color-mix(in oklch, var(--brand-cyan) 10%, transparent);
+}

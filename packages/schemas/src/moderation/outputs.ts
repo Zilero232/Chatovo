@@ -62,7 +62,6 @@ export const adminRoomSchema = z.object({
   name: z.string(),
   kind: z.string(),
   isPrivate: z.boolean().default(false),
-  hasPassword: z.boolean().default(false),
   ownerId: z.string(),
   ownerName: z.string().nullable().default(null),
   messagesCount: z.number().default(0),
