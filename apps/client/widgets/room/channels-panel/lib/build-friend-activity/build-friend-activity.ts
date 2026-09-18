@@ -5,16 +5,16 @@ import type { BuildFriendActivityInput, FriendActivity } from './build-friend-ac
 export const buildFriendActivity = ({
   friends,
   presence,
-  rooms
+  channels
 }: BuildFriendActivityInput): FriendActivity => {
   const friendsById = indexBy(friends, (entry) => entry.user.id);
-  const roomsById = indexBy(rooms, (room) => room.id);
+  const channelsById = indexBy(channels, (channel) => channel.id);
   const busyIds = new Set<string>();
 
   const groups = entries(presence).flatMap(([roomId, participants]) => {
-    const room = roomsById[roomId];
+    const channel = channelsById[roomId];
 
-    if (isNullish(room)) {
+    if (isNullish(channel)) {
       return [];
     }
 
@@ -43,8 +43,10 @@ export const buildFriendActivity = ({
           (friend) => (friend.isLive ? 0 : 1),
           (friend) => friend.user.name.toLowerCase()
         ),
-        roomId: room.id,
-        roomName: room.name,
+        roomId: channel.id,
+        roomName: channel.name,
+        serverId: channel.serverId,
+        serverName: channel.serverName,
         totalInRoom: participants.length
       }
     ];

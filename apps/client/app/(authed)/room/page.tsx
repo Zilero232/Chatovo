@@ -1,6 +1,6 @@
 import { ROUTES } from '@/shared/constants';
 import { createPageMetadata } from '@/shared/seo';
-import { RoomPage } from '@/views/room';
+import { RoomPage } from '@/views/app/room';
 
 export const metadata = createPageMetadata({
   title: 'Voice room',

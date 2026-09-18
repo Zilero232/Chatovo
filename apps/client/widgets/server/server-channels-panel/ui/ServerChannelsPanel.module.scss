@@ -1,0 +1,17 @@
+.root {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.desktop {
+  width: 15rem;
+  height: 100%;
+  flex-shrink: 0;
+  border-right: 1px solid oklch(100% 0 0deg / 10%);
+  box-shadow: inset -1px 0 0 oklch(100% 0 0deg / 4%);
+}
+
+.drawer {
+  width: 100%;
+}

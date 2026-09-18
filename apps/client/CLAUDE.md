@@ -19,7 +19,7 @@ app/        # Next.js routes (thin server wrappers) + providers/. No 'use client
             #   (authed)/     — the app behind a session
             #   (marketing)/  — the public site, one catch-all route
             #   (standalone)/ — auth, legal and account pages; one shared layout, no duplicates
-views/      # whole screens per route (canon FSD: pages/) — auth, error, home, legal, lobby, not-found, reset-password, room
+views/      # whole screens per route (canon FSD: pages/), grouped by domain — app/ (admin, dm, invite, lobby, room, server), auth/ (sign-in, reset-password, account-delete), landing/ (about, changelog, download, features, home, legal, support), system/ (error, not-found)
 widgets/    # large composable UI blocks, grouped by domain: app/, chat/, layout/, room/, social/
 features/   # user interactions w/ business value, by domain: app/, auth/, room/, social/
 entities/   # base domain concepts, by domain: app/, auth/, room/, social/
@@ -40,7 +40,7 @@ A **widget importing a feature is correct** (it composes them) — only Feature�
 - **Per-component barrels — only in `ui-kit`**: there every primitive folder carries its own `index.ts` (`export { Button } from './Button'; export type { ButtonProps } from './Button.types';`). In `views/` `widgets/` `features/` `entities/` do **not** create per-component `index.ts` files: the aggregating `ui/components/index.ts` points straight at the file (`export { X } from './X/X'`), and the parent imports through it.
 - **Settings state** (`useAppSettings`, settings types) lives in `entities/app/settings` — NOT the `widgets/app/app-settings` widget (which is UI-only).
 - **Shared Zod schemas** come from `@chatovo/schemas` ([../../packages/schemas](../../packages/schemas)); auth/profile/room schemas live there, not inline.
-- **i18n**: `useTranslations` in client components, `getTranslations` from `next-intl/server` in server components (see `views/home`). Keys in locale JSON under `shared/i18n/locales/`. Don't edit generated `messages.d.ts`.
+- **i18n**: `useTranslations` in client components, `getTranslations` from `next-intl/server` in server components (see `views/landing/home`). Keys in locale JSON under `shared/i18n/locales/`. Don't edit generated `messages.d.ts`.
 - Alias `@/*` → `apps/client/*`.
 
 ## Base UI gotchas

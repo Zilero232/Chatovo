@@ -12,15 +12,17 @@ import { useFriendChat } from '@/features/social/friend-chat';
 import { useCloseWhenInVoiceRoom } from '@/shared/hooks';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/ui-kit';
 
+import type { FriendsDialogProps } from './FriendsDialog.types';
+
 import { AddFriendForm, FriendsDialogTrigger, FriendsTabs, OwnFriendTag } from './components';
 
 import s from './FriendsDialog.module.scss';
 
-export const FriendsDialog = () => {
+export const FriendsDialog = ({ renderTrigger }: FriendsDialogProps = {}) => {
   const t = useTranslations('friends');
 
   const [open, toggleOpen] = useBoolean(false);
-  const { blocksParentDialogClose, dmUnread } = useFriendChat();
+  const { dmUnread } = useFriendChat();
 
   const { data: requests } = useIncomingFriendRequests();
   const { data: friends } = useFriends(open);
@@ -33,19 +35,16 @@ export const FriendsDialog = () => {
 
   return (
     <>
-      <FriendsDialogTrigger badgeCount={dmUnread + incomingCount} onOpen={() => toggleOpen(true)} />
+      {renderTrigger ? (
+        renderTrigger({ onOpen: () => toggleOpen(true) })
+      ) : (
+        <FriendsDialogTrigger
+          badgeCount={dmUnread + incomingCount}
+          onOpen={() => toggleOpen(true)}
+        />
+      )}
 
-      <Dialog
-        disablePointerDismissal={blocksParentDialogClose}
-        open={open}
-        onOpenChange={(next) => {
-          if (!next && blocksParentDialogClose) {
-            return;
-          }
-
-          toggleOpen(next);
-        }}
-      >
+      <Dialog open={open} onOpenChange={toggleOpen}>
         <DialogContent className={s.content}>
           <DialogHeader>
             <DialogTitle>{t('title')}</DialogTitle>

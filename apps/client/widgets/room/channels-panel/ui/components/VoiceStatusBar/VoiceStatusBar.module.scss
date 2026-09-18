@@ -1,0 +1,53 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding: rem(8) 0.5rem;
+  border-top: 1px solid var(--border);
+  background: oklch(0% 0 0deg / 22%);
+  gap: 0.5rem;
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--success, oklch(72% 0.17 150deg));
+
+  svg {
+    width: rem(18);
+    height: rem(18);
+  }
+}
+
+.text {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.state {
+  color: var(--success, oklch(72% 0.17 150deg));
+  font-size: rem(13);
+  font-weight: 600;
+
+  @include text-ellipsis;
+}
+
+.room {
+  color: var(--muted-foreground);
+  font-size: rem(12);
+
+  @include text-ellipsis;
+}
+
+.leave {
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+
+  @include hover {
+    color: var(--destructive);
+  }
+}

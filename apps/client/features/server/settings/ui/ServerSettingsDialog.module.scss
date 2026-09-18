@@ -1,0 +1,18 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.content {
+  max-width: rem(920);
+}
+
+.tabs {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.panel {
+  overflow: auto;
+  min-height: rem(320);
+  max-height: min(70vh, rem(560));
+}

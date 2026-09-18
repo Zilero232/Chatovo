@@ -28,9 +28,22 @@ export const realtimeRoomSoundboardSchema = z.object({
   sound: soundboardSoundSchema
 });
 
+export const realtimeServerSubscribeSchema = z.object({
+  op: z.literal('server.subscribe'),
+  servers: z.array(z.uuid())
+});
+
+export const realtimeTypingSchema = z.object({
+  op: z.literal('channel.typing'),
+  channelId: z.uuid(),
+  threadId: z.uuid().nullable().optional()
+});
+
 export const realtimeClientMessageSchema = z.discriminatedUnion('op', [
   realtimeSubscribeSchema,
   realtimePresencePatchSchema,
   realtimeRoomReactionSchema,
-  realtimeRoomSoundboardSchema
+  realtimeRoomSoundboardSchema,
+  realtimeServerSubscribeSchema,
+  realtimeTypingSchema
 ]);

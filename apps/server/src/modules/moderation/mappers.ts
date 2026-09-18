@@ -82,7 +82,6 @@ export const toAdminRoom = ({ room, participants }: ToAdminRoomInput): AdminRoom
   name: room.name,
   kind: room.kind,
   isPrivate: room.isPrivate,
-  hasPassword: Boolean(room.password),
   ownerId: room.ownerId,
   ownerName: room.owner?.name ?? null,
   messagesCount: room._count.messages,

@@ -1,0 +1,7 @@
+export const SERVER_NAME_MAX_LENGTH = 64;
+export const SERVER_SLUG_MAX_LENGTH = 32;
+export const SERVER_DESCRIPTION_MAX_LENGTH = 300;
+export const SERVER_NICKNAME_MAX_LENGTH = 32;
+export const ROLE_NAME_MAX_LENGTH = 32;
+export const INVITE_CODE_LENGTH = 10;
+export const MAX_ROLES_PER_SERVER = 50;

@@ -1,6 +1,6 @@
 import { ROUTES } from '@/shared/constants';
 import { createPageMetadata } from '@/shared/seo';
-import { AdminPage } from '@/views/admin';
+import { AdminPage } from '@/views/app/admin';
 
 export const metadata = createPageMetadata({
   title: 'Admin',

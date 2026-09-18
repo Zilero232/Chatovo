@@ -1,6 +1,6 @@
 'use client';
 
-import { ErrorPage } from '@/views/error';
+import { ErrorPage } from '@/views/system/error';
 
 import { AppProviders } from './providers/index';
 

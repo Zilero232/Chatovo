@@ -4,12 +4,12 @@ import type { Locale } from '@/shared/i18n';
 import type { MarketingNamespace } from '@/shared/seo';
 
 import { EN_PREFIX, ROUTES } from '@/shared/constants';
-import { AboutPage } from '@/views/about';
-import { ChangelogPage } from '@/views/changelog';
-import { DownloadPage } from '@/views/download';
-import { FeaturesPage } from '@/views/features';
-import { HomePage } from '@/views/home';
-import { SupportPage } from '@/views/support';
+import { AboutPage } from '@/views/landing/about';
+import { ChangelogPage } from '@/views/landing/changelog';
+import { DownloadPage } from '@/views/landing/download';
+import { FeaturesPage } from '@/views/landing/features';
+import { HomePage } from '@/views/landing/home';
+import { SupportPage } from '@/views/landing/support';
 
 export type MarketingPage = {
   view: ComponentType<{ locale: Locale }>;

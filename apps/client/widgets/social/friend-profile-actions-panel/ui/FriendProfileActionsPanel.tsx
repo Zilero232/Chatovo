@@ -1,10 +1,12 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import type { FriendChatPeer } from '@/features/social/friend-chat';
 
-import { useFriendChat } from '@/features/social/friend-chat';
 import { FriendProfileActions } from '@/features/social/friend-profile-actions';
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
+import { buildDmHref } from '@/shared/lib';
 
 import type { FriendProfileActionsPanelProps } from './FriendProfileActionsPanel.types';
 
@@ -16,7 +18,7 @@ export const FriendProfileActionsPanel = ({
   verified,
   developer
 }: FriendProfileActionsPanelProps) => {
-  const { open: openFriendChat } = useFriendChat();
+  const router = useRouter();
 
   const peer: FriendChatPeer = { id: userId, name: displayName, avatarUrl, verified, developer };
 
@@ -32,7 +34,7 @@ export const FriendProfileActionsPanel = ({
       )}
       friendTag={friendTag}
       userId={userId}
-      onOpenChat={() => openFriendChat(peer)}
+      onOpenChat={() => router.push(buildDmHref(peer.id))}
     />
   );
 };

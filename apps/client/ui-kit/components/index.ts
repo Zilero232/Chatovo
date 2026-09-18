@@ -4,6 +4,7 @@ export * from './BrandMark';
 export * from './CenteredState';
 export * from './ConfirmDialog';
 export * from './FilePicker';
+export * from './FormActions';
 export * from './FormField';
 export * from './IconButtonWithTooltip';
 export * from './OverlayCloseButton';

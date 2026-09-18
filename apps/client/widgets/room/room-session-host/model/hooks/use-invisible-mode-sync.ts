@@ -8,25 +8,21 @@ import { useCurrentUser } from '@/entities/auth/user';
 import { useRoomToken } from '@/entities/room/room';
 import { useRoomSession } from '@/entities/room/session';
 
+/** Reissues the LiveKit token when invisible mode flips, so the session rejoins hidden or visible. */
 export const useInvisibleModeSync = () => {
-  const { settings } = useAppSettings();
   const { isAdmin } = useCurrentUser();
+  const { settings } = useAppSettings();
   const { session, open } = useRoomSession();
 
-  const isInvisible = isAdmin && settings.system.invisibleMode;
-  const hasChanged = isNonNullish(session) && session.isInvisible !== isInvisible;
+  const invisible = isAdmin && settings.system.invisibleMode;
+  const isStale = isNonNullish(session) && session.isInvisible !== invisible;
 
-  const { data: token } = useRoomToken(hasChanged ? session.roomId : null, {
-    isPrivate: session?.isPrivate ?? false,
-    password: session?.password
-  });
+  const { data: token } = useRoomToken(isStale ? session.roomId : null);
 
   useEffect(() => {
-    if (!hasChanged || !isNonNullish(token) || !session) {
-      return;
+    if (isNonNullish(session) && isNonNullish(token) && isStale) {
+      open({ ...session, token, isInvisible: invisible });
     }
-
-    open({ ...session, token, isInvisible });
-    // eslint-disable-next-line react/exhaustive-deps -- reopens only once a token for the new mode arrives; open is stable
-  }, [hasChanged, token, isInvisible]);
+    // eslint-disable-next-line react/exhaustive-deps -- reopen only on a fresh token for a stale session; open is stable
+  }, [token, isStale, invisible]);
 };

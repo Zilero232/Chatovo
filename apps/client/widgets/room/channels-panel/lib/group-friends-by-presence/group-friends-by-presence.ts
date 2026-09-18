@@ -8,33 +8,37 @@ import type {
 
 const buildRoomByUserId = ({
   presence,
-  rooms
-}: Pick<GroupFriendsByPresenceInput, 'presence' | 'rooms'>) => {
-  const roomsById = indexBy(rooms, (room) => room.id);
+  channels
+}: Pick<GroupFriendsByPresenceInput, 'channels' | 'presence'>) => {
+  const channelsById = indexBy(channels, (channel) => channel.id);
   const roomByUserId = new Map<string, FriendRoomRef>();
 
   entries(presence).forEach(([roomId, participants]) => {
-    const room = roomsById[roomId];
+    const channel = channelsById[roomId];
 
-    if (isNullish(room)) {
+    if (isNullish(channel)) {
       return;
     }
 
     participants.forEach((participant) => {
-      roomByUserId.set(participant.identity, { id: room.id, name: room.name });
+      roomByUserId.set(participant.identity, {
+        id: channel.id,
+        name: channel.name,
+        serverId: channel.serverId
+      });
     });
   });
 
   return roomByUserId;
 };
 
-/** Splits friends into online (or in a room) and offline, each sorted by room, presence and name. */
+/** Splits friends into online (or in a channel) and offline, each sorted by channel, presence and name. */
 export const groupFriendsByPresence = ({
   friends,
   presence,
-  rooms
+  channels
 }: GroupFriendsByPresenceInput): FriendsByPresence => {
-  const roomByUserId = buildRoomByUserId({ presence, rooms });
+  const roomByUserId = buildRoomByUserId({ presence, channels });
 
   const sorted = sortBy(
     friends,

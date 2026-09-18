@@ -1,4 +1,5 @@
 export * from './auth';
+export * from './channels';
 export * from './chat';
 export * from './errors';
 export * from './feedback';
@@ -7,7 +8,9 @@ export * from './github';
 export * from './json';
 export * from './livekit';
 export * from './moderation';
+export * from './permissions';
 export * from './push';
 export * from './realtime';
 export * from './rooms';
+export * from './servers';
 export * from './users';

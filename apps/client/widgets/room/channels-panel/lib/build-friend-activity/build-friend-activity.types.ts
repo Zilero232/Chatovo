@@ -1,4 +1,4 @@
-import type { FriendEntry, Room, RoomsParticipantsSnapshot } from '@chatovo/schemas';
+import type { FriendEntry, RoomsParticipantsSnapshot, VoiceChannelRef } from '@chatovo/schemas';
 
 export type ActivityFriend = {
   friendshipId: string;
@@ -10,6 +10,8 @@ export type ActivityRoomGroup = {
   friends: ActivityFriend[];
   roomId: string;
   roomName: string;
+  serverId: string;
+  serverName: string;
   totalInRoom: number;
 };
 
@@ -19,7 +21,7 @@ export type FriendActivity = {
 };
 
 export type BuildFriendActivityInput = {
+  channels: VoiceChannelRef[];
   friends: FriendEntry[];
   presence: RoomsParticipantsSnapshot['rooms'];
-  rooms: Room[];
 };

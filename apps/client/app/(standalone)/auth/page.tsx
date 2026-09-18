@@ -1,6 +1,6 @@
 import { ROUTES } from '@/shared/constants';
 import { createPageMetadata } from '@/shared/seo';
-import { AuthPage } from '@/views/auth';
+import { AuthPage } from '@/views/auth/sign-in';
 
 export const metadata = createPageMetadata({
   title: 'Sign in',

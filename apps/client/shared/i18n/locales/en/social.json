@@ -40,25 +40,21 @@
     "tagCopied": "Tag copied",
     "tagCopyFailed": "Failed to copy tag",
     "sendFailed": "Failed to send friend request",
-    "acceptFailed": "Failed to accept request",
-    "declineFailed": "Failed to decline request",
-    "openDmFailed": "Failed to open direct chat",
-    "callFailed": "Failed to start call",
     "incomingCall": {
       "title": "Incoming call",
       "description": "{name} is calling you",
       "accept": "Accept",
-      "decline": "Decline",
-      "acceptFailed": "Failed to accept call",
-      "declineFailed": "Failed to decline call"
+      "decline": "Decline"
     },
     "outgoingCall": {
       "title": "Calling…",
       "description": "Waiting for {name} to answer",
       "cancel": "Cancel",
-      "cancelFailed": "Failed to cancel call",
       "declined": "{name} declined the call"
-    }
+    },
+    "addTitle": "Add friend",
+    "addHint": "You can add friends by their Chatovo tag.",
+    "dmMissing": "Pick a conversation to start chatting"
   },
   "user": {
     "verified": "Verified account",

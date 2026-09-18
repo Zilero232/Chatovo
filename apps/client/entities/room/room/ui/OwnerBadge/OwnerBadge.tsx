@@ -10,7 +10,7 @@ import type { OwnerBadgeProps } from './OwnerBadge.types';
 import s from './OwnerBadge.module.scss';
 
 export const OwnerBadge = ({ className }: OwnerBadgeProps) => {
-  const t = useTranslations('lobby.card');
+  const t = useTranslations('participant');
 
   return (
     <Badge className={className} tone='amber'>

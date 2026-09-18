@@ -3,33 +3,38 @@
 
 .root {
   display: flex;
-  height: 4rem;
+  height: rem(54);
   flex-shrink: 0;
   align-items: center;
-  border-top: 1px solid oklch(100% 0 0deg / 8%);
-  backdrop-filter: blur(rem(4));
-  background: oklch(100% 0 0deg / 2%);
+  border-top: 1px solid var(--border);
+  background: oklch(0% 0 0deg / 18%);
   gap: 0.5rem;
-  padding-inline: 0.625rem;
-
-  @include tauri-mobile {
-    backdrop-filter: none;
-  }
+  padding-inline: 0.5rem;
 }
 
-.actions {
-  display: flex;
+.avatarSlot {
+  position: relative;
   flex-shrink: 0;
-  align-items: center;
 }
 
 .avatar {
-  width: 2rem;
-  height: 2rem;
+  width: rem(32);
+  height: rem(32);
 }
 
 .fallback {
   font-size: 0.75rem;
+}
+
+.presenceDot {
+  position: absolute;
+  right: rem(-1);
+  bottom: rem(-1);
+  width: rem(11);
+  height: rem(11);
+  border: rem(3) solid var(--background);
+  border-radius: 50%;
+  background: oklch(75% 0.18 150deg);
 }
 
 .info {
@@ -38,67 +43,24 @@
   min-width: 0;
   flex: 1;
   flex-direction: column;
-  gap: 0.125rem;
 }
 
 .name {
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 600;
 
   @include text-ellipsis;
 }
 
-.status {
-  display: flex;
-  align-items: center;
-  color: var(--brand-cyan);
-  font-size: rem(10);
-  gap: 0.375rem;
+.tag {
+  color: var(--muted-foreground);
+  font-size: rem(11);
+
+  @include text-ellipsis;
 }
 
-.dot {
-  position: relative;
+.actions {
   display: flex;
-  width: 0.75rem;
-  height: 0.75rem;
   flex-shrink: 0;
   align-items: center;
-  justify-content: center;
-}
-
-.dotPing {
-  position: absolute;
-  display: inline-flex;
-  width: 0.375rem;
-  height: 0.375rem;
-  border-radius: 9999px;
-  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-  background: var(--brand-cyan);
-  opacity: 0.75;
-
-  @include tauri-mobile {
-    animation: none;
-  }
-
-  @include reduced-motion {
-    animation: none;
-  }
-}
-
-.dotCore {
-  position: relative;
-  display: inline-flex;
-  width: 0.375rem;
-  height: 0.375rem;
-  border-radius: 9999px;
-  background: var(--brand-cyan);
-  box-shadow: 0 0 rem(6) oklch(82% 0.16 200deg / 70%);
-}
-
-@keyframes ping {
-  75%,
-  100% {
-    opacity: 0;
-    transform: scale(2);
-  }
 }

@@ -32,7 +32,7 @@ export const ChatRealtimeSync = () => {
     wasDisconnectedRef.current = false;
 
     void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.chatMessagesRoot() });
-    void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.rooms() });
+    void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.voiceChannels() });
   }, [isConnected, queryClient]);
 
   return null;

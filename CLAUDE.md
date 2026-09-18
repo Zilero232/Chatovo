@@ -33,6 +33,7 @@ docs/
 │   ├── room-session.md   # The call outlives navigation: session above the route, collapsed bar
 │   ├── game-activity.md  # "Playing X" status: Steam manifests + exe metadata, opt-in, desktop-only
 │   ├── invisible-mode.md # admin joins rooms hidden: server-enforced, presence filtered
+│   ├── servers.md        # Discord-style Server → Category → Channel, roles + overwrites, Room stays the channel row
 │   └── tray-menu.md      # Native tray menu: Rust-owned icon + menu, labels/state pushed from the client
 ├── guides/
 │   ├── style.md          # Code style, import order, naming — FULL version (examples + rationale)

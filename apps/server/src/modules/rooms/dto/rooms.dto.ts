@@ -1,8 +1,4 @@
-import { createRoomInputSchema, roomSchema, updateRoomInputSchema } from '@chatovo/schemas';
+import { roomSchema } from '@chatovo/schemas';
 import { createZodDto } from 'nestjs-zod';
 
 export class RoomDto extends createZodDto(roomSchema) {}
-
-export class CreateRoomDto extends createZodDto(createRoomInputSchema) {}
-
-export class UpdateRoomDto extends createZodDto(updateRoomInputSchema) {}

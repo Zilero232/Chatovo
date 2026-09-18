@@ -8,7 +8,7 @@ import type { MicMutedBadgeProps } from './MicMutedBadge.types';
 import { AvatarStatusDot } from '../AvatarStatusDot/AvatarStatusDot';
 
 export const MicMutedBadge = ({ className }: MicMutedBadgeProps) => {
-  const t = useTranslations('lobby.card');
+  const t = useTranslations('participant');
 
   return (
     <AvatarStatusDot

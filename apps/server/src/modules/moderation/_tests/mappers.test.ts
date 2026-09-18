@@ -45,7 +45,6 @@ const room = {
   name: 'General',
   kind: 'group',
   isPrivate: false,
-  password: null,
   ownerId: 'user-1',
   owner: { name: 'Owner' },
   createdAt: new Date('2026-02-01T08:00:00.000Z'),
@@ -120,17 +119,6 @@ describe('toAdminUser', () => {
 });
 
 describe('toAdminRoom', () => {
-  it('reports whether a password is set without exposing it', () => {
-    const mapped = toAdminRoom({ room: { ...room, password: 'secret' } as never, participants: 0 });
-
-    expect(mapped.hasPassword).toBe(true);
-    expect(mapped).not.toHaveProperty('password');
-  });
-
-  it('marks a room with no password', () => {
-    expect(toAdminRoom({ room: room as never, participants: 0 }).hasPassword).toBe(false);
-  });
-
   it('takes the live participant count from the caller', () => {
     expect(toAdminRoom({ room: room as never, participants: 7 }).participants).toBe(7);
   });

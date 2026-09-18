@@ -13,17 +13,6 @@ export type UserSignupNotification = {
   name: string;
 };
 
-export type RoomCreatedNotification = {
-  isPrivate: boolean;
-  ownerName: string;
-  roomName: string;
-};
-
-export type RoomDeletedNotification = {
-  ownerName: string;
-  roomName: string;
-};
-
 export type ProblemReportNotification = {
   appVersion?: string;
   description: string;

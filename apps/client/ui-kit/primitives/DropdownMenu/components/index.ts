@@ -1,7 +1,8 @@
 export {
   DropdownMenuGroup,
   DropdownMenuLabel,
-  DropdownMenuRadioGroup
+  DropdownMenuRadioGroup,
+  DropdownMenuSeparator
 } from './DropdownMenuGroups/DropdownMenuGroups';
 export {
   DropdownMenuCheckboxItem,

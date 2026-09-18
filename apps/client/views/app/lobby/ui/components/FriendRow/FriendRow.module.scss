@@ -1,0 +1,86 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  align-items: center;
+  padding: 0.625rem 0.5rem;
+  border-radius: var(--radius-lg);
+  border-top: 1px solid transparent;
+  gap: 0.75rem;
+  transition: background-color var(--duration-fast) var(--timing-function-standard);
+
+  @include hover {
+    background: oklch(100% 0 0deg / 5%);
+
+    .actions {
+      opacity: 1;
+    }
+  }
+}
+
+.avatarSlot {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: rem(34);
+  height: rem(34);
+}
+
+.presenceDot {
+  position: absolute;
+  right: rem(-1);
+  bottom: rem(-1);
+  width: rem(12);
+  height: rem(12);
+  border: rem(3) solid var(--background);
+  border-radius: 50%;
+  background: var(--muted-foreground);
+}
+
+.presenceDotOnline {
+  background: oklch(75% 0.18 150deg);
+}
+
+.presenceDotInRoom {
+  background: var(--brand-cyan);
+}
+
+.info {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+
+  @include text-ellipsis;
+}
+
+.status {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+
+  @include text-ellipsis;
+}
+
+.statusInRoom {
+  color: color-mix(in oklch, var(--brand-cyan) 82%, transparent);
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.25rem;
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--timing-function-standard);
+
+  @include coarse-pointer {
+    opacity: 1;
+  }
+}

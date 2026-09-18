@@ -25,3 +25,25 @@ export type DeleteChatMessageInput = {
   messageId: string;
   senderId: string;
 };
+
+export type ModerateMessageInput = {
+  messageId: string;
+  userId: string;
+};
+
+export type PinChatMessageInput = {
+  messageId: string;
+  pinned: boolean;
+  userId: string;
+};
+
+export type ListPinnedMessagesInput = {
+  roomId: string;
+  userId: string;
+};
+
+export type ReactChatMessageInput = {
+  emoji: string;
+  messageId: string;
+  userId: string;
+};

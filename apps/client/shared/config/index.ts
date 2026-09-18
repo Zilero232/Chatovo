@@ -6,4 +6,5 @@ export {
   LIST_ITEM_INITIAL,
   LIST_ITEM_TRANSITION
 } from './motion';
+export { QUICK_REACTIONS } from './reactions';
 export { SITE } from './site';

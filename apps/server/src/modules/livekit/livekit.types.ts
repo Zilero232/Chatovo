@@ -6,7 +6,6 @@ import type { Prisma } from '../../../generated';
 export type IssueTokenInput = {
   isAdmin: boolean;
   invisible?: boolean;
-  password?: string;
   roomId: string;
   userId: string;
 };
@@ -24,6 +23,8 @@ export type LoadAccessibleRoomInput = {
 };
 
 export type BuildAccessTokenInput = {
+  canPublishAudio: boolean;
+  canPublishVideo: boolean;
   isAdmin: boolean;
   isInvisible: boolean;
   roomId: string;

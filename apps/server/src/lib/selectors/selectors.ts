@@ -5,6 +5,7 @@ export const roomSelect = {
   name: true,
   kind: true,
   isPrivate: true,
+  serverId: true,
   ownerId: true
 } satisfies Prisma.RoomSelect;
 
@@ -14,6 +15,7 @@ export const roomAccessSelect = {
   kind: true,
   isPrivate: true,
   ownerId: true,
+  serverId: true,
   dmUserAId: true,
   dmUserBId: true
 } satisfies Prisma.RoomSelect;

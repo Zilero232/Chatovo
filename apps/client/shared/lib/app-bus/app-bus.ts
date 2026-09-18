@@ -1,6 +1,9 @@
+'use client';
+
 import type { RoomKind } from '@chatovo/schemas';
 
 import { createEventEmitter } from '@siberiacancode/reactuse';
+import { useEffect, useEffectEvent } from 'react';
 
 type AppBusEvents = {
   chatMessage: { roomId: string; senderId: string | null; roomKind: RoomKind };
@@ -38,9 +41,15 @@ const emit = new Proxy({} as Emitters, {
     bus.push(event as EventName, payload as AppBusEvents[EventName])
 });
 
+const useBusEvent = (event: EventName, listener: (payload: AppBusEvents[EventName]) => void) => {
+  const onEvent = useEffectEvent(listener);
+
+  useEffect(() => bus.subscribe(event, onEvent), [event]);
+};
+
 const on = new Proxy({} as Subscribers, {
   get: (_target, event: string) => (listener: (payload: AppBusEvents[EventName]) => void) =>
-    bus.useSubscribe(event as EventName, listener)
+    useBusEvent(event as EventName, listener)
 });
 
 /**

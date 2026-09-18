@@ -1,0 +1,17 @@
+@use '@/ui-kit/styles/mixins' as *;
+@use '@/ui-kit/styles/breakpoints' as *;
+
+.content {
+  max-width: rem(880);
+}
+
+.body {
+  display: grid;
+  min-height: 0;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+
+  @include bp(md) {
+    grid-template-columns: rem(220) 1fr;
+  }
+}

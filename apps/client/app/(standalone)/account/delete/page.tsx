@@ -1,6 +1,6 @@
 import { ROUTES } from '@/shared/constants';
 import { createPageMetadata } from '@/shared/seo';
-import { AccountDeletePage } from '@/views/account-delete';
+import { AccountDeletePage } from '@/views/auth/account-delete';
 
 export const metadata = createPageMetadata({
   title: 'Delete your account',

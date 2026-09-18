@@ -17,7 +17,7 @@ const sessionOf = (roomId: string): RoomSession => ({
   token: `token-${roomId}`,
   isChatOpen: false,
   isDm: false,
-  isPrivate: false,
+  serverId: null,
   isInvisible: false
 });
 

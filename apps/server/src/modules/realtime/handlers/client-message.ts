@@ -3,10 +3,11 @@ import { match } from 'ts-pattern';
 
 import type { RealtimeConnection } from '../realtime.types';
 
-import { filterAccessibleRooms } from '../../../lib';
+import { filterAccessibleRooms, filterAccessibleServers } from '../../../lib';
 import { patchParticipant } from '../../livekit/presence';
-import { setConnectionRooms } from '../connection-store';
+import { setConnectionRooms, setConnectionServers } from '../connection-store';
 import { emitRoomEvent } from '../emit';
+import { broadcastTyping } from '../typing';
 
 export const handleClientMessage = async (
   connection: RealtimeConnection,
@@ -60,6 +61,21 @@ export const handleClientMessage = async (
         sound,
         senderId: connection.userId
       });
+    })
+    .with({ op: 'server.subscribe' }, async ({ servers }) => {
+      const accessible = await filterAccessibleServers({
+        serverIds: servers,
+        userId: connection.userId
+      });
+
+      setConnectionServers(connection.id, accessible);
+    })
+    .with({ op: 'channel.typing' }, async ({ channelId, threadId }) => {
+      if (!connection.rooms.has(channelId)) {
+        return;
+      }
+
+      await broadcastTyping({ channelId, threadId: threadId ?? null, userId: connection.userId });
     })
     .exhaustive();
 };

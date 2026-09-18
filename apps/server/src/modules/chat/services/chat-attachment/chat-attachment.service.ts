@@ -1,14 +1,16 @@
 import type { ChatAttachment } from '@chatovo/schemas';
 
-import { ATTACHMENT_MAX_BYTES } from '@chatovo/schemas';
+import { ATTACHMENT_MAX_BYTES, hasPermission } from '@chatovo/schemas';
 import { Injectable } from '@nestjs/common';
 import { extension } from 'mime-types';
+import { isNonNullish } from 'remeda';
 
 import type { UploadAttachmentInput } from './chat-attachment.service.types';
 
-import { AppBadRequestException } from '../../../../common/exceptions';
-import { assertCanAccessRoom, decodeUploadName } from '../../../../lib';
+import { AppBadRequestException, AppForbiddenException } from '../../../../common/exceptions';
+import { decodeUploadName } from '../../../../lib';
 import { saveUpload } from '../../../uploads';
+import { assertCanPost } from '../../lib';
 
 @Injectable()
 export class ChatAttachmentService {
@@ -24,7 +26,11 @@ export class ChatAttachmentService {
       throw new AppBadRequestException('FILE_TOO_LARGE', 'File too large');
     }
 
-    await assertCanAccessRoom({ roomId, userId });
+    const channel = await assertCanPost({ roomId, threadId: null, userId });
+
+    if (isNonNullish(channel) && !hasPermission(channel.permissions, 'attachFiles')) {
+      throw new AppForbiddenException('PERMISSION_DENIED', 'Cannot attach files in this channel');
+    }
 
     const ext = extension(type) || 'bin';
     const key = `chat-attachments/${roomId}/${crypto.randomUUID()}.${ext}`;

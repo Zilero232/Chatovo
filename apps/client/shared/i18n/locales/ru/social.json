@@ -40,25 +40,21 @@
     "tagCopied": "Тег скопирован",
     "tagCopyFailed": "Не удалось скопировать тег",
     "sendFailed": "Не удалось отправить заявку",
-    "acceptFailed": "Не удалось принять заявку",
-    "declineFailed": "Не удалось отклонить заявку",
-    "openDmFailed": "Не удалось открыть личный чат",
-    "callFailed": "Не удалось позвонить",
     "incomingCall": {
       "title": "Входящий звонок",
       "description": "{name} звонит вам",
       "accept": "Принять",
-      "decline": "Отклонить",
-      "acceptFailed": "Не удалось принять звонок",
-      "declineFailed": "Не удалось отклонить звонок"
+      "decline": "Отклонить"
     },
     "outgoingCall": {
       "title": "Звоним…",
       "description": "Ждём ответа от {name}",
       "cancel": "Отменить",
-      "cancelFailed": "Не удалось отменить звонок",
       "declined": "{name} отклонил звонок"
-    }
+    },
+    "addTitle": "Добавить в друзья",
+    "addHint": "Вы можете добавить друзей по их тегу в Chatovo.",
+    "dmMissing": "Выберите беседу, чтобы начать общение"
   },
   "user": {
     "verified": "Подтверждённый аккаунт",

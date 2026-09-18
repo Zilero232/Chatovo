@@ -22,6 +22,14 @@ model User {
   rooms    Room[]
   messages Message[]
 
+  ownedServers   Server[]       @relation("ServerOwner")
+  serverMembers  ServerMember[]
+  createdInvites ServerInvite[] @relation("ServerInviteCreator")
+  createdThreads Thread[]       @relation("ThreadCreator")
+  channelReads   ChannelRead[]
+  serverBans     ServerBan[]    @relation("ServerBanTarget")
+  reactions      MessageReaction[]
+
   dmRoomsA Room[]    @relation("DmUserA")
   dmRoomsB Room[]    @relation("DmUserB")
   

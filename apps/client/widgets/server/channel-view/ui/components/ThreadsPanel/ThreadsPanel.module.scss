@@ -1,0 +1,37 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  width: rem(300);
+  flex-direction: column;
+  flex-shrink: 0;
+  border-left: 1px solid oklch(100% 0 0deg / 8%);
+  background: color-mix(in oklch, var(--shell-surface) 50%, transparent);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.75rem 0.5rem;
+}
+
+.archived {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.75rem 0.5rem;
+  gap: 0.5rem;
+}
+
+.scroll {
+  min-height: 0;
+  flex: 1;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.75rem 0.75rem;
+  gap: 0.5rem;
+}

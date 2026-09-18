@@ -1,0 +1,26 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  flex-shrink: 0;
+  padding: 0.625rem 0.625rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.trigger {
+  width: 100%;
+  padding: rem(6) 0.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: oklch(0% 0 0deg / 24%);
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  text-align: left;
+  transition:
+    border-color var(--duration-fast) var(--timing-function-standard),
+    color var(--duration-fast) var(--timing-function-standard);
+
+  @include hover {
+    border-color: var(--border-strong);
+    color: var(--foreground);
+  }
+}

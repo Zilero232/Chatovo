@@ -1,4 +1,4 @@
-import { getSubscribedRooms } from './subscription-registry';
+import { getSubscribedRooms, getSubscribedServers } from './subscription-registry';
 
 type SubscriptionSender = () => void;
 
@@ -35,4 +35,9 @@ export const syncRoomSubscriptions = (): void => {
 export const buildSubscribeMessage = () => ({
   op: 'subscribe' as const,
   rooms: getSubscribedRooms()
+});
+
+export const buildServerSubscribeMessage = () => ({
+  op: 'server.subscribe' as const,
+  servers: getSubscribedServers()
 });

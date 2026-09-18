@@ -23,7 +23,7 @@ export const MessageDialogs = () => {
   return (
     <>
       <EditMessageDialog
-        key={message.message}
+        key={message.id}
         initialValue={message.message}
         open={isEditing}
         onOpenChange={setIsEditing}

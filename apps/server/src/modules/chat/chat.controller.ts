@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Query,
   UploadedFile,
   UseInterceptors
@@ -17,6 +18,9 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import {
   EditMessageDto,
   ListMessagesQueryDto,
+  ListPinnedQueryDto,
+  PinMessageDto,
+  ReactMessageDto,
   SendMessageDto,
   UploadAttachmentDto
 } from './dto/chat.dto';
@@ -62,5 +66,37 @@ export class ChatController {
   @Delete('messages/:id')
   deleteMessage(@Param('id') messageId: string, @CurrentUser() userId: string) {
     return this.messages.deleteMessage({ messageId, senderId: userId });
+  }
+
+  @Get('pins')
+  listPinnedMessages(@Query() query: ListPinnedQueryDto, @CurrentUser() userId: string) {
+    return this.messages.listPinnedMessages({ roomId: query.roomId, userId });
+  }
+
+  @Put('messages/:id/reactions')
+  addReaction(
+    @Param('id') messageId: string,
+    @Body() body: ReactMessageDto,
+    @CurrentUser() userId: string
+  ) {
+    return this.messages.addReaction({ messageId, emoji: body.emoji, userId });
+  }
+
+  @Delete('messages/:id/reactions/:emoji')
+  removeReaction(
+    @Param('id') messageId: string,
+    @Param('emoji') emoji: string,
+    @CurrentUser() userId: string
+  ) {
+    return this.messages.removeReaction({ messageId, emoji: decodeURIComponent(emoji), userId });
+  }
+
+  @Patch('messages/:id/pin')
+  pinMessage(
+    @Param('id') messageId: string,
+    @Body() body: PinMessageDto,
+    @CurrentUser() userId: string
+  ) {
+    return this.messages.pinMessage({ messageId, pinned: body.pinned, userId });
   }
 }

@@ -1,0 +1,37 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.groupTitle {
+  padding: 0.25rem 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.375rem 0.5rem;
+  border-radius: var(--radius-md);
+  gap: 0.75rem;
+
+  &:hover {
+    background: oklch(100% 0 0deg / 4%);
+  }
+}
+
+.label {
+  min-width: 0;
+  flex: 1;
+  cursor: pointer;
+  font-size: 0.875rem;
+}

@@ -9,7 +9,10 @@ export type UploadedAttachment = {
 
 export type ChatRealtimeEvent = Extract<
   RealtimeServerMessage,
-  { type: 'chat.delete' } | { type: 'chat.edit' } | { type: 'chat.message' }
+  | { type: 'chat.delete' }
+  | { type: 'chat.edit' }
+  | { type: 'chat.message' }
+  | { type: 'chat.reaction' }
 >;
 
 type WithoutRoomRouting<T> = T extends unknown ? Omit<T, 'roomId' | 'roomKind'> : never;

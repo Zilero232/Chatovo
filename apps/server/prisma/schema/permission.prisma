@@ -1,0 +1,36 @@
+enum OverwriteTarget {
+  role
+  member
+}
+
+model ChannelOverwrite {
+  id String @id @default(dbgenerated("gen_random_uuid()"))
+
+  target OverwriteTarget
+
+  channelId String? @map("channel_id")
+  channel   Room?   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  categoryId String?   @map("category_id")
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  roleId String?     @map("role_id")
+  role   ServerRole? @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  memberId String?       @map("member_id")
+  member   ServerMember? @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  allow BigInt @default(0)
+  deny  BigInt @default(0)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @default(now()) @updatedAt @db.Timestamptz(3)
+
+  @@unique([channelId, roleId])
+  @@unique([channelId, memberId])
+  @@unique([categoryId, roleId])
+  @@unique([categoryId, memberId])
+  @@index([channelId])
+  @@index([categoryId])
+  @@map("channel_overwrites")
+}

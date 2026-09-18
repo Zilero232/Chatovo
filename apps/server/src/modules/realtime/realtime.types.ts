@@ -6,6 +6,7 @@ export type RealtimeConnection = {
   isAdmin: boolean;
   isAlive: boolean;
   rooms: Set<string>;
+  servers: Set<string>;
   userId: string;
   ws: WebSocket;
 };

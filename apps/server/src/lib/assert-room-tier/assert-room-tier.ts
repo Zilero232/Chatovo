@@ -1,4 +1,5 @@
-import { isNullish } from 'remeda';
+import { hasPermission } from '@chatovo/schemas';
+import { isNonNullish, isNullish } from 'remeda';
 
 import type { AssertRoomTierInput } from './assert-room-tier.types';
 
@@ -7,11 +8,13 @@ import { AppForbiddenException, AppNotFoundException } from '../../common/except
 import { basePrisma as prisma } from '../../core';
 import { assertNotBlocked } from '../assert-not-blocked';
 import { canAccessRoom } from '../can-access-room';
+import { resolveChannelPermissions } from '../resolve-member-permissions';
 import { roomAccessSelect } from '../selectors';
 
 /**
  * Loads the room and enforces one access tier, throwing `ROOM_NOT_FOUND` when it is gone.
  * A denied DM reports plain `FORBIDDEN` so a non-member cannot tell the room apart from any other.
+ * A room that belongs to a server is a channel, so its own permission mask decides instead.
  */
 export const assertRoomTier = async ({
   roomId,
@@ -29,7 +32,23 @@ export const assertRoomTier = async ({
     throw new AppNotFoundException('ROOM_NOT_FOUND', 'Room not found');
   }
 
-  if (canAccessRoom({ room, userId, tier })) {
+  if (isNonNullish(room.serverId)) {
+    const permissions = await resolveChannelPermissions({
+      serverId: room.serverId,
+      userId,
+      channelId: roomId
+    });
+
+    const required = tier === 'view' ? 'viewChannel' : 'readMessageHistory';
+
+    if (hasPermission(permissions, required)) {
+      return;
+    }
+
+    throw new AppForbiddenException('PERMISSION_DENIED', 'Channel access denied');
+  }
+
+  if (canAccessRoom({ room, userId })) {
     return;
   }
 

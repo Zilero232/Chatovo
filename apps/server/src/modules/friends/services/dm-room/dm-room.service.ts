@@ -43,7 +43,7 @@ export class DmRoomService {
         dmUserAId,
         dmUserBId
       },
-      update: { isPrivate: false, password: null },
+      update: { isPrivate: false },
       select: roomSelect
     });
   }

@@ -8,7 +8,7 @@ import type { DeafenedBadgeProps } from './DeafenedBadge.types';
 import { AvatarStatusDot } from '../AvatarStatusDot/AvatarStatusDot';
 
 export const DeafenedBadge = ({ className }: DeafenedBadgeProps) => {
-  const t = useTranslations('lobby.card');
+  const t = useTranslations('participant');
 
   return (
     <AvatarStatusDot

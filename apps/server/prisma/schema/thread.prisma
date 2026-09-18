@@ -1,0 +1,55 @@
+model Thread {
+  id String @id @default(dbgenerated("gen_random_uuid()"))
+
+  channelId String @map("channel_id")
+  channel   Room   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  name String
+
+  creatorId String? @map("creator_id")
+  creator   User?   @relation("ThreadCreator", fields: [creatorId], references: [id], onDelete: SetNull)
+
+  pinned     Boolean   @default(false)
+  locked     Boolean   @default(false)
+  archivedAt DateTime? @map("archived_at") @db.Timestamptz(3)
+
+  messageCount  Int      @default(0) @map("message_count")
+  lastMessageAt DateTime @default(now()) @map("last_message_at") @db.Timestamptz(3)
+
+  messages Message[]
+  tags     ThreadTagLink[]
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @default(now()) @updatedAt @db.Timestamptz(3)
+
+  @@index([channelId, lastMessageAt(sort: Desc)])
+  @@index([channelId, pinned])
+  @@map("threads")
+}
+
+model ThreadTag {
+  id String @id @default(dbgenerated("gen_random_uuid()"))
+
+  channelId String @map("channel_id")
+  channel   Room   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  name  String
+  emoji String?
+
+  threads ThreadTagLink[]
+
+  @@unique([channelId, name])
+  @@map("thread_tags")
+}
+
+model ThreadTagLink {
+  threadId String @map("thread_id")
+  thread   Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  tagId String    @map("tag_id")
+  tag   ThreadTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([threadId, tagId])
+  @@index([tagId])
+  @@map("thread_tag_links")
+}

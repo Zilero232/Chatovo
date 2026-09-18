@@ -1,0 +1,94 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.groupTitle {
+  padding: 0.25rem 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.375rem 0.5rem;
+  border-radius: var(--radius-md);
+  gap: 0.75rem;
+
+  &:hover {
+    background: oklch(100% 0 0deg / 4%);
+  }
+}
+
+.label {
+  min-width: 0;
+  flex: 1;
+  font-size: 0.875rem;
+
+  @include text-ellipsis;
+}
+
+.segment {
+  display: inline-flex;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid oklch(100% 0 0deg / 12%);
+  border-radius: var(--radius-md);
+}
+
+.option {
+  display: inline-flex;
+  width: rem(32);
+  height: rem(28);
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+  transition:
+    background-color var(--duration-fast) var(--timing-function-standard),
+    color var(--duration-fast) var(--timing-function-standard);
+
+  & + & {
+    border-left: 1px solid oklch(100% 0 0deg / 12%);
+  }
+
+  svg {
+    width: rem(14);
+    height: rem(14);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  @include hover {
+    color: var(--foreground);
+  }
+}
+
+.active {
+  color: var(--foreground);
+
+  &.deny {
+    background: color-mix(in oklch, var(--destructive) 35%, transparent);
+  }
+
+  &.inherit {
+    background: oklch(100% 0 0deg / 10%);
+  }
+
+  &.allow {
+    background: color-mix(in oklch, oklch(75% 0.18 150deg) 35%, transparent);
+  }
+}

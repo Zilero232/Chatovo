@@ -2,16 +2,10 @@
   "appSidebar": {
     "lobby": "Лобби",
     "downloadApp": "Скачать приложение",
-    "downloadAppLabel": "Скачать приложение",
     "checkUpdate": "Проверить обновления",
-    "checkUpdateLabel": "Проверить обновления приложения",
     "gnomeVpn": "GnomeVPN",
-    "gnomeVpnLabel": "Открыть сайт GnomeVPN",
     "logout": "Выйти",
     "signedOut": "Выход выполнен",
-    "showChannels": "Показать каналы",
-    "hideChannels": "Скрыть каналы",
-    "toggleChannels": "Переключить каналы",
     "menu": "Меню",
     "menuDescription": "Навигация и список комнат",
     "openMenu": "Открыть меню"
@@ -213,14 +207,10 @@
     "failed": "Не удалось обновить. Попробуйте позже.",
     "upToDate": "У вас последняя версия",
     "checkFailed": "Не удалось проверить обновления",
-    "checkTimedOut": "Проверка обновлений не завершилась. Попробуйте позже.",
-    "mobileTitle": "Доступна версия {version}",
-    "mobileBody": "Скачайте новую версию приложения",
-    "mobileAction": "Скачать"
+    "checkTimedOut": "Проверка обновлений не завершилась. Попробуйте позже."
   },
   "downloadApp": {
     "title": "Скачать Chatovo",
-    "description": "Нативное приложение для Desktop. Android — в Google Play.",
     "loadFailed": "Не удалось загрузить последний релиз.",
     "openReleases": "Открыть релизы на GitHub",
     "version": "Версия {version}",
@@ -235,6 +225,8 @@
       "linux": "Linux",
       "android": "Android"
     },
+    "download": "Загрузить",
+    "allReleasesHint": "Нужна другая версия или сборка?",
     "openGooglePlay": "Открыть в Google Play"
   },
   "feedback": {

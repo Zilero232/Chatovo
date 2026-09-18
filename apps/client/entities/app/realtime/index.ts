@@ -1,2 +1,6 @@
 export { RealtimeProvider, useRealtime } from './model/contexts/realtime-context';
-export { useRealtimeMessage, useRealtimeSubscribe } from './model/hooks';
+export {
+  useRealtimeMessage,
+  useRealtimeServerSubscribe,
+  useRealtimeSubscribe
+} from './model/hooks';

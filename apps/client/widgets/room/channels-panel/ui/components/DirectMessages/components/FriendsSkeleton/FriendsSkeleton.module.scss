@@ -1,0 +1,12 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: rem(4);
+}
+
+.item {
+  height: rem(40);
+  border-radius: var(--radius-md);
+}

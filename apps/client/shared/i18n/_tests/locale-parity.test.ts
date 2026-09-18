@@ -7,6 +7,7 @@ import enAuth from '../locales/en/auth.json';
 import enCommon from '../locales/en/common.json';
 import enMarketing from '../locales/en/marketing.json';
 import enRoom from '../locales/en/room.json';
+import enServer from '../locales/en/server.json';
 import enSocial from '../locales/en/social.json';
 import { ru } from '../locales/ru';
 
@@ -14,6 +15,7 @@ const EN_CHUNKS = {
   common: enCommon,
   auth: enAuth,
   room: enRoom,
+  server: enServer,
   social: enSocial,
   app: enApp,
   admin: enAdmin,

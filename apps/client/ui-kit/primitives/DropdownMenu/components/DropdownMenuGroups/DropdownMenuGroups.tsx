@@ -6,7 +6,8 @@ import { clsx } from 'clsx';
 import type {
   DropdownMenuGroupProps,
   DropdownMenuLabelProps,
-  DropdownMenuRadioGroupProps
+  DropdownMenuRadioGroupProps,
+  DropdownMenuSeparatorProps
 } from '../../DropdownMenu.types';
 
 import s from '../../DropdownMenu.module.scss';
@@ -28,6 +29,14 @@ export const DropdownMenuLabel = ({ className, inset, ...props }: DropdownMenuLa
     className={clsx(s.label, className)}
     data-inset={inset}
     data-slot='dropdown-menu-label'
+    {...props}
+  />
+);
+
+export const DropdownMenuSeparator = ({ className, ...props }: DropdownMenuSeparatorProps) => (
+  <Menu.Separator
+    className={clsx(s.separator, className)}
+    data-slot='dropdown-menu-separator'
     {...props}
   />
 );

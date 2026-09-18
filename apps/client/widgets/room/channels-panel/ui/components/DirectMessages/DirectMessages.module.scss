@@ -1,0 +1,41 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.5rem 0.25rem 1rem;
+  gap: 0.5rem;
+}
+
+.heading {
+  min-width: 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  @include text-ellipsis;
+}
+
+.scroll {
+  min-height: 0;
+  flex: 1;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.5rem 0.5rem;
+  gap: rem(1);
+}
+
+.empty {
+  padding: 0.5rem;
+}

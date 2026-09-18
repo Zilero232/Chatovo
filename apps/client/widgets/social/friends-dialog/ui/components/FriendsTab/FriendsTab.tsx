@@ -4,6 +4,7 @@ import type { FriendEntry, FriendUser } from '@chatovo/schemas';
 
 import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { match, P } from 'ts-pattern';
 
@@ -16,6 +17,7 @@ import {
   LIST_ITEM_INITIAL,
   LIST_ITEM_TRANSITION
 } from '@/shared/config';
+import { buildDmHref } from '@/shared/lib';
 import { CenteredState, Spinner } from '@/ui-kit';
 
 import type { FriendsTabProps, RemoveTarget } from './FriendsTab.types';
@@ -33,7 +35,8 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
   const [removeTarget, setRemoveTarget] = useState<RemoveTarget | null>(null);
 
   const { data: friends, isPending } = useFriends(enabled);
-  const { open: openFriendChat, getFriendUnread } = useFriendChat();
+  const router = useRouter();
+  const { getFriendUnread } = useFriendChat();
 
   const handleRemove = (user: FriendUser) => {
     setRemoveTarget({ userId: user.id, friendName: user.name });
@@ -58,7 +61,7 @@ export const FriendsTab = ({ enabled }: FriendsTabProps) => {
                   <FriendListItem
                     dmUnread={getFriendUnread(entry.user.id)}
                     user={entry.user}
-                    onOpen={openFriendChat}
+                    onOpen={(peer) => router.push(buildDmHref(peer.id))}
                     onRemove={handleRemove}
                   />
                 </motion.div>

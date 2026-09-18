@@ -1,11 +1,10 @@
 export type RoomSession = {
   isChatOpen: boolean;
   isDm: boolean;
-  isPrivate: boolean;
-  password?: string;
   isInvisible: boolean;
   roomId: string;
   roomName: string;
+  serverId: string | null;
   token: string;
 };
 
