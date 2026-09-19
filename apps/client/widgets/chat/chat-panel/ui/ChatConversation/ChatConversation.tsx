@@ -2,20 +2,16 @@
 
 import type { Ref } from 'react';
 
-import { useAutoScroll } from '@siberiacancode/reactuse';
 import { Paperclip } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Fragment } from 'react';
-import { isEmpty } from 'remeda';
 import { match } from 'ts-pattern';
 
-import { useRealtimeSubscribe } from '@/entities/app/realtime';
-import { useCurrentUser } from '@/entities/auth/user';
+import { Spinner } from '@/ui-kit';
 
 import type { ChatConversationProps } from './ChatConversation.types';
 
-import { useChatFiles, useChatHistory, useChatSend, useChatSync } from '../../model/hooks';
-import { groupChatLines } from '../../model/lib';
+import { useChatConversation } from '../../model/hooks';
 import {
   ChatComposer,
   ChatEmpty,
@@ -33,30 +29,21 @@ export const ChatConversation = ({
 }: ChatConversationProps) => {
   const t = useTranslations('chat');
 
-  useRealtimeSubscribe([roomId]);
-
-  const { displayName } = useCurrentUser();
-
-  const { messages, isPending: isHistoryPending } = useChatHistory(roomId);
-  const { send, retry, discard } = useChatSend({
-    roomId,
-    sender: { identity: currentUserId, name: displayName }
-  });
-  const { edit, remove } = useChatSync(roomId);
-
-  const listRef = useAutoScroll<HTMLDivElement>();
-
-  const { dropRef, overed, isUploading, openPicker, onPaste } = useChatFiles({
-    roomId,
-    disabled: !enabled,
-    onSend: (body) => send(body)
-  });
-
-  const grouped = groupChatLines({ lines: messages, ownIdentity: currentUserId });
+  const {
+    lines,
+    listRef,
+    sentinelRef,
+    files,
+    actions,
+    isPending,
+    isEmpty,
+    hasOlder,
+    isLoadingOlder
+  } = useChatConversation({ roomId, currentUserId, enabled });
 
   return (
-    <div ref={dropRef as Ref<HTMLDivElement>} className={s.root}>
-      {overed && (
+    <div ref={files.dropRef as Ref<HTMLDivElement>} className={s.root}>
+      {files.overed && (
         <div className={s.dropOverlay}>
           <Paperclip className={s.dropIcon} />
           {t('dropToSend')}
@@ -64,12 +51,20 @@ export const ChatConversation = ({
       )}
 
       <div ref={listRef} className={s.scroll}>
-        {match({ isHistoryPending, isEmpty: isEmpty(messages) })
-          .with({ isHistoryPending: true }, () => <ChatLoadingSkeleton />)
+        {match({ isPending, isEmpty })
+          .with({ isPending: true }, () => <ChatLoadingSkeleton />)
           .with({ isEmpty: true }, () => <ChatEmpty />)
           .otherwise(() => (
             <div className={s.list}>
-              {grouped.map(({ line, isOwn, isGrouped, isTail, showDivider }) => (
+              {hasOlder && <div ref={sentinelRef} className={s.topSentinel} />}
+
+              {isLoadingOlder && (
+                <div className={s.olderLoader}>
+                  <Spinner />
+                </div>
+              )}
+
+              {lines.map(({ line, isOwn, isGrouped, isTail, showDivider }) => (
                 <Fragment key={line.id}>
                   {showDivider && <DateDivider timestamp={line.timestamp} />}
                   <ChatMessageItem
@@ -78,10 +73,10 @@ export const ChatConversation = ({
                     isOwn={isOwn}
                     isTail={isTail}
                     message={line}
-                    onDelete={remove}
-                    onDiscard={discard}
-                    onEdit={edit}
-                    onRetry={retry}
+                    onDelete={actions.remove}
+                    onDiscard={actions.discard}
+                    onEdit={actions.edit}
+                    onRetry={actions.retry}
                   />
                 </Fragment>
               ))}
@@ -90,10 +85,10 @@ export const ChatConversation = ({
       </div>
 
       <ChatComposer
-        isUploading={isUploading}
-        onAttach={openPicker}
-        onPaste={onPaste}
-        onSend={send}
+        isUploading={files.isUploading}
+        onAttach={files.openPicker}
+        onPaste={files.onPaste}
+        onSend={actions.send}
       />
     </div>
   );

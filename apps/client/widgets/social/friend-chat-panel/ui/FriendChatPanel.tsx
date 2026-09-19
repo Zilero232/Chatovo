@@ -7,8 +7,8 @@ import { useToastError } from '@/entities/app/locale';
 import { useCurrentUser, UserAvatar, UserName } from '@/entities/auth/user';
 import { useCallFriend } from '@/entities/social/friend';
 import { useFriendChat } from '@/features/social/friend-chat';
-import { Button, Spinner } from '@/ui-kit';
-import { ChatConversation } from '@/widgets/chat/chat-panel';
+import { Button } from '@/ui-kit';
+import { ChatConversation, ChatLoadingSkeleton } from '@/widgets/chat/chat-panel';
 
 import type { FriendChatPanelProps } from './FriendChatPanel.types';
 
@@ -64,9 +64,7 @@ export const FriendChatPanel = ({ peer }: FriendChatPanelProps) => {
 
       <div className={s.body}>
         {isOpening || !roomId ? (
-          <div className={s.loading}>
-            <Spinner />
-          </div>
+          <ChatLoadingSkeleton />
         ) : (
           <ChatConversation currentUserId={currentUserId} roomId={roomId} />
         )}

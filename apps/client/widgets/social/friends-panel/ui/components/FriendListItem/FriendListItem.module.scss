@@ -13,13 +13,13 @@
     background-color var(--duration-fast) var(--timing-function-out);
 
   @include hover {
-    border-color: oklch(100% 0 0deg / 14%);
-    background: oklch(100% 0 0deg / 8%);
+    border-color: color-mix(in oklch, var(--brand-violet) 32%, transparent);
+    background: color-mix(in oklch, var(--brand-violet) 10%, oklch(100% 0 0deg / 6%));
   }
 
   &:focus-within {
-    border-color: oklch(100% 0 0deg / 14%);
-    background: oklch(100% 0 0deg / 8%);
+    border-color: color-mix(in oklch, var(--brand-violet) 32%, transparent);
+    background: color-mix(in oklch, var(--brand-violet) 10%, oklch(100% 0 0deg / 6%));
   }
 }
 

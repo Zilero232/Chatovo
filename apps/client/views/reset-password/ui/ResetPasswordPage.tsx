@@ -4,38 +4,27 @@ import { isTauri } from '@tauri-apps/api/core';
 import { clsx } from 'clsx';
 import { CheckCircle2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 import { ResetPasswordForm } from '@/features/auth/reset-password';
 import { DEEP_LINKS, ROUTES } from '@/shared/constants';
 import { AuthBackground, Button, LogoMark, Text } from '@/ui-kit';
 
+import { useResetPasswordToken } from '../model/hooks';
+
 import s from './ResetPasswordPage.module.scss';
 
 export const ResetPasswordPage = () => {
   const router = useRouter();
-  const params = useSearchParams();
   const t = useTranslations('auth');
 
-  const token = params.get('token');
-  const invalid = !token || params.has('error');
+  const resetToken = useResetPasswordToken();
 
-  const [done, setDone] = useState(false);
-
-  useEffect(() => {
-    if (invalid) {
-      toast.error(t('resetTokenMissing'), { id: 'reset-token-invalid' });
-
-      router.replace(ROUTES.auth);
-    }
-    // eslint-disable-next-line react/exhaustive-deps -- redirect once on mount when the link is invalid
-  }, []);
-
-  if (invalid) {
+  if (resetToken.isInvalid) {
     return null;
   }
+
+  const { token, isDone, markDone } = resetToken;
 
   return (
     <div className={clsx(s.root, 'inset-page-x', 'inset-page-y')}>
@@ -44,7 +33,7 @@ export const ResetPasswordPage = () => {
       <div className={clsx(s.shell, 'glass', 'shadow-glow-violet')}>
         <div className={s.panel}>
           <span className={clsx(s.mark, 'gradient-brand', 'shadow-glow-cyan')}>
-            {done ? (
+            {isDone ? (
               <CheckCircle2 className={s.markIcon} />
             ) : (
               <LogoMark className={s.markIcon} size={30} />
@@ -53,14 +42,14 @@ export const ResetPasswordPage = () => {
 
           <div className={s.header}>
             <h1 className={clsx(s.title, 'gradient-text')}>
-              {done ? t('resetDoneTitle') : t('resetPasswordTitle')}
+              {isDone ? t('resetDoneTitle') : t('resetPasswordTitle')}
             </h1>
             <Text size='sm' tone='muted'>
-              {done ? t('resetDoneSubtitle') : t('resetPasswordSubtitle')}
+              {isDone ? t('resetDoneSubtitle') : t('resetPasswordSubtitle')}
             </Text>
           </div>
 
-          {done ? (
+          {isDone ? (
             <div className={s.actions}>
               {isTauri() ? (
                 <Button
@@ -84,7 +73,7 @@ export const ResetPasswordPage = () => {
             </div>
           ) : (
             <div className={s.form}>
-              <ResetPasswordForm token={token} onSuccess={() => setDone(true)} />
+              <ResetPasswordForm token={token} onSuccess={markDone} />
             </div>
           )}
         </div>

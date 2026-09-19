@@ -13,3 +13,8 @@ export type ChatLine = {
   status?: ChatLineStatus;
   timestamp: number;
 };
+
+export type ChatHistoryPage = {
+  lines: ChatLine[];
+  nextCursor: string | null;
+};

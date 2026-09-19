@@ -1,6 +1,5 @@
 'use client';
 
-import { clsx } from 'clsx';
 import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
@@ -20,7 +19,7 @@ export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
   const close = () => onOpenChange(false);
 
   return (
-    <div className={clsx('glass-strong', s.topBar)}>
+    <div className={s.topBar}>
       <div className={s.topBarInner}>
         <Sheet
           trigger={

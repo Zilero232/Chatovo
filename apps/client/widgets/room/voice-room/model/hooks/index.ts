@@ -1,3 +1,4 @@
+export { useChatToggle } from './use-chat-toggle';
 export { type ConnectionRtt, useConnectionRtt } from './use-connection-rtt';
 export { useCopyInviteLink } from './use-copy-invite-link';
 export { useCurrentRoomId } from './use-current-room-id';
@@ -7,6 +8,7 @@ export { useParticipantAudioLevel } from './use-participant-audio-level';
 export { useParticipantIsSpeaking } from './use-participant-is-speaking';
 export { useParticipantMedia } from './use-participant-media';
 export { type ParticipantVolume, useParticipantVolume } from './use-participant-volume';
+export { useParticipantsView } from './use-participants-view';
 export { usePttLocalSpeaking } from './use-ptt-local-speaking';
 export { useRestoreParticipantVolumes } from './use-restore-participant-volumes';
 export { useRoomConnection } from './use-room-connection';

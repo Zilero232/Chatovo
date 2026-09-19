@@ -14,6 +14,16 @@ export const mergeChatLines = (cached: ChatLine[], fetched: ChatLine[]): ChatLin
   return sortBy([...byId.values()], (line) => line.timestamp);
 };
 
+export const prependChatLines = (lines: ChatLine[] | undefined, older: ChatLine[]): ChatLine[] => {
+  if (!lines?.length) {
+    return older;
+  }
+
+  const known = new Set(lines.map((line) => line.id));
+
+  return [...older.filter((line) => !known.has(line.id)), ...lines];
+};
+
 export const appendChatLine = (lines: ChatLine[] | undefined, line: ChatLine): ChatLine[] => {
   if (!lines) {
     return [line];

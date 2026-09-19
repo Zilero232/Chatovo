@@ -1,19 +1,17 @@
 'use client';
 
-import type { FriendEntry, FriendUser } from '@chatovo/schemas';
+import type { FriendEntry } from '@chatovo/schemas';
 
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
 import { isEmpty } from 'remeda';
 import { match, P } from 'ts-pattern';
 
-import { useFriends } from '@/entities/social/friend';
-import { useFriendChat } from '@/features/social/friend-chat';
 import { RemoveFriendConfirmDialog } from '@/features/social/remove-friend';
 import { CenteredState, Spinner } from '@/ui-kit';
 
-import type { FriendsTabProps, RemoveTarget } from './FriendsTab.types';
+import type { FriendsTabProps } from './FriendsTab.types';
 
+import { useFriendsList } from '../../../model/hooks';
 import { FriendsList } from '../FriendsList/FriendsList';
 
 import s from '../../FriendsPanel.module.scss';
@@ -24,19 +22,16 @@ const hasFriends = (friends: FriendEntry[]): friends is [FriendEntry, ...FriendE
 export const FriendsTab = ({ countLabel, query, onlyOnline = false }: FriendsTabProps) => {
   const t = useTranslations('friends');
 
-  const { data, isPending } = useFriends();
-  const { open: openFriendChat, getFriendUnread } = useFriendChat();
-
-  const [removeTarget, setRemoveTarget] = useState<RemoveTarget | null>(null);
-
-  const search = query.trim().toLowerCase();
-  const friends = (data ?? [])
-    .filter((entry) => !onlyOnline || entry.user.isOnline)
-    .filter((entry) => !search || entry.user.name.toLowerCase().includes(search));
-
-  const handleRemove = (user: FriendUser) => {
-    setRemoveTarget({ userId: user.id, friendName: user.name });
-  };
+  const {
+    friends,
+    isPending,
+    search,
+    removeTarget,
+    getFriendUnread,
+    openFriendChat,
+    requestRemove,
+    clearRemoveTarget
+  } = useFriendsList({ query, onlyOnline });
 
   return (
     <>
@@ -48,7 +43,7 @@ export const FriendsTab = ({ countLabel, query, onlyOnline = false }: FriendsTab
             getUnread={getFriendUnread}
             items={items}
             onOpen={openFriendChat}
-            onRemove={handleRemove}
+            onRemove={requestRemove}
           />
         ))
         .with({ friends: P.when(() => Boolean(search)) }, () => (
@@ -77,7 +72,7 @@ export const FriendsTab = ({ countLabel, query, onlyOnline = false }: FriendsTab
           userId={removeTarget.userId}
           onOpenChange={(open) => {
             if (!open) {
-              setRemoveTarget(null);
+              clearRemoveTarget();
             }
           }}
         />

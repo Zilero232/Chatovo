@@ -7,6 +7,7 @@ import { isNullish } from 'remeda';
 import { env } from '@/shared/config';
 
 import { useInvisibleModeSync, useRoomSessionHost } from '../model/hooks';
+import { MiniRoomFloatingSlot } from './components';
 
 import s from './RoomSessionHost.module.scss';
 
@@ -28,6 +29,8 @@ export const RoomSessionHost = () => {
 
   return (
     <div className={clsx(s.root, isExpanded ? s.expanded : s.minimized)}>
+      <MiniRoomFloatingSlot />
+
       <VoiceRoom
         key={`${roomId}:${isInvisible}`}
         initialChatOpen={isChatOpen}

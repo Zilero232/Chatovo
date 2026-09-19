@@ -7,8 +7,6 @@ import { useTranslations } from 'next-intl';
 import { isEmpty } from 'remeda';
 import { match, P } from 'ts-pattern';
 
-import { useCurrentUser, useDevelopers } from '@/entities/auth/user';
-import { useFriends } from '@/entities/social/friend';
 import {
   LIST_ITEM_ANIMATE,
   LIST_ITEM_EXIT,
@@ -17,6 +15,7 @@ import {
 } from '@/shared/config';
 import { CenteredState, Spinner } from '@/ui-kit';
 
+import { useDevelopersList } from '../../../model/hooks';
 import { DeveloperListItem } from './DeveloperListItem/DeveloperListItem';
 
 import s from '../../FriendsPanel.module.scss';
@@ -27,13 +26,7 @@ const hasDevelopers = (developers: UserProfile[] | undefined): developers is Use
 export const DevelopersTab = () => {
   const t = useTranslations('friends');
 
-  const { user } = useCurrentUser();
-
-  const { data: allDevelopers, isPending } = useDevelopers();
-  const { data: friends } = useFriends();
-
-  const friendIds = new Set((friends ?? []).map((entry) => entry.user.id));
-  const developers = allDevelopers?.filter((developer) => developer.id !== user?.id);
+  const { developers, isPending, isFriend } = useDevelopersList();
 
   return match({ isPending, developers })
     .with({ isPending: true }, () => <Spinner className={s.spinner} />)
@@ -49,7 +42,7 @@ export const DevelopersTab = () => {
               layout='position'
               transition={LIST_ITEM_TRANSITION}
             >
-              <DeveloperListItem developer={developer} isFriend={friendIds.has(developer.id)} />
+              <DeveloperListItem developer={developer} isFriend={isFriend(developer.id)} />
             </motion.div>
           ))}
         </AnimatePresence>

@@ -34,7 +34,8 @@ const friends = {
   friendCallOutgoing: () => ['friend-call-outgoing'] as const,
   friendsEpoch: () => ['friends-epoch'] as const,
   friendshipRelations: () => ['friendship-relation'] as const,
-  friendshipRelation: (userId: string) => ['friendship-relation', userId] as const
+  friendshipRelation: (userId: string) => ['friendship-relation', userId] as const,
+  friendDmRoom: (userId: string) => ['friend-dm-room', userId] as const
 };
 
 const users = {

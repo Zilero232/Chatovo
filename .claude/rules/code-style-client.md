@@ -39,6 +39,19 @@ A barrel of related primitives (`Dialog`, `Sheet`, `DropdownMenu` with 8–15 ex
 
 A side effect with no markup is a headless controller in `ui/controllers/` that renders `null` and is assembled into an orchestrator fragment. A pile of `useEffect` in the main component is banned.
 
+## 3a. Logic in hooks, components pure
+
+A component renders. Data fetching, mutations, subscriptions, derived state, scroll/focus bookkeeping and event wiring go into a hook in `model/hooks/`; the component calls it, destructures, returns JSX.
+
+Test: anything between the hook calls and the `return` beyond trivial derived consts belongs in a hook.
+
+```tsx
+// ✓ one orchestration hook, flat shape named for the markup
+const { lines, listRef, sentinelRef, actions, isPending } = useChatConversation({ roomId });
+```
+
+Group related callbacks under one key (`actions`) instead of returning them loose. Full version — docs/guides/style.md §10.1b.
+
 ## 4. Props field order
 
 One order in three places: `type Props` ↔ destructuring ↔ the JSX call. The groups: **data** (including `children`) → **identifiers/styles** (`id`, `className`, `style`) → **handlers** (`on<Event>`). A mismatch between the three is caught at review.

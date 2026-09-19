@@ -8,7 +8,7 @@ import { Button, Dialog, DialogContent, DialogTitle, Text } from '@/ui-kit';
 
 import type { SnakeGameProps } from './SnakeGame.types';
 
-import { useSnakeGame } from '../../model/hooks/use-snake-game';
+import { useSnakeGame } from '../../model/hooks';
 
 import s from './SnakeGame.module.scss';
 

@@ -1,13 +1,15 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
+import type { Room } from '@chatovo/schemas';
+
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { useToastError } from '@/entities/app/locale';
 import { useCloseWhenCallAccepted } from '@/entities/social/friend';
 import { getOrCreateFriendDmRoom } from '@/shared/api';
-import { ROUTES } from '@/shared/constants';
+import { QUERY_KEYS, ROUTES } from '@/shared/constants';
 import { useCloseWhenInVoiceRoom } from '@/shared/hooks';
 import { appEvents } from '@/shared/lib';
 
@@ -17,6 +19,7 @@ export const useFriendChatSession = () => {
   const router = useRouter();
   const pathname = usePathname();
 
+  const queryClient = useQueryClient();
   const toastError = useToastError();
 
   const [session, setSession] = useState<FriendChatSession | null>(null);
@@ -24,7 +27,11 @@ export const useFriendChatSession = () => {
 
   const openMutation = useMutation({
     mutationFn: async (peer: FriendChatPeer) => {
-      const room = await getOrCreateFriendDmRoom(peer.id);
+      const room = await queryClient.query({
+        queryKey: QUERY_KEYS.friendDmRoom(peer.id),
+        staleTime: Infinity,
+        queryFn: () => getOrCreateFriendDmRoom(peer.id)
+      });
 
       return { room, peer };
     },
@@ -39,8 +46,16 @@ export const useFriendChatSession = () => {
   });
 
   const open = (peer: FriendChatPeer) => {
-    setOpeningPeer(peer);
-    openMutation.mutate(peer);
+    const cachedRoom = queryClient.getQueryData<Room>(QUERY_KEYS.friendDmRoom(peer.id));
+
+    if (cachedRoom) {
+      setSession({ roomId: cachedRoom.id, peer });
+      setOpeningPeer(null);
+    } else {
+      setOpeningPeer(peer);
+      openMutation.mutate(peer);
+    }
+
     appEvents.emit.profileCardClose();
 
     if (pathname !== ROUTES.lobby) {

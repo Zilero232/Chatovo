@@ -8,6 +8,7 @@ import {
   applyChatEditToLines,
   applyChatStatusToLines,
   mergeChatLines,
+  prependChatLines,
   removeChatLine
 } from '../merge-chat-lines';
 
@@ -92,5 +93,26 @@ describe('applyChatDeleteToLines', () => {
 
     expect(line.message).toBe('');
     expect(line.deletedAt).toBe(77);
+  });
+});
+
+describe('prependChatLines', () => {
+  it('puts the older page in front of what is already loaded', () => {
+    const lines = prependChatLines([lineOf('c', 3)], [lineOf('a', 1), lineOf('b', 2)]);
+
+    expect(lines.map((line) => line.id)).toEqual(['a', 'b', 'c']);
+  });
+
+  it('drops older entries already present in the list', () => {
+    const lines = prependChatLines(
+      [lineOf('b', 2), lineOf('c', 3)],
+      [lineOf('a', 1), lineOf('b', 2)]
+    );
+
+    expect(lines.map((line) => line.id)).toEqual(['a', 'b', 'c']);
+  });
+
+  it('returns the older page as-is when nothing is loaded yet', () => {
+    expect(prependChatLines(undefined, [lineOf('a', 1)]).map((line) => line.id)).toEqual(['a']);
   });
 });

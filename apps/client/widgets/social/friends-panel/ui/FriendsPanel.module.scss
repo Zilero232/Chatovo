@@ -51,7 +51,7 @@
 .barIcon {
   width: 1.125rem;
   height: 1.125rem;
-  color: var(--muted-foreground);
+  color: var(--brand-violet);
 }
 
 .barDivider {
@@ -73,6 +73,12 @@
   border: none;
   background: transparent;
   gap: 0.25rem;
+
+  [data-active] {
+    background: color-mix(in oklch, var(--brand-violet) 22%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--brand-violet) 35%, transparent);
+    color: var(--foreground);
+  }
 }
 
 .addButton {
@@ -112,6 +118,8 @@
   color: var(--muted-foreground);
   font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .list {
@@ -130,10 +138,14 @@
   min-height: auto;
   flex-shrink: 0;
   padding: 2rem 1rem;
-  border: 1px dashed oklch(100% 0 0deg / 12%);
+  border: 1px dashed color-mix(in oklch, var(--brand-violet) 22%, transparent);
   border-radius: var(--radius-2xl);
   backdrop-filter: blur(rem(4));
-  background: oklch(100% 0 0deg / 3%);
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 0%,
+    color-mix(in oklch, var(--brand-violet) 9%, transparent),
+    oklch(100% 0 0deg / 3%) 70%
+  );
   margin-block: auto;
   text-align: center;
 
