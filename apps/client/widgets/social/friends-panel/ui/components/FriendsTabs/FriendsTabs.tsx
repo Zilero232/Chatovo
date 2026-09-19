@@ -3,10 +3,11 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
-import { useFriends, useIncomingFriendRequests } from '@/entities/social/friend';
-import { SearchField, Tabs, TabsContent } from '@/ui-kit';
+import type { FriendsTabValue } from '@/features/social/friend-chat';
 
-import type { FriendsTabValue } from './FriendsTabs.types';
+import { useFriends, useIncomingFriendRequests } from '@/entities/social/friend';
+import { useFriendChat } from '@/features/social/friend-chat';
+import { SearchField, Tabs, TabsContent } from '@/ui-kit';
 
 import { AddFriendTab } from '../AddFriendTab/AddFriendTab';
 import { DevelopersTab } from '../DevelopersTab/DevelopersTab';
@@ -22,7 +23,7 @@ export const FriendsTabs = () => {
   const { data: friends } = useFriends();
   const { data: requests } = useIncomingFriendRequests();
 
-  const [tab, setTab] = useState<FriendsTabValue>('online');
+  const { friendsTab, setFriendsTab } = useFriendChat();
   const [query, setQuery] = useState('');
 
   const friendsCount = friends?.length ?? 0;
@@ -30,12 +31,16 @@ export const FriendsTabs = () => {
   const onlineCount = (friends ?? []).filter((entry) => entry.user.isOnline).length;
 
   return (
-    <Tabs className={s.tabs} value={tab} onValueChange={(next) => setTab(next as FriendsTabValue)}>
+    <Tabs
+      className={s.tabs}
+      value={friendsTab}
+      onValueChange={(next) => setFriendsTab(next as FriendsTabValue)}
+    >
       <FriendsTabsBar
         friendsCount={friendsCount}
         incomingCount={incomingCount}
-        isAddActive={tab === 'add'}
-        onAddFriend={() => setTab('add')}
+        isAddActive={friendsTab === 'add'}
+        onAddFriend={() => setFriendsTab('add')}
       />
 
       <div className={s.body}>

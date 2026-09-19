@@ -26,6 +26,7 @@ import {
 import type { SettingsTabId } from '../config';
 
 import { SETTINGS_TABS } from '../config';
+import { LogoutButton } from './components/LogoutButton/LogoutButton';
 
 import s from './AppSettingsButton.module.scss';
 
@@ -71,17 +72,21 @@ export const AppSettingsButton = () => {
             value={activeTab}
             onValueChange={(value) => setActiveTab(value as SettingsTabId)}
           >
-            <TabsList className={s.tabsList}>
-              {tabs.map((tab) => (
-                <TabsTrigger key={tab.id} className={s.tabsTrigger} value={tab.id}>
-                  {tab.icon}
-                  {t(`tabs.${tab.id}`)}
-                  {tab.id === 'security' && needsEmailVerification && (
-                    <span aria-hidden className={s.tabAlertDot} />
-                  )}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+            <div className={s.sidebar}>
+              <TabsList className={s.tabsList}>
+                {tabs.map((tab) => (
+                  <TabsTrigger key={tab.id} className={s.tabsTrigger} value={tab.id}>
+                    {tab.icon}
+                    {t(`tabs.${tab.id}`)}
+                    {tab.id === 'security' && needsEmailVerification && (
+                      <span aria-hidden className={s.tabAlertDot} />
+                    )}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+
+              <LogoutButton />
+            </div>
 
             {tabs.map((tab) => (
               <TabsContent key={tab.id} className={s.tabsContent} value={tab.id}>

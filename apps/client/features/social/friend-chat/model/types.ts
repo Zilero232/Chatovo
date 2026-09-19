@@ -9,3 +9,5 @@ export type FriendChatSession = {
   peer: FriendChatPeer;
   roomId: string;
 };
+
+export type FriendsTabValue = 'add' | 'all' | 'developers' | 'online' | 'pending';

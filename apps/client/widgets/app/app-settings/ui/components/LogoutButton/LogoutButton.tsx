@@ -6,10 +6,12 @@ import { toast } from 'sonner';
 
 import { useToastError } from '@/entities/app/locale';
 import { authClient, clearToken } from '@/shared/api';
-import { IconButtonWithTooltip } from '@/ui-kit';
+import { Button } from '@/ui-kit';
+
+import s from '../../AppSettingsButton.module.scss';
 
 export const LogoutButton = () => {
-  const t = useTranslations('appSidebar');
+  const t = useTranslations('settings');
   const toastError = useToastError();
 
   const handleLogout = async () => {
@@ -26,5 +28,10 @@ export const LogoutButton = () => {
     toast.success(t('signedOut'), { id: 'sign-out' });
   };
 
-  return <IconButtonWithTooltip icon={<LogOut />} label={t('logout')} onClick={handleLogout} />;
+  return (
+    <Button className={s.logoutButton} size='sm' variant='ghost' onClick={handleLogout}>
+      <LogOut aria-hidden />
+      {t('logout')}
+    </Button>
+  );
 };

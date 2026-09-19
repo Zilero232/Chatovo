@@ -3,12 +3,16 @@
 import type { ReactNode } from 'react';
 
 import { createContextHook } from '@siberiacancode/reactuse';
-import { useEffect, useEffectEvent } from 'react';
+import { useEffect, useEffectEvent, useState } from 'react';
+
+import type { FriendsTabValue } from '../types';
 
 import { useFriendChatSession, useFriendChatUnread } from '../hooks';
 
 const useFriendChatState = () => {
   const { session, openingPeer, isOpening, open, close } = useFriendChatSession();
+
+  const [friendsTab, setFriendsTab] = useState<FriendsTabValue>('online');
 
   const { dmUnread, getFriendUnread, clearFriendUnread } = useFriendChatUnread({
     openRoomId: session?.roomId ?? null
@@ -29,9 +33,11 @@ const useFriendChatState = () => {
     openingPeer,
     isOpening,
     dmUnread,
+    friendsTab,
     getFriendUnread,
     open,
-    close
+    close,
+    setFriendsTab
   };
 };
 

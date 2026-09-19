@@ -19,9 +19,14 @@
   display: flex;
   height: 3.5rem;
   align-items: center;
-  padding-right: calc(1rem + var(--safe-area-right));
-  padding-left: calc(1rem + var(--safe-area-left));
+  padding-right: calc(0.75rem + var(--safe-area-right));
+  padding-left: calc(0.75rem + var(--safe-area-left));
   gap: 0.75rem;
+
+  @include bp(sm) {
+    padding-right: calc(1rem + var(--safe-area-right));
+    padding-left: calc(1rem + var(--safe-area-left));
+  }
 }
 
 .menuButton {

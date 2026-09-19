@@ -1,3 +1,3 @@
 export { FriendChatProvider, useFriendChat } from './model/contexts';
 
-export type { FriendChatPeer, FriendChatSession } from './model/types';
+export type { FriendChatPeer, FriendChatSession, FriendsTabValue } from './model/types';
