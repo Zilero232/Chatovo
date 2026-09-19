@@ -17,8 +17,6 @@
     "checkUpdateLabel": "Проверить обновления приложения",
     "gnomeVpn": "GnomeVPN",
     "gnomeVpnLabel": "Открыть сайт GnomeVPN",
-    "logout": "Выйти",
-    "signedOut": "Выход выполнен",
     "showChannels": "Показать каналы",
     "hideChannels": "Скрыть каналы",
     "toggleChannels": "Переключить каналы",
@@ -28,6 +26,8 @@
     "closeMenu": "Закрыть меню"
   },
   "settings": {
+    "logout": "Выйти",
+    "signedOut": "Выход выполнен",
     "title": "Настройки",
     "open": "Открыть настройки",
     "description": "Устройства и звуковые предпочтения. Сохраняются на этом устройстве.",

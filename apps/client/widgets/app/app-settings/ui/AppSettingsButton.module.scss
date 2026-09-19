@@ -34,6 +34,19 @@
   }
 }
 
+.sidebar {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 0.5rem;
+
+  @include bp(sm) {
+    width: 12rem;
+    align-self: flex-start;
+  }
+}
+
 .tabsList {
   display: flex;
   width: 100%;
@@ -53,10 +66,8 @@
   @include hide-scrollbar;
 
   @include bp(sm) {
-    width: 12rem;
     height: auto;
     flex-direction: column;
-    align-self: flex-start;
   }
 
   @include tauri-mobile {
@@ -379,5 +390,25 @@
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+.logoutButton[data-variant] {
+  width: 100%;
+  justify-content: flex-start;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid color-mix(in oklch, var(--destructive) 28%, transparent);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklch, var(--destructive) 10%, transparent);
+  color: var(--destructive);
+  font-weight: 500;
+  gap: 0.5rem;
+
+  @include hover {
+    &:not(:disabled) {
+      border-color: color-mix(in oklch, var(--destructive) 55%, transparent);
+      background: color-mix(in oklch, var(--destructive) 20%, transparent);
+      color: var(--destructive);
+    }
   }
 }

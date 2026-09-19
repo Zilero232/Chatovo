@@ -17,8 +17,6 @@
     "checkUpdateLabel": "Check for app updates",
     "gnomeVpn": "GnomeVPN",
     "gnomeVpnLabel": "Open GnomeVPN website",
-    "logout": "Logout",
-    "signedOut": "Signed out",
     "showChannels": "Show channels",
     "hideChannels": "Hide channels",
     "toggleChannels": "Toggle channels",
@@ -28,6 +26,8 @@
     "closeMenu": "Close menu"
   },
   "settings": {
+    "logout": "Logout",
+    "signedOut": "Signed out",
     "title": "Settings",
     "open": "Open settings",
     "description": "Devices and sound preferences. Saved on this device.",

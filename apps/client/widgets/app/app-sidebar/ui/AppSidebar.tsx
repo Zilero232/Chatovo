@@ -13,7 +13,6 @@ import {
   DownloadAppButton,
   GnomeVpnButton,
   LobbyButton,
-  LogoutButton,
   ToggleChannelsButton
 } from './components';
 
@@ -45,7 +44,6 @@ export const AppSidebar = ({
       {isDesktop && <CheckUpdateButton />}
       <AdminMenuButton side={isVertical ? 'right' : 'top'} onNavigate={onNavigate} />
       <GnomeVpnButton />
-      <LogoutButton />
     </div>
   );
 };
