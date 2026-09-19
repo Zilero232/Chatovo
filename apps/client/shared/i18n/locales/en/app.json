@@ -1,6 +1,16 @@
 {
+  "pageMeta": {
+    "lobby": "Friends",
+    "room": "Voice room",
+    "admin": "Admin",
+    "auth": "Sign in",
+    "resetPassword": "Reset password",
+    "accountDelete": "Delete account",
+    "privacy": "Privacy policy",
+    "terms": "Terms of use"
+  },
   "appSidebar": {
-    "lobby": "Lobby",
+    "lobby": "Friends",
     "downloadApp": "Download app",
     "downloadAppLabel": "Download app",
     "checkUpdate": "Check for updates",
@@ -14,7 +24,8 @@
     "toggleChannels": "Toggle channels",
     "menu": "Menu",
     "menuDescription": "Navigation and room list",
-    "openMenu": "Open menu"
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "settings": {
     "title": "Settings",
@@ -225,6 +236,7 @@
     "openReleases": "Open releases on GitHub",
     "version": "Version {version}",
     "notAvailable": "Not available yet",
+    "downloadAction": "Download",
     "sections": {
       "desktop": "Desktop",
       "mobile": "Mobile"

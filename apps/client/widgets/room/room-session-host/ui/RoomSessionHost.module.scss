@@ -12,9 +12,4 @@
 
 .minimized {
   flex-shrink: 0;
-  padding: 0 0.5rem 0.5rem;
-
-  @include bp(md) {
-    padding: 0 0.75rem 0.75rem;
-  }
 }

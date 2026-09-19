@@ -4,7 +4,6 @@ import { isTauri } from '@tauri-apps/api/core';
 import { clsx } from 'clsx';
 
 import { useIsTauriDesktop } from '@/shared/hooks';
-import { FriendsDialog } from '@/widgets/social/friends-dialog';
 
 import type { AppSidebarProps } from './AppSidebar.types';
 
@@ -41,12 +40,11 @@ export const AppSidebar = ({
         <ToggleChannelsButton opened={channelsOpened} onToggle={onToggleChannels} />
       )}
       <LobbyButton side={isVertical ? 'right' : 'top'} onNavigate={onNavigate} />
-      <GnomeVpnButton />
-      <FriendsDialog />
       {!isTauri() && <DownloadAppButton />}
       <div className={s.spacer} />
       {isDesktop && <CheckUpdateButton />}
       <AdminMenuButton side={isVertical ? 'right' : 'top'} onNavigate={onNavigate} />
+      <GnomeVpnButton />
       <LogoutButton />
     </div>
   );

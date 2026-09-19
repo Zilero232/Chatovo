@@ -10,6 +10,7 @@ type AppBusEvents = {
   muteToggle: undefined;
   pttHold: { phase: 'pressed' | 'released' };
   pttKey: { phase: 'pressed' | 'released' };
+  profileCardClose: undefined;
   reaction: undefined;
   recheckUpdate: undefined;
   secretGameOpen: undefined;

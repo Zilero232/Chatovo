@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 
 import { RealtimeProvider } from '@/entities/app/realtime';
 import { LeaveSoundProvider } from '@/entities/room/room';
-import { RoomSessionProvider } from '@/entities/room/session';
+import { MiniRoomSlotProvider, RoomSessionProvider } from '@/entities/room/session';
 import { FriendsRealtimeSync } from '@/entities/social/friend';
 import { PushRegistration } from '@/features/app/push-notifications';
 import { FriendChatProvider } from '@/features/social/friend-chat';
@@ -18,12 +18,14 @@ export const AuthedProviders = ({ children }: { children: ReactNode }) => (
       <DeepLinkProvider>
         <RealtimeProvider>
           <RoomSessionProvider>
-            <FriendChatProvider>
-              <PushRegistration />
-              <FriendsRealtimeSync />
-              <ChatRealtimeSync />
-              <LeaveSoundProvider>{children}</LeaveSoundProvider>
-            </FriendChatProvider>
+            <MiniRoomSlotProvider>
+              <FriendChatProvider>
+                <PushRegistration />
+                <FriendsRealtimeSync />
+                <ChatRealtimeSync />
+                <LeaveSoundProvider>{children}</LeaveSoundProvider>
+              </FriendChatProvider>
+            </MiniRoomSlotProvider>
           </RoomSessionProvider>
         </RealtimeProvider>
       </DeepLinkProvider>

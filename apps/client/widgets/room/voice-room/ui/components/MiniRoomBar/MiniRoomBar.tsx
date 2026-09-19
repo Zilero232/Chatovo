@@ -13,15 +13,20 @@ import type { MiniRoomBarProps } from './MiniRoomBar.types';
 
 import s from './MiniRoomBar.module.scss';
 
-export const MiniRoomBar = ({ isDm, roomName, onExpand }: MiniRoomBarProps) => {
+export const MiniRoomBar = ({ isDm, roomName, variant = 'docked', onExpand }: MiniRoomBarProps) => {
   const t = useTranslations('room');
+
   const connectionState = useConnectionState();
   const { mic, deafen, leave } = useRoomControls();
 
   const isConnected = connectionState === ConnectionState.Connected;
 
   return (
-    <section aria-label={t('mini.label', { name: roomName })} className={clsx(s.root, 'glass')}>
+    <section
+      aria-label={t('mini.label', { name: roomName })}
+      className={clsx(s.root, variant === 'floating' && [s.floating, 'glass'])}
+      data-mini-room={variant}
+    >
       <button className={s.identity} type='button' onClick={onExpand}>
         <span aria-hidden className={clsx(s.pulse, isConnected && s.pulseLive)}>
           <AudioLines className={s.pulseGlyph} />
@@ -39,7 +44,7 @@ export const MiniRoomBar = ({ isDm, roomName, onExpand }: MiniRoomBarProps) => {
 
       <div className={s.actions}>
         <IconButtonWithTooltip
-          className={clsx(mic.isMuted && s.off)}
+          className={clsx(s.action, mic.isMuted && s.off)}
           disabled={mic.isPending}
           icon={mic.isMuted ? <MicOff /> : <Mic />}
           label={mic.isMuted ? t('controls.unmute') : t('controls.mute')}
@@ -49,7 +54,7 @@ export const MiniRoomBar = ({ isDm, roomName, onExpand }: MiniRoomBarProps) => {
         />
 
         <IconButtonWithTooltip
-          className={clsx(deafen.active && s.off)}
+          className={clsx(s.action, deafen.active && s.off)}
           icon={deafen.active ? <HeadphoneOff /> : <Headphones />}
           label={deafen.active ? t('controls.undeafen') : t('controls.deafen')}
           size='icon-sm'
@@ -58,7 +63,7 @@ export const MiniRoomBar = ({ isDm, roomName, onExpand }: MiniRoomBarProps) => {
         />
 
         <IconButtonWithTooltip
-          className={s.leave}
+          className={clsx(s.action, s.leave)}
           icon={<LogOut />}
           label={t('controls.leave')}
           size='icon-sm'

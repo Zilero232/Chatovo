@@ -1,6 +1,16 @@
 {
+  "pageMeta": {
+    "lobby": "Друзья",
+    "room": "Голосовая комната",
+    "admin": "Админка",
+    "auth": "Вход",
+    "resetPassword": "Сброс пароля",
+    "accountDelete": "Удаление аккаунта",
+    "privacy": "Политика конфиденциальности",
+    "terms": "Условия использования"
+  },
   "appSidebar": {
-    "lobby": "Лобби",
+    "lobby": "Друзья",
     "downloadApp": "Скачать приложение",
     "downloadAppLabel": "Скачать приложение",
     "checkUpdate": "Проверить обновления",
@@ -14,7 +24,8 @@
     "toggleChannels": "Переключить каналы",
     "menu": "Меню",
     "menuDescription": "Навигация и список комнат",
-    "openMenu": "Открыть меню"
+    "openMenu": "Открыть меню",
+    "closeMenu": "Закрыть меню"
   },
   "settings": {
     "title": "Настройки",
@@ -225,6 +236,7 @@
     "openReleases": "Открыть релизы на GitHub",
     "version": "Версия {version}",
     "notAvailable": "Пока недоступно",
+    "downloadAction": "Загрузить",
     "sections": {
       "desktop": "Desktop",
       "mobile": "Mobile"

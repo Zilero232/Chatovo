@@ -9,7 +9,7 @@ import type { FriendActionsProps } from './FriendActions.types';
 
 import s from '../../FriendProfileActions.module.scss';
 
-export const FriendActions = ({ isBusy, onOpenChat, onCall, onRemove }: FriendActionsProps) => {
+export const FriendActions = ({ isBusy, onCall, onOpenChat, onRemove }: FriendActionsProps) => {
   const t = useTranslations('friends');
 
   return (

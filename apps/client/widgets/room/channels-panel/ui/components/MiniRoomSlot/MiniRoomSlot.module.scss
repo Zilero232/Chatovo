@@ -1,0 +1,7 @@
+.root {
+  flex-shrink: 0;
+
+  &:empty {
+    display: none;
+  }
+}

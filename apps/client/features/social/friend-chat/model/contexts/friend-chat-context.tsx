@@ -8,8 +8,7 @@ import { useEffect, useEffectEvent } from 'react';
 import { useFriendChatSession, useFriendChatUnread } from '../hooks';
 
 const useFriendChatState = () => {
-  const { session, openingPeer, isOpening, blocksParentDialogClose, open, close } =
-    useFriendChatSession();
+  const { session, openingPeer, isOpening, open, close } = useFriendChatSession();
 
   const { dmUnread, getFriendUnread, clearFriendUnread } = useFriendChatUnread({
     openRoomId: session?.roomId ?? null
@@ -31,7 +30,6 @@ const useFriendChatState = () => {
     isOpening,
     dmUnread,
     getFriendUnread,
-    blocksParentDialogClose,
     open,
     close
   };

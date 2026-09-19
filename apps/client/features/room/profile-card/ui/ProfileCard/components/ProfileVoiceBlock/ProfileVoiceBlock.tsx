@@ -6,6 +6,7 @@ import { match, P } from 'ts-pattern';
 
 import { useCurrentUser } from '@/entities/auth/user';
 import { useEnterRoom } from '@/entities/room/room';
+import { appEvents } from '@/shared/lib';
 import { Button, Spinner } from '@/ui-kit';
 
 import type { ProfileVoiceBlockProps } from './ProfileVoiceBlock.types';
@@ -24,6 +25,11 @@ export const ProfileVoiceBlock = ({ identity, isSelf }: ProfileVoiceBlockProps) 
   const { isPending, mutate: enterRoom } = useEnterRoom();
 
   const inSameRoom = isNonNullish(room) && room.roomId === myRoom?.roomId;
+
+  const join = (roomId: string) => {
+    enterRoom({ roomId });
+    appEvents.emit.profileCardClose();
+  };
 
   return (
     <div className={s.root}>
@@ -50,7 +56,7 @@ export const ProfileVoiceBlock = ({ identity, isSelf }: ProfileVoiceBlockProps) 
                 className={s.button}
                 disabled={isPending}
                 size='sm'
-                onClick={() => enterRoom({ roomId: current.roomId })}
+                onClick={() => join(current.roomId)}
               >
                 {isPending && <Spinner decorative size='xs' />}
                 {t('join')}

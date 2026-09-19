@@ -1,7 +1,7 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { Menu } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { SecretClickArea } from '@/features/app/secret-games';
@@ -47,10 +47,20 @@ export const MobileNav = ({ open, onOpenChange }: MobileNavProps) => {
             <SheetDescription className={s.sheetTitleSr}>{t('menuDescription')}</SheetDescription>
 
             <div className={s.sheetBody}>
-              <div className={s.sheetActions}>
+              <div className={s.sheetRail}>
+                <Button
+                  aria-label={t('closeMenu')}
+                  className={s.sheetClose}
+                  size='icon'
+                  type='button'
+                  variant='ghost'
+                  onClick={close}
+                >
+                  <X />
+                </Button>
+
                 <AppSidebar
                   channelsOpened={false}
-                  orientation='horizontal'
                   showToggleChannels={false}
                   onNavigate={close}
                   onToggleChannels={() => undefined}

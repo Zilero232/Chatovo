@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { useEffect } from 'react';
 
-import { useLocale } from '@/entities/app/locale';
+import { DocumentTitleSync, useLocale } from '@/entities/app/locale';
 import { DEFAULT_LOCALE, messages } from '@/shared/i18n';
 import { AppSplash } from '@/ui-kit';
 
@@ -28,6 +28,7 @@ export const I18nProvider = ({ children }: { children: ReactNode }) => {
       messages={messages[activeLocale]}
       timeZone={timeZone}
     >
+      <DocumentTitleSync />
       {!isReady ? <AppSplash /> : children}
     </NextIntlClientProvider>
   );

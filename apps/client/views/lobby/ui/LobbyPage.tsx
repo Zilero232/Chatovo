@@ -1,23 +1,24 @@
 'use client';
 
-import { clsx } from 'clsx';
-
-import { ScrollArea } from '@/ui-kit';
-
-import { LobbyHeader, LobbyRooms } from './components';
+import { useFriendChat } from '@/features/social/friend-chat';
+import { FriendChatPanel } from '@/widgets/social/friend-chat-panel';
+import { FriendsActivity } from '@/widgets/social/friends-activity';
+import { FriendsPanel } from '@/widgets/social/friends-panel';
 
 import s from './LobbyPage.module.scss';
 
-export const LobbyPage = () => (
-  <ScrollArea className={s.root}>
-    <div aria-hidden className='lobby-ambience'>
-      <span className='lobby-ambience-orb lobby-ambience-orb-violet' />
-      <span className='lobby-ambience-orb lobby-ambience-orb-cyan' />
-    </div>
+export const LobbyPage = () => {
+  const { session, openingPeer } = useFriendChat();
 
-    <div className={clsx(s.container, 'pb-page')}>
-      <LobbyHeader />
-      <LobbyRooms />
+  const peer = session?.peer ?? openingPeer;
+
+  return (
+    <div className={s.root}>
+      <div className={s.main}>{peer ? <FriendChatPanel peer={peer} /> : <FriendsPanel />}</div>
+
+      <div className={s.aside}>
+        <FriendsActivity />
+      </div>
     </div>
-  </ScrollArea>
-);
+  );
+};
