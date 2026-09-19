@@ -1,14 +1,12 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
 
 import type { FriendsTabValue } from '@/features/social/friend-chat';
 
-import { useFriends, useIncomingFriendRequests } from '@/entities/social/friend';
-import { useFriendChat } from '@/features/social/friend-chat';
 import { SearchField, Tabs, TabsContent } from '@/ui-kit';
 
+import { useFriendsTabs } from '../../../model/hooks';
 import { AddFriendTab } from '../AddFriendTab/AddFriendTab';
 import { DevelopersTab } from '../DevelopersTab/DevelopersTab';
 import { FriendsTab } from '../FriendsTab/FriendsTab';
@@ -20,15 +18,8 @@ import s from '../../FriendsPanel.module.scss';
 export const FriendsTabs = () => {
   const t = useTranslations('friends');
 
-  const { data: friends } = useFriends();
-  const { data: requests } = useIncomingFriendRequests();
-
-  const { friendsTab, setFriendsTab } = useFriendChat();
-  const [query, setQuery] = useState('');
-
-  const friendsCount = friends?.length ?? 0;
-  const incomingCount = requests?.length ?? 0;
-  const onlineCount = (friends ?? []).filter((entry) => entry.user.isOnline).length;
+  const { friendsTab, query, friendsCount, incomingCount, onlineCount, setFriendsTab, setQuery } =
+    useFriendsTabs();
 
   return (
     <Tabs

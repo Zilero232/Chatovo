@@ -7,7 +7,7 @@ import { useMiniRoomSlot } from '@/entities/room/session';
 import s from './MiniRoomSlot.module.scss';
 
 export const MiniRoomSlot = () => {
-  const { setSlot } = useMiniRoomSlot();
+  const { setDockedSlot } = useMiniRoomSlot();
 
   const isDesktop = useMediaQuery('(min-width: 48rem)');
 
@@ -15,5 +15,5 @@ export const MiniRoomSlot = () => {
     return null;
   }
 
-  return <div ref={setSlot} className={s.root} />;
+  return <div ref={setDockedSlot} className={s.root} />;
 };

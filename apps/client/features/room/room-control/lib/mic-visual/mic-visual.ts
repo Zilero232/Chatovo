@@ -2,7 +2,6 @@ import { match } from 'ts-pattern';
 
 import type { MicVisual, ResolveMicVisualInput } from './mic-visual.types';
 
-/** Maps push-to-talk state and mic enablement onto the button's tone, label and muted flag. */
 export const resolveMicVisual = ({
   pttState,
   isMicrophoneEnabled

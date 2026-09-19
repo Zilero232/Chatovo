@@ -1,18 +1,16 @@
 'use client';
 
 import { LiveKitRoom } from '@livekit/components-react';
-import { useBoolean } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { setLogLevel } from 'livekit-client';
 
 import { useMiniRoomSlot } from '@/entities/room/session';
 import { DeafenProvider, ReactionsProvider, RoomAudio } from '@/features/room/room-control';
-import { appEvents } from '@/shared/lib';
 
 import type { VoiceRoomProps } from './VoiceRoom.types';
 
 import { LocalSpeakingProvider } from '../model/contexts';
-import { useRoomConnection } from '../model/hooks';
+import { useChatToggle, useRoomConnection } from '../model/hooks';
 import { ExpandedRoomView, MiniRoomHost } from './components';
 import { RoomControllers } from './controllers';
 
@@ -32,11 +30,9 @@ export const VoiceRoom = ({
   onExpand,
   onLeave
 }: VoiceRoomProps) => {
-  const { slot } = useMiniRoomSlot();
+  const { slot, variant: miniVariant } = useMiniRoomSlot();
 
-  const [isChatOpen, toggleChat] = useBoolean(initialChatOpen);
-
-  appEvents.on.chatToggle(() => toggleChat());
+  const { isChatOpen, toggleChat } = useChatToggle(initialChatOpen);
 
   const { audioCapture, publishDefaults, handleConnected, handleDisconnected } = useRoomConnection({
     roomId,
@@ -62,7 +58,13 @@ export const VoiceRoom = ({
             <DeafenProvider>
               <ReactionsProvider roomId={roomId}>
                 {isMinimized ? (
-                  <MiniRoomHost isDm={isDm} roomName={roomName} slot={slot} onExpand={onExpand} />
+                  <MiniRoomHost
+                    isDm={isDm}
+                    roomName={roomName}
+                    slot={slot}
+                    variant={miniVariant}
+                    onExpand={onExpand}
+                  />
                 ) : (
                   <ExpandedRoomView
                     isChatOpen={isChatOpen}

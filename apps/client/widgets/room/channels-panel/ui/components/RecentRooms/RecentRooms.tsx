@@ -2,30 +2,20 @@
 
 import { Clock, Lock } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
-import { filter, indexBy, isEmpty, isNonNullish, map } from 'remeda';
+import { isEmpty } from 'remeda';
 
-import { useRecentRooms, useRooms, useRoomsPresence } from '@/entities/room/room';
-import { buildRoomHref } from '@/shared/lib';
 import { Skeleton } from '@/ui-kit';
 
 import type { RecentRoomsProps } from './RecentRooms.types';
+
+import { useRecentRoomsList } from '../../../model/hooks';
 
 import s from './RecentRooms.module.scss';
 
 export const RecentRooms = ({ onNavigate, variant = 'list' }: RecentRoomsProps = {}) => {
   const t = useTranslations('lobby.recent');
-  const router = useRouter();
 
-  const { recent } = useRecentRooms();
-  const { rooms, isLoading } = useRooms();
-  const presence = useRoomsPresence();
-
-  const roomsById = indexBy(rooms, (room) => room.id);
-  const entries = filter(
-    map(recent, (entry) => roomsById[entry.id]),
-    isNonNullish
-  );
+  const { recent, entries, isLoading, isLive, navigate } = useRecentRoomsList({ onNavigate });
 
   const isStrip = variant === 'strip';
 
@@ -50,11 +40,6 @@ export const RecentRooms = ({ onNavigate, variant = 'list' }: RecentRoomsProps =
     return null;
   }
 
-  const navigate = (roomId: string) => {
-    router.push(buildRoomHref(roomId));
-    onNavigate?.();
-  };
-
   return (
     <div className={isStrip ? s.rootStrip : s.root}>
       <h4 className={isStrip ? s.headingStrip : s.heading}>
@@ -63,28 +48,24 @@ export const RecentRooms = ({ onNavigate, variant = 'list' }: RecentRoomsProps =
       </h4>
 
       <div className={isStrip ? s.strip : s.list}>
-        {entries.map((room) => {
-          const live = (presence[room.id]?.length ?? 0) > 0;
-
-          return (
-            <button
-              key={room.id}
-              className={isStrip ? s.stripItem : s.item}
-              data-live={live}
-              type='button'
-              onClick={() => navigate(room.id)}
-            >
-              <span aria-hidden className={live ? s.dotLive : s.dot} />
-              <span className={isStrip ? s.stripName : s.name}>{room.name}</span>
-              {room.isPrivate && (
-                <>
-                  <Lock aria-hidden className={s.lockIcon} />
-                  <span className='sr-only'>{t('privateRoom')}</span>
-                </>
-              )}
-            </button>
-          );
-        })}
+        {entries.map((room) => (
+          <button
+            key={room.id}
+            className={isStrip ? s.stripItem : s.item}
+            data-live={isLive(room.id)}
+            type='button'
+            onClick={() => navigate(room.id)}
+          >
+            <span aria-hidden className={isLive(room.id) ? s.dotLive : s.dot} />
+            <span className={isStrip ? s.stripName : s.name}>{room.name}</span>
+            {room.isPrivate && (
+              <>
+                <Lock aria-hidden className={s.lockIcon} />
+                <span className='sr-only'>{t('privateRoom')}</span>
+              </>
+            )}
+          </button>
+        ))}
       </div>
     </div>
   );

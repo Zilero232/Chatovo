@@ -662,6 +662,45 @@ const { data: room } = useRoomById(roomId);
 
 Pure helpers that need nothing from the render scope do not belong in the body at all — they are module-level in `lib/` (§11).
 
+### 10.1b Logic lives in hooks, components stay pure
+
+A component's job is markup. Everything that is not markup — data fetching, mutations, subscriptions, derived state, scroll or focus bookkeeping, event wiring — belongs in a hook under `model/hooks/`. The component calls one hook, destructures what it renders, and returns JSX.
+
+The practical test: if the body has anything between the hook calls and the `return` other than trivial derived consts, that work belongs in a hook.
+
+```tsx
+// ✗ orchestration inline: five hooks, a ref, two effects, an observer — all in the JSX file
+export const ChatConversation = ({ roomId, currentUserId }: ChatConversationProps) => {
+  const { messages, hasOlder, loadOlderMessages } = useChatHistory(roomId);
+  const { send, retry } = useChatSend({ roomId, sender });
+  const listRef = useAutoScroll<HTMLDivElement>();
+  const anchorRef = useRef<{ height: number; top: number } | null>(null);
+  const { ref: sentinelRef, entries } = useIntersectionObserver({ root: listRef });
+
+  useEffect(() => {
+    if (entries?.at(-1)?.isIntersecting && hasOlder) {
+      loadOlderMessages();
+    }
+  }, [entries, hasOlder]);
+
+  return <div>{/* ... */}</div>;
+};
+
+// ✓ one orchestration hook; the component only renders
+export const ChatConversation = ({ roomId, currentUserId }: ChatConversationProps) => {
+  const { lines, listRef, sentinelRef, actions, isPending } = useChatConversation({
+    roomId,
+    currentUserId
+  });
+
+  return <div>{/* ... */}</div>;
+};
+```
+
+The hook returns a flat shape named for what the markup needs (`lines`, `listRef`, `actions`), not the internals it assembled it from. Grouping related callbacks under one key (`actions`) keeps the destructuring short.
+
+This composes with §10.1a rather than replacing it: the ordering rules apply inside the hook too. It also keeps the 100-line component budget (client CLAUDE.md §3) honest — a component that outgrows it is almost always carrying logic that should have been a hook.
+
 ### 10.2 Hook / effect dependencies
 
 A `useEffect` `deps` array holds only what **should actually re-trigger** the effect. If we know the effect needs a single `roomId`, we don't add `room`, `router` or mutation objects "to keep the linter quiet".

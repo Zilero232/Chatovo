@@ -3,5 +3,3 @@ export type FriendsTabProps = {
   query: string;
   onlyOnline?: boolean;
 };
-
-export type RemoveTarget = { friendName: string; userId: string };

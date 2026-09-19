@@ -5,10 +5,16 @@ import type { ReactNode } from 'react';
 import { createContextHook } from '@siberiacancode/reactuse';
 import { useState } from 'react';
 
-const useMiniRoomSlotState = () => {
-  const [slot, setSlot] = useState<HTMLElement | null>(null);
+import type { MiniRoomSlotVariant } from '../types';
 
-  return { slot, setSlot };
+const useMiniRoomSlotState = () => {
+  const [dockedSlot, setDockedSlot] = useState<HTMLElement | null>(null);
+  const [floatingSlot, setFloatingSlot] = useState<HTMLElement | null>(null);
+
+  const slot = dockedSlot ?? floatingSlot;
+  const variant: MiniRoomSlotVariant = dockedSlot ? 'docked' : 'floating';
+
+  return { slot, variant, setDockedSlot, setFloatingSlot };
 };
 
 const { Provider, use } = createContextHook(useMiniRoomSlotState);

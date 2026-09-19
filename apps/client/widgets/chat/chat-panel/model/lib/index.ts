@@ -6,7 +6,8 @@ export {
   dropChatLine,
   editChatMessageInCache,
   markChatLineStatus,
-  mergeChatHistory
+  mergeChatHistory,
+  prependChatHistory
 } from './chat-cache';
 export { groupChatLines, type GroupedChatLine } from './group-chat-lines';
 export { normalizeMessage } from './normalize-message';

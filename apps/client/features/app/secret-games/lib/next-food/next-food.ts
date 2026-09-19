@@ -5,7 +5,6 @@ import { SNAKE_FOOD_SEED_INCREMENT, SNAKE_FOOD_SEED_MULTIPLIER, SNAKE_GRID } fro
 
 const cellKey = (cell: Point) => `${cell.x}:${cell.y}`;
 
-/** Picks a free cell for the next food; falls back to the origin when the grid is full. */
 export const nextFood = ({ snake, seed }: NextFoodInput): Point => {
   const taken = new Set(snake.map(cellKey));
   const cells = SNAKE_GRID * SNAKE_GRID;

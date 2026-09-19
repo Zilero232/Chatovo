@@ -5,7 +5,7 @@ import { appEvents } from '@/shared/lib';
 import type { SecretClickAreaProps } from './SecretClickArea.types';
 
 import { SECRET_CLICK_COUNT } from '../../config';
-import { useSecretClicks } from '../../model/hooks/use-secret-clicks';
+import { useSecretClicks } from '../../model/hooks';
 
 import s from './SecretClickArea.module.scss';
 

@@ -1,13 +1,12 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { useRef, useState } from 'react';
 
-import { appEvents } from '@/shared/lib';
 import { PopoverContent } from '@/ui-kit';
 
 import type { ProfileCardTriggerProps } from './ProfileCardTrigger.types';
 
+import { useProfileCardTrigger } from '../../model/hooks';
 import { ProfileCard } from '../ProfileCard/ProfileCard';
 
 import s from './ProfileCardTrigger.module.scss';
@@ -19,12 +18,7 @@ export const ProfileCardTrigger = ({
   children,
   renderFriendActions
 }: ProfileCardTriggerProps) => {
-  const triggerRef = useRef<HTMLButtonElement>(null);
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [hasOpened, setHasOpened] = useState(false);
-
-  appEvents.on.profileCardClose(() => setIsOpen(false));
+  const { triggerRef, isOpen, hasOpened, open, setIsOpen } = useProfileCardTrigger();
 
   return (
     <>
@@ -34,10 +28,7 @@ export const ProfileCardTrigger = ({
         aria-haspopup='dialog'
         className={clsx(s.trigger, className)}
         type='button'
-        onClick={() => {
-          setHasOpened(true);
-          setIsOpen(true);
-        }}
+        onClick={open}
       >
         {children}
       </button>
