@@ -1,0 +1,26 @@
+@use '@/ui-kit/styles/mixins' as *;
+
+.root {
+  position: relative;
+  display: inline-flex;
+}
+
+.badge {
+  position: absolute;
+  top: -0.125rem;
+  right: -0.125rem;
+  display: flex;
+  min-width: 1rem;
+  min-height: 1rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--brand-cyan);
+  box-shadow: 0 0 rem(12) rem(-2) oklch(82% 0.16 200deg / 80%);
+  color: #000;
+  font-size: rem(10);
+  font-weight: 600;
+  line-height: 1;
+  padding-inline: 0.25rem;
+  pointer-events: none;
+}

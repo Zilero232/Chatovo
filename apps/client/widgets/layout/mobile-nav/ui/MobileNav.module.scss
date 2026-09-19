@@ -45,14 +45,21 @@
   @include text-ellipsis;
 }
 
-.sheetModal {
-  width: min(22rem, 90vw);
+.sheetModal.sheetModal {
+  --sheet-radius: 0;
+
+  width: 100%;
+  max-width: none;
 }
 
-.sheet {
+.sheet.sheet {
   display: flex;
   flex: 1;
   flex-direction: column;
+  border: 0;
+  backdrop-filter: none;
+  background-color: var(--background);
+  box-shadow: none;
   gap: 0;
   padding-inline: 0;
 }
@@ -73,15 +80,36 @@
   display: flex;
   min-height: 0;
   flex: 1;
-  flex-direction: column;
 }
 
-.sheetActions {
-  padding: 0.75rem 0.75rem 0;
+.sheetRail {
+  display: flex;
+  width: 4rem;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: center;
+  border-right: 1px solid oklch(100% 0 0deg / 10%);
+  background: var(--sidebar);
+  padding-block: 0.75rem;
+}
+
+.sheetClose {
+  flex-shrink: 0;
+  margin-bottom: 0.25rem;
+}
+
+.sheetRail > :last-child {
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  border-right: 0;
+  background: none;
+  padding-block: 0;
 }
 
 .sheetChannels {
   display: flex;
+  min-width: 0;
   min-height: 0;
   flex: 1;
 }

@@ -19,8 +19,11 @@
   "scripts": {
     "db:baseline": "prisma migrate resolve --applied 20260901000000_init || exit 0",
     "db:deploy": "prisma migrate deploy",
+    "db:fresh": "prisma migrate reset --force --skip-seed && prisma generate",
     "db:migrate": "prisma migrate dev && prisma generate",
     "db:push": "prisma db push && prisma generate",
+    "db:push:force": "prisma db push --accept-data-loss && prisma generate",
+    "db:reset": "prisma migrate reset",
     "db:studio": "prisma studio",
     "predev": "fkill :4000 --force --silent",
     "dev": "bun --hot --cwd ../.. --env-file .env apps/server/src/main.ts",

@@ -1,21 +1,26 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { useToastError } from '@/entities/app/locale';
 import { useCloseWhenCallAccepted } from '@/entities/social/friend';
 import { getOrCreateFriendDmRoom } from '@/shared/api';
+import { ROUTES } from '@/shared/constants';
 import { useCloseWhenInVoiceRoom } from '@/shared/hooks';
+import { appEvents } from '@/shared/lib';
 
 import type { FriendChatPeer, FriendChatSession } from '../../types';
 
 export const useFriendChatSession = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const toastError = useToastError();
 
   const [session, setSession] = useState<FriendChatSession | null>(null);
   const [openingPeer, setOpeningPeer] = useState<FriendChatPeer | null>(null);
-  const [closeGuard, setCloseGuard] = useState(false);
 
   const openMutation = useMutation({
     mutationFn: async (peer: FriendChatPeer) => {
@@ -36,10 +41,14 @@ export const useFriendChatSession = () => {
   const open = (peer: FriendChatPeer) => {
     setOpeningPeer(peer);
     openMutation.mutate(peer);
+    appEvents.emit.profileCardClose();
+
+    if (pathname !== ROUTES.lobby) {
+      router.push(ROUTES.lobby);
+    }
   };
 
   const close = () => {
-    setCloseGuard(true);
     setSession(null);
     setOpeningPeer(null);
   };
@@ -47,29 +56,10 @@ export const useFriendChatSession = () => {
   useCloseWhenInVoiceRoom(close);
   useCloseWhenCallAccepted(close);
 
-  useEffect(() => {
-    if (!closeGuard) {
-      return;
-    }
-
-    let innerId = 0;
-    const outerId = requestAnimationFrame(() => {
-      innerId = requestAnimationFrame(() => setCloseGuard(false));
-    });
-
-    return () => {
-      cancelAnimationFrame(outerId);
-      cancelAnimationFrame(innerId);
-    };
-  }, [closeGuard]);
-
-  const blocksParentDialogClose = session !== null || openingPeer !== null || closeGuard;
-
   return {
     session,
     openingPeer,
     isOpening: openMutation.isPending,
-    blocksParentDialogClose,
     open,
     close
   };

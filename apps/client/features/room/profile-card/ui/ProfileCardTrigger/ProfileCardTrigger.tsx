@@ -3,6 +3,7 @@
 import { clsx } from 'clsx';
 import { useRef, useState } from 'react';
 
+import { appEvents } from '@/shared/lib';
 import { PopoverContent } from '@/ui-kit';
 
 import type { ProfileCardTriggerProps } from './ProfileCardTrigger.types';
@@ -22,6 +23,8 @@ export const ProfileCardTrigger = ({
 
   const [isOpen, setIsOpen] = useState(false);
   const [hasOpened, setHasOpened] = useState(false);
+
+  appEvents.on.profileCardClose(() => setIsOpen(false));
 
   return (
     <>

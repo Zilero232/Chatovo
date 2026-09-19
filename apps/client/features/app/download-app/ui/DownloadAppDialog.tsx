@@ -1,6 +1,6 @@
 'use client';
 
-import { Download, Loader2, Smartphone } from 'lucide-react';
+import { Download, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { DOWNLOAD_PLATFORMS, useRelease } from '@/entities/app/release';
@@ -16,7 +16,7 @@ import {
 
 import type { DownloadAppDialogProps } from './DownloadAppDialog.types';
 
-import { PlatformCard } from './components';
+import { PlatformCard, StoreCard } from './components';
 
 import s from './DownloadAppDialog.module.scss';
 
@@ -71,15 +71,9 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
                 {t('sections.mobile')}
               </Text>
 
-              <a
-                className={s.storeLink}
-                href={EXTERNAL_LINKS.googlePlay}
-                rel='noopener noreferrer'
-                target='_blank'
-              >
-                <Smartphone />
-                {t('openGooglePlay')}
-              </a>
+              <div className={s.mobileGrid}>
+                <StoreCard />
+              </div>
             </div>
 
             <div className={s.meta}>

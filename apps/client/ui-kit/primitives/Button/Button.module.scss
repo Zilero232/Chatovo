@@ -30,71 +30,61 @@
 }
 
 .default {
-  background: var(--foreground);
-  box-shadow:
-    0 1px 0 oklch(100% 0 0deg / 70%) inset,
-    0 -1px 0 oklch(0% 0 0deg / 15%) inset,
-    0 rem(8) rem(20) rem(-4) oklch(0% 0 0deg / 60%),
-    0 rem(4) rem(8) rem(-2) oklch(0% 0 0deg / 45%),
-    0 0 0 1px oklch(0% 0 0deg / 30%);
-  color: var(--background);
+  background: var(--brand-violet);
+  color: oklch(98% 0 0deg);
 
   @include hover {
     &:not(:disabled) {
-      background: color-mix(in oklch, var(--foreground) 95%, transparent);
+      background: oklch(57% 0.185 272deg);
     }
+  }
+
+  &:active:not(:disabled) {
+    background: oklch(52% 0.175 272deg);
   }
 }
 
 .destructive {
   background: var(--destructive);
-  box-shadow:
-    0 1px 0 oklch(100% 0 0deg / 18%) inset,
-    0 rem(4) rem(14) rem(-2) oklch(70% 0.22 22deg / 50%),
-    0 rem(2) rem(4) rem(-1) oklch(0% 0 0deg / 35%);
-  color: #fff;
+  color: oklch(98% 0 0deg);
 
   @include hover {
     &:not(:disabled) {
-      background: oklch(66% 0.22 22deg);
+      background: oklch(64% 0.22 22deg);
     }
   }
 }
 
 .outline {
-  border: 1px solid oklch(100% 0 0deg / 12%);
-  background: oklch(100% 0 0deg / 3%);
-  box-shadow: 0 rem(1) rem(2) oklch(0% 0 0deg / 25%);
+  border: 1px solid var(--border-strong);
+  background: transparent;
   color: var(--foreground);
 
   @include hover {
     &:not(:disabled) {
-      border-color: oklch(100% 0 0deg / 25%);
-      background: oklch(100% 0 0deg / 8%);
+      background: oklch(100% 0 0deg / 7%);
     }
   }
 }
 
 .secondary {
-  border: 1px solid oklch(100% 0 0deg / 10%);
-  background: oklch(100% 0 0deg / 5%);
-  box-shadow: 0 rem(1) rem(2) oklch(0% 0 0deg / 25%);
-  color: var(--foreground);
+  background: var(--secondary);
+  color: var(--secondary-foreground);
 
   @include hover {
     &:not(:disabled) {
-      background: oklch(100% 0 0deg / 10%);
+      background: oklch(38% 0.01 268deg / 70%);
     }
   }
 }
 
 .ghost {
   background: transparent;
-  color: color-mix(in oklch, var(--foreground) 80%, transparent);
+  color: var(--muted-foreground);
 
   @include hover {
     &:not(:disabled) {
-      background: oklch(100% 0 0deg / 8%);
+      background: oklch(100% 0 0deg / 7%);
       color: var(--foreground);
     }
   }

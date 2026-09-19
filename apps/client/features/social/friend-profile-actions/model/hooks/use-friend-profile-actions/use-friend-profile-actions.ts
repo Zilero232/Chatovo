@@ -8,6 +8,7 @@ import {
   useRemoveFriendship,
   useSendFriendRequest
 } from '@/entities/social/friend';
+import { appEvents } from '@/shared/lib';
 
 import type { UseFriendProfileActionsInput } from './use-friend-profile-actions.types';
 
@@ -62,6 +63,7 @@ export const useFriendProfileActions = ({ userId, friendTag }: UseFriendProfileA
 
   const call = () => {
     callFriend.mutate({ userId }, { onError: toastError(`friend-call-${userId}`) });
+    appEvents.emit.profileCardClose();
   };
 
   return { isBusy, add, cancelRequest, accept, decline, call };

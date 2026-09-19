@@ -342,7 +342,7 @@ body {
   right: 8%;
   width: 22rem;
   height: 22rem;
-  background: radial-gradient(circle, oklch(70% 0.2 270deg / 35%), transparent 68%);
+  background: radial-gradient(circle, oklch(70% 0.2 270deg / 18%), transparent 70%);
 }
 
 .lobby-ambience-orb-cyan {
@@ -352,18 +352,7 @@ body {
   height: 18rem;
   animation-direction: reverse;
   animation-duration: 30s;
-  background: radial-gradient(circle, oklch(82% 0.16 200deg / 28%), transparent 68%);
-}
-
-.lobby-header-grid {
-  position: absolute;
-  background-image:
-    linear-gradient(to right, oklch(100% 0 0deg / 4%) 1px, transparent 1px),
-    linear-gradient(to bottom, oklch(100% 0 0deg / 4%) 1px, transparent 1px);
-  background-size: rem(48) rem(48);
-  inset: 0;
-  mask-image: radial-gradient(ellipse 90% 80% at 30% 20%, #000, transparent 75%);
-  pointer-events: none;
+  background: radial-gradient(circle, oklch(82% 0.16 200deg / 14%), transparent 70%);
 }
 
 .accent-top-line {

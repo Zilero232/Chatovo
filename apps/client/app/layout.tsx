@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { clsx } from 'clsx';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { JetBrains_Mono, Manrope } from 'next/font/google';
 
 import { SITE } from '@/shared/config';
 import { getTauriMobileHmrShim } from '@/shared/lib/tauri-mobile-hmr-shim';
@@ -12,7 +12,7 @@ import './globals.scss';
 
 export { defaultMetadata as metadata, defaultViewport as viewport } from '@/shared/seo';
 
-const sans = Inter({
+const sans = Manrope({
   subsets: ['latin', 'cyrillic'],
   variable: '--font-sans',
   display: 'swap'

@@ -13,12 +13,12 @@
   align-items: center;
   border-right: 1px solid oklch(100% 0 0deg / 10%);
   backdrop-filter: blur(rem(12)) saturate(140%);
-  background: color-mix(in oklch, var(--shell-surface) 40%, transparent);
+  background: var(--column-rail);
   padding-block: 0.75rem;
 
   @include tauri-mobile {
     backdrop-filter: none;
-    background: var(--shell-surface);
+    background: var(--column-rail);
   }
 }
 
@@ -49,4 +49,26 @@
 
 .spacer {
   flex: 1;
+}
+
+.root [aria-current='page'] {
+  position: relative;
+  background: color-mix(in oklch, var(--brand-violet) 22%, transparent);
+  color: var(--foreground);
+
+  @include hover {
+    background: color-mix(in oklch, var(--brand-violet) 30%, transparent);
+  }
+}
+
+.vertical [aria-current='page']:before {
+  position: absolute;
+  top: 50%;
+  left: rem(-12);
+  width: rem(3);
+  height: 1.25rem;
+  border-radius: 0 9999px 9999px 0;
+  background: var(--brand-violet);
+  content: '';
+  translate: 0 -50%;
 }

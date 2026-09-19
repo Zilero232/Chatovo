@@ -12,57 +12,22 @@
   padding-top: var(--safe-area-top);
   padding-bottom: var(--safe-area-bottom);
   background-color: var(--background);
-  background-image:
-    radial-gradient(ellipse 70% 50% at 15% 10%, oklch(70% 0.2 270deg / 26%), transparent 60%),
-    radial-gradient(ellipse 60% 50% at 90% 25%, oklch(82% 0.16 200deg / 22%), transparent 60%),
-    radial-gradient(ellipse 60% 60% at 85% 100%, oklch(70% 0.2 270deg / 18%), transparent 60%),
-    radial-gradient(ellipse 50% 50% at 10% 90%, oklch(82% 0.16 200deg / 16%), transparent 60%);
-  gap: 1.5rem;
+  background-image: radial-gradient(
+    ellipse 80% 60% at 50% 38%,
+    oklch(70% 0.185 272deg / 12%),
+    transparent 70%
+  );
+  gap: 1.25rem;
   inset: 0;
   padding-inline: 1.5rem;
-}
-
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  animation: aurora-drift 24s ease-in-out infinite;
-  filter: blur(rem(80));
-  pointer-events: none;
-  will-change: transform;
-
-  @include tauri-mobile {
-    display: none;
-  }
-
-  @include reduced-motion {
-    animation: none;
-  }
-}
-
-.orbViolet {
-  top: -6%;
-  right: 6%;
-  width: 22rem;
-  height: 22rem;
-  background: radial-gradient(circle, oklch(70% 0.2 270deg / 32%), transparent 68%);
-}
-
-.orbCyan {
-  bottom: 8%;
-  left: -4%;
-  width: 18rem;
-  height: 18rem;
-  animation-direction: reverse;
-  animation-duration: 30s;
-  background: radial-gradient(circle, oklch(82% 0.16 200deg / 26%), transparent 68%);
 }
 
 .iconBox {
   position: relative;
   z-index: var(--z-base);
   display: flex;
-  width: 4rem;
-  height: 4rem;
+  width: 4.5rem;
+  height: 4.5rem;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-2xl);
@@ -93,6 +58,15 @@
     opacity: 0;
     transform: scale(1.35);
   }
+}
+
+.brand {
+  position: relative;
+  z-index: var(--z-base);
+  color: var(--foreground);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .content {

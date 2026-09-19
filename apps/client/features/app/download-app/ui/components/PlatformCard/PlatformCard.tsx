@@ -15,7 +15,10 @@ export const PlatformCard = ({ label, Icon, asset }: PlatformCardProps) => {
   if (!asset) {
     return (
       <div className={clsx(s.root, s.unavailable)}>
-        <Icon aria-hidden className={s.icon} />
+        <span aria-hidden className={s.iconBox}>
+          <Icon className={s.icon} />
+        </span>
+
         <span className={s.name}>{label}</span>
         <span className={s.unavailableLabel}>{t('notAvailable')}</span>
       </div>
@@ -34,11 +37,14 @@ export const PlatformCard = ({ label, Icon, asset }: PlatformCardProps) => {
         <Icon className={s.icon} />
       </span>
 
-      <span className={s.name}>{label}</span>
-      <span className={s.size}>{prettyBytes(asset.sizeBytes)}</span>
+      <span className={s.meta}>
+        <span className={s.name}>{label}</span>
+        <span className={s.size}>{prettyBytes(asset.sizeBytes)}</span>
+      </span>
 
       <span aria-hidden className={s.action}>
         <Download className={s.actionIcon} />
+        {t('downloadAction')}
       </span>
     </a>
   );

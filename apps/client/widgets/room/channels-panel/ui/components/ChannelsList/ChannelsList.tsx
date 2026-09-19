@@ -32,7 +32,7 @@ const ChannelsListSkeleton = () => (
   </div>
 );
 
-export const ChannelsList = ({ footer, onNavigate }: ChannelsListProps = {}) => {
+export const ChannelsList = ({ onNavigate }: ChannelsListProps = {}) => {
   const t = useTranslations('channels');
   const tSections = useTranslations('room.sections');
 
@@ -88,8 +88,6 @@ export const ChannelsList = ({ footer, onNavigate }: ChannelsListProps = {}) => 
               ))
             )}
         </div>
-
-        {footer}
       </ScrollArea>
     </>
   );

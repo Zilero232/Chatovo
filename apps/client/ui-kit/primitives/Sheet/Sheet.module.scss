@@ -3,9 +3,12 @@
 .overlay {
   position: fixed;
   z-index: var(--z-modal-backdrop);
-  backdrop-filter: blur(var(--scrim-blur)) saturate(0.7);
   background: var(--scrim);
   inset: 0;
+
+  @include bp(md) {
+    backdrop-filter: blur(var(--scrim-blur)) saturate(0.7);
+  }
 
   @include tauri-mobile {
     backdrop-filter: none;

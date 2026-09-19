@@ -14,12 +14,11 @@ export const AppSplash = ({ message, progress }: AppSplashProps) => {
 
   return (
     <div aria-live='polite' className={s.root} role='status'>
-      <span aria-hidden className={clsx(s.orb, s.orbViolet)} />
-      <span aria-hidden className={clsx(s.orb, s.orbCyan)} />
-
       <div className={clsx('glass', s.iconBox)}>
-        <WaveMark animated size={32} />
+        <WaveMark animated size={36} />
       </div>
+
+      <span className={s.brand}>Chatovo</span>
 
       <div className={s.content}>
         {message && (

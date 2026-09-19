@@ -5,6 +5,7 @@ import { useBoolean } from '@siberiacancode/reactuse';
 import { clsx } from 'clsx';
 import { setLogLevel } from 'livekit-client';
 
+import { useMiniRoomSlot } from '@/entities/room/session';
 import { DeafenProvider, ReactionsProvider, RoomAudio } from '@/features/room/room-control';
 import { appEvents } from '@/shared/lib';
 
@@ -12,7 +13,7 @@ import type { VoiceRoomProps } from './VoiceRoom.types';
 
 import { LocalSpeakingProvider } from '../model/contexts';
 import { useRoomConnection } from '../model/hooks';
-import { ExpandedRoomView, MiniRoomBar } from './components';
+import { ExpandedRoomView, MiniRoomHost } from './components';
 import { RoomControllers } from './controllers';
 
 import s from './VoiceRoom.module.scss';
@@ -31,6 +32,8 @@ export const VoiceRoom = ({
   onExpand,
   onLeave
 }: VoiceRoomProps) => {
+  const { slot } = useMiniRoomSlot();
+
   const [isChatOpen, toggleChat] = useBoolean(initialChatOpen);
 
   appEvents.on.chatToggle(() => toggleChat());
@@ -59,7 +62,7 @@ export const VoiceRoom = ({
             <DeafenProvider>
               <ReactionsProvider roomId={roomId}>
                 {isMinimized ? (
-                  <MiniRoomBar isDm={isDm} roomName={roomName} onExpand={onExpand} />
+                  <MiniRoomHost isDm={isDm} roomName={roomName} slot={slot} onExpand={onExpand} />
                 ) : (
                   <ExpandedRoomView
                     isChatOpen={isChatOpen}

@@ -15,9 +15,9 @@
 }
 
 .friendsPrimary {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 0.5rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .friendsSection {
@@ -28,8 +28,8 @@
 }
 
 .friendsAction {
-  min-width: fit-content;
-  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: center;
 }
 
 .friendsRemove {
