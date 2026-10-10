@@ -138,9 +138,9 @@ export { DeafenProvider } from './model/contexts';
 - **Minimal surface** — export only what other layers actually need.
 - **External imports go through the slice index only** — never `@/features/auth/sign-in/ui/SignInForm` directly. Always `@/features/auth/sign-in`.
 - **A domain group is not a public API** — `@/features/auth` does not exist; import the specific slice. The domain folder only organises files.
-- **`model/` — barrels in the subfolders, not at the `model/` level.** `model/hooks/index.ts`, `model/contexts/index.ts`, `model/stores/index.ts` — each subfolder gets its own barrel. Do NOT create a slice-level `model/index.ts`. The slice `index.ts` and internal imports go through the subfolder: `./model/hooks`, `../model/contexts`. More in [`docs/guides/style.md`](../guides/style.md) §11.
+- **`model/` — barrels in the subfolders, not at the `model/` level.** `model/hooks/index.ts`, `model/contexts/index.ts`, `model/stores/index.ts` — each subfolder gets its own barrel. Do NOT create a slice-level `model/index.ts`. The slice `index.ts` and internal imports go through the subfolder: `./model/hooks`, `../model/contexts`. More in [guides/client/segments.md](../guides/client/segments.md).
 - **No circular imports** — do not import from a slice's own `index.ts` inside that slice. Inside, use relative paths.
-- **`ui-kit/` is the design system, a separate layer next to `shared/`.** Segments: `primitives/` (base), `components/` (composed), `icons/`, `styles/`. **Every component gets its own PascalCase folder** (`primitives/Button/`, `components/FormField/`, …) with `Component.tsx`, `Component.module.scss`, optionally `Component.types.ts` and a mandatory `index.ts` barrel. The segment barrels (`primitives/index.ts`, …) and the root `ui-kit/index.ts` re-export everything. From outside, only `@/ui-kit`, never `@/ui-kit/primitives/Button`. Headless primitives come from **`@base-ui/react`**; styles are **SCSS modules**, tokens live in `app/globals.scss` + `ui-kit/styles/_tokens.scss`. More in [`docs/guides/style.md`](../guides/style.md) §2.1.
+- **`ui-kit/` is the design system, a separate layer next to `shared/`.** Segments: `primitives/` (base), `components/` (composed), `icons/`, `styles/`. **Every component gets its own PascalCase folder** (`primitives/Button/`, `components/FormField/`, …) with `Component.tsx`, `Component.module.scss`, optionally `Component.types.ts` and a mandatory `index.ts` barrel. The segment barrels (`primitives/index.ts`, …) and the root `ui-kit/index.ts` re-export everything. From outside, only `@/ui-kit`, never `@/ui-kit/primitives/Button`. Headless primitives come from **`@base-ui/react`**; styles are **SCSS modules**, tokens live in `app/globals.scss` + `ui-kit/styles/_tokens.scss`. More in [guides/client/slice-ui.md](../guides/client/slice-ui.md) §2.1.
 
 ---
 
@@ -216,7 +216,7 @@ Feature
 - [ ] The Shared layer holds no business logic — project-agnostic code only
 - [ ] The Entities layer holds no interaction UI logic — that is the Features level
 
-> **Naming in Chatovo:** FSD canon requires kebab-case for every file. The Chatovo code style (see [`docs/guides/style.md`](../guides/style.md) §5) uses kebab-case for slices and segments, **PascalCase for component folders and files** (`VoiceRoom/VoiceRoom.tsx`), and camelCase for hooks and utilities. This is a local convention on top of FSD.
+> **Naming in Chatovo:** FSD canon requires kebab-case for every file. The Chatovo code style (see [guides/shared/naming.md](../guides/shared/naming.md)) uses kebab-case for slices and segments, **PascalCase for component folders and files** (`VoiceRoom/VoiceRoom.tsx`), and camelCase for hooks and utilities. This is a local convention on top of FSD.
 
 ---
 
@@ -239,4 +239,4 @@ Feature
 - Full specification: [feature-sliced.design](https://feature-sliced.design)
 - Linter for FSD rules: [Steiger](https://github.com/feature-sliced/steiger)
 - The `@x` cross-entity pattern — section 2 above
-- The Chatovo code style on top of FSD (slice structure, naming, component size): [`docs/guides/style.md`](../guides/style.md) — the full version; the compact auto-loaded digests are in [`.claude/rules/`](../.claude/rules/)
+- The Chatovo code style on top of FSD (slice structure, naming, component size): [docs/guides/](../guides/README.md) — the full version; the compact auto-loaded digests are in [`.claude/rules/`](../../.claude/rules/)
