@@ -1,1 +1,1 @@
-export { prepareUserDeletion, takeOwnedRooms } from './prepare-user-deletion';
+export { prepareUserDeletion } from './prepare-user-deletion';

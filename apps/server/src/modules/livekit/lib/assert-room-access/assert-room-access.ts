@@ -1,11 +1,7 @@
 import type { AssertRoomAccessInput } from './assert-room-access.types';
 
 import { RoomKind } from '../../../../../generated';
-import {
-  AppForbiddenException,
-  AppInternalException,
-  AppUnauthorizedException
-} from '../../../../common/exceptions';
+import { AppForbiddenException, AppInternalException } from '../../../../common/exceptions';
 import { verifyRoomPassword } from '../../../../lib';
 import { hasRoomGrant } from '../../room-grant-store';
 
@@ -19,7 +15,7 @@ export const assertRoomAccess = async ({
   }
 
   if (!password) {
-    throw new AppUnauthorizedException('ROOM_PASSWORD_REQUIRED', 'Password required');
+    throw new AppForbiddenException('ROOM_PASSWORD_REQUIRED', 'Password required');
   }
 
   if (!room.password) {

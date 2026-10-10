@@ -1,18 +1,12 @@
 import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
-import { CacheableMemory } from 'cacheable';
-import { Keyv } from 'keyv';
 
-import { LINK_UNFURL } from './config';
+import { createUnfurlStore } from './lib';
 import { LinkPreviewController } from './link-preview.controller';
 import { LinkPreviewSweeperService, LinkUnfurlService, RoomPreviewService } from './services';
 
 @Module({
-  imports: [
-    CacheModule.register({
-      stores: [new Keyv({ store: new CacheableMemory({ lruSize: LINK_UNFURL.cacheMaxEntries }) })]
-    })
-  ],
+  imports: [CacheModule.register({ stores: [createUnfurlStore()] })],
   controllers: [LinkPreviewController],
   providers: [LinkPreviewSweeperService, LinkUnfurlService, RoomPreviewService]
 })

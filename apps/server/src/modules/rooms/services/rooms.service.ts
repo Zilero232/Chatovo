@@ -20,9 +20,10 @@ import {
   assertCanViewRoom,
   getUserDisplayName,
   hashRoomPassword,
+  retireRoom,
   roomSelect
 } from '../../../lib';
-import { closeLivekitRoom, grantRoomAccess, revokeRoomGrants } from '../../livekit';
+import { grantRoomAccess, revokeRoomGrants } from '../../livekit';
 import { emitToAll } from '../../realtime';
 
 @Injectable()
@@ -99,7 +100,7 @@ export class RoomsService {
       data.name = input.name;
     }
 
-    if (isNonNullish(input.isPrivate)) {
+    if (isNonNullish(input.isPrivate) && input.isPrivate !== current.isPrivate) {
       data.isPrivate = input.isPrivate;
 
       if (input.isPrivate === false) {
@@ -138,9 +139,7 @@ export class RoomsService {
       select: { name: true }
     });
 
-    revokeRoomGrants(roomId);
-    emitToAll({ type: 'room.removed', roomId });
-    await closeLivekitRoom(roomId);
+    await retireRoom(roomId);
 
     const ownerName = await getUserDisplayName(room.ownerId);
 

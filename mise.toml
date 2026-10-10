@@ -12,6 +12,6 @@ node = "24"
 # The Tauri shell (apps/tauri). CI lints it with clippy and checks rustfmt. The per-platform targets
 # (macOS arches, Android) are added by the job that needs them: `rust-targets` in .github/actions/setup.
 # The JDK, the Android SDK and the NDK stay outside mise: apps/tauri/.env locally, their own actions in CI.
+rust = { version = "1.95.0", components = "rustfmt,clippy" }
 # Formats and validates infra/caddy/Caddyfile*: `bun run format:caddy`. Same 2.x line as the caddy:2-alpine image.
 caddy = "2.11.7"
-rust = { version = "1.95.0", components = "rustfmt,clippy" }

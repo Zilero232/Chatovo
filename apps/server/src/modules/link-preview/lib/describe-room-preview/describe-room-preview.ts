@@ -6,7 +6,7 @@ export const describeRoomPreview = ({
   isPrivate,
   participantCount
 }: DescribeRoomPreviewInput): string => {
-  const { openRoom, privateRoom, liveRoomPrefix } = LINK_PREVIEW.copy;
+  const { openRoom, privateRoom, liveRoomPrefix } = LINK_PREVIEW.room.copy;
 
   if (isPrivate) {
     return privateRoom;

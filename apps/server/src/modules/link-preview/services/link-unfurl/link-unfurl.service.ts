@@ -5,9 +5,9 @@ import { linkPreviewSchema } from '@chatovo/schemas';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 
-import { buildHashKey, resizeImage, safeFetch } from '../../../../lib';
+import { buildHashKey, fetchImage, resizeImage, safeFetch } from '../../../../lib';
 import { saveUpload, toArrayBuffer } from '../../../uploads';
-import { LINK_UNFURL } from '../../config';
+import { LINK_PREVIEW } from '../../config';
 import { decodeHtml, extractLinkMetadata } from '../../lib';
 
 @Injectable()
@@ -15,18 +15,12 @@ export class LinkUnfurlService {
   constructor(@Inject(CACHE_MANAGER) private readonly cache: Cache) {}
 
   private async saveImage(imageUrl: string): Promise<LinkPreviewImage | null> {
-    const response = await safeFetch({
+    const original = await fetchImage({
       url: imageUrl,
-      accept: 'image/*',
-      maxBytes: LINK_UNFURL.imageMaxBytes
+      maxBytes: LINK_PREVIEW.unfurl.imageMaxBytes
     });
-
-    if (!response?.contentType.startsWith('image/')) {
-      return null;
-    }
-
-    const { folder, maxWidth, quality } = LINK_UNFURL.image;
-    const resized = await resizeImage({ buffer: response.body, width: maxWidth, quality });
+    const { folder, maxWidth, quality } = LINK_PREVIEW.unfurl.image;
+    const resized = original && (await resizeImage({ buffer: original, width: maxWidth, quality }));
 
     if (!resized) {
       return null;
@@ -42,8 +36,8 @@ export class LinkUnfurlService {
   private async buildPreview(url: string): Promise<LinkPreview | null> {
     const page = await safeFetch({
       url,
-      accept: LINK_UNFURL.accept,
-      maxBytes: LINK_UNFURL.htmlMaxBytes,
+      accept: LINK_PREVIEW.unfurl.accept,
+      maxBytes: LINK_PREVIEW.unfurl.htmlMaxBytes,
       truncate: true
     });
 
@@ -60,7 +54,7 @@ export class LinkUnfurlService {
     }
 
     const { imageUrl, ...text } = metadata;
-    const image = imageUrl ? await this.saveImage(imageUrl) : null;
+    const image = imageUrl ? await this.saveImage(imageUrl).catch(() => null) : null;
     const preview = linkPreviewSchema.safeParse({ url, ...text, image });
 
     return preview.success ? preview.data : null;
@@ -75,7 +69,7 @@ export class LinkUnfurlService {
   }
 
   async unfurl(url: string): Promise<LinkPreviewResponse> {
-    const { cacheTtlMs, failureCacheTtlMs } = LINK_UNFURL;
+    const { cacheTtlMs, failureCacheTtlMs } = LINK_PREVIEW.unfurl;
 
     const preview = await this.cache.wrap(
       buildHashKey(['link-preview', url]),

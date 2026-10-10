@@ -13,7 +13,7 @@ export class RoomPreviewService {
   constructor(private readonly prisma: PrismaService) {}
 
   private renderDefaultPreview(): string {
-    const { defaultTitle, defaultDescription } = LINK_PREVIEW.copy;
+    const { defaultTitle, defaultDescription } = LINK_PREVIEW.room.copy;
 
     return renderLinkPreviewHtml({
       title: defaultTitle,

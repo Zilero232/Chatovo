@@ -29,7 +29,7 @@ describe('assertRoomAccess', () => {
     await expect(assertRoomAccess({ room: privateRoom, userId: OWNER })).resolves.toBeUndefined();
   });
 
-  it('asks even the owner for the password once that first pass is gone', async () => {
+  it('asks even the owner for the password once their pass has expired', async () => {
     await expect(assertRoomAccess({ room: privateRoom, userId: OWNER })).rejects.toMatchObject({
       response: { code: 'ROOM_PASSWORD_REQUIRED' }
     });
@@ -41,6 +41,12 @@ describe('assertRoomAccess', () => {
     await expect(
       assertRoomAccess({ room: privateRoom, userId: 'returning-1' })
     ).resolves.toBeUndefined();
+  });
+
+  it('asks for the password with a 403, never a 401 that the client would read as a dead session', async () => {
+    await expect(assertRoomAccess({ room: privateRoom, userId: STRANGER })).rejects.toMatchObject({
+      status: 403
+    });
   });
 
   it('asks a stranger for the password', async () => {

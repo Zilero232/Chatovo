@@ -4,7 +4,7 @@ import iconv from 'iconv-lite';
 
 import type { DecodeHtmlInput } from './decode-html.types';
 
-import { LINK_UNFURL } from '../../config';
+import { LINK_PREVIEW } from '../../config';
 
 const parseContentType = (contentType: string) => {
   try {
@@ -17,7 +17,7 @@ const parseContentType = (contentType: string) => {
 export const decodeHtml = ({ body, contentType }: DecodeHtmlInput): string | null => {
   const parsed = parseContentType(contentType);
 
-  if (parsed?.type && !LINK_UNFURL.htmlMimes.includes(parsed.type)) {
+  if (parsed?.type && !LINK_PREVIEW.unfurl.htmlMimes.includes(parsed.type)) {
     return null;
   }
 

@@ -21,7 +21,9 @@ The equivalent of `/_next/image`, in `modules/images`:
 
 **Cleanup** follows nginx `proxy_cache` (`inactive` + `max_size`). A cache hit refreshes the file's access time, at most once a day, while the modification time stays the creation time and still drives remote freshness. Every night `ImageCacheSweeperService` deletes what nobody asked for in 14 days, then the least recently used files until the cache fits in 2 GB, plus `.tmp` leftovers older than an hour. Everything evicted is simply re-rendered on the next request. The policy lives in `IMAGES.cache`; the helpers (`listFileStats`, `selectEvictions`, `removeFiles`) are in `src/lib`.
 
-On the client, `shared/lib/image-loader` is the `loaderFile`. It routes optimizable sources to `/images` and passes everything else (data and blob URLs, static assets) through untouched. Components never decide that themselves. Every image is `next/image` with a `sizes` that matches its rendered size. `UserAvatar` takes `sizes` for anything larger than the default 40 px.
+On the client, `shared/lib/image-loader` is the `loaderFile`. It routes optimizable sources to `/images` and passes everything else (data and blob URLs, static assets) through untouched. Components never decide that themselves, with one exception: a chat attachment whose format is outside `IMAGE_PROCESSABLE_MIMES` (shared through `@chatovo/schemas`, e.g. SVG or HEIC) is rendered `unoptimized`. Every image is `next/image` with a `sizes` that matches its rendered size. `UserAvatar` takes `sizes` for anything larger than the default 40 px.
+
+The loader recognises our uploads by the origin of `NEXT_PUBLIC_API_URL`, and the server by the origin of `PUBLIC_FILES_URL`, so the two must point at the same host (`https://api.chatovo.ru` in production). If they differ, uploads simply bypass the optimizer. If `NEXT_PUBLIC_API_URL` is relative, the loader passes everything through, because the optimizer would be unreachable.
 
 ## Link previews in chat
 

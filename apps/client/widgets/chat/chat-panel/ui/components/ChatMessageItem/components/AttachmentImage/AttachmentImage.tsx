@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import type { AttachmentImageProps } from './AttachmentImage.types';
 
-import { CHAT_IMAGE_FALLBACK_SIZE } from '../../../../../config';
+import { CHAT_PANEL } from '../../../../../config';
 import { ImageLightbox } from '../ImageLightbox/ImageLightbox';
 
 import s from './AttachmentImage.module.scss';
@@ -15,7 +15,7 @@ export const AttachmentImage = ({ attachment }: AttachmentImageProps) => {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const { url, name, size, mime, image } = attachment;
-  const { width, height } = image ?? CHAT_IMAGE_FALLBACK_SIZE;
+  const { width, height } = image ?? CHAT_PANEL.imageFallbackSize;
   const unoptimized = !IMAGE_PROCESSABLE_MIMES.includes(mime);
 
   return (

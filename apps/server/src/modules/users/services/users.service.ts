@@ -12,7 +12,7 @@ import type {
 import { AppBadRequestException } from '../../../common/exceptions';
 import { PrismaService } from '../../../core';
 import { ensureUserFriendTag, getUserWithProfileOrThrow, optimizeAvatar } from '../../../lib';
-import { saveUpload, toArrayBuffer } from '../../uploads';
+import { deleteUploadsBeside, saveUpload, toArrayBuffer } from '../../uploads';
 import { toUserProfile } from '../profile';
 
 @Injectable()
@@ -24,7 +24,10 @@ export class UsersService {
       throw new AppBadRequestException('FILE_NOT_IMAGE', 'Not an image');
     });
 
-    const url = await saveUpload(`avatars/${userId}/avatar.webp`, toArrayBuffer(avatar));
+    const key = `avatars/${userId}/avatar.webp`;
+    const url = await saveUpload(key, toArrayBuffer(avatar));
+
+    await deleteUploadsBeside({ key });
 
     return `${url}?v=${Date.now()}`;
   }

@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { partition } from 'remeda';
 
+import { UPLOADS } from '../../../config/uploads';
 import { removeFiles, selectEvictions } from '../../../lib';
 import { IMAGES } from '../config';
 import { listCachedImages } from '../image-cache';
@@ -12,10 +13,12 @@ export class ImageCacheSweeperService {
 
   @Cron(IMAGES.cache.sweepCron)
   async sweep(): Promise<number> {
-    const { maxIdleMs, maxBytes, temporarySuffix, temporaryMaxAgeMs } = IMAGES.cache;
+    const { maxIdleMs, maxBytes, temporaryMaxAgeMs } = IMAGES.cache;
     const files = await listCachedImages();
     const now = Date.now();
-    const [temporary, cached] = partition(files, ({ path }) => path.endsWith(temporarySuffix));
+    const [temporary, cached] = partition(files, ({ path }) =>
+      path.endsWith(UPLOADS.temporarySuffix)
+    );
 
     const removed = await removeFiles([
       ...selectEvictions({

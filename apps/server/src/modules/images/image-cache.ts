@@ -1,20 +1,15 @@
 import { differenceInMilliseconds } from 'date-fns';
-import { mkdir, readFile, rename, stat, utimes, writeFile } from 'node:fs/promises';
-import { dirname, isAbsolute, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { readFile, stat, utimes } from 'node:fs/promises';
+import { join } from 'node:path';
 
 import type { FileStat } from '../../lib';
 import type { ReadCachedImageInput, WriteCachedImageInput } from './images.types';
 
 import { env } from '../../core';
-import { listFileStats } from '../../lib';
+import { listFileStats, resolveDataDir, writeFileAtomic } from '../../lib';
 import { IMAGES } from './config';
 
-const SERVER_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
-
-const IMAGE_CACHE_DIR = isAbsolute(env.IMAGE_CACHE_DIR)
-  ? env.IMAGE_CACHE_DIR
-  : resolve(SERVER_ROOT, env.IMAGE_CACHE_DIR);
+const IMAGE_CACHE_DIR = resolveDataDir(env.IMAGE_CACHE_DIR);
 
 const cachePath = (key: string): string => join(IMAGE_CACHE_DIR, key.slice(0, 2), `${key}.webp`);
 
@@ -50,12 +45,7 @@ export const readCachedImage = async ({
 };
 
 export const writeCachedImage = async ({ key, buffer }: WriteCachedImageInput): Promise<void> => {
-  const path = cachePath(key);
-  const temporary = `${path}.${crypto.randomUUID()}${IMAGES.cache.temporarySuffix}`;
-
-  await mkdir(dirname(path), { recursive: true });
-  await writeFile(temporary, buffer);
-  await rename(temporary, path);
+  await writeFileAtomic({ path: cachePath(key), data: buffer });
 };
 
 export const listCachedImages = (): Promise<FileStat[]> => listFileStats(IMAGE_CACHE_DIR);

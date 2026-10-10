@@ -19,6 +19,8 @@ const CACHE_TTL: Duration = Duration::from_secs(300);
 pub struct GameRoot {
     pub root: String,
     pub name: String,
+    /// `root` plus a trailing slash, built once so a lookup never allocates.
+    prefix: String,
 }
 
 impl GameRoot {
@@ -37,6 +39,7 @@ impl GameRoot {
         }
 
         Some(Self {
+            prefix: format!("{root}/"),
             root,
             name: name.to_owned(),
         })
@@ -61,7 +64,7 @@ impl GameIndex {
 
         self.roots
             .iter()
-            .filter(|game| path.starts_with(&format!("{}/", game.root)))
+            .filter(|game| path.starts_with(&game.prefix))
             .max_by_key(|game| game.root.len())
             .map(|game| game.name.clone())
             .or_else(|| {

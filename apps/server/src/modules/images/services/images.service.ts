@@ -8,7 +8,7 @@ import type { OptimizedImage, OptimizeImageInput, RenderImageInput } from './ima
 
 import { AppBadRequestException, AppNotFoundException } from '../../../common/exceptions';
 import { AppConfigService } from '../../../config/config.module';
-import { buildHashKey, resizeImage, safeFetch } from '../../../lib';
+import { buildHashKey, fetchImage, resizeImage } from '../../../lib';
 import { UPLOADS_DIR } from '../../uploads';
 import { IMAGES } from '../config';
 import { readCachedImage, writeCachedImage } from '../image-cache';
@@ -41,15 +41,7 @@ export class ImagesService {
   private async loadSource(source: ImageSource): Promise<Buffer | null> {
     return match(source)
       .with({ kind: 'upload' }, ({ path }) => readFile(path).catch(() => null))
-      .with({ kind: 'remote' }, async ({ url }) => {
-        const response = await safeFetch({
-          url,
-          accept: 'image/*',
-          maxBytes: IMAGES.remoteMaxBytes
-        });
-
-        return response?.contentType.startsWith('image/') ? response.body : null;
-      })
+      .with({ kind: 'remote' }, ({ url }) => fetchImage({ url, maxBytes: IMAGES.remoteMaxBytes }))
       .exhaustive();
   }
 

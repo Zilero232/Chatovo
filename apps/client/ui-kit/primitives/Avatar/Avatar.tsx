@@ -7,9 +7,7 @@ import type { AvatarFallbackProps, AvatarImageProps, AvatarProps } from './Avata
 
 import s from './Avatar.module.scss';
 
-const AVATAR_IMAGE_SIZE = 96;
-
-const AVATAR_DEFAULT_SIZES = '40px';
+const AVATAR_IMAGE = { size: 96, defaultSizes: '40px' };
 
 const Avatar = ({ className, size = 'default', ...props }: AvatarProps) => (
   <span className={clsx(s.root, className)} data-size={size} data-slot='avatar' {...props} />
@@ -18,16 +16,16 @@ const Avatar = ({ className, size = 'default', ...props }: AvatarProps) => (
 const AvatarImage = ({
   className,
   alt = '',
-  sizes = AVATAR_DEFAULT_SIZES,
+  sizes = AVATAR_IMAGE.defaultSizes,
   ...props
 }: AvatarImageProps) => (
   <Image
     alt={alt}
     className={clsx(s.image, className)}
     data-slot='avatar-image'
-    height={AVATAR_IMAGE_SIZE}
+    height={AVATAR_IMAGE.size}
     sizes={sizes}
-    width={AVATAR_IMAGE_SIZE}
+    width={AVATAR_IMAGE.size}
     {...props}
   />
 );

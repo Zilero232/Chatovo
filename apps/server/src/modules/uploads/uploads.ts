@@ -1,15 +1,16 @@
-import { mkdir, rename, rm, writeFile } from 'node:fs/promises';
-import { dirname, isAbsolute, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { rm } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
 
-import { UPLOADS_ROUTE } from '../../config/uploads';
+import type { DeleteUploadsBesideInput } from './uploads.types';
+
+import { UPLOADS } from '../../config/uploads';
 import { env } from '../../core';
+import { listFileStats } from '../../lib/list-file-stats';
+import { removeFiles } from '../../lib/remove-files';
+import { resolveDataDir } from '../../lib/resolve-data-dir';
+import { writeFileAtomic } from '../../lib/write-file-atomic';
 
-const SERVER_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
-
-export const UPLOADS_DIR = isAbsolute(env.UPLOADS_DIR)
-  ? env.UPLOADS_DIR
-  : resolve(SERVER_ROOT, env.UPLOADS_DIR);
+export const UPLOADS_DIR = resolveDataDir(env.UPLOADS_DIR);
 
 export const toArrayBuffer = (buffer: Buffer): ArrayBuffer => {
   const result = new ArrayBuffer(buffer.byteLength);
@@ -20,14 +21,9 @@ export const toArrayBuffer = (buffer: Buffer): ArrayBuffer => {
 };
 
 export const saveUpload = async (key: string, body: ArrayBuffer): Promise<string> => {
-  const target = join(UPLOADS_DIR, key);
-  const temporary = `${target}.${crypto.randomUUID()}.tmp`;
+  await writeFileAtomic({ path: join(UPLOADS_DIR, key), data: new Uint8Array(body) });
 
-  await mkdir(dirname(target), { recursive: true });
-  await writeFile(temporary, Buffer.from(body));
-  await rename(temporary, target);
-
-  return `${env.PUBLIC_FILES_URL}${UPLOADS_ROUTE}/${key}`;
+  return `${env.PUBLIC_FILES_URL}${UPLOADS.route}/${key}`;
 };
 
 export const deleteUpload = async (key: string): Promise<void> => {
@@ -36,4 +32,11 @@ export const deleteUpload = async (key: string): Promise<void> => {
 
 export const deleteUploadDirectory = async (key: string): Promise<void> => {
   await rm(join(UPLOADS_DIR, key), { force: true, recursive: true });
+};
+
+export const deleteUploadsBeside = async ({ key }: DeleteUploadsBesideInput): Promise<void> => {
+  const kept = join(UPLOADS_DIR, key);
+  const siblings = await listFileStats(dirname(kept));
+
+  await removeFiles(siblings.map(({ path }) => path).filter((path) => path !== kept));
 };

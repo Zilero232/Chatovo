@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { LINK_PREVIEW } from '../../../config';
 import { describeRoomPreview } from '../describe-room-preview';
 
-const { openRoom, privateRoom } = LINK_PREVIEW.copy;
+const { openRoom, privateRoom } = LINK_PREVIEW.room.copy;
 
 describe('describeRoomPreview', () => {
   it('hides the live count of a private room', () => {

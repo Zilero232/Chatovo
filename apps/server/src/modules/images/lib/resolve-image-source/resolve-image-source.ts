@@ -1,16 +1,19 @@
 import { IMAGE_REMOTE_HOSTS } from '@chatovo/schemas';
-import { resolve, sep } from 'node:path';
+import { extname, resolve, sep } from 'node:path';
 
 import type { ImageSource } from '../../images.types';
 import type { ResolveImageSourceInput, ResolveUploadPathInput } from './resolve-image-source.types';
 
+import { UPLOADS } from '../../../../config/uploads';
 import { IMAGES } from '../../config';
 
 const resolveUploadPath = ({ pathname, uploadsDir }: ResolveUploadPathInput): string | null => {
   try {
     const key = decodeURIComponent(pathname.slice(IMAGES.uploadsPathPrefix.length));
 
-    if (IMAGES.forbiddenKeyCharacters.test(key)) {
+    const isImageFile = UPLOADS.inlineImageExtensions.has(extname(key).toLowerCase());
+
+    if (!isImageFile || IMAGES.forbiddenKeyCharacters.test(key)) {
       return null;
     }
 

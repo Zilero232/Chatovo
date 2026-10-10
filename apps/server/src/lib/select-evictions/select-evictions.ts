@@ -17,12 +17,13 @@ export const selectEvictions = ({
   const lastUsed = (file: FileStat) => (clock === 'accessed' ? file.accessedMs : file.modifiedMs);
   const [idle, active] = partition(files, (file) => now - lastUsed(file) > maxIdleMs);
 
-  let keptBytes = 0;
-  const overflow = sortBy(active, [lastUsed, 'desc']).filter((file) => {
-    keptBytes += file.size;
+  const recentFirst = sortBy(active, [lastUsed, 'desc']);
+  const runningTotals = recentFirst.reduce<number[]>((totals, { size }) => {
+    totals.push((totals.at(-1) ?? 0) + size);
 
-    return keptBytes > maxBytes;
-  });
+    return totals;
+  }, []);
+  const overflow = recentFirst.filter((_, index) => runningTotals[index] > maxBytes);
 
   return [...idle, ...overflow].map(({ path }) => path);
 };

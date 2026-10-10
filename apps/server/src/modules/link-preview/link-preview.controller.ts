@@ -4,7 +4,7 @@ import { Throttle } from '@nestjs/throttler';
 import { AllowAnonymous } from '@thallesp/nestjs-better-auth';
 import { ZodResponse } from 'nestjs-zod';
 
-import { LINK_PREVIEW, LINK_UNFURL } from './config';
+import { LINK_PREVIEW } from './config';
 import {
   LinkPreviewQueryDto,
   LinkPreviewResponseDto,
@@ -21,7 +21,7 @@ export class LinkPreviewController {
   ) {}
 
   @Get()
-  @Throttle({ default: LINK_UNFURL.throttle })
+  @Throttle({ default: LINK_PREVIEW.unfurl.throttle })
   @ZodResponse({ type: LinkPreviewResponseDto })
   getLinkPreview(@Query() query: LinkPreviewQueryDto) {
     return this.linkUnfurl.unfurl(query.url);
@@ -30,7 +30,7 @@ export class LinkPreviewController {
   @AllowAnonymous()
   @Get('room')
   @Header('Content-Type', 'text/html; charset=utf-8')
-  @Header('Cache-Control', LINK_PREVIEW.cacheControl)
+  @Header('Cache-Control', LINK_PREVIEW.room.cacheControl)
   getRoomPreview(@Query() query: RoomPreviewQueryDto) {
     return this.roomPreview.renderRoomPreview(query.id);
   }
