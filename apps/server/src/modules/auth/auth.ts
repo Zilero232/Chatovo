@@ -12,6 +12,7 @@ import { ChangeEmail, DeleteAccount, ResetPassword, sendEmail, VerifyEmail } fro
 import { notifyUserSignup } from '../telegram';
 import { authBaseURL } from './auth-base-url';
 import { withClientCallback } from './auth-callback-url';
+import { prepareUserDeletion } from './lib/prepare-user-deletion';
 import { purgeUserContent } from './lib/purge-user-content';
 
 const env = validateEnv(process.env);
@@ -69,6 +70,9 @@ export const auth = betterAuth({
         });
       },
       beforeDelete: async (user) => {
+        await prepareUserDeletion(user.id);
+      },
+      afterDelete: async (user) => {
         await purgeUserContent(user.id);
       }
     },

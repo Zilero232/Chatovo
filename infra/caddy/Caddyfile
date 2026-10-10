@@ -12,7 +12,7 @@
 	@assets path /_next/static/*
 	header @assets Cache-Control "public, max-age=31536000, immutable"
 
-	encode gzip
+	encode zstd gzip
 }
 
 (static_routing) {
@@ -62,12 +62,30 @@ api.chatovo.ru {
 app.chatovo.ru {
 	import static_client
 
+	# Messenger and social crawlers don't run JS, so the static room page would
+	# unfurl as the generic site card. They get server-rendered Open Graph tags
+	# with the room name and live headcount instead; people still get the app.
+	@link_preview_bot {
+		path /room /room.html
+		header_regexp User-Agent (?i)(telegrambot|discordbot|twitterbot|facebookexternalhit|vkshare|whatsapp|slackbot|linkedinbot|skypeuripreview|viber|mattermost|iframely|redditbot)
+	}
+	handle @link_preview_bot {
+		rewrite * /link-preview/room?{query}
+		reverse_proxy server:4000
+	}
+
 	# Nothing on the app host belongs in an index; the public site owns SEO.
 	handle /robots.txt {
 		header Content-Type "text/plain; charset=utf-8"
-		respond `User-agent: *
-Disallow: /
-`
+		respond <<ROBOTS
+			User-agent: Twitterbot
+			Allow: /room
+			Disallow: /
+
+			User-agent: *
+			Disallow: /
+
+			ROBOTS 200
 	}
 
 	# The lobby is this host's front page, which is why the app has no /lobby URL.

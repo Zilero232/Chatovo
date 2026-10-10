@@ -11,7 +11,7 @@ let invisibleMode = false;
 let isAdmin = true;
 let issuedToken: string | undefined = 'token-invisible';
 
-const roomTokenCalls: { roomId: string | null; isPrivate: boolean; password?: string }[] = [];
+const roomTokenCalls: { roomId: string | null; password?: string }[] = [];
 
 vi.mock('@/entities/app/settings', () => ({
   useAppSettings: () => ({ settings: { system: { invisibleMode } } })
@@ -22,7 +22,7 @@ vi.mock('@/entities/auth/user', () => ({
 }));
 
 vi.mock('@/entities/room/room', () => ({
-  useRoomToken: (roomId: string | null, options: { isPrivate: boolean; password?: string }) => {
+  useRoomToken: (roomId: string | null, options: { password?: string }) => {
     roomTokenCalls.push({ roomId, ...options });
 
     return { data: roomId ? issuedToken : undefined };

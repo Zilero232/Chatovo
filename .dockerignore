@@ -13,6 +13,10 @@ apps/tauri/target
 apps/tauri/gen
 **/*.tsbuildinfo
 
+# Server runtime data — user uploads and the image cache live in Docker volumes
+apps/server/uploads
+apps/server/.image-cache
+
 # The Tauri desktop app is not built into either image, but its package.json
 # must remain in the build context — bun install --frozen-lockfile validates
 # the on-disk workspace topology against bun.lock. Exclude everything else.

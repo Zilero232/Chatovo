@@ -18,6 +18,7 @@ import { QueryFocusManager } from './QueryFocusManager';
 import { SessionExpiryWatcher } from './SessionExpiryWatcher';
 import { TauriDesktopDocumentClass } from './TauriDesktopDocumentClass';
 import { TauriMobileInsets } from './TauriMobileInsets';
+import { TauriNativeMenuGuard } from './TauriNativeMenuGuard';
 import { TrayMenuProvider } from './TrayMenuProvider';
 
 export const AppProviders = ({ children }: { children: ReactNode }) => (
@@ -27,6 +28,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => (
       <SessionExpiryWatcher />
       <TauriMobileInsets />
       <TauriDesktopDocumentClass />
+      <TauriNativeMenuGuard />
       <MotionConfig reducedMotion='user'>
         <TooltipProvider>
           <div style={{ display: 'flex', height: '100%', flexDirection: 'column' }}>

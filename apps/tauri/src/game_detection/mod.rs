@@ -1,9 +1,14 @@
-//! Discovers what the user is running from their own machine instead of a
-//! hardcoded title table: a Steam library match first, then the executable's
-//! own file metadata. Only the executable path and name are ever inspected —
-//! never window titles or command lines, which can carry paths and tokens.
+//! Reports the game the user is playing — and only games. A process counts when
+//! one of the sources on this machine knows it as a game: a Steam, Epic or GOG
+//! install folder, or an executable Windows itself recognised as a game. Only the
+//! executable path and name are ever inspected — never window titles or command
+//! lines, which can carry paths and tokens.
 
+mod epic;
 mod filter;
+mod game_config_store;
+mod gog;
+mod index;
 mod metadata;
 mod steam;
 
@@ -12,11 +17,10 @@ use sysinfo::{
     UpdateKind,
 };
 
-/// Returns the display name of the game or app the user most recently started,
-/// or `None` when nothing matches. A Steam library match always wins over a
-/// metadata one, and within each tier the newest process wins — a game launched
-/// a minute ago is what the user is doing, not the wallpaper tool that has run
-/// since boot. Ties break on pid so the answer stays stable between polls.
+/// Returns the title of the game the user most recently started, or `None` when
+/// nothing running is a known game. The newest process wins — a game launched a
+/// minute ago is what the user is doing — and ties break on pid so the answer
+/// stays stable between polls.
 #[tauri::command]
 pub fn detect_running_game() -> Option<String> {
     let mut system = System::new_with_specifics(RefreshKind::nothing());
@@ -44,20 +48,11 @@ pub fn detect_running_game() -> Option<String> {
 
     candidates.sort_by_key(|(pid, process)| (process.run_time(), **pid));
 
-    let install_dirs = steam::install_dirs();
+    let games = index::current();
 
     candidates
         .iter()
-        .find_map(|(_, process)| {
-            process
-                .exe()
-                .and_then(|exe| steam::match_path(exe, &install_dirs))
-        })
-        .or_else(|| {
-            candidates
-                .iter()
-                .find_map(|(_, process)| metadata::display_name(process.exe()?))
-        })
+        .find_map(|(_, process)| games.title_of(process.exe()?))
 }
 
 fn is_candidate(process: &Process, own_user: Option<&sysinfo::Uid>) -> bool {

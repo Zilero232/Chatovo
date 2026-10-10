@@ -13,24 +13,24 @@ export const RoomPage = () => {
   const {
     isLoading,
     isSessionOpen,
+    passwordError,
     room,
     roomId,
     roomTitle,
+    showPasswordForm,
     submitPassword,
-    tokenError,
-    tokenFailed,
     tokenFetching
   } = useRoomPage();
 
-  return match({ roomId, isLoading, room, isSessionOpen })
+  return match({ roomId, isLoading, room, isSessionOpen, showPasswordForm })
     .with({ roomId: P.nullish }, () => null)
     .with({ isSessionOpen: true }, () => null)
     .with({ room: P.nullish, isLoading: true }, () => <RoomLoadingFallback />)
     .with({ room: P.nullish }, () => <RoomNotFound />)
-    .with({ room: { isPrivate: true } }, () => (
+    .with({ showPasswordForm: true }, () => (
       <RoomPasswordForm
         displayName={roomTitle}
-        error={tokenFailed ? errorMessage(tokenError) : undefined}
+        error={passwordError ? errorMessage(passwordError) : undefined}
         isSubmitting={tokenFetching}
         onSubmit={submitPassword}
       />

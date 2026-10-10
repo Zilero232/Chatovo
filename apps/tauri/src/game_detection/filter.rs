@@ -1,6 +1,6 @@
-//! Keeps metadata-based detection from reporting background noise. The list is
-//! an exclusion set of infrastructure processes, never a catalogue of titles —
-//! anything not excluded is allowed to resolve by its own file metadata.
+//! A safety net in front of the game index: system processes, helpers and
+//! always-on tools are dropped before a process is looked up at all — Wallpaper
+//! Engine, for one, is installed through Steam but is not something being played.
 
 use std::path::Path;
 

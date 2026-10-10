@@ -73,6 +73,8 @@ export const apiErrorCodeSchema = z.enum([
   'FILE_NOT_IMAGE',
   'IMAGE_TOO_LARGE',
   'SCREENSHOT_TOO_LARGE',
+  'IMAGE_NOT_FOUND',
+  'IMAGE_SOURCE_NOT_ALLOWED',
 
   'WEBHOOK_SIGNATURE_INVALID'
 ]);

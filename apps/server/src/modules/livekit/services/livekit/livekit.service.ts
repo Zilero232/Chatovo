@@ -47,7 +47,7 @@ export class LivekitService {
     const room = await this.loadAccessibleRoomOrThrow({ roomId, userId });
 
     if (!isInvisible) {
-      await assertRoomAccess({ room, password });
+      await assertRoomAccess({ room, userId, password });
     }
 
     grantRoomAccess(room.id, userId);

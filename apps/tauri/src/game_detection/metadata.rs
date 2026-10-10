@@ -1,4 +1,5 @@
-//! Reads the display name an executable declares about itself. On Windows that
+//! Names a game Windows recognised but no launcher manifest describes, from what
+//! its executable declares about itself. On Windows that
 //! is the `FileDescription` of the version-info resource — the string Task
 //! Manager shows — with `ProductName` as a fallback. Other platforms have no
 //! equivalent that is cheap to read, so they resolve nothing.

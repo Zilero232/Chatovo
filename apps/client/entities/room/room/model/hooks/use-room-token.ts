@@ -7,11 +7,10 @@ import { fetchLiveKitToken } from '@/shared/api';
 import { QUERY_KEYS } from '@/shared/constants';
 
 type Options = {
-  isPrivate: boolean;
   password?: string;
 };
 
-export const useRoomToken = (roomId: string | null, { isPrivate, password }: Options) => {
+export const useRoomToken = (roomId: string | null, { password }: Options = {}) => {
   const { isAdmin } = useCurrentUser();
   const { settings } = useAppSettings();
 
@@ -21,7 +20,7 @@ export const useRoomToken = (roomId: string | null, { isPrivate, password }: Opt
     queryKey: QUERY_KEYS.livekitToken(roomId, password, invisible),
     queryFn: () => fetchLiveKitToken({ roomId: roomId as string, password, invisible }),
     select: ({ token }) => token,
-    enabled: isNonNullish(roomId) && (invisible || !isPrivate || isNonNullish(password)),
+    enabled: isNonNullish(roomId),
     retry: false,
     gcTime: 0
   });

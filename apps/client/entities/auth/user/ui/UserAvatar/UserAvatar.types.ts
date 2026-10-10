@@ -8,5 +8,6 @@ export type UserAvatarProps = {
   fallbackClassName?: string;
   name: string;
   size?: ComponentProps<typeof Avatar>['size'];
+  sizes?: string;
   src?: string | null;
 };

@@ -44,6 +44,13 @@ export const envSchema = z.object({
   // Unset = direct connection.
   TELEGRAM_PROXY_URL: z.string().min(1).optional(),
 
+  // Optional http(s) proxy for outbound fetches made on behalf of users: link
+  // previews and allow-listed remote images. Same purpose as TELEGRAM_PROXY_URL,
+  // for sites blocked from the server (e.g. YouTube from RU). The target is still
+  // resolved and checked here, and the proxy is handed the vetted IP, so it cannot
+  // be used to reach private networks. Unset = direct connection.
+  OUTBOUND_PROXY_URL: z.url().optional(),
+
   // Optional Firebase service account JSON (stringified) for FCM push on mobile.
   // Leave unset to disable push — register/unregister endpoints still work but
   // no notifications are sent.
@@ -56,6 +63,10 @@ export const envSchema = z.object({
   // Filesystem directory where uploaded files (avatars, chat attachments) are
   // written. Served back under /uploads. In Docker this is a mounted volume.
   UPLOADS_DIR: z.string().default('./uploads'),
+
+  // Directory for resized images produced by GET /images. Disposable: anything
+  // missing is regenerated from the source. In Docker this is a mounted volume.
+  IMAGE_CACHE_DIR: z.string().default('./.image-cache'),
 
   // Comma-separated list of allowed CORS origins (web client domains).
   // Tauri origins are always allowed and don't need to be listed here.

@@ -44,7 +44,7 @@
       "displayNameLabel": "Display name",
       "displayNameHint": "The name other people see in voice rooms.",
       "avatarLabel": "Avatar",
-      "avatarHint": "PNG or JPG, up to 2 MB.",
+      "avatarHint": "PNG, JPG, WebP or GIF, up to 10 MB.",
       "avatarRemove": "Remove avatar",
       "avatarInvalidType": "That file is not an image.",
       "bannerLabel": "Banner color",
@@ -167,7 +167,7 @@
       "invisibleModeOn": "Invisible mode on",
       "invisibleModeOff": "Invisible mode off",
       "shareActivity": "Show what I am playing",
-      "shareActivityHint": "People in the room see the name of the game or app you have running. Desktop app only."
+      "shareActivityHint": "People in the room see the name of the game you are playing. Desktop app only."
     },
     "shortcuts": {
       "webNotice": "Custom hotkeys are not supported in the browser yet. To use custom hotkeys, <link>download</link> the desktop app.",

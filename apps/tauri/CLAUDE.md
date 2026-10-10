@@ -1,6 +1,6 @@
 # CLAUDE.md — apps/tauri
 
-Guidance for Claude Code when working in the desktop shell. Extends the root [../../CLAUDE.md](../../CLAUDE.md) → "Tauri specifics"; root rules still apply.
+Guidance for Claude Code when working in the desktop shell. Extends the root [../../CLAUDE.md](../../CLAUDE.md); those rules still apply. The digest in `.claude/rules/tauri/` loads automatically when you edit files here; the client side of Tauri is [docs/guides/client/tauri.md](../../docs/guides/client/tauri.md).
 
 Desktop shell — **Tauri 2 (Rust)**. Wraps the same Next.js client ([apps/client](../client/)) in a native window; no separate UI lives here.
 
@@ -9,7 +9,10 @@ Desktop shell — **Tauri 2 (Rust)**. Wraps the same Next.js client ([apps/clien
 ```
 src/
 ├── main.rs           # binary entry — calls lib::run()
-└── lib.rs            # Tauri builder: registers plugins, deep-link scheme, single-instance
+├── lib.rs            # Tauri builder: registers plugins, deep-link scheme, single-instance
+├── tray_menu.rs      # the native tray icon + menu (docs/architecture/tray-menu.md)
+├── webview_lockdown.rs # Windows release builds: WebView2 browser shortcuts off (reload, print, devtools)
+└── game_detection/   # "Playing X", games only: Steam/Epic/GOG + Windows Game Bar list (docs/architecture/game-activity.md)
 capabilities/         # permission sets granted to the webview
 icons/                # generated — source: icon.manifest.json + apps/client/app/app-icon*.svg
 tauri.conf.json       # config — frontendDist points at the built client, bundle/updater settings
@@ -33,12 +36,14 @@ bun android:dev  # run on Android device/emulator
 bun android:build # build the APK + the Play AAB
 ```
 
-Releases are built by `.github/workflows/release.yml` on a `v*` tag — desktop
+The Rust toolchain (version, rustfmt, clippy) is pinned in the root [mise.toml](../../mise.toml) — `mise install`; there is no `rust-toolchain.toml`. `bun lint:rust` and `bun format:rust` run from the root.
+
+Releases are built by `.github/workflows/release.yml` on a `v*` tag ([docs/ops/release.md](../../docs/ops/release.md)) — desktop
 via `tauri-action` (Windows, macOS arm64 + x64, Linux), Android signed by
 `scripts/android-signing.mjs` from the `ANDROID_KEY_*` secrets. The local
 commands above are for development.
 
-Android setup: install Android Studio (SDK + NDK), copy `apps/tauri/.env.example` → `.env`, set `NDK_HOME` to your installed NDK folder, then `bun android:init`. See [docs/google-play/README.md](../../docs/google-play/README.md).
+Android setup: install Android Studio (SDK + NDK), copy `apps/tauri/.env.example` → `.env`, set `NDK_HOME` (and `JAVA_HOME`, usually Android Studio's bundled JBR) to your installed folders, then `bun android:init`. See [docs/ops/google-play/README.md](../../docs/ops/google-play/README.md).
 
 **WebRTC (mic/camera):** `build.rs` calls `tauri_utils::build::update_android_manifest` (same API Tauri plugins use) to inject `RECORD_AUDIO`, `CAMERA`, and `MODIFY_AUDIO_SETTINGS` into `gen/android/.../AndroidManifest.xml` on Android builds. Without these, `getUserMedia` fails on Android — `RustWebChromeClient` can only show the OS prompt when permissions are declared in the manifest.
 

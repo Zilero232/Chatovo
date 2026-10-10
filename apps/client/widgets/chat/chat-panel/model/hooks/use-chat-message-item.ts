@@ -7,6 +7,8 @@ import { readParticipantMeta } from '@/entities/room/room';
 
 import type { ChatLine } from '../types';
 
+import { findPreviewUrl, normalizeMessage } from '../lib';
+
 type UseChatMessageItemArgs = {
   canManage: boolean;
   isGrouped: boolean;
@@ -31,6 +33,8 @@ export const useChatMessageItem = ({
 
   const isDeleted = Boolean(message.deletedAt);
   const attachment = !isDeleted ? decodeChatAttachment(message.message) : null;
+  const previewUrl =
+    isDeleted || attachment ? null : findPreviewUrl(normalizeMessage(message.message));
 
   const isUnsent = Boolean(message.status);
   const isEdited = Boolean(message.editedAt) && !isDeleted;
@@ -50,6 +54,7 @@ export const useChatMessageItem = ({
     developer,
     isDeleted,
     attachment,
+    previewUrl,
     isEdited,
     canEdit,
     canReport,

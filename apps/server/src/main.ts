@@ -1,3 +1,5 @@
+import type { NestExpressApplication } from '@nestjs/platform-express';
+
 import { NestFactory } from '@nestjs/core';
 import { WsAdapter } from '@nestjs/platform-ws';
 import { SwaggerModule } from '@nestjs/swagger';
@@ -13,12 +15,17 @@ import { buildOpenApiConfig } from './openapi';
 
 import 'reflect-metadata';
 
-const app = await NestFactory.create(AppModule, {
+const app = await NestFactory.create<NestExpressApplication>(AppModule, {
   bodyParser: false,
   bufferLogs: true
 });
 
 app.useLogger(app.get(Logger));
+
+// Every request arrives through exactly one proxy (Caddy). Trusting that hop makes
+// req.ip the client from X-Forwarded-For, so the throttler limits each visitor
+// instead of one bucket shared by the whole site.
+app.set('trust proxy', 1);
 app.useWebSocketAdapter(new WsAdapter(app));
 
 app.use(helmet({ contentSecurityPolicy: false }));

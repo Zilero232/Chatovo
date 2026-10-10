@@ -41,7 +41,7 @@ export const AvatarField = ({ name, src, onPick, onRemove }: AvatarFieldProps) =
         type='button'
         onClick={() => open()}
       >
-        <UserAvatar colorize className={s.avatar} name={name} size='lg' src={src} />
+        <UserAvatar colorize className={s.avatar} name={name} size='lg' sizes='64px' src={src} />
 
         <span className={s.avatarOverlay}>
           <Camera aria-hidden className={s.avatarOverlayIcon} />

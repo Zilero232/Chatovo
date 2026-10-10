@@ -195,6 +195,12 @@ export const sendToRoom = (roomId: string, message: RealtimeServerMessage): void
   }
 };
 
+export const sendToAll = (message: RealtimeServerMessage): void => {
+  for (const connection of connections.values()) {
+    send(connection, message);
+  }
+};
+
 const sendPresenceByRole = (snapshots: PresenceSnapshots): void => {
   for (const connection of connections.values()) {
     send(connection, {
@@ -214,6 +220,9 @@ export const initRealtimeBroadcast = (): void => {
     },
     room: (roomId, message) => {
       sendToRoom(roomId, message);
+    },
+    all: (message) => {
+      sendToAll(message);
     }
   });
 };

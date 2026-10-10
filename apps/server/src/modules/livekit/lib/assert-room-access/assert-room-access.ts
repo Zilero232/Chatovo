@@ -1,22 +1,18 @@
 import type { AssertRoomAccessInput } from './assert-room-access.types';
 
-import { RoomKind } from '../../../../../generated';
 import {
   AppForbiddenException,
   AppInternalException,
   AppUnauthorizedException
 } from '../../../../common/exceptions';
-import { verifyRoomPassword } from '../../../../lib';
+import { canAccessRoom, verifyRoomPassword } from '../../../../lib';
 
 export const assertRoomAccess = async ({
   room,
+  userId,
   password
 }: AssertRoomAccessInput): Promise<void> => {
-  if (room.kind === RoomKind.dm) {
-    return;
-  }
-
-  if (!room.isPrivate) {
+  if (canAccessRoom({ room, userId, tier: 'access' })) {
     return;
   }
 

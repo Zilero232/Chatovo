@@ -1,5 +1,18 @@
+# Repo-wide ignores. Build output and runtime data that belong to one package
+# live in that package's own .gitignore:
+#   apps/client/.gitignore    — .next/, out/, dist/, next-env.d.ts
+#   apps/server/.gitignore    — generated/, dist/, uploads/, .image-cache/
+#   apps/tauri/.gitignore     — target/, gen/, icons/
+#   packages/schemas/.gitignore — dist/
+
+# Dependencies
+node_modules/
+
+# Build caches
+*.tsbuildinfo
+
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,48 +20,19 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Deps
-node_modules
+# Environment — the only env files committed are the `.env.example` templates
+.env
+.env.*
+!.env.example
 *.local
 
-# TypeScript incremental build info (can appear in any package)
-*.tsbuildinfo
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Secrets — kept at root so they are caught in every package.
-# The only env file committed is the template `.env.example`.
-.env
-.env.local
-.env.*.local
-!.env.example
-
-# Tauri updater minisign keys
+# Signing material: Tauri updater minisign keys, Android keystores
+# (written by apps/tauri/scripts/android-signing.mjs), certificates
 *.key
 *.key.pub
-
-# Android signing material written by apps/tauri/scripts/android-signing.mjs
 *.keystore
 keystore.properties
-
-# Superpowers brainstorming artifacts (companion mockups, session state, specs)
-.superpowers/
-docs/superpowers/
-
-# Package-specific build output is ignored by each package's own .gitignore:
-#   apps/client/.gitignore   — .next/, out/, dist/
-#   apps/server/.gitignore   — generated/, dist/
-#   apps/tauri/.gitignore    — target/, gen/
+*.pem
 
 # Tests
 coverage/
@@ -56,3 +40,27 @@ test-results/
 e2e/.results/
 playwright-report/
 playwright/.cache/
+
+# Local tool overrides
+mise.local.toml
+.claude/settings.local.json
+
+# Superpowers brainstorming artifacts (companion mockups, session state, specs)
+.superpowers/
+docs/superpowers/
+
+# Editors
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini

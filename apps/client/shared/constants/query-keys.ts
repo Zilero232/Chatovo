@@ -24,7 +24,8 @@ const rooms = {
 
 const chat = {
   chatMessagesRoot: () => ['chat-messages'] as const,
-  chatMessages: (roomId: string) => ['chat-messages', roomId] as const
+  chatMessages: (roomId: string) => ['chat-messages', roomId] as const,
+  linkPreview: (url: string) => ['link-preview', url] as const
 };
 
 const friends = {

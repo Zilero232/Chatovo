@@ -23,6 +23,7 @@ import {
   roomSelect
 } from '../../../lib';
 import { closeLivekitRoom, revokeRoomGrants } from '../../livekit';
+import { emitToAll } from '../../realtime';
 
 @Injectable()
 export class RoomsService {
@@ -82,6 +83,8 @@ export class RoomsService {
       isPrivate: room.isPrivate
     } satisfies RoomCreatedEvent);
 
+    emitToAll({ type: 'room.upserted', room });
+
     return room;
   }
 
@@ -121,6 +124,8 @@ export class RoomsService {
       revokeRoomGrants(roomId);
     }
 
+    emitToAll({ type: 'room.upserted', room: updated });
+
     return updated;
   }
 
@@ -132,6 +137,7 @@ export class RoomsService {
     });
 
     revokeRoomGrants(roomId);
+    emitToAll({ type: 'room.removed', roomId });
     await closeLivekitRoom(roomId);
 
     const ownerName = await getUserDisplayName(room.ownerId);

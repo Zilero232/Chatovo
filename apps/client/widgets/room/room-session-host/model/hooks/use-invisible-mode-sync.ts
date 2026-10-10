@@ -17,7 +17,6 @@ export const useInvisibleModeSync = () => {
   const hasChanged = isNonNullish(session) && session.isInvisible !== isInvisible;
 
   const { data: token } = useRoomToken(hasChanged ? session.roomId : null, {
-    isPrivate: session?.isPrivate ?? false,
     password: session?.password
   });
 

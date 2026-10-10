@@ -1,7 +1,8 @@
-import { mkdir, rm, writeFile } from 'node:fs/promises';
+import { mkdir, rename, rm, writeFile } from 'node:fs/promises';
 import { dirname, isAbsolute, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { UPLOADS_ROUTE } from '../../config/uploads';
 import { env } from '../../core';
 
 const SERVER_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
@@ -20,11 +21,13 @@ export const toArrayBuffer = (buffer: Buffer): ArrayBuffer => {
 
 export const saveUpload = async (key: string, body: ArrayBuffer): Promise<string> => {
   const target = join(UPLOADS_DIR, key);
+  const temporary = `${target}.${crypto.randomUUID()}.tmp`;
 
   await mkdir(dirname(target), { recursive: true });
-  await writeFile(target, Buffer.from(body));
+  await writeFile(temporary, Buffer.from(body));
+  await rename(temporary, target);
 
-  return `${env.PUBLIC_FILES_URL}/uploads/${key}`;
+  return `${env.PUBLIC_FILES_URL}${UPLOADS_ROUTE}/${key}`;
 };
 
 export const deleteUpload = async (key: string): Promise<void> => {

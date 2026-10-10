@@ -2,12 +2,11 @@
 
 import type { MouseEvent } from 'react';
 
-import { isTauri } from '@tauri-apps/api/core';
 import { clsx } from 'clsx';
 import { BadgeCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { openExternal } from '@/shared/lib';
+import { handleExternalLinkClick } from '@/shared/lib';
 import { Tooltip, TooltipContent } from '@/ui-kit';
 
 import type { UserNameProps } from './UserName.types';
@@ -42,14 +41,7 @@ export const UserName = ({
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.stopPropagation();
-
-    if (!profileUrl || !isTauri()) {
-      return;
-    }
-
-    event.preventDefault();
-
-    openExternal(profileUrl);
+    handleExternalLinkClick({ event, url: profileUrl });
   };
 
   return (

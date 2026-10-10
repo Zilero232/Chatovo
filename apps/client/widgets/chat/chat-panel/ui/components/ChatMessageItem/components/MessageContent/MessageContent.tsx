@@ -8,6 +8,8 @@ import Markdown from 'react-markdown';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
+import { handleExternalLinkClick } from '@/shared/lib';
+
 import { useChatMessage } from '../../../../../model/contexts';
 import { normalizeMessage } from '../../../../../model/lib';
 
@@ -24,6 +26,7 @@ export const MessageContent = () => {
         href={href}
         rel='noopener noreferrer'
         target='_blank'
+        onClick={(event) => handleExternalLinkClick({ event, url: href })}
       >
         {children}
       </a>
