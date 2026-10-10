@@ -558,8 +558,8 @@
         "description": "Rooms that are created, changed or deleted appear and disappear for everyone without a reload."
       },
       "privateRoomOwner": {
-        "title": "Straight into your private room",
-        "description": "The creator of a private room joins it right away, without typing the password."
+        "title": "Straight into a room you just created",
+        "description": "Right after creating a private room you join it without typing the password; after that it takes the password, as for everyone."
       },
       "gamesOnly": {
         "title": "“Playing” status for games only",

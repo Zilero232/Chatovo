@@ -22,7 +22,7 @@ import {
   hashRoomPassword,
   roomSelect
 } from '../../../lib';
-import { closeLivekitRoom, revokeRoomGrants } from '../../livekit';
+import { closeLivekitRoom, grantRoomAccess, revokeRoomGrants } from '../../livekit';
 import { emitToAll } from '../../realtime';
 
 @Injectable()
@@ -83,6 +83,7 @@ export class RoomsService {
       isPrivate: room.isPrivate
     } satisfies RoomCreatedEvent);
 
+    grantRoomAccess(room.id, ownerId);
     emitToAll({ type: 'room.upserted', room });
 
     return room;
@@ -122,6 +123,7 @@ export class RoomsService {
 
     if ('password' in data || 'isPrivate' in data) {
       revokeRoomGrants(roomId);
+      grantRoomAccess(roomId, userId);
     }
 
     emitToAll({ type: 'room.upserted', room: updated });

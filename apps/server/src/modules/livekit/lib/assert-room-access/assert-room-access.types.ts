@@ -1,7 +1,5 @@
-import type { CanAccessRoomRoom } from '../../../../lib';
-
 export type AssertRoomAccessInput = {
-  room: CanAccessRoomRoom & { password: string | null };
+  room: { id: string; kind: string; isPrivate: boolean; password: string | null };
   userId: string;
   password?: string;
 };

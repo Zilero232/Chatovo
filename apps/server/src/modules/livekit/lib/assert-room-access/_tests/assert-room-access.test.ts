@@ -1,7 +1,7 @@
-import { beforeAll, describe, expect, it } from 'vitest';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { hashRoomPassword } from '../../../../../lib';
-import { grantRoomAccess } from '../../../room-grant-store';
+import { grantRoomAccess, revokeRoomGrants } from '../../../room-grant-store';
 import { assertRoomAccess } from '../assert-room-access';
 
 const OWNER = 'owner-1';
@@ -14,16 +14,25 @@ beforeAll(async () => {
     id: 'room-private',
     kind: 'group',
     isPrivate: true,
-    ownerId: OWNER,
-    dmUserAId: null,
-    dmUserBId: null,
     password: await hashRoomPassword('secret')
   };
 });
 
 describe('assertRoomAccess', () => {
-  it('lets the owner into their private room without a password', async () => {
+  beforeEach(() => {
+    revokeRoomGrants('room-private');
+  });
+
+  it('lets the creator straight in right after creating the room', async () => {
+    grantRoomAccess('room-private', OWNER);
+
     await expect(assertRoomAccess({ room: privateRoom, userId: OWNER })).resolves.toBeUndefined();
+  });
+
+  it('asks even the owner for the password once that first pass is gone', async () => {
+    await expect(assertRoomAccess({ room: privateRoom, userId: OWNER })).rejects.toMatchObject({
+      response: { code: 'ROOM_PASSWORD_REQUIRED' }
+    });
   });
 
   it('lets back in a user who already entered the password', async () => {
