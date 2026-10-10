@@ -11,3 +11,11 @@ export const IMAGE_DEFAULT_QUALITY = 75;
 export const IMAGE_SOURCE_URL_MAX_LENGTH = 2048;
 
 export const IMAGE_REMOTE_HOSTS = ['avatars.githubusercontent.com'];
+
+export const IMAGE_PROCESSABLE_MIMES = [
+  'image/avif',
+  'image/gif',
+  'image/jpeg',
+  'image/png',
+  'image/webp'
+];

@@ -1,5 +1,6 @@
 'use client';
 
+import { IMAGE_PROCESSABLE_MIMES } from '@chatovo/schemas';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -13,9 +14,9 @@ import s from './AttachmentImage.module.scss';
 export const AttachmentImage = ({ attachment }: AttachmentImageProps) => {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
-  const { url, name, size, image } = attachment;
+  const { url, name, size, mime, image } = attachment;
   const { width, height } = image ?? CHAT_IMAGE_FALLBACK_SIZE;
-  const isProcessed = Boolean(image);
+  const unoptimized = !IMAGE_PROCESSABLE_MIMES.includes(mime);
 
   return (
     <>
@@ -28,7 +29,7 @@ export const AttachmentImage = ({ attachment }: AttachmentImageProps) => {
           placeholder={image ? 'blur' : 'empty'}
           sizes='(max-width: 40rem) 85vw, 32rem'
           src={url}
-          unoptimized={!isProcessed}
+          unoptimized={unoptimized}
           width={width}
         />
       </button>
@@ -39,7 +40,7 @@ export const AttachmentImage = ({ attachment }: AttachmentImageProps) => {
         open={isPreviewOpen}
         size={size}
         src={url}
-        unoptimized={!isProcessed}
+        unoptimized={unoptimized}
         width={width}
         onOpenChange={setIsPreviewOpen}
       />
