@@ -1,7 +1,6 @@
-import { closeLivekitRoom, revokeRoomGrants } from '../../../livekit';
-import { emitToAll } from '../../../realtime';
+import { retireRoom } from '../../../../lib';
 import { deleteUploadDirectory } from '../../../uploads';
-import { takeOwnedRooms } from '../prepare-user-deletion';
+import { takeOwnedRooms } from '../../owned-rooms-store';
 
 /**
  * Runs after the user row is gone: clears what a cascading delete cannot — the avatar files
@@ -10,13 +9,7 @@ import { takeOwnedRooms } from '../prepare-user-deletion';
  * other people's conversations stay readable.
  */
 export const purgeUserContent = async (userId: string): Promise<void> => {
-  await Promise.all(
-    takeOwnedRooms(userId).map(async (roomId) => {
-      revokeRoomGrants(roomId);
-      emitToAll({ type: 'room.removed', roomId });
-      await closeLivekitRoom(roomId);
-    })
-  );
+  await Promise.all(takeOwnedRooms(userId).map(retireRoom));
 
   await deleteUploadDirectory(`avatars/${userId}`);
 };

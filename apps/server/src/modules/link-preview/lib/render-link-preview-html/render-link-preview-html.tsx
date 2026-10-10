@@ -10,7 +10,8 @@ export const renderLinkPreviewHtml = ({
   description,
   url
 }: RenderLinkPreviewHtmlInput): string => {
-  const { siteName, image } = LINK_PREVIEW;
+  const { siteName } = LINK_PREVIEW;
+  const { image } = LINK_PREVIEW.room;
 
   const openGraph = {
     'og:type': 'website',

@@ -568,6 +568,26 @@
       "desktopLockdown": {
         "title": "No browser menu in the app",
         "description": "The Windows app no longer shows the browser menu and shortcuts: reload, print and developer tools."
+      },
+      "passwordRoomLogout": {
+        "title": "A private room no longer signs you out",
+        "description": "Opening a password room you have no access to yet now just shows the password form."
+      },
+      "oldImagesOptimized": {
+        "title": "Older images are optimised too",
+        "description": "Photos sent to chat before 1.6.0 now load at the size you need, just like new ones."
+      },
+      "renameKeepsAccess": {
+        "title": "Renaming keeps the password pass",
+        "description": "After a room is renamed, people who already entered the password are not asked again."
+      },
+      "downloadButton": {
+        "title": "The Download button downloads",
+        "description": "In the image viewer, Download saves the file under its original name instead of leaving the page."
+      },
+      "fasterLinkPreviews": {
+        "title": "Faster link previews",
+        "description": "Links that were opened before unfurl instantly, without fetching the page again."
       }
     },
     "highlights": {
@@ -611,7 +631,9 @@
       "selfHostedSfu": "Self-hosted LiveKit",
       "firstRelease": "First release",
       "linkPreviews": "Link previews",
-      "fastImages": "Faster images"
+      "fastImages": "Faster images",
+      "passwordRoomLogout": "No more sign-outs",
+      "oldImagesOptimized": "Older images optimised"
     }
   },
   "features": {

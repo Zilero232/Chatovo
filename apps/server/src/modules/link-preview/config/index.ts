@@ -1,1 +1,1 @@
-export { LINK_PREVIEW, LINK_UNFURL } from './link-preview.config';
+export { LINK_PREVIEW } from './link-preview.config';

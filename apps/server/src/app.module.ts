@@ -1,3 +1,5 @@
+import type { Response } from 'express';
+
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { EventEmitter2, EventEmitterModule } from '@nestjs/event-emitter';
@@ -11,12 +13,7 @@ import { bindDomainEventEmitter } from './common/events/emit-domain-event';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { BlockedUserGuard } from './common/guards';
 import { AppConfigModule } from './config/config.module';
-import {
-  INLINE_IMAGE_EXTENSIONS,
-  UPLOAD_CACHE_CONTROL,
-  UPLOAD_SANDBOX_CSP,
-  UPLOADS_ROUTE
-} from './config/uploads';
+import { UPLOADS } from './config/uploads';
 import { env, PrismaModule } from './core';
 import { AuthModule } from './modules/auth';
 import { ChatModule } from './modules/chat';
@@ -55,12 +52,21 @@ import { UsersModule } from './modules/users';
     }),
     ServeStaticModule.forRoot({
       rootPath: UPLOADS_DIR,
-      serveRoot: UPLOADS_ROUTE,
+      serveRoot: UPLOADS.route,
       serveStaticOptions: {
-        setHeaders: (res, path) => {
-          res.setHeader('Cache-Control', UPLOAD_CACHE_CONTROL);
+        setHeaders: (res: Response, path: string) => {
+          const { download } = res.req.query;
 
-          if (INLINE_IMAGE_EXTENSIONS.has(extname(path).toLowerCase())) {
+          res.setHeader('Cache-Control', UPLOADS.cacheControl);
+
+          if (typeof download === 'string') {
+            res.attachment(download);
+            res.setHeader('Content-Security-Policy', UPLOADS.sandboxCsp);
+
+            return;
+          }
+
+          if (UPLOADS.inlineImageExtensions.has(extname(path).toLowerCase())) {
             res.setHeader('Content-Disposition', 'inline');
             res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
 
@@ -68,7 +74,7 @@ import { UsersModule } from './modules/users';
           }
 
           res.setHeader('Content-Disposition', 'attachment');
-          res.setHeader('Content-Security-Policy', UPLOAD_SANDBOX_CSP);
+          res.setHeader('Content-Security-Policy', UPLOADS.sandboxCsp);
         }
       }
     }),

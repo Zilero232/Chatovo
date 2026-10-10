@@ -38,6 +38,12 @@ describe('resolveImageSource', () => {
     expect(resolveFrom('https://api.chatovo.ru/uploads/avatar.webp%00.png')).toBeNull();
   });
 
+  it('refuses an upload that is not an image without reading it', () => {
+    expect(
+      resolveFrom('https://api.chatovo.ru/uploads/chat-attachments/r1/archive.zip')
+    ).toBeNull();
+  });
+
   it('refuses the uploads folder itself', () => {
     expect(resolveFrom('https://api.chatovo.ru/uploads/')).toBeNull();
   });

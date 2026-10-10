@@ -23,6 +23,19 @@ export type ChangelogRelease = {
 
 export const CHANGELOG_RELEASES: ChangelogRelease[] = [
   {
+    version: '1.6.1',
+    date: '2026-10-10',
+    tone: 'minor',
+    highlights: ['passwordRoomLogout', 'oldImagesOptimized'],
+    entries: [
+      { kind: 'fix', key: 'passwordRoomLogout' },
+      { kind: 'fix', key: 'oldImagesOptimized' },
+      { kind: 'fix', key: 'renameKeepsAccess' },
+      { kind: 'fix', key: 'downloadButton' },
+      { kind: 'improvement', key: 'fasterLinkPreviews' }
+    ]
+  },
+  {
     version: '1.6.0',
     date: '2026-10-10',
     tone: 'major',

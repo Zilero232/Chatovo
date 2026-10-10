@@ -3,8 +3,7 @@ import { WS_CLOSE_CODE } from '@chatovo/schemas';
 import { RoomKind } from '../../../../../generated';
 import { basePrisma } from '../../../../core';
 import { closeUserConnections } from '../../../realtime';
-
-const ownedRoomsByUser = new Map<string, string[]>();
+import { rememberOwnedRooms } from '../../owned-rooms-store';
 
 export const prepareUserDeletion = async (userId: string): Promise<void> => {
   closeUserConnections(userId, WS_CLOSE_CODE.blocked, 'Account deleted');
@@ -14,16 +13,5 @@ export const prepareUserDeletion = async (userId: string): Promise<void> => {
     select: { id: true }
   });
 
-  ownedRoomsByUser.set(
-    userId,
-    ownedRooms.map(({ id }) => id)
-  );
-};
-
-export const takeOwnedRooms = (userId: string): string[] => {
-  const roomIds = ownedRoomsByUser.get(userId) ?? [];
-
-  ownedRoomsByUser.delete(userId);
-
-  return roomIds;
+  rememberOwnedRooms({ userId, roomIds: ownedRooms.map(({ id }) => id) });
 };

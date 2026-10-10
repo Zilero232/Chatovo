@@ -2,6 +2,7 @@ export { appEvents } from './app-bus';
 export { buildPublicAppUrl } from './app-url';
 export { getBannerStyle } from './banner-style';
 export { buildAppHref } from './build-app-href';
+export { buildDownloadUrl } from './build-download-url';
 export { buildRoomHref } from './build-room-href';
 export type { BuildRoomHrefOptions } from './build-room-href';
 export { createSoundPlayer, type SoundPlayer } from './create-sound-player';

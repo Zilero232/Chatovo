@@ -4,7 +4,7 @@ import { ApiError } from '@/shared/api';
 
 import { resolvePasswordGate } from '../resolve-password-gate';
 
-const PASSWORD_REQUIRED = new ApiError('ROOM_PASSWORD_REQUIRED', 'Password required', 401);
+const PASSWORD_REQUIRED = new ApiError('ROOM_PASSWORD_REQUIRED', 'Password required', 403);
 const PASSWORD_INVALID = new ApiError('ROOM_PASSWORD_INVALID', 'Invalid password', 403);
 
 const gate = (overrides: Partial<Parameters<typeof resolvePasswordGate>[0]>) =>

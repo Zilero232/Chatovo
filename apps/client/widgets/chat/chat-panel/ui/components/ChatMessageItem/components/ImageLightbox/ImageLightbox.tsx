@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import prettyBytes from 'pretty-bytes';
 
-import { openExternal } from '@/shared/lib';
+import { buildDownloadUrl, openExternal } from '@/shared/lib';
 import { Button, Dialog, DialogContent, DialogTitle } from '@/ui-kit';
 
 import type { ImageLightboxProps } from './ImageLightbox.types';
@@ -62,7 +62,12 @@ export const ImageLightbox = ({
             {t('openInBrowser')}
           </Button>
 
-          <Button download={name} href={src} size='sm' variant='secondary'>
+          <Button
+            download={name}
+            href={buildDownloadUrl({ url: src, name })}
+            size='sm'
+            variant='secondary'
+          >
             <Download aria-hidden />
             {t('download')}
           </Button>

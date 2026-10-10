@@ -1,10 +1,11 @@
 import type { ResizedImage, ResizeImageInput } from './resize-image.types';
 
+import { UPLOADS } from '../../config/uploads';
 import { openImage } from '../open-image';
 
 /**
- * Scales an image down to `width` (never up) as WebP, keeping animation. Null for an SVG,
- * which is never rasterised, or for bytes that don't decode as an image.
+ * Scales an image down to `width` (never up) as WebP, keeping animation. Null for anything
+ * outside UPLOADS.image.decodableFormats — an SVG is never rasterised — or bytes that fail to decode.
  */
 export const resizeImage = async ({
   buffer,
@@ -15,7 +16,7 @@ export const resizeImage = async ({
     const image = openImage(buffer);
     const { format } = await image.metadata();
 
-    if (format === 'svg') {
+    if (!format || !UPLOADS.image.decodableFormats.has(format)) {
       return null;
     }
 

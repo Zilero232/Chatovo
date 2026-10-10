@@ -7,8 +7,8 @@ import type { Prisma } from '../../../../../generated';
 
 import { AppNotFoundException } from '../../../../common/exceptions';
 import { PrismaService } from '../../../../core';
-import { closeLivekitRoom, getSnapshot, revokeRoomGrants } from '../../../livekit';
-import { emitToAll } from '../../../realtime';
+import { retireRoom } from '../../../../lib';
+import { getSnapshot } from '../../../livekit';
 import { toPageArgs } from '../../lib';
 import { adminRoomInclude, toAdminRoom } from '../../mappers';
 
@@ -52,8 +52,6 @@ export class AdminRoomService {
 
     await this.prisma.room.delete({ where: { id: roomId } });
 
-    revokeRoomGrants(roomId);
-    emitToAll({ type: 'room.removed', roomId });
-    await closeLivekitRoom(roomId);
+    await retireRoom(roomId);
   }
 }

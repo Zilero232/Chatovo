@@ -7,7 +7,7 @@ import { handleExternalLinkClick } from '@/shared/lib';
 
 import type { LinkPreviewCardProps } from './LinkPreviewCard.types';
 
-import { LINK_PREVIEW_CARD } from '../../../../../config';
+import { CHAT_PANEL } from '../../../../../config';
 import { useLinkPreview } from '../../../../../model/hooks';
 
 import s from './LinkPreviewCard.module.scss';
@@ -21,7 +21,7 @@ export const LinkPreviewCard = ({ url }: LinkPreviewCardProps) => {
 
   const { title, description, siteName, image } = preview;
   const layout =
-    image && image.width >= LINK_PREVIEW_CARD.largeImageMinWidth ? 'large' : 'thumbnail';
+    image && image.width >= CHAT_PANEL.linkPreviewCard.largeImageMinWidth ? 'large' : 'thumbnail';
 
   return (
     <motion.a

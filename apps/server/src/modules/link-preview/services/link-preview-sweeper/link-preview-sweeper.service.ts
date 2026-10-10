@@ -4,15 +4,15 @@ import { join } from 'node:path';
 
 import { listFileStats, removeFiles, selectEvictions } from '../../../../lib';
 import { UPLOADS_DIR } from '../../../uploads';
-import { LINK_UNFURL } from '../../config';
+import { LINK_PREVIEW } from '../../config';
 
 @Injectable()
 export class LinkPreviewSweeperService {
   private readonly logger = new Logger(LinkPreviewSweeperService.name);
 
-  @Cron(LINK_UNFURL.image.sweepCron)
+  @Cron(LINK_PREVIEW.unfurl.image.sweepCron)
   async sweep(): Promise<number> {
-    const { folder, maxAgeMs } = LINK_UNFURL.image;
+    const { folder, maxAgeMs } = LINK_PREVIEW.unfurl.image;
     const files = await listFileStats(join(UPLOADS_DIR, folder));
 
     const removed = await removeFiles(
