@@ -1,6 +1,6 @@
 # Game activity — "playing X" next to a participant
 
-A participant can share the name of the game or app they have running. Other people in the room see it under their name. It is opt-in, it can be turned off, and it only works in the desktop app — a browser cannot inspect the process list.
+A participant can share the name of the game they have running — games only, never ordinary programs. Other people in the room see it under their name. It is opt-in, it can be turned off, and it only works in the desktop app — a browser cannot inspect the process list.
 
 ## Where each piece lives
 
@@ -14,17 +14,20 @@ apps/client/features/app/game-activity/
 
 The detected name travels the same path as mute and deafen state: a `presence.patch` message over the app WebSocket, into the in-memory presence store, back out to every subscriber in the room snapshot.
 
-## Detection, in priority order
+## Detection: only what the machine knows as a game
 
-There is no public catalogue mapping an executable to a game title, so nothing is hardcoded. The name is discovered from the machine itself:
+There is no public catalogue mapping an executable to a game title, so nothing is hardcoded — and a program's own metadata can't tell a game from Blender or VS Code. Detection is therefore inclusion-based: a process counts only when one of the sources on this machine knows it as a game. They are merged into one index of install folders (`game_detection/index.rs`), rebuilt at most every five minutes:
 
-1. **Steam manifests.** Steam writes an `appmanifest_<appid>.acf` per installed game, carrying its display name and its `installdir`. A running process is matched by whether its executable path sits under `steamapps/common/<installdir>/` — Steam game binaries are often generically named, so the path is more reliable than the executable name.
-2. **Executable metadata (Windows).** For anything not from Steam, the exe's version-info resource supplies `FileDescription`, falling back to `ProductName`. This is what names Blender, OBS Studio or VS Code without a table.
-3. **Nothing.** No match means no activity is published.
+1. **Steam** — every `appmanifest_<appid>.acf`, resolved to the app's install folder. Steam executables are often generically named, so the folder is the key and the manifest `name` is the title.
+2. **Epic Games** — the launcher's `*.item` manifests (`DisplayName`, `InstallLocation`), only those in the `games` category, which leaves out the Unreal Engine and other tools.
+3. **GOG Galaxy** — the `GOG.com\Games` registry key (`gameName`, `path`). Windows only.
+4. **Windows Game Bar** — `HKCU\System\GameConfigStore\Children\*\MatchedExeFullPath`, the executables Windows itself recognised as games (what drives Game Mode). It covers Battle.net, Riot, EA, Xbox PC and standalone titles that no launcher manifest describes. These are named from the executable's `FileDescription` / `ProductName`, falling back to the file name.
 
-Within each tier the **most recently started** process wins. That ordering matters more than it looks: a wallpaper tool has been running since boot, while the game the user just launched is minutes old, so ranking by longest-running would report the wallpaper forever.
+An executable matches the deepest install folder that contains it; a folder shallower than two segments (a drive root) is refused so it can't swallow every program. Nothing matched means no activity is published.
 
-The interesting engineering is the exclusion filter, not an inclusion list. System directories, `WindowsApps`, helper and updater processes and the app's own binary are dropped, and so are two categories that would otherwise dominate the status: always-on background tools (Wallpaper Engine, RGB and fan-control software, overlays) and game launchers themselves — Steam is how you start a game, not what you are playing. A process must also have been alive for at least 30 seconds, which keeps the status from flickering as short-lived processes come and go.
+Among the processes that match, the **most recently started** wins. A wallpaper tool has been running since boot while the game the user just launched is minutes old, so ranking by longest-running would report the wallpaper forever.
+
+The exclusion filter stays in front of the index as a safety net: system directories, `WindowsApps`, helpers, updaters, launchers and always-on tools are dropped before a process is looked up — Wallpaper Engine, for one, is installed through Steam. A process must also have been alive for at least 30 seconds, which keeps the status from flickering.
 
 ## Privacy
 
@@ -35,4 +38,4 @@ The interesting engineering is the exclusion filter, not an inclusion list. Syst
 
 ## Polling
 
-`use-game-activity` is a TanStack Query with a 30-second `refetchInterval` rather than a hand-rolled timer, and `refetchOnWindowFocus` is off so tabbing back does not re-scan. The Steam manifest map is cached on the Rust side; the running-process check is not, since that is the part that has to stay live.
+`use-game-activity` is a TanStack Query with a 30-second `refetchInterval` rather than a hand-rolled timer, and `refetchOnWindowFocus` is off so tabbing back does not re-scan. The game index is cached on the Rust side for five minutes; the running-process check is not, since that is the part that has to stay live.

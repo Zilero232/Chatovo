@@ -1,4 +1,5 @@
 export type AssertRoomAccessInput = {
-  room: { kind: string; isPrivate: boolean; password: string | null };
+  room: { id: string; kind: string; isPrivate: boolean; password: string | null };
+  userId: string;
   password?: string;
 };

@@ -2,7 +2,6 @@ import type { UserProfile } from '@chatovo/schemas';
 
 import { AVATAR_MAX_BYTES, USER_ROLE } from '@chatovo/schemas';
 import { Injectable } from '@nestjs/common';
-import { extension } from 'mime-types';
 
 import type {
   ResolveAvatarUrlInput,
@@ -12,7 +11,7 @@ import type {
 
 import { AppBadRequestException } from '../../../common/exceptions';
 import { PrismaService } from '../../../core';
-import { ensureUserFriendTag, getUserWithProfileOrThrow } from '../../../lib';
+import { ensureUserFriendTag, getUserWithProfileOrThrow, optimizeAvatar } from '../../../lib';
 import { saveUpload, toArrayBuffer } from '../../uploads';
 import { toUserProfile } from '../profile';
 
@@ -21,10 +20,11 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   private async uploadAvatar({ userId, file }: UploadAvatarInput): Promise<string> {
-    const ext = extension(file.mimetype) || 'png';
-    const key = `avatars/${userId}/avatar.${ext}`;
+    const avatar = await optimizeAvatar(file.buffer).catch(() => {
+      throw new AppBadRequestException('FILE_NOT_IMAGE', 'Not an image');
+    });
 
-    const url = await saveUpload(key, toArrayBuffer(file.buffer));
+    const url = await saveUpload(`avatars/${userId}/avatar.webp`, toArrayBuffer(avatar));
 
     return `${url}?v=${Date.now()}`;
   }

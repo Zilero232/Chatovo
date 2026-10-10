@@ -1,3 +1,2 @@
 # Build output (if the package is ever compiled with tsc)
 dist/
-*.tsbuildinfo

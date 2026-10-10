@@ -23,6 +23,20 @@ export type ChangelogRelease = {
 
 export const CHANGELOG_RELEASES: ChangelogRelease[] = [
   {
+    version: '1.6.0',
+    date: '2026-10-10',
+    tone: 'major',
+    highlights: ['linkPreviews', 'fastImages'],
+    entries: [
+      { kind: 'feature', key: 'linkPreviews' },
+      { kind: 'improvement', key: 'fastImages' },
+      { kind: 'fix', key: 'liveRoomList' },
+      { kind: 'fix', key: 'privateRoomOwner' },
+      { kind: 'improvement', key: 'gamesOnly' },
+      { kind: 'fix', key: 'desktopLockdown' }
+    ]
+  },
+  {
     version: '1.5.0',
     date: '2026-09-11',
     tone: 'major',

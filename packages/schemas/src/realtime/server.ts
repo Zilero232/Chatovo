@@ -62,6 +62,16 @@ export const realtimeFriendPresenceEventSchema = z.object({
   isOnline: z.boolean()
 });
 
+export const realtimeRoomUpsertedEventSchema = z.object({
+  type: z.literal('room.upserted'),
+  room: roomSchema
+});
+
+export const realtimeRoomRemovedEventSchema = z.object({
+  type: z.literal('room.removed'),
+  roomId: z.uuid()
+});
+
 export const realtimeServerMessageSchema = z.discriminatedUnion('type', [
   realtimeChatMessageEventSchema,
   realtimeChatEditEventSchema,
@@ -70,5 +80,7 @@ export const realtimeServerMessageSchema = z.discriminatedUnion('type', [
   realtimeRoomSoundboardEventSchema,
   realtimePresenceSnapshotEventSchema,
   realtimeFriendsSnapshotEventSchema,
-  realtimeFriendPresenceEventSchema
+  realtimeFriendPresenceEventSchema,
+  realtimeRoomUpsertedEventSchema,
+  realtimeRoomRemovedEventSchema
 ]);

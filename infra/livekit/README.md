@@ -16,7 +16,7 @@ The local-dev setup lives in the repo root, next to the main compose file:
 config, with throwaway keys committed in plain text). See "Local development".
 
 For end-to-end deployment instructions (firewall, DNS, Caddy, env vars),
-see `infra/caddy/README.md` → section "Self-hosted LiveKit".
+see [docs/ops/deploy.md](../../docs/ops/deploy.md) → section "Self-hosted LiveKit".
 
 ## Quick reference
 

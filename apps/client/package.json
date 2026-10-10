@@ -63,10 +63,13 @@
     "recharts": "3.10.1",
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
     "remeda": "catalog:",
     "sonner": "^2.0.8",
     "tauri-plugin-fcm": "^0.2.0",
     "ts-pattern": "catalog:",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.1.0",
     "zod": "catalog:"
   },
   "devDependencies": {
@@ -77,6 +80,7 @@
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
     "@types/canvas-confetti": "^1.9.0",
+    "@types/mdast": "^4.0.4",
     "@types/node": "^26.5.1",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",

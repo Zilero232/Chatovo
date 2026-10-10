@@ -6,8 +6,14 @@ import type {
   messageIdParamSchema,
   sendMessageInputSchema
 } from './inputs';
-import type { chatAttachmentSchema, chatMessageSchema, chatMessagesPageSchema } from './outputs';
+import type {
+  chatAttachmentImageSchema,
+  chatAttachmentSchema,
+  chatMessageSchema,
+  chatMessagesPageSchema
+} from './outputs';
 
+export type ChatAttachmentImage = z.infer<typeof chatAttachmentImageSchema>;
 export type ChatAttachment = z.infer<typeof chatAttachmentSchema>;
 export type ChatMessage = z.infer<typeof chatMessageSchema>;
 export type ChatMessagesPage = z.infer<typeof chatMessagesPageSchema>;

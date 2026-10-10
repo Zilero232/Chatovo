@@ -69,6 +69,8 @@
     "FILE_NOT_IMAGE": "Нужно изображение.",
     "IMAGE_TOO_LARGE": "Изображение слишком большое.",
     "SCREENSHOT_TOO_LARGE": "Скриншот слишком большой.",
+    "IMAGE_NOT_FOUND": "Изображение не найдено.",
+    "IMAGE_SOURCE_NOT_ALLOWED": "Этот источник изображений не разрешён.",
     "WEBHOOK_SIGNATURE_INVALID": "Неверная подпись запроса.",
     "BANNED_USER": "Ваш аккаунт заблокирован",
     "USER_BLOCKED": "Аккаунт заблокирован",

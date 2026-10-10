@@ -1,6 +1,8 @@
 'use client';
 
+import { AVATAR_MAX_DIMENSION } from '@chatovo/schemas';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 import { Button, Dialog, DialogContent, DialogDescription, DialogTitle } from '@/ui-kit';
 
@@ -31,7 +33,14 @@ export const AvatarZoom = ({ src, name, children }: AvatarZoomProps) => {
       >
         <DialogTitle className='sr-only'>{t('avatarAlt', { name })}</DialogTitle>
         <DialogDescription className='sr-only'>{t('avatarZoomDescription')}</DialogDescription>
-        <img alt={t('avatarAlt', { name })} className={s.image} src={src} />
+        <Image
+          alt={t('avatarAlt', { name })}
+          className={s.image}
+          height={AVATAR_MAX_DIMENSION}
+          sizes='(max-width: 30rem) 100vw, 28rem'
+          src={src}
+          width={AVATAR_MAX_DIMENSION}
+        />
       </DialogContent>
     </Dialog>
   );

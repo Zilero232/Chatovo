@@ -1,103 +1,56 @@
 # CLAUDE.md — apps/server
 
-Guidance for Claude Code when working in the API. Extends the root [../../CLAUDE.md](../../CLAUDE.md) (incl. the DB-schema note, `bun db:push`); root rules still apply.
+Guidance for the API. Extends the root [../../CLAUDE.md](../../CLAUDE.md); those rules still apply.
 
-The compact code-style digest is [../../.claude/rules/code-style-server.md](../../.claude/rules/code-style-server.md) (plus the shared [code-style.md](../../.claude/rules/code-style.md)); it loads automatically when you edit files under `apps/server`. The full version with examples is [../../docs/guides/style.md](../../docs/guides/style.md).
-
-API — **NestJS 11 on the Bun runtime** + **Prisma** (self-hosted Postgres) + **better-auth** (Bearer tokens). Realtime media via **LiveKit** SFU with server-issued JWTs. Bun runs the TypeScript source directly (no compile step); Nest provides DI + module structure.
+**NestJS 11 on Bun** + Prisma 7 (self-hosted Postgres) + better-auth (Bearer tokens). Realtime media via the LiveKit SFU with server-issued JWTs. Bun runs the TypeScript directly — no build step, no `dist`, no `@nestjs/cli`. The digests in `.claude/rules/server/` load automatically when you edit files here.
 
 ## Layout
 
-```
+```text
 src/
-├── main.ts             # bootstrap: NestFactory, global pipe/filter, CORS, helmet, pino, swagger, WS adapter, shutdown hooks
-├── app.module.ts       # root module: imports every feature module + global infra modules
-├── config/             # env schema (Zod) + AppConfigModule/AppConfigService, cors, livekit, uploads
-├── core/               # Prisma: base-prisma (raw client for better-auth), prisma.service (PrismaClient subclass), prisma.module (@Global)
-├── common/             # cross-cutting infra grouped by kind: filters/, decorators/, events/ (domain event catalogue)
-├── lib/                # cross-module domain helpers: guards.ts, selectors.ts, friend-tag.ts (no transport, no Nest deps)
-└── modules/            # one feature module per domain (see convention below)
+├── main.ts        # bootstrap: global pipe/filter, CORS, helmet, pino, swagger, WS adapter, shutdown hooks
+├── app.module.ts  # imports every feature module + the global infra modules
+├── config/        # env schema (Zod) + AppConfigService, cors, livekit, uploads
+├── core/          # Prisma: base-prisma (raw, for better-auth), PrismaService, PrismaModule (@Global)
+├── common/        # decorators/ events/ exceptions/ filters/ guards/ notifications/
+├── lib/           # cross-module guards and selects, one folder per function (assert-can-access-room, selectors…)
+└── modules/       # auth chat email feedback friends github health livekit moderation
+                   # notifications push realtime rooms telegram uploads users
+prisma/
+├── base.prisma    # generator + datasource
+├── schema/        # auth, profile, room, message, friendship, moderation, push
+└── migrations/
 ```
 
-## Module convention (follow this exactly for every feature)
+## Conventions that bite
 
-Each feature is a folder under `modules/<name>/` laid out the Nest way:
+- **`services/` always** — one file per domain of work, never a fat `x.service.ts`; inputs as `<Fn>Input` in `<module>.service.types.ts`. Controllers validate, delegate, return.
+- **Nothing but the class in a service or controller file.** Constants → `config/`, pure functions → `lib/<fn-name>/`.
+- **Import another module through its barrel**, never into its files.
+- **DTOs are `createZodDto(schema)`** with the schema from `@chatovo/schemas`; `class-validator` is banned.
+- **Errors are thrown** `HttpException` subclasses; `AllExceptionsFilter` turns them into `{ error }`.
+- **Every route is authenticated by default** (global `AuthGuard`); `@AllowAnonymous()` opens one, `@Session()` reads it. Admin checks are `assertIsAdmin` in the service.
+- **Side effects go through domain events** — no Telegram/email/push imports in domain services.
+- **Config only through `AppConfigService`**, never `process.env`.
+- **The in-memory stores** (`connection-store`, `presence-store`, `call-store`) and `emit.ts` stay plain modules, not providers.
+- **`basePrisma` is for better-auth** and the `src/lib/` guards — feature services inject `PrismaService`.
 
-```
-modules/rooms/
-├── index.ts              # public API — the Module + services others inject. Cross-module imports go through THIS
-├── rooms.module.ts       # @Module — declares controllers + providers, imports deps, exports the service if others need it
-├── rooms.controller.ts   # transport only: @Controller, route decorators, @Body/@Param/@Query, calls the service
-├── services/
-│   ├── index.ts          # barrel
-│   ├── rooms.service.types.ts # <Fn>Input shapes, next to the services that use them
-│   └── rooms.service.ts  # @Injectable — business logic. Returns data or throws Nest HttpException subclasses
-└── dto/
-    └── rooms.dto.ts      # createZodDto(...) classes built from @chatovo/schemas Zod schemas
-```
+## Where to read more
 
-**Rules that keep this predictable:**
-
-- **`services/` always**, even for a single service — one file per domain of work, never a fat `<name>.service.ts` at module root. `friends/` splits into `friendship` / `dm-room` / `friend-call`; `chat/` into `chat-message` / `chat-attachment`.
-- **`index.ts` is the public API.** Import other modules through their barrel (`from '../realtime'`), never a deep path (`from '../realtime/emit'`). Relative paths are for _inside_ a module only. Controllers and DTOs are not exported.
-- **Two or more parameters → one object**, typed `<Fn>Input` in `<module>.service.types.ts` at module root. Single-arg methods (`listFriends(userId)`) stay positional.
-- **Nothing but the class in a service/controller file.** Constants → `config/<name>.config.ts`. Pure functions → `lib/<fn-name>/` (folder per function: `<fn-name>.ts` + `index.ts` + `<fn-name>.types.ts` when it takes 2+ params).
-- Shared cross-module helpers live in [src/lib/](src/lib/) with the same folder-per-function shape.
-
-Bigger modules keep the same shape with extra segments: `mappers.ts`, `listeners/` (event handlers), `handlers/` for a gateway's message handlers, in-memory `*-store.ts`. Match the existing neighbours.
-
-**Layering rule:**
-
-- **controller** — transport only: validated input in (`@Body() dto`), a service call, a return value out. No Prisma, no business rules. Let the return value serialize; don't hand-build responses.
-- **service** — business logic. Injects `PrismaService` (call models directly: `this.prisma.<model>`), other services, `AppConfigService`, `EventEmitter2`. Takes plain args (no `Request`), returns data or **throws** `ConflictException` / `NotFoundException` / `ForbiddenException` / `BadRequestException` from `@nestjs/common`. Never build error responses — the global `AllExceptionsFilter` turns thrown errors into `{ error: string }`.
-- Reusable guards (`assertRoomExists`, `assertCanManageRoom`, `getUserWithProfileOrThrow`) and Prisma selects (`roomSelect`, `senderSelect`) live in [lib/](src/lib/) — don't re-declare per module. These are plain functions using `basePrisma`, not providers.
-
-## Validation & OpenAPI — Zod is the single source of truth
-
-- DTOs are **`createZodDto(schema)`** from **`nestjs-zod`**, where `schema` comes from **`@chatovo/schemas`**. One schema drives request validation AND the OpenAPI doc AND the client's form validation. **Never** add `class-validator` / `class-transformer` DTOs — they would fork the contract the client already validates against with `zodResolver`.
-- `ZodValidationPipe` is registered globally in `main.ts`; a bad body yields `{ error: "..." }` automatically.
-- OpenAPI: `@nestjs/swagger` at `/docs` (+ `/docs-json`). `patchNestJsSwagger()` is not exported in nestjs-zod v5 — use `cleanupOpenApiDoc(...)` around `SwaggerModule.createDocument(...)`. Annotate responses with `@ZodResponse({ type: SomeDto })` where a typed response matters.
-
-## Auth (better-auth)
-
-- The better-auth instance lives in [modules/auth/auth.ts](src/modules/auth/auth.ts) as a module-level singleton (built from validated env; used by the CLI, the WS gateway, and `AuthModule.forRoot({ auth })`). It uses `basePrisma` (the raw client), not `PrismaService`.
-- `@thallesp/nestjs-better-auth` registers a **global `AuthGuard`** — every route is protected by default (fail-closed). Open a route with **`@AllowAnonymous()`**; make auth optional with `@OptionalAuth()`. Read the session with the **`@Session()`** param decorator (`UserSession`). This replaces the old `authMiddleware` + `.use('/x/*', ...)` prefix wiring; there is no per-prefix middleware anymore.
-- Body parser is disabled at bootstrap (`NestFactory.create(AppModule, { bodyParser: false })`) so better-auth reads the raw body; `express.json()` is re-applied for the rest of the API.
-
-## Realtime
-
-Single app WebSocket at `/realtime` (auth via `?token=`), implemented as a **`@WebSocketGateway`** on `@nestjs/platform-ws` (`WsAdapter`) — no SSE, no socket.io. `connection-store.ts` tracks sockets; domain events fan out through it. Presence is split: [livekit/presence-store.ts](src/modules/livekit/presence-store.ts) is the pure in-memory store + pub/sub; [livekit/presence.ts](src/modules/livekit/presence.ts) holds the LiveKit-SDK reconcile logic.
-
-In-memory stores (`connection-store`, `presence-store`, `call-store`) and `emit.ts` stay **plain modules, not providers** — they carry no request state and their existing `bindRealtimeBroadcast` indirection deliberately breaks the `friends ↔ connection-store` import cycle. Don't drag them into DI.
-
-## Side effects via domain events
-
-Domain services do **not** import Telegram / email / push. They inject `EventEmitter2` and emit a typed event from [common/events/domain-events.ts](src/common/events/domain-events.ts) (e.g. `DomainEvent.RoomCreated`); a `*.listener.ts` under [modules/notifications/](src/modules/notifications/) handles it and owns its own try/catch. This keeps domain modules transport-agnostic and stops a failing notification from crashing the request (no more fire-and-forget `.then()` without `.catch()`).
-
-Plain modules that can't inject (`call-store`, `emit-chat-event`) raise events through **`emitDomainEvent`** from [common/events/emit-domain-event.ts](src/common/events/emit-domain-event.ts) — a thin bridge bound once in `AppModule`, mirroring `bindRealtimeBroadcast`.
-
-## Prisma
-
-- `PrismaService` (in `core/`) is a plain `PrismaClient` subclass (Nest recipe) with `onModuleInit`/`onModuleDestroy` for connect/disconnect. Inject it and call models directly: `this.prisma.<model>`. No `$extends`, no global error mapping — services validate conflicts explicitly (e.g. `assertRoomNameAvailable` before a create/rename) and throw the right `HttpException`.
-- `basePrisma` (raw, no mapping) is for better-auth only. Don't use it in feature services.
-- Schema split per domain in `prisma/schema/*.prisma` (`auth`, `room`, `message`, `moderation`) + `prisma/base.prisma`. Models: `User`/`Session`/`Account`/`Verification` (better-auth), `Profile` (1-1 FK to user), `Room`, `Message`, `AbuseReport`.
-- **Moderation gates**: a blocked account (`user.blockedAt`) is refused by the global `BlockedUserGuard` (`common/guards/`, registered as an `APP_GUARD` next to `ThrottlerGuard`), so every authenticated HTTP route is covered without per-route wiring — anonymous requests pass straight through. The two non-HTTP paths carry their own check: `LivekitService.issueRoomToken` (voice/video) and `RealtimeGateway.handleConnection` (new socket); `assertCanAccessRoom` also asserts it so room access stays closed even when called outside a request. Blocking tears down what already exists: sessions, room grants, the live LiveKit participant and the open WebSocket. Admin-only routes go through `assertIsAdmin` from `src/lib/` inside the service, never in the controller.
-
-## Ops baked in
-
-- **Config**: `AppConfigService.get('KEY')` — typed, Zod-validated at boot (fails fast). Don't read `process.env` directly in feature code.
-- **Rate limiting**: `@nestjs/throttler` — strict on `/auth/*` and `/feedback`, looser elsewhere.
-- **Health**: `@nestjs/terminus` at `/health` actually pings Postgres (docker healthcheck depends on it).
-- **Logging**: `nestjs-pino` (structured JSON + request id; `pino-pretty` in dev).
-- **Shutdown**: `app.enableShutdownHooks()` — `PrismaService.onModuleDestroy` closes the pool; the gateway closes sockets.
+| Topic                                                                       | Doc                                                                              |
+| --------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Module shape, layers, validation, auth, realtime, domain events, config/ops | [docs/guides/server/nestjs.md](../../docs/guides/server/nestjs.md)               |
+| Prisma, the schema, moderation gates, room view vs access, uploads          | [docs/guides/server/data.md](../../docs/guides/server/data.md)                   |
+| Migrations, the baseline, better-auth schema drift                          | [docs/ops/migrations.md](../../docs/ops/migrations.md)                           |
+| Invisible mode (admin joins hidden)                                         | [docs/architecture/invisible-mode.md](../../docs/architecture/invisible-mode.md) |
+| The developer role                                                          | [docs/architecture/developer-role.md](../../docs/architecture/developer-role.md) |
 
 ## Commands (from apps/server/)
 
 ```bash
-bun dev                # bun --watch (full restart on change; Nest DI can't hot-swap)
-bun db:push            # apply schema diff (preferred for local iteration)
+bun dev                # bun --hot; env validation fires at boot
+bun db:push            # apply the schema diff (local iteration)
+bun db:migrate         # create + apply a migration (anything that ships)
 bun db:studio          # Prisma Studio
-bun x tsc --noEmit     # typecheck (also: bun --filter @chatovo/server typecheck)
+bun typecheck          # tsc --noEmit
 ```
-
-> Don't add `@nestjs/cli` / SWC — Bun runs the TS directly, there is no `nest build` / `dist`. Don't add `@nestjs/config`'s raw `ConfigService` reads in feature code; go through `AppConfigService`.

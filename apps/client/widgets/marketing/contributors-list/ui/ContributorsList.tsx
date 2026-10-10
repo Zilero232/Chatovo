@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { isEmpty } from 'remeda';
 
 import { useContributors } from '@/entities/app/release';
@@ -27,11 +28,12 @@ export const ContributorsList = () => {
             type='button'
             onClick={() => openExternal(contributor.html_url)}
           >
-            <img
+            <Image
               alt={contributor.login}
               className={s.avatar}
-              loading='lazy'
+              height={28}
               src={contributor.avatar_url}
+              width={28}
             />
             <span className={s.name}>{contributor.login}</span>
           </button>

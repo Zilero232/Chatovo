@@ -151,7 +151,7 @@ chatovo/
 │   └── tauri/        Rust shell · desktop + Android
 ├── packages/schemas/ Shared Zod schemas
 ├── infra/            Caddy · LiveKit configs
-├── docs/             Architecture & style guides
+├── docs/             Architecture, style guides, ops — indexed in docs/README.md
 ├── docker-compose.yml
 └── docker-compose.dev.yml
 ```
@@ -162,17 +162,19 @@ chatovo/
 
 ### 1 · Prerequisites
 
-| Tool                        | Required for                                                          |
-| :-------------------------- | :-------------------------------------------------------------------- |
-| [Bun](https://bun.sh) ≥ 1.1 | Everything                                                            |
-| Docker + Compose            | Local LiveKit / Postgres                                              |
-| Rust + SDKs                 | Tauri builds only → [docs](https://v2.tauri.app/start/prerequisites/) |
+| Tool                           | Required for                                                                                     |
+| :----------------------------- | :----------------------------------------------------------------------------------------------- |
+| [mise](https://mise.jdx.dev)   | The pinned toolchain — Bun, Node and Rust from [mise.toml](mise.toml), the same versions CI uses |
+| Docker + Compose               | Local LiveKit / Postgres                                                                         |
+| Tauri system deps              | Desktop builds only → [prerequisites](https://v2.tauri.app/start/prerequisites/)                 |
+| Android Studio (SDK, NDK, JDK) | Android builds only → `apps/tauri/.env`                                                          |
 
 ### 2 · Clone & install
 
 ```bash
 git clone https://github.com/zilero232/chatovo.git
 cd chatovo
+mise install       # the pinned toolchain
 bun install
 ```
 
@@ -229,10 +231,8 @@ bun android:build       # APK + AAB
 bun tauri:icon                # icons from apps/client/app/icon.svg
 ```
 
-> Version lives in root **`package.json`** and must be bumped in every workspace
-> manifest, `apps/tauri/tauri.conf.json` and `apps/tauri/Cargo.toml` to match —
-> the `release` workflow refuses to build when they disagree with each other or
-> with the pushed tag.
+> The version lives in the root **`package.json`** only — the per-app manifests
+> stay at `0.0.0`. The `release` workflow refuses a tag that doesn't match it.
 
 ### Quality checks
 
@@ -240,6 +240,7 @@ bun tauri:icon                # icons from apps/client/app/icon.svg
 bun verify         # typecheck + lint + format:check + lint:css — run before committing
 bun fix            # lint:fix + format + lint:css:fix
 bun lint:rust      # clippy on apps/tauri
+bun run test       # Vitest, every workspace (never bare `bun test`)
 ```
 
 <br/>
@@ -253,14 +254,15 @@ Both run in GitHub Actions; there are no local release scripts.
 | `deploy.yml`  | Actions → deploy → Run workflow | Builds the web + server images, pushes to GHCR, restarts the VPS stack   |
 | `release.yml` | Push a `v*` tag                 | Windows, macOS (arm64 + x64), Linux and Android bundles → GitHub Release |
 
-Cutting a release — bump the version in every manifest (root, the three apps,
-`packages/schemas`, `apps/tauri/tauri.conf.json`, `apps/tauri/Cargo.toml`), then:
+Cutting a release — bump `version` in the root `package.json`, then:
 
 ```bash
 git tag v1.2.8 && git push --tags
 ```
 
-The `checks` job refuses to build if any of them disagree with the tag.
+The `checks` job refuses a tag that doesn't match it. Details: [docs/ops/release.md](docs/ops/release.md);
+the VPS setup: [docs/ops/deploy.md](docs/ops/deploy.md). Every CI tool comes from [mise.toml](mise.toml)
+through `.github/actions/setup`.
 
 Deploying by hand on the VPS instead:
 
@@ -296,7 +298,7 @@ bun run test       # vitest across all workspaces
 
 Commit messages follow [Conventional Commits](https://www.conventionalcommits.org)
 and are checked by commitlint on commit. Tests live in `_tests/` next to the
-code they cover; conventions are in [.claude/rules/testing.md](.claude/rules/testing.md).
+code they cover; conventions are in [docs/guides/shared/testing.md](docs/guides/shared/testing.md).
 
 <br/>
 

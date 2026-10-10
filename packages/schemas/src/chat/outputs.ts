@@ -1,11 +1,23 @@
 import { z } from 'zod';
 
+import { IMAGE_PLACEHOLDER_MAX_LENGTH } from './limits';
+
+export const chatAttachmentImageSchema = z.object({
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  placeholder: z
+    .string()
+    .max(IMAGE_PLACEHOLDER_MAX_LENGTH)
+    .regex(/^data:image\/webp;base64,[\w+/=]+$/)
+});
+
 export const chatAttachmentSchema = z.object({
   kind: z.literal('attachment'),
   url: z.url(),
   name: z.string().min(1).max(255),
   size: z.number().int().nonnegative(),
-  mime: z.string().min(1).max(255)
+  mime: z.string().min(1).max(255),
+  image: chatAttachmentImageSchema.optional()
 });
 
 export const chatMessageSchema = z.object({

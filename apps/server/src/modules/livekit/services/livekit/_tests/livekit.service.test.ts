@@ -125,6 +125,7 @@ describe('LivekitService.issueRoomToken', () => {
 
     expect(assertRoomAccess).toHaveBeenCalledWith({
       room: expect.objectContaining({ isPrivate: true }),
+      userId,
       password: 'secret'
     });
   });

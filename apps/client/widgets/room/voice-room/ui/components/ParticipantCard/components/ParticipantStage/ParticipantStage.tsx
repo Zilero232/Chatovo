@@ -57,6 +57,7 @@ export const ParticipantStage = ({ participant }: ParticipantStageProps) => {
           className={clsx(s.avatar, { [s.avatarSpeaking]: isSpeaking })}
           fallbackClassName={s.avatarFallback}
           name={displayName}
+          sizes='256px'
           src={avatarUrl}
         />
       </div>

@@ -30,6 +30,7 @@ Expanded or collapsed is decided by `pathname === ROUTES.room`. The `isMinimized
 - `onLeave` now genuinely means leaving. It arrives from `room.disconnect()`, called by the control bar, the tray menu or the collapsed bar.
 - "The active room" is no longer derived from the URL. `useActiveVoiceRoomId` lives in `entities/room/session` and reads the session instead of `searchParams`.
 - The token is fetched once: `useRoomToken` is disabled while a session for that room is already open.
+- Leaving remembers the room. `close()` is synchronous but the `router.replace` away from `/room` is not, so for a moment the room page is still mounted, sees no session and asks for a token again — which re-opened the call collapsed. `close()` records `leftRoomId`, `open()` ignores that room, and only an explicit `rejoin()` clears it.
 - Toggling invisible mode still recreates the connection — the `` `${roomId}:${isInvisible}` `` key on `VoiceRoom` is deliberate, the server has to issue a new token.
 
 ## Boundaries

@@ -69,6 +69,8 @@
     "FILE_NOT_IMAGE": "An image is required.",
     "IMAGE_TOO_LARGE": "The image is too large.",
     "SCREENSHOT_TOO_LARGE": "The screenshot is too large.",
+    "IMAGE_NOT_FOUND": "The image was not found.",
+    "IMAGE_SOURCE_NOT_ALLOWED": "This image source is not allowed.",
     "WEBHOOK_SIGNATURE_INVALID": "Invalid request signature.",
     "BANNED_USER": "Your account has been blocked",
     "USER_BLOCKED": "Account is blocked",

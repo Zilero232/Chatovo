@@ -44,7 +44,7 @@
       "displayNameLabel": "Отображаемое имя",
       "displayNameHint": "Имя, которое другие видят в голосовых комнатах.",
       "avatarLabel": "Аватар",
-      "avatarHint": "PNG или JPG, до 2 МБ.",
+      "avatarHint": "PNG, JPG, WebP или GIF, до 10 МБ.",
       "avatarRemove": "Удалить аватар",
       "avatarInvalidType": "Это не изображение.",
       "bannerLabel": "Цвет баннера",
@@ -167,7 +167,7 @@
       "invisibleModeOn": "Невидимка включена",
       "invisibleModeOff": "Невидимка выключена",
       "shareActivity": "Показывать, во что я играю",
-      "shareActivityHint": "Участники комнаты увидят название запущенной игры или программы. Работает только в приложении для компьютера."
+      "shareActivityHint": "Участники комнаты увидят название игры, в которую вы играете. Работает только в приложении для компьютера."
     },
     "shortcuts": {
       "webNotice": "В браузере пока нельзя настроить hotkeys. <link>Скачайте</link> desktop-приложение.",

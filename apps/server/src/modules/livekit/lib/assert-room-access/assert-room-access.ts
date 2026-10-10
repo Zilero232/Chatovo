@@ -7,16 +7,14 @@ import {
   AppUnauthorizedException
 } from '../../../../common/exceptions';
 import { verifyRoomPassword } from '../../../../lib';
+import { hasRoomGrant } from '../../room-grant-store';
 
 export const assertRoomAccess = async ({
   room,
+  userId,
   password
 }: AssertRoomAccessInput): Promise<void> => {
-  if (room.kind === RoomKind.dm) {
-    return;
-  }
-
-  if (!room.isPrivate) {
+  if (room.kind === RoomKind.dm || !room.isPrivate || hasRoomGrant(room.id, userId)) {
     return;
   }
 

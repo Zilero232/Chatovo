@@ -98,6 +98,9 @@ services:
       # Uploaded files (avatars, chat attachments) persist here and are served
       # by the server under /uploads. UPLOADS_DIR in .env must point here.
       - uploads:/app/apps/server/uploads
+      # Resized images produced by GET /images. Disposable, but kept across
+      # deploys so the cache does not start cold every release.
+      - image-cache:/app/apps/server/.image-cache
     networks:
       - chatovo
     healthcheck:
@@ -137,6 +140,7 @@ volumes:
   caddy_config:
   pgdata:
   uploads:
+  image-cache:
 
 networks:
   chatovo:

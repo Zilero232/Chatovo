@@ -9,12 +9,13 @@ export const UserAvatar = ({
   name,
   src,
   size,
+  sizes,
   colorize = false,
   className,
   fallbackClassName
 }: UserAvatarProps) => (
   <Avatar className={className} size={size}>
-    <AvatarImage alt={name} src={src || getDefaultAvatar(name)} />
+    <AvatarImage alt={name} sizes={sizes} src={src || getDefaultAvatar(name)} />
     <AvatarFallback
       className={fallbackClassName}
       style={colorize ? { backgroundColor: getAvatarColor(name), color: '#fff' } : undefined}

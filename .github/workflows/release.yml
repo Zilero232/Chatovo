@@ -97,6 +97,7 @@ jobs:
 
       - uses: ./.github/actions/setup
         with:
+          tools: rust caddy
           cache-key: verify
 
       # tauri links against webkit2gtk; clippy cannot build without these.
@@ -120,6 +121,7 @@ jobs:
       - run: bun run verify
       - run: bun run test
       - run: bun run lint:rust
+      - run: bun run lint:caddy
 
   draft:
     needs: checks
@@ -185,8 +187,9 @@ jobs:
 
       - uses: ./.github/actions/setup
         with:
+          tools: rust
           cache-key: ${{ matrix.label }}
-          # rust-toolchain.toml only names the windows target.
+          # mise.toml pins the toolchain only; a mac runner builds the other arch too.
           rust-targets: ${{ matrix.label == 'macos-aarch64' && 'aarch64-apple-darwin' || matrix.label == 'macos-x86_64' && 'x86_64-apple-darwin' || '' }}
 
       - name: Install Linux build dependencies
@@ -260,6 +263,7 @@ jobs:
 
       - uses: ./.github/actions/setup
         with:
+          tools: rust
           cache-key: android
           rust-targets: aarch64-linux-android x86_64-linux-android
 

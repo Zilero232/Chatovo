@@ -5,15 +5,18 @@ import type { PresenceSnapshots } from './realtime.types';
 let broadcastPresence = (_snapshots: PresenceSnapshots): void => {};
 let broadcastFriendsMessage = (_userId: string, _message: RealtimeServerMessage): void => {};
 let broadcastRoomMessage = (_roomId: string, _message: RealtimeServerMessage): void => {};
+let broadcastToAll = (_message: RealtimeServerMessage): void => {};
 
 export const bindRealtimeBroadcast = (handlers: {
   presence: (snapshots: PresenceSnapshots) => void;
   friends: (userId: string, message: RealtimeServerMessage) => void;
   room: (roomId: string, message: RealtimeServerMessage) => void;
+  all: (message: RealtimeServerMessage) => void;
 }): void => {
   broadcastPresence = handlers.presence;
   broadcastFriendsMessage = handlers.friends;
   broadcastRoomMessage = handlers.room;
+  broadcastToAll = handlers.all;
 };
 
 export const emitPresenceSnapshot = (snapshots: PresenceSnapshots): void => {
@@ -30,4 +33,8 @@ export const emitUserEvent = (userId: string, message: RealtimeServerMessage): v
 
 export const emitRoomEvent = (roomId: string, message: RealtimeServerMessage): void => {
   broadcastRoomMessage(roomId, message);
+};
+
+export const emitToAll = (message: RealtimeServerMessage): void => {
+  broadcastToAll(message);
 };

@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next';
 
+import { IMAGE_DEVICE_SIZES, IMAGE_QUALITIES, IMAGE_SIZES } from '@chatovo/schemas/images';
 import { config as loadEnv } from 'dotenv';
 import createNextIntlPlugin from 'next-intl/plugin';
 import path from 'node:path';
@@ -15,10 +16,18 @@ loadEnv({ path: path.resolve(clientRoot, '..', '..', '.env'), quiet: true });
 
 const nextConfig = {
   // Static export: served by Caddy on the web and bundled into the Tauri shell.
-  // No SSR, no middleware, no runtime image optimizer.
+  // No SSR and no middleware.
   output: 'export',
+
+  // The export has no built-in optimizer, so next/image goes through a custom loader
+  // that points at the API's GET /images (sharp, disk cache). The width and quality
+  // sets are shared with the server, which refuses anything outside them.
   images: {
-    unoptimized: true
+    loader: 'custom',
+    loaderFile: './shared/lib/image-loader/image-loader.ts',
+    deviceSizes: IMAGE_DEVICE_SIZES,
+    imageSizes: IMAGE_SIZES,
+    qualities: IMAGE_QUALITIES
   },
 
   // Statically typed `<Link href>` and `router.push` — route types land in `.next/types`.

@@ -2,6 +2,8 @@
 mod game_detection;
 #[cfg(desktop)]
 mod tray_menu;
+#[cfg(windows)]
+mod webview_lockdown;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -49,6 +51,11 @@ pub fn run() {
                 if let Err(err) = tray_menu::init(&_app.handle().clone()) {
                     eprintln!("tray init failed: {err}");
                 }
+            }
+
+            #[cfg(windows)]
+            if !cfg!(debug_assertions) {
+                webview_lockdown::disable_browser_accelerator_keys(_app);
             }
 
             Ok(())

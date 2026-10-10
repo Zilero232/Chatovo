@@ -2,6 +2,7 @@
 
 import { Download, ExternalLink, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import prettyBytes from 'pretty-bytes';
 
 import { openExternal } from '@/shared/lib';
@@ -11,7 +12,16 @@ import type { ImageLightboxProps } from './ImageLightbox.types';
 
 import s from './ImageLightbox.module.scss';
 
-export const ImageLightbox = ({ src, name, size, open, onOpenChange }: ImageLightboxProps) => {
+export const ImageLightbox = ({
+  src,
+  name,
+  size,
+  width,
+  height,
+  open,
+  unoptimized,
+  onOpenChange
+}: ImageLightboxProps) => {
   const t = useTranslations('chat');
   const tCommon = useTranslations('common');
 
@@ -35,7 +45,15 @@ export const ImageLightbox = ({ src, name, size, open, onOpenChange }: ImageLigh
         </header>
 
         <figure className={s.figure}>
-          <img alt={name} className={s.image} src={src} />
+          <Image
+            alt={name}
+            className={s.image}
+            height={height}
+            sizes='(max-width: 90rem) 100vw, 90rem'
+            src={src}
+            unoptimized={unoptimized}
+            width={width}
+          />
         </figure>
 
         <footer className={s.footer}>

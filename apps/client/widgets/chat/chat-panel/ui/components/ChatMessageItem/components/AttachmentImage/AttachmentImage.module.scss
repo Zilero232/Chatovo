@@ -1,0 +1,23 @@
+.button {
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 18rem;
+  object-fit: cover;
+  transition: opacity var(--duration-fast) var(--timing-function-standard);
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

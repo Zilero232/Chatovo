@@ -36,6 +36,7 @@ export const IncomingCallDialog = () => {
                 className={s.avatar}
                 fallbackClassName={s.avatarFallback}
                 name={call.caller.name}
+                sizes='80px'
                 src={call.caller.avatarUrl}
               />
               <span className={s.name}>{call.caller.name}</span>

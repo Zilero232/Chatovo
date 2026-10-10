@@ -4,5 +4,7 @@ generated/
 # Build output
 dist/
 
-# User uploads (avatars, chat attachments)
+# Runtime data — user uploads (avatars, chat attachments) and the
+# resized images produced by GET /images (disposable, regenerated on demand)
 /uploads/
+/.image-cache/

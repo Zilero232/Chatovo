@@ -17,7 +17,9 @@ export {
   realtimeFriendsSnapshotEventSchema,
   realtimePresenceSnapshotEventSchema,
   realtimeRoomReactionEventSchema,
+  realtimeRoomRemovedEventSchema,
   realtimeRoomSoundboardEventSchema,
+  realtimeRoomUpsertedEventSchema,
   realtimeServerMessageSchema
 } from './server';
 export { SOUNDBOARD_SOUNDS, soundboardSoundSchema } from './soundboard';

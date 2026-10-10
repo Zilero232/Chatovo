@@ -25,6 +25,7 @@ export const InvisibleParticipantCard = ({
           className={s.avatar}
           fallbackClassName={s.avatarFallback}
           name={name}
+          sizes='256px'
           src={avatarUrl}
         />
       </div>

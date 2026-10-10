@@ -1,6 +1,8 @@
+export { AttachmentImage } from './AttachmentImage/AttachmentImage';
 export { DeleteMessageDialog } from './DeleteMessageDialog/DeleteMessageDialog';
 export { EditMessageDialog } from './EditMessageDialog/EditMessageDialog';
 export { ImageLightbox } from './ImageLightbox/ImageLightbox';
+export { LinkPreviewCard } from './LinkPreviewCard/LinkPreviewCard';
 export { MessageActions } from './MessageActions/MessageActions';
 export { MessageAttachment } from './MessageAttachment/MessageAttachment';
 export { MessageBody } from './MessageBody/MessageBody';

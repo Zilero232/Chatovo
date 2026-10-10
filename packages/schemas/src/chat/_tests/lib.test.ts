@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
-import type { ChatAttachment } from '../types';
+import type { ChatAttachment, ChatAttachmentImage } from '../types';
 
 import { decodeChatAttachment, encodeChatAttachment, isImageMime } from '../lib';
+import { IMAGE_PLACEHOLDER_MAX_LENGTH } from '../limits';
 
 const ATTACHMENT: ChatAttachment = {
   kind: 'attachment',
@@ -10,6 +11,12 @@ const ATTACHMENT: ChatAttachment = {
   name: 'cat.png',
   size: 2048,
   mime: 'image/png'
+};
+
+const IMAGE: ChatAttachmentImage = {
+  width: 1280,
+  height: 720,
+  placeholder: 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA'
 };
 
 describe('chat attachment codec', () => {
@@ -39,6 +46,26 @@ describe('chat attachment codec', () => {
 
   it('accepts a zero-byte attachment', () => {
     expect(decodeChatAttachment(JSON.stringify({ ...ATTACHMENT, size: 0 }))).not.toBeNull();
+  });
+
+  it('round-trips an attachment carrying image metadata', () => {
+    const attachment = { ...ATTACHMENT, image: IMAGE };
+
+    expect(decodeChatAttachment(encodeChatAttachment(attachment))).toEqual(attachment);
+  });
+
+  it('rejects a placeholder that is not an inline webp', () => {
+    const image = { ...IMAGE, placeholder: 'https://evil.example/track.png' };
+
+    expect(decodeChatAttachment(JSON.stringify({ ...ATTACHMENT, image }))).toBeNull();
+  });
+
+  it('rejects a placeholder over the length cap', () => {
+    const placeholder = `data:image/webp;base64,${'A'.repeat(IMAGE_PLACEHOLDER_MAX_LENGTH)}`;
+
+    expect(
+      decodeChatAttachment(JSON.stringify({ ...ATTACHMENT, image: { ...IMAGE, placeholder } }))
+    ).toBeNull();
   });
 });
 

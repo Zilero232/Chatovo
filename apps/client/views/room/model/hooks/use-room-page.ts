@@ -10,6 +10,8 @@ import { useRoomById, useRoomToken } from '@/entities/room/room';
 import { useRoomSession } from '@/entities/room/session';
 import { ROUTES } from '@/shared/constants';
 
+import { resolvePasswordGate } from '../../lib';
+
 export const useRoomPage = () => {
   const router = useRouter();
   const params = useSearchParams();
@@ -34,10 +36,16 @@ export const useRoomPage = () => {
     isFetching: tokenFetching,
     error: tokenError,
     refetch: refetchToken
-  } = useRoomToken(isNonNullish(room) && !isSessionOpen ? roomId : null, { isPrivate, password });
+  } = useRoomToken(isNonNullish(room) && !isSessionOpen ? roomId : null, { password });
 
   const isInvisible = isAdmin && settings.system.invisibleMode;
   const roomTitle = titleOverride ?? displayName;
+  const { showPasswordForm, passwordError } = resolvePasswordGate({
+    isPrivate,
+    tokenFailed,
+    tokenError,
+    password
+  });
 
   useEffect(() => {
     if (!roomId) {
@@ -94,12 +102,12 @@ export const useRoomPage = () => {
     isLoading,
     isPrivate,
     isSessionOpen,
+    passwordError,
     room,
     roomId,
     roomTitle,
+    showPasswordForm,
     submitPassword,
-    tokenError,
-    tokenFailed,
     tokenFetching
   };
 };

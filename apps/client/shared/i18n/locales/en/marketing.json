@@ -544,6 +544,30 @@
       "chatPanel": {
         "title": "In-room chat",
         "description": "A text chat panel sits next to the conversation."
+      },
+      "linkPreviews": {
+        "title": "Link previews in chat",
+        "description": "A message with a link now shows a card with the page title, description and image."
+      },
+      "fastImages": {
+        "title": "Faster images",
+        "description": "Avatars and chat photos arrive at the size you need, as WebP, without the layout jumping while they load."
+      },
+      "liveRoomList": {
+        "title": "Room list updates live",
+        "description": "Rooms that are created, changed or deleted appear and disappear for everyone without a reload."
+      },
+      "privateRoomOwner": {
+        "title": "Straight into a room you just created",
+        "description": "Right after creating a private room you join it without typing the password; after that it takes the password, as for everyone."
+      },
+      "gamesOnly": {
+        "title": "“Playing” status for games only",
+        "description": "Only a running game from Steam, Epic, GOG or the Windows games list shows under your name, not every open program."
+      },
+      "desktopLockdown": {
+        "title": "No browser menu in the app",
+        "description": "The Windows app no longer shows the browser menu and shortcuts: reload, print and developer tools."
       }
     },
     "highlights": {
@@ -585,7 +609,9 @@
       "shortcuts": "Global shortcuts",
       "autoUpdate": "Automatic updates",
       "selfHostedSfu": "Self-hosted LiveKit",
-      "firstRelease": "First release"
+      "firstRelease": "First release",
+      "linkPreviews": "Link previews",
+      "fastImages": "Faster images"
     }
   },
   "features": {
@@ -667,7 +693,7 @@
       },
       "activity": {
         "title": "Show what you are playing",
-        "description": "The desktop app shows people the name of the game or app you have running. One switch turns it off."
+        "description": "The desktop app shows people the name of the game you are playing. One switch turns it off."
       },
       "chatInRoom": {
         "title": "In-room chat",

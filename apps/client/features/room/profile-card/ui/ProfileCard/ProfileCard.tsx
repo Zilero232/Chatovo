@@ -37,6 +37,7 @@ export const ProfileCard = ({ identity, name, renderFriendActions }: ProfileCard
               className={s.avatar}
               name={displayName}
               size='lg'
+              sizes='64px'
               src={profile?.avatarUrl}
             />
           </AvatarZoom>

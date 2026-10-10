@@ -39,6 +39,7 @@ export {
 } from './friends';
 export { getAppDownloads, listContributors } from './github';
 export { ApiError, apiErrorCode, isUnauthorizedError } from './http';
+export { getLinkPreview } from './link-preview';
 export { fetchLiveKitToken } from './livekit';
 export { reportAbuse } from './moderation';
 export { registerPushDevice, unregisterPushDevice } from './push';
