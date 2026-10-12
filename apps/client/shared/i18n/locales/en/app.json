@@ -231,23 +231,20 @@
   },
   "downloadApp": {
     "title": "Download Chatovo",
-    "description": "Native desktop app. Android lives in Google Play.",
+    "description": "Native app for Windows, macOS, Linux and Android.",
     "loadFailed": "Couldn't load the latest release.",
     "openReleases": "Open releases on GitHub",
     "version": "Version {version}",
     "notAvailable": "Not available yet",
     "downloadAction": "Download",
-    "sections": {
-      "desktop": "Desktop",
-      "mobile": "Mobile"
-    },
     "platforms": {
       "windows": "Windows",
       "macos": "macOS",
       "linux": "Linux",
       "android": "Android"
     },
-    "openGooglePlay": "Open in Google Play"
+    "storeAction": "Open",
+    "googlePlay": "Google Play"
   },
   "feedback": {
     "title": "Report a problem",
@@ -307,5 +304,15 @@
       "started": "Quiet in here — starting the music",
       "description": "You're alone in the room"
     }
+  },
+  "pushChannels": {
+    "messages": "Messages",
+    "calls": "Calls"
+  },
+  "googlePlayPromo": {
+    "title": "Chatovo is now on Google Play",
+    "description": "Notifications for messages and calls, even when the app is in the background.",
+    "action": "Open in Google Play",
+    "dismiss": "Hide"
   }
 }

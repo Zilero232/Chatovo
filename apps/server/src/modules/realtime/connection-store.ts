@@ -69,6 +69,7 @@ export const registerConnection = (
     userId,
     ws,
     isAdmin,
+    isActive: true,
     rooms: new Set(),
     isAlive: true
   };
@@ -165,6 +166,16 @@ export const hasUserConnection = (userId: string): boolean => {
   const userConnections = byUser.get(userId);
 
   return (userConnections?.size ?? 0) > 0;
+};
+
+export const hasActiveUserConnection = (userId: string): boolean => {
+  const userConnections = byUser.get(userId);
+
+  if (!userConnections) {
+    return false;
+  }
+
+  return [...userConnections].some((connectionId) => connections.get(connectionId)?.isActive);
 };
 
 export const markConnectionAlive = (ws: WebSocket): void => {

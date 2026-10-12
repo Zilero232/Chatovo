@@ -11,23 +11,25 @@ export const sideClass: Record<SheetSide, string> = {
   bottom: s.sideBottom
 };
 
-const offscreen: Record<SheetSide, { x?: string; y?: string }> = {
-  right: { x: '100%' },
-  left: { x: '-100%' },
-  top: { y: '-100%' },
-  bottom: { y: '100%' }
+const offscreen: Record<SheetSide, string> = {
+  right: 'translateX(100%)',
+  left: 'translateX(-100%)',
+  top: 'translateY(-100%)',
+  bottom: 'translateY(100%)'
+};
+
+const onscreen: Record<SheetSide, string> = {
+  right: 'translateX(0%)',
+  left: 'translateX(0%)',
+  top: 'translateY(0%)',
+  bottom: 'translateY(0%)'
 };
 
 export const sheetVariants = (side: SheetSide): Variants => ({
-  hidden: offscreen[side],
-  visible: { x: 0, y: 0 }
+  hidden: { transform: offscreen[side] },
+  visible: { transform: onscreen[side] }
 });
 
-export const SHEET_TRANSITION: Transition = {
-  type: 'spring',
-  stiffness: 420,
-  damping: 40,
-  mass: 0.9
-};
+export const SHEET_TRANSITION: Transition = { duration: 0.2, ease: [0.32, 0.72, 0, 1] };
 
 export const OVERLAY_TRANSITION: Transition = { duration: 0.2, ease: 'easeOut' };

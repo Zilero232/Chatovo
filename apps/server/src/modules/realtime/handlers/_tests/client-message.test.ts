@@ -30,6 +30,7 @@ const ROOM_ID = '11111111-1111-4111-8111-111111111111';
 const connectionOf = (isAdmin: boolean, rooms: string[]): RealtimeConnection =>
   ({
     id: 'connection-1',
+    isActive: true,
     isAdmin,
     isAlive: true,
     rooms: new Set(rooms),
@@ -105,5 +106,13 @@ describe('handleClientMessage', () => {
 
     expect(emitRoomEvent).not.toHaveBeenCalled();
     expect(patchParticipant).not.toHaveBeenCalled();
+  });
+
+  it('records whether the client app is in the foreground', async () => {
+    const connection = connectionOf(false, []);
+
+    await handleClientMessage(connection, JSON.stringify({ op: 'client.activity', active: false }));
+
+    expect(connection.isActive).toBe(false);
   });
 });

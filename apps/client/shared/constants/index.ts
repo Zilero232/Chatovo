@@ -1,5 +1,6 @@
 export { EXTERNAL_LINKS } from './external-links';
 export { HTTP_STATUS } from './http';
+export { MEDIA_QUERIES } from './media-queries';
 export { QUERY_KEYS } from './query-keys';
 export {
   DEEP_LINKS,

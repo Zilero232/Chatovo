@@ -3,6 +3,7 @@
 import type { RealtimeClientMessage, RoomsParticipantsSnapshot } from '@chatovo/schemas';
 
 import { isPrivilegesChangedCloseCode, isSessionEndedCloseCode } from '@chatovo/schemas';
+import { useDocumentVisibility, useWindowFocus } from '@siberiacancode/reactuse';
 import { WebSocket } from 'partysocket';
 import { useEffect, useEffectEvent, useRef, useState } from 'react';
 
@@ -23,6 +24,11 @@ export const useRealtimeState = () => {
   const { isAuthenticated } = useCurrentUser();
   const [presence, setPresence] = useState<RoomsParticipantsSnapshot>(emptyPresence);
   const [isConnected, setIsConnected] = useState(false);
+
+  const isVisible = useDocumentVisibility() === 'visible';
+  const isFocused = useWindowFocus();
+
+  const isActive = isVisible && isFocused;
 
   const wsRef = useRef<WebSocket | null>(null);
 
@@ -47,6 +53,22 @@ export const useRealtimeState = () => {
 
     ws.send(JSON.stringify(buildSubscribeMessage()));
   });
+
+  const pushActivity = useEffectEvent(() => {
+    const ws = wsRef.current;
+
+    if (!ws || ws.readyState !== WebSocket.OPEN) {
+      return;
+    }
+
+    const message: RealtimeClientMessage = { op: 'client.activity', active: isActive };
+
+    ws.send(JSON.stringify(message));
+  });
+
+  useEffect(() => {
+    pushActivity();
+  }, [isActive]);
 
   useEffect(() => {
     setSubscriptionSender(() => {
@@ -82,6 +104,7 @@ export const useRealtimeState = () => {
     const onOpen = () => {
       setIsConnected(true);
       syncRoomSubscriptions();
+      pushActivity();
     };
     const onClose = (event: CloseEvent) => {
       setIsConnected(false);

@@ -28,9 +28,15 @@ export const realtimeRoomSoundboardSchema = z.object({
   sound: soundboardSoundSchema
 });
 
+export const realtimeClientActivitySchema = z.object({
+  op: z.literal('client.activity'),
+  active: z.boolean()
+});
+
 export const realtimeClientMessageSchema = z.discriminatedUnion('op', [
   realtimeSubscribeSchema,
   realtimePresencePatchSchema,
   realtimeRoomReactionSchema,
-  realtimeRoomSoundboardSchema
+  realtimeRoomSoundboardSchema,
+  realtimeClientActivitySchema
 ]);

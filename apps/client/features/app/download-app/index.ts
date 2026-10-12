@@ -1,3 +1,2 @@
-export { PlatformCard } from './ui/components';
-export type { PlatformCardProps } from './ui/components/PlatformCard/PlatformCard.types';
+export { PlatformGrid } from './ui/components';
 export { DownloadAppDialog } from './ui/DownloadAppDialog';

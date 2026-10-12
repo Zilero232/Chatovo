@@ -3,6 +3,7 @@ import type { WebSocket } from 'ws';
 
 export type RealtimeConnection = {
   id: string;
+  isActive: boolean;
   isAdmin: boolean;
   isAlive: boolean;
   rooms: Set<string>;

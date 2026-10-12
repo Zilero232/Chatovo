@@ -1,6 +1,7 @@
 export { BLOCKED_WS_CLOSE_CODE, ROLE_CHANGED_WS_CLOSE_CODE } from './config';
 export {
   closeUserConnections,
+  hasActiveUserConnection,
   hasUserConnection,
   initRealtimeBroadcast,
   listConnections,

@@ -1,9 +1,15 @@
 import type { LucideIcon } from 'lucide-react';
 
-import type { ReleaseAsset } from '@/entities/app/release';
+export type PlatformCardLink = {
+  actionLabel: string;
+  caption: string;
+  download?: boolean;
+  href: string;
+  ActionIcon: LucideIcon;
+};
 
 export type PlatformCardProps = {
-  asset?: ReleaseAsset;
   Icon: LucideIcon;
   label: string;
+  link?: PlatformCardLink;
 };

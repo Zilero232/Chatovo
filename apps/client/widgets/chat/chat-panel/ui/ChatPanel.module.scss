@@ -49,6 +49,11 @@
     transform: translateX(0);
   }
 
+  @include bp(sm, down) {
+    backdrop-filter: none;
+    background-color: var(--column-content);
+  }
+
   @include bp(sm) {
     left: auto;
     width: clamp(28rem, 40vw, 46rem);

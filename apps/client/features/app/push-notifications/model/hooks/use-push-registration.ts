@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
+import { useEffect, useEffectEvent } from 'react';
 import {
   checkPermissions,
   createChannel,
@@ -10,14 +11,20 @@ import {
   requestPermissions
 } from 'tauri-plugin-fcm';
 
-import { registerPushDevice, unregisterPushDevice } from '@/shared/api';
+import { registerPushDevice } from '@/shared/api';
 import { isTauriMobile } from '@/shared/lib';
 
 import { PUSH_CHANNELS } from '../../config';
 import { resolvePushPlatform } from '../../lib';
 
 export const usePushRegistration = (enabled: boolean): void => {
-  const tokenRef = useRef<string | null>(null);
+  const t = useTranslations('pushChannels');
+
+  const createChannels = useEffectEvent(async () => {
+    for (const { id, importance } of PUSH_CHANNELS) {
+      await createChannel({ id, importance, name: t(id) });
+    }
+  });
 
   useEffect(() => {
     if (!enabled || !isTauriMobile()) {
@@ -34,9 +41,7 @@ export const usePushRegistration = (enabled: boolean): void => {
     let cancelled = false;
 
     const setup = async () => {
-      for (const channel of PUSH_CHANNELS) {
-        await createChannel(channel);
-      }
+      await createChannels();
 
       let permission = await checkPermissions();
 
@@ -68,12 +73,9 @@ export const usePushRegistration = (enabled: boolean): void => {
         return;
       }
 
-      tokenRef.current = token;
       await registerPushDevice({ token, platform });
 
       tokenListener = await onTokenRefresh(async (event) => {
-        tokenRef.current = event.token;
-
         try {
           await registerPushDevice({ token: event.token, platform });
         } catch (error) {
@@ -89,13 +91,6 @@ export const usePushRegistration = (enabled: boolean): void => {
     return () => {
       cancelled = true;
       void tokenListener?.unregister();
-
-      const token = tokenRef.current;
-      tokenRef.current = null;
-
-      if (token) {
-        unregisterPushDevice({ token }).catch(() => {});
-      }
     };
   }, [enabled]);
 };

@@ -1,4 +1,5 @@
 export {
+  realtimeClientActivitySchema,
   realtimeClientMessageSchema,
   realtimePresencePatchSchema,
   realtimeRoomReactionSchema,
