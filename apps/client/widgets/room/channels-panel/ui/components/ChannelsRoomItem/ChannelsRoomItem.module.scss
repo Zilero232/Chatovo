@@ -41,6 +41,11 @@
   min-width: 0;
   align-items: center;
   gap: 0.5rem;
+}
+
+.triggerName {
+  min-width: 0;
+  line-height: 1.4;
 
   @include text-ellipsis;
 }

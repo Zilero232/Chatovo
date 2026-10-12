@@ -1,2 +1,1 @@
-export { PlatformCard } from './PlatformCard/PlatformCard';
-export { StoreCard } from './StoreCard/StoreCard';
+export { PlatformGrid } from './PlatformGrid/PlatformGrid';

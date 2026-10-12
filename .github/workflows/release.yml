@@ -1,7 +1,7 @@
 name: release
 
 # Ships one version everywhere: desktop installers to a GitHub Release, and the
-# signed Android bundle attached to it, ready to upload to Google Play.
+# signed Android bundle attached to it and uploaded to Google Play.
 #
 #   checks ─ draft ─┬─ desktop ──────────────┬─ publish
 #                   └─ android ──────────────┘
@@ -9,8 +9,10 @@ name: release
 # Push a `v*` tag to release everything; a manual run takes a `targets` choice
 # (all / desktop / android) to rebuild one platform without paying for the
 # other. Either way the tag comes from the root package.json, and the release is
-# appended to rather than replaced. Google Play upload stays manual — the
-# upload only submits the version for moderation.
+# appended to rather than replaced. The aab goes to the Play track named by the
+# PLAY_TRACK variable (production when unset) and is sent for review; Google
+# publishes it once moderation passes. Its "What's new" is the version's entry
+# in apps/client/views/changelog/config/releases.ts, in Russian and English.
 #
 # Secrets — Settings → Secrets and variables → Actions. GITHUB_TOKEN is
 # provided by Actions.
@@ -27,6 +29,14 @@ name: release
 #     ANDROID_KEY_ALIAS          keystore alias
 #     ANDROID_KEY_PASSWORD       keystore + key password
 #     ANDROID_KEY_BASE64         the keystore itself, base64
+#
+#   Android — Google Play upload, skipped while unset
+#     PLAY_SERVICE_ACCOUNT_JSON  the service account key (JSON) with release
+#                                rights on the app in Play Console
+#
+# Variables — the same page, Variables tab.
+#
+#   PLAY_TRACK                   production (default), beta, alpha or internal
 #
 # The Android keystore is the Play *upload* key: Play App Signing holds the app
 # key and re-signs every release, so this one can be rotated from the Console if
@@ -217,7 +227,7 @@ jobs:
           releaseDraft: true
           args: ${{ matrix.args }}
 
-  # Attaches the signed aab to the draft release, ready to upload to Play.
+  # Attaches the signed aab to the draft release and uploads it to Play.
   android:
     needs: draft
     if: github.event_name == 'push' || contains(fromJSON('["all", "android"]'), inputs.targets)
@@ -266,6 +276,11 @@ jobs:
           tools: rust
           cache-key: android
           rust-targets: aarch64-linux-android x86_64-linux-android
+
+      # Play's "What's new" comes from the changelog entry of this version; a
+      # release without one fails here, before the long build.
+      - name: Write the Play release notes
+        run: bun apps/client/scripts/write-play-release-notes.ts target/whatsnew
 
       # `tauri android init` regenerates gen/android from scratch: overlays and
       # signing config go after it, never before.
@@ -317,6 +332,25 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ steps.artifacts.outputs.tag }}
         run: gh release upload "$TAG" target/android-release/* --clobber
+
+      # A step's `if` can't read secrets, hence the probe.
+      - name: Check for Play credentials
+        id: play
+        env:
+          PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: echo "enabled=${PLAY_SERVICE_ACCOUNT_JSON:+true}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload to Google Play
+        if: steps.play.outputs.enabled == 'true'
+        uses: r0adkll/upload-google-play@e738b9dd8f2476ea806d921b64aacd24f34515a5 # v1.1.5
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: chatovo.app
+          releaseFiles: target/android-release/*.aab
+          releaseName: ${{ steps.artifacts.outputs.tag }}
+          track: ${{ vars.PLAY_TRACK || 'production' }}
+          whatsNewDirectory: target/whatsnew
+          status: completed
 
   publish:
     needs: [desktop, android]

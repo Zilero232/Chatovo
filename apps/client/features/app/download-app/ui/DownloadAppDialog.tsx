@@ -3,20 +3,13 @@
 import { Download, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { DOWNLOAD_PLATFORMS, useRelease } from '@/entities/app/release';
+import { useRelease } from '@/entities/app/release';
 import { EXTERNAL_LINKS } from '@/shared/constants';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  Text
-} from '@/ui-kit';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/ui-kit';
 
 import type { DownloadAppDialogProps } from './DownloadAppDialog.types';
 
-import { PlatformCard, StoreCard } from './components';
+import { PlatformGrid } from './components';
 
 import s from './DownloadAppDialog.module.scss';
 
@@ -48,38 +41,12 @@ export const DownloadAppDialog = ({ open, onOpenChange }: DownloadAppDialogProps
           </div>
         )}
 
+        {!isLoading && <PlatformGrid release={release} />}
+
         {release && (
-          <>
-            <div className={s.section}>
-              <Text className={s.sectionTitle} size='xs' tone='muted' weight='medium'>
-                {t('sections.desktop')}
-              </Text>
-              <div className={s.desktopGrid}>
-                {DOWNLOAD_PLATFORMS.map(({ id, labelKey, Icon }) => (
-                  <PlatformCard
-                    key={id}
-                    asset={release.assets[id]}
-                    Icon={Icon}
-                    label={t(`platforms.${labelKey}`)}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className={s.section}>
-              <Text className={s.sectionTitle} size='xs' tone='muted' weight='medium'>
-                {t('sections.mobile')}
-              </Text>
-
-              <div className={s.mobileGrid}>
-                <StoreCard />
-              </div>
-            </div>
-
-            <div className={s.meta}>
-              <span className={s.version}>{t('version', { version: release.version })}</span>
-            </div>
-          </>
+          <div className={s.meta}>
+            <span className={s.version}>{t('version', { version: release.version })}</span>
+          </div>
         )}
       </DialogContent>
     </Dialog>

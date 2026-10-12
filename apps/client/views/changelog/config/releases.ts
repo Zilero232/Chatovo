@@ -23,6 +23,21 @@ export type ChangelogRelease = {
 
 export const CHANGELOG_RELEASES: ChangelogRelease[] = [
   {
+    version: '1.7.0',
+    date: '2026-10-12',
+    tone: 'major',
+    highlights: ['pushReliable', 'smoothMobileMenu'],
+    entries: [
+      { kind: 'feature', key: 'pushReliable' },
+      { kind: 'feature', key: 'pushOpensChat' },
+      { kind: 'improvement', key: 'smoothMobileMenu' },
+      { kind: 'improvement', key: 'androidDownload' },
+      { kind: 'improvement', key: 'appIcon' },
+      { kind: 'fix', key: 'roomNamesClipped' },
+      { kind: 'fix', key: 'roomChatOpaque' }
+    ]
+  },
+  {
     version: '1.6.1',
     date: '2026-10-10',
     tone: 'minor',

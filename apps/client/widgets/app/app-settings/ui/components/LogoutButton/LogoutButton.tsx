@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import { useToastError } from '@/entities/app/locale';
+import { releasePushDevice } from '@/features/app/push-notifications';
 import { authClient, clearToken } from '@/shared/api';
 import { Button } from '@/ui-kit';
 
@@ -15,6 +16,8 @@ export const LogoutButton = () => {
   const toastError = useToastError();
 
   const handleLogout = async () => {
+    await releasePushDevice().catch(() => {});
+
     const { error } = await authClient.signOut();
 
     clearToken();

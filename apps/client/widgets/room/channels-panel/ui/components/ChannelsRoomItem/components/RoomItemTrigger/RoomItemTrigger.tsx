@@ -32,7 +32,7 @@ export const RoomItemTrigger = ({ isActive, isOwner, room, onNavigate }: RoomIte
         onClick={handleClick}
       >
         <span className={s.triggerLabel}>
-          {room.name}
+          <span className={s.triggerName}>{room.name}</span>
           {room.isPrivate && (
             <>
               <Lock aria-hidden className={s.privateIcon} />

@@ -129,23 +129,27 @@ channel, the screenshots and the feature graphic **must not** have one. A
 Play recommends at least 4 phone screenshots at 1080 px or more on the short
 side for the app to qualify for promotional placement.
 
-**Set the emulator screen, don't hunt for the right AVD.** Play rejects a
-screenshot whose long side is more than twice the short one, so a modern tall
-phone at 1080×2400 (2.22:1) fails on upload. Override the screen on any running
-emulator instead:
+**How the current set was shot.** Playwright against a production export
+(`next build`; the dev build adds the Next and React Query badges), in a
+360×640 viewport at `deviceScaleFactor: 3`, which is exactly 1080×1920 and 16:9,
+so the 2:1 limit never bites. The data is a throwaway database seeded through
+the API — six demo accounts who are friends, a few rooms, a direct conversation
+with an image and a link, a room chat — and the friends are joined to the voice
+room from extra browser contexts started with
+`--use-fake-device-for-media-stream`. Run the API, LiveKit and the export on
+their own ports so a running `bun dev` is left alone. Room names are ASCII only
+(the schema refuses Cyrillic).
 
-```bash
-adb shell wm size 1080x1920   # adb shell wm size reset  to undo
-adb shell wm density 420
-```
+Screens, in this order: friends online, a direct chat, the voice room, the room
+chat, the rooms drawer. The UI is in Russian, the market the listing targets.
 
-`adb exec-out screencap -p` then writes a 1080×1920 file straight away. The shot
-comes out RGBA, so convert it to RGB before uploading — `check-assets.py` catches
-it if you forget.
+The shots come out RGBA; flatten them to RGB before uploading
+(`sharp(...).flatten().removeAlpha()`), and `check-assets.py` catches it if you
+forget.
 
-Screens to capture, in this order: auth, lobby, voice room, chat, settings.
-Shoot them with a signed-in account that has a few rooms and a live
-conversation; an empty lobby reads as a broken app.
+An emulator works too: `adb shell wm size 1080x1920` and `adb shell wm density
+420` on any AVD, then `adb exec-out screencap -p`. A modern tall phone at its
+native 1080×2400 fails the 2:1 rule.
 
 Verify before uploading:
 

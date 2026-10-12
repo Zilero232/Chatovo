@@ -588,6 +588,34 @@
       "fasterLinkPreviews": {
         "title": "Faster link previews",
         "description": "Links that were opened before unfurl instantly, without fetching the page again."
+      },
+      "pushReliable": {
+        "title": "Phone notifications arrive reliably",
+        "description": "A push now arrives when the app is in the background or open on another device, not only when it is closed."
+      },
+      "pushOpensChat": {
+        "title": "A notification opens the right chat",
+        "description": "Tapping a message opens the conversation with that friend; tapping a call opens the lobby with the incoming call."
+      },
+      "smoothMobileMenu": {
+        "title": "The phone menu opens smoothly",
+        "description": "The side menu no longer stutters the first time it opens."
+      },
+      "androidDownload": {
+        "title": "Android on the download page",
+        "description": "Google Play now sits next to Windows, macOS and Linux."
+      },
+      "appIcon": {
+        "title": "A tidier icon",
+        "description": "The phone icon and the in-app logo no longer touch the edges."
+      },
+      "roomNamesClipped": {
+        "title": "Room names are no longer clipped",
+        "description": "Letters with descenders in room names show in full."
+      },
+      "roomChatOpaque": {
+        "title": "Room chat no longer see-through on phones",
+        "description": "The room header no longer shows through the chat panel."
       }
     },
     "highlights": {
@@ -633,7 +661,9 @@
       "linkPreviews": "Link previews",
       "fastImages": "Faster images",
       "passwordRoomLogout": "No more sign-outs",
-      "oldImagesOptimized": "Older images optimised"
+      "oldImagesOptimized": "Older images optimised",
+      "pushReliable": "Reliable notifications",
+      "smoothMobileMenu": "Smooth menu"
     }
   },
   "features": {
@@ -900,12 +930,8 @@
       "description": "The web version runs in any browser with WebRTC. The desktop app adds global shortcuts, push-to-talk and a tray icon."
     },
     "desktop": {
-      "heading": "Desktop",
-      "description": "An installer for your system. Updates arrive on their own."
-    },
-    "mobile": {
-      "heading": "Phone",
-      "description": "The Android app is published on Google Play."
+      "heading": "Every platform",
+      "description": "Desktop installers and the Android app on Google Play. Updates arrive on their own."
     },
     "web": {
       "heading": "Browser",

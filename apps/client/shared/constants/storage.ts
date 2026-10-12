@@ -6,5 +6,6 @@ export const STORAGE_KEYS = {
   locale: 'chatovo.locale',
   homeLocaleRedirected: 'chatovo.landing-locale-redirected',
   recentRooms: 'chatovo.recent-rooms',
-  lobbyRoomsView: 'chatovo.lobby-rooms-view'
+  lobbyRoomsView: 'chatovo.lobby-rooms-view',
+  googlePlayPromoDismissed: 'chatovo.google-play-promo-dismissed'
 } as const;

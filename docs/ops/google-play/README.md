@@ -33,7 +33,7 @@ Releases are unrelated to it.
 | Moderation and UGC | See [moderation.md](moderation.md) |
 | Foreground service for calls | **Missing** — a backgrounded call loses the microphone on API 30+ |
 | 16 KB memory pages | Done — 64-bit only, see [ABIs](#abis) |
-| Automated Play upload | Not wired — the aab is attached to the GitHub Release and uploaded by hand |
+| Automated Play upload | Done — `release.yml` uploads the aab once `PLAY_SERVICE_ACCOUNT_JSON` is set, see [release.md](../release.md#google-play-upload) |
 
 ## ABIs
 
@@ -73,10 +73,10 @@ bun android:build
 | `release.yml` | push a `v*` tag | `vX.Y.Z` — desktop installers (Windows, macOS arm64 + x64, Linux) and the signed Android AAB |
 | `deploy.yml` | manual run | Web client + API images to GHCR, then the VPS stack (no GitHub Release) |
 
-Job `android` builds and signs the bundle and attaches it to the draft release.
-Uploading it to Play is a manual step in the Play Console: the first release has
-to be created by hand anyway, and automating it later needs a Google Cloud
-service account with the Play Developer API enabled.
+Job `android` builds and signs the bundle, attaches it to the draft release and
+uploads it to the Play track in `PLAY_TRACK` (production by default), sent for
+review. The service account setup is in
+[release.md](../release.md#google-play-upload).
 
 ## Environment
 
@@ -167,7 +167,7 @@ edit it by hand.
 
 1. Download `google-services.json` from the Firebase Console (Android app `chatovo.app`).
 2. Save it to **`apps/tauri/android/google-services.json`** (committed — not a secret).
-3. Run any android script — `setup-android-fcm.mjs` copies the file into `gen/android/app/` and patches Gradle.
+3. Run any android script — `setup-android-fcm.mjs` copies the file and the `MainActivity.kt` overlay into `gen/android/app/` and patches Gradle.
 
 `POST_NOTIFICATIONS` is injected through `build.rs` on every build. Plugin
 permission: `fcm:default` in `capabilities/mobile.json`.
@@ -175,7 +175,27 @@ permission: `fcm:default` in `capabilities/mobile.json`.
 ### Server
 
 Set `FIREBASE_SERVICE_ACCOUNT` in the root `.env` to the service account JSON on
-a single line. Push is skipped when the user holds an open realtime WebSocket.
+a single line. Without it the server logs `push notifications are disabled` at
+the first send and nothing reaches the phone.
+
+### When a push is sent
+
+- A direct message, unless one of the recipient's realtime connections is
+  **active**. Every client reports `client.activity` over the socket: active
+  means the page is visible and the window focused. An open but backgrounded
+  app — Android keeps the WebView and its socket alive — counts as away, so the
+  phone still gets the push. Desktop in the tray or an unfocused tab do too.
+- An incoming call, always.
+
+### Tapping a push
+
+Every payload carries a `link` data field, built by `PUSH_LINKS` in
+`@chatovo/schemas`: `chatovo://lobby?chat=<friendId>` for a message,
+`chatovo://lobby` for a call (the ringing dialog comes from the realtime
+snapshot). Android hands the data fields to the launched activity as extras;
+`android/MainActivity.kt` turns `link` into a VIEW intent, the deep-link plugin
+delivers it, and `DeepLinkProvider` navigates. `FriendChatLinkOpener` on the
+lobby opens the chat named by `?chat=`.
 
 ## Before the first submission
 

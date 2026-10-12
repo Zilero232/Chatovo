@@ -22,7 +22,19 @@ A manual run (Actions → release → Run workflow) takes `targets` — `all`, `
 ## What each job does
 
 - **desktop** — `tauri-action` on a runner per platform (Tauri can't cross-compile). It builds the client itself and merges every platform into one `latest.json` for the updater. macOS ships separate bundles per architecture because the updater keys its platforms on it.
-- **android** — `tauri android init` regenerates `gen/android`, then the FCM and signing overlays are applied, then the aab is built for `aarch64` and `x86_64` and attached to the draft. The Google Play upload stays manual — [google-play/](google-play/README.md).
+- **android** — `tauri android init` regenerates `gen/android`, then the FCM and signing overlays are applied, then the aab is built for `aarch64` and `x86_64`, attached to the draft and uploaded to Google Play ([below](#google-play-upload)).
+
+## Google Play upload
+
+The `android` job hands the aab to [`r0adkll/upload-google-play`](https://github.com/r0adkll/upload-google-play), which creates a release on the track in the `PLAY_TRACK` repository variable (`production` when unset) and sends it for review. Google publishes it once moderation passes; nothing else is clicked. The step is skipped while `PLAY_SERVICE_ACCOUNT_JSON` is unset, and the aab stays on the GitHub Release for a manual upload either way.
+
+One-time setup:
+
+1. Google Cloud Console, in any project: enable the **Google Play Android Developer API**, create a service account, add a JSON key.
+2. Play Console → Users and permissions → Invite new users: the service account's email, with access to Chatovo and the **Release apps to testing tracks** and **Release to production** permissions.
+3. GitHub → Settings → Secrets and variables → Actions: the whole JSON file as the `PLAY_SERVICE_ACCOUNT_JSON` secret, and optionally `PLAY_TRACK`.
+
+The version code comes from the root `package.json` version, so every release must bump it — Play rejects a version code it has already seen. "What's new" is filled from the changelog: `apps/client/scripts/write-play-release-notes.ts` takes the entry for the root version in `views/changelog/config/releases.ts`, turns its entry titles into bullets in Russian and English, and cuts them at Play's 500-character limit. A tag whose version has no changelog entry fails the `android` job before the build, so the changelog is written as part of the bump.
 
 ## The toolchain
 

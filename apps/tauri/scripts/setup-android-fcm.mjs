@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const tauriRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const googleServicesSrc = join(tauriRoot, 'android/google-services.json');
+const mainActivitySrc = join(tauriRoot, 'android/MainActivity.kt');
 const genRoot = join(tauriRoot, 'gen/android');
 const genApp = join(genRoot, 'app');
 const appGradlePath = join(genApp, 'build.gradle.kts');
@@ -20,6 +21,10 @@ if (!existsSync(googleServicesSrc)) {
 }
 
 copyFileSync(googleServicesSrc, join(genApp, 'google-services.json'));
+
+// Routes a tapped push to the screen it is about; `android init` writes a
+// bare MainActivity, so the overlay replaces it on every run.
+copyFileSync(mainActivitySrc, join(genApp, 'src/main/java/chatovo/app/MainActivity.kt'));
 
 // `[package.metadata.cargo-android]` only reaches the template on the very first
 // `android init`; `tauri android build` re-renders the build files without it,
@@ -67,4 +72,4 @@ const addPlugin = () => {
 addClasspath();
 addPlugin();
 
-console.info('[fcm] google-services.json copied, Gradle plugin applied');
+console.info('[fcm] google-services.json and MainActivity copied, Gradle plugin applied');

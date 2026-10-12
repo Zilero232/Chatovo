@@ -61,5 +61,8 @@ export const handleClientMessage = async (
         senderId: connection.userId
       });
     })
+    .with({ op: 'client.activity' }, ({ active }) => {
+      connection.isActive = active;
+    })
     .exhaustive();
 };

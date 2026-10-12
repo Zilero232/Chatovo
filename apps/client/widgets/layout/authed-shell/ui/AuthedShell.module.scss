@@ -30,16 +30,6 @@
   }
 }
 
-.desktopOnly {
-  display: none;
-  height: 100%;
-  flex-shrink: 0;
-
-  @include bp(md) {
-    display: flex;
-  }
-}
-
 .content {
   position: relative;
   display: flex;

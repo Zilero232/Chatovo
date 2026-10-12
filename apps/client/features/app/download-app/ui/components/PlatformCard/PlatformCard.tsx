@@ -1,18 +1,16 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { Download } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import prettyBytes from 'pretty-bytes';
 
 import type { PlatformCardProps } from './PlatformCard.types';
 
 import s from './PlatformCard.module.scss';
 
-export const PlatformCard = ({ label, Icon, asset }: PlatformCardProps) => {
+export const PlatformCard = ({ Icon, label, link }: PlatformCardProps) => {
   const t = useTranslations('downloadApp');
 
-  if (!asset) {
+  if (!link) {
     return (
       <div className={clsx(s.root, s.unavailable)}>
         <span aria-hidden className={s.iconBox}>
@@ -25,11 +23,13 @@ export const PlatformCard = ({ label, Icon, asset }: PlatformCardProps) => {
     );
   }
 
+  const { actionLabel, caption, download, href, ActionIcon } = link;
+
   return (
     <a
-      download
       className={clsx(s.root, s.available)}
-      href={asset.downloadUrl}
+      download={download}
+      href={href}
       rel='noopener noreferrer'
       target='_blank'
     >
@@ -39,12 +39,12 @@ export const PlatformCard = ({ label, Icon, asset }: PlatformCardProps) => {
 
       <span className={s.meta}>
         <span className={s.name}>{label}</span>
-        <span className={s.size}>{prettyBytes(asset.sizeBytes)}</span>
+        <span className={s.caption}>{caption}</span>
       </span>
 
       <span aria-hidden className={s.action}>
-        <Download className={s.actionIcon} />
-        {t('downloadAction')}
+        <ActionIcon className={s.actionIcon} />
+        {actionLabel}
       </span>
     </a>
   );

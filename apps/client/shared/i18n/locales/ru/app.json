@@ -231,23 +231,20 @@
   },
   "downloadApp": {
     "title": "Скачать Chatovo",
-    "description": "Нативное приложение для Desktop. Android — в Google Play.",
+    "description": "Нативное приложение для Windows, macOS, Linux и Android.",
     "loadFailed": "Не удалось загрузить последний релиз.",
     "openReleases": "Открыть релизы на GitHub",
     "version": "Версия {version}",
     "notAvailable": "Пока недоступно",
     "downloadAction": "Загрузить",
-    "sections": {
-      "desktop": "Desktop",
-      "mobile": "Mobile"
-    },
     "platforms": {
       "windows": "Windows",
       "macos": "macOS",
       "linux": "Linux",
       "android": "Android"
     },
-    "openGooglePlay": "Открыть в Google Play"
+    "storeAction": "Открыть",
+    "googlePlay": "Google Play"
   },
   "feedback": {
     "title": "Сообщить о проблеме",
@@ -307,5 +304,15 @@
       "started": "Тишина... включаем музыку",
       "description": "Ты один в комнате"
     }
+  },
+  "pushChannels": {
+    "messages": "Сообщения",
+    "calls": "Звонки"
+  },
+  "googlePlayPromo": {
+    "title": "Chatovo теперь в Google Play",
+    "description": "Уведомления о сообщениях и звонках, даже когда приложение свёрнуто.",
+    "action": "Открыть в Google Play",
+    "dismiss": "Скрыть"
   }
 }

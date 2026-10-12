@@ -1,9 +1,11 @@
 import type { ChatMessage, FriendUser } from '@chatovo/schemas';
 
+import { PUSH_LINKS } from '@chatovo/schemas';
+
 import type { SendPushToUserInput } from './push.types';
 
 import { basePrisma as prisma } from '../../core';
-import { hasUserConnection } from '../realtime';
+import { hasActiveUserConnection } from '../realtime';
 import { sendPushToTokens } from './firebase-client';
 
 const PREVIEW_MAX = 120;
@@ -31,7 +33,7 @@ const sendToUser = async ({
   channelId,
   force
 }: SendPushToUserInput): Promise<void> => {
-  if (!force && hasUserConnection(userId)) {
+  if (!force && hasActiveUserConnection(userId)) {
     return;
   }
 
@@ -69,7 +71,8 @@ export const sendDmMessagePush = async (input: {
       type: 'dm_message',
       roomId: message.roomId,
       senderId: message.senderId,
-      messageId: message.id
+      messageId: message.id,
+      link: PUSH_LINKS.friendChat(message.senderId)
     },
     channelId: 'messages'
   });
@@ -88,7 +91,8 @@ export const sendIncomingCallPush = async (input: {
     data: {
       type: 'incoming_call',
       roomId,
-      callerId: caller.id
+      callerId: caller.id,
+      link: PUSH_LINKS.lobby
     },
     channelId: 'calls',
     force: true
